@@ -18,4 +18,10 @@
     [shareableData]="shareableData">
   </shareable-modal>
 
+  <multiview-modal
+    *ngIf="isMultiviewModal()"
+    (onClose)="closeModal($event)"
+    [shareableData]="shareableData">
+  </multiview-modal>
+
 </div>

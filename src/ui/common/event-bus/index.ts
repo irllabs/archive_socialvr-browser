@@ -8,6 +8,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class EventBus {
 
+
+
   private static subject: Subject<Event> = new Subject<Event>();
 
   private static staticConstructor = (() => {
@@ -75,6 +77,11 @@ export class EventBus {
     EventBus.subject.next(new Event(EventType.SHAREABLE_MODAL, eventPayload));
   }
 
+  onMultiViewModal(userId: string, projectId: string) {
+    const eventPayload = {userId, projectId};
+    EventBus.subject.next(new Event(EventType.MULTIVIEW_MODAL, eventPayload));
+  }
+
   onExploreModal() {
     EventBus.subject.next(new Event(EventType.OPEN_EXPLORE_MODAL, null));
   }
@@ -122,6 +129,7 @@ export enum EventType {
   OPEN_FILE_LOADER,
   WINDOW_RESIZE,
   SHAREABLE_MODAL,
+  MULTIVIEW_MODAL,
   OPEN_EXPLORE_MODAL,
   VR_DISPLAY_CHANGE,
   HOTSPOT_EDITOR_VISIBILITY

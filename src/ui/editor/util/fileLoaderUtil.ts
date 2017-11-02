@@ -33,22 +33,12 @@ export class FileLoaderUtil {
     });
   }
 
-  getBinaryFileData(file): Promise<any> {
+  getBinaryFileData(file) {
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const fileReader = new FileReader();
-        fileReader.onloadend = () => {
-          const result = this.sanitizer.bypassSecurityTrustUrl(fileReader.result);
-          console.log('fileLoader.onloadEnd', result);
-          setTimeout(() => resolve(result), 2000);
-        }
-        fileReader.onerror = () => {
-          const error = fileReader.error;
-          console.log('fileLoader.onerror', error);
-          reject(error);
-        }
-        fileReader.readAsDataURL(file);
-      });
+      const fileReader = new FileReader();
+      fileReader.onload = () => resolve(this.sanitizer.bypassSecurityTrustUrl(fileReader.result));
+      fileReader.onerror = () => reject(fileReader.error);
+      fileReader.readAsDataURL(file);
     });
   }
 

@@ -11,7 +11,6 @@ export class TextInput {
   @Input() isHotspot: boolean = false;
   @Input() isRowItem: boolean = false;
   @Input() isActive: boolean = false;
-  @Input() isRoomName: boolean = false;
   @Input() textModel: string;
   @Output() onTextChange = new EventEmitter();
 

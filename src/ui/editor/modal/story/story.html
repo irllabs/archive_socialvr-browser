@@ -48,30 +48,21 @@
       class="story__soundtrack__audio-player">
     </audio>
 
-    <div class="dropdown-row">
-      <div class="button dropdown-button-margin" title="Click to save current story to server"
-       (click)="onSaveStoryClick($event)">
-        Save to Server
-      </div>
-      <div
-        class="button"
-        title="Click to create new story"
-        (click)="onNewStoryClick($event)">
-        New
-      </div>
-    </div>
+
 
     <div class="dropdown-row">
-      <div class="button dropdown-button-margin" title="Click to download story as zip file"
-       (click)="onSaveStroyLocallyClick($event)">
-        Save locally
+      <div class="button dropdown-button-margin" title="Click to save current story to server, SHIFT-click to download story as zip file"
+       (click)="onSaveStoryClick($event)">
+        Save
       </div>
+
       <div
-        class="button"
-        title="Click to upload zip file"
-        (click)="onOpenStoryLocallyClick($event)">
-        Open local story
+          class="button"
+          title="Click to create new story, SHIFT-click to upload zip file"
+         (click)="onNewStoryClick($event)">
+        New
       </div>
+
     </div>
 
   </div>

@@ -1,128 +1,206 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
+import {Subscription} from 'rxjs/Subscription';
 
 import {ProjectInteractor} from 'core/project/projectInteractor';
 import {SceneInteractor} from 'core/scene/sceneInteractor';
+import {UserInteractor} from 'core/user/userInteractor';
 import {ChatInteractor} from 'core/chat/chatInteractor';
 import {EventBus} from 'ui/common/event-bus';
+import {decodeMultviewParam} from 'ui/editor/util/publicLinkHelper';
+import {THREE_CONST} from 'ui/common/constants';
+
+const defaultSpotlight = new THREE.SpotLight(
+  0xFFFFFF,  // COLOR
+  1, // INTENSITY
+  THREE_CONST.SPHERE_RADIUS + 1, // DISTANCE
+  (Math.PI * 2) / 18, // ANGLE
+  0.5, // PENUMBRA
+  0 // DECAY
+);
+
+class LightHelper {
+
+  private spotLight: THREE.SpotLight;
+  private target: THREE.Object3D = new THREE.Object3D();
+  private scene: THREE.Scene;
+
+  constructor(scene: THREE.Scene) {
+    this.scene = scene;
+    this.spotLight = defaultSpotlight.clone();
+    this.spotLight.position.set(0, 0, 0);
+    this.target.position.set(0, 0, -1);
+    this.spotLight.target = this.target;
+    this.scene.add(this.spotLight);
+    this.scene.add(this.target);
+  }
+
+  setPosition(x, y, z) {
+    this.target.position.set(x, y, z);
+  }
+
+  removeFromScene() {
+    this.scene.remove(this.spotLight);
+    this.scene.remove(this.target);
+  }
+
+}
 
 @Injectable()
 export class MultiViewService {
 
   private chatRoomId: string = '';
   private lastLookAtTime: number = performance.now();
-  private testMultiViewPosition: Map<Number, THREE.Mesh> = new Map();
+  private userViewPositions: Map<string, LightHelper> = new Map();
   private lastCameraPosition: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
+  private subscriptions: Set<Subscription> = new Set<Subscription>();
+  private userId: string;
+  private scene: THREE.Scene;
+  private millisecondThrottle = 200;
 
   constructor(
     private eventBus: EventBus,
     private projectInteractor: ProjectInteractor,
     private chatInteractor: ChatInteractor,
-    private sceneInteractor: SceneInteractor
+    private sceneInteractor: SceneInteractor,
+    private userInteractor: UserInteractor
   ) {}
 
-  initBeachBalls(scene: THREE.Scene, colorBallTexture: THREE.Texture) {
-    const cbGeometry = new THREE.SphereGeometry(5, 32, 32);
-    // const cbTexture = this.assetInteractor.getTextureById('colorBall');
-    colorBallTexture.wrapS = THREE.RepeatWrapping;
-    colorBallTexture.wrapT = THREE.RepeatWrapping;
-    colorBallTexture.offset.set(0, 0);
-    colorBallTexture.repeat.set(2, 1);
-    const cbMaterial = new THREE.MeshBasicMaterial({map: colorBallTexture, side: THREE.FrontSide});
-    const cbMesh = new THREE.Mesh(cbGeometry, cbMaterial);
-    // this.colorBallMesh = cbMesh;
+  init(scene: THREE.Scene, reticles, multiViewValue: string) {
+    this.scene = scene;
+    this.userId = this.userInteractor.getUserId();
+    this.chatRoomId = multiViewValue;
+    this.observeRoom();
+    this.initUserLight(scene, reticles); // TODO
+  }
 
-    new Array(2).fill(null).map((nullVal, index) => index + 1).forEach(index => {
-      const colorBall: THREE.Mesh = cbMesh.clone();
-      colorBall.position.set(10, 10, 10);
-      // colorBall.lookAt(camera.position);
-      colorBall.visible = true;
-      this.testMultiViewPosition.set(index, colorBall);
-      scene.add(colorBall);
-    });
+  initUserLight(scene: THREE.Scene, reticles) {
+    const touchSpotLight = defaultSpotlight.clone();
+    const vrSpotLight = defaultSpotlight.clone();
+    const touchSpotLightTarget = new THREE.Object3D();
+    const vrSpotLightTarget = new THREE.Object3D();
+    touchSpotLightTarget.position.set(0, 0, -1);
+    vrSpotLightTarget.position.set(0, 0, -1);
+    touchSpotLight.position.set(0, 0, THREE_CONST.CAMERA_RETICLE);
+    vrSpotLight.position.set(0, 0, THREE_CONST.CAMERA_RETICLE);
+    touchSpotLight.target = touchSpotLightTarget;
+    vrSpotLight.target = vrSpotLightTarget;
+    reticles.touch.add(touchSpotLight);
+    reticles.touch.add(touchSpotLightTarget);
+    reticles.vr.add(vrSpotLight);
+    reticles.vr.add(vrSpotLightTarget);
+  }
+
+  hasBeenInitialized(): boolean {
+    return !!this.chatRoomId;
   }
 
   update(camera: THREE.PerspectiveCamera) {
-    // if change in look at, send value
     const cameraDirection = camera.getWorldDirection();
-    if (cameraDirection.equals(this.lastCameraPosition)) {
+    if (cameraDirection.equals(this.lastCameraPosition) || !this.chatRoomId) {
       return;
     }
     this.lastCameraPosition = cameraDirection;
-
-    const zVector = new THREE.Vector3(0, 0, -100);
+    const zVector = new THREE.Vector3(0, 0, -400);
     const cameraVector = camera.localToWorld(zVector);
     this.setLookAt(cameraVector.x, cameraVector.y, cameraVector.z);
   }
 
-  updateUser(user, index) {
-    const userHasData = user.lookingAt.x && user.lookingAt.y && user.lookingAt.z;
-    if (this.testMultiViewPosition.has(index) && userHasData) {
-      this.testMultiViewPosition.get(index).position.set(
+  private updateUser(user) {
+    const userId = user.userId;
+    if (userId === this.userId) {
+      return;
+    }
+    const userHasData = user.lookingAt && user.lookingAt.x && user.lookingAt.y && user.lookingAt.z;
+    if (!userHasData) {
+      return;
+    }
+    if (!this.userViewPositions.has(userId)) {
+      this.userViewPositions.set(userId, new LightHelper(this.scene));
+      this.userViewPositions.get(userId).setPosition(
+        user.lookingAt.x, user.lookingAt.y, user.lookingAt.z
+      );
+    }
+    else {
+      this.userViewPositions.get(userId).setPosition(
         user.lookingAt.x, user.lookingAt.y, user.lookingAt.z
       );
     }
   }
 
   openSharedValue(sharedValue: string): Promise<any> {
-    const [userId, projectId] = sharedValue.split('-');
-    if (userId === undefined || projectId === undefined) {
-      console.log('error', 'userId', userId, 'projectId', projectId);
-      return;
+    const decodedValue = decodeMultviewParam(sharedValue);
+    if (!decodedValue.ok) {
+      return Promise.reject(decodedValue.data);
     }
-    console.log('open project for', userId, projectId);
-    console.log('join chat room:', sharedValue);
+    const userId= decodedValue.data.userId;
+    const projectId = decodedValue.data.projectId;
 
-    this.chatRoomId = sharedValue;
-
-    // if current project === multiview project, join chatroom
-
-    // if current project !== multiview project, open project and join chatroom
-
-    this.joinMultiView();
-      // .switchMap(chatRoomId => this.joinMultiView(chatRoomId));
-    // const chatAddress = `/chatrooms/${this.chatRoomId}/`;
+    const subscription = this.chatInteractor.joinRoom(sharedValue)
+      .subscribe(
+        success => console.log(`joined Room: ${this.chatRoomId}`),
+        error => console.log('error', error)
+      );
+    this.subscriptions.add(subscription);
     return this.openProject(userId, projectId);
-      // .then(() => this.chatInteractor.observeRoom(chatAddress));
   }
 
-  setLookAt(x: number, y: number, z: number) {
-    if (performance.now() - this.lastLookAtTime > 100) {
+  private setLookAt(x: number, y: number, z: number) {
+    if (performance.now() - this.lastLookAtTime > this.millisecondThrottle) {
       this.chatInteractor.setLookAt(this.chatRoomId, x, y, z);
       this.lastLookAtTime = performance.now();
     }
   }
 
-  observeRoom(): Observable<any> {
+  onDestory() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.chatInteractor.leaveRoom(this.chatRoomId);
+  }
+
+  private observeRoom() {
     const address = `/chatrooms/${this.chatRoomId}/`;
-    return this.chatInteractor.observeRoom(address);
+    const onRoomChange = this.chatInteractor.observeRoom(address)
+      .subscribe(
+        roomData => this.onRoomChange(roomData),
+        error => console.log('error', error)
+      );
+    this.subscriptions.add(onRoomChange);
+  }
+
+  private onRoomChange(roomData) {
+    roomData = roomData || {};
+    const remoteUsers = new Set(Object.keys(roomData));
+    const localUsers = Array.from(this.userViewPositions.keys());
+    const usersToRemove = new Set(
+      localUsers.filter(localUserId => !remoteUsers.has(localUserId))
+    );
+    if (usersToRemove.size > 0) {
+      usersToRemove.forEach(userId => {
+        const lightHelper = this.userViewPositions.get(userId);
+        lightHelper.removeFromScene();
+        this.userViewPositions.delete(userId);
+      });
+    }
+
+    Object.keys(roomData).forEach(key => this.updateUser(roomData[key]));
   }
 
   // TODO: refactor into different service
   private openProject(userId: string, projectId: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.eventBus.onStartLoading();
-      this.projectInteractor.openProject(userId, projectId)
+      const openProject = this.projectInteractor.openProject(userId, projectId)
         .subscribe(
           response => {
-            //reset the current scene
             this.sceneInteractor.setActiveRoomId(null);
             this.eventBus.onSelectRoom(null, false);
-            // this.metaDataInteractor.setIsReadOnly(false);
             resolve();
           },
           error => reject(error),
           () => this.eventBus.onStopLoading()
         );
+      this.subscriptions.add(openProject);
     });
-  }
-
-  private joinMultiView() {
-    this.chatInteractor.joinRoom(this.chatRoomId)
-      .subscribe(
-        success => console.log('joined Room', success),
-        error => console.log('error', error)
-      );
   }
 
 }

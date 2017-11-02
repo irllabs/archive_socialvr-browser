@@ -26,9 +26,14 @@ export class TextureLoader {
 
   load(): Promise<any> {
     const backgroundImages = this.sceneInteractor.getRoomIds()
-      .map(roomId => this.sceneInteractor.getRoomById(roomId))
+      .map(roomId => {
+        const room = this.sceneInteractor.getRoomById(roomId);
+        console.log('room', room);
+        return room;
+      })
       .filter(room => room.hasBackgroundImage())
       .map(room => {
+        console.log('--------backgroundImage', room);
         let imagePath = room.getBinaryFileData();
         if (imagePath.changingThisBreaksApplicationSecurity) {
           imagePath = imagePath.changingThisBreaksApplicationSecurity;
@@ -54,6 +59,7 @@ export class TextureLoader {
       .concat(hotspotImages)
       .concat(iconPaths);
 
+    console.log('imageList', imageList);
     return this.assetInteractor.loadTextures(imageList);
   }
 

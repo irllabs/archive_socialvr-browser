@@ -12,18 +12,15 @@ export class ChatInteractor {
     private userService: UserService
   ) {}
 
-  createRoom(roomName: string, userName: string, userId: string): Observable<any> {
-    return this.chatService.createRoom(roomName, userName, userId);
-  }
-
-  getRooms(): Observable<any> {
-    return this.chatService.getRooms();
-  }
-
   joinRoom(chatRoomId: string): Observable<any> {
     const userId = this.userService.getUserId();
     const userName = this.userService.getUserName();
     return this.chatService.joinRoom(chatRoomId, userId, userName);
+  }
+
+  leaveRoom(chatRoomId: string) {
+    const userId = this.userService.getUserId();
+    return this.chatService.leaveRoom(chatRoomId, userId);
   }
 
   observeRoom(roomAddress: string): Observable<any> {

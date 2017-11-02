@@ -2,9 +2,6 @@
 
 .icon {
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   cursor: grab;
   width: $room-icon-container-width;
 
@@ -12,29 +9,15 @@
     cursor: grabbing;
   }
 
-  &:hover {
-    .icon__delete {
-      visibility: visible;
-    }
-  }
-
 }
+
+
 
 .icon__image {
   height: $room-icon-size-large;
   display: block;
   margin: 0 auto;
   filter: $icon-drop-shadow;
-}
-
-.icon__delete {
-  background-image: url('assets/icons/delete_filled.png');
-  background-color: transparent;
-  background-size: 90%;
-  background-repeat: no-repeat;
-  width: $home-icon-width;
-  height: $home-icon-height;
-  visibility: hidden;
 }
 
 .icon__image--medium {

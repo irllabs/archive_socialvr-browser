@@ -20,7 +20,6 @@ import {EventBus} from 'ui/common/event-bus';
 import * as MeshUtil from 'ui/editor/preview-space/modules/meshUtil';
 import {sphericalToCoordinate, coordinateToSpherical, car2pol, pol2car} from 'ui/editor/util/iconPositionUtil';
 import {THREE_CONST} from 'ui/common/constants';
-import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
 
 const TWEEN = require('@tweenjs/tween.js');
 
@@ -29,10 +28,7 @@ class HotspotEntity {
   id: string; //THREE.js mesh id
   hotpostProperty: RoomProperty; //unique id for hotspot from YAML story file
   graphicIcon: THREE.Mesh; // this is a png of the door, sound, text etc
-  //previewIcon: THREE.Line; // dash circle
-  previewIcon: THREE.Group;
-  rotation: THREE.Vector3;
-  label: THREE.Mesh;
+  previewIcon: THREE.Line; // dash circle
   yamlId: string;
   type: string;
   distanceToReticle: number;
@@ -59,7 +55,7 @@ class HotspotEntity {
 
   //
 
-  constructor(id, hotpostProperty, graphicIcon,previewIcon, audioPlayService, goToRoom, label, rotation) {
+  constructor(id, hotpostProperty, graphicIcon,previewIcon, audioPlayService, goToRoom) {
     this.id = id;
     this.hotpostProperty = hotpostProperty;
     this.yamlId = hotpostProperty.getId();
@@ -74,8 +70,7 @@ class HotspotEntity {
     this.graphicIcon.visible = true;
     this.previewIcon.visible = true;
     this.myWobble = Math.random()/1000; //to make each hotspot have a uniquye throbbing freq
-    this.label = label;
-    this.rotation = rotation;
+
   }
 
   update(reticlePos) {
@@ -139,28 +134,18 @@ class HotspotEntity {
     }
     //animations
     if (this.activeState == 0) {
-      if (this.type == 'door') {
-        var previewIconScale = (0.5+0.5*Math.sin(performance.now()*
-            (THREE_CONST.HOTSPOT_MOD_FREQ+this.myWobble)));
-            this.previewIcon.scale.set(
-              previewIconScale,
-              previewIconScale,
-              1);
-      } else {
-        var previewIconScale = (Math.sin(performance.now()*
-            (THREE_CONST.HOTSPOT_MOD_FREQ+this.myWobble))*THREE_CONST.HOTSPOT_MOD_MAG);
-            this.previewIcon.scale.set(
-              this.previewIcon.scale.x + previewIconScale,
-              this.previewIcon.scale.y + previewIconScale,
-              1);
-      }
+      var previewIconScale = (Math.sin(performance.now()*
+          (THREE_CONST.HOTSPOT_MOD_FREQ+this.myWobble))*THREE_CONST.HOTSPOT_MOD_MAG);
+      //console.log("scale",previewIconScale);
 
-      //trying to make door dashedlines rotate but not working
-      // if (this.type != 'door') {
-      //   this.previewIcon.rotation.x = Math.PI * Math.sin(performance.now()*THREE_CONST.HOTSPOT_ROT_FREQ);
-      //   this.previewIcon.rotateOnAxis(this.previewIcon.position,
-      //    Math.PI * Math.sin(performance.now()*THREE_CONST.HOTSPOT_ROT_FREQ));
-      // }
+      this.previewIcon.scale.set(
+        this.previewIcon.scale.x + previewIconScale,
+        this.previewIcon.scale.y + previewIconScale,
+        1);
+
+      //this.previewIcon.scale.set(previewIconScale,previewIconScale,1);
+      //this.previewIcon.scale = this.previewIcon.scale.set() +
+
     }
   }
 
@@ -203,7 +188,6 @@ class HotspotEntity {
           //console.log("Done scaling UP dash circle");
           TWEEN.remove(this.tweenIconActivate);
           this.graphicIcon.visible= false;
-          this.label.visible = false;
         }).start();
         //console.log('image text link', this.id);
         //is this happening
@@ -239,9 +223,8 @@ class HotspotEntity {
           //console.log("Done scaling UP dash circle");
           TWEEN.remove(this.tweenDoorActivate);
           this.graphicIcon.visible = false;
-          this.label.visible = false;
           this.graphicIcon.scale.set(1,1,1);
-          this.goToRoom(outgoingRoomId,this.graphicIcon.position);
+          this.goToRoom(outgoingRoomId);
           //this.goToRoomFlag = true;
         }).start();
       default:
@@ -291,8 +274,6 @@ class HotspotEntity {
     //stop tweens counter to this function
     if(this.tweenPreviewIconOut){this.tweenPreviewIconOut.stop();}
     if(this.tweenGraphicIconin){this.tweenGraphicIconin.stop();}
-
-    this.label.visible = false;
     //start new tweens
     this.previewIcon.visible = true;
     this.tweenPreviewIconIn = new TWEEN.Tween(this.previewIcon.scale).to({
@@ -340,7 +321,6 @@ class HotspotEntity {
     },THREE_CONST.TWEEN_ICON_IN).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
     }).onComplete( () => {
       //console.log("Done fading in icon");
-      this.label.visible = true;
       TWEEN.remove(this.tweenGraphicIconin);
     }).start();
   }
@@ -350,7 +330,7 @@ class HotspotEntity {
 
 
 function buildDashCircle(): THREE.Line {
-  const dashCircleGeom = new THREE.CircleGeometry( THREE_CONST.HOTSPOT_DIM, THREE_CONST.DASHCIRCLE_SEG );
+  const dashCircleGeom = new THREE.CircleGeometry( 10, 50 );
   const dashCircleMaterial = new THREE.LineDashedMaterial( { color: 0xFFFFFF, dashSize: 2, gapSize: 2, linewidth:1  } );
   dashCircleGeom.vertices.shift();
   dashCircleGeom.computeLineDistances();
@@ -396,13 +376,13 @@ export class HotspotManager {
       //console.log(roomProperty);
       const position = getCoordinatePosition(location.getX(), location.getY());
       //console.log('position', position);
-      const labelText = roomProperty.getName();
+
       const propertyType: string = RoomPropertyTypeService.getTypeString(roomProperty);
-      const squareGeometry = new THREE.PlaneGeometry(THREE_CONST.HOTSPOT_DIM, THREE_CONST.HOTSPOT_DIM);
+      const squareGeometry = new THREE.PlaneGeometry(10, 10);
       const hotspotTexture = this.assetInteractor.getTextureById(propertyType);
 
-      //create graphic icon for hotspot, i.e. our hotspot icons
-      const squareMaterial = new THREE.MeshBasicMaterial({map: hotspotTexture,  transparent: true, side:THREE.FrontSide});
+      //create graphic icon for hotspot, i.e. dash circle
+      const squareMaterial = new THREE.MeshLambertMaterial({map: hotspotTexture,  transparent: true, side:THREE.FrontSide});
       const squareMesh = new THREE.Mesh(squareGeometry, squareMaterial);
       var polPol = car2pol(position.x, position.y, position.z);
       var posCar = pol2car(THREE_CONST.CAMERA_HOTSPOT,polPol.y,polPol.z);
@@ -410,41 +390,16 @@ export class HotspotManager {
       squareMesh.lookAt(camera.position);
       squareMesh.material.opacity = 0;
       scene.add(squareMesh);
-      var meshRotation = squareMesh.position;
 
       //create preview icon for hotspot, i.e. dash circle
       const dashCircle: THREE.Line = this.dashCircleLine.clone();
-      var dashCircleGroup = new THREE.Group();
-      dashCircleGroup.add(dashCircle);
-      dashCircleGroup.position.set(position.x, position.y, position.z);
-      dashCircleGroup.lookAt(camera.position);
-      dashCircleGroup.visible = true;
-      scene.add( dashCircleGroup );
-
-      //create label for each hotpost, i.e. the name of the hotspotEntity
-      const fontProperties = {
-        font: fontHelper.getBaseFont(),
-    		size: THREE_CONST.FONT_HOTSPOT_SIZE,
-    		height: THREE_CONST.FONT_HOTSPOT_HEIGHT,
-    		curveSegments: 12,
-    		bevelEnabled: false,
-    		bevelThickness: 4,
-    		bevelSize: 8,
-    		bevelSegments: 5
-      };
-      const labelMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
-      const labelGeometry = new THREE.TextGeometry(roomProperty.getName(), fontProperties);
-      labelGeometry.computeBoundingBox();
-      labelGeometry.computeVertexNormals();
-      labelGeometry.center();
-      const labelMesh = new THREE.Mesh(labelGeometry, labelMaterial);
-      labelMesh.position.set(position.x, position.y - 40, position.z);
-      labelMesh.lookAt(camera.position);
-      labelMesh.visible = false;
-      scene.add(labelMesh);
+      dashCircle.position.set(position.x, position.y, position.z);
+      dashCircle.lookAt(camera.position);
+      dashCircle.visible = true;
+      scene.add( dashCircle );
 
       //add to hotspotEntity map
-      const thisHotspot = new HotspotEntity(squareMesh.uuid,roomProperty,squareMesh,dashCircleGroup, this.audioPlayService, onRoomChange, labelMesh, meshRotation);
+      const thisHotspot = new HotspotEntity(squareMesh.uuid,roomProperty,squareMesh,dashCircle, this.audioPlayService, onRoomChange);
       this.hotspotMap.set(squareMesh.uuid, thisHotspot);
 
       if (propertyType === 'image') {

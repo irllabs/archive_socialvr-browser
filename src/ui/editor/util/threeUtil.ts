@@ -6,32 +6,16 @@ const SPHERE_RADIUS: number = THREE_CONST.SPHERE_RADIUS;
 const NUM_SPHERE_SLICES: number = THREE_CONST.SPHERE_SLICES;
 const RADIAL_DISTANCE: number = THREE_CONST.RADIAL_DISTANCE;
 
+
 export function buildScene() {
   const sphereGeometry: THREE.SphereGeometry = new THREE.SphereGeometry(SPHERE_RADIUS, NUM_SPHERE_SLICES, NUM_SPHERE_SLICES);
   const widthHeightRatio: number = window.innerWidth / window.innerHeight;
-  // THREE.ImageUtils.crossOrigin = '';
-
-  //added by ali for shader room spheres
-  // const sphereMaterial = new THREE.ShaderMaterial({
-  //   wireframe: true,
-  //   uniforms: {
-  //     time: { type: 'f', value: 0 },
-  //     texture: {
-  //       type: 't',
-  //       value: new THREE.TextureLoader().load("https://i.imgur.com/PkPD0Sx.jpg") }
-  //   },
-  //   vertexShader:   roomSphereFragShader,
-  //   fragmentShader: roomSphereVertShader
-  // });
-
-  //const sphereMesh = new THREE.Mesh(sphereGeometry,sphereMaterial);
   const sphereMesh = new THREE.Mesh(sphereGeometry);
   const camera = new THREE.PerspectiveCamera(THREE_CONST.FOV_NORM, widthHeightRatio, 1, SPHERE_RADIUS * 2);
   const vrCamera = new THREE.PerspectiveCamera(THREE_CONST.FOV_NORM, widthHeightRatio, 1, SPHERE_RADIUS * 2);
   const scene = new THREE.Scene();
 
-  sphereMesh.scale.set(-1, 1, 1);
-  //sphereMesh.position.set(0,0,0);
+  sphereMesh.scale.set(1, 1, 1); // AHHHHH
   sphereMesh.name = 'sphereMesh';
   camera.aspect = widthHeightRatio;
   camera.position.x = 0;
@@ -65,5 +49,4 @@ export function onResize(camera: THREE.PerspectiveCamera, renderer: THREE.WebGLR
       reject(error);
     }
   });
-
 }

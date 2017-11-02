@@ -42,7 +42,7 @@ export function buildMaterialFromText(textContext: string) {
 
   drawCanvas.width = width;
   drawCanvas.height = 800;
-  g2d.font = `${fontSize}pt Nunito`;
+  g2d.font = `${fontSize}pt Helvetica`;
   g2d.fillStyle = 'rgba(0, 0, 0, 0.7)';
   g2d.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
   g2d.fillStyle = 'white';
@@ -60,7 +60,7 @@ export function buildMaterialFromText(textContext: string) {
 
   const texture = new THREE.Texture(resizedCanvas);
   texture.needsUpdate = true;
-  const material = new THREE.MeshBasicMaterial({map: texture, transparent: true, side:THREE.FrontSide});
+  const material = new THREE.MeshLambertMaterial({map: texture, transparent: true, side:THREE.FrontSide});
   return {
     width: width,
     height: height,

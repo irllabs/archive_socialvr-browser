@@ -1,18 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 
-// import {GROUP_ADMIN} from 'ui/common/constants';
-
 const USERNAME_STORAGE: string = 'USERNAME_STORAGE';
-// const ADMIN: string = '_admin';
 const USER_STORAGE: string = 'USER_STORAGE';
 
 @Injectable()
 export class UserService {
 
   private user: any;
-
-  constructor() {}
 
   getUser() {
     if (!this.user && sessionStorage) {
@@ -24,7 +19,6 @@ export class UserService {
 
   setUser(user: any) {
     if (sessionStorage) {
-
       sessionStorage.setItem(USER_STORAGE, JSON.stringify(user));
     }
     this.user = user;

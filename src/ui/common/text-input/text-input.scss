@@ -29,7 +29,7 @@ $underline-off: 2px hidden $color-grey-light;
   border-bottom: $underline-off;
   text-shadow: $text-shadow-tree-view;
   text-align: center;
-  margin: 5px 0 0 0px;
+  margin: 5px 0 0 -46px;
 }
 
 .text-input__input-row {
@@ -38,10 +38,4 @@ $underline-off: 2px hidden $color-grey-light;
 
 .text-input__input-row--active {
   color: $color-white;
-}
-
-.text-input__storymap--roomname {
-  text-align: center;
-  color: white;
-  width: 110px
 }

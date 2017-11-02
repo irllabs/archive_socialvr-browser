@@ -9,18 +9,16 @@
   </topbar>
 
   <div
+    *ngIf="roomEditorIsVisible() || isPreview()"
     class="editor__editPlayToggle">
-    <p
-      *ngIf="showPreviewCheckbox()"
-      class='topbar__row-label'>Preview</p>
+    <p class='topbar__row-label'>Preview</p>
     <checkbox
-      *ngIf="showPreviewCheckbox()"
-      [initialValue]="isPreview()"
+      *ngIf="roomEditorIsVisible() || isPreview()"
       (changeEmitter)="onEditPlayChange($event)"
       class="editor__editPlayToggleButton">
     </checkbox>
     <div
-      *ngIf="roomEditorIsVisible()"
+      *ngIf="!isPreview()"
       class ="editor__2d3d">
       <div
       (click)="on2dViewClick($event)"

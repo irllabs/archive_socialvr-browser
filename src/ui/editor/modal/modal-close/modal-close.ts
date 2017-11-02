@@ -11,6 +11,7 @@ export class ModalClose {
   constructor(private router: Router) {}
 
   private onClose($event) {
+    // TODO: get current view
     this.router.navigate(['/editor', {outlets: {'modal': ''}}]);
   }
 

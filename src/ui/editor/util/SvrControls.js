@@ -64,14 +64,6 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 		scope.update();
 	};
 
-	this.lookAt = function(targetVector) {
-		scope.target.copy( targetVector );
-		scope.object.lookAt( scope.target );
-		scope.object.updateProjectionMatrix();
-		scope.dispatchEvent( changeEvent );
-		scope.update();
-	}
-
 	this.update = function () {
 
 		var offset = new THREE.Vector3();

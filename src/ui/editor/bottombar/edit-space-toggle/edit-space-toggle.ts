@@ -91,13 +91,13 @@ export class EditSpaceToggle {
       } else if (this.docElm.webkitRequestFullScreen) {
           this.docElm.webkitRequestFullScreen();
       }
-
-      // else if (this.docElm.mozRequestFullScreen) {
-      //     this.docElm.mozRequestFullScreen();
-      // }  else if (this.docElm.msRequestFullscreen) {
-      //     this.docElm.msRequestFullscreen();
-      // }
-
+      /*
+      else if (this.docElm.mozRequestFullScreen) {
+          this.docElm.mozRequestFullScreen();
+      }  else if (this.docElm.msRequestFullscreen) {
+          this.docElm.msRequestFullscreen();
+      }
+      */
           this.isInFullscreen = true;
       } else {
           if (document.exitFullscreen) {
@@ -105,13 +105,13 @@ export class EditSpaceToggle {
           } else if (document.webkitExitFullscreen) {
               document.webkitExitFullscreen();
           }
-
-          // else if (document.mozCancelFullScreen) {
-          //     document.mozCancelFullScreen();
-          // } else if (document.msExitFullscreen) {
-          //     document.msExitFullscreen();
-          // }
-
+          /*
+          else if (document.mozCancelFullScreen) {
+              document.mozCancelFullScreen();
+          } else if (document.msExitFullscreen) {
+              document.msExitFullscreen();
+          }
+          */
           this.isInFullscreen = false;
       }
   }

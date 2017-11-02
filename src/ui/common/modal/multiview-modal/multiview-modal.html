@@ -1,0 +1,31 @@
+<div class="modal__content">
+
+  <div class="modal__content-header">
+    Multiview
+  </div>
+
+  <div class="modal__content-body">
+
+    <p class="public-option__text-block">Your project titled "{{projectName}}" is public.</p>
+    <p>Here is your public project link. Click to copy the URL.</p>
+    <p
+      class="public-option__copy-notification"
+      [ngClass]="{'public-option__copy-notification--active': notificationIsVisible}">
+      Link copied to clipboard!
+    </p>
+    <p
+      class="public-option__link"
+      [attr.title]="publicLink"
+      (click)="onPublicLinkClick($event)">
+      {{ publicLink }}
+    </p>
+
+    <p
+      (click)="closeModal($event)"
+      class="modal__content-body-close">
+      Close
+    </p>
+
+  </div>
+
+</div>

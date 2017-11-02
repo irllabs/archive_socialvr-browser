@@ -23,12 +23,6 @@
     (onTextChange)="onNameChange($event)">
   </text-input>
 
-  <div
-    (click)="onDeleteClick($event)"
-    class="icon__delete">
-  </div>
-
-
   <property-editor
     *ngIf="propertyEditorIsVisible"
     [roomProperty]="roomProperty"
@@ -40,6 +34,5 @@
       'icon__property-editor--up-shift': inspectorShift.up
     }">
   </property-editor>
-
 
 </div>

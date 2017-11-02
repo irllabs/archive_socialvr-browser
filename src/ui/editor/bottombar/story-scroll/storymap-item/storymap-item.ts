@@ -74,25 +74,7 @@ export class StorymapItem {
     return room.getThumbnailImage();
   }
 
-  private getRoomName(): string {
-    const roomId = this.sceneInteractor.getActiveRoomId();
-    const room =  this.sceneInteractor.getRoomById(roomId);
-    return room.getName();
-  }
 
-  private setRoomName($event) {
-    const roomId = this.sceneInteractor.getActiveRoomId();
-    const room =  this.sceneInteractor.getRoomById(roomId);
-    room.setName($event.text);
-  }
-
-  getName(): string {
-    return this.roomProperty.getName();
-  }
-
-  onNameChange($event) {
-    this.roomProperty.setName($event.text);
-  }
 
 
 }

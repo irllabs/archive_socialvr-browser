@@ -9,7 +9,6 @@ import {Routes} from '@angular/router';
 import {EditorModule} from 'ui/editor/_module/editor.module';
 import {AdminModule} from 'ui/admin/_module/admin.module';
 import {ExploreModule} from 'ui/explore/_module/explore.module';
-import {ChatModule} from 'ui/chat/_module/chat.module';
 import {CommonModule} from 'ui/common/_module/common.module';
 
 // UI components
@@ -28,7 +27,6 @@ const routes = RouterModule.forRoot([
     EditorModule,
     AdminModule,
     ExploreModule,
-    ChatModule,
     routes
   ],
   providers: [

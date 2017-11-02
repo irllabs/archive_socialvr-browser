@@ -66,7 +66,6 @@ export class DeserializationService {
 
         storyJson.rooms.map(roomData => {
           const filePrefix = roomData.uuid;
-          console.log('buildRoom', `${baseFilePath}${filePrefix}`);
 
           // Background image
           const roomImagePath = `${baseFilePath}${filePrefix}/${roomData.image}`;
@@ -151,125 +150,33 @@ export class DeserializationService {
 // return a promise containing the name of the file
 // and binary data
 function loadMediaFile(mediaFile: any, getBinaryFileData: any): Promise<any> {
-  console.log('loading media file', mediaFile)
   return mediaFile.async(UINT8ARRAY)
     .then(fileData => {
-      console.log('---fileData', mediaFile);
       const fileType = getFileType(mediaFile.name);
       return new Blob([fileData], {type: fileType});
     })
-    .then(blob => {
-      console.log('---blob', mediaFile);
-      return getBinaryFileData(blob);
-    })
+    .then(getBinaryFileData)
     .then(binaryDataFile => {
-      console.log('success', mediaFile.name)
       return {
         name: mediaFile.name,
         fileData: binaryDataFile
       };
-    })
-    .catch(error => console.log('error', mediaFile.name, error));
-}
-
-async function loadMediaFileWrapper(mediaFile: any, getBinaryFileData: any): Promise<any> {
-  console.log('loadMediaFileWrapper', mediaFile);
-  return await loadMediaFile(mediaFile, getBinaryFileData);
+    });
 }
 
 // Given a json object of jszip files, return a list of
 // promises containing image and audio binary data
-async function loadMediaFiles(fileMap: any, storyFilePath: string, getBinaryFileData: any) {
-  console.log('load media files', fileMap);
-  const files = Object.keys(fileMap)
+function loadMediaFiles(fileMap: any, storyFilePath: string, getBinaryFileData: any) {
+  return Object.keys(fileMap)
     .filter(fileKey => fileKey !== storyFilePath)
     .map(fileKey => fileMap[fileKey])
-    .filter(file => !file.dir);
-  console.log('files to load', files);
-
-  const mediaFiles = [];
-
-  // async function printFiles () {
-  // const files = await getFilePaths();
-
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    await loadMediaFile(file, getBinaryFileData).then(mediaFile => mediaFiles.push(mediaFile));
-    // const contents = await fs.readFile(file, 'utf8');
-    // console.log(contents);
-  }
-  return mediaFiles;
-
-  // files.forEach(f => {
-  //   loadMediaFileWrapper(f, getBinaryFileData).then(mediaFile => mediaFiles.push(mediaFile));
-  // });
-  //
-  // return files.map(f => {
-  //   return loadMediaFileWrapper(f, getBinaryFileData)
-  // });
-
-  // for (const f of meteredPromises) {
-  //   await Promise.all(subList)
-  //     .then(resultList => {
-  //       console.log('adding to resultList:', resultList)
-  //       results = [...results, ...resultList];
-  //     });
-  // }
-
-    // .map(file => loadMediaFile(file, getBinaryFileData));
+    .filter(file => !file.dir)
+    .map(file => loadMediaFile(file, getBinaryFileData));
 }
-
-async function meterPromises(rate, promiseList): Promise<any> {
-  const meteredPromises = promiseList
-    .reduce((aggretate, mediaFilePromise, index) => {
-      if (index % rate === 0) {
-        const newList = [mediaFilePromise];
-        aggretate.push(newList);
-      }
-      else {
-        const lastElement = aggretate[aggretate.length - 1];
-        lastElement.push(mediaFilePromise);
-      }
-      return aggretate;
-    }, []);
-
-  let results = [];
-
-  for (const subList of meteredPromises) {
-    await Promise.all(subList)
-      .then(resultList => {
-        console.log('adding to resultList:', resultList)
-        results = [...results, ...resultList];
-      });
-  }
-  return results;
-}
-
-// function meterList(rate, promiseList) {
-//   return new Promise((resolve, reject) => {
-//     // meter media file loading
-//     // const rate = 1;
-//     const meteredPromises = promiseList
-//       .reduce((aggretate, mediaFilePromise, index) => {
-//         if (index % rate === 0) {
-//           const newList = [mediaFilePromise];
-//           aggretate.push(newList);
-//         }
-//         else {
-//           const lastElement = aggretate[aggretate.length - 1];
-//           lastElement.push(mediaFilePromise);
-//         }
-//         return aggretate;
-//       }, []);
-//
-//     meteredPromises.map(subList => Promise.all(subList))
-//   });
-// }
 
 // Given a JSON object representing story file,
 // return a promise that resolves when the story file is deserialized
 function deserializeProject(jsZipData) {
-  console.log('jsZipData', jsZipData)
   const fileMap = jsZipData.files;
 
   const storyFilePath: string = Object.keys(fileMap)
@@ -277,16 +184,11 @@ function deserializeProject(jsZipData) {
   const baseFilePath: string = storyFilePath.substring(0, storyFilePath.indexOf(STORY_FILE));
 
   const storyFile = fileMap[storyFilePath];
-  console.log('storyFile', storyFile)
   const getBinaryFileData = this.fileLoaderUtil.getBinaryFileData.bind(this.fileLoaderUtil);
   const mediaFilePromises = loadMediaFiles(fileMap, storyFilePath, getBinaryFileData);
 
-  return mediaFilePromises.then(bianryFileMap => this.deserializeRooms(storyFile, bianryFileMap, baseFilePath));
-  // return Promise.all(mediaFilePromises)
-  //     .then(bianryFileMap => this.deserializeRooms(storyFile, bianryFileMap, baseFilePath));
-
-  // return meterPromises(2, mediaFilePromises)
-  //   .then(bianryFileMap => this.deserializeRooms(storyFile, bianryFileMap, baseFilePath));
+  return Promise.all(mediaFilePromises)
+      .then(bianryFileMap => this.deserializeRooms(storyFile, bianryFileMap, baseFilePath));
 }
 
 function getFileType(fileName) {

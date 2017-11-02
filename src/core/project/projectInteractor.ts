@@ -38,10 +38,7 @@ export class ProjectInteractor {
     console.log('openProject');
     return this.apiService.getProjectUrl(userId, projectId)
       .switchMap(signedProjectUrl => this.apiService.getProject(signedProjectUrl))
-      .switchMap(projectArrayBuffer => {
-        console.log('projectArrayBuffer', projectArrayBuffer);
-        return this.deserializationService.unzipStoryFile(projectArrayBuffer);
-      })
+      .switchMap(projectArrayBuffer => this.deserializationService.unzipStoryFile(projectArrayBuffer))
       .do(projectData => {
         this.assetManager.clearAssets();
         console.log('clearAssets');

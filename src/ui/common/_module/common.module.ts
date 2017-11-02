@@ -13,6 +13,7 @@ import {Modal} from 'ui/common/modal/modal';
 import {LoadingModal} from 'ui/common/modal/loading-modal/loading-modal';
 import {MessageModal} from 'ui/common/modal/message-modal/message-modal';
 import {ShareableModal} from 'ui/common/modal/shareable-modal/shareable-modal';
+import {MultiviewModal} from 'ui/common/modal/multiview-modal/multiview-modal';
 
 // Services
 import {EventBus} from 'ui/common/event-bus';
@@ -26,7 +27,8 @@ import {ShareableLoader} from 'ui/common/shareable-loader';
     Modal,
     LoadingModal,
     MessageModal,
-    ShareableModal
+    ShareableModal,
+    MultiviewModal
   ],
   imports: [
     BrowserModule,

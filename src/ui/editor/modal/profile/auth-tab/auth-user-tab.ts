@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, NavigationExtras} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
 
@@ -67,7 +67,6 @@ export class AuthUserTab {
       .subscribe(
         response => {
           //reset the current scene
-          console.log('observable done', response);
           this.sceneInteractor.setActiveRoomId(null);
           this.eventBus.onSelectRoom(null, false);
           this.metaDataInteractor.setIsReadOnly(false);
@@ -133,12 +132,22 @@ export class AuthUserTab {
   }
 
   private openMultiView(projectId: number) {
-    console.log('onOpenMultiView');
-    const userId = this.userInteractor.getUserId();
-    const queryParams = {
-      multiview: `${userId}-${projectId}`
-    };
-    this.router.navigate(['editor', 'preview'], { queryParams });
+    // const userId = this.userInteractor.getUserId();
+    // const path = {
+    //   outlets: {
+    //     view: 'preview',
+    //     modal: 'upload'
+    //   }
+    // };
+    // const extras: NavigationExtras = {
+    //   queryParams: {
+    //     multiview: `${userId}-${projectId}`
+    //   }
+    // };
+    // this.router.navigate(['/editor', path], extras);
+
+    const userId: string = this.userInteractor.getUserId();
+    this.eventBus.onMultiViewModal(userId, projectId + '');
   }
 
   private isWorkingOnSavedProject(): boolean {
@@ -171,9 +180,5 @@ export class AuthUserTab {
   private onAdminClick($event) {
     this.router.navigateByUrl('/admin');
   }
-
-
-
-
 
 }

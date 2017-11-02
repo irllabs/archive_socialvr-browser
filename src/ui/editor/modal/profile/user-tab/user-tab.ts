@@ -21,7 +21,7 @@ export class UserTab {
   }
 
   onOffClick($event) {
-    //console.log('onOffClick user-tab');
+    console.log('onOffClick user-tab');
     if (!$event.isOffClick) return;
     this.router.navigate(['/editor', {outlets: {'modal': ''}}]);
   }

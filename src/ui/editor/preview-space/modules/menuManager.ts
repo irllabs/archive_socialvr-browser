@@ -116,7 +116,7 @@ export class MenuManager {
     //home button
     const homeBtnGeometry = new THREE.PlaneGeometry(THREE_CONST.HOME_BACK_DIM, THREE_CONST.HOME_BACK_DIM);
     const homeBtnTexture = this.assetInteractor.getTextureById('home');
-    const homeBtnMaterial = new THREE.MeshBasicMaterial({map: homeBtnTexture, transparent: true, side:THREE.FrontSide});
+    const homeBtnMaterial = new THREE.MeshLambertMaterial({map: homeBtnTexture, transparent: true, side:THREE.FrontSide});
     const homeBtnMesh = new THREE.Mesh(homeBtnGeometry, homeBtnMaterial);
     homeBtnMesh.position.set(menuPos.x+40,menuPos.y-30,menuPos.z-100);
     homeBtnMesh.name = 'homeButtonIcon';
@@ -204,7 +204,7 @@ export class MenuManager {
         x: 0.001, y: 0.001, z: 0.001
     },THREE_CONST.HOTSPOT_DOOR_DELAY).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
     }).onComplete( () => {
-      //console.log("Go Back:",this.goToBackRoom);
+      console.log("Go Back:",this.goToBackRoom);
       TWEEN.remove(this.tweenBackActivate);
       this.goToBackRoom();
       //this.goToRoomFlag = true;

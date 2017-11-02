@@ -91,7 +91,7 @@ export class Story {
   }
 
   private onNewStoryClick($event) {
-    //console.log('onNewStoryClick 1');
+    console.log('onNewStoryClick 1');
     this.eventBus.onModalMessage(
       '',
       'If you do not save your changes before opening a new story file, those changes will be lost.',
@@ -100,13 +100,13 @@ export class Story {
       () => {},
       // modal accepted callback
       () => {
-        //console.log('onNewStoryClick 2');
+        console.log('onNewStoryClick 2');
         this.router.navigate(['/editor', {outlets: {'modal': 'upload'}}]);
         if ($event.shiftKey) {
           this.eventBus.onOpenFileLoader('zip');
           return;
         }
-        //console.log('onNewStoryClick 4');
+        console.log('onNewStoryClick 4');
         this.sceneInteractor.setActiveRoomId(null);
         this.sceneInteractor.resetRoomManager();
         this.projectInteractor.setProjectId(null);
@@ -117,47 +117,27 @@ export class Story {
 
   }
 
-  private onOpenStoryLocallyClick(event) {
-    // this.router.navigate(['/editor', {outlets: {'modal': 'upload'}}]);
-    // if (!$event.shiftKey) {
-    this.eventBus.onOpenFileLoader('zip');
-    //   return;
-    // }
-    this.router.navigate(['/editor', {outlets: {'modal': null}}]);
-  }
-
   private onSaveStoryClick(event) {
-    if (this.metaDataInteractor.projectIsEmpty()) {
+    const shouldSaveToServer: boolean = this.userInteractor.isLoggedIn() && !event.shiftKey;
+    const projectIsEmpty: boolean = this.metaDataInteractor.projectIsEmpty();
+
+    if (projectIsEmpty) {
       this.eventBus.onModalMessage('Error', 'Cannot save an empty project');
       return;
     }
-    if (!this.userInteractor.isLoggedIn()) {
-      this.eventBus.onModalMessage('Error', 'You must be logged in to save to the server');
-      return;
-    }
-    if (this.metaDataInteractor.getIsReadOnly()) {
-      this.eventBus.onModalMessage('Permissions Error', 'It looks like you are working on a different user\'s project. You cannot save this to your account but you can save it locally by shift-clicking the save button.');
-      return;
-    }
-    // if (this.userInteractor.isLoggedIn()) {
-
+    if (shouldSaveToServer) {
+      if (this.metaDataInteractor.getIsReadOnly()) {
+        this.eventBus.onModalMessage('Permissions Error', 'It looks like you are working on a different user\'s project. You cannot save this to your account but you can save it locally by shift-clicking the save button.');
+        return;
+      }
       this.saveStoryFileToServer();
-    // }
-    // else {
-    //   this.saveStoryFileLocally()
-    // }
+    }
+    else {
+      this.saveStoryFileLocally()
+    }
   }
 
-  private onSaveStroyLocallyClick(event) {
-    if (this.metaDataInteractor.projectIsEmpty()) {
-      this.eventBus.onModalMessage('Error', 'Cannot save an empty project');
-      return;
-    }
-    if (this.metaDataInteractor.getIsReadOnly()) {
-      this.eventBus.onModalMessage('Permissions Error', 'It looks like you are working on a different user\'s project. You cannot save this to your account but you can save it locally by shift-clicking the save button.');
-      return;
-    }
-
+  private saveStoryFileLocally() {
     const projectName = this.metaDataInteractor.getProjectName() || 'StoryFile';
     const zipFileName = `${projectName}.zip`;
     this.eventBus.onStartLoading();
@@ -198,10 +178,12 @@ export class Story {
       this.projectInteractor.createProject(userId)
         .subscribe(onSuccess, onError);
     }
+
+
   }
 
   onOffClick($event) {
-    //console.log('onOffClick user-tab');
+    console.log('onOffClick user-tab');
     if (!$event.isOffClick) return;
     this.router.navigate(['/editor', {outlets: {'modal': ''}}]);
   }

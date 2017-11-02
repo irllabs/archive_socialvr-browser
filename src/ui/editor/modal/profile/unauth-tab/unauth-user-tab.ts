@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+
 import {EventBus} from 'ui/common/event-bus';
 import {UserInteractor} from 'core/user/userInteractor';
 
@@ -16,17 +16,17 @@ export class UnauthUserTab {
   private createUserIsUnlocked: boolean = false;
 
   constructor(
-    private router: Router,
     private userInteractor: UserInteractor,
     private eventBus: EventBus,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.resetFields();
 
     this.route.queryParams
-      .map(params => params['createaccount'] === 'true')
+      .map(params => params['createAccount'] === 'true')
       .subscribe(
         isCreateAccount => this.createUserIsUnlocked = isCreateAccount,
         error => console.log('error', error)
@@ -142,20 +142,24 @@ export class UnauthUserTab {
       );
   }
 
-  private signOutTest() {
-    //stub
-  }
-
+  // TODO: Create a service to handle route change, also add route guards to user-tab
   private onLogin() {
-    // If post login intent needs to be used
-  }
-
-  private onOpenClick($event) {
-    //console.log('onNewStoryClick 1');\
-    this.eventBus.onOpenFileLoader('zip');
-    this.router.navigate(['/editor', {outlets: {'view': 'flat', modal: null}}]);
-    return;
-
+    const isPreviewMode = this.router.url.includes('view:preview');
+    const multiviewValue = this.route.snapshot.queryParams['multiview'];
+    if (isPreviewMode && multiviewValue) {
+        const path = {
+          outlets: {
+            view: 'preview',
+            modal: null
+          }
+        };
+        const extras = {
+          queryParams: {
+            multiview: multiviewValue
+          }
+        };
+        this.router.navigate(['/editor', path], extras);
+      }
   }
 
 }

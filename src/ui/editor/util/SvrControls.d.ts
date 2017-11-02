@@ -6,6 +6,5 @@ declare namespace THREE {
         update(): void;
         reset(): void;
         hasMomentum(): boolean;
-        lookAt(target: Vector3): void;
     }
 }

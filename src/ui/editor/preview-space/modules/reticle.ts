@@ -47,8 +47,15 @@ export class Reticle {
     this.touchReticle.visible = !isInVrMode;
   }
 
-  getActiveReticle(isInVrMode: boolean) {
-    return isInVrMode ? this.vrReticle : this.touchReticle;
+  getActiveReticle(): THREE.Group {
+    return this.vrReticle.visible ? this.vrReticle : this.touchReticle;
+  }
+
+  getBothRetciles() {
+    return {
+      touch: this.touchReticle,
+      vr: this.vrReticle
+    };
   }
 
   getRaycaster(): THREE.Raycaster {

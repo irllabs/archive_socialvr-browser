@@ -57,7 +57,6 @@ export class RoomIcon extends IconBase {
   private isPossibleCombinedHotspot: boolean = false;
   private propertyType: string;
   private hotspotIconSize: string = iconSizes.LARGE;
-  private deleteVisible: boolean = false;
 
   constructor(
     protected eventBus: EventBus,
@@ -145,11 +144,6 @@ export class RoomIcon extends IconBase {
 
   onDeleteClick($event) {
     this.propertyRemovalService.removeProperty(this.roomProperty);
-  }
-
-  onMouseOver($event) {
-    console.log("mouseover")
-    this.deleteVisible = true;
   }
 
   isPossibleHotspot(): boolean {

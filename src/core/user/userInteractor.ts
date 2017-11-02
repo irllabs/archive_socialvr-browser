@@ -22,9 +22,10 @@ export class UserInteractor {
 
   logIn(userName: string, password: string) {
     return this.apiService.logIn(userName, password)
-      .do(token => {
+      .switchMap(token => {
         this.authenticationService.setToken(token);
         this.authenticationService.setAuthenticationMethod(AuthenticationMethod.SOCIAL_VR);
+        return this.getUser();
       });
   }
 

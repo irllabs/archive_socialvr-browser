@@ -1,0 +1,51 @@
+@import '../../../_styles/variables';
+
+.public-option-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.public-option-row__label {
+  margin: 5px 10px 5px 0;
+}
+
+.public-option__text-block {
+  margin: 10px 0;
+}
+
+.public-option__explanation {
+  margin: 10px 0;
+}
+
+.public-option__explanation-list {
+  margin: 0;
+  padding: 0 30px;
+}
+
+.public-option__link {
+  overflow: hidden;
+  white-space: nowrap;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.public-option__copy-notification {
+  color: $color-action;
+  position: absolute;
+  background-color: $color-primary;
+  border: 1px solid $color-divider;
+  padding: 10px;
+  box-shadow: 2px 1px 4px 1px rgba(0, 0, 0, 0.5);
+  width: 225px;
+  text-align: center;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.15s ease-out;
+}
+
+.public-option__copy-notification--active {
+  transform: scaleX(1);
+}

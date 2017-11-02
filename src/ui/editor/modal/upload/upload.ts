@@ -10,10 +10,6 @@ import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
 import {VideoInteractor} from 'core/video/VideoInteractor';
 import {normalizeAbsolutePosition} from 'ui/editor/util/iconPositionUtil';
 import {mimeTypeMap} from 'ui/editor/util/fileLoaderUtil';
-import {Audio} from 'data/scene/entities/audio';
-import {Image} from 'data/scene/entities/image';
-import {Vector2} from 'data/scene/entities/vector2';
-import {ZipFileReader} from 'ui/editor/util/zipFileReader';
 
 @Component({
   selector: 'upload',
@@ -31,8 +27,7 @@ export class Upload {
     private fileLoaderUtil: FileLoaderUtil,
     private slideshowBuilder: SlideshowBuilder,
     private sceneInteractor: SceneInteractor,
-    private videoInteractor: VideoInteractor,
-    private zipFileReader: ZipFileReader
+    private videoInteractor: VideoInteractor
   ) {}
 
 
@@ -52,14 +47,14 @@ export class Upload {
             this.requestRender();
           })
           .catch(error => this.eventBus.onModalMessage('error', error));
-      //  return;
+        return;
       //}
 
       const file = event.dataTransfer.files && event.dataTransfer.files[0];
       if (!file) {
         return;
       }
-
+      this.processDroppedFile(file, event.clientX, event.clientY);
 
   }
 
@@ -91,7 +86,7 @@ export class Upload {
   }
 
   onOffClick($event) {
-    //console.log('onOffClick user-tab');
+    console.log('onOffClick user-tab');
     if (!$event.isOffClick) return;
     this.router.navigate(['/editor', {outlets: {'modal': ''}}]);
   }

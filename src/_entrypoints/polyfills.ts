@@ -9,7 +9,7 @@ import 'core-js/es7';
 import 'zone.js/dist/zone';
 import 'zone.js/dist/long-stack-trace-zone';
 
-import 'webvr-polyfill';
+import 'webvr-polyfill'; // TEST NATIVE CHROME ... DON'T COMMIT
 
 //custom browser compatibility
 navigator.getUserMedia = navigator.getUserMedia || (<any>navigator).webkitGetUserMedia;

@@ -21,10 +21,8 @@
 .story-map-item__buttons {
   display: flex;
   flex-direction: row;
-  //margin-bottom: -22px;
-  transform: translate(0%, 80px);
+  margin-bottom: -22px;
   visibility: hidden;
-  z-index: 1;
 }
 
 .storymap-item__button {
@@ -35,12 +33,6 @@
   background-repeat: no-repeat;
   width: $home-icon-width;
   height: $home-icon-height;
-}
-
-.storymap-item__roomname {
-  justify-content: center;
-  margin: 0px 0px 0px 0px;
-  transform: translate(0%, 40px);
   z-index: 1;
 }
 

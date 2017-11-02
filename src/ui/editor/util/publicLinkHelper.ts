@@ -22,20 +22,47 @@ function decodeParam(encodedParam: string) {
   }
 }
 
+function decodeMultviewParam(encodedString: string) {
+  try {
+    const base64Param = decodeURIComponent(encodedString);
+    const decodedParam = atob(base64Param);
+    const [userId, projectId] = decodedParam.split('-');
+    if (userId === undefined || projectId === undefined) {
+      throw new Error(`Malformed value: ${userId} ${projectId}`);
+    }
+    return {
+      ok: true,
+      data: { userId, projectId }
+    };
+  }
+  catch(error) {
+    return {
+      ok: false,
+      data: error
+    };
+  }
+}
+
 function getShareableLink(publicProjectUrl: string) {
   const baseUrl = `${location.protocol}//${location.host}`;
   const pathName = location.pathname;
   const queryIndex = location.hash.indexOf('?') < 0 ? location.hash.length : location.hash.indexOf('?');
-  //const hash = location.hash.substring(0, queryIndex);
-  const hash = `#/editor/(view:flat)`;
+  const hash = location.hash.substring(0, queryIndex)
   const queryParams= `${SHARED_KEY}=${encodeParam(publicProjectUrl)}`;
-  console.log('pathName:',pathName);
-  console.log('hash:',hash);
   return `${baseUrl}${pathName}${hash}?${queryParams}`;
+}
+
+function getMultiViewLink(userId: string, projectId: string): string {
+  const baseUrl = `${location.protocol}//${location.host}`;
+  const multiviewValue = encodeURIComponent(btoa(`${userId}-${projectId}`));
+  const path = `#/editor/(view:preview)?multiview=${multiviewValue}`;
+  return `${baseUrl}${path}`;
 }
 
 export {
   SHARED_KEY,
   getShareableLink,
-  decodeParam
+  getMultiViewLink,
+  decodeParam,
+  decodeMultviewParam
 };

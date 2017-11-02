@@ -97,7 +97,6 @@ export class ApiService implements Api {
 
   // GET /users/userId/projects/projectId/sign_url/
   getProjectUrl(userId: string, projectId: string): Observable<string> {
-    //return Observable.from('test');
     const URL: string = `${BASE_URL}${URL_PATH_USERS}${userId}${URL_PATH_PROJECTS}${projectId}${SIGN_URL}`;
     return this.http.get(URL, this.getRequestOptions())
        .map(response => response.json().signed_url);
@@ -105,7 +104,6 @@ export class ApiService implements Api {
 
   // GET project from temporary signed URL or public URL
   getProject(signedProjectUrl: string): Observable<any> {
-    //const localUrl = '__stubs__/painting.zip';
     return this.http.get(signedProjectUrl, {responseType: ResponseContentType.ArrayBuffer})
       .map(response => response.arrayBuffer());
   }

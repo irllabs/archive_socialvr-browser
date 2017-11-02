@@ -77,7 +77,7 @@ const webpackConfig = {
         ]
       },
       {
-        test: /\.(html|vert|frag)$/,
+        test: /\.html$/,
         loaders: ['raw-loader']
       },
       // {

@@ -31,8 +31,7 @@ export class ShareableLoader {
           this.eventBus.onSelectRoom(null, false);
           this.eventBus.onStopLoading();
           this.metaDataInteractor.setIsReadOnly(true);
-          //this.router.navigateByUrl('/editor');
-          this.router.navigate(['editor', {outlets: {'view': 'preview'}}]);
+          this.router.navigateByUrl('/editor');
         },
         error => {
           this.eventBus.onStopLoading();

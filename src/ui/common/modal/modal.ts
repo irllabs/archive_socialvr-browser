@@ -8,7 +8,8 @@ const MODAL_TYPE = {
   MESSAGE: 'MESSAGE',
   LOADER: 'LOADER',
   SHARABLE: 'SHARABLE',
-  EXPLORE: 'EXPLORE'
+  EXPLORE: 'EXPLORE',
+  MULTIVIEW: 'MULTIVIEW'
 };
 
 @Component({
@@ -115,11 +116,25 @@ export class Modal {
         }
       );
 
+    const onMultiViewModal: Subscription = this.eventBus.getObservable(EventType.MULTIVIEW_MODAL)
+      .subscribe(
+        event => {
+          this.isOpen = true;
+          this.activeModalType = MODAL_TYPE.MULTIVIEW;
+          this.shareableData = event;
+        },
+        error => {
+          console.log('error', error);
+          this.isOpen = false;
+        }
+      );
+
     this.subscriptions.add(onSharable);
     this.subscriptions.add(onStartLoading);
     this.subscriptions.add(onStopLoading);
     this.subscriptions.add(onMessage);
     this.subscriptions.add(onExploreModal);
+    this.subscriptions.add(onMultiViewModal);
   }
 
   private clearValues() {
@@ -134,16 +149,20 @@ export class Modal {
     this.shareableData = null;
   }
 
-  private isMessageModal() {
+  private isMessageModal(): boolean {
     return this.activeModalType === MODAL_TYPE.MESSAGE;
   }
 
-  private isSharableModal() {
+  private isSharableModal(): boolean {
     return this.activeModalType === MODAL_TYPE.SHARABLE;
   }
 
-  private isLoaderModal() {
+  private isLoaderModal(): boolean {
     return this.activeModalType === MODAL_TYPE.LOADER;
+  }
+
+  private isMultiviewModal(): boolean {
+    return this.activeModalType === MODAL_TYPE.MULTIVIEW;
   }
 
 }

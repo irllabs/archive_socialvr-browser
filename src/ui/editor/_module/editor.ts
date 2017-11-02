@@ -1,11 +1,9 @@
 import {
   Component,
   Input,
-  Output,
   ViewChild,
   HostListener,
-  ElementRef,
-  EventEmitter
+  ElementRef
 } from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
@@ -37,7 +35,6 @@ import {ResponsiveUtil} from 'ui/editor/util/responsiveUtil';
 export class Editor {
 
   @ViewChild('editSpaceSphere') editSpaceSphere;
-  @Output() changeEmitter = new EventEmitter();
   private hotspotMenuIsOpen: boolean = false;
   private hotspotEditorIsOpen: boolean = false;
   protected subscriptions: Set<Subscription> = new Set<Subscription>();
@@ -86,7 +83,6 @@ export class Editor {
   @HostListener('drop', ['$event'])
   onDrop(event) {
     if (!this.uploadIsOpen()) {
-      //console.log('in onDrop');
       event.stopPropagation();
       event.preventDefault();
 
@@ -106,14 +102,11 @@ export class Editor {
       //   return;
       // }
       //
-
-      const fileList = event.dataTransfer.files;
-      if (!fileList) {
+      const file = event.dataTransfer.files && event.dataTransfer.files[0];
+      if (!file) {
         return;
       }
-      const files = Object.keys(fileList).map(key => fileList[key]);
-      //console.log('files: ', files, typeof files);
-      this.processDroppedFileMulti(files, event.clientX, event.clientY);
+      this.processDroppedFile(file, event.clientX, event.clientY);
     }
   }
 
@@ -141,12 +134,6 @@ export class Editor {
     return this.router.url.includes('view:preview');
   }
 
-  private showPreviewCheckbox(): boolean {
-    return ((this.roomEditorIsVisible() ||
-            this.isPreview()) &&
-            !this.isReadOnly())
-  }
-
   private isFlat(): boolean {
     return this.router.url.includes('view:flat');
   }
@@ -161,15 +148,7 @@ export class Editor {
       && !this.isPreview();
   }
 
-  private previewVisible(): boolean {
-    return !this.metaDataInteractor.getIsReadOnly();
-  }
-
-  private isReadOnly(): boolean {
-    return this.metaDataInteractor.getIsReadOnly();
-  }
-
-  private viewToggleIsVisibleOLD(): boolean {
+  private viewToggleIsVisible(): boolean {
     if (this.responsiveUtil.isMobile()) {
       return this.hasBackgroundImage()
         && !this.hotspotMenuIsOpen
@@ -227,44 +206,34 @@ export class Editor {
   }
 
   //made by ali to handle multiple hotspot creation
-  private processDroppedFileMulti(files: any[], x: number, y: number) {
-    //this.eventBus.onStartLoading();
-    const filePromises = files.map(file => {
-      const fileName: string = file.name;
-      const dropPosition: Vector2 = this.isFlat() ?
-          normalizeAbsolutePosition(x, y) :
-          this.editSpaceSphere.transformScreenPositionTo3dNormal(x, y);
-      const fileType: string = Object.keys(mimeTypeMap)
-        .find(fileType => mimeTypeMap[fileType].indexOf(file.type) > -1);
-      if (!fileType) {
-        const errorTitle: string = 'Incompatible File Type';
-        const errorMessage: string = 'Try using an image (.jpg, .jpeg, .png), an audio file (.mp3, .wav), or a story file (.zip)';
-        //this.eventBus.onModalMessage(errorTitle, errorMessage);
-        return Promise.reject(errorMessage);
-      }
-      if (fileType === 'video') {
-        console.log('bam, video', file);
-        this.getFileTypeStrategy(fileType)(file, null, dropPosition);
-        return;
-        //this.getFileTypeStrategy(fileType)(file, binaryFileData, dropPosition))
-      }
-      return this.fileLoaderUtil.getBinaryFileData(file)
-      .then(binaryFileData => {
-        this.getFileTypeStrategy(fileType)(file, binaryFileData, dropPosition);
-        return Promise.resolve();
-      })
+  private processDroppedFileMulti(file: any, x: number, y: number): Promise<any> {
+    const fileName: string = file.name;
+    const dropPosition: Vector2 = this.isFlat() ?
+        normalizeAbsolutePosition(x, y) :
+        this.editSpaceSphere.transformScreenPositionTo3dNormal(x, y);
+    return Promise.all(fileName)
+    .then() => {
+    const fileType: string = Object.keys(mimeTypeMap)
+      .find(fileType => mimeTypeMap[fileType].indexOf(file.type) > -1);
+
+    if (!fileType) {
+      const errorTitle: string = 'Incompatible File Type';
+      const errorMessage: string = 'Try using an image (.jpg, .jpeg, .png), an audio file (.mp3, .wav), or a story file (.zip)';
+      this.eventBus.onModalMessage(errorTitle, errorMessage);
+      return;
+    }
+
+    if (fileType === 'video') {
+      console.log('bam, video', file);
+      this.getFileTypeStrategy(fileType)(file, null, dropPosition);
+      return;
+      //this.getFileTypeStrategy(fileType)(file, binaryFileData, dropPosition))
+    }
+
+    this.fileLoaderUtil.getBinaryFileData(file)
+      .then(binaryFileData => this.getFileTypeStrategy(fileType)(file, binaryFileData, dropPosition))
       .catch(error => this.eventBus.onModalMessage('Error', error));
-    });
-    Promise.all(filePromises)
-    .then(allDone => {
-      //this.eventBus.onStopLoading();
-      //console.log('all hotspots are now loaded');
-    })
-    .catch(error => {
-      this.eventBus.onStopLoading();
-      this.eventBus.onModalMessage('error', error);
-      console.log(error);
-    })
+    }
   }
 
   private getFileTypeStrategy(fileType: string) {
@@ -344,9 +313,10 @@ export class Editor {
     return false;
   }
 
+
   private uploadIsOpen(): boolean {
     var uploadIsVisible = this.router.url.includes('modal:upload');
-    //console.log("uploadIsVisible: ", uploadIsVisible);
+    console.log("uploadIsVisible: ", uploadIsVisible);
     return uploadIsVisible;
   }
 
@@ -368,21 +338,16 @@ export class Editor {
     this.isInFlatMode = false;
   }
 
-
   private onEditPlayChange($event) {
-    //this.eventBus.onStartLoading();
     if ($event.value == 1) {
-      //console.log('switch to preview');
       this.router.navigate(['editor', {outlets: {'view': 'preview'}}]);
     } else {
-      console.log('switch to edit');
       if (this.isInFlatMode){
         this.router.navigate(['/editor', {outlets: {'view': 'flat'}}]);
       } else {
         this.router.navigate(['/editor', {outlets: {'view': 'sphere'}}]);
       }
     }
-    this.changeEmitter.emit({value: $event.value});
   }
 
 }

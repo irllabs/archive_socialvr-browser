@@ -110,14 +110,14 @@ export class EditSpaceSphere {
       this.video3D = new Video3D();
       this.video3D.init(room.getBackgroundVideo())
         .then(texture => {
-          this.sphereMesh.material = new THREE.MeshBasicMaterial({map: texture, side: THREE.FrontSide});
+          this.sphereMesh.material = new THREE.MeshLambertMaterial({map: texture, side: THREE.FrontSide});
           this.onResize(null);
         })
         .catch(error => console.log('EditSpaceSphere.initVideo', error));
     }
     else {
       const sphereTexture = this.assetInteractor.getTextureById(roomId);
-      this.sphereMesh.material = new THREE.MeshBasicMaterial({map: sphereTexture, side: THREE.FrontSide});
+      this.sphereMesh.material = new THREE.MeshLambertMaterial({map: sphereTexture, side: THREE.FrontSide});
       this.onResize(null);
     }
 

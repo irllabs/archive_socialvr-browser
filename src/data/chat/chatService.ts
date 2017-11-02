@@ -14,50 +14,23 @@ export class ChatService {
     private authenticationService: AuthenticationService // remove
   ) {}
 
-  // TODO: remove
-  createRoom(roomName: string, userName: string, userId: string): Observable<any> {
-    const room = {
-      name: roomName,
-      creatorId: userId,
-      users: {
-        id: {
-          name: userName
-        }
-      },
-      project: {
-        userId: '', // TODO
-        projectId: '', // TODO
-      }
-    };
-    const chatRoomKey = firebase.database().ref().child('/chatrooms/').push().key;
-    const updateDB = firebase.database().ref(`/chatrooms/${chatRoomKey}`).update(room)
-    return Observable.fromPromise(updateDB);
-  }
-
-  // TODO: remove
-  getRooms(): Observable<any> {
-    const observable = Observable.create(observer => {
-      firebase.database().ref('/chatrooms/')
-        .on('value', snapshot => {
-          observer.next(snapshot.val());
-        });
-    });
-    return observable;
-  }
-
-  // return a promise with the room address
   joinRoom(chatRoomId: string, userId: string, userName: string): Observable<any> {
     const roomAddress = `/chatrooms/${chatRoomId}/`;
     const userAddress = `${roomAddress}${userId}`;
-    const userData = {
-      name: userName
-    };
-    const updateDB = firebase.database().ref(userAddress).update(userData);
+    const userData = { userName, userId, };
+    const userReference = firebase.database().ref(userAddress);
+    const updateDB = userReference.update(userData);
+    userReference.onDisconnect().remove(() => {});
     return Observable.fromPromise(updateDB);
   }
 
+  leaveRoom(chatRoomId: string, userId: string) {
+    const roomAddress = `/chatrooms/${chatRoomId}/`;
+    const userAddress = `${roomAddress}${userId}`;
+    firebase.database().ref(userAddress).remove();
+  }
+
   observeRoom(roomAddress: string): Observable<any> {
-    console.log('roomAddress', roomAddress);
     return Observable.create(observer => {
       firebase.database().ref(roomAddress).on('value', snapshot => {
         observer.next(snapshot.val());

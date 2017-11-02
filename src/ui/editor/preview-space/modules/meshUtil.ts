@@ -5,7 +5,7 @@ function clearScene(scene: THREE.Scene) {
         cleanMeshMemory(mesh);
         mesh.material = null;
         mesh.geometry = null;
-        if (mesh.material instanceof THREE.MeshBasicMaterial) {
+        if (mesh.material instanceof THREE.MeshLambertMaterial) {
           if (mesh.material.map instanceof THREE.Texture) {
             mesh.material.map = null; //texture
           }
@@ -20,7 +20,7 @@ function cleanMeshMemory(mesh: THREE.Mesh) {
   if (!mesh) return;
   if (mesh.material) mesh.material.dispose();
   if (mesh.geometry) mesh.geometry.dispose();
-  if (mesh.material && mesh.material instanceof THREE.MeshBasicMaterial) {
+  if (mesh.material && mesh.material instanceof THREE.MeshLambertMaterial) {
     if (mesh.material.map instanceof THREE.Texture) {
       mesh.material.map.dispose();
     }
