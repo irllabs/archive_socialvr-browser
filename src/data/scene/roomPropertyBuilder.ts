@@ -82,6 +82,21 @@ export class PropertyBuilder {
     const image: Image = <Image> this.setBaseProperties(imageJson, new Image());
     const fileName = decodeURIComponent(imageJson.file);
     image.setFileData(fileName, binaryFileData);
+    //TO DO: add logic for caption text
+    /*
+    const text: Text = <Text> this.setBaseProperties(textJson, new Text());
+    text.body = textJson.file;
+    return text;
+    */
+
+    //TO DO: add logic for caption audio
+    /*
+    const audio: Audio = <Audio> this.setBaseProperties(audioJson, new Audio());
+    const fileName = decodeURIComponent(audioJson.file);
+    const volume = audioJson.volume;
+    audio.setFileData(fileName, volume, binaryFileData);
+    return audio;
+    */
     return image;
   }
 

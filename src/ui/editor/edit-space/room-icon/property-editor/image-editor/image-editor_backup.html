@@ -1,71 +1,39 @@
-<div class="modal-window__fields">
+<div>
   <!-- Image stuff-->
   <div
     droppable
-    (onFileLoad)="onImageFileLoad($event)"
+    (onFileLoad)="onFileLoad($event)"
     [acceptedFileType]="'image'"
-    class="image-editor__image-fields">
-
-    <p class="hotspot-inspector__label">
-      Image:
-    </p>
+    class="modal-window__fields">
 
     <file-loader
-      (onFileLoad)="onImageFileLoad($event)"
+      (onFileLoad)="onFileLoad($event)"
       [acceptedFileType]="'image'"
-      [displayText]="'Add/Drag Image...'"
       class="image-editor__file-loader">
     </file-loader>
 
     <img
       [attr.src]="imageProperty.getBinaryFileData()"
       class="image-editor__image-display">
+    </img>
+
+
   </div>
-
-
-  <!-- Divider -->
-  <div class="horiz-line"></div>
-
-  <!-- Text Stuff -->
-  <div class="image-editor__text-fields">
-    <p class="hotspot-inspector__label">
-      Caption Text:
-    </p>
-    <!--
-    <textarea
-      name="textarea"
-      class="image-editor__text-editor-text-area"
-      [(ngModel)]="textProperty.body">
-     -->
-     <textarea
-       name="textarea"
-       class="image-editor__text-editor-text-area">
-    </textarea>
-  </div>
-
-  <!-- Audio Stuff -->
-
+  <!-- Audio stuff-->
   <div
     droppable
-    (onFileLoad)="onAudioFileLoad($event)"
+    (onFileLoad)="onFileLoad($event)"
     [acceptedFileType]="'audio'"
-    class="image-editor__audio-fields">
-
-    <p class="hotspot-inspector__label">
-      Caption Audio:
-    </p>
-
+    class="modal-window__fields">
     <audio-recorder
       *ngIf="showAudioRecorder()"
       (onRecorded)="onAudioRecorded($event)"
       class="audio-editor__record-button">
     </audio-recorder>
 
-
     <file-loader
       (onFileLoad)="onFileLoad($event)"
       [acceptedFileType]="'audio'"
-      [displayText]="'Add/Drag Audio...'"
       class="audio-editor__file-loader">
     </file-loader>
 
@@ -78,8 +46,19 @@
       (volumechange)="onVolumeChange($event)"
       class="audio-editor__audio-player">
     </audio>
-
   </div>
 
+  <!-- Text stuff-->
 
+  <div class="text-editor">
+    <p class="hotspot-inspector__label">
+      Enter Text:
+    </p>
+    <textarea
+      name="textarea"
+      class="text-editor__text-area"
+      [(ngModel)]="textProperty.body">
+    </textarea>
+
+  </div>
 </div>

@@ -29,8 +29,7 @@ class HotspotEntity {
   id: string; //THREE.js mesh id
   hotpostProperty: RoomProperty; //unique id for hotspot from YAML story file
   graphicIcon: THREE.Mesh; // this is a png of the door, sound, text etc
-  //previewIcon: THREE.Line; // dash circle
-  previewIcon: THREE.Group;
+  previewIcon: THREE.Line; // dash circle
   rotation: THREE.Vector3;
   label: THREE.Mesh;
   yamlId: string;
@@ -156,10 +155,9 @@ class HotspotEntity {
       }
 
       //trying to make door dashedlines rotate but not working
-      // if (this.type != 'door') {
-      //   this.previewIcon.rotation.x = Math.PI * Math.sin(performance.now()*THREE_CONST.HOTSPOT_ROT_FREQ);
+      // if (this.type == 'door') {
       //   this.previewIcon.rotateOnAxis(this.previewIcon.position,
-      //    Math.PI * Math.sin(performance.now()*THREE_CONST.HOTSPOT_ROT_FREQ));
+      //     Math.PI * Math.sin(performance.now()*THREE_CONST.HOTSPOT_ROT_FREQ));
       // }
     }
   }
@@ -412,14 +410,16 @@ export class HotspotManager {
       scene.add(squareMesh);
       var meshRotation = squareMesh.position;
 
+
+
       //create preview icon for hotspot, i.e. dash circle
       const dashCircle: THREE.Line = this.dashCircleLine.clone();
-      var dashCircleGroup = new THREE.Group();
-      dashCircleGroup.add(dashCircle);
-      dashCircleGroup.position.set(position.x, position.y, position.z);
-      dashCircleGroup.lookAt(camera.position);
-      dashCircleGroup.visible = true;
-      scene.add( dashCircleGroup );
+      dashCircle.position.set(position.x, position.y, position.z);
+      //move the geometry's center?
+      //dashCircle.geometry.applyMatrix(new THREE.Matrix4().makeTranslation( -position.x, -position.y, -position.z ) );
+      dashCircle.lookAt(camera.position);
+      dashCircle.visible = true;
+      scene.add( dashCircle );
 
       //create label for each hotpost, i.e. the name of the hotspotEntity
       const fontProperties = {
@@ -444,7 +444,7 @@ export class HotspotManager {
       scene.add(labelMesh);
 
       //add to hotspotEntity map
-      const thisHotspot = new HotspotEntity(squareMesh.uuid,roomProperty,squareMesh,dashCircleGroup, this.audioPlayService, onRoomChange, labelMesh, meshRotation);
+      const thisHotspot = new HotspotEntity(squareMesh.uuid,roomProperty,squareMesh,dashCircle, this.audioPlayService, onRoomChange, labelMesh, meshRotation);
       this.hotspotMap.set(squareMesh.uuid, thisHotspot);
 
       if (propertyType === 'image') {

@@ -1,4 +1,5 @@
-const fontSize = 26;
+import {THREE_CONST} from 'ui/common/constants';
+const fontSize = THREE_CONST.TEXTPLANE_FONTSIZE;
 
 class TextLine {
   x: number;
@@ -34,20 +35,20 @@ function printWrappedText(context, text, x, y, maxWidth, lineHeight): TextLine[]
 }
 
 export function buildMaterialFromText(textContext: string) {
-  const width = 600;
+  const width = THREE_CONST.TEXTPLANE_WIDTH;
   const drawCanvas = document.createElement('canvas')
   const g2d = drawCanvas.getContext('2d');
   const resizedCanvas = document.createElement('canvas');
   const resizedG2d = resizedCanvas.getContext('2d');
 
   drawCanvas.width = width;
-  drawCanvas.height = 800;
+  drawCanvas.height = THREE_CONST.TEXTPLANE_HEIGHT;
   g2d.font = `${fontSize}pt Nunito`;
   g2d.fillStyle = 'rgba(0, 0, 0, 0.7)';
   g2d.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
   g2d.fillStyle = 'white';
 
-  const textLines = printWrappedText(g2d, textContext, 10, fontSize + 10, 600, fontSize + 8);
+  const textLines = printWrappedText(g2d, textContext, 10, fontSize + 10, width, fontSize + 8);
   const height = textLines[textLines.length - 1].y + fontSize;
 
   // Print text onto canvas
