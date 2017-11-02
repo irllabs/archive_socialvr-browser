@@ -1,0 +1,38 @@
+@import '../../../../_styles/variables';
+
+
+.user-view__project-list-header {
+  font-weight: bold;
+  color: $color-grey-dark;
+}
+
+.user-view__project-list {
+  color: $color-grey-dark;
+  overflow-y: scroll;
+  height: 300px;
+  font-size: $tiny-font-size;
+}
+
+.user-view__project {
+  color: $color-grey-dark;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 6px 0;
+  border-bottom: 1px solid $color-grey-dark;
+}
+
+.user-view__project--selected {
+  background-color: $color-action;
+  color: $color-white;
+}
+
+.user-view__project-open {
+  cursor: pointer;
+}
+
+.user-view__sign_out {
+  margin-top: 10px;
+}

@@ -1,0 +1,55 @@
+<div
+  class="story-scroll"
+  [ngClass]="{'stroy-scroll--open': isOpen}">
+
+  <room-editor
+    *ngIf="inspectorIsVisible"
+    off-click
+    (onOffClick)="onOffClick($event)"
+    class="story-scroll__room-editor">
+  </room-editor>
+
+  <div *ngIf="!inspectorIsVisible">
+    <div
+      (click)="toggleOpen($event)"
+      class="story-scroll__toggle-button">
+      <span
+        class="story-scroll__toggle-arrow story-scroll__toggle-arrow-left"
+        [ngClass]="{'story-scroll__toggle-arrow-left--open': isOpen}">
+      </span>
+      <span
+      class="story-scroll__toggle-arrow story-scroll__toggle-arrow-right"
+      [ngClass]="{'story-scroll__toggle-arrow-right--open': isOpen}">
+      </span>
+    </div>
+  </div>
+
+
+  <div
+    droppable
+    [acceptedFileType]="'image'"
+    [acceptMultpleFiles]="true"
+    (onFileLoad)="addSlideshow($event)"
+    class="story-scroll__scroll">
+
+      <div class="story-scroll__room-group">
+        <div
+          *ngFor="let roomId of getRoomIdList()"
+          class="story-scroll__room">
+
+          <!-- Room Label -->
+          <storymap-item
+            [roomProperty]="getRoomById(roomId)"
+            [isActive]="roomIsSelected(roomId)"
+            (click)="onRoomSelect(roomId)"
+            (infoEvent)="onInfoClick($event)"
+            class="story-scroll__storymap-item">
+          </storymap-item>
+        </div>
+      </div>
+
+      <add-room></add-room>
+
+  </div>
+
+</div>

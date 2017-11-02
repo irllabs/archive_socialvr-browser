@@ -1,0 +1,65 @@
+@import '../../../../_styles/variables';
+
+.action-menu__list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: -40px;
+
+  width: 0;
+  transition: width 0.15s ease-out, margin-left 0.15s ease-out;
+  overflow: hidden;
+}
+
+.action-menu__list--open {
+  width: calc(30px + #{$room-icon-size});
+  margin-left: 0px;
+}
+
+.action-menu__list-item {
+  cursor: pointer;
+  height: 65px;
+
+  &:hover {
+    font-size: 1.05em;
+  }
+}
+
+.action-menu__list-icon {
+  height: $room-icon-size;
+  width: $room-icon-size;
+  display: block;
+  margin: 0 auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100%;
+  background-color: transparent;
+  opacity: 0.8;
+  filter: $icon-drop-shadow;
+}
+
+.action-menu__list-label {
+  text-shadow: $text-shadow;
+  transition: font-size .15s ease-out;
+  text-align: center;
+  font-size: $tiny-font-size;
+}
+
+.list-icon__text {
+  background-image: $icon-hotspot-text;
+}
+.list-icon__audio {
+  background-image: $icon-hotspot-audio;
+}
+.list-icon__image {
+  background-image: $icon-hotspot-image;
+}
+.list-icon__door {
+  background-image: $icon-hotspot-door;
+}
+.list-icon__room {
+  background-image: $icon-hotspot-room;
+}
+.list-icon__link {
+  background-image: $icon-hotspot-link;
+}

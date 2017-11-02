@@ -1,0 +1,19 @@
+.edit-space {
+  width: 100%;
+  height: 100%;
+}
+
+.edit-space-background {
+  width: 100%;
+  height: 100%;
+
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.edit-space-background--video {
+  object-fit: inherit;
+}

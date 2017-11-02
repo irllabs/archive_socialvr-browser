@@ -1,0 +1,9 @@
+@import '../../_styles/variables';
+
+.chat {
+  height: auto;
+  min-height: 100%;
+  background-color: $color-grey-light;
+  color: $color-grey-dark;
+  padding: 15px;
+}

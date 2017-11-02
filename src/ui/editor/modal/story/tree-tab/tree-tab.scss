@@ -1,0 +1,36 @@
+@import '../../../../_styles/variables';
+
+.tree-view {
+  background-color: $topbar-dropdown-background-color;
+  background: rgba(0,0,0,0);
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.tree-view__room-container {
+  display: block;
+  overflow-y: auto;
+}
+
+.tree-view__row-item {
+  color: $color-grey-dark;
+  font-size: $tiny-font-size;
+  &:hover {
+    color: $color-black;
+  }
+}
+
+.tree-view__room {
+  margin-left: 0px;
+}
+
+.tree-view__room-property-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.1s;
+  margin-left: 10px;
+}
+
+.tree-view__room-property-container--expanded {
+  max-height: 500px;
+}

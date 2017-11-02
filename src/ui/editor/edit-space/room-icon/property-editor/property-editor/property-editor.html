@@ -1,0 +1,40 @@
+<div class="modal-window property-editor">
+
+  <div class="modal-window__fields">
+
+    <text-editor
+      *ngIf="propertyIs('text')"
+      [textProperty]="roomProperty">
+    </text-editor>
+
+    <image-editor
+      *ngIf="propertyIs('image')"
+      [imageProperty]="roomProperty">
+    </image-editor>
+
+    <door-editor
+      *ngIf="propertyIs('door')"
+      [doorProperty]="roomProperty">
+    </door-editor>
+
+    <audio-editor
+      *ngIf="propertyIs('audio')"
+      [audioProperty]="roomProperty">
+    </audio-editor>
+
+    <link-editor
+      *ngIf="propertyIs('link')"
+      [linkProperty]="roomProperty">
+    </link-editor>
+
+
+
+  </div>
+  <div
+    class="property-editor__delete-button"
+    (click)="deleteProperty()">
+    Delete {{ getPropertyName() }}
+  </div>
+
+
+</div>

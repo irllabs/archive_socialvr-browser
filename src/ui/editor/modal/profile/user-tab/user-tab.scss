@@ -1,0 +1,43 @@
+@import '../../../../_styles/variables';
+
+// TODO: mixin or variable
+.profile {
+	width: 95%;
+	height: 95%;
+	position: fixed;
+  top: 50%;
+  left: 50%;
+  border-radius: $window-border-radius;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+	background-color: rgba(255, 255, 255, $color-modal-transparecy);
+}
+
+.user-view {
+  margin: $topbar-dropdown-margin;
+  padding: $topbar-dropdown-padding;
+  width: $topbar-dropdown-width;
+}
+
+.user-view__description {
+  margin-bottom: 10px;
+}
+
+.user-view__description-margin-top {
+  border-top: 1px solid $color-grey-light;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
+.sign-in-button {
+  margin-top: 10px;
+}
+
+.user-view__input {
+  font-size: 1.1em;
+  min-width: 0px;
+  max-width: 63%;
+  //margin-left: 10px;
+  flex-grow: 1;
+  color: $color-grey-dark;
+}

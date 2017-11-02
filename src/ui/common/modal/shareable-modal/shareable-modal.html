@@ -1,0 +1,54 @@
+<div class="modal__content">
+
+  <div class="modal__content-header">
+    Shareable settings
+  </div>
+
+  <div class="modal__content-body">
+
+    <div class="public-option-row public-option__text-block">
+      <span class="public-option-row__label">Make public</span>
+      <checkbox
+        [initialValue]="projectIsPublic()"
+        (changeEmitter)="onCheckboxChange($event)">
+      </checkbox>
+    </div>
+
+    <div *ngIf="projectIsPublic()">
+      <p class="public-option__text-block">Your project titled "{{projectName}}" is public.</p>
+      <p>Here is your public project link. Click to copy the URL.</p>
+      <p
+        class="public-option__copy-notification"
+        [ngClass]="{'public-option__copy-notification--active': notificationIsVisible}">
+        Link copied to clipboard!
+      </p>
+      <p
+        class="public-option__link"
+        [attr.title]="publicLink"
+        (click)="onPublicLinkClick($event)">
+        {{ publicLink }}
+      </p>
+      <div class="public-option__text-block">
+        <p>This means:</p>
+        <ul class="public-option__explanation-list">
+          <li>Other people can look at this project using the link below.</li>
+          <li>Social VR users can find this project using the search tool.</li>
+          <li>Nobody else can modify this project.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div *ngIf="!projectIsPublic()">
+      <p class="public-option__text-block">Your project titled "{{projectName}}" is not public.</p>
+      <p class="public-option__text-block">Only you can access this project.</p>
+    </div>
+
+    <p
+      (click)="closeModal($event)"
+      class="modal__content-body-close">
+      Close
+    </p>
+
+  </div>
+
+</div>

@@ -1,0 +1,35 @@
+@import '../../../../_styles/variables';
+
+.room-editor {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: $sidebar-width;
+  padding: 5px;
+  background-color: $property-editor-background-color;
+  border-radius: $window-border-radius;
+  //opacity: $opacity-for-overlay;
+  background: rgba($color-grey-light-R, $color-grey-light-G, $color-grey-light-B, $opacity-for-overlay);
+  backdrop-filter: blur($backdrop-filter-blur);
+}
+
+.room-editor__audio-player {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.room-editor__audio-file-loader {
+  width: 220px;
+}
+
+.room-editor__audio-record-button {
+  margin-top: 18px;
+}
+
+.room-editor__delete-button {
+  background-color: $delete-button-background-color;
+  color: $color-white;
+  text-align: center;
+  padding: 10px 0;
+  cursor: pointer;
+}

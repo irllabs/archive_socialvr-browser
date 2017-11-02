@@ -1,0 +1,18 @@
+<div class="explore">
+
+  <div
+    *ngIf="!hasPermission()"
+    class="explore__no-permissions">
+    You don't have permission to view this page. Only authenticated users can explore.
+  </div>
+
+  <div *ngIf="hasPermission()">
+
+    <search-explore class="explore__search-explore"></search-explore>
+    <user-groups class="explore__user-groups"></user-groups>
+
+  </div>
+
+  <modal></modal>
+
+</div>

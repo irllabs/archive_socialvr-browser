@@ -1,0 +1,39 @@
+@import '../../../../_styles/variables';
+
+$diameter: $room-icon-size;
+$bar-width: $room-icon-size - 8;
+$bar-height: 4px;
+$bar-border-radius: $bar-height / 2;
+$center-position: $diameter / 2 - $bar-height / 2;
+$bar-margin: ($diameter - $bar-width) / 2;
+
+.add-room {
+	width: $diameter;
+	height: $diameter;
+  border-radius: 50%;
+  background-color: white;
+  position: relative;
+  cursor: pointer;
+	margin-left: 5px;
+	transform: translate(0%, 20px)
+}
+
+.add-room__bar {
+  display: block;
+  position: absolute;
+  height: $bar-height;
+  width: $bar-width;
+  border-radius: $bar-border-radius;
+  background-color: $color-action;
+  left: $bar-margin;
+  top: $center-position;
+  transition: .15s ease-in-out;
+}
+
+.add-room :nth-child(1) {
+  transform: rotate(0deg);
+}
+
+.add-room :nth-child(2) {
+  transform: rotate(90deg);
+}

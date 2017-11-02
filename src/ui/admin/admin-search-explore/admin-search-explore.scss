@@ -1,0 +1,30 @@
+@import '../../_styles/variables';
+
+.search-input-box {
+  flex-grow: 2
+}
+
+.search-button {
+  max-width: 70px;
+}
+
+.search-results {
+  max-height: 200px;
+  overflow-y: scroll;
+  margin: 5px 0 15px 0;
+  background-color: $color-grey-light;
+}
+
+.search-row {
+  padding: 5px 0;
+  border-bottom: 1px solid $color-black;
+  cursor: pointer;
+}
+
+.search-text-row {
+  margin: 4px 0;
+}
+
+.search-image-empty {
+  border: 1px solid $color-black;
+}

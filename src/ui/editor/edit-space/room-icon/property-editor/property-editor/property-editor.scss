@@ -1,0 +1,82 @@
+@import '../../../../../_styles/variables';
+
+.property-editor {
+  z-index: $z-index-5;
+}
+
+.property-editor__old {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: $property-editor-height;
+  width: $sidebar-width;
+  position: absolute;
+  left: -$sidebar-width / 2 + 40px;
+  padding: 5px;
+  background-color: $property-editor-background-color;
+  z-index: $z-index-5;
+  border-radius: $window-border-radius;
+  //opacity: $opacity-for-overlay;
+  background: rgba($color-grey-light-R, $color-grey-light-G, $color-grey-light-B, $opacity-for-overlay);
+  backdrop-filter: blur($backdrop-filter-blur);
+
+  @include breakpoint(xs) {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    margin-top: $topbar-height + 10px;
+    z-index: 5;
+  }
+}
+
+.property-editor__row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.property-editor__title {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.property-editor__select {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.property-editor__label {
+  margin-right: 10px;
+  font-size: $tiny-font-size;
+  color: $color-grey-dark;
+}
+
+.property-editor__title-input {
+  flex-grow: 2;
+  font-size: 1.1em;
+}
+
+.property-editor__content-editor {
+  flex: 2;
+}
+
+.property-editor__delete-button {
+  position: absolute;
+  width: 100%;
+  background-color: $delete-button-background-color;
+  color: $color-white;
+  text-align: center;
+  padding: 10px 0;
+  cursor: pointer;
+  bottom: 0px;
+}

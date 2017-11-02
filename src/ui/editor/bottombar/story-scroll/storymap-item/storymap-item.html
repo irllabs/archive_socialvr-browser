@@ -1,0 +1,38 @@
+<div class="storymap-item">
+
+  <div class="storymap-item__roomname">
+    <text-input
+      [textModel]="getName()"
+      [isRoomName]="true"
+      (onTextChange)="onNameChange($event)">
+    </text-input>
+  </div>
+  
+  <div class="story-map-item__buttons">
+    <div
+      class="storymap-item__button storymap-item__delete"
+      (click)="onDeleteClick($event)">
+    </div>
+
+    <div
+      class="storymap-item__button storymap-item__info"
+      (click)="onInfoClick($event)">
+    </div>
+
+    <div
+      (click)="setAsHomeRoom()"
+      class="storymap-item__button storymap-item__home-icon"
+      [ngClass]="{'storymap-item__home-icon--active': isHomeRoom()}">
+    </div>
+
+  </div>
+
+  <div class='storymap-item__thumbnailbox'>
+    <img
+      [attr.src]="getBackgroundThumbnail()"
+      class="storymap-item__thumbnail"
+      [ngClass]="{'storymap-item__thumbnail--active': isActive}">
+  </div>
+
+
+</div>

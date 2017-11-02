@@ -1,0 +1,36 @@
+@import '../../../_styles/variables';
+
+.circle-beacon:before,
+.circle-beacon:after {
+  width: 40px;
+  height: 40px;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  border: 2px solid $color-action;
+}
+
+.circle-beacon:before {
+  animation: ripple 1.5s linear infinite;
+}
+.circle-beacon:after {
+  animation: ripple 1.5s linear 1s infinite;
+}
+
+
+@keyframes ripple{
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  10% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+}

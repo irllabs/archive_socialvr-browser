@@ -1,0 +1,22 @@
+<div
+  off-click
+  (onOffClick)="onOffClick($event)"
+  class="hotspot-menu">
+
+
+  <fab
+    class="hotspot-menu__fab"
+    (click)="onFabClick($event)"
+    [isOpen]="isOpen"
+    [ngClass]="{'hotspot-menu__fab-open': isOpen}">
+  </fab>
+
+  <action-menu
+    class="hotspot-menu__action-menu"
+    [isOpen]="isOpen"
+    class="topbar__position-absolute">
+  </action-menu>
+
+
+
+</div>

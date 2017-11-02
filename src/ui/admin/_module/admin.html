@@ -1,0 +1,18 @@
+<div class="admin">
+
+  <div
+    *ngIf="!hasPermission()"
+    class="admin__no-permissions">
+    Only authenticated admin users can view this page.
+  </div>
+
+  <div *ngIf="hasPermission()">
+
+    <admin-search-explore (onAddProject)="onAddProject($event)"></admin-search-explore>
+    <admin-user-groups #adminUserGroups></admin-user-groups>
+
+  </div>
+
+  <modal></modal>
+
+</div>

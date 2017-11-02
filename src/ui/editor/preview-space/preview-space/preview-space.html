@@ -1,0 +1,15 @@
+<div class="preview-space">
+
+  <canvas
+    #globeCanvas
+    (mousedown)="onMouseDown($event)">
+  </canvas>
+
+  <div
+    *ngIf="showVrModeButton"
+    class="preview-space__vr-mode-button"
+    (click)="requestVrMode($event)">
+    VR Mode
+  </div>
+
+</div>

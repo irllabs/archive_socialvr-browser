@@ -1,0 +1,86 @@
+<div class="unauth-user-tab__fields">
+  <div *ngIf="!isCreatingAccount">
+    <text-input-material
+      [inputLabel]="'Username'"
+      [textModel]="getViewModelProperty('username')"
+      (onTextChange)="setViewModelProperty($event, 'username')">
+    </text-input-material>
+
+    <text-input-material
+      [inputType]="'password'"
+      [inputLabel]="'Password'"
+      [textModel]="getViewModelProperty('password')"
+      (onTextChange)="setViewModelProperty($event, 'password')">
+    </text-input-material>
+
+    <div
+      (click)="logIn($event)"
+      class="button sign-in-button">
+      Sign In
+    </div>
+
+    <div
+        class="button"
+        title="Click to create new story, SHIFT-click to upload zip file"
+       (click)="onOpenClick($event)">
+      Open
+    </div>
+
+  </div>
+
+  <div *ngIf="isCreatingAccount">
+
+    <!-- create username -->
+    <text-input-material
+      [inputLabel]="'Username'"
+      [textModel]="getViewModelProperty('createUsername')"
+      (onTextChange)="setViewModelProperty($event, 'createUsername')">
+    </text-input-material>
+
+    <!-- create password -->
+    <text-input-material
+      [inputLabel]="'Password'"
+      [textModel]="getViewModelProperty('createPassword')"
+      (onTextChange)="setViewModelProperty($event, 'createPassword')">
+    </text-input-material>
+
+    <!-- create firstname -->
+    <text-input-material
+      [inputLabel]="'First name'"
+      [textModel]="getViewModelProperty('createFirstname')"
+      (onTextChange)="setViewModelProperty($event, 'createFirstname')">
+    </text-input-material>
+
+    <!-- create firstname -->
+    <text-input-material
+      [inputLabel]="'Last name'"
+      [textModel]="getViewModelProperty('createLastname')"
+      (onTextChange)="setViewModelProperty($event, 'createLastname')">
+    </text-input-material>
+
+    <!-- create email -->
+    <text-input-material
+      [inputLabel]="'Email'"
+      [textModel]="getViewModelProperty('createEmail')"
+      (onTextChange)="setViewModelProperty($event, 'createEmail')">
+    </text-input-material>
+
+
+  </div>
+  <!-- create account button -->
+  <div
+    *ngIf="createUserIsUnlocked"
+    (click)="createAccount($event)"
+    class="button user-view__button">
+    Create account
+  </div>
+
+
+  <!-- reset button -->
+  <div
+    *ngIf="isCreatingAccount"
+    (click)="resetFields($event)"
+    class="button user-view__button">
+    Cancel
+  </div>
+</div>

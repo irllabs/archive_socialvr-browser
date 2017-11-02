@@ -1,0 +1,18 @@
+@import '../../../_styles/variables';
+@import '../../../_module/ui';
+
+.toggler {
+  margin-right: 10px;
+}
+
+.toggler__label {
+  text-shadow: $text-shadow;
+  margin-bottom: 6px;
+}
+
+.toggler__switches {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

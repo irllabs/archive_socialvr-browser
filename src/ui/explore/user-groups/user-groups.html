@@ -1,0 +1,32 @@
+<div
+  div *ngIf="getUserGroups()"
+  class="user-groups">
+
+  <div *ngFor="let userGroup of getUserGroups()">
+    <p class="story-collection__header"> {{ userGroup.name }} </p>
+    <div class="story-collection">
+      <div
+        *ngFor="let project of getProjectsByGroup(userGroup.id)"
+        class="story-collection__project">
+        <p>
+          <span class="text-bold">Project: </span>
+          <span>{{ project.name }}</span>
+        </p>
+        <p>
+          <span class="text-bold">User: </span>
+          <span>{{ project.user }}</span>
+        </p>
+        <p>
+          <span class="text-bold">Tags: </span>
+          <span>{{ project.tags }}</span>
+        </p>
+        <img
+          *ngIf="project.thumbnailUrl"
+          [attr.src]="project.thumbnailUrl"
+          (click)="openProject(project)"
+          class="story-collection__thumbnail" />
+      </div>
+    </div>
+  </div>
+
+</div>

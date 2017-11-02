@@ -1,0 +1,38 @@
+@import '../../../../../_styles/variables';
+@import '../../../../../_module/ui';
+@import '../property-editor/property-editor';
+
+
+.door-editor__select{
+  //width: 218px;
+  margin-bottom: 10px;
+}
+
+.door-editor__go-button{
+  //width: 55px;
+  margin-top: 10px;
+}
+
+.door-editor__transport {
+  margin-top: 35px;
+  margin-top: 10px;
+}
+
+
+.auto-go {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.auto-go__input-box {
+  flex-grow: 1;
+  margin-left: 15px;
+  opacity: 0;
+}
+
+.auto-go__input-box--visible {
+  opacity: 1;
+}

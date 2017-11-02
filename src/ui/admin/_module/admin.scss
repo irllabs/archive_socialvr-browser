@@ -1,0 +1,14 @@
+@import '../../_styles/variables';
+
+.admin {
+  height: auto;
+  min-height: 100%;
+  background-color: $color-grey-light;
+  color: $color-grey-dark;
+  padding: 15px;
+}
+
+.admin__no-permissions {
+  margin-top: 20px;
+  text-align: center;
+}

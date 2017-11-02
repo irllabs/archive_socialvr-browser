@@ -1,0 +1,66 @@
+<div class="editor">
+
+  <!-- Router outlet for edit-space-flat, edit-space-sphere, and preview-space components -->
+  <router-outlet name="view"></router-outlet>
+
+  <topbar
+    *ngIf="!isPreview()"
+    class="editor__topbar">
+  </topbar>
+
+  <div
+    class="editor__editPlayToggle">
+    <p
+      *ngIf="showPreviewCheckbox()"
+      class='topbar__row-label'>Preview</p>
+    <checkbox
+      *ngIf="showPreviewCheckbox()"
+      [initialValue]="isPreview()"
+      (changeEmitter)="onEditPlayChange($event)"
+      class="editor__editPlayToggleButton">
+    </checkbox>
+    <div
+      *ngIf="roomEditorIsVisible()"
+      class ="editor__2d3d">
+      <div
+      (click)="on2dViewClick($event)"
+      [ngClass]="{'editor__2d3d--active': editorIsFlat()}"
+      class='topbar__row-label editor__2d3d'>2D</div>
+      <div
+      (click)="on3dViewClick($event)"
+      [ngClass]="{'editor__2d3d--active': editorIsSphere()}"
+      class='topbar__row-label editor__2d3d'>3D</div>
+    </div>
+  </div>
+
+  <hotspot-menu
+    *ngIf="hotspotMenuIsVisible()"
+    (onMenuChange)="onHotspotMenuChange($event)"
+    class="editor__hotspot-menu">
+  </hotspot-menu>
+
+  <!--
+  <edit-space-toggle
+    *ngIf="viewToggleIsVisible()"
+    class="editor__toggle">
+  </edit-space-toggle>
+-->
+
+  <!-- Story Map -->
+  <story-scroll
+      *ngIf="roomEditorIsVisible()"
+      class="editor__story-scroll">
+  </story-scroll>
+
+  <!-- Fullscreen -->
+  <fullscreen
+      *ngIf="roomEditorIsVisible()"
+      class="editor__fullscreen">
+  </fullscreen>
+
+  <modal></modal>
+  <hidden-file-loader></hidden-file-loader>
+
+</div>
+
+<router-outlet name="modal"></router-outlet>

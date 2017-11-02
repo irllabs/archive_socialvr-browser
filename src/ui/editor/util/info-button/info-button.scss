@@ -1,0 +1,33 @@
+@import '../../../_styles/variables';
+
+$diameter: 18px;
+$bar-width: $diameter - 4px;
+$bar-height: 2px;
+$bar-border-radius: $bar-height / 2;
+$center-position: $diameter / 2 - $bar-height / 2;
+$bar-margin: ($diameter - $bar-width) / 2;
+
+.info-button {
+  width: $diameter;
+	height: $diameter;
+  border-radius: 50%;
+  background-color: $color-grey-dark;
+  position: relative;
+  border: 2px solid $color-white;
+}
+
+.info-button :nth-child(1) {
+  transform: rotate(90deg);
+}
+
+
+.info-button__bar {
+  display: block;
+  position: absolute;
+  height: $bar-height;
+  width: $bar-width;
+  border-radius: $bar-border-radius;
+  background-color: $color-white;
+  left: $bar-margin;
+  top: $center-position;
+}

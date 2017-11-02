@@ -1,0 +1,103 @@
+@import '../../_styles/variables';
+
+@mixin hide-number-arrows {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.text-input-material {
+  height: 40px;
+  position: relative;
+  margin: 0px 10px 0px 0px;
+}
+
+.input {
+  font-size: 1em;
+  display: block;
+  width: 100%;
+  border: none;
+  background: none;
+  border-bottom: 1px solid $color-grey-dark;
+  position: absolute;
+  bottom: 0;
+  color: $color-grey-dark;
+  outline: none;
+  box-shadow: none;
+  @include hide-number-arrows;
+  &:focus {
+    outline: none;
+  }
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  @include hide-number-arrows;
+}
+
+.label {
+  color: $color-grey-dark;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  top: 10px;
+  transition: 0.2s ease all;
+}
+
+/* active state */
+.input:focus ~ .label, .input:valid ~ .label {
+  top: 0px;
+  font-size: $tiny-font-size;
+}
+
+.bar 	{
+  position: absolute;
+  bottom: 0;
+  display: block;
+  width: 100%;
+}
+.bar:before, .bar:after 	{
+  content: '';
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: $color-grey-dark;
+  transition:0.2s ease all;
+}
+.bar:before {
+  left:50%;
+}
+.bar:after {
+  right:50%;
+}
+
+/* active state */
+.input:focus ~ .bar:before, .input:focus ~ .bar:after {
+  width:50%;
+}
+
+
+.highlight {
+  position: absolute;
+  height: 60%;
+  width: 100px;
+  top: 25%;
+  left: 0;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* active state */
+.input:focus ~ .highlight {
+  animation: inputHighlighter 0.3s ease;
+}
+
+@keyframes inputHighlighter {
+	from {
+    background:#5264AE;
+  }
+  to 	{
+    width:0;
+    background:transparent;
+  }
+}

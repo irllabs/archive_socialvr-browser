@@ -1,0 +1,42 @@
+<div
+  class="row-item"
+  [ngClass]="{
+    'row-item__room-property': !propertyIsRoom,
+    'row-item__room--active': isActive && propertyIsRoom,
+    'row-item__room-property--active': isActive && !propertyIsRoom
+  }">
+
+  <div
+    *ngIf="propertyIsRoom"
+    class="row-item__caret"
+    [ngClass]="{'row-item__caret--selected': caretIsExpanded}">
+  </div>
+
+  <img
+    *ngIf="propertyIsRoom"
+    [attr.src]="getBackgroundThumbnail()"
+    class="row-item__thumbnail">
+
+  <text-input
+    class="row-item__text-input"
+    [isRowItem]="true"
+    [isActive]="isActive"
+    [textModel]="getLabelText()"
+    (onTextChange)="onLabelChange($event)">
+  </text-input>
+
+  <span class="row-item__spacer"></span>
+
+  <span
+    *ngIf="propertyIsRoom"
+    (click)="setAsHomeRoom()"
+    class="row-item__home-icon"
+    [ngClass]="{'row-item__home-icon--active': isHomeRoom()}">
+  </span>
+
+  <close-button
+    class="row-item__delete"
+    (onButtonClick)="onDeleteClick($event)">
+  </close-button>
+
+</div>

@@ -1,0 +1,45 @@
+<div
+  #iconElement
+  id="icon-element"
+  class="icon"
+  hotspot-icon
+  off-click
+  (onMove)="onMove($event)"
+  (onMoveEnd)="onMoveEnd($event)"
+  (onOffClick)="onOffClick($event)">
+
+  <img
+    id="draggableIcon"
+    class="icon__image"
+    [attr.src]="iconPath"
+    [ngClass]="{
+      'icon__image--small': hotspotIconSize === 'SMALL',
+      'icon__image--medium': hotspotIconSize === 'MEDIUM'
+    }">
+
+  <text-input
+    [textModel]="getName()"
+    [isHotspot]="true"
+    (onTextChange)="onNameChange($event)">
+  </text-input>
+
+  <div
+    (click)="onDeleteClick($event)"
+    class="icon__delete">
+  </div>
+
+
+  <property-editor
+    *ngIf="propertyEditorIsVisible"
+    [roomProperty]="roomProperty"
+    (onDeselect)="onDeselect($event)"
+    class="icon__property-editor"
+    [ngClass]="{
+      'icon__property-editor--right-shift': inspectorShift.right,
+      'icon__property-editor--left-shift': inspectorShift.left,
+      'icon__property-editor--up-shift': inspectorShift.up
+    }">
+  </property-editor>
+
+
+</div>

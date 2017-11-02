@@ -1,0 +1,52 @@
+@import '../../_styles/variables';
+
+$foreground-active: $color-pink-dark;
+$foreground-inactive: $color-grey-light;
+$background-active: $color-pink-light;
+$background-inactive: $color-grey-dark;
+
+$antimation-length: 0.2s;
+$circle-diameter: 26px;
+$background-width: 44px;
+$background-height: 20px;
+
+// Background inactive
+.checkbox__label {
+  position: relative;
+  display: block;
+  height: $background-height;
+  width: $background-width;
+  background-color: $background-inactive;
+  border-radius: $background-height / 2;
+  cursor: pointer;
+  transition: background-color $antimation-length ease;
+}
+
+//Background active
+.checkbox__input:checked ~ label {
+  background-color: $background-active;
+}
+
+// Foreground inactive
+.checkbox__label:after {
+  position: absolute;
+  left: 0;
+  top: -($circle-diameter - $background-height) / 2;
+  display: block;
+  width: $circle-diameter;
+  height: $circle-diameter;
+  border-radius: 50%;
+  background-color: $foreground-inactive;
+  content: '';
+  transition: left $antimation-length ease;
+}
+
+//Forebround active
+.checkbox__input:checked ~ label:after {
+  left: $background-width - $circle-diameter;
+  background-color: $foreground-active;
+}
+
+.checkbox__input--hidden {
+  display: none;
+}

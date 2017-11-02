@@ -1,0 +1,14 @@
+<div class="text-input-material">
+
+  <input
+    [attr.type]="inputType"
+    [ngModel]="textModel"
+    (ngModelChange)="onModelChange($event)"
+    (blur)="onBlur(textModel)"
+    class="input"
+    required>
+  <span class="highlight"></span>
+  <span class="bar"></span>
+  <label class="label">{{inputLabel}}</label>
+
+</div>

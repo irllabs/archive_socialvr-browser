@@ -1,0 +1,37 @@
+<div class="modal__content">
+
+  <div class="modal__content-header">
+    {{ messageData.headerText }}
+  </div>
+
+  <div class="modal__content-body">
+    <p class="modal__content-body-text">
+      {{ messageData.bodyText }}
+    </p>
+
+    <div *ngIf="!messageData.isMessage">
+      <p
+        (click)="closeModal($event)"
+        class="modal__content-body-close">
+        Close
+      </p>
+    </div>
+
+    <div
+      *ngIf="messageData.isMessage"
+      class="modal__content-body-options">
+      <p
+        (click)="closeModal($event)"
+        class="modal__content-body-close">
+        Cancel
+      </p>
+      <p
+        (click)="closeModal($event, true)"
+        class="modal__content-body-close">
+        OK
+      </p>
+    </div>
+
+  </div>
+
+</div>

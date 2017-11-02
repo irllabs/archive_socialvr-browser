@@ -1,0 +1,98 @@
+<div class="modal-window__fields">
+  <div class="dropdown-title">
+      <p>Hello {{getUserName()}}!</p>
+  </div>
+
+  <div
+    *ngIf="!isWorkingOnSavedProject()"
+    class="dropdown-text">
+    <p class="dropdown-text__accent">
+      Your currect project is not saved.
+      To save it, click on 'Story' and then 'Save'.
+    </p>
+    <!-- Divider -->
+    <div class="horiz-line"></div>
+  </div>
+
+  <div
+    *ngIf="!userHasProjects()"
+    class="dropdown-text__bold">
+    <p>No saved projects.</p>
+  </div>
+
+  <div *ngIf="userHasProjects()">
+    <p class="dropdown-text__bold">
+      Projects:
+    </p>
+    <!-- TODO: make scrollable -->
+    <div class="user-view__project-list">
+      <div
+        *ngFor="let project of projectList"
+        class="user-view__project">
+
+        <p
+          class="user-view__project-title"
+          *ngIf="!projectIsSelected(project.id)"
+          (click)="openProject(project.id)"
+          [ngClass]="{'user-view__project-title--selected': projectIsSelected(project.id)}">
+          {{project.name}}
+        </p>
+
+        <p
+          class="user-view__project-title--selected"
+          *ngIf="projectIsSelected(project.id)"
+          [ngClass]="{'user-view__project-title--selected': projectIsSelected(project.id)}">
+          {{project.name}}
+        </p>
+
+        <p class="user-view__project-options">
+          <span
+            (click)="openProject(project.id)"
+            class="user-view__project-option user-view__project-option--margin">
+            Open
+          </span>
+          <span
+            (click)="shareProject(project.id)"
+            class="user-view__project-option user-view__project-option--margin">
+            Share
+          </span>
+          <span
+            (click)="openMultiView(project.id)"
+            class="user-view__project-option user-view__project-option--margin">
+            Multi-View
+          </span>
+          <span
+            (click)="requestDeleteProject(project.id)"
+            class="user-view__project-option user-view__project-option--margin">
+            Delete
+          </span>
+        </p>
+
+      </div>
+    </div>
+  </div>
+  <!-- Logout and Explore buttons -->
+
+
+  <div
+    (click)="onExploreClick($event)"
+    title="Click to explore other Social VR projects"
+    class="button">
+    Explore
+  </div>
+
+  <div
+    class="button"
+    title="Click to add a room to current story"
+    (click)="onLogOutClick($event)">
+    Sign Out
+  </div>
+
+  <div
+    *ngIf="userIsAdmin()"
+    (click)="onAdminClick($event)"
+    title="Click to administer your groups"
+    class="button">
+    Admin
+  </div>
+</div>

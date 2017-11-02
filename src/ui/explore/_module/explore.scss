@@ -1,0 +1,18 @@
+@import '../../_styles/variables';
+
+.explore {
+  height: auto;
+  min-height: 100%;
+  background-color: $color-grey-light;
+  color: $color-grey-dark;
+  padding: 15px;
+}
+
+.explore__no-permissions {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.explore__search-explore {}
+
+.explore__user-groups {}

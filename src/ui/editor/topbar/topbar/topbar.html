@@ -1,0 +1,30 @@
+<div class="topbar topbar__row">
+
+  <!-- Story-->
+<div
+    class="topbar__sub-row topbar__marginleft"
+    title="Your current story...">
+    <p
+      *ngIf="userIsLoggedIn()"
+      [routerLink]="['/editor', {outlets: {'modal': ['story']}}]"
+      class="topbar__row-label">
+      Story
+    </p>
+  </div>
+
+
+
+  <!-- profile -->
+  <div
+    class="topbar__marginright"
+    title="User login">
+
+    <p
+      [routerLink]="['/editor', {outlets: {'modal': ['profile']}}]"
+      class="topbar__row-label">
+      Profile
+    </p>
+
+  </div>
+
+</div>

@@ -1,0 +1,18 @@
+<div class="chat">
+
+  <p>Welcome to the chat manager</p>
+
+  <div (click)="createRoom($event)">
+    CreateRoom
+  </div>
+
+  <p>Rooms</p>
+  <div *ngFor="let room of roomList">
+    <p>Room: <span>{{ room.name }}</span>, <span>{{ room.id }}</span></p>
+  </div>
+
+  <div *ngIf="userIsInRoom()">
+    <p>Room: {{this.activeRoom}}</p>
+  </div>
+
+</div>

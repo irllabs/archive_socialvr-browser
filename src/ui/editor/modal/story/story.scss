@@ -1,0 +1,20 @@
+@import '../../../_styles/variables';
+@import '../../../_module/ui';
+
+
+.story__soundtrack__upload-button {
+	margin-top: 5px;
+}
+
+.story__soundtrack__delete-button {
+  background-color: $delete-button-background-color;
+  color: $color-white;
+  text-align: center;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.story__soundtrack__audio-player {
+  width: 100%;
+  margin-top: 5px;
+}

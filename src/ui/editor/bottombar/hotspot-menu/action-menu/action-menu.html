@@ -1,0 +1,32 @@
+<div
+  class="action-menu__list"
+  [ngClass]="{'action-menu__list--open': isOpen}">
+
+  <div (click)="addText($event)" class="action-menu__list-item">
+    <div class="action-menu__list-icon list-icon__text"></div>
+    <p class="action-menu__list-label">Text<p>
+  </div>
+
+  <div (click)="addAudio($event)" class="action-menu__list-item">
+    <div class="action-menu__list-icon list-icon__audio"></div>
+    <p class="action-menu__list-label">Audio<p>
+  </div>
+
+  <div (click)="addImage($event)" class="action-menu__list-item">
+    <div class="action-menu__list-icon list-icon__image"></div>
+    <p class="action-menu__list-label">Image<p>
+  </div>
+
+  <div (click)="addDoor($event)" class="action-menu__list-item">
+    <div class="action-menu__list-icon list-icon__door"></div>
+    <p class="action-menu__list-label">Doorway<p>
+  </div>
+
+<!--
+  //Link Hotspot 
+  <div (click)="addLink($event)" class="action-menu__list-item">
+    <div class="action-menu__list-icon list-icon__link"></div>
+    <p class="action-menu__list-label">Link<p>
+  </div>
+ -->
+</div>

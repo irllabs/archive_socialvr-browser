@@ -1,0 +1,24 @@
+<div
+  droppable
+  [acceptedFileType]="'image'"
+  (onFileLoad)="onFileLoad($event)"
+  class="toggler">
+
+    <div class="toggler__switches">
+
+      <p class="toggler__label">Edit | Play</p>
+      <checkbox
+        [initialValue]="setEditPlaySliderIsVisible()"
+        (changeEmitter)="onEditPlayChange($event)">
+      </checkbox>
+      <br/>
+      <div *ngIf="!editorIsPreview()">
+        <p class="toggler__label">2D | 3D</p>
+        <checkbox
+          [initialValue]="set2d3dSliderIsVisible()"
+          (changeEmitter)="on2d3dChange($event)">
+        </checkbox>
+      </div>
+    </div>
+
+</div>

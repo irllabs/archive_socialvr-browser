@@ -1,0 +1,17 @@
+<div
+  droppable
+  (onFileLoad)="onFileLoad($event)"
+  [acceptedFileType]="'image'"
+  class="modal-window__fields">
+
+  <file-loader
+    (onFileLoad)="onFileLoad($event)"
+    [acceptedFileType]="'image'"
+    class="image-editor__file-loader">
+  </file-loader>
+
+  <img
+    [attr.src]="imageProperty.getBinaryFileData()"
+    class="image-editor__image-display">
+
+</div>

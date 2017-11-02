@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import './breakpoints';
+
+// FONTS //
+$font-family-header: "Montserrat", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family:  "Nunito", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$base-font-size: 16px;
+$header-font-size: 20px;
+$tiny-font-size: 0.8em;
+$med-font-size: 1em;
+
+// ICONS //
+$room-icon-size-small: 20px;
+$room-icon-size-medium: 33px;
+$room-icon-size-large: 48px;
+$room-icon-container-width: 80px;
+$icon-drop-shadow: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5));
+
+$text-shadow: 0 2px 2px rgba(0, 0, 0, 0.62);
+$text-shadow-tree-view: 0 1px 2px rgba(0, 0, 0, 0.32);
+
+$home-icon-width: 21px;
+$home-icon-height: 21px;
+
+// ROUNDED EDGES
+$window-border-radius: 4px;
+
+// COLORS //
+$color-white: #FFF;
+$color-black: #000;
+$color-grey-darkest: #212121;
+$color-grey-default: #979797;
+$color-modal-transparecy: 0.93;
+
+$color-grey-dark: #616161;
+$color-grey-medium: #D8D8D8;
+$color-grey-light: #EEEEEE; // 238, 238, 238
+$color-grey-light-R: 238;
+$color-grey-light-G: 238;
+$color-grey-light-B: 238;
+$color-pink: #FF3571; // 255, 53, 113
+$color-pink-dark: #AD0034;  //173, 0, 52
+$color-pink-light: #FF87AA; //255, 135, 170
+
+$color-primary: $color-grey-light;
+$color-secondary: $color-grey-light;
+$color-action: $color-pink;
+$color-divider: $color-grey-dark;
+$color-red: #FF4000;
+$color-red-dark: #CC0000;
+
+$opacity-for-overlay: 0.8;
+$backdrop-filter-blur: 4px;
+
+// TEXT //
+$text-color-dark: $color-grey-dark;
+$text-color-light: $color-grey-light;
+
+// ICONS: hotspots //
+$icon-hotspot-door: url('assets/icons/door_filled.png');
+$icon-hotspot-image: url('assets/icons/image_filled.png');
+$icon-hotspot-text: url('assets/icons/text_filled.png');
+$icon-hotspot-audio: url('assets/icons/audio_filled.png');
+$icon-hotspot-room: url('assets/icons/room.png');
+$icon-hotspot-link: url('assets/icons/link_filled.png');
+
+// ICONS: UI
+$room-icon-size: 40px;
+$icon-toggle-switch-2d: url('assets/icons/view-toggle-2d.png');
+$icon-toggle-switch-2d-active: url('assets/icons/view-toggle-2d-accent.png');
+$icon-toggle-switch-3d: url('assets/icons/view-toggle-3d.png');
+$icon-toggle-switch-3d-active: url('assets/icons/view-toggle-3d-accent.png');
+$icon-toggle-switch-preview: url('assets/icons/view-preview.png');
+$icon-toggle-switch-preview-active: url('assets/icons/view-preview-accent.png');
+
+// TOP BAR //
+$topbar-height: 40px;
+$topbar-margin: 14px;
+$topbar-dropdown-background-color: $color-grey-light;
+$topbar-dropdown-margin: 15px;
+$topbar-dropdown-padding: 10px;
+$topbar-dropdown-height: 350px;
+$topbar-dropdown-width: 250px;
+
+// MAIN EDITOR WINDOW //
+$property-editor-background-color: $color-grey-medium;
+$property-editor-height: 200px;
+$drag-drop-button-background-color: $color-grey-light;
+$delete-button-background-color: $color-action;
+
+// SIDEBAR //
+$sidebar-width: 280px;
+$sidebar-top-padding: 70px;
+$sidebar-background-color: rgba(250, 250, 250, 0.75);
+
+// BOTTOMBAR
+$story-scroll-width: 600px;
+$story-scroll-height: 100px;
+$room-icon-thumbnail-width: 120px;
+$room-icon-thumbnail-height: 80px;
+
+
+// BREAKPOINTS //
+$breakpoint-small: 446px;
+$breakpoint-medium: 620px;
+
+// Z INDICES //
+$z-index-5: 5;
+$z-index-10: 10;

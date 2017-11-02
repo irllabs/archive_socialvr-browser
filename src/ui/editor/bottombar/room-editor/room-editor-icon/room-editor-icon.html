@@ -1,0 +1,15 @@
+<div
+  id="icon-element"
+  class="room-editor-icon">
+
+  <room-editor
+    *ngIf="inspectorIsVisible"
+    class="room-editor-icon__editor">
+  </room-editor>
+
+  <img
+    (click)="onSelect($event)"
+    class="room-editor-icon__image"
+    src="assets/icons/room-pink.png">
+
+</div>

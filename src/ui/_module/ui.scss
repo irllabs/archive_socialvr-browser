@@ -1,0 +1,367 @@
+@import '../_styles/variables.scss';
+
+html, body {
+  font-family: $font-family;
+  font-size: $base-font-size;
+  color: $color-white;
+}
+
+p {
+  margin: 0;
+}
+
+a:link{
+  color:inherit;
+  text-decoration: none;
+  border-bottom: 1px solid $color-white;
+}
+a:active{
+  color:inherit;
+  text-decoration: none;
+}
+a:visited{
+  color:inherit;
+  text-decoration: none;
+}
+a:hover{
+  color:inherit;
+  text-decoration: none;
+}
+
+.text-bold {
+  font-weight: 700;
+}
+
+.button {
+  border-radius: $window-border-radius;
+  background-color: $color-grey-light;
+  color: $color-grey-dark;
+  text-align: center;
+  padding: 10px 0;
+  margin-bottom: 5px;
+  width: 100%;
+  cursor: pointer;
+  border-color: $color-grey-dark !important;
+  border: 1px;
+  border-style: solid;
+  background: rgba(0,0,0, 0);
+
+}
+
+.button:hover {
+  background-color: $color-grey-light;
+  color: $color-action;
+  text-align: center;
+  padding: 10px 0;
+  margin-bottom: 5px;
+  width: 100%;
+  cursor: pointer;
+  border-color: $color-grey-darkest !important;
+  border: 1px;
+  border-style: solid;
+
+}
+.button:active {
+  background-color: $color-grey-dark ;
+  color: $color-grey-light ;
+  text-align: center;
+  padding: 10px 0;
+  margin-bottom: 5px;
+  width: 100%;
+  cursor: pointer;
+  border-color: $color-grey-dark !important;
+  border: 1px;
+  border-style: solid;
+
+}
+.button-drag-drop {
+  background-color: $color-primary;
+  color: $color-white;
+  text-align: center;
+  padding: 10px 0;
+  margin-bottom: 5px;
+  width: 100%;
+  cursor: pointer;
+  border: 1px;
+  border-style: dashed;
+}
+
+// Save Button Style //
+.button-save {
+  background-color: $color-primary;
+  color: $color-white;
+  text-align: center;
+  padding: 10px 0;
+  margin-bottom: 5px;
+  width: 100%;
+  cursor: pointer;
+  border: 1px;
+}
+
+.button-save-drag-drop {
+  background-color: $color-primary;
+  color: $color-white;
+  text-align: center;
+  padding: 10px 0;
+  margin-bottom: 5px;
+  width: 100%;
+  cursor: pointer;
+  border: 1px;
+  border-style: dashed;
+}
+
+// Delete Button Style //
+.button-delete {
+  background-color: $color-primary;
+  color: $color-white;
+  text-align: center;
+  padding: 10px 0;
+  margin-bottom: 5px;
+  width: 100%;
+  cursor: pointer;
+  border: 1px;
+}
+
+.button-delete-drag-drop {
+  background-color: $color-primary;
+  color: $color-white;
+  text-align: center;
+  padding: 10px 0;
+  margin-bottom: 5px;
+  width: 100%;
+  cursor: pointer;
+  border: 1px;
+  border-style: dashed;
+}
+
+.font-header {
+  font-family: $font-family-header;
+}
+
+.font-tiny {
+  font-family: $font-family;
+  font-size: $tiny-font-size;
+  color: $color-grey-dark;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.user-field-text-entry {
+  margin-left: 10px;
+}
+
+.horiz-line {
+  border-bottom: 1px dotted $color-divider;
+width: 100%;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.horiz-line-bottom {
+  border-bottom: 1px dotted $color-divider;
+  width: 100%;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+.dropdown {
+  background-color: $topbar-dropdown-background-color;
+  margin: $topbar-dropdown-margin;
+  padding: $topbar-dropdown-padding;
+  width: $topbar-dropdown-width;
+  border-radius: $window-border-radius;
+  //opacity: $opacity-for-overlay;
+  background: rgba($color-grey-light-R, $color-grey-light-G, $color-grey-light-B, $opacity-for-overlay);
+  backdrop-filter: blur($backdrop-filter-blur);
+  //-webkit-backdrop-filter: blur(10px);
+}
+
+.dropdown-title {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  border-bottom: 1px solid $color-grey-dark;
+  color: $color-grey-dark;
+}
+
+.dropdown-heading{
+  font-size: 1.0em;
+  margin-bottom: 10px;
+  color: $color-grey-dark;
+}
+
+.dropdown-text {
+  font-size: $tiny-font-size;
+  margin-bottom: 10px;
+  color: $color-grey-dark;
+}
+
+.dropdown-text__bold {
+  font-size: $med-font-size;
+  font-weight: bold !important;
+  margin-bottom: 10px;
+  color: $color-grey-dark;
+}
+
+.dropdown-text__accent {
+  font-size: $tiny-font-size;
+  margin-bottom: 10px;
+  color: $color-action;
+}
+
+.dropdown-label {
+  font-size: $tiny-font-size;
+  margin-bottom: 10px;
+  color: $color-grey-dark;
+}
+
+.dropdown-button-margin {
+    margin-right: 8px;
+}
+.dropdown-input-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.dropdown-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-input-label {
+  font-size: 1.1em;
+  min-width: 0px;
+  max-width: 63%;
+  margin-left: 10px;
+  flex-grow: 1;
+}
+
+.dropdown-select-box{
+  font-size: 1.1em;
+  flex-grow: 2;
+}
+
+.hotspot-inspector_row{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: space-between;
+  justify-content: center;
+  //align-items: center;
+  padding: 0px 0px 0px 0px;
+}
+
+.hotspot-inspector__label {
+  margin-right: 10px;
+  width: 100%;
+  font-size: $tiny-font-size;
+  color: $color-grey-dark;
+}
+
+.hotspot-inspector__select {
+  //display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-wrap: nowrap;
+  align-items: center;
+  //margin-top: 10px;
+}
+
+.row-flex-start {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.width-auto {
+  width: auto;
+}
+
+
+// admin, explore, search styles
+.story-collection {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.story-collection__header {
+  margin-top: 20px;
+  font-size: 1.2em;
+  border-bottom: 2px solid $color-grey-dark;
+}
+
+.story-collection__project {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid black;
+  background-color: $color-grey-default;
+  color: $color-white;
+}
+
+.story-collection__thumbnail {
+  width: 336px;
+  cursor: pointer;
+}
+
+// audio related
+.audio-editor__record-button {
+  display: inline-block;;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin-bottom: 10px;
+}
+
+.audio-editor__file-loader {
+  //width: 230px;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.audio-editor__audio-player {
+  width: 100%;
+  position: relative;
+  margin-top: 5px;
+}
+
+// modal-window related
+.modal-window {
+  display:  inline-block;
+  width: 80%;
+  min-height: 80%;
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  border-radius: $window-border-radius;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, $color-modal-transparecy);
+}
+
+.modal-window__fields {
+	width: 90%;
+	position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
+
+.topbar__row-label {
+  cursor: pointer;
+  &:hover{
+    color: $color-grey-medium;
+  }
+  text-shadow: $text-shadow;
+}

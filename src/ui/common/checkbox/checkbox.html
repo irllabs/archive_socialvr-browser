@@ -1,0 +1,10 @@
+<div class="checkbox">
+  <input
+  	#input
+  	type="checkbox"
+  	[attr.id]="uniqueId"
+    [checked]="initialValue"
+  	(change)="onChange($event.target.checked)"
+  	class="checkbox__input checkbox__input--hidden"/>
+  <label [attr.for]="uniqueId" class="checkbox__label"></label>
+</div>

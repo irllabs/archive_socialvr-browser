@@ -1,0 +1,101 @@
+@import '../../../_styles/variables';
+
+.story-scroll {
+  position: absolute;
+  bottom: 0;
+  width: 70%;
+  left: 15%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  transform: translateY($room-icon-thumbnail-height + 5px);
+  transition: transform 0.25s ease-in-out;
+}
+
+.stroy-scroll--open {
+  transform: translateY(0);
+}
+
+.story-scroll__toggle-button {
+  position: relative;
+  width: 100px;
+  height: 30px;
+  margin: auto auto -30px auto;
+  cursor: pointer;
+}
+
+.story-scroll__toggle-arrow {
+  display: block;
+  position: absolute;
+  height: 5px;
+  width: 30px;
+  margin: 1px;
+  background: $color-white;
+  border-radius: 10px;
+  transition: transform 0.25s ease;
+}
+
+.story-scroll__toggle-arrow-left {
+  transform: rotate(-45deg);
+  left: 27%;
+}
+.story-scroll__toggle-arrow-left--open {
+  transform: rotate(45deg);
+}
+
+.story-scroll__toggle-arrow-right {
+ transform: rotate(45deg);
+  left: 45%;
+}
+.story-scroll__toggle-arrow-right--open {
+  transform: rotate(-45deg);
+}
+
+.story-scroll__room-editor {
+  justify-content: center;
+  align-content: center;
+  margin: auto;
+}
+
+.story-scroll__scroll {
+  background-color: $topbar-dropdown-background-color;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background: rgba(0,0,0,0);
+  max-width: 100%;
+  align-items: center;
+}
+
+$right-buffer: $room-icon-size + 5px;
+.story-scroll__room-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  overflow-x: scroll;
+  padding-left: $room-icon-thumbnail-height;
+}
+
+.story-scroll__room {
+  flex-direction: row;
+  margin-left: 0px;
+}
+.story-scroll__storymap-item {
+  color: $color-grey-dark;
+  font-size: $tiny-font-size;
+  &:hover {
+    color: $color-black;
+  }
+}
+
+.story-scroll__room-property-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.1s;
+  margin-left: 10px;
+}
+
+.story-scroll__room-property-container--expanded {
+  max-height: 500px;
+}

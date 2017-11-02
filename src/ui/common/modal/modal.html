@@ -1,0 +1,21 @@
+<div
+  *ngIf="isOpen"
+  class="modal">
+
+  <loading-modal
+    *ngIf="isLoaderModal()">
+  </loading-modal>
+
+  <message-modal
+    *ngIf="isMessageModal()"
+    (onClose)="closeModal($event)"
+    [messageData]="messageData">
+  </message-modal>
+
+  <shareable-modal
+    *ngIf="isSharableModal()"
+    (onClose)="closeModal($event)"
+    [shareableData]="shareableData">
+  </shareable-modal>
+
+</div>

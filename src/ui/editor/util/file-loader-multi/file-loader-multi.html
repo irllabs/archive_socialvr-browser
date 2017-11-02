@@ -1,0 +1,21 @@
+<div 
+  droppable
+  (onFileLoad)="onFileDrop($event)"
+  [acceptedFileType]="acceptedFileType"
+  [acceptMultpleFiles]="true"
+  class="file-loader-multi">
+
+  <input
+    type="file"
+    multiple
+    [attr.id]="inputId"
+    (change)="onFileChange($event)"
+    class="file-loader-multi__hidden-input">
+
+  <label
+    [attr.for]="inputId"
+    class="file-loader-multi__label">
+    {{displayText}}
+  </label>
+
+</div>

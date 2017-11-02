@@ -1,0 +1,14 @@
+@import '../../../_styles/variables';
+
+.file-loader-multi {
+  display: flex;
+  flex-direction: row;
+}
+
+.file-loader-multi__hidden-input {
+  display: none;
+}
+
+.file-loader-multi__label {
+	width: 100%;
+}

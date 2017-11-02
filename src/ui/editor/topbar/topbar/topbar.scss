@@ -1,0 +1,77 @@
+@import '../../../_styles/variables';
+
+.topbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+
+
+.topbar__row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.topbar__row-label {
+  cursor: pointer;
+  &:hover{
+    color: $color-grey-medium;
+  }
+  text-shadow: $text-shadow;
+}
+
+.topbar__row-menus{
+  flex-grow: 2;
+}
+.topbar__marginright{
+  margin-right: 15px;
+}
+
+.topbar__marginleft{
+  margin-left: 15px;
+}
+
+.topbar__row-story{
+  justify-content: center;
+}
+
+
+
+.topbar__position-absolute {
+  position: absolute;
+}
+
+.topbar__story-tab {
+  position: fixed;
+  transform: translateX(-110%);
+  left: 0;
+  transition: transform 0.2s ease-out;
+  @include breakpoint(xs) {
+    width: 98%;
+  }
+}
+
+.topbar__story-tab--active {
+  transform: translateX(0);
+}
+
+.topbar__user-tab {
+  position: fixed;
+  transform: translateX(110%);
+  right: 0;
+  transition: transform 0.2s ease-out;
+  @include breakpoint(xs) {
+    width: 98%;
+  }
+}
+
+.topbar__user-tab--active {
+  transform: translateX(0);
+}
+
+.topbar__about-tab {
+  margin-left: -$topbar-dropdown-width / 4;
+}

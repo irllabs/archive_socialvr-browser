@@ -1,0 +1,16 @@
+@import '../../../_styles/variables';
+
+.fullscreen {
+  cursor: pointer;
+}
+
+.fullscreen svg {
+  fill: $color-grey-light;
+  width: $room-icon-size-medium;
+  height: $room-icon-size-medium;
+  display: inline-block;
+}
+
+.fullscreen svg:hover {
+  fill: $color-grey-medium;
+}

@@ -1,0 +1,28 @@
+<div class="edit-space">
+
+  <img
+    *ngIf="!isVideo()"
+    [attr.src]="getBackgroundImage()"
+    (dragstart)="$event.preventDefault()"
+    class="edit-space-background">
+
+  <video
+    *ngIf="isVideo()"
+    [attr.src]="getBackgroundVideo()"
+    (dragstart)="$event.preventDefault()"
+    class="edit-space-background edit-space-background--video">
+  </video>
+
+
+  <div *ngFor="let roomProperty of getItems()">
+    <room-icon
+      #roomIcon
+      [roomProperty]="roomProperty">
+    </room-icon>
+  </div>
+
+  <default-overlay
+    *ngIf="!roomHasBackgroundImage()">
+  </default-overlay>
+
+</div>

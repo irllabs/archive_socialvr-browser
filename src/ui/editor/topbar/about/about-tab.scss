@@ -1,0 +1,21 @@
+@import '../../../_styles/variables';
+
+.about-tab {
+  background-color: $topbar-dropdown-background-color;
+  margin: $topbar-dropdown-margin;
+  padding: $topbar-dropdown-padding;
+  max-width: $topbar-dropdown-width;
+}
+
+.about-tab-heading {
+  margin-bottom: 10px;
+  border-bottom: 1px solid $color-white;
+  color: $text-color-dark;
+
+}
+
+.about-tab-text {
+    font-size: $tiny-font-size;
+    margin-bottom: 10px;
+    color: $text-color-dark;
+}

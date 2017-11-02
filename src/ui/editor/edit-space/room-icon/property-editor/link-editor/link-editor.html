@@ -1,0 +1,17 @@
+<div class="link-editor">
+
+  <textarea
+    name="textarea"
+    class="link-editor__text-area"
+    [(ngModel)]="linkProperty.body">
+  </textarea>
+
+  <div class="button link-editor__go-button"
+    *ngIf="showLinkButton()">
+    <p
+      (click)="onLinkClick($event)">
+      Go!
+    </p>
+  </div>
+
+</div>

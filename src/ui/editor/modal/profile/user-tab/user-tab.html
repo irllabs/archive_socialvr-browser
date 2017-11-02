@@ -1,0 +1,8 @@
+<div class="modal-window"
+  off-click
+  (onOffClick)="onOffClick($event)">
+
+  <unauth-user-tab *ngIf="!userIsLoggedIn()"></unauth-user-tab>
+  <auth-user-tab *ngIf="userIsLoggedIn()"></auth-user-tab>
+
+</div>

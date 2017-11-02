@@ -1,0 +1,13 @@
+@import '../../../_styles/variables';
+
+.modal-close {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+}
+
+.modal-close__button {
+  color: $color-grey-dark;
+  cursor: pointer;
+}

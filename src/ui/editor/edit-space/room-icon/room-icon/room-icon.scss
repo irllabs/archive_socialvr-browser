@@ -1,0 +1,81 @@
+@import '../../../../_styles/variables';
+
+.icon {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: grab;
+  width: $room-icon-container-width;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &:hover {
+    .icon__delete {
+      visibility: visible;
+    }
+  }
+
+}
+
+.icon__image {
+  height: $room-icon-size-large;
+  display: block;
+  margin: 0 auto;
+  filter: $icon-drop-shadow;
+}
+
+.icon__delete {
+  background-image: url('assets/icons/delete_filled.png');
+  background-color: transparent;
+  background-size: 90%;
+  background-repeat: no-repeat;
+  width: $home-icon-width;
+  height: $home-icon-height;
+  visibility: hidden;
+}
+
+.icon__image--medium {
+  height: $room-icon-size-medium;
+}
+
+.icon__image--small {
+  height: $room-icon-size-small;
+}
+
+.icon__label {
+  text-align: center;
+  text-shadow: $text-shadow;
+  margin: 2px 0 0 0;
+}
+
+$hotspot-sphere-size: 60px;
+
+.icon__hotspot-sphere {
+  position: absolute;
+  border: 2px dashed white;
+  border-radius: 50%;
+  padding: $hotspot-sphere-size;
+  top: -32px;
+  left: -18px;
+}
+
+.icon__property-editor {
+  position: absolute;
+}
+
+.icon__property-editor--up-shift {
+  margin-top: -300px;
+}
+
+.icon__property-editor--left-shift {
+  margin-left: -200px;
+  margin-top: -140px;
+}
+
+.icon__property-editor--right-shift {
+  margin-left: 200px;
+  margin-top: -140px;
+}

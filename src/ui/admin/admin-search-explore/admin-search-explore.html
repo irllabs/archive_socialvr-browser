@@ -1,0 +1,74 @@
+<div class="search-explore">
+
+  <p>Find stories to add to your groups.</p>
+
+  <div class="row-flex-start">
+    <text-input-material
+      [inputLabel]="'Search tags'"
+      [textModel]="getSearchModelProperty()"
+      (onTextChange)="setSearchViewModel($event)"
+      class="search-input-box">
+    </text-input-material>
+    <div
+      class="button search-button"
+      (click)="onSearchClick($event)">
+      Search
+    </div>
+  </div>
+
+  <p *ngIf="showNoResults()">
+    No results found for {{ searchLabel }}
+  </p>
+
+  <p
+    *ngIf="searchLabel"
+    class="story-collection__header">
+    <span>
+      {{ getSearchResultTitle() }}
+    </span>
+    <span class="text-bold">
+      {{ searchLabel }}
+    </span>
+  </p>
+
+  <div class="story-collection">
+    <div
+      *ngFor="let project of matchingResults"
+      class="story-collection__project">
+      <p>
+        <span class="text-bold">Project: </span>
+        <span>{{ project.name }}</span>
+      </p>
+      <p>
+        <span class="text-bold">User: </span>
+        <span>{{ project.user }}</span>
+      </p>
+      <p>
+        <span class="text-bold">Tags: </span>
+        <span>{{ project.tags }}</span>
+      </p>
+
+      <img
+        *ngIf="project.thumbnailUrl"
+        [attr.src]="project.thumbnailUrl"
+        (click)="openProject(project)"
+        class="story-collection__thumbnail" />
+      <div
+        *ngIf="!project.thumbnailUrl"
+        (click)="openProject(project)"
+        class="story-collection__thumbnail search-image-empty">
+      </div>
+
+      <p>Add story to group</p>
+      <div
+        *ngFor="let group of getUserGroups()">
+         <p (click)="toggleProjectInGroup(project, group)">
+          Group: {{ group.name }}
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>

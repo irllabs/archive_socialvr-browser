@@ -1,0 +1,46 @@
+@import '../../../_styles/variables';
+
+$loader-dot-size: 25px;
+$loader-dot-buffer: $loader-dot-size + 10;
+$animation-unit: 0.16s;
+
+.modal__content__loader,
+.modal__content__loader:before,
+.modal__content__loader:after {
+  border-radius: 50%;
+  width: $loader-dot-size;
+  height: $loader-dot-size;
+  animation-fill-mode: both;
+  animation: loaderkeyframes 1.8s infinite ease-in-out;
+}
+
+.modal__content__loader {
+  color: $color-white;
+  margin: -$loader-dot-size auto $loader-dot-size auto;
+  transform: translateZ(0);
+  animation-delay: -$animation-unit;
+}
+.modal__content__loader:before,
+.modal__content__loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+.modal__content__loader:before {
+  left: -$loader-dot-buffer;
+  animation-delay: -($animation-unit * 2);
+}
+.modal__content__loader:after {
+  left: $loader-dot-buffer;
+}
+
+@keyframes loaderkeyframes {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 $loader-dot-size 0 (-$loader-dot-size / 2);
+  }
+  40% {
+    box-shadow: 0 $loader-dot-size 0 0;
+  }
+}

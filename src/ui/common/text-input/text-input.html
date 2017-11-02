@@ -1,0 +1,15 @@
+<div class="text-input">
+
+  <input
+    type="text"
+    [ngModel]="textModel"
+    (ngModelChange)="onModelChange($event)"
+    class="text-input__input"
+    [ngClass]="{
+      'text-input__input--icon': isHotspot,
+      'text-input__input-row': isRowItem,
+      'text-input__input-row--active': isActive,
+      'text-input__storymap--roomname': isRoomName
+    }">
+
+</div>

@@ -1,0 +1,32 @@
+<div
+  droppable
+  (onFileLoad)="onFileLoad($event)"
+  [acceptedFileType]="'audio'"
+  class="modal-window__fields">
+
+
+
+  <audio-recorder
+    *ngIf="showAudioRecorder()"
+    (onRecorded)="onAudioRecorded($event)"
+    class="audio-editor__record-button">
+  </audio-recorder>
+
+
+  <file-loader
+    (onFileLoad)="onFileLoad($event)"
+    [acceptedFileType]="'audio'"
+    class="audio-editor__file-loader">
+  </file-loader>
+
+  <audio
+    *ngIf="hasAudioFile()"
+    [attr.src]="audioProperty.getBinaryFileData()"
+    type="audio/mp3"
+    controls="controls"
+    [volume]="audioProperty.getVolume()"
+    (volumechange)="onVolumeChange($event)"
+    class="audio-editor__audio-player">
+  </audio>
+
+</div>

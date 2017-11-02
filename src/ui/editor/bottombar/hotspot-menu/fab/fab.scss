@@ -1,0 +1,53 @@
+@import '../../../../_styles/variables';
+
+$diameter: $room-icon-size;
+$bar-width: $room-icon-size - 8;
+$bar-height: 4px;
+$bar-border-radius: $bar-height / 2;
+$center-position: $diameter / 2 - $bar-height / 2;
+$bar-margin: ($diameter - $bar-width) / 2;
+
+.fab {
+	width: $diameter;
+	height: $diameter;
+  border-radius: 50%;
+  background-color: white;
+  position: relative;
+  cursor: pointer;
+}
+
+.fab__bar {
+  display: block;
+  position: absolute;
+  height: $bar-height;
+  width: $bar-width;
+  border-radius: $bar-border-radius;
+  background-color: $color-action;
+  left: $bar-margin;
+  top: $center-position;
+  transition: .15s ease-in-out;
+}
+
+.fab :nth-child(1) {
+  transform: rotate(0deg);
+}
+
+.fab :nth-child(2) {
+  transform: rotate(60deg);
+}
+
+.fab :nth-child(3) {
+  transform: rotate(-60deg);
+}
+
+.fab--open :nth-child(1) {
+  transform: rotate(60deg);
+}
+
+.fab--open :nth-child(2) {
+  transform: rotate(120deg);
+}
+
+.fab--open :nth-child(3) {
+  transform: rotate(180deg);
+}
