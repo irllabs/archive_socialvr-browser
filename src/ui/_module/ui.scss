@@ -312,26 +312,7 @@ width: 100%;
   cursor: pointer;
 }
 
-// audio related
-.audio-editor__record-button {
-  display: inline-block;;
-  position: relative;
-  left: 50%;
-  transform: translate(-50%, 0);
-  margin-bottom: 10px;
-}
 
-.audio-editor__file-loader {
-  //width: 230px;
-  position: relative;
-  margin-bottom: 10px;
-}
-
-.audio-editor__audio-player {
-  width: 100%;
-  position: relative;
-  margin-top: 5px;
-}
 
 // modal-window related
 .modal-window {

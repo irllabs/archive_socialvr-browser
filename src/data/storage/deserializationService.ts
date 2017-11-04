@@ -66,7 +66,7 @@ export class DeserializationService {
 
         storyJson.rooms.map(roomData => {
           const filePrefix = roomData.uuid;
-          console.log('buildRoom', `${baseFilePath}${filePrefix}`);
+          //console.log('buildRoom', `${baseFilePath}${filePrefix}`);
 
           // Background image
           const roomImagePath = `${baseFilePath}${filePrefix}/${roomData.image}`;
@@ -120,6 +120,7 @@ export class DeserializationService {
           roomData.images
             .map(imageJson => {
               const fileName: string = `${baseFilePath}${filePrefix}/${imageJson.file}`;
+              console.log('deserializer: ',binaryFileMap);
               const binaryFile = binaryFileMap
                 .find(mediaFile => mediaFile.name === fileName);
               const binaryFileData: string = binaryFile ? binaryFile.fileData : null;
@@ -151,19 +152,19 @@ export class DeserializationService {
 // return a promise containing the name of the file
 // and binary data
 function loadMediaFile(mediaFile: any, getBinaryFileData: any): Promise<any> {
-  console.log('loading media file', mediaFile)
+  //console.log('loading media file', mediaFile)
   return mediaFile.async(UINT8ARRAY)
     .then(fileData => {
-      console.log('---fileData', mediaFile);
+      //console.log('---fileData', mediaFile);
       const fileType = getFileType(mediaFile.name);
       return new Blob([fileData], {type: fileType});
     })
     .then(blob => {
-      console.log('---blob', mediaFile);
+      //console.log('---blob', mediaFile);
       return getBinaryFileData(blob);
     })
     .then(binaryDataFile => {
-      console.log('success', mediaFile.name)
+      //console.log('success', mediaFile.name)
       return {
         name: mediaFile.name,
         fileData: binaryDataFile
@@ -173,20 +174,21 @@ function loadMediaFile(mediaFile: any, getBinaryFileData: any): Promise<any> {
 }
 
 async function loadMediaFileWrapper(mediaFile: any, getBinaryFileData: any): Promise<any> {
-  console.log('loadMediaFileWrapper', mediaFile);
+  //console.log('loadMediaFileWrapper', mediaFile);
   return await loadMediaFile(mediaFile, getBinaryFileData);
 }
 
 // Given a json object of jszip files, return a list of
 // promises containing image and audio binary data
 async function loadMediaFiles(fileMap: any, storyFilePath: string, getBinaryFileData: any) {
-  console.log('load media files', fileMap);
+  //console.log('load media files', fileMap);
   const files = Object.keys(fileMap)
     .filter(fileKey => fileKey !== storyFilePath)
     .map(fileKey => fileMap[fileKey])
     .filter(file => !file.dir);
-  console.log('files to load', files);
+  //console.log('files to load', files);
 
+  console.log('files:', files);
   const mediaFiles = [];
 
   // async function printFiles () {
@@ -238,7 +240,7 @@ async function meterPromises(rate, promiseList): Promise<any> {
   for (const subList of meteredPromises) {
     await Promise.all(subList)
       .then(resultList => {
-        console.log('adding to resultList:', resultList)
+        //console.log('adding to resultList:', resultList)
         results = [...results, ...resultList];
       });
   }
@@ -269,15 +271,15 @@ async function meterPromises(rate, promiseList): Promise<any> {
 // Given a JSON object representing story file,
 // return a promise that resolves when the story file is deserialized
 function deserializeProject(jsZipData) {
-  console.log('jsZipData', jsZipData)
+  console.log('jsZipData', jsZipData);
   const fileMap = jsZipData.files;
-
+  console.log('fileMap', fileMap);
   const storyFilePath: string = Object.keys(fileMap)
     .filter(fileKey => fileKey.indexOf(STORY_FILE) > -1)[0] || STORY_FILE;
   const baseFilePath: string = storyFilePath.substring(0, storyFilePath.indexOf(STORY_FILE));
 
   const storyFile = fileMap[storyFilePath];
-  console.log('storyFile', storyFile)
+  //console.log('storyFile', storyFile)
   const getBinaryFileData = this.fileLoaderUtil.getBinaryFileData.bind(this.fileLoaderUtil);
   const mediaFilePromises = loadMediaFiles(fileMap, storyFilePath, getBinaryFileData);
 

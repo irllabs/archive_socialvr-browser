@@ -21,7 +21,11 @@ export class AssetInteractor {
   }
 
   getAudioBufferById(id: string): AudioBuffer {
+    //if the hotspot is an audio one:
     return this.assetManager.getAudioBufferById(id);
+
+    //if the hotspot is an image one that has audio caption:
+    // something else
   }
 
 }

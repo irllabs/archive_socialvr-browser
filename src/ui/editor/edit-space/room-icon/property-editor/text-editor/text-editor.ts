@@ -10,5 +10,6 @@ import {Text} from 'data/scene/entities/text';
 export class TextEditor {
 
   @Input() textProperty: Text;
+  @Input() label: string;
 
 }

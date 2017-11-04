@@ -177,9 +177,37 @@ class HotspotEntity {
 
   activate() {
     switch (this.type) {
-      case 'image':
-      case 'text':
       case 'link':
+      case 'text':
+      //grow the plane
+      this.plane.visible = true;
+      this.tweenPlaneActivate = new TWEEN.Tween(this.plane.scale).to({
+          x: THREE_CONST.TWEEN_PLANE_SCALE,
+          y: THREE_CONST.TWEEN_PLANE_SCALE,
+          z:1
+      },THREE_CONST.TWEEN_PLANE_IN).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
+        //console.log("updaing plane scale to", this.plane.scale);
+      }).onComplete( () => {
+        //console.log("Done scaling UP dash circle");
+
+        TWEEN.remove(this.tweenPlaneActivate);
+      }).start();
+
+      //hide the icon
+      this.tweenIconActivate = new TWEEN.Tween(this.graphicIcon.material).to({
+          opacity: 0
+      },THREE_CONST.TWEEN_ICON_OUT).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
+      }).onComplete( () => {
+        //console.log("Done scaling UP dash circle");
+        TWEEN.remove(this.tweenIconActivate);
+        this.graphicIcon.visible= false;
+        this.label.visible = false;
+      }).start();
+      //console.log('image text link', this.id);
+      //is this happening
+      break;
+
+      case 'image':
         //grow the plane
         this.plane.visible = true;
         this.tweenPlaneActivate = new TWEEN.Tween(this.plane.scale).to({
@@ -190,6 +218,7 @@ class HotspotEntity {
           //console.log("updaing plane scale to", this.plane.scale);
         }).onComplete( () => {
           //console.log("Done scaling UP dash circle");
+
           TWEEN.remove(this.tweenPlaneActivate);
         }).start();
 
@@ -202,6 +231,8 @@ class HotspotEntity {
           TWEEN.remove(this.tweenIconActivate);
           this.graphicIcon.visible= false;
           this.label.visible = false;
+          //if the image has an audio hotspot play the audio
+          //this.audioPlayService.playHotspotAudio(this.yamlId);
         }).start();
         //console.log('image text link', this.id);
         //is this happening

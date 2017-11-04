@@ -22,64 +22,24 @@
       class="image-editor__image-display">
   </div>
 
-
   <!-- Divider -->
   <div class="horiz-line"></div>
 
   <!-- Text Stuff -->
-  <div class="image-editor__text-fields">
-    <p class="hotspot-inspector__label">
-      Caption Text:
-    </p>
-    <!--
-    <textarea
-      name="textarea"
-      class="image-editor__text-editor-text-area"
-      [(ngModel)]="textProperty.body">
-     -->
-     <textarea
-       name="textarea"
-       class="image-editor__text-editor-text-area">
-    </textarea>
+  <div class="image-editor__text-editor-text-area">
+    <text-editor
+      [label]="'Caption Text:'"
+      [textProperty]="imageProperty.text">
+    </text-editor>
   </div>
+
+  <p class="hotspot-inspector__label">
+    Caption Audio:
+  </p>
+
 
   <!-- Audio Stuff -->
-
-  <div
-    droppable
-    (onFileLoad)="onAudioFileLoad($event)"
-    [acceptedFileType]="'audio'"
-    class="image-editor__audio-fields">
-
-    <p class="hotspot-inspector__label">
-      Caption Audio:
-    </p>
-
-    <audio-recorder
-      *ngIf="showAudioRecorder()"
-      (onRecorded)="onAudioRecorded($event)"
-      class="audio-editor__record-button">
-    </audio-recorder>
-
-
-    <file-loader
-      (onFileLoad)="onFileLoad($event)"
-      [acceptedFileType]="'audio'"
-      [displayText]="'Add/Drag Audio...'"
-      class="audio-editor__file-loader">
-    </file-loader>
-
-    <audio
-      *ngIf="hasAudioFile()"
-      [attr.src]="audioProperty.getBinaryFileData()"
-      type="audio/mp3"
-      controls="controls"
-      [volume]="audioProperty.getVolume()"
-      (volumechange)="onVolumeChange($event)"
-      class="audio-editor__audio-player">
-    </audio>
-
-  </div>
-
-
+  <audio-editor
+    [audioProperty]="imageProperty.audio">
+  </audio-editor>
 </div>

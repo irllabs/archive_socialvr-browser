@@ -19,8 +19,6 @@ import {resizeImage} from 'data/util/imageResizeService';
 export class ImageEditor {
 
   @Input() imageProperty: Image;
-  @Input() audioProperty: Audio;
-  @Input() textProperty: Text;
 
   constructor(private eventBus: EventBus) {}
 
@@ -29,29 +27,6 @@ export class ImageEditor {
     resizeImage($event.binaryFileData, 'hotspotImage')
       .then(resizedImageData => this.imageProperty.setFileData($event.file.name, resizedImageData))
       .catch(error => this.eventBus.onModalMessage('Image loading error', error));
-  }
-
-  // audio related
-  private onAudioFileLoad($event) {
-    this.audioProperty.setFileData($event.file.name, DEFAULT_VOLUME, $event.binaryFileData);
-  }
-
-  private hasAudioFile(): boolean {
-    return this.audioProperty.getFileName() !== DEFAULT_FILE_NAME;
-  }
-
-  private onAudioRecorded($event) {
-    this.audioProperty.setFileData($event.fileName, DEFAULT_VOLUME, $event.dataUrl);
-  }
-
-  private showAudioRecorder(): boolean {
-    return browserCanRecordAudio();
-    //return true;
-  }
-
-  private onVolumeChange($event) {
-    const volume = $event.currentTarget.volume;
-    this.audioProperty.setVolume(volume);
   }
 
   // text related
