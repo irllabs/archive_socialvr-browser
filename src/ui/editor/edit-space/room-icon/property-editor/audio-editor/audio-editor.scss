@@ -4,8 +4,7 @@
 .audio-editor__record-button {
   display: inline-block;;
   position: relative;
-  left: 50%;
-  transform: translate(-50%, 0);
+  margin-left: 5px;
   margin-bottom: 10px;
 }
 
@@ -13,6 +12,7 @@
   //width: 230px;
   position: relative;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 .audio-editor__audio-player {
