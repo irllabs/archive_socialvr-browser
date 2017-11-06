@@ -26,6 +26,10 @@ export class Image extends BaseElement {
     return this.mediaFile.getBinaryFileData();
   }
 
+  getAudioFileData(): any {
+    return this.audio.getBinaryFileData();
+  }
+
   setBinaryFileData(binaryFileData: any) {
     return this.mediaFile.setBinaryFileData(binaryFileData);
   }

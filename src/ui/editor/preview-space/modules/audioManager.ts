@@ -69,10 +69,21 @@ export class AudioManager {
     const hotspotAudios = this.sceneInteractor.getRoomIds()
       .map(roomId => this.sceneInteractor.getRoomById(roomId))
       .reduce((accumulator, room) => {
+
+        //grab all the image hotspots
+        const imagePropertyList = Array.from(room.getImages())
+          .filter(image => image.getAudioFileData())
+          .map(image => image.getAudioFileData());
+
+        //grab all the audio hotspots
         const audioPropertyList = Array.from(room.getAudio())
           .filter(audio => audio.getBinaryFileData())
+          .map(audio => audio.getBinaryFileData());
+
+        //combine the two lists
+        [].concat(imagePropertyList,audioPropertyList)
           .map(audio => {
-            const audioDataUri = audio.getBinaryFileData().changingThisBreaksApplicationSecurity ?
+            const audioDataUri = audio.changingThisBreaksApplicationSecurity ?
               audio.getBinaryFileData().changingThisBreaksApplicationSecurity : audio.getBinaryFileData();
             return new AssetModel(audio.getId(), audio.getFileName(), audioDataUri);
           });

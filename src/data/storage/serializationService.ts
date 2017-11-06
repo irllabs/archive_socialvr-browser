@@ -60,7 +60,20 @@ export class SerializationService {
           }
         );
 
-        [...imageList, ...audioList].forEach(file => {
+        //this is the FUTURE!
+        //get audio files from image hotspots
+        //TO DO: this is the only kind of hotspot we need
+        const imageAudioList = Array.from(room.getImages())
+          .filter(image => image.audio.getBinaryFileData())
+          .map(hotspot => {
+            return {
+              name: encodeURIComponent(hotspot.audio.getFileName()),
+              binaryData: getBase64FromDataUrl(hotspot.audio.getBinaryFileData())
+            };
+          }
+        );
+
+        [...imageList, ...audioList, ...imageAudioList].forEach(file => {
           zip.folder(directoryName).file(file.name, file.binaryData, {base64: true});
         });
 

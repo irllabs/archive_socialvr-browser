@@ -78,10 +78,24 @@ export class PropertyBuilder {
     return image;
   }
 
-  imageFromJson(imageJson: any, binaryFileData: string): Image {
+  imageFromJson(imageJson: any, binaryFileData: string, audioFileData: string): Image {
     const image: Image = <Image> this.setBaseProperties(imageJson, new Image());
+
+    // set image for this hotspot
     const fileName = decodeURIComponent(imageJson.file);
     image.setFileData(fileName, binaryFileData);
+
+    // set audio for this hotspot
+    if (audioFileData) {
+      const audioFileName = decodeURIComponent(imageJson.audio);
+      image.audio.setFileData(audioFileName, imageJson.volume, audioFileData);
+    }
+
+    // set text for this hotspot
+    if (imageJson.text) {
+      image.text.body = imageJson.text;
+    }
+
     //TO DO: add logic for caption text
     /*
     const text: Text = <Text> this.setBaseProperties(textJson, new Text());

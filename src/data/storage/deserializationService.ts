@@ -121,10 +121,23 @@ export class DeserializationService {
             .map(imageJson => {
               const fileName: string = `${baseFilePath}${filePrefix}/${imageJson.file}`;
               console.log('deserializer: ',binaryFileMap);
+              //for the image file
               const binaryFile = binaryFileMap
                 .find(mediaFile => mediaFile.name === fileName);
               const binaryFileData: string = binaryFile ? binaryFile.fileData : null;
-              return this.propertyBuilder.imageFromJson(imageJson, binaryFileData);
+              
+              //for the audio file of this hotspot
+              const audiofileName: string = `${baseFilePath}${filePrefix}/${imageJson.audio}`;
+              const audioFile = binaryFileMap
+                .find(mediaFile => mediaFile.name === audiofileName);
+              const audioFileData: string = audioFile ? audioFile.fileData : null;
+
+
+
+
+              return this.propertyBuilder.imageFromJson(imageJson, binaryFileData, audioFileData);
+
+
             })
             .forEach(image => room.addImage(image));
 
