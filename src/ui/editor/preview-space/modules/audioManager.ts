@@ -80,14 +80,20 @@ export class AudioManager {
           .filter(audio => audio.getBinaryFileData())
           .map(audio => audio.getBinaryFileData());
 
-        //combine the two lists
-        [].concat(imagePropertyList,audioPropertyList)
-          .map(audio => {
+
+        audioPropertyList.map(audio => {
             const audioDataUri = audio.changingThisBreaksApplicationSecurity ?
               audio.getBinaryFileData().changingThisBreaksApplicationSecurity : audio.getBinaryFileData();
             return new AssetModel(audio.getId(), audio.getFileName(), audioDataUri);
           });
-        return accumulator.concat(audioPropertyList);
+
+        imagePropertyList.map(audio => {
+            const audioDataUri = audio.changingThisBreaksApplicationSecurity ?
+              audio.getAudioFileData().changingThisBreaksApplicationSecurity : audio.getAudioFileData();
+            return new AssetModel(audio.getId(), audio.getFileName(), audioDataUri);
+          });
+
+        return accumulator.concat(audioPropertyList,imagePropertyList);
       }, []);
 
     const audioList = soundtrackAudio
