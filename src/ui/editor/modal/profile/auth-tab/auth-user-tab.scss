@@ -9,15 +9,15 @@
 
 .user-view__project-list {
   color: $color-grey-dark;
-  overflow-y: scroll;
-  max-height: 200px;
+  overflow-y: auto;
+  max-height: 90px;
   font-size: $tiny-font-size;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 .user-view__project {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   color: $color-grey-dark;
   margin-top: 3px;

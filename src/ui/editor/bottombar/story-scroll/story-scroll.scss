@@ -74,6 +74,8 @@ $right-buffer: $room-icon-size + 5px;
   flex-direction: row;
   justify-content: flex-start;
   overflow-x: scroll;
+  overflow-y: hidden;
+
   padding-left: $room-icon-thumbnail-height;
 }
 

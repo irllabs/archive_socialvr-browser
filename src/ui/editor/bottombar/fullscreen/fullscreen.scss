@@ -41,6 +41,12 @@ html * {
   height: $room-icon-size;
   display: block;
   overflow: show;
+  &:hover{
+
+  }
+  &:active{
+
+  }
 }
 
 .icon svg {
@@ -57,16 +63,21 @@ main {
     margin: 0 auto;
     display: block;
     position: relative;
+    text-decoration: none;
 
     .fs-icon {
         @include transition (.5s ease-out);
-
+        background-color: $color-white;
+        border:0px;
+        color:0px;
+        text-decoration: none;
+opacity: 0.8;
         .outline {
-            fill: white;
+            fill: $color-grey-medium;
         }
 
         .arrow {
-             fill: $color-action;
+             fill: $color-grey-medium;
              @include transition (fill 1s ease);
         }
 
@@ -101,14 +112,38 @@ main {
 
     &:hover {
         .fs-icon {
-            @include transform (scale(1.1));
-            @include transition (.5s ease-out);
+opacity:1;
+            .outline {
+              fill: $color-grey-dark;
+              @include transition (fill 1s ease);
+            }
 
             .arrow {
-                fill: $color-action;
+                fill: $color-grey-dark;
                 @include transition (fill 1s ease);
                 @include transition (transform .5s ease-out);
             }
+        }
+    }
+
+    &:active {
+opacity:1;
+        .fs-icon {
+            @include transform (scale(1.1));
+            @include transition (.5s ease-out);
+            background-color: $color-grey-dark;
+
+            .arrow {
+                fill:  $color-action;
+                @include transition (fill 1s ease);
+                opacity: 100;
+            }
+            .outline {
+              fill: $color-action;
+              @include transition (fill 1s ease);
+            }
+
+
             .tl {
                 @include transform (translate(-4px, -4px));
             }
@@ -124,40 +159,21 @@ main {
         }
     }
 
-    &:active {
-        .fs-icon {
-            @include transform (scale(1.1));
-            @include transition (.5s ease-out);
-
-            .arrow {
-                fill:  $color-action;
-                @include transition (fill 1s ease);
-                opacity: 0;
-            }
-
-            .tl {
-                @include transform (translate(-60px, -60px));
-                @include transition (.2s ease-out);
-            }
-            .tr {
-                @include transform (translate(60px, -60px));
-                @include transition (.2s ease-out);
-            }
-            .bl {
-                @include transform (translate(-60px, 60px));
-                @include transition (.2s ease-out);
-            }
-            .br {
-                @include transform (translate(60px, 60px));
-                @include transition (.2s ease-out);
-            }
-        }
-    }
-
 }
 
 .fullscreen__full {
+  opacity:1;
     .fs-icon {
+
+                  .arrow {
+                      fill:  $color-action;
+                      @include transition (fill 1s ease);
+                      opacity: 100;
+                  }
+                  .outline {
+                    fill: $color-action;
+                    @include transition (fill 1s ease);
+                  }
         .tl, .br{
             @include transform (rotate(-180deg));
             @include transform-origin (50%);
@@ -169,28 +185,41 @@ main {
             @include transition (.5s ease-out);
         }
     }
-  }
 
+  }
+/*
 .fullscreen__full:hover {
     .fs-icon {
         @include transform (scale(1));
       .outline {
       }
       .tl {
+        @include transform (rotate(-180deg));
+        @include transform-origin (100%);
+
           @include transform (translate(-8px, -8px));
       }
       .tr {
+        @include transform (rotate(-180deg));
+        @include transform-origin (100%);
+
           @include transform (translate(8px, -8px));
       }
       .bl {
+        @include transform (rotate(-180deg));
+        @include transform-origin (100%);
+
           @include transform (translate(-8px, 8px));
       }
       .br {
+        @include transform (rotate(-180deg));
+        @include transform-origin (100%);
+
           @include transform (translate(8px, 8px));
       }
     }
   }
-
+*/
 
 @keyframes tl {
     0% {transform: translate(8px, 8px);opacity: 0;}

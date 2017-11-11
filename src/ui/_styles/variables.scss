@@ -1,14 +1,19 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat');
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800');
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800');
 @import './breakpoints';
 
 // FONTS //
 $font-family-header: "Montserrat", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-family:  "Nunito", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family:  "Nunito Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $base-font-size: 16px;
 $header-font-size: 20px;
 $tiny-font-size: 0.8em;
 $med-font-size: 1em;
+$extra-bold: 800;
+$semi-bold: 600;
+$regular: 400;
+$extra-light: 200;
+
 
 // ICONS //
 $room-icon-size-small: 20px;
@@ -29,12 +34,12 @@ $window-border-radius: 4px;
 // COLORS //
 $color-white: #FFF;
 $color-black: #000;
-$color-grey-darkest: #212121;
+$color-grey-darkest: #151515;
 $color-grey-default: #979797;
 $color-modal-transparecy: 0.93;
 
-$color-grey-dark: #616161;
-$color-grey-medium: #D8D8D8;
+$color-grey-dark: #888888;
+$color-grey-medium: #ADADAD;
 $color-grey-light: #EEEEEE; // 238, 238, 238
 $color-grey-light-R: 238;
 $color-grey-light-G: 238;

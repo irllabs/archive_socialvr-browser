@@ -22,6 +22,18 @@ $bar-margin: ($diameter - $bar-width) / 2;
   height: $bar-height;
   width: $bar-width;
   border-radius: $bar-border-radius;
+  background-color: $color-grey-dark;
+  left: $bar-margin;
+  top: $center-position;
+  transition: .15s ease-in-out;
+}
+
+.fab__bar--open {
+  display: block;
+  position: absolute;
+  height: $bar-height;
+  width: $bar-width;
+  border-radius: $bar-border-radius;
   background-color: $color-action;
   left: $bar-margin;
   top: $center-position;
@@ -33,21 +45,15 @@ $bar-margin: ($diameter - $bar-width) / 2;
 }
 
 .fab :nth-child(2) {
-  transform: rotate(60deg);
+  transform: rotate(90deg);
 }
 
-.fab :nth-child(3) {
-  transform: rotate(-60deg);
-}
+
 
 .fab--open :nth-child(1) {
-  transform: rotate(60deg);
+  transform: rotate(45deg);
 }
 
 .fab--open :nth-child(2) {
-  transform: rotate(120deg);
-}
-
-.fab--open :nth-child(3) {
-  transform: rotate(180deg);
+  transform: rotate(135deg);
 }
