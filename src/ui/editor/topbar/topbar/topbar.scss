@@ -23,6 +23,10 @@
   text-shadow: $text-shadow;
 }
 
+.topbar__row-label-active {
+  color: $color-action;
+}
+
 .topbar__row-menus{
   flex-grow: 2;
 }

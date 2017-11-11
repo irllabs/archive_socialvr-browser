@@ -7,7 +7,8 @@
     <p
       *ngIf="userIsLoggedIn()"
       [routerLink]="['/editor', {outlets: {'modal': ['story']}}]"
-      class="topbar__row-label">
+      class="topbar__row-label"
+      [ngClass]="{'topbar__row-label-active': storyIsOpen}">
       Story
     </p>
   </div>
@@ -21,7 +22,8 @@
 
     <p
       [routerLink]="['/editor', {outlets: {'modal': ['profile']}}]"
-      class="topbar__row-label">
+      class="topbar__row-label"
+      [ngClass]="{'topbar__row-label-active': profileIsOpen}">
       Profile
     </p>
 
