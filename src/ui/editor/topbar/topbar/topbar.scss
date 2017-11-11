@@ -39,6 +39,10 @@ outline:0;
   }
 }
 
+.topbar__row-label-active {
+  color: $color-action;
+}
+
 .topbar__row-menus{
   flex-grow: 2;
 }
