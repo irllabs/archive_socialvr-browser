@@ -178,8 +178,7 @@ width: 100%;
 
 .dropdown-title {
   font-size: 1.2em;
-  margin-bottom: 10px;
-  border-bottom: 1px solid $color-grey-dark;
+  margin-bottom: 4px;
   color: $color-grey-dark;
 }
 
@@ -191,14 +190,16 @@ width: 100%;
 
 .dropdown-text {
   font-size: $tiny-font-size;
-  margin-bottom: 10px;
+  margin-bottom: 24px;
   color: $color-grey-dark;
 }
 
 .dropdown-text__bold {
-  font-size: $med-font-size;
-  font-weight: bold !important;
-  margin-bottom: 10px;
+  font-size: $tiny-font-size;
+  font-weight: 600 !important;
+  margin-bottom: 4px;
+  border-bottom: 1px solid $color-grey-medium;
+
   color: $color-grey-dark;
 }
 

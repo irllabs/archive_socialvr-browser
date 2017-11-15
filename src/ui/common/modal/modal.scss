@@ -14,17 +14,23 @@
 }
 
 .modal__content-header {
-  background-color: $color-grey-dark;
-  padding: 10px;
+  background-color: $color-white;
+  padding-top: 24px;
+  padding-bottom: 4px;
+  border-radius: 16px 16px 0px 0px;
+
 }
 
 .modal__content-body {
-  padding: 10px;
+  padding-bottom: 24px;
+padding-top: 4px;
   color: $color-grey-dark;
   background-color: $color-white;
+  border-radius: 0px 0px 16px 16px;
 }
 
 .modal__content-body-text {
+  text-align: center;
   margin-top: 5px;
 }
 
