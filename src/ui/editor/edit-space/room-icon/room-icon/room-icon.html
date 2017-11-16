@@ -33,12 +33,7 @@
     *ngIf="propertyEditorIsVisible"
     [roomProperty]="roomProperty"
     (onDeselect)="onDeselect($event)"
-    class="icon__property-editor"
-    [ngClass]="{
-      'icon__property-editor--right-shift': inspectorShift.right,
-      'icon__property-editor--left-shift': inspectorShift.left,
-      'icon__property-editor--up-shift': inspectorShift.up
-    }">
+    class="icon__property-editor">
   </property-editor>
 
 

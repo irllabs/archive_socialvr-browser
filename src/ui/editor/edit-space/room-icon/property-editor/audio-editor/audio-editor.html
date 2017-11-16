@@ -1,8 +1,7 @@
 <div
   droppable
   (onFileLoad)="onFileLoad($event)"
-  [acceptedFileType]="'audio'"
-  class="modal-window__fields">
+  [acceptedFileType]="'audio'">
 
 
   <div class="hotspot-inspector_row">
@@ -11,7 +10,7 @@
       [acceptedFileType]="'audio'"
       class="audio-editor__file-loader">
     </file-loader>
-    
+
     <audio-recorder
       *ngIf="showAudioRecorder()"
       (onRecorded)="onAudioRecorded($event)"

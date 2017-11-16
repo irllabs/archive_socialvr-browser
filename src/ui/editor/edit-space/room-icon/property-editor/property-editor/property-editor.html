@@ -27,14 +27,12 @@
       [linkProperty]="roomProperty">
     </link-editor>
 
-
+    <div
+      class="property-editor__delete-button"
+      (click)="deleteProperty()">
+      Delete {{ getPropertyName() }}
+    </div>
 
   </div>
-  <div
-    class="property-editor__delete-button"
-    (click)="deleteProperty()">
-    Delete {{ getPropertyName() }}
-  </div>
-
 
 </div>
