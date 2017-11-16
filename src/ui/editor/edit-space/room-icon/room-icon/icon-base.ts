@@ -32,11 +32,6 @@ export abstract class IconBase implements Hotspot {
   protected iconPath: string;
   protected subscriptions: Set<Subscription> = new Set<Subscription>();
   private windowDimensions: Vector2 = new Vector2(window.innerWidth, window.innerHeight);
-  private inspectorShift = {
-    up: false,
-    left: false,
-    right: false
-  };
 
   constructor(
     protected eventBus: EventBus,
@@ -99,14 +94,6 @@ export abstract class IconBase implements Hotspot {
       up: y > this.windowDimensions.getY() - 200
     };
     this.screenPosition.setPosition(x, y);
-
-    //if 2D view
-    if (!this.onIconDragEnd.observers.length) {
-      this.ngZone.run(() => this.inspectorShift = shift);
-    }
-    else {
-      this.inspectorShift = shift;
-    }
   }
 
   onMove($event) {

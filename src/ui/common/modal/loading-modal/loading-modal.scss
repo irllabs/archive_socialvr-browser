@@ -15,7 +15,7 @@ $animation-unit: 0.16s;
 }
 
 .modal__content__loader {
-  color: $color-white;
+  color: $color-grey-medium;
   margin: -$loader-dot-size auto $loader-dot-size auto;
   transform: translateZ(0);
   animation-delay: -$animation-unit;

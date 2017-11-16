@@ -9,6 +9,13 @@ $half-icon-size: $room-icon-size / 2;
   overflow: hidden;
 }
 
+.editor__hotspot-menu {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 10px;
+  left: 0;
+}
+
 .editor__topbar {
   position: absolute;
   top: 0;
@@ -20,14 +27,10 @@ $half-icon-size: $room-icon-size / 2;
   position: absolute;
   top: calc(50% - #{$room-icon-size});
   right: 0;
+  overflow-x:hidden;
+  overflow-y:hidden;
 }
 
-.editor__hotspot-menu {
-  position: absolute;
-  bottom: 0;
-  margin-bottom: 10px;
-  left: 0;
-}
 
 .editor__editPlayToggle {
   position: absolute;
@@ -50,10 +53,12 @@ $half-icon-size: $room-icon-size / 2;
 .editor__2d3d {
   margin-left: 3px;
   margin-right: 3px;
+  opacity:0.5;
 }
 
 .editor__2d3d--active {
-  color: $color-action;
+  color: $color-white;
+  opacity: 1;
 }
 
 .editor__editPlayToggleButton {
@@ -64,8 +69,8 @@ $half-icon-size: $room-icon-size / 2;
   position: absolute;
   bottom: 0;
   right: 0;
-  margin-bottom: 10px;
-  margin-right: 10px
+  margin-bottom: 16px;
+  margin-right: 16px;
 }
 
 // .editor__story-scroll {}

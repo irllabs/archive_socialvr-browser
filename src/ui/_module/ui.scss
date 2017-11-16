@@ -4,6 +4,32 @@ html, body {
   font-family: $font-family;
   font-size: $base-font-size;
   color: $color-white;
+  overflow: hidden;
+}
+
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 8px;
+    padding-bottom: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track:horizontal {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.4);
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb:horizontal {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.4);
+    background: rgba(255,255,255,0.4);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: rgba(255,255,255,0.4);
 }
 
 p {
@@ -34,46 +60,45 @@ a:hover{
 
 .button {
   border-radius: $window-border-radius;
-  background-color: $color-grey-light;
-  color: $color-grey-dark;
+  background-color: transparent;
+  color: $color-grey-medium;
   text-align: center;
-  padding: 10px 0;
-  margin-bottom: 5px;
+  font-size: $tiny-font-size;
+  padding: 8px 16px;
+  margin-bottom: 4px;
   width: 100%;
   cursor: pointer;
-  border-color: $color-grey-dark !important;
+  border-color: $color-grey-medium !important;
   border: 1px;
   border-style: solid;
-  background: rgba(0,0,0, 0);
+  box-sizing: border-box;
 
 }
 
 .button:hover {
-  background-color: $color-grey-light;
-  color: $color-action;
-  text-align: center;
-  padding: 10px 0;
-  margin-bottom: 5px;
-  width: 100%;
+  color: $color-grey-dark;
+  //width: 100%;
   cursor: pointer;
-  border-color: $color-grey-darkest !important;
+  border-color: $color-grey-dark !important;
   border: 1px;
   border-style: solid;
 
 }
 .button:active {
-  background-color: $color-grey-dark ;
-  color: $color-grey-light ;
+  background-color: transparent ;
+  color: $color-action ;
   text-align: center;
-  padding: 10px 0;
-  margin-bottom: 5px;
-  width: 100%;
+  //width: 100%;
   cursor: pointer;
-  border-color: $color-grey-dark !important;
+  border-color: $color-action !important;
   border: 1px;
   border-style: solid;
 
 }
+.button:focus {
+  outline:0;
+}
+
 .button-drag-drop {
   background-color: $color-primary;
   color: $color-white;
@@ -160,7 +185,7 @@ width: 100%;
 }
 
 .horiz-line-bottom {
-  border-bottom: 1px dotted $color-divider;
+  border-bottom: 1px solid transparent;
   width: 100%;
   margin-top: 25px;
   margin-bottom: 10px;
@@ -179,8 +204,7 @@ width: 100%;
 
 .dropdown-title {
   font-size: 1.2em;
-  margin-bottom: 10px;
-  border-bottom: 1px solid $color-grey-dark;
+  margin-bottom: 4px;
   color: $color-grey-dark;
 }
 
@@ -192,14 +216,16 @@ width: 100%;
 
 .dropdown-text {
   font-size: $tiny-font-size;
-  margin-bottom: 10px;
+  margin-bottom: 24px;
   color: $color-grey-dark;
 }
 
 .dropdown-text__bold {
-  font-size: $med-font-size;
-  font-weight: bold !important;
-  margin-bottom: 10px;
+  font-size: $tiny-font-size;
+  font-weight: 600 !important;
+  margin-bottom: 4px;
+  border-bottom: 1px solid $color-grey-medium;
+
   color: $color-grey-dark;
 }
 
@@ -220,7 +246,7 @@ width: 100%;
 }
 .dropdown-input-row {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
@@ -231,7 +257,7 @@ width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
@@ -315,32 +341,28 @@ width: 100%;
 // modal-window related
 .modal-window {
   display:  inline-block;
-  width: 80%;
-  min-height: 80%;
+  //width: 80%;
+  //height: 80%;
   overflow: hidden;
-  position: fixed;
+  //position: fixed;
   top: 50%;
   left: 50%;
 
   border-radius: $window-border-radius;
   /* bring your own prefixes */
-  transform: translate(-50%, -50%);
+  //transform: translate(-50%, -50%);
   background-color: rgba(255, 255, 255, $color-modal-transparecy);
 }
 
 .modal-window__fields {
-	width: 90%;
+	min-width: 300px;
 	position: fixed;
+  background-color:white;
+  border-radius: 8px;
+  padding: 8px 16px;
   top: 50%;
   left: 50%;
+  z-index: $z-index-5;
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
-}
-
-.topbar__row-label {
-  cursor: pointer;
-  &:hover{
-    color: $color-grey-medium;
-  }
-  text-shadow: $text-shadow;
 }

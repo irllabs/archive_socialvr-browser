@@ -4,7 +4,9 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 16px;
+  overflow: hidden;
+
 }
 
 
@@ -16,22 +18,45 @@
 }
 
 .topbar__row-label {
+  color: $color-grey-dark;
+  font-weight: $semi-bold;
+  background-color: $color-white;
+  opacity: 0.7;
+  border-radius: 4px;
+  padding: 8px 16px;
+  overflow: hidden;
+
   cursor: pointer;
   &:hover{
-    color: $color-grey-medium;
+    opacity: 1;
+
   }
-  text-shadow: $text-shadow;
+  &:active{
+    background-color: $color-white;
+    color: $color-action;
+  }
+
+  &:focus{
+outline:0;
+
+  }
+}
+
+.topbar__row-label-active {
+  color: $color-action;
+  opacity: 1;
+  overflow: hidden;
 }
 
 .topbar__row-menus{
   flex-grow: 2;
 }
 .topbar__marginright{
-  margin-right: 15px;
+  margin-right: 16px;
 }
 
 .topbar__marginleft{
-  margin-left: 15px;
+  margin-left: 16px;
 }
 
 .topbar__row-story{

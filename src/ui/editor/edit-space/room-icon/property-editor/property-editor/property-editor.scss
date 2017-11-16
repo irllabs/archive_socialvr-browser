@@ -71,12 +71,12 @@
 }
 
 .property-editor__delete-button {
-  position: absolute;
+  // position: absolute;
   width: 100%;
   background-color: $delete-button-background-color;
   color: $color-white;
   text-align: center;
   padding: 10px 0;
   cursor: pointer;
-  bottom: 0px;
+  // bottom: 0px;
 }

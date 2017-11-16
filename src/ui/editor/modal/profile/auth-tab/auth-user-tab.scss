@@ -9,20 +9,20 @@
 
 .user-view__project-list {
   color: $color-grey-dark;
-  overflow-y: scroll;
-  max-height: 200px;
+  overflow-y: auto;
+  max-height: 90px;
   font-size: $tiny-font-size;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 .user-view__project {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
-  color: $color-grey-dark;
+  color: $color-grey-medium;
   margin-top: 3px;
   margin-bottom: 6px;
-  border-bottom: 1px solid $color-grey-dark;
+  border-bottom: 1px solid $color-grey-light;
   padding-bottom: 3px;
 }
 
@@ -33,13 +33,11 @@
 
 .user-view__project-title:hover {
   cursor: pointer;
-  color: $color-action;
-  font-style: bold !important;
+  color: $color-grey-dark;
 }
 
 .user-view__project-title--selected {
-  background-color: $color-action;
-  color: $color-white;
+  color: $color-action;
 }
 
 .user-view__project-options {
@@ -52,10 +50,11 @@
 }
 
 .user-view__project-option {
+  font-size: $tiny-font-size;
   margin-left: 10px;
   cursor: pointer;
   border-color: $color-grey-light;
-  border: 1px;
+  border: 0px;
   padding-left: 3px;
   padding-right: 3px;
   border-style: dashed;
@@ -65,6 +64,6 @@
 .user-view__project-option:hover {
   color: black;
   border-color: $color-grey-dark;
-  border: 1px;
+  border: 0px;
   border-style: solid;
 }

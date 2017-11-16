@@ -23,56 +23,60 @@
     <div class="horiz-line-bottom"></div>
 
     <!-- Soundtrack -->
-    <file-loader
-      *ngIf="!getSoundtrack().hasAsset()"
-        (onFileLoad)="onSoundtrackLoad($event)"
-        [acceptedFileType]="'audio'"
-        [displayText]="'Add Soundtrack'"
-        class="story__soundtrack__upload-button">
-    </file-loader>
 
-    <div
-      *ngIf="getSoundtrack().hasAsset()"
-      class="story__soundtrack__delete-button"
-      (click)="removeSoundtrack()">
-      Remove Soundtrack
-    </div>
 
-    <audio
-      *ngIf="getSoundtrack().hasAsset()"
-      [attr.src]="getSoundtrack().getBinaryFileData()"
-      type="audio/mp3"
-      controls="controls"
-      [volume]="getSoundtrackVolume()"
-      (volumechange)="onVolumeChange($event)"
-      class="story__soundtrack__audio-player">
-    </audio>
-
-    <div class="dropdown-row">
-      <div class="button dropdown-button-margin" title="Click to save current story to server"
-       (click)="onSaveStoryClick($event)">
-        Save to Server
-      </div>
       <div
         class="button"
         title="Click to create new story"
         (click)="onNewStoryClick($event)">
-        New
+        New Story
       </div>
-    </div>
+      <div class="button" title="Click to save current story to server"
+       (click)="onSaveStoryClick($event)">
+        Save Story
+      </div>
 
-    <div class="dropdown-row">
-      <div class="button dropdown-button-margin" title="Click to download story as zip file"
+
+
+
+      <div class="button" title="Click to download story as zip file"
        (click)="onSaveStroyLocallyClick($event)">
-        Save locally
+        Download Story as .zip
       </div>
       <div
         class="button"
         title="Click to upload zip file"
         (click)="onOpenStoryLocallyClick($event)">
-        Open local story
+        Upload Story from .zip
       </div>
-    </div>
+
+      <div class="dropdown-input-row">
+      <file-loader
+        *ngIf="!getSoundtrack().hasAsset()"
+          (onFileLoad)="onSoundtrackLoad($event)"
+          [acceptedFileType]="'audio'"
+          [displayText]="'Add Soundtrack'"
+          class="story__soundtrack__upload-button">
+      </file-loader>
+
+      <div
+        *ngIf="getSoundtrack().hasAsset()"
+        class="story__soundtrack__delete-button"
+        (click)="removeSoundtrack()">
+        Remove Soundtrack
+      </div>
+
+      <audio
+        *ngIf="getSoundtrack().hasAsset()"
+        [attr.src]="getSoundtrack().getBinaryFileData()"
+        type="audio/mp3"
+        controls="controls"
+        [volume]="getSoundtrackVolume()"
+        (volumechange)="onVolumeChange($event)"
+        class="story__soundtrack__audio-player">
+      </audio>
+
+</div>
 
   </div>
 
