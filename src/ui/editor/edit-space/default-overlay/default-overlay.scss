@@ -5,6 +5,7 @@
   position: absolute;
   height: 100%;
   width: 100%;
+
   top: 0;
   left: 0;
   background-color: $color-grey-dark;
@@ -42,11 +43,12 @@
 }
 
 .default-overlay__logo {
+  margin-top: 16px;
   font-size: 2em;
-  font-weight: 600;
+  font-weight: 400;
   text-shadow: $text-shadow;
   position: absolute;
-  top: 50%;
+  top: 0%;
   cursor: pointer;
   &:hover{
     color: $color-grey-medium;
@@ -56,6 +58,7 @@
 
 .default-overlay__logo-social a:link {
     text-decoration: none !important;
+    border-bottom: 0px;
 }
 
 

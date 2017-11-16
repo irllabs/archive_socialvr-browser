@@ -33,13 +33,11 @@
 
 .user-view__project-title:hover {
   cursor: pointer;
-  color: $color-action;
-  font-style: bold !important;
+  color: $color-grey-dark;
 }
 
 .user-view__project-title--selected {
-  background-color: $color-action;
-  color: $color-white;
+  color: $color-action;
 }
 
 .user-view__project-options {
