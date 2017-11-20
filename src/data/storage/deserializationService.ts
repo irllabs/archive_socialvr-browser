@@ -12,7 +12,7 @@ import {FileLoaderUtil} from 'ui/editor/util/fileLoaderUtil';
 import 'rxjs/add/observable/fromPromise';
 
 import {
-  STORY_FILE, UINT8ARRAY,
+  STORY_FILE_YAML, STORY_FILE_JSON, UINT8ARRAY,
   MIME_TYPE_MP3, MIME_TYPE_PNG, MIME_TYPE_UTF8,
   MIME_TYPE_JPG, MIME_TYPE_JPEG, MIME_TYPE_WAV, MIME_TYPE_AAC, MIME_TYPE_XM4A,
   BACKGROUND_THUMBNAIL
@@ -273,8 +273,8 @@ function deserializeProject(jsZipData) {
   const fileMap = jsZipData.files;
 
   const storyFilePath: string = Object.keys(fileMap)
-    .filter(fileKey => fileKey.indexOf(STORY_FILE) > -1)[0] || STORY_FILE;
-  const baseFilePath: string = storyFilePath.substring(0, storyFilePath.indexOf(STORY_FILE));
+    .filter(fileKey => fileKey.indexOf(STORY_FILE_YAML) > -1)[0] || STORY_FILE_YAML;
+  const baseFilePath: string = storyFilePath.substring(0, storyFilePath.indexOf(STORY_FILE_YAML));
 
   const storyFile = fileMap[storyFilePath];
   console.log('storyFile', storyFile)

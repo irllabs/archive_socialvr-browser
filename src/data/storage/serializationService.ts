@@ -3,7 +3,9 @@ import {Observable} from 'rxjs/Observable';
 
 import {
   DEFAULT_FILE_NAME,
-  MIME_TYPE_UTF8, STORY_FILE,
+  MIME_TYPE_UTF8,
+  STORY_FILE_YAML,
+  STORY_FILE_JSON,
   BACKGROUND_THUMBNAIL
 } from 'ui/common/constants';
 
@@ -101,11 +103,15 @@ export class SerializationService {
   }
 
   private buildZipStoryFile() {
-    const projectJson = this.buildProjectJson();
+    const projectJson = JSON.stringify(this.buildProjectJson());
     const projectYaml = JsYaml.dump(projectJson);
-    const projectFileBlob = new Blob([projectYaml], {type: MIME_TYPE_UTF8});
+
+    const projectFileBlobYaml = new Blob([projectYaml], {type: MIME_TYPE_UTF8});
+    const projectFileBlobJson = new Blob([projectJson], {type: MIME_TYPE_UTF8});
+
     const zip = this.buildAssetDirectories(new JSZip());
-    zip.file(STORY_FILE, projectFileBlob);
+    zip.file(STORY_FILE_YAML, projectFileBlobYaml);
+    zip.file(STORY_FILE_JSON, projectFileBlobJson);
     return zip;
   }
 

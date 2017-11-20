@@ -45,7 +45,8 @@ export const MIME_TYPE_X_ZIP_COMPRESSED: string = 'application/x-zip-compressed'
 export const MIME_TYPE_MP4 = 'video/mp4';
 
 export const UINT8ARRAY: string = 'uint8array';
-export const STORY_FILE: string = 'story.yml';
+export const STORY_FILE_YAML: string = 'story.yml';
+export const STORY_FILE_JSON: string = 'story.json';
 
 export const GROUP_TYPE = {
   FEATURED: 'FEATURED',
