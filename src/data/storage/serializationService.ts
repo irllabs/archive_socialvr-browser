@@ -9,8 +9,11 @@ import {
   BACKGROUND_THUMBNAIL
 } from 'ui/common/constants';
 
+import {AssetInteractor} from 'core/asset/assetInteractor';
 import {RoomManager} from 'data/scene/roomManager';
+import {MediaFile} from 'data/scene/entities/mediaFile';
 import {Room} from 'data/scene/entities/room';
+import {Http, Response, Headers, RequestOptions, ResponseContentType} from '@angular/http';
 import {Image} from 'data/scene/entities/image';
 import {resizeImage} from 'data/util/imageResizeService';
 
@@ -34,6 +37,52 @@ export class SerializationService {
       homeRoomId: this.roomManager.getHomeRoomId(),
       rooms: roomList
     };
+  }
+
+  private uploadAssets() {
+    // Collect individual room assets
+    let mediaFiles = [];
+    let mediaFileUploads = [];
+    Array.from(this.roomManager.getRooms())
+      .forEach(room => {
+        const directoryName: string = room.getId();
+
+        const imageList = Array.from(room.getImages()).map(image => image.getMediaFile())
+        const audioList = Array.from(room.getAudio()).map(audio => audio.getMediaFile())
+        mediaFiles = [...mediaFiles, ...imageList, ...audioList];
+
+        // Narrator intro audio
+        const introAudio = room.getNarrator().getIntroAudio();
+        const returnAudio = room.getNarrator().getReturnAudio();
+        if (introAudio.hasAsset()) {
+          mediaFiles.push(introAudio);
+        }
+        if (returnAudio.hasAsset()) {
+          mediaFiles.push(returnAudio);
+        }
+
+        // Room background audio
+        if (room.getBackgroundAudio().hasAsset()) {
+          mediaFiles.push(room.getBackgroundAudio())
+        }
+
+        // Room background image
+        if (room.hasBackgroundImage()) {
+          mediaFiles.push(room.getBackgroundImage());
+        }
+
+        // Room background thumbnail
+        if (room.getThumbnailImage()) {
+          mediaFiles.push(room.getThumbnail());
+        }
+
+        mediaFileUploads = Object.assign(mediaFiles.map(mediaFile => {
+          const key = `${directoryName}/${mediaFile.getFileName()}`;
+          return this.uploadMediaFileToS3(mediaFile, key)
+            .flatMap((response) => { console.log(`Uploaded ${key}`); return key });
+        }), mediaFileUploads);
+      });
+    return Observable.forkJoin(...mediaFileUploads);
   }
 
   private buildAssetDirectories(zip) {
