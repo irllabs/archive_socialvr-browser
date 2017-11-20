@@ -25,6 +25,12 @@ export class ApiService implements Api {
     return Observable.from('');
   }
 
+  // GET /media/?s3_key&content_type
+  getUploadPolicy(): Observable<any> {
+    // TODO: Mock upload policy & responses
+    return Observable.from('');
+  }
+
   getUser(): Observable<any> {
     return Observable.from(getUser);
   }

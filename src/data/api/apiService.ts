@@ -14,6 +14,7 @@ import {generateUniqueId} from 'data/util/uuid';
 const URL_GET_AUTH_TOKEN: string = '/get_auth_token/';
 const URL_LOG_IN: string = '/login/';
 const URL_LOG_OUT: string = '/logout/';
+const URL_PATH_MEDIA: string = '/media/';
 const URL_PATH_USER: string = '/user/';
 const URL_PATH_USERS: string = '/users/';
 const URL_PATH_PROJECTS: string = '/projects/';
@@ -44,6 +45,13 @@ export class ApiService implements Api {
   logOut(): Observable<any> {
     const URL: string = `${BASE_URL}${URL_LOG_OUT}`;
     return this.http.delete(URL, {withCredentials: true});
+  }
+
+  // GET /media/?s3_key&content_type
+  getUploadPolicy(): Observable<any> {
+    const URL: string = `${BASE_URL}${URL_PATH_MEDIA}`;
+    return this.http.get(URL, {withCredentials: true})
+      .map(response => response.json());
   }
 
   // GET  /user/
