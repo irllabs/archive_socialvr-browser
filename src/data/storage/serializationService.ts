@@ -23,7 +23,34 @@ const JsYaml = require('js-yaml');
 @Injectable()
 export class SerializationService {
 
-  constructor(private roomManager: RoomManager) {}
+  constructor(
+    private roomManager: RoomManager,
+    private http: Http,
+    private assetInteractor: AssetInteractor,
+  ) {}
+
+  private uploadMediaFileToS3(mediaFile: MediaFile, key: string): Observable<any> {
+    // TODO: handle duplicate asset.getFileName values upstream
+    // alterantively, timestamp the uploaded filename -- with x-act-meta?
+    // const timestamp = Math.floor(Date.now());
+
+    const uploadPolicy = this.assetInteractor.getUploadPolicy();
+    const binaryFileData = mediaFile.getBinaryFileData();
+    const file = getBlobFromDataUrl(binaryFileData);
+
+    const payload = Object.assign(uploadPolicy.fields, { key, file });
+    const formData = Object.keys(payload).reduce((formData, key) => {
+      formData.append(key, payload[key]);
+      return formData;
+    }, new FormData());
+
+    return this.http.post(uploadPolicy.url, formData, {withCredentials: true})
+      .do(response => {
+        // Set remote file name in mediaFile.remoteFileName if successful
+        const remoteFileName = `${uploadPolicy.url}${key}`;
+        mediaFile.setRemoteFileName(remoteFileName);
+      });
+  }
 
   private buildProjectJson() {
     const roomList = Array.from(this.roomManager.getRooms())
@@ -186,16 +213,20 @@ export class SerializationService {
   }
 
   zipStoryFile(): Observable<any> {
-    const zip = this.buildZipStoryFile();
-    const zipBuilder = Promise.all([
-      this.getHomeRoomImage()
-      .then(homeRoomImage => zip.file('thumbnail.jpg', homeRoomImage, {base64: true})),
-      this.getProjectSoundtrack()
-      .then(Soundtrack => zip.file(Soundtrack.getFileName(), getBase64FromDataUrl(Soundtrack.getBinaryFileData()), {base64: true}))
-      .catch(error => console.log(error))
-    ])
-    .then(resolve => zip.generateAsync({type: 'blob'}));
-    return Observable.fromPromise(zipBuilder);
+    return this.uploadAssets()
+      .flatMap(
+        (data) => {
+          const zip = this.buildZipStoryFile();
+          const zipBuilder = Promise.all([
+            this.getHomeRoomImage()
+            .then(homeRoomImage => zip.file('thumbnail.jpg', homeRoomImage, {base64: true})),
+            this.getProjectSoundtrack()
+            .then(Soundtrack => zip.file(Soundtrack.getFileName(), getBase64FromDataUrl(Soundtrack.getBinaryFileData()), {base64: true}))
+            .catch(error => console.log(error))
+          ]).then(resolve => zip.generateAsync({type: 'blob'}));
+          return Observable.fromPromise(zipBuilder);
+        }
+      )
   }
 
 }
