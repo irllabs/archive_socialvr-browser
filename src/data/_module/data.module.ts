@@ -14,6 +14,7 @@ import {DeserializationService} from 'data/storage/deserializationService';
 import {SerializationService} from 'data/storage/serializationService';
 import {ProjectService} from 'data/project/projectService';
 import {AssetManager} from 'data/asset/assetManager';
+import {AssetService} from 'data/asset/assetService';
 import {ChatService} from 'data/chat/chatService';
 
 @NgModule({
@@ -32,6 +33,7 @@ import {ChatService} from 'data/chat/chatService';
     PropertyBuilder,
     ProjectService,
     AssetManager,
+    AssetService,
     ChatService,
     CameraService
   ]
