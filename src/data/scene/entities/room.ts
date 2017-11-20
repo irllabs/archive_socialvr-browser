@@ -140,18 +140,28 @@ export class Room implements RoomProperty {
     return this.backgroundAudio.getBinaryFileData();
   }
 
+  // TODO: Rename to setBackgroundImage
   setFileData(fileName: string, binaryFileData: any) {
     this.backgroundImage.setFileName(fileName);
     this.backgroundImage.setBinaryFileData(binaryFileData);
+  }
+
+  getBackgroundImage(): MediaFile {
+    return this.backgroundImage;
   }
 
   hasBackgroundImage(): boolean {
     return this.backgroundImage.getFileName() !== DEFAULT_FILE_NAME || this.backgroundIsVideo;
   }
 
+  // TODO: setThumbnail calls should send a suffix _thumb
   setThumbnail(fileName: string, binaryFileData: any) {
     this.thumbnail.setFileName(fileName);
     this.thumbnail.setBinaryFileData(binaryFileData);
+  }
+
+  getThumbnail(): MediaFile {
+    return this.thumbnail;
   }
 
   getThumbnailImage() {
