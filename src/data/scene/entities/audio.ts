@@ -11,6 +11,10 @@ export class Audio extends BaseElement {
     super();
   }
 
+  getMediaFile(): MediaFile {
+    return this.mediaFile;
+  }
+
   getFileName(): string {
     return this.mediaFile.getFileName();
   }
@@ -49,6 +53,7 @@ export class Audio extends BaseElement {
   toJson() {
     return Object.assign(super.toJson(), {
       file: encodeURIComponent(this.mediaFile.getFileName()),
+      remoteFile: this.mediaFile.getRemoteFileName(),
       volume: this.getVolume()
     });
   }
