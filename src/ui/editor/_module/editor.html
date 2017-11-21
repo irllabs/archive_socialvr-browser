@@ -19,18 +19,19 @@
       (changeEmitter)="onEditPlayChange($event)"
       class="editor__editPlayToggleButton">
     </checkbox>
-    <div
-      *ngIf="roomEditorIsVisible()"
-      class ="editor__2d3d">
-      <div
-      (click)="on2dViewClick($event)"
-      [ngClass]="{'editor__2d3d--active': editorIsFlat()}"
-      class='topbar__row-label editor__2d3d'>2D</div>
-      <div
-      (click)="on3dViewClick($event)"
-      [ngClass]="{'editor__2d3d--active': editorIsSphere()}"
-      class='topbar__row-label editor__2d3d'>3D</div>
-    </div>
+
+  </div>
+
+  <div
+    *ngIf="roomEditorIsVisible()"
+    class="editor__edit2D3DToggle">
+    <p
+      class='topbar__row-label'>2D  /  3D</p>
+
+    <checkbox
+      (changeEmitter)="on2d3dViewClick($event)"
+      class="editor__edit2d3dToggleButton">
+    </checkbox>
   </div>
 
   <hotspot-menu
