@@ -50,7 +50,6 @@ export class DraggableIcon {
       return; // only allow the icon to be the draggable component
     }
     event.preventDefault();
-    event.stopPropagation();
 
     this.subscribeToMouseMovements();
     const boundingRect = this.element.nativeElement.getBoundingClientRect();
