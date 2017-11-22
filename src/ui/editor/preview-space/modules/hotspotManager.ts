@@ -42,6 +42,7 @@ class HotspotEntity {
   audioPlayService: AudioPlayService;
   goToRoom: Function;
   myWobble: number;
+  scale: number;
   //tweens:
 
   tweenIconActivate;
@@ -70,7 +71,7 @@ class HotspotEntity {
     this.goToRoom = goToRoom;
     this.activeState = 0; //everybody starts far away
     this.activeStateLast = -1; //to make sure something happens the first time
-
+    this.scale = this.previewIcon.scale.x;
     this.graphicIcon.visible = true;
     this.previewIcon.visible = true;
     this.myWobble = Math.random()/1000; //to make each hotspot have a uniquye throbbing freq
@@ -140,19 +141,28 @@ class HotspotEntity {
     //animations
     if (this.activeState == 0) {
       if (this.type == 'door') {
-        var previewIconScale = (0.5+0.5*Math.sin(performance.now()*
-            (THREE_CONST.HOTSPOT_MOD_FREQ+this.myWobble)));
-            this.previewIcon.scale.set(
-              previewIconScale,
-              previewIconScale,
-              1);
+        var previewIconScale = (1.-(performance.now()%THREE_CONST.HOTSPOT_DOOR_FREQ)/THREE_CONST.HOTSPOT_DOOR_FREQ)
+             + 0.01;
+
+        //if (Math.random() > .95) {console.log(previewIconScale);}
+        this.previewIcon.scale.set(
+          this.scale * previewIconScale,
+          this.scale * previewIconScale,
+          1);
+        // var previewIconScale = (0.5+0.5*Math.sin(performance.now()*
+        //     (THREE_CONST.HOTSPOT_MOD_FREQ+this.myWobble)));
+        //     this.previewIcon.scale.set(
+        //       previewIconScale,
+        //       previewIconScale,
+        //       1);
       } else {
+
         var previewIconScale = (Math.sin(performance.now()*
             (THREE_CONST.HOTSPOT_MOD_FREQ+this.myWobble))*THREE_CONST.HOTSPOT_MOD_MAG);
-            this.previewIcon.scale.set(
-              this.previewIcon.scale.x + previewIconScale,
-              this.previewIcon.scale.y + previewIconScale,
-              1);
+        this.previewIcon.scale.set(
+          this.previewIcon.scale.x + previewIconScale,
+          this.previewIcon.scale.y + previewIconScale,
+          1);
       }
 
       //trying to make door dashedlines rotate but not working
