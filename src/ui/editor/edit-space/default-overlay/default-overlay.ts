@@ -37,6 +37,8 @@ export class DefaultOverlay {
 
   */
 
+
+
   private onFileChange($event) {
     const file = $event.target.files && $event.target.files[0];
     if (!file) {

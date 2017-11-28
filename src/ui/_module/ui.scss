@@ -204,18 +204,20 @@ width: 100%;
 
 .dropdown-title {
   font-size: 1.2em;
+    margin-top:8px;
   margin-bottom: 4px;
   color: $color-grey-dark;
 }
 
 .dropdown-heading{
   font-size: 1.0em;
+
   margin-bottom: 10px;
   color: $color-grey-dark;
 }
 
 .dropdown-text {
-  font-size: $tiny-font-size;
+  font-size: $med-font-size;
   margin-bottom: 24px;
   color: $color-grey-dark;
 }
@@ -224,13 +226,12 @@ width: 100%;
   font-size: $tiny-font-size;
   font-weight: 600 !important;
   margin-bottom: 4px;
-  border-bottom: 1px solid $color-grey-medium;
 
   color: $color-grey-dark;
 }
 
 .dropdown-text__accent {
-  font-size: $tiny-font-size;
+  font-size: $med-font-size;
   margin-bottom: 10px;
   color: $color-action;
 }
