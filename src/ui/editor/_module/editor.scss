@@ -30,28 +30,62 @@ $half-icon-size: $room-icon-size / 2;
   overflow-x:hidden;
   overflow-y:hidden;
 }
+.editor_center {
+  background-color: $color-grey-dark;
+  padding: 8px 16px;
+  opacity: 0.7;
+  border-radius: 2px;
+  margin-top: 16px;
 
+
+  position: absolute;
+top: 0%;
+  left: 50%;
+  display:flex;
+flex-direction: row;
+align-items: space-between;
+transform: translate(-50%, 0%);
+}
+
+.editor_center > div
+{
+  margin:0px 8px;  /* and that, will result in a 10px gap */
+}
 
 .editor__editPlayToggle {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  margin-top: 10px;
+/*
+top:0;
+position: absolute;
+left:50%;
+*/
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: translate(-50%, 0%);
+  &:hover{
+    opacity: 1;
+
+  }
 }
 
 .editor__edit2D3DToggle {
+/*
+  top:0;
   position: absolute;
-  top: 0;
-  left: 25%;
-  margin-top: 10px;
+  left: 60%;
+  */
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: translate(-50%, 0%);
+  &:hover{
+    opacity: 1;
+
+  }
+}
+
+.center-panel {
+  font-size: $tiny-font-size;
+  font-weight: $semi-bold;
+  color: white;
 }
 
 .editor__2d3d {
@@ -73,11 +107,11 @@ $half-icon-size: $room-icon-size / 2;
 }
 
 .editor__editPlayToggleButton {
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .editor__edit2d3dToggleButton {
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .editor__fullscreen {
