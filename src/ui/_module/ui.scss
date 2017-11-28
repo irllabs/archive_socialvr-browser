@@ -65,13 +65,22 @@ a:hover{
   text-align: center;
   font-size: $tiny-font-size;
   padding: 8px 16px;
-  margin-bottom: 4px;
-  width: 100%;
+  margin-bottom: 8px;
+  width: 48%;
   cursor: pointer;
   border-color: $color-grey-medium !important;
   border: 1px;
   border-style: solid;
   box-sizing: border-box;
+
+}
+
+.button_row{
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
 
 }
 
@@ -187,8 +196,8 @@ width: 100%;
 .horiz-line-bottom {
   border-bottom: 1px solid transparent;
   width: 100%;
-  margin-top: 25px;
-  margin-bottom: 10px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 .dropdown {
   background-color: $topbar-dropdown-background-color;
@@ -217,8 +226,8 @@ width: 100%;
 }
 
 .dropdown-text {
-  font-size: $med-font-size;
-  margin-bottom: 24px;
+  font-size: $tiny-font-size;
+  margin-bottom: 16px;
   color: $color-grey-dark;
 }
 
@@ -251,7 +260,7 @@ width: 100%;
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
-  margin: 10px 0;
+  margin-bottom: 10px;
 }
 
 .dropdown-row {
@@ -356,7 +365,7 @@ width: 100%;
 }
 
 .modal-window__fields {
-	min-width: 300px;
+	min-width: 340px;
 	position: fixed;
   background-color:white;
   border-radius: 8px;
