@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
+import {Http} from '@angular/http';
 
 import {RoomManager} from 'data/scene/roomManager';
 import {PropertyBuilder} from 'data/scene/roomPropertyBuilder';
@@ -29,24 +30,29 @@ export class DeserializationService {
   constructor(
     private roomManager: RoomManager,
     private propertyBuilder: PropertyBuilder,
-    private fileLoaderUtil: FileLoaderUtil
+    private fileLoaderUtil: FileLoaderUtil,
+    private http: Http,
   ) {}
 
   private deserializeRooms(storyFile: any, binaryFileMap: any, baseFilePath: string): Promise<any> {
     return storyFile.async('string')
-      .then(storyYamlString => {
+      .then(storyString => {
 
         let storyJson;
-        try {
-          //remove room property descriptions from yaml file (ex: - !image, - !door)
-          const bangDescriptionRegex = /!\w+\n/g;
-          const newLineStoryYaml: string = storyYamlString.replace(/\r\n/g, '\n');
-          const cleanedStoryYaml: string = newLineStoryYaml.replace(bangDescriptionRegex, '\n');
-          storyJson = JsYaml.load(cleanedStoryYaml);
-        }
-        catch(error) {
-          console.error(error);
-          return;
+        if (storyFile.name.indexOf(STORY_FILE_JSON) >= 0) {
+          storyJson = JSON.parse(storyString);
+        } else {
+          try {
+            //remove room property descriptions from yaml file (ex: - !image, - !door)
+            const bangDescriptionRegex = /!\w+\n/g;
+            const newLineStoryYaml: string = storyString.replace(/\r\n/g, '\n');
+            const cleanedStoryYaml: string = newLineStoryYaml.replace(bangDescriptionRegex, '\n');
+            storyJson = JsYaml.load(cleanedStoryYaml);
+          }
+          catch(error) {
+            console.error(error);
+            return;
+          }
         }
         this.roomManager.clearRooms();
 
@@ -69,14 +75,18 @@ export class DeserializationService {
           console.log('buildRoom', `${baseFilePath}${filePrefix}`);
 
           // Background image
-          const roomImagePath = `${baseFilePath}${filePrefix}/${roomData.image}`;
+          let filename = roomData.image;
+          if (roomData.image.hasOwnProperty('file')) {
+            filename = roomData.image.file;
+          }
+          const roomImagePath = `${baseFilePath}${filePrefix}/${filename}`;
           const roomImage = binaryFileMap.find(mediaFile => mediaFile.name === roomImagePath);
           const roomImageData = roomImage ? roomImage.fileData : null;
 
           // Background thumbnail
           const roomThumbPath = `${baseFilePath}${filePrefix}/${BACKGROUND_THUMBNAIL}`;
           const roomThumbnail = binaryFileMap.find(mediaFile => mediaFile.name === roomThumbPath);
-          const thumbnailImageData = roomThumbnail ? roomThumbnail.fileData : null;
+          const thumbnailImageData = roomThumbnail ? roomThumbnail.fileData : roomImageData;
 
           // Background audio
           const backgroundAudioPath = `${baseFilePath}${filePrefix}/${roomData.ambient}`;
@@ -172,6 +182,33 @@ function loadMediaFile(mediaFile: any, getBinaryFileData: any): Promise<any> {
     .catch(error => console.log('error', mediaFile.name, error));
 }
 
+function loadRemoteMediaFile(mediaFile: any, getBinaryFileData: any): Promise<any> {
+  console.log('loading remote media file', mediaFile)
+  const fetch = window.fetch;
+  return fetch(mediaFile.remoteFile, { credentials: 'same-origin' })
+    .then(response => { return response.blob()
+      .then(fileData => {
+        console.log('---fileData', mediaFile);
+        const fileType = getFileType(mediaFile.file);
+        console.log('FILEDATA', fileData, typeof(fileData))
+        return new Blob([fileData], {type: fileType});
+      })
+      .then(blob => {
+        console.log('---blob', mediaFile);
+        return getBinaryFileData(blob);
+      })
+      .then(binaryDataFile => {
+        console.log('success', mediaFile.file)
+        return {
+          name: mediaFile.filePath,
+          fileData: binaryDataFile
+        };
+      })
+      .catch(error => console.log('error', mediaFile.file, error));
+    })
+    .catch(error => console.log('error', error));
+}
+
 async function loadMediaFileWrapper(mediaFile: any, getBinaryFileData: any): Promise<any> {
   console.log('loadMediaFileWrapper', mediaFile);
   return await loadMediaFile(mediaFile, getBinaryFileData);
@@ -180,43 +217,55 @@ async function loadMediaFileWrapper(mediaFile: any, getBinaryFileData: any): Pro
 // Given a json object of jszip files, return a list of
 // promises containing image and audio binary data
 async function loadMediaFiles(fileMap: any, storyFilePath: string, getBinaryFileData: any) {
-  console.log('load media files', fileMap);
+  console.log('load local media files', fileMap);
   const files = Object.keys(fileMap)
-    .filter(fileKey => fileKey !== storyFilePath)
+    .filter(fileKey => fileKey.indexOf(STORY_FILE_YAML) < 0)
+    .filter(fileKey => fileKey.indexOf(STORY_FILE_JSON) < 0)
     .map(fileKey => fileMap[fileKey])
     .filter(file => !file.dir);
-  console.log('files to load', files);
+  console.log('local files to load', files);
+
+  console.log('load remote media files');
+  const remoteFiles = [];
+  let getRemoteFiles = new Promise((resolve, reject) => resolve(remoteFiles));
+
+  // Only check for remote files if storyFile is JSON
+  if (storyFilePath.indexOf(STORY_FILE_JSON) >= 0) {
+    getRemoteFiles = fileMap[storyFilePath].async('string')
+      .then(storyString => {
+        const storyJson = JSON.parse(storyString);
+        storyJson.rooms.map(room => {
+          const assets = [...room.clips, room.ambient, ...room.images, room.image]; 
+          assets.map(asset => {
+            if (asset.hasOwnProperty('remoteFile')) {
+              // Add to remoteFiles if not present locally
+              asset.filePath = `${room.uuid}/${asset.file}`;
+              if (files.map(file => file.name).indexOf(asset.filePath) < 0) {
+                remoteFiles.push(asset);
+              }
+            }
+          });
+        });
+        return remoteFiles;
+      });
+  }
 
   const mediaFiles = [];
 
-  // async function printFiles () {
-  // const files = await getFilePaths();
+  await getRemoteFiles.then(async (remoteFiles: any) => {
+    console.log('remote files to load', remoteFiles)
+    for (let i = 0; i < remoteFiles.length; i++) {
+      const file = remoteFiles[i];
+      await loadRemoteMediaFile(file, getBinaryFileData).then(mediaFile => mediaFiles.push(mediaFile));
+    }
+  });
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     await loadMediaFile(file, getBinaryFileData).then(mediaFile => mediaFiles.push(mediaFile));
-    // const contents = await fs.readFile(file, 'utf8');
-    // console.log(contents);
   }
+  console.log('allfiles', mediaFiles)
   return mediaFiles;
-
-  // files.forEach(f => {
-  //   loadMediaFileWrapper(f, getBinaryFileData).then(mediaFile => mediaFiles.push(mediaFile));
-  // });
-  //
-  // return files.map(f => {
-  //   return loadMediaFileWrapper(f, getBinaryFileData)
-  // });
-
-  // for (const f of meteredPromises) {
-  //   await Promise.all(subList)
-  //     .then(resultList => {
-  //       console.log('adding to resultList:', resultList)
-  //       results = [...results, ...resultList];
-  //     });
-  // }
-
-    // .map(file => loadMediaFile(file, getBinaryFileData));
 }
 
 async function meterPromises(rate, promiseList): Promise<any> {
@@ -272,9 +321,15 @@ function deserializeProject(jsZipData) {
   console.log('jsZipData', jsZipData)
   const fileMap = jsZipData.files;
 
-  const storyFilePath: string = Object.keys(fileMap)
+  let storyFilePath: string = Object.keys(fileMap)
     .filter(fileKey => fileKey.indexOf(STORY_FILE_YAML) > -1)[0] || STORY_FILE_YAML;
-  const baseFilePath: string = storyFilePath.substring(0, storyFilePath.indexOf(STORY_FILE_YAML));
+  let baseFilePath: string = storyFilePath.substring(0, storyFilePath.indexOf(STORY_FILE_YAML));
+
+  // If a story.json file is present, assume assets have been uploaded to S3
+  if (Object.keys(fileMap).indexOf(STORY_FILE_JSON) > -1) {
+    baseFilePath = storyFilePath.substring(0, storyFilePath.indexOf(STORY_FILE_JSON));
+    storyFilePath = `${baseFilePath}${STORY_FILE_JSON}`
+  }
 
   const storyFile = fileMap[storyFilePath];
   console.log('storyFile', storyFile)

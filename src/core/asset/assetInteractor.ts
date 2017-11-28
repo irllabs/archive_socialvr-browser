@@ -42,7 +42,7 @@ export class AssetInteractor {
     if (!uploadPolicy) {
       return this.setUploadPolicy()
         .subscribe(
-          uploadPolicy => {return uploadPolicy},
+          uploadPolicy => uploadPolicy,
           error => console.error(error)
         )
     }

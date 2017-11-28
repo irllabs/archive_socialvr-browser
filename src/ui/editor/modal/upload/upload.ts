@@ -183,10 +183,6 @@ export class Upload {
         },
 
         video: (file, binaryFileData, position) => {
-          // const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
-          // const room: Room = this.sceneInteractor.getRoomById(activeRoomId);
-          // room.setFileData(file.name, binaryFileData);
-          // room.setBackgroundIsVideo(true);
           this.videoInteractor.uploadVideo(file)
             .subscribe(
               data => {

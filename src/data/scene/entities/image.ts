@@ -13,6 +13,14 @@ export class Image extends BaseElement {
     return this.mediaFile;
   }
 
+  getRemoteFileName(): string {
+    return this.mediaFile.getRemoteFileName();
+  }
+
+  setRemoteFileName(remoteFileName: string) {
+    this.mediaFile.setRemoteFileName(remoteFileName);
+  }
+
   getFileName(): string {
     return this.mediaFile.getFileName();
   }

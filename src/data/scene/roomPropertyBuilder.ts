@@ -82,6 +82,9 @@ export class PropertyBuilder {
     const image: Image = <Image> this.setBaseProperties(imageJson, new Image());
     const fileName = decodeURIComponent(imageJson.file);
     image.setFileData(fileName, binaryFileData);
+    if (imageJson.hasOwnProperty('remoteFile')) {
+      image.setRemoteFileName(imageJson.remoteFile);
+    }
     return image;
   }
 
@@ -102,7 +105,10 @@ export class PropertyBuilder {
 
   roomFromJson(roomJson: any, binaryFileData: string, thumbnail: string, backgroundAudioUrl): Room {
     const room: Room = <Room> this.setBaseProperties(roomJson, new Room());
-    const imageName = decodeURIComponent(roomJson.image);
+    let imageName = decodeURIComponent(roomJson.image);
+    if (roomJson.image.hasOwnProperty('file')) {
+      imageName = roomJson.image.file;
+    }
     const imageData = binaryFileData || DEFAULT_IMAGE_PATH;
     room.setFileData(imageName, imageData);
 
