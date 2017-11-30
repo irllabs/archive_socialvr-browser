@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {Http} from '@angular/http';
 
 import {RoomManager} from 'data/scene/roomManager';
 import {PropertyBuilder} from 'data/scene/roomPropertyBuilder';
@@ -11,6 +10,7 @@ import {Audio} from 'data/scene/entities/audio';
 import {FileLoaderUtil} from 'ui/editor/util/fileLoaderUtil';
 
 import 'rxjs/add/observable/fromPromise';
+import 'isomorphic-fetch';
 
 import {
   STORY_FILE_YAML, STORY_FILE_JSON, UINT8ARRAY,
@@ -31,7 +31,6 @@ export class DeserializationService {
     private roomManager: RoomManager,
     private propertyBuilder: PropertyBuilder,
     private fileLoaderUtil: FileLoaderUtil,
-    private http: Http,
   ) {}
 
   private deserializeRooms(storyFile: any, binaryFileMap: any, baseFilePath: string): Promise<any> {
@@ -184,7 +183,6 @@ function loadMediaFile(mediaFile: any, getBinaryFileData: any): Promise<any> {
 
 function loadRemoteMediaFile(mediaFile: any, getBinaryFileData: any): Promise<any> {
   console.log('loading remote media file', mediaFile)
-  const fetch = window.fetch;
   return fetch(mediaFile.remoteFile, { credentials: 'same-origin' })
     .then(response => { return response.blob()
       .then(fileData => {
