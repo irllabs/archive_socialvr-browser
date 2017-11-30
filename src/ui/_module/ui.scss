@@ -75,6 +75,23 @@ a:hover{
 
 }
 
+.button-full-width {
+  border-radius: $window-border-radius;
+  background-color: transparent;
+  color: $color-grey-medium;
+  text-align: center;
+  font-size: $tiny-font-size;
+  padding: 8px 16px;
+  margin-bottom: 8px;
+  width: 100%;
+  cursor: pointer;
+  border-color: $color-grey-medium !important;
+  border: 1px;
+  border-style: solid;
+  box-sizing: border-box;
+
+}
+
 .button_row{
   width: auto;
   display: flex;
@@ -261,6 +278,7 @@ width: 100%;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 .dropdown-row {

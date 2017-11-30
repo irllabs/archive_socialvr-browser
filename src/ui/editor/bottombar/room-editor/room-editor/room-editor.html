@@ -7,17 +7,16 @@
     (onTextChange)="setRoomName($event)">
   </text-input-material>
   <br/>
-	<p class="hotspot-inspector__label">
-		Room Background Image
-	</p>
 	<file-loader
     	(onFileLoad)="onBackgroundImageLoad($event)"
+      [displayText]="'Add Background Image'"
 	    [acceptedFileType]="'image'">
 	</file-loader>
 
-	<p class="hotspot-inspector__label">Room Background Audio</p>
 	<file-loader
 		*ngIf="!getBackgroundAudio().hasAsset()"
+    [displayText]="'Add Room Background Audio'"
+
     	(onFileLoad)="onBackgroundAudioLoad($event)"
 	    [acceptedFileType]="'audio'">
 	</file-loader>
@@ -55,12 +54,13 @@
 	</div> -->
 
   	<div class="hotspot-inspector_row">
-		<div>
-			<p class="hotspot-inspector__label room-editor__audio-file-loader">Room Narration</p>
+		<div class="hotspot-inspector_row">
 			<file-loader
 				*ngIf="!getNarratorIntroAudioFile().hasAsset()"
 		    	(onFileLoad)="onIntroAudioLoad($event)"
 			    [acceptedFileType]="'audio'"
+          [displayText]="'Select a Room Narration Audio'"
+
 					class="room-editor__audio-file-loader">
 			</file-loader>
 			<div

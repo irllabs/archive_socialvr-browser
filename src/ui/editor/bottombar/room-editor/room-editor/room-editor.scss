@@ -5,12 +5,12 @@
   flex-direction: column;
   justify-content: space-between;
   width: $sidebar-width;
-  padding: 5px;
-  background-color: $property-editor-background-color;
+  padding: 16px;
+  background: white;
   border-radius: $window-border-radius;
   //opacity: $opacity-for-overlay;
-  background: rgba($color-grey-light-R, $color-grey-light-G, $color-grey-light-B, $opacity-for-overlay);
   backdrop-filter: blur($backdrop-filter-blur);
+
 }
 
 .room-editor__audio-player {
@@ -23,13 +23,15 @@
 }
 
 .room-editor__audio-record-button {
-  margin-top: 18px;
+  margin-left: 8px;
 }
 
 .room-editor__delete-button {
+  font-size: $button-text-size;
   background-color: $delete-button-background-color;
   color: $color-white;
   text-align: center;
   padding: 10px 0;
+  border-radius: 4px;
   cursor: pointer;
 }

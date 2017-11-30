@@ -72,11 +72,14 @@
 
 .property-editor__delete-button {
   // position: absolute;
+  margin-top:8px;
   width: 100%;
+  font-size: $button-text-size;
   background-color: $delete-button-background-color;
   color: $color-white;
   text-align: center;
   padding: 10px 0;
+  border-radius: 4px;
   cursor: pointer;
   // bottom: 0px;
 }
