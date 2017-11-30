@@ -103,13 +103,15 @@ export class SerializationService {
           mediaFiles.push(room.getThumbnail());
         }
 
-	console.log(mediaFiles)
         mediaFileUploads = Object.assign(mediaFiles
           .filter(mediaFile => !mediaFile.isUploaded())
           .map(mediaFile => {
             const key = `${directoryName}/${mediaFile.getFileName()}`;
             return this.uploadMediaFileToS3(mediaFile, key)
-              .flatMap((response) => { console.log(`Uploaded ${key}`); return key });
+              .flatMap((response) => { 
+                console.log(`Uploaded ${key}`);
+                return key;
+              });
           }),
         mediaFileUploads);
       });
@@ -189,8 +191,6 @@ export class SerializationService {
     const projectFileBlobYaml = new Blob([projectYaml], {type: MIME_TYPE_UTF8});
     const projectFileBlobJson = new Blob([projectJson], {type: MIME_TYPE_UTF8});
 
-    //const zip = this.buildAssetDirectories(new JSZip());
-    const zip = new JSZip();
     zip.file(STORY_FILE_YAML, projectFileBlobYaml);
     zip.file(STORY_FILE_JSON, projectFileBlobJson);
     return zip;
