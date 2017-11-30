@@ -1,16 +1,17 @@
 // import {BaseElement} from 'data/scene/entities/baseElement';
+import {Audio} from 'data/scene/entities/audio';
 import {MediaFile} from 'data/scene/entities/mediaFile';
 import {Vector2} from 'data/scene/entities/vector2';
 import {DEFAULT_VOLUME} from 'ui/common/constants';
 
 export class Narrator {
 
-	private introAudio = new MediaFile();
-	private returnAudio = new MediaFile();
+	private introAudio = new Audio();
+	private returnAudio = new Audio();
 	private volume: number = DEFAULT_VOLUME;
 	//private outgoingRoomId = '';
 
-	getIntroAudio(): MediaFile {
+	getIntroAudio(): Audio {
 		return this.introAudio;
 	}
 
@@ -20,7 +21,7 @@ export class Narrator {
 		this.setVolume(volume);
 	}
 
-	getReturnAudio(): MediaFile {
+	getReturnAudio(): Audio {
 		return this.returnAudio;
 	}
 
@@ -30,7 +31,7 @@ export class Narrator {
 	}
 
 	removeIntroAudio() {
-		this.introAudio = new MediaFile();
+		this.introAudio = new Audio();
 	}
 
 	// setOutgoingRoomId(outgoingRoomId: string) {

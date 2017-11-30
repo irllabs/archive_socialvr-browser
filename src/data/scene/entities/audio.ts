@@ -11,6 +11,14 @@ export class Audio extends BaseElement {
     super();
   }
 
+  getRemoteFileName(): string {
+    return this.mediaFile.getRemoteFileName();
+  }
+
+  setRemoteFileName(remoteFileName: string) {
+    this.mediaFile.setRemoteFileName(remoteFileName);
+  }
+
   getMediaFile(): MediaFile {
     return this.mediaFile;
   }
