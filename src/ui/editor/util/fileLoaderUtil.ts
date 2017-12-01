@@ -40,7 +40,7 @@ export class FileLoaderUtil {
         fileReader.onloadend = () => {
           const result = this.sanitizer.bypassSecurityTrustUrl(fileReader.result);
           console.log('fileLoader.onloadEnd', result);
-          setTimeout(() => resolve(result), 2000);
+          resolve(result);
         }
         fileReader.onerror = () => {
           const error = fileReader.error;
