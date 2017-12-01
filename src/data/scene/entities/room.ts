@@ -241,15 +241,23 @@ export class Room implements RoomProperty {
   setPossibleCombinedHotspot(isPossibleCombinedHotspot: boolean) {}
 
   toJson() {
+    const image = this.getBackgroundImage().getMediaFile().hasAsset() ? this.backgroundImage.toJson() : {};
+    const ambient = this.getBackgroundAudio().getMediaFile().hasAsset() ? this.backgroundAudio.toJson() : {};
+    const {
+      id: uuid,
+      id: file,
+      timestamp: time,
+      name,
+    } = this;
     const roomJson = {
-      uuid: this.id,
-      name: this.name,
-      time: this.timestamp,
-      file: this.id, //refers to the name of the asset directory in zip file
-      image: this.backgroundImage.toJson(),
+      uuid,
+      name,
+      time,
+      file,
+      image,
+      ambient,
       reverb: this.reverb,
       front: this.location.toString(),
-      ambient: this.backgroundAudio.toJson(),
       bgVolume: this.bgAudioVolume,
       texts: Array.from(this.getText()).map(text => text.toJson()),
       clips: Array.from(this.getAudio()).map(audio => audio.toJson()),

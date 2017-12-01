@@ -57,8 +57,8 @@ export class Narrator {
 
 	toJson() {
 		return {
-			intro: this.introAudio.getFileName() ? encodeURIComponent(this.introAudio.getFileName()) : '',
-  			reprise: this.returnAudio.getFileName() ? encodeURIComponent(this.returnAudio.getFileName()) : '',
+			intro: this.introAudio.getMediaFile().hasAsset() ? this.introAudio.toJson() : {},
+			reprise: this.returnAudio.getMediaFile().hasAsset() ? this.returnAudio.toJson() : {},
   			volume: this.getVolume()
       		// outgoingRoomId: this.outgoingRoomId
 		};
