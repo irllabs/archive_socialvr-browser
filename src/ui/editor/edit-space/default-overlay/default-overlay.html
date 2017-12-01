@@ -1,16 +1,28 @@
 <div class="default-overlay">
 
 
-  <input
-    type="file"
-    id="defaultOverlayInput"
-    (change)="onFileChange($event)"
-    class="default-overlay__hidden-input">
-
   <p class="default-overlay__background">
   </p>
 
-  <p class="default-overlay__logo font-header ">
+  <div>
+    <input
+      id="hiddenBackgroundInput"
+      type="file"
+      (change)="onFileChange($event)"
+      class="upload__hidden-input">
+    <label
+      for="hiddenBackgroundInput"
+      class="upload__box_splash">
+      Drag in 360 photos
+      <br />
+      or
+      <br />
+      click to import
+    </label>
+  </div>
+
+
+  <p class="default-overlay__logo font-header">
     <span class="default-overlay__logo-social">
       <a target="_blank" href="https://irl.studio/products/socialvr/">Social VR</a>
     </span>

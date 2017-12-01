@@ -4,7 +4,7 @@
 
 // FONTS //
 $font-family-header: "Montserrat", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-family:  "Nunito Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family:  'Nunito Sans', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $base-font-size: 16px;
 $header-font-size: 20px;
 $tiny-font-size: 0.8em;
@@ -14,6 +14,7 @@ $semi-bold: 600;
 $regular: 400;
 $extra-light: 200;
 
+$button-text-size: $tiny-font-size;
 
 // ICONS //
 $room-icon-size-small: 20px;

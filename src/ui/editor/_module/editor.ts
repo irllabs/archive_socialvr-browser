@@ -358,6 +358,14 @@ export class Editor {
     return this.router.url.includes('view:flat');
   }
 
+  private on2d3dViewClick($event) {
+    console.log($event.value);
+    if ($event.value) {
+      this.on3dViewClick($event);
+    } else {
+      this.on2dViewClick($event);
+    }
+  }
   private on2dViewClick($event) {
     this.router.navigate(['/editor', {outlets: {'view': 'flat'}}]);
     this.isInFlatMode = true;

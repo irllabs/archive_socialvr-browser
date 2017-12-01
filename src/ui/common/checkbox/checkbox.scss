@@ -3,12 +3,12 @@
 $foreground-active: $color-pink-dark;
 $foreground-inactive: $color-grey-light;
 $background-active: $color-pink-light;
-$background-inactive: $color-grey-dark;
+$background-inactive: $color-grey-medium;
 
 $antimation-length: 0.2s;
-$circle-diameter: 26px;
-$background-width: 44px;
-$background-height: 20px;
+$circle-diameter: 20px;
+$background-width: 32px;
+$background-height: 16px;
 
 // Background inactive
 .checkbox__label {

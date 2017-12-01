@@ -10,23 +10,32 @@
 }
 
 .modal__content {
-  padding: 25%;
+  min-width: 320px;
+left: 50%;
+top: 50%;
+position: absolute;
+/* top: 0; */
+transform: translate(-50%, -50%);
+background: white;
+border-radius: 16px;
+border-width: 0px;
+border-color: transparent;
+
 }
 
 .modal__content-header {
-  background-color: $color-white;
-  padding-top: 24px;
+  padding-top:  16px;
   padding-bottom: 4px;
-  border-radius: 16px 16px 0px 0px;
 
 }
 
 .modal__content-body {
-  padding-bottom: 24px;
-padding-top: 4px;
+  padding-bottom: 16px;
+      padding-top: 4px;
+      padding-left: 24px;
+      padding-right: 24px;
+
   color: $color-grey-dark;
-  background-color: $color-white;
-  border-radius: 0px 0px 16px 16px;
 }
 
 .modal__content-body-text {
