@@ -58,7 +58,7 @@ export class RoomEditor {
     return this.getActiveRoom().getNarrator();
   }
 
-  private getBackgroundAudio(): MediaFile {
+  private getBackgroundAudio(): Audio {
     return this.getActiveRoom().getBackgroundAudio();
   }
 
@@ -66,11 +66,11 @@ export class RoomEditor {
     return this.getActiveRoom().getBackgroundAudioVolume();
   }
 
-  private getNarratorIntroAudioFile(): MediaFile {
+  private getNarratorIntroAudioFile(): Audio {
     return this.getNarratorIntroAudio().getIntroAudio();
   }
 
-  private getNarratorReturnAudio(): MediaFile {
+  private getNarratorReturnAudio(): Audio {
     return this.getNarratorIntroAudio().getReturnAudio();
   }
 
