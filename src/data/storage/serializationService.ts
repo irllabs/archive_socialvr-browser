@@ -81,16 +81,16 @@ export class SerializationService {
         // Narrator intro audio
         const introAudio = room.getNarrator().getIntroAudio();
         const returnAudio = room.getNarrator().getReturnAudio();
-        if (introAudio.hasAsset()) {
-          mediaFiles.push(introAudio);
+        if (introAudio.getMediaFile().hasAsset()) {
+          mediaFiles.push(introAudio.getMediaFile());
         }
-        if (returnAudio.hasAsset()) {
-          mediaFiles.push(returnAudio);
+        if (returnAudio.getMediaFile().hasAsset()) {
+          mediaFiles.push(returnAudio.getMediaFile());
         }
 
         // Room background audio
-        if (room.getBackgroundAudio().hasAsset()) {
-          mediaFiles.push(room.getBackgroundAudio())
+        if (room.getBackgroundAudio().getMediaFile().hasAsset()) {
+          mediaFiles.push(room.getBackgroundAudio().getMediaFile())
         }
 
         // Room background image
@@ -100,7 +100,7 @@ export class SerializationService {
 
         // Room background thumbnail
         if (room.getThumbnailImage()) {
-          mediaFiles.push(room.getThumbnail());
+          mediaFiles.push(room.getThumbnail().getMediaFile());
         }
 
         mediaFileUploads = Object.assign(mediaFiles

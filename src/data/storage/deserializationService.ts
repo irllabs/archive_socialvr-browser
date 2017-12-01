@@ -189,7 +189,6 @@ function loadRemoteMediaFile(mediaFile: any, getBinaryFileData: any): Promise<an
       .then(fileData => {
         console.log('---fileData', mediaFile);
         const fileType = getFileType(mediaFile.file);
-        console.log('FILEDATA', fileData, typeof(fileData))
         return new Blob([fileData], {type: fileType});
       })
       .then(blob => {
@@ -234,7 +233,14 @@ async function loadMediaFiles(fileMap: any, storyFilePath: string, getBinaryFile
       .then(storyString => {
         const storyJson = JSON.parse(storyString);
         storyJson.rooms.map(room => {
-          const assets = [...room.clips, room.ambient, ...room.images, room.image]; 
+          const assets = [
+            ...room.clips,
+            ...room.images,
+            room.ambient,
+            room.image,
+            room.narrator.intro,
+            room.narrator.reprise,
+	  ];
           assets.map(asset => {
             if (asset.hasOwnProperty('remoteFile')) {
               // Add to remoteFiles if not present locally
