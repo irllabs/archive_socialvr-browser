@@ -13,6 +13,10 @@ export class Image extends BaseElement {
     return this.mediaFile;
   }
 
+  hasAsset(): Boolean {
+    return this.mediaFile.hasAsset();
+  }
+
   getRemoteFileName(): string {
     return this.mediaFile.getRemoteFileName();
   }

@@ -23,6 +23,10 @@ export class Audio extends BaseElement {
     return this.mediaFile;
   }
 
+  hasAsset(): Boolean {
+    return this.mediaFile.hasAsset();
+  }
+
   getFileName(): string {
     return this.mediaFile.getFileName();
   }
