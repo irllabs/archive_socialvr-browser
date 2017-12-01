@@ -87,18 +87,30 @@ export class DeserializationService {
           const roomThumbnail = binaryFileMap.find(mediaFile => mediaFile.name === roomThumbPath);
           const thumbnailImageData = roomThumbnail ? roomThumbnail.fileData : roomImageData;
 
+	  filename = roomData.ambient;
+          if (roomData.ambient.hasOwnProperty('file')) {
+            filename = roomData.ambient.file;
+          }
           // Background audio
-          const backgroundAudioPath = `${baseFilePath}${filePrefix}/${roomData.ambient}`;
+          const backgroundAudioPath = `${baseFilePath}${filePrefix}/${filename}`;
           const backgroundAudio = binaryFileMap.find(mediaFile => mediaFile.name === backgroundAudioPath);
           const backgroundAudioData = backgroundAudio ? backgroundAudio.fileData : null;
 
+	  filename = roomData.narrator.intro;
+          if (roomData.narrator.intro.hasOwnProperty('file')) {
+            filename = roomData.narrator.intro.file;
+          }
           // Narrator intro audio
-          const introAudioPath = roomData.narrator ? `${baseFilePath}${filePrefix}/${roomData.narrator.intro}` : '';
+          const introAudioPath = roomData.narrator ? `${baseFilePath}${filePrefix}/${filename}` : '';
           const introAudio = binaryFileMap.find(mediaFile => mediaFile.name === introAudioPath);
           const introAudioData = introAudio ? introAudio.fileData : null;
 
+	  filename = roomData.narrator.reprise;
+          if (roomData.narrator.reprise.hasOwnProperty('file')) {
+            filename = roomData.narrator.reprise.file;
+          }
           // Narrator return audio
-          const returnAudioPath = roomData.narrator ? `${baseFilePath}${filePrefix}/${roomData.narrator.reprise}` : '';
+          const returnAudioPath = roomData.narrator ? `${baseFilePath}${filePrefix}/${filename}` : '';
           const returnAudio = binaryFileMap.find(mediaFile => mediaFile.name === returnAudioPath);
           const returnAudioData = returnAudio ? returnAudio.fileData : null;
 
