@@ -85,7 +85,7 @@ export class DeserializationService {
           // Background thumbnail
           const roomThumbPath = `${baseFilePath}${filePrefix}/${BACKGROUND_THUMBNAIL}`;
           const roomThumbnail = binaryFileMap.find(mediaFile => mediaFile.name === roomThumbPath);
-          const thumbnailImageData = roomThumbnail ? roomThumbnail.fileData : roomImageData;
+          const thumbnailImageData = roomThumbnail ? roomThumbnail.fileData : null;
 
 	  filename = roomData.ambient;
           if (roomData.ambient.hasOwnProperty('file')) {
