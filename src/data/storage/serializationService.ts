@@ -224,21 +224,22 @@ export class SerializationService {
     });
   }
 
+  private buildProjectZip(zip) {
+    const zipBuilder = Promise.all([
+      this.getHomeRoomImage()
+      .then(homeRoomImage => zip.file('thumbnail.jpg', homeRoomImage, {base64: true})),
+      this.getProjectSoundtrack()
+      .then(Soundtrack => zip.file(Soundtrack.getFileName(), getBase64FromDataUrl(Soundtrack.getBinaryFileData()), {base64: true}))
+      .catch(error => console.log(error))
+    ]).then(resolve => zip.generateAsync({type: 'blob'}));
+    return Observable.fromPromise(zipBuilder);
+  }
+
   zipStoryFile(bundleAssets = false): Observable<any> {
+    let zip = this.buildZipStoryFile(bundleAssets);
+    if (bundleAssets) { return this.buildProjectZip(zip) };
     return this.uploadAssets()
-      .flatMap(
-        (data) => {
-          const zip = this.buildZipStoryFile();
-          const zipBuilder = Promise.all([
-            this.getHomeRoomImage()
-            .then(homeRoomImage => zip.file('thumbnail.jpg', homeRoomImage, {base64: true})),
-            this.getProjectSoundtrack()
-            .then(Soundtrack => zip.file(Soundtrack.getFileName(), getBase64FromDataUrl(Soundtrack.getBinaryFileData()), {base64: true}))
-            .catch(error => console.log(error))
-          ]).then(resolve => zip.generateAsync({type: 'blob'}));
-          return Observable.fromPromise(zipBuilder);
-        }
-      )
+      .flatMap(() => this.buildProjectZip(zip));
   }
 
 }
