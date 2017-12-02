@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 
 import {Narrator} from 'data/scene/entities/narrator';
-import {MediaFile} from 'data/scene/entities/mediaFile';
+import {Audio} from 'data/scene/entities/audio';
 import {Room} from 'data/scene/entities/room';
 import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
 import {resizeImage} from 'data/util/imageResizeService';
