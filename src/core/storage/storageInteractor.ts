@@ -14,8 +14,8 @@ export class StorageInteractor {
     private assetManager: AssetManager
   ) {}
 
-  serializeProject(): Observable<any> {
-    return this.serializationService.zipStoryFile();
+  serializeProject(bundleAssets: boolean): Observable<any> {
+    return this.serializationService.zipStoryFile(bundleAssets=bundleAssets);
   }
 
   deserializeProject(file: any): Observable<any> {

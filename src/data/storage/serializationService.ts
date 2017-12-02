@@ -187,13 +187,17 @@ export class SerializationService {
     return zip;
   }
 
-  private buildZipStoryFile() {
+  private buildZipStoryFile(bundleAssets = false) {
     const projectJson = JSON.stringify(this.buildProjectJson());
     const projectYaml = JsYaml.dump(projectJson);
 
     const projectFileBlobYaml = new Blob([projectYaml], {type: MIME_TYPE_UTF8});
     const projectFileBlobJson = new Blob([projectJson], {type: MIME_TYPE_UTF8});
 
+    let zip = new JSZip();
+    if (bundleAssets) {
+      zip = this.buildAssetDirectories(zip);
+    }
     zip.file(STORY_FILE_YAML, projectFileBlobYaml);
     zip.file(STORY_FILE_JSON, projectFileBlobJson);
     return zip;
@@ -220,7 +224,7 @@ export class SerializationService {
     });
   }
 
-  zipStoryFile(): Observable<any> {
+  zipStoryFile(bundleAssets = false): Observable<any> {
     return this.uploadAssets()
       .flatMap(
         (data) => {
