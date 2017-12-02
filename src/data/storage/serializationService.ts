@@ -47,11 +47,11 @@ export class SerializationService {
     }, new FormData());
 
     return this.http.post(uploadPolicy.url, formData, {withCredentials: true})
-      .do(response => {
+      .map(response => {
         // Set remote file name in mediaFile.remoteFileName if successful
         const remoteFileName = `${uploadPolicy.url}${key}`;
-        mediaFile.setRemoteFileName(remoteFileName);
-      });
+        return remoteFileName;
+      })
   }
 
   private buildProjectJson() {
@@ -111,14 +111,16 @@ export class SerializationService {
             const key = `${directoryName}/${mediaFile.getFileName()}`;
             return this.uploadMediaFileToS3(mediaFile, key)
               .flatMap((response) => {
-                console.log(`Uploaded ${key}`);
+                console.log(`Uploaded ${response}`);
+                mediaFile.setRemoteFileName(response);
                 return key;
               });
           }),
         mediaFileUploads);
       });
       const defaultPromise = new Promise((resolve, reject) => {resolve(true);});
-      return Observable.forkJoin(...mediaFileUploads, Observable.fromPromise(defaultPromise));
+      return Observable.forkJoin(...mediaFileUploads)
+        .switchMap((done) => Observable.fromPromise(defaultPromise));
   }
 
   private buildAssetDirectories(zip) {
@@ -224,7 +226,8 @@ export class SerializationService {
     });
   }
 
-  private buildProjectZip(zip) {
+  private buildProjectZip(bundleAssets = false) {
+    const zip = this.buildZipStoryFile(bundleAssets);
     const zipBuilder = Promise.all([
       this.getHomeRoomImage()
       .then(homeRoomImage => zip.file('thumbnail.jpg', homeRoomImage, {base64: true})),
@@ -236,10 +239,9 @@ export class SerializationService {
   }
 
   zipStoryFile(bundleAssets = false): Observable<any> {
-    let zip = this.buildZipStoryFile(bundleAssets);
-    if (bundleAssets) { return this.buildProjectZip(zip) };
+    if (bundleAssets) { return this.buildProjectZip(bundleAssets) };
     return this.uploadAssets()
-      .flatMap(() => this.buildProjectZip(zip));
+      .flatMap(() => this.buildProjectZip(bundleAssets))
   }
 
 }
