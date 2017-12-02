@@ -250,6 +250,7 @@ async function loadMediaFiles(fileMap: any, storyFilePath: string, getBinaryFile
             ...room.images,
             room.ambient,
             room.image,
+            room.thumbnail || {}, // new key that is not present in older story files
             room.narrator.intro,
             room.narrator.reprise,
 	  ];

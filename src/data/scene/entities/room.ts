@@ -7,11 +7,12 @@ import {Vector2} from 'data/scene/entities/vector2';
 import {MediaFile} from 'data/scene/entities/mediaFile';
 import {Narrator} from 'data/scene/entities/narrator';
 
-
 import {RoomProperty} from 'data/scene/interfaces/roomProperty';
 import {generateUniqueId} from 'data/util/uuid';
 import {DEFAULT_FILE_NAME, DEFAULT_VOLUME} from 'ui/common/constants';
 import {reverbList} from 'data/scene/values/reverbList';
+
+import { BACKGROUND_THUMBNAIL } from 'ui/common/constants';
 
 export class Room implements RoomProperty {
 
@@ -155,7 +156,9 @@ export class Room implements RoomProperty {
   }
 
   setThumbnail(fileName: string, binaryFileData: any) {
-    this.thumbnail.setFileName(fileName);
+    // TODO: Manually remove all usage of 'fileName', but for now, ignore it:
+    this.thumbnail.setFileName(BACKGROUND_THUMBNAIL);
+    //this.thumbnail.setFileName(fileName);
     this.thumbnail.setBinaryFileData(binaryFileData);
   }
 
@@ -242,6 +245,7 @@ export class Room implements RoomProperty {
 
   toJson() {
     const image = this.getBackgroundImage().getMediaFile().hasAsset() ? this.backgroundImage.toJson() : {};
+    const thumbnail = this.getThumbnail().getMediaFile().hasAsset() ? this.thumbnail.toJson() : {};
     const ambient = this.getBackgroundAudio().getMediaFile().hasAsset() ? this.backgroundAudio.toJson() : {};
     const {
       id: uuid,
@@ -255,6 +259,7 @@ export class Room implements RoomProperty {
       time,
       file,
       image,
+      thumbnail,
       ambient,
       reverb: this.reverb,
       front: this.location.toString(),
