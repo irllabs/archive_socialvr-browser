@@ -17,6 +17,8 @@ import {Http, Response, Headers, RequestOptions, ResponseContentType} from '@ang
 import {Image} from 'data/scene/entities/image';
 import {resizeImage} from 'data/util/imageResizeService';
 
+import 'rxjs/add/observable/fromPromise';
+
 const JSZip = require('jszip');
 const JsYaml = require('js-yaml');
 
@@ -108,14 +110,15 @@ export class SerializationService {
           .map(mediaFile => {
             const key = `${directoryName}/${mediaFile.getFileName()}`;
             return this.uploadMediaFileToS3(mediaFile, key)
-              .flatMap((response) => { 
+              .flatMap((response) => {
                 console.log(`Uploaded ${key}`);
                 return key;
               });
           }),
         mediaFileUploads);
       });
-    return Observable.forkJoin(...mediaFileUploads);
+      const defaultPromise = new Promise((resolve, reject) => {resolve(true);});
+      return Observable.forkJoin(...mediaFileUploads, Observable.fromPromise(defaultPromise));
   }
 
   private buildAssetDirectories(zip) {
