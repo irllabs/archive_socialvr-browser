@@ -160,8 +160,9 @@ export class Story {
 
     const projectName = this.metaDataInteractor.getProjectName() || 'StoryFile';
     const zipFileName = `${projectName}.zip`;
+    const bundleAssets = true;
     this.eventBus.onStartLoading();
-    this.storageInteractor.serializeProject()
+    this.storageInteractor.serializeProject(bundleAssets)
       .subscribe(
         zipFile => {
           this.eventBus.onStopLoading();
