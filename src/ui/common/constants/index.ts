@@ -7,7 +7,7 @@ const environment = {
   DEV: 'https://staging-api.socialvrlab.com',
   PROD: 'https://api.socialvrlab.com'
 };
-const baseUrl = environment[build] || environment.PROD;
+const baseUrl = environment[build] || environment.DEV;
 
 export const BASE_URL: string = baseUrl;
 export const POST_PROJECT_URL_PATH: string = '/socialVR/projects/';
