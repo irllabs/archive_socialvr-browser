@@ -13,7 +13,7 @@
       (onTextChange)="setViewModelProperty($event, 'password')">
     </text-input-material>
     <div class="horiz-line-bottom"></div>
-
+<div class="button_row">
     <div
       (click)="logIn($event)"
       class="button sign-in-button">
@@ -24,9 +24,9 @@
         class="button"
         title="Click to create new story, SHIFT-click to upload zip file"
        (click)="onOpenClick($event)">
-      Open
+      Select a Story Archive
     </div>
-
+</div>
   </div>
 
   <div *ngIf="isCreatingAccount">

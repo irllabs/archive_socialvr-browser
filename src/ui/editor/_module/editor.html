@@ -10,14 +10,15 @@
   </topbar>
 
 <div
-  *ngIf="roomEditorIsVisible()"
-      class="editor_center">
+      class="editor_center"
+      [ngClass]="{'editor_center1': !hasBackgroundImage()}">
   <div
     class="editor__edit2D3DToggle">
     <p
+      *ngIf="roomEditorIsVisible()"
       class='topbar__row-label center-panel'>Edit 3D</p>
-
     <checkbox
+      *ngIf="roomEditorIsVisible()"
       (changeEmitter)="on2d3dViewClick($event)"
       class="editor__edit2d3dToggleButton">
     </checkbox>
