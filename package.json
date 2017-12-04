@@ -4,9 +4,12 @@
   "description": "Social VR Editor Application",
   "scripts": {
     "build:copy": "cp src/index.html dist/index.html; cp src/favicon.ico dist/favicon.ico; cp src/manifest.json dist/manifest.json; cp src/socialVr.png dist/socialVR.png; cp -r src/assets dist/assets; cp -r src/__stubs__ dist/__stubs__",
-    "build:webpack": "webpack --colors --progress -p",
+    "build:webpack": "webpack --colors --progress",
+    "build:webpack-prod": "webpack --colors --progress -p",
     "build": "npm run clean && npm run build:webpack && npm run build:copy",
     "deploy": "npm run build && git-directory-deploy --directory dist --branch gh-pages",
+    "build:prod": "npm run clean && npm run build:webpack-prod && npm run build:copy",
+    "deploy:prod": "npm run build && git-directory-deploy --directory dist --branch gh-pages",
     "dev": "webpack-dev-server --inline --colors --progress --content-base src",
     "dev-prod": "webpack-dev-server --inline --colors --progress --content-base src -p",
     "dev-local": "webpack-dev-server --inline --colors --progress --content-base src -d",
