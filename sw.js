@@ -1,4 +1,128 @@
-var serviceWorkerOption = {"assets":["/vendor.bundle.js","/main.bundle.js","/polyfills.bundle.js"]};
+var serviceWorkerOption = {
+  "assets": [
+    "/vendor.bundle.js",
+    "/main.bundle.js",
+    "/polyfills.bundle.js"
+  ]
+};
         
-        !function(e){function n(t){if(s[t])return s[t].exports;var o=s[t]={i:t,l:!1,exports:{}};return e[t].call(o.exports,o,o.exports,n),o.l=!0,o.exports}var s={};n.m=e,n.c=s,n.d=function(e,s,t){n.o(e,s)||Object.defineProperty(e,s,{configurable:!1,enumerable:!0,get:t})},n.n=function(e){var s=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(s,"a",s),s},n.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},n.p="",n(n.s=0)}([function(e,n,s){"use strict";function t(e,n){return n.some(function(n){return e.indexOf(n)>-1})}Object.defineProperty(n,"__esModule",{value:!0});var o=s(1),i=["localhost","localhost:3000","cmuartfab.github.io/social-vr"];self.addEventListener("install",function(e){e.waitUntil(caches.open("svr-sw-001").then(function(e){return e.addAll(o.default)}).catch(function(e){return console.log("error",e)}))}),self.addEventListener("fetch",function(e){var n=e.request;t(n.url,i)&&e.respondWith(caches.match(e.request).then(function(e){return e||fetch(n)}).catch(function(e){return console.log("fetch error",e)}))})},function(e,n,s){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var t=location.pathname,o=t.substring(0,t.lastIndexOf("sw.js")),i=["assets/icons/audio_filled.png","assets/icons/back_filled.png","assets/icons/door_filled.png","assets/icons/home_filled.png","assets/icons/home.png","assets/icons/icon-home.png","assets/icons/image_filled.png","assets/icons/link_filled.png","assets/icons/room-pink.png","assets/icons/room.png","assets/icons/text_filled.png","assets/icons/view-preview-accent.png","assets/icons/view-preview.png","assets/icons/view-toggle-2d-accent.png","assets/icons/view-toggle-2d.png","assets/icons/view-toggle-3d-accent.png","assets/icons/view-toggle-3d.png","assets/images/default-background.png","assets/images/color_ball.jpg"],c=[o,"index.html","manifest.json","favicon.ico","polyfills.bundle.js","vendor.bundle.js","main.bundle.js"],r=i.concat(c);n.default=r}]);
+        /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var cache_list_1 = __webpack_require__(1);
+var swVersion = '001'; // TODO: generate dynamically
+var CACHE_NAME = "svr-sw-" + swVersion;
+var whitelist = ['localhost', 'localhost:3000', 'cmuartfab.github.io/social-vr'];
+function stringContains(str, list) {
+    return list.some(function (pattern) {
+        return str.indexOf(pattern) > -1;
+    });
+}
+// TODO: add service worker types
+self.addEventListener('install', function ($event) {
+    $event.waitUntil(caches.open(CACHE_NAME).then(function (cache) {
+        return cache.addAll(cache_list_1.default);
+    }).catch(function (error) {
+        return console.log('error', error);
+    }));
+});
+self.addEventListener('fetch', function ($event) {
+    var request = $event.request;
+    if (!stringContains(request.url, whitelist)) {
+        return;
+    }
+    $event.respondWith(caches.match($event.request).then(function (response) {
+        return response ? response : fetch(request);
+    }).catch(function (error) {
+        return console.log('fetch error', error);
+    }));
+});
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var pathName = location.pathname;
+var defaultIndexPath = pathName.substring(0, pathName.lastIndexOf('sw.js'));
+var images = ['assets/icons/audio_filled.png', 'assets/icons/back_filled.png', 'assets/icons/door_filled.png', 'assets/icons/home_filled.png', 'assets/icons/home.png', 'assets/icons/icon-home.png', 'assets/icons/image_filled.png', 'assets/icons/link_filled.png', 'assets/icons/room-pink.png', 'assets/icons/room.png', 'assets/icons/text_filled.png', 'assets/icons/view-preview-accent.png', 'assets/icons/view-preview.png', 'assets/icons/view-toggle-2d-accent.png', 'assets/icons/view-toggle-2d.png', 'assets/icons/view-toggle-3d-accent.png', 'assets/icons/view-toggle-3d.png', 'assets/images/default-background.png', 'assets/images/color_ball.jpg'];
+var resources = [defaultIndexPath, 'index.html', 'manifest.json', 'favicon.ico', 'polyfills.bundle.js', 'vendor.bundle.js', 'main.bundle.js'];
+var cacheList = images.concat(resources);
+exports.default = cacheList;
+
+/***/ })
+/******/ ]);
 //# sourceMappingURL=0.map
