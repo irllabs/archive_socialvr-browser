@@ -43,5 +43,6 @@ $underline-off: 2px hidden $color-grey-light;
 .text-input__storymap--roomname {
   text-align: center;
   color: white;
-  width: 110px
+  width: 110px;
+  text-shadow: 2px 2px $color-grey-dark;
 }

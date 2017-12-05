@@ -1,0 +1,18 @@
+<div class="modal-window"
+  off-click
+  (onOffClick)="onOffClick($event)">
+  <input
+    id="hiddenBackgroundInput"
+    type="file"
+    (change)="onFileChange($event)"
+    class="upload__hidden-input">
+  <label
+    for="hiddenBackgroundInput"
+    class="upload__box">
+    Drag in 360 photos
+    <br />
+    or
+    <br />
+    click to import
+  </label>
+</div>
