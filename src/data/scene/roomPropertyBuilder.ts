@@ -65,7 +65,8 @@ export class PropertyBuilder {
 
   audioFromJson(audioJson: any, binaryFileData: string): Audio {
     const audio: Audio = <Audio> this.setBaseProperties(audioJson, new Audio());
-    const fileName = decodeURIComponent(audioJson.file);
+    let fileName = decodeURIComponent(audioJson);
+    if (audioJson.hasOwnProperty('file')) fileName = audioJson.file;
     const volume = audioJson.volume;
     audio.setFileData(fileName, volume, binaryFileData);
     return audio;
@@ -151,12 +152,14 @@ export class PropertyBuilder {
   narratorFromJson(narratorJson, introAudioFile, returnAudioFile): Narrator {
     const narrator = new Narrator();
     if (introAudioFile) {
-      const fileName = decodeURIComponent(narratorJson.intro);
+      let fileName = decodeURIComponent(narratorJson.intro);
+      if (narratorJson.intro.hasOwnProperty('file')) fileName = narratorJson.intro.file;
       const volume = narratorJson.volume;
       narrator.setIntroAudio(fileName, volume, introAudioFile);
     }
     if (returnAudioFile) {
-      const fileName = decodeURIComponent(narratorJson.reprise);
+      let fileName = decodeURIComponent(narratorJson.reprise);
+      if (narratorJson.reprise.hasOwnProperty('file')) fileName = narratorJson.reprise.file;
       //const volume = narratorJson.volume;
       narrator.setReturnAudio(fileName, returnAudioFile);
     }

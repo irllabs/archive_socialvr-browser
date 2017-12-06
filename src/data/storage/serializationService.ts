@@ -60,7 +60,7 @@ export class SerializationService {
     return {
       name: this.roomManager.getProjectName(),
       tags: this.roomManager.getProjectTags(),
-      soundtrack: this.roomManager.getSoundtrack().getFileName(),
+      soundtrack: this.roomManager.getSoundtrack().toJson(),
       soundtrackVolume: this.roomManager.getSoundtrackVolume(),
       description: this.roomManager.getProjectDescription(),
       homeRoomId: this.roomManager.getHomeRoomId(),
