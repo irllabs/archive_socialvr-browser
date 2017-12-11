@@ -9,6 +9,7 @@ import {
   BACKGROUND_THUMBNAIL
 } from 'ui/common/constants';
 
+import {ApiService} from 'data/api/apiService'
 import {AssetInteractor} from 'core/asset/assetInteractor';
 import {RoomManager} from 'data/scene/roomManager';
 import {MediaFile} from 'data/scene/entities/mediaFile';
@@ -29,30 +30,8 @@ export class SerializationService {
     private roomManager: RoomManager,
     private http: Http,
     private assetInteractor: AssetInteractor,
+    private apiService: ApiService,
   ) {}
-
-  private uploadMediaFileToS3(mediaFile: MediaFile, key: string): Observable<any> {
-    // TODO: handle duplicate asset.getFileName values upstream
-    // alterantively, timestamp the uploaded filename -- with x-act-meta?
-    // const timestamp = Math.floor(Date.now());
-
-    const uploadPolicy = this.assetInteractor.getUploadPolicy();
-    const binaryFileData = mediaFile.getBinaryFileData();
-    const file = getBlobFromDataUrl(binaryFileData);
-
-    const payload = Object.assign(uploadPolicy.fields, { key, file });
-    const formData = Object.keys(payload).reduce((formData, key) => {
-      formData.append(key, payload[key]);
-      return formData;
-    }, new FormData());
-
-    return this.http.post(uploadPolicy.url, formData, {withCredentials: true})
-      .map(response => {
-        // Set remote file name in mediaFile.remoteFileName if successful
-        const remoteFileName = `${uploadPolicy.url}${key}`;
-        return remoteFileName;
-      })
-  }
 
   private buildProjectJson() {
     const roomList = Array.from(this.roomManager.getRooms())
@@ -109,7 +88,8 @@ export class SerializationService {
           .filter(mediaFile => !mediaFile.isUploaded())
           .map(mediaFile => {
             const key = `${directoryName}/${mediaFile.getFileName()}`;
-            return this.uploadMediaFileToS3(mediaFile, key)
+	    const file = getBlobFromDataUrl(mediaFile.getBinaryFileData());
+            return this.apiService.uploadMedia(file, key)
               .flatMap((response) => {
                 console.log(`Uploaded ${response}`);
                 mediaFile.setRemoteFileName(response);

@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Http, Response, Headers, RequestOptions, ResponseContentType} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 
+import {AssetInteractor} from 'core/asset/assetInteractor';
 import Api from 'data/api/api';
 import {BASE_URL, MIME_TYPE_MP4} from 'ui/common/constants';
 import {AuthenticationService} from 'data/authentication/authenticationService';
@@ -26,7 +27,8 @@ export class ApiService implements Api {
 
   constructor(
     private http: Http,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private assetInteractor: AssetInteractor,
   ) {}
 
   // POST /get_auth_token/
@@ -181,6 +183,26 @@ export class ApiService implements Api {
       withCredentials: true,
       headers: headers
     });
+  }
+
+  downloadMedia(mediaUrl): Observable<any> {
+    return this.http.get(mediaUrl, {withCredentials: true})
+  }
+
+  uploadMedia(key: string, file): Observable<any> {
+    const uploadPolicy = this.assetInteractor.getUploadPolicy();
+    const payload = Object.assign(uploadPolicy.fields, { key, file });
+    const formData = Object.keys(payload).reduce((formData, key) => {
+      formData.append(key, payload[key]);
+      return formData;
+    }, new FormData());
+
+    return this.http.post(uploadPolicy.url, formData, {withCredentials: true})
+      .map(response => {
+        // Set remote file name in mediaFile.remoteFileName if successful
+        const remoteFileName = `${uploadPolicy.url}${key}`;
+        return remoteFileName;
+      })
   }
 
   uploadVideo(videoFile): Observable<any> {
