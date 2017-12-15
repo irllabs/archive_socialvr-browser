@@ -196,7 +196,8 @@ function loadMediaFile(mediaFile: any, getBinaryFileData: any): Promise<any> {
 function loadRemoteMediaFile(mediaFile: any, getBinaryFileData: any): Promise<any> {
   console.log('loading remote media file', mediaFile)
   // TODO: If possible, use angular.http here
-  return fetch(mediaFile.remoteFile, { credentials: 'same-origin' })
+  const remoteFileUrl = `${mediaFile.remoteFile.replace('socialvr-staging.s3.amazonaws.com','socialvr-staging.imgix.net')}?q=60`;
+  return fetch(remoteFileUrl, { credentials: 'same-origin' })
     .then(response => { return response.blob()
       .then(fileData => {
         console.log('---fileData', mediaFile);
