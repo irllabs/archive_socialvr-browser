@@ -27,9 +27,11 @@
 .public-option__link {
   overflow: hidden;
   white-space: nowrap;
-  font-weight: 800;
+  font-weight: 1000;
   text-overflow: ellipsis;
   cursor: pointer;
+  color: $color-action;
+  text-align: center;
 }
 
 .public-option__copy-notification {

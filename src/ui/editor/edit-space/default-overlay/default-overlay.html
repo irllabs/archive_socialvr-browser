@@ -1,4 +1,9 @@
-<div class="default-overlay">
+<div
+droppable
+(onFileLoad)="onFileDrop($event)"
+[acceptedFileType]="'image'"
+[acceptMultpleFiles]="true"
+class="default-overlay">
 
 
   <p class="default-overlay__background">
@@ -8,6 +13,7 @@
     <input
       id="hiddenBackgroundInput"
       type="file"
+      multiple
       (change)="onFileChange($event)"
       class="upload__hidden-input">
     <label

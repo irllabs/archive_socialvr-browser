@@ -2,15 +2,16 @@
 
 .circle-beacon:before,
 .circle-beacon:after {
-  width: 40px;
-  height: 40px;
+
+  width: 36px;
+  height: 36px;
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
+  top: -2px;
+  left: -2px;
   border-radius: 50%;
   border: 2px solid $color-action;
-}
+ }
 
 .circle-beacon:before {
   animation: ripple 1.5s linear infinite;
