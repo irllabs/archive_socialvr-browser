@@ -15,7 +15,7 @@
 
 	<file-loader
 		*ngIf="!getBackgroundAudio().hasAsset()"
-    [displayText]="'Add Room Background Audio'"
+    [displayText]="'Add Background Audio'"
 
     	(onFileLoad)="onBackgroundAudioLoad($event)"
 	    [acceptedFileType]="'audio'">
@@ -59,7 +59,7 @@
 				*ngIf="!getNarratorIntroAudioFile().hasAsset()"
 		    	(onFileLoad)="onIntroAudioLoad($event)"
 			    [acceptedFileType]="'audio'"
-          [displayText]="'Select a Room Narration Audio'"
+          [displayText]="'Add Narration'"
 
 					class="room-editor__audio-file-loader">
 			</file-loader>

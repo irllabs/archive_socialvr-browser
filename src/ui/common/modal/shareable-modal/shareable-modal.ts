@@ -5,6 +5,10 @@ import {copyToClipboard} from 'ui/editor/util/clipboard';
 import {ProjectInteractor} from 'core/project/projectInteractor';
 import {UserInteractor} from 'core/user/userInteractor';
 
+//added by ali for URL shortening
+//var googl = require('goo.gl');
+var goorl = require("goorl");
+
 @Component({
   selector: 'shareable-modal',
   styleUrls: ['./shareable-modal.scss'],
@@ -19,6 +23,11 @@ export class ShareableModal {
   private publicLink = '';
   private projectName = '';
   private notificationIsVisible = false;
+  //for goorl module url shortening
+  private goorlOptions = {
+    key: 'AIzaSyB6v7PJhqFaoC4fHQZ4ZpZtDCfo-CCl8qA',
+    url: 'http://irl.studio'
+  }
 
   constructor(
     private projectInteractor: ProjectInteractor,
@@ -27,6 +36,9 @@ export class ShareableModal {
 
 
   ngOnInit() {
+    //added by ali for url shortening, with googl module
+    //googl.setKey('AIzaSyB6v7PJhqFaoC4fHQZ4ZpZtDCfo');
+
     const userId = this.shareableData.userId;
     const projectId = this.shareableData.projectId;
     this.projectInteractor.getProjectData(userId, projectId)
@@ -41,6 +53,8 @@ export class ShareableModal {
         },
         error => console.log('getProjectData error', error)
       );
+
+
   }
 
   private closeModal($event, isAccepted: boolean) {
@@ -60,7 +74,30 @@ export class ShareableModal {
         response => {
           if (response.is_public) {
             const sharableLink = getShareableLink(response.public_url);
-            this.publicLink = sharableLink;
+
+            //by ali to shorten URL
+            //original line was:
+
+            //this.publicLink = sharableLink;
+
+            //with googl module
+            // googl.shorten(sharableLink)
+            //   .then(function (shortUrl) {
+            //       console.log(shortUrl);
+            //       this.publicLink = shortUrl;
+            //   })
+            //   .catch(function (err) {
+            //       console.error(err.message);
+            //   });
+            //by ali to shorten url, for goorl module
+            this.goorlOptions.url = sharableLink;
+            goorl(this.goorlOptions)
+              .then(url => {
+                console.log("short ulr: ",url);
+                this.publicLink = url;})
+              .catch(error => console.error(error))
+
+
           }
           else {
             this.publicLink = '';

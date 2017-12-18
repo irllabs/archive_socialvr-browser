@@ -17,6 +17,9 @@ import 'three';
 import 'three/VRControls';
 import 'three/VREffect';
 // import 'zone.js';
+//import 'goo.gl';
+import 'goorl'
+
 
 
  //social media authentication initialization scripts
