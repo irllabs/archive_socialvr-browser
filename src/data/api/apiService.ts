@@ -118,6 +118,11 @@ export class ApiService implements Api {
       .map(response => response.arrayBuffer());
   }
 
+  getProjectAsBlob(signedProjectUrl: string): Observable<Blob> {
+    return this.http.get(signedProjectUrl, {responseType: ResponseContentType.Blob})
+      .map(response => response.blob());
+  }
+
   // PUT /users/userId/projects/projectId/
   updateProject(userId: string, projectId: string, projectName: string, projectTags: string, storyFile: any, thumbnail: string): Observable<any> {
     const URL: string = `${BASE_URL}${URL_PATH_USERS}${userId}${URL_PATH_PROJECTS}${projectId}/`;
