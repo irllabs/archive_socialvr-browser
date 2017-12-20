@@ -23,8 +23,15 @@ export class AssetManager {
             try {
               new THREE.TextureLoader().load(
                 imageData.filePath,
-                texture => resolve(new TextureData(imageData.id, imageData.fileName, texture)
-              ));
+                texture => {
+                  resolve(new TextureData(imageData.id, imageData.fileName, texture))
+                },
+                () => {},
+                error => {
+                  console.log('image texture loading error', imageData, error);
+                  resolve(new TextureData(imageData.id, imageData.fileName, null))
+                }
+              );
             }
             catch(error) {
               reject(error);
@@ -61,34 +68,13 @@ export class AssetManager {
           };
         })
         .map(bundle => {
-          try {
-            return audioContext.decodeAudioData(bundle.arrayBuffer)
-              .then(audioBuffer => {
-                const audioData = new AudioData(bundle.meta.id, bundle.meta.fileName, audioBuffer);
-                this.audioBufferMap.set(bundle.meta.id, audioData);
-                return null;
-              });
-          }
-          catch (error) {
-            // Safari 10 does not use the promise based syntax
-            // TODO: figure out a more elegant way to handle this situation
-            if (error.message === 'Not enough arguments') {
-              return new Promise((resolve, reject) => {
-                try {
-                  audioContext.decodeAudioData(bundle.arrayBuffer, audioBuffer => {
-                    const audioData = new AudioData(bundle.meta.id, bundle.meta.fileName, audioBuffer);
-                    this.audioBufferMap.set(bundle.meta.id, audioData);
-                    resolve();
-                  });
-                }
-                catch (err) {
-                  reject(err);
-                }
-              });
-            }
-          }
+          return decodeAudioDataOrEmpty(audioContext, bundle.arrayBuffer)
+            .then(audioBuffer => {
+              const audioData = new AudioData(bundle.meta.id, bundle.meta.fileName, audioBuffer);
+              this.audioBufferMap.set(bundle.meta.id, audioData);
+              return null;
+            });
         });
-
       return Promise.all(audioPromises);
     }
 
@@ -107,6 +93,35 @@ export class AssetManager {
       this.audioBufferMap.clear();
     }
 
+}
+
+function decodeAudioDataOrEmpty(audioContext, audioArrayBuffer: ArrayBuffer) {
+  try {
+    return audioContext.decodeAudioData(audioArrayBuffer)
+      .catch(error => {
+        console.log('decode audio buffer error:', error);
+        console.log('attempting to load empty buffer');
+        // Return an empty audio buffer
+        const emptyBuffer = audioContext.createBuffer(2, audioContext.sampleRate, audioContext.sampleRate);
+        return Promise.resolve(emptyBuffer);
+      });
+  }
+  catch(error) {
+    if (error.message === 'Not enough arguments') {
+      return new Promise((resolve, reject) => {
+        try {
+          audioContext.decodeAudioData(audioArrayBuffer, audioBuffer => resolve(audioBuffer));
+        }
+        catch (err) {
+          console.log('decode audio buffer error:', error);
+          console.log('attempting to load empty buffer');
+          // Load empty buffer
+          const emptyBuffer = audioContext.createBuffer(2, audioContext.sampleRate, audioContext.sampleRate);
+          resolve(emptyBuffer);
+        }
+      });
+    }
+  }
 }
 
 class TextureData {
