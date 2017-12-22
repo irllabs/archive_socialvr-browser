@@ -1,10 +1,12 @@
 import {Component, Output, EventEmitter} from '@angular/core';
-
 import {EventBus} from 'ui/common/event-bus';
-import {FileLoaderUtil} from 'ui/editor/util/fileLoaderUtil';
+import {FileLoaderUtil, mimeTypeMap} from 'ui/editor/util/fileLoaderUtil';
 import {SceneInteractor} from 'core/scene/sceneInteractor';
 import {Room} from 'data/scene/entities/room';
 import {resizeImage} from 'data/util/imageResizeService';
+import {ZipFileReader} from 'ui/editor/util/zipFileReader';
+import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
+import {FileLoaderMulti} from 'ui/editor/util/file-loader-multi/file-loader-multi';
 
 
 @Component({
@@ -19,7 +21,9 @@ export class DefaultOverlay {
   constructor(
     private eventBus: EventBus,
     private fileLoaderUtil: FileLoaderUtil,
-    private sceneInteractor: SceneInteractor
+    private zipFileReader: ZipFileReader,
+    private sceneInteractor: SceneInteractor,
+    private slideshowBuilder: SlideshowBuilder
     //private backgroundArray: any
 
   ) {}
@@ -37,14 +41,42 @@ export class DefaultOverlay {
 
   */
 
+  private onFileDrop(event) {
+    console.log("onFileDrop: ", event);
+    if (event.files && event.files.length > 1) {
+      this.eventBus.onStartLoading();
+      this.slideshowBuilder.build(event.files)
+        .then(resolve => {
+          this.eventBus.onStopLoading();
+        })
+        .catch(error => this.eventBus.onModalMessage('error', error));
+      return;
+    }
 
+
+  }
 
   private onFileChange($event) {
     const file = $event.target.files && $event.target.files[0];
+    const files = $event.target.files;
+
+    console.log('adding multi 1: ', $event.target.files);
     if (!file) {
       this.eventBus.onModalMessage('Error', 'No valid file selected');
       return;
     }
+    //console.log("hi: ",file);
+    if ($event.target.files.length > 1 ) {
+      console.log('adding multi 2');
+      this.addSlideshow(files);
+    } else if (mimeTypeMap.image.indexOf(file.type)>-1) {
+      this.loadImageFile(file);
+    } else if (mimeTypeMap.zip.indexOf(file.type)>-1) {
+      this.loadZipFile(file);
+    }
+  }
+
+  private loadImageFile(file ) {
     this.eventBus.onStartLoading();
     this.fileLoaderUtil.validateFileLoadEvent(file, 'image')
       .then(this.fileLoaderUtil.getBinaryFileData.bind(this.fileLoaderUtil))
@@ -60,6 +92,17 @@ export class DefaultOverlay {
         this.eventBus.onStopLoading();
       })
       .catch(error => this.eventBus.onModalMessage('Error', error));
+  }
+
+  private addSlideshow(files) {
+    this.eventBus.onStartLoading();
+    this.slideshowBuilder.build(files)
+      .then(resolve => this.eventBus.onStopLoading())
+      .catch(error => this.eventBus.onModalMessage('error', error));
+  }
+
+  private loadZipFile (file) {
+    this.zipFileReader.loadFile(file);
   }
 
 }

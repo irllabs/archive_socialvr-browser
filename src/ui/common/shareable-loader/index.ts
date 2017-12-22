@@ -27,7 +27,8 @@ export class ShareableLoader {
     this.projectInteractor.openPublicProject(projectUrl)
       .subscribe(
         response => {
-          this.sceneInteractor.setActiveRoomId(null);
+          const homeRoomID = this.sceneInteractor.getHomeRoomId();
+          this.sceneInteractor.setActiveRoomId(homeRoomID);
           this.eventBus.onSelectRoom(null, false);
           this.eventBus.onStopLoading();
           this.metaDataInteractor.setIsReadOnly(true);

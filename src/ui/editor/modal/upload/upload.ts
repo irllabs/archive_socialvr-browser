@@ -70,6 +70,17 @@ export class Upload {
       this.eventBus.onModalMessage('Error', 'No valid file selected');
       return;
     }
+
+    if ($event.target.files && $event.target.files.length > 1) {
+      this.eventBus.onStartLoading();
+      this.slideshowBuilder.build($event.target.files)
+        .then(resolve => {
+          this.eventBus.onStopLoading();
+        })
+        .catch(error => this.eventBus.onModalMessage('error', error));
+      return;
+    }
+
     this.eventBus.onStartLoading();
     this.router.navigate(['/editor', {outlets: {'modal': null}}]);
     this.fileLoaderUtil.validateFileLoadEvent(file, 'image')
