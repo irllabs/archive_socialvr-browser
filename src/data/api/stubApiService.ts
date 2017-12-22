@@ -61,6 +61,11 @@ export class ApiService implements Api {
       .map(response => response.arrayBuffer());
   }
 
+  uploadMedia(key: string, file, uploadPolicy): Observable<any> {
+    // TODO: Mock media upload
+    return Observable.from('');
+  }
+
   updateProject(userId: string, projectId: string, projectName: string, projectTags: string, storyFile: any, thumbnail: string): Observable<any> {
     return Observable.from('');
   }
