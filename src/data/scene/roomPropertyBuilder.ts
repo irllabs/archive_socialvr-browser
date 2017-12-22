@@ -110,11 +110,15 @@ export class PropertyBuilder {
   roomFromJson(roomJson: any, binaryFileData: string, thumbnail: string, backgroundAudioUrl): Room {
     const room: Room = <Room> this.setBaseProperties(roomJson, new Room());
     let imageName = decodeURIComponent(roomJson.image);
+    let remoteFileName = '';
     if (roomJson.image.hasOwnProperty('file')) {
       imageName = roomJson.image.file;
     }
+    if (roomJson.image.hasOwnProperty('remoteFile')) {
+      remoteFileName = roomJson.image.remoteFile;
+    }
     const imageData = binaryFileData || DEFAULT_IMAGE_PATH;
-    room.setFileData(imageName, imageData);
+    room.setFileData(imageName, imageData, remoteFileName);
 
     if (thumbnail) {
       room.setThumbnail(BACKGROUND_THUMBNAIL, thumbnail);
@@ -128,7 +132,13 @@ export class PropertyBuilder {
     }
 
     if (backgroundAudioUrl) {
-      room.setBackgroundAudio(roomJson.ambient, roomJson.bgVolume, backgroundAudioUrl);
+      let fileName = roomJson.ambient;
+      let remoteFileName = '';
+      if (roomJson.ambient.hasOwnProperty('file')) fileName = roomJson.ambient.file
+      if (roomJson.ambient.hasOwnProperty('remoteFile')) {
+        remoteFileName = roomJson.ambient.remoteFile;
+      }
+      room.setBackgroundAudio(fileName, roomJson.bgVolume, backgroundAudioUrl, remoteFileName);
     }
 
     if (roomJson.front) {

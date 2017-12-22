@@ -22,7 +22,7 @@ export class Room implements RoomProperty {
   private location: Vector2 = new Vector2(180, 80);
   private reverb: string = reverbList[0];
   private backgroundImage: Image = new Image();
-  private backgroundAudio: Audio= new Audio();
+  private backgroundAudio: Audio = new Audio();
   private bgAudioVolume: number = DEFAULT_VOLUME;
   private thumbnail: Image = new Image();
   private audioSet: Set<Audio> = new Set<Audio>();
@@ -142,9 +142,10 @@ export class Room implements RoomProperty {
   }
 
   // TODO: Rename to setBackgroundImage
-  setFileData(fileName: string, binaryFileData: any) {
+  setFileData(fileName: string, binaryFileData: any, remoteFileName = '') {
     this.backgroundImage.setFileName(fileName);
     this.backgroundImage.setBinaryFileData(binaryFileData);
+    if (remoteFileName) this.backgroundImage.setRemoteFileName(remoteFileName);
   }
 
   getBackgroundImage(): Image {
@@ -156,9 +157,7 @@ export class Room implements RoomProperty {
   }
 
   setThumbnail(fileName: string, binaryFileData: any) {
-    // TODO: Manually remove all usage of 'fileName', but for now, ignore it:
-    this.thumbnail.setFileName(BACKGROUND_THUMBNAIL);
-    //this.thumbnail.setFileName(fileName);
+    this.thumbnail.setFileName(fileName);
     this.thumbnail.setBinaryFileData(binaryFileData);
   }
 
@@ -203,10 +202,11 @@ export class Room implements RoomProperty {
     this.reverb = reverb;
   }
 
-  setBackgroundAudio(fileName: string, volume: number, dataUrl: any) {
+  setBackgroundAudio(fileName: string, volume: number, dataUrl: any, remoteFileName = '') {
     this.backgroundAudio.setFileName(fileName);
     this.backgroundAudio.setBinaryFileData(dataUrl);
     this.setBackgroundAudioVolume(volume);
+    if (remoteFileName) this.backgroundAudio.setRemoteFileName(remoteFileName);
   }
 
   removeBackgroundAudio() {
