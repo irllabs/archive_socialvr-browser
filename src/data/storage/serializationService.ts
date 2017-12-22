@@ -18,6 +18,7 @@ import {Image} from 'data/scene/entities/image';
 import {resizeImage} from 'data/util/imageResizeService';
 
 import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/operator/toPromise';
 
 const JSZip = require('jszip');
 const JsYaml = require('js-yaml');
