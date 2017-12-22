@@ -18,6 +18,7 @@ import {Image} from 'data/scene/entities/image';
 import {resizeImage} from 'data/util/imageResizeService';
 
 import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/observable/toPromise';
 
 const JSZip = require('jszip');
 const JsYaml = require('js-yaml');
@@ -96,9 +97,7 @@ export class SerializationService {
           }),
         mediaFileUploads);
       });
-      const defaultPromise = new Promise((resolve, reject) => {resolve(true);});
-      return Observable.forkJoin(...mediaFileUploads)
-        .switchMap((done) => Observable.fromPromise(defaultPromise));
+    return Promise.all(mediaFileUploads.map(obs => obs.toPromise(obs))); 
   }
 
   private buildAssetDirectories(zip) {
@@ -218,8 +217,8 @@ export class SerializationService {
 
   zipStoryFile(bundleAssets = false): Observable<any> {
     if (bundleAssets) { return this.buildProjectZip(bundleAssets) };
-    return this.uploadAssets()
-      .flatMap(() => this.buildProjectZip(bundleAssets))
+    return Observable.fromPromise(this.uploadAssets()
+      .then(() => this.buildProjectZip(bundleAssets))
   }
 
 }
