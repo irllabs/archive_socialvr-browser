@@ -67,6 +67,9 @@ export class PropertyBuilder {
     const audio: Audio = <Audio> this.setBaseProperties(audioJson, new Audio());
     let fileName = decodeURIComponent(audioJson);
     if (audioJson.hasOwnProperty('file')) fileName = audioJson.file;
+    if (audioJson.hasOwnProperty('remoteFile')) {
+      audio.setRemoteFileName(audioJson.remoteFile);
+    }
     const volume = audioJson.volume;
     audio.setFileData(fileName, volume, binaryFileData);
     return audio;
