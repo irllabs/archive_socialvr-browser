@@ -26,6 +26,8 @@ export default interface ApiService {
 
   updateSharableStatus(userId: string, projectId: string, is_public: boolean): Observable<any>;
 
+  uploadMedia(key: string, file, uploadPolicy): Observable<any>;
+
   deleteProject(userId: string, projectId: string): Observable<any>;
 
   searchPublicProjects(query: string): Observable<any>;

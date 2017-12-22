@@ -11,7 +11,7 @@ export class AssetInteractor {
   constructor(
     private apiService: ApiService,
     private assetManager: AssetManager,
-    private mediaService: AssetService,
+    private assetService: AssetService,
   ) {}
 
   loadTextures(imageDataList: AssetModel[]): Promise<any> {
@@ -33,12 +33,12 @@ export class AssetInteractor {
   setUploadPolicy() {
     return this.apiService.getUploadPolicy()
       .do(response => {
-        this.mediaService.setUploadPolicy(response);
+        this.assetService.setUploadPolicy(response);
       });
   }
 
   getUploadPolicy() {
-    let uploadPolicy = this.mediaService.getUploadPolicy();
+    let uploadPolicy = this.assetService.getUploadPolicy();
     if (!uploadPolicy) {
       return this.setUploadPolicy()
         .subscribe(
@@ -47,6 +47,11 @@ export class AssetInteractor {
         )
     }
     return uploadPolicy;
+  }
+
+  uploadMedia(key: string, file): Observable<any> {
+    const uploadPolicy = this.getUploadPolicy();
+    return this.apiService.uploadMedia(key, file, uploadPolicy);
   }
 
 }

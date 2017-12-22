@@ -9,7 +9,6 @@ import {
   BACKGROUND_THUMBNAIL
 } from 'ui/common/constants';
 
-import {ApiService} from 'data/api/apiService'
 import {AssetInteractor} from 'core/asset/assetInteractor';
 import {RoomManager} from 'data/scene/roomManager';
 import {MediaFile} from 'data/scene/entities/mediaFile';
@@ -30,7 +29,6 @@ export class SerializationService {
     private roomManager: RoomManager,
     private http: Http,
     private assetInteractor: AssetInteractor,
-    private apiService: ApiService,
   ) {}
 
   private buildProjectJson() {
@@ -89,7 +87,7 @@ export class SerializationService {
           .map(mediaFile => {
             const key = `${directoryName}/${mediaFile.getFileName()}`;
 	    const file = getBlobFromDataUrl(mediaFile.getBinaryFileData());
-            return this.apiService.uploadMedia(file, key)
+            return this.assetInteractor.uploadMedia(key, file)
               .flatMap((response) => {
                 console.log(`Uploaded ${response}`);
                 mediaFile.setRemoteFileName(response);
