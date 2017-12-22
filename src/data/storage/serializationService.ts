@@ -87,18 +87,15 @@ export class SerializationService {
           .map(mediaFile => {
             const key = `${directoryName}/${mediaFile.getFileName()}`;
 	    const file = getBlobFromDataUrl(mediaFile.getBinaryFileData());
-            return this.assetInteractor.uploadMedia(key, file)
-              .flatMap((response) => {
+            return this.assetInteractor.uploadMedia(key, file).toPromise()
+              .then((response) => {
                 console.log(`Uploaded ${response}`);
                 mediaFile.setRemoteFileName(response);
-                return key;
               });
           }),
         mediaFileUploads);
       });
-      const defaultPromise = new Promise((resolve, reject) => {resolve(true);});
-      return Observable.forkJoin(...mediaFileUploads)
-        .switchMap((done) => Observable.fromPromise(defaultPromise));
+    return Promise.all(mediaFileUploads); 
   }
 
   private buildAssetDirectories(zip) {
@@ -164,23 +161,19 @@ export class SerializationService {
           zip.folder(directoryName).file(fileName, audioData, {base64: true});
         }
       });
-    return zip;
+    return new Promise((resolve, reject) => resolve(zip));
   }
 
-  private buildZipStoryFile(bundleAssets = false) {
-    const projectJson = JSON.stringify(this.buildProjectJson());
-    const projectYaml = JsYaml.dump(projectJson);
+  private buildJsonStoryFile() {
+      const projectJson = JSON.stringify(this.buildProjectJson());
+      const projectFileBlobJson = new Blob([projectJson], {type: MIME_TYPE_UTF8});
+      return projectFileBlobJson
+  }
 
+  private buildYamlStoryFile(zip) {
+    const projectYaml = JsYaml.dump(projectYaml);
     const projectFileBlobYaml = new Blob([projectYaml], {type: MIME_TYPE_UTF8});
-    const projectFileBlobJson = new Blob([projectJson], {type: MIME_TYPE_UTF8});
-
-    let zip = new JSZip();
-    if (bundleAssets) {
-      zip = this.buildAssetDirectories(zip);
-    }
-    zip.file(STORY_FILE_YAML, projectFileBlobYaml);
-    zip.file(STORY_FILE_JSON, projectFileBlobJson);
-    return zip;
+    return projectFileBlobYaml;
   }
 
   private getHomeRoomImage(): Promise<string> {
@@ -205,21 +198,37 @@ export class SerializationService {
   }
 
   private buildProjectZip(bundleAssets = false) {
-    const zip = this.buildZipStoryFile(bundleAssets);
-    const zipBuilder = Promise.all([
+    const zip = new JSZip();
+    let assetPromise;
+    // If bundleassets, add all files to ZIP. Otherwise upload to S3.
+    if (bundleAssets) {
+      assetPromise = this.buildAssetDirectories(zip);
+    } else {
+      assetPromise = this.uploadAssets();
+    }
+    // Promises to be completed before ZIP file is created
+    const promises = [
+      // Prepare assets, then build story files
+      assetPromise
+        .then(built => { 
+          zip.file(STORY_FILE_JSON, this.buildJsonStoryFile());
+          zip.file(STORY_FILE_YAML, this.buildYamlStoryFile());
+        }),
+      // Add homeroom image to ZIP
       this.getHomeRoomImage()
-      .then(homeRoomImage => zip.file('thumbnail.jpg', homeRoomImage, {base64: true})),
+        .then(homeRoomImage => zip.file('thumbnail.jpg', homeRoomImage, {base64: true})),
+      // Add project soundtrack to ZIP
       this.getProjectSoundtrack()
-      .then(Soundtrack => zip.file(Soundtrack.getFileName(), getBase64FromDataUrl(Soundtrack.getBinaryFileData()), {base64: true}))
-      .catch(error => console.log(error))
-    ]).then(resolve => zip.generateAsync({type: 'blob'}));
+        .then(Soundtrack => zip.file(Soundtrack.getFileName(), getBase64FromDataUrl(Soundtrack.getBinaryFileData()), {base64: true}))
+        .catch(error => console.log(error)),
+    ]
+    // Build ZIP
+    const zipBuilder = Promise.all(promises).then(resolve => zip.generateAsync({type: 'blob'}));
     return Observable.fromPromise(zipBuilder);
   }
 
   zipStoryFile(bundleAssets = false): Observable<any> {
-    if (bundleAssets) { return this.buildProjectZip(bundleAssets) };
-    return this.uploadAssets()
-      .flatMap(() => this.buildProjectZip(bundleAssets))
+    return this.buildProjectZip(bundleAssets)
   }
 
 }
