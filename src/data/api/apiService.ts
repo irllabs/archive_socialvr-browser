@@ -201,7 +201,6 @@ export class ApiService implements Api {
 
     return this.http.post(uploadPolicy.url, formData, {withCredentials: true})
       .map(response => {
-        // Set remote file name in mediaFile.remoteFileName if successful
         const remoteFileName = `${uploadPolicy.url}${key}`;
         return remoteFileName;
       });
