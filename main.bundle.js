@@ -7537,15 +7537,23 @@ var PropertyBuilder = /** @class */function () {
         var narrator = new narrator_1.Narrator();
         if (introAudioFile) {
             var fileName = decodeURIComponent(narratorJson.intro);
+            var remoteFileName = '';
             if (narratorJson.intro.hasOwnProperty('file')) fileName = narratorJson.intro.file;
+            if (narratorJson.intro.hasOwnProperty('remoteFile')) {
+                remoteFileName = narratorJson.intro.remoteFile;
+            }
             var volume = narratorJson.volume;
-            narrator.setIntroAudio(fileName, volume, introAudioFile);
+            narrator.setIntroAudio(fileName, volume, introAudioFile, remoteFileName);
         }
         if (returnAudioFile) {
             var fileName = decodeURIComponent(narratorJson.reprise);
+            var remoteFileName = '';
             if (narratorJson.reprise.hasOwnProperty('file')) fileName = narratorJson.reprise.file;
+            if (narratorJson.reprise.hasOwnProperty('remoteFile')) {
+                remoteFileName = narratorJson.reprise.remoteFile;
+            }
             //const volume = narratorJson.volume;
-            narrator.setReturnAudio(fileName, returnAudioFile);
+            narrator.setReturnAudio(fileName, returnAudioFile, remoteFileName);
         }
         return narrator;
     };
@@ -9989,17 +9997,25 @@ var Narrator = /** @class */function () {
     Narrator.prototype.getIntroAudio = function () {
         return this.introAudio;
     };
-    Narrator.prototype.setIntroAudio = function (fileName, volume, dataUri) {
+    Narrator.prototype.setIntroAudio = function (fileName, volume, dataUri, remoteFileName) {
+        if (remoteFileName === void 0) {
+            remoteFileName = '';
+        }
         this.introAudio.setFileName(fileName);
         this.introAudio.setBinaryFileData(dataUri);
         this.setVolume(volume);
+        if (remoteFileName) this.introAudio.setRemoteFileName(remoteFileName);
     };
     Narrator.prototype.getReturnAudio = function () {
         return this.returnAudio;
     };
-    Narrator.prototype.setReturnAudio = function (fileName, dataUri) {
+    Narrator.prototype.setReturnAudio = function (fileName, dataUri, remoteFileName) {
+        if (remoteFileName === void 0) {
+            remoteFileName = '';
+        }
         this.returnAudio.setFileName(fileName);
         this.returnAudio.setBinaryFileData(dataUri);
+        if (remoteFileName) this.returnAudio.setRemoteFileName(remoteFileName);
     };
     Narrator.prototype.removeIntroAudio = function () {
         this.introAudio = new audio_1.Audio();
@@ -10815,7 +10831,6 @@ var SerializationService = /** @class */function () {
             mediaFileUploads = Object.assign(mediaFiles.map(function (f) {
                 return f.getMediaFile ? f.getMediaFile() : f;
             }).filter(function (mediaFile) {
-                console.log('uploaded?', mediaFile, mediaFile.isUploaded(), mediaFile.getRemoteFileName());
                 return !mediaFile.isUploaded();
             }).map(function (mediaFile) {
                 var key = directoryName + "/" + mediaFile.getFileName();
