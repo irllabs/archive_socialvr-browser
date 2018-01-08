@@ -121,7 +121,11 @@ export class PropertyBuilder {
     room.setFileData(imageName, imageData, remoteFileName);
 
     if (thumbnail) {
-      room.setThumbnail(BACKGROUND_THUMBNAIL, thumbnail);
+      if (roomJson.thumbnail.hasOwnProperty('remoteFile') && roomJson.thumbnail.remoteFile) {
+        room.setThumbnail(BACKGROUND_THUMBNAIL, thumbnail, roomJson.thumbnail.remoteFile);
+      } else {
+        room.setThumbnail(BACKGROUND_THUMBNAIL, thumbnail);
+      }
     }
     else if (!thumbnail && binaryFileData){
       resizeImage(binaryFileData, 'projectThumbnail')

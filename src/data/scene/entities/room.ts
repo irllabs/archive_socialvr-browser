@@ -156,9 +156,10 @@ export class Room implements RoomProperty {
     return this.backgroundImage.getFileName() !== DEFAULT_FILE_NAME || this.backgroundIsVideo;
   }
 
-  setThumbnail(fileName: string, binaryFileData: any) {
+  setThumbnail(fileName: string, binaryFileData: any, remoteFileName = '') {
     this.thumbnail.setFileName(fileName);
     this.thumbnail.setBinaryFileData(binaryFileData);
+    this.thumbnail.setRemoteFileName(remoteFileName);
   }
 
   getThumbnail(): Image {
