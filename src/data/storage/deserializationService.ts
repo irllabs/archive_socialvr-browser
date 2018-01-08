@@ -212,7 +212,8 @@ function loadRemoteMediaFile(mediaFile: any, getBinaryFileData: any): Promise<an
         console.log('success', mediaFile.file)
         return {
           name: mediaFile.filePath,
-          fileData: binaryDataFile
+          fileData: binaryDataFile,
+          remoteFile: remoteFileUrl,
         };
       })
       .catch(error => console.log('error', mediaFile.file, error));

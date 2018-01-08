@@ -37,7 +37,7 @@ export class MediaFile {
   }
 
   isUploaded(): boolean {
-    return !!this.remoteFileName;
+    return !!this.getRemoteFileName();
   }
 
   hasAsset(): boolean {
