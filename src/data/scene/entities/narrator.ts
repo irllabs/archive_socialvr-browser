@@ -15,19 +15,21 @@ export class Narrator {
 		return this.introAudio;
 	}
 
-	setIntroAudio(fileName, volume, dataUri) {
+	setIntroAudio(fileName, volume, dataUri, remoteFileName = '') {
 		this.introAudio.setFileName(fileName);
 		this.introAudio.setBinaryFileData(dataUri);
 		this.setVolume(volume);
+	        if (remoteFileName) this.introAudio.setRemoteFileName(remoteFileName);
 	}
 
 	getReturnAudio(): Audio {
 		return this.returnAudio;
 	}
 
-	setReturnAudio(fileName, dataUri) {
+	setReturnAudio(fileName, dataUri, remoteFileName = '') {
 		this.returnAudio.setFileName(fileName);
 		this.returnAudio.setBinaryFileData(dataUri);
+	        if (remoteFileName) this.returnAudio.setRemoteFileName(remoteFileName);
 	}
 
 	removeIntroAudio() {

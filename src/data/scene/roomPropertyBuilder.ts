@@ -170,15 +170,23 @@ export class PropertyBuilder {
     const narrator = new Narrator();
     if (introAudioFile) {
       let fileName = decodeURIComponent(narratorJson.intro);
+      let remoteFileName = '';
       if (narratorJson.intro.hasOwnProperty('file')) fileName = narratorJson.intro.file;
+      if (narratorJson.intro.hasOwnProperty('remoteFile')) {
+        remoteFileName = narratorJson.intro.remoteFile;
+      }
       const volume = narratorJson.volume;
-      narrator.setIntroAudio(fileName, volume, introAudioFile);
+      narrator.setIntroAudio(fileName, volume, introAudioFile, remoteFileName);
     }
     if (returnAudioFile) {
       let fileName = decodeURIComponent(narratorJson.reprise);
+      let remoteFileName = '';
       if (narratorJson.reprise.hasOwnProperty('file')) fileName = narratorJson.reprise.file;
+      if (narratorJson.reprise.hasOwnProperty('remoteFile')) {
+        remoteFileName = narratorJson.reprise.remoteFile;
+      }
       //const volume = narratorJson.volume;
-      narrator.setReturnAudio(fileName, returnAudioFile);
+      narrator.setReturnAudio(fileName, returnAudioFile, remoteFileName);
     }
     return narrator;
   }
