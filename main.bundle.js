@@ -10795,8 +10795,7 @@ var SerializationService = /** @class */function () {
     SerializationService.prototype.uploadAssets = function () {
         var _this = this;
         // Collect individual room assets
-        var mediaFiles = [];
-        var mediaFileUploads = [];
+        var uploads = {};
         Array.from(this.roomManager.getRooms()).forEach(function (room) {
             var directoryName = room.getId();
             var imageList = Array.from(room.getImages()).map(function (image) {
@@ -10805,7 +10804,7 @@ var SerializationService = /** @class */function () {
             var audioList = Array.from(room.getAudio()).map(function (audio) {
                 return audio;
             });
-            mediaFiles = mediaFiles.concat(imageList, audioList);
+            var mediaFiles = imageList.concat(audioList);
             // Narrator intro audio
             var introAudio = room.getNarrator().getIntroAudio();
             var returnAudio = room.getNarrator().getReturnAudio();
@@ -10827,21 +10826,22 @@ var SerializationService = /** @class */function () {
             if (room.getThumbnail().getMediaFile().hasAsset()) {
                 mediaFiles.push(room.getThumbnail());
             }
-            console.log(mediaFiles);
-            mediaFileUploads = Object.assign(mediaFiles.map(function (f) {
+            mediaFiles.map(function (f) {
                 return f.getMediaFile ? f.getMediaFile() : f;
             }).filter(function (mediaFile) {
                 return !mediaFile.isUploaded();
             }).map(function (mediaFile) {
                 var key = directoryName + "/" + mediaFile.getFileName();
                 var file = getBlobFromDataUrl(mediaFile.getBinaryFileData());
-                return _this.assetInteractor.uploadMedia(key, file).toPromise().then(function (response) {
+                var uploadPromise = _this.assetInteractor.uploadMedia(key, file).toPromise().then(function (response) {
                     console.log("Uploaded " + key + " " + response);
                     mediaFile.setRemoteFileName(response);
                 });
-            }), mediaFileUploads);
+                uploads[key] = uploadPromise;
+            });
         });
-        return Promise.all(mediaFileUploads);
+        console.log("All Uploads", uploads);
+        return Promise.all(Object.values(uploads));
     };
     SerializationService.prototype.buildAssetDirectories = function (zip) {
         Array.from(this.roomManager.getRooms()).forEach(function (room) {
