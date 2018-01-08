@@ -48,15 +48,14 @@ export class SerializationService {
 
   private uploadAssets() {
     // Collect individual room assets
-    let mediaFiles = [];
-    let mediaFileUploads = [];
+    const uploads = {}
     Array.from(this.roomManager.getRooms())
       .forEach(room => {
         const directoryName: string = room.getId();
 
         const imageList = Array.from(room.getImages()).map(image => image)
         const audioList = Array.from(room.getAudio()).map(audio => audio)
-        mediaFiles = [...mediaFiles, ...imageList, ...audioList];
+        let mediaFiles = [...imageList, ...audioList];
 
         // Narrator intro audio
         const introAudio = room.getNarrator().getIntroAudio();
@@ -82,25 +81,24 @@ export class SerializationService {
         if (room.getThumbnail().getMediaFile().hasAsset()) {
           mediaFiles.push(room.getThumbnail());
         }
-
-        console.log(mediaFiles)
-        mediaFileUploads = Object.assign(mediaFiles
+        mediaFiles
           // TODO: Instead of checking type of entity here, use new hotspot type
           // to always have one method for fetching assets
           .map(f => f.getMediaFile ? f.getMediaFile() : f)
           .filter(mediaFile => !mediaFile.isUploaded())
           .map(mediaFile => {
             const key = `${directoryName}/${mediaFile.getFileName()}`;
-	    const file = getBlobFromDataUrl(mediaFile.getBinaryFileData());
-            return this.assetInteractor.uploadMedia(key, file).toPromise()
+            const file = getBlobFromDataUrl(mediaFile.getBinaryFileData());
+            const uploadPromise = this.assetInteractor.uploadMedia(key, file).toPromise()
               .then((response) => {
                 console.log(`Uploaded ${key} ${response}`);
                 mediaFile.setRemoteFileName(response);
               });
-          }),
-        mediaFileUploads);
-      });
-    return Promise.all(mediaFileUploads); 
+            uploads[key] = uploadPromise;
+          })
+        });
+    console.log("All Uploads", uploads);
+    return Promise.all(Object.values(uploads));
   }
 
   private buildAssetDirectories(zip) {
@@ -215,7 +213,7 @@ export class SerializationService {
     const promises = [
       // Prepare assets, then build story files
       assetPromise
-        .then(built => { 
+        .then(built => {
           zip.file(STORY_FILE_JSON, this.buildJsonStoryFile());
           zip.file(STORY_FILE_YAML, this.buildYamlStoryFile());
         }),
