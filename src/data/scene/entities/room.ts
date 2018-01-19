@@ -157,7 +157,7 @@ export class Room implements RoomProperty {
   }
 
   setThumbnail(fileName: string, binaryFileData: any, remoteFileName = '') {
-    this.thumbnail.setFileName(fileName);
+    this.thumbnail.setFileName(BACKGROUND_THUMBNAIL);
     this.thumbnail.setBinaryFileData(binaryFileData);
     this.thumbnail.setRemoteFileName(remoteFileName);
   }
