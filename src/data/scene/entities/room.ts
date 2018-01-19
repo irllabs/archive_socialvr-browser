@@ -145,7 +145,7 @@ export class Room implements RoomProperty {
   setFileData(fileName: string, binaryFileData: any, remoteFileName = '') {
     this.backgroundImage.setFileName(fileName);
     this.backgroundImage.setBinaryFileData(binaryFileData);
-    if (remoteFileName) this.backgroundImage.setRemoteFileName(remoteFileName);
+    this.backgroundImage.setRemoteFileName(remoteFileName);
   }
 
   getBackgroundImage(): Image {
@@ -207,7 +207,7 @@ export class Room implements RoomProperty {
     this.backgroundAudio.setFileName(fileName);
     this.backgroundAudio.setBinaryFileData(dataUrl);
     this.setBackgroundAudioVolume(volume);
-    if (remoteFileName) this.backgroundAudio.setRemoteFileName(remoteFileName);
+    this.backgroundAudio.setRemoteFileName(remoteFileName);
   }
 
   removeBackgroundAudio() {

@@ -19,7 +19,7 @@ export class Narrator {
 		this.introAudio.setFileName(fileName);
 		this.introAudio.setBinaryFileData(dataUri);
 		this.setVolume(volume);
-	        if (remoteFileName) this.introAudio.setRemoteFileName(remoteFileName);
+	        this.introAudio.setRemoteFileName(remoteFileName);
 	}
 
 	getReturnAudio(): Audio {
@@ -29,7 +29,7 @@ export class Narrator {
 	setReturnAudio(fileName, dataUri, remoteFileName = '') {
 		this.returnAudio.setFileName(fileName);
 		this.returnAudio.setBinaryFileData(dataUri);
-	        if (remoteFileName) this.returnAudio.setRemoteFileName(remoteFileName);
+	        this.returnAudio.setRemoteFileName(remoteFileName);
 	}
 
 	removeIntroAudio() {
