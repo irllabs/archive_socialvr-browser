@@ -20,7 +20,7 @@ export const DEFAULT_IMAGE_PATH: string = `${IMAGE_PATH}default-background.png`;
 export const DEFAULT_PROJECT_NAME: string = 'New Project';
 export const DEFAULT_PROJECT_DESCRIPTION: string = 'A short description of the project';
 export const DEFAULT_DOOR_NAME: string = 'Select ...';
-export const BACKGROUND_THUMBNAIL = 'background_thumnbnail.jpg';
+export const BACKGROUND_THUMBNAIL = 'background_thumbnail.jpg';
 
 export const DEFAULT_VOLUME: number = 0.5;
 
