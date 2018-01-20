@@ -1,7 +1,5 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {Router} from '@angular/router';
-import {EventBus} from 'ui/common/event-bus';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
 
 @Component({
   selector: 'add-room',
@@ -10,15 +8,10 @@ import {SceneInteractor} from 'core/scene/sceneInteractor';
 })
 export class AddRoomButton {
   constructor(
-    private router: Router,
-    private sceneInteractor: SceneInteractor,
-    private eventBus: EventBus
+    private router: Router
   ) {}
 
   addRoom($event) {
-    console.log('addRoom');
-    //this.sceneInteractor.addRoom();
     this.router.navigate(['/editor', {outlets: {'modal': 'upload'}}]);
-    //this.eventBus.onSelectRoom(null, true);
   }
 }

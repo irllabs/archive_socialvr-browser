@@ -24,8 +24,6 @@ export class DefaultOverlay {
     private zipFileReader: ZipFileReader,
     private sceneInteractor: SceneInteractor,
     private slideshowBuilder: SlideshowBuilder
-    //private backgroundArray: any
-
   ) {}
 
   /*
@@ -42,7 +40,6 @@ export class DefaultOverlay {
   */
 
   private onFileDrop(event) {
-    console.log("onFileDrop: ", event);
     if (event.files && event.files.length > 1) {
       this.eventBus.onStartLoading();
       this.slideshowBuilder.build(event.files)
@@ -52,22 +49,23 @@ export class DefaultOverlay {
         .catch(error => this.eventBus.onModalMessage('error', error));
       return;
     }
-
-
+    const file = event.files[0];
+    if (mimeTypeMap.image.indexOf(file.type)>-1) {
+      this.loadImageFile(file);
+    } else if (mimeTypeMap.zip.indexOf(file.type)>-1) {
+      this.loadZipFile(file);
+    }
   }
 
   private onFileChange($event) {
     const file = $event.target.files && $event.target.files[0];
     const files = $event.target.files;
-
-    console.log('adding multi 1: ', $event.target.files);
     if (!file) {
       this.eventBus.onModalMessage('Error', 'No valid file selected');
       return;
     }
-    //console.log("hi: ",file);
+
     if ($event.target.files.length > 1 ) {
-      console.log('adding multi 2');
       this.addSlideshow(files);
     } else if (mimeTypeMap.image.indexOf(file.type)>-1) {
       this.loadImageFile(file);
