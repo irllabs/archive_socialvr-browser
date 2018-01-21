@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import * as THREE from 'three';
 
 import IdMeshPair from 'ui/editor/preview-space/modules/idMeshPair';
 import {SceneInteractor} from 'core/scene/sceneInteractor';
@@ -476,7 +477,6 @@ export class HotspotManager {
         this.hotspotMap.get(squareMesh.uuid).plane = linkPlane;
       }
     });
-
   }
 
   buildExpandedImagePlane(imageProperty: Image, camera: THREE.PerspectiveCamera): THREE.Mesh {
@@ -527,28 +527,37 @@ export class HotspotManager {
     return linkMesh;
   }
 
+  // graphicIcon: THREE.Mesh; // this is a png of the door, sound, text etc
+  // previewIcon: THREE.Group;
+  // label: THREE.Mesh;
+  // plane: THREE.Mesh;  // this
+
   cleanMaps(scene: THREE.Scene) {
     //clean up three.js scene
+    // console.log('clean scene');
     this.hotspotMap.forEach(idHotspotPair => {
-      //console.log("deleting: ",idHotspotPair);
       MeshUtil.cleanMeshMemory(idHotspotPair.graphicIcon);
-      //MeshUtil.cleanMeshMemory(idHotspotPair.previewIcon);
+      // idHotspotPair.previewIcon.children.forEach(child => MeshUtil.cleanMeshMemory(child));
+      MeshUtil.cleanMeshMemory(idHotspotPair.label);
       MeshUtil.cleanMeshMemory(idHotspotPair.plane);
-      scene.remove(idHotspotPair.graphicIcon);
-      scene.remove(idHotspotPair.previewIcon);
-      scene.remove(idHotspotPair.plane);
-    });
 
+      scene.remove(idHotspotPair.graphicIcon);
+      // idHotspotPair.previewIcon.children.forEach(child => scene.remove(child));
+      scene.remove(idHotspotPair.previewIcon);
+      scene.remove(idHotspotPair.label);
+      scene.remove(idHotspotPair.plane);
+      idHotspotPair = undefined;
+    });
+    this.hotspotMap.clear();
 
     //create new map to keep track of hotspots
     this.hotspotMap = new Map();
-
   }
 
-  getMeshList(): THREE.Mesh[] {
-    return Array.from(this.hotspotMap.values())
-      .map(idMeshPair => idMeshPair.graphicIcon);
-  }
+  // getMeshList(): THREE.Mesh[] {
+  //   return Array.from(this.hotspotMap.values())
+  //     .map(idMeshPair => idMeshPair.graphicIcon);
+  // }
 
   getHotspot(hotspotId: string): HotspotEntity {
     return this.hotspotMap.get(hotspotId);

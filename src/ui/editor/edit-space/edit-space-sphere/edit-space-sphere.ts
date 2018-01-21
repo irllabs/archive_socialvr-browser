@@ -1,7 +1,7 @@
 import {Component, Input, Output, ViewChildren, ViewChild, NgZone, EventEmitter} from '@angular/core';
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
-import 'three';
+import * as THREE from 'three';
 import 'three/SvrControls';
 
 import {Hotspot} from 'ui/editor/interfaces/hotspot';
@@ -110,14 +110,14 @@ export class EditSpaceSphere {
       this.video3D = new Video3D();
       this.video3D.init(room.getBackgroundVideo())
         .then(texture => {
-          this.sphereMesh.material = new THREE.MeshBasicMaterial({map: texture, side: THREE.FrontSide});
+          this.sphereMesh.material = new THREE.MeshBasicMaterial({map: texture, side: THREE.BackSide});
           this.onResize(null);
         })
         .catch(error => console.log('EditSpaceSphere.initVideo', error));
     }
     else {
       const sphereTexture = this.assetInteractor.getTextureById(roomId);
-      this.sphereMesh.material = new THREE.MeshBasicMaterial({map: sphereTexture, side: THREE.FrontSide});
+      this.sphereMesh.material = new THREE.MeshBasicMaterial({map: sphereTexture, side: THREE.BackSide});
       this.onResize(null);
     }
 
