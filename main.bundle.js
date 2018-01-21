@@ -48,7 +48,9 @@ __export(__webpack_require__(1111));
 /***/ }),
 /* 4 */,
 /* 5 */,
-/* 6 */
+/* 6 */,
+/* 7 */,
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -178,8 +180,6 @@ var EventType;
 })(EventType = exports.EventType || (exports.EventType = {}));
 
 /***/ }),
-/* 7 */,
-/* 8 */,
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -932,7 +932,8 @@ exports.THREE_CONST = {
 };
 
 /***/ }),
-/* 13 */
+/* 13 */,
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -950,7 +951,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var roomManager_1 = __webpack_require__(94);
+var roomManager_1 = __webpack_require__(93);
 var roomPropertyBuilder_1 = __webpack_require__(182);
 var assetManager_1 = __webpack_require__(138);
 var SceneInteractor = /** @class */function () {
@@ -1113,7 +1114,6 @@ var SceneInteractor = /** @class */function () {
 exports.SceneInteractor = SceneInteractor;
 
 /***/ }),
-/* 14 */,
 /* 15 */,
 /* 16 */,
 /* 17 */,
@@ -2112,7 +2112,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var roomManager_1 = __webpack_require__(94);
+var roomManager_1 = __webpack_require__(93);
 var MetaDataInteractor = /** @class */function () {
     function MetaDataInteractor(roomManager) {
         this.roomManager = roomManager;
@@ -2183,7 +2183,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var apiService_1 = __webpack_require__(77);
+var apiService_1 = __webpack_require__(68);
 var userService_1 = __webpack_require__(187);
 var authenticationService_1 = __webpack_require__(185);
 var socialAuthenticationService_1 = __webpack_require__(514);
@@ -2390,7 +2390,7 @@ function isNativeBlobDefined() {
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var vector2_1 = __webpack_require__(76);
+var vector2_1 = __webpack_require__(77);
 var constants_1 = __webpack_require__(12);
 var MAX_SIZE_HOTSPOT = 1024;
 function getNearestPowerOfTwo(x) {
@@ -2494,8 +2494,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var deserializationService_1 = __webpack_require__(273);
 var serializationService_1 = __webpack_require__(274);
-var apiService_1 = __webpack_require__(77);
-var roomManager_1 = __webpack_require__(94);
+var apiService_1 = __webpack_require__(68);
+var roomManager_1 = __webpack_require__(93);
 var projectService_1 = __webpack_require__(513);
 var assetManager_1 = __webpack_require__(138);
 __webpack_require__(253);
@@ -2620,74 +2620,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var platform_browser_1 = __webpack_require__(52);
-var constants_1 = __webpack_require__(12);
-exports.mimeTypeMap = {
-    video: [constants_1.MIME_TYPE_MP4],
-    audio: [constants_1.MIME_TYPE_MP3, constants_1.MIME_TYPE_WAV, constants_1.MIME_TYPE_MPEG, constants_1.MIME_TYPE_XWAV, constants_1.MIME_TYPE_AAC, constants_1.MIME_TYPE_XM4A],
-    image: [constants_1.MIME_TYPE_PNG, constants_1.MIME_TYPE_JPG, constants_1.MIME_TYPE_JPEG],
-    zip: [constants_1.MIME_TYPE_ZIP, constants_1.MIME_TYPE_X_ZIP, constants_1.MIME_TYPE_OCTET_STREAM, constants_1.MIME_TYPE_X_ZIP_COMPRESSED]
-};
-var FileLoaderUtil = /** @class */function () {
-    function FileLoaderUtil(sanitizer) {
-        this.sanitizer = sanitizer;
-    }
-    FileLoaderUtil.prototype.validateFileLoadEvent = function (file, acceptedFileType) {
-        return new Promise(function (resolve, reject) {
-            if (!exports.mimeTypeMap[acceptedFileType]) {
-                reject('Accepted file type not valid');
-            }
-            if (exports.mimeTypeMap[acceptedFileType].indexOf(file.type) < 0) {
-                var errorMessage = "File is not a valid type, must be of type: " + acceptedFileType + ".\nAccepted file types: " + exports.mimeTypeMap[acceptedFileType].join(', ');
-                reject(errorMessage);
-            }
-            resolve(file);
-        });
-    };
-    FileLoaderUtil.prototype.getBinaryFileData = function (file) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                var fileReader = new FileReader();
-                fileReader.onloadend = function () {
-                    var result = _this.sanitizer.bypassSecurityTrustUrl(fileReader.result);
-                    console.log('fileLoader.onloadEnd', result);
-                    resolve(result);
-                };
-                fileReader.onerror = function () {
-                    var error = fileReader.error;
-                    console.log('fileLoader.onerror', error);
-                    reject(error);
-                };
-                fileReader.readAsDataURL(file);
-            });
-        });
-    };
-    FileLoaderUtil = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [platform_browser_1.DomSanitizer])], FileLoaderUtil);
-    return FileLoaderUtil;
-}();
-exports.FileLoaderUtil = FileLoaderUtil;
-
-/***/ }),
-/* 62 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var apiService_1 = __webpack_require__(77);
+var apiService_1 = __webpack_require__(68);
 var assetService_1 = __webpack_require__(512);
 var assetManager_1 = __webpack_require__(138);
 var AssetInteractor = /** @class */function () {
@@ -2744,11 +2677,11 @@ var AssetModel = /** @class */function () {
 exports.AssetModel = AssetModel;
 
 /***/ }),
+/* 62 */,
 /* 63 */,
 /* 64 */,
 /* 65 */,
-/* 66 */,
-/* 67 */
+/* 66 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2998,94 +2931,74 @@ function internalError(message) {
 
 
 /***/ }),
-/* 68 */,
-/* 69 */,
-/* 70 */,
-/* 71 */,
-/* 72 */,
-/* 73 */,
-/* 74 */,
-/* 75 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "firebase", function() { return firebase; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_firebaseApp__ = __webpack_require__(1100);
-/**
- * Copyright 2017 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-var firebase = Object(__WEBPACK_IMPORTED_MODULE_0__src_firebaseApp__["a" /* createFirebaseNamespace */])();
-/* harmony default export */ __webpack_exports__["default"] = (firebase);
-
-
-//# sourceMappingURL=index.js.map
-
-
-/***/ }),
-/* 76 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var LOCATION_JITTER = 10;
-var ROUNDING_BASE = 1;
-function getPosNeg() {
-    return Math.random() > 0.5 ? -1 : 1;
-}
-function getRandomPosition() {
-    return getPosNeg() * LOCATION_JITTER * Math.random();
-}
-var Vector2 = /** @class */function () {
-    function Vector2(x, y) {
-        this.x = x;
-        this.y = y;
+var core_1 = __webpack_require__(2);
+var platform_browser_1 = __webpack_require__(52);
+var constants_1 = __webpack_require__(12);
+exports.mimeTypeMap = {
+    video: [constants_1.MIME_TYPE_MP4],
+    audio: [constants_1.MIME_TYPE_MP3, constants_1.MIME_TYPE_WAV, constants_1.MIME_TYPE_MPEG, constants_1.MIME_TYPE_XWAV, constants_1.MIME_TYPE_AAC, constants_1.MIME_TYPE_XM4A],
+    image: [constants_1.MIME_TYPE_PNG, constants_1.MIME_TYPE_JPG, constants_1.MIME_TYPE_JPEG],
+    zip: [constants_1.MIME_TYPE_ZIP, constants_1.MIME_TYPE_X_ZIP, constants_1.MIME_TYPE_OCTET_STREAM, constants_1.MIME_TYPE_X_ZIP_COMPRESSED]
+};
+var FileLoaderUtil = /** @class */function () {
+    function FileLoaderUtil(sanitizer) {
+        this.sanitizer = sanitizer;
     }
-    Vector2.build = function () {
-        var x = 180 + getRandomPosition();
-        var y = getRandomPosition();
-        return new Vector2(x, y);
+    FileLoaderUtil.prototype.validateFileLoadEvent = function (file, acceptedFileType) {
+        return new Promise(function (resolve, reject) {
+            if (!exports.mimeTypeMap[acceptedFileType]) {
+                reject('Accepted file type not valid');
+            }
+            if (exports.mimeTypeMap[acceptedFileType].indexOf(file.type) < 0) {
+                var errorMessage = "File is not a valid type, must be of type: " + acceptedFileType + ".\nAccepted file types: " + exports.mimeTypeMap[acceptedFileType].join(', ');
+                reject(errorMessage);
+            }
+            resolve(file);
+        });
     };
-    Vector2.prototype.getX = function () {
-        return this.x;
+    FileLoaderUtil.prototype.getBinaryFileData = function (file) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                var fileReader = new FileReader();
+                fileReader.onloadend = function () {
+                    var result = _this.sanitizer.bypassSecurityTrustUrl(fileReader.result);
+                    console.log('fileLoader.onloadEnd', result);
+                    resolve(result);
+                };
+                fileReader.onerror = function () {
+                    var error = fileReader.error;
+                    console.log('fileLoader.onerror', error);
+                    reject(error);
+                };
+                fileReader.readAsDataURL(file);
+            });
+        });
     };
-    Vector2.prototype.setX = function (x) {
-        this.x = x;
-    };
-    Vector2.prototype.getY = function () {
-        return this.y;
-    };
-    Vector2.prototype.setY = function (y) {
-        this.y = y;
-    };
-    Vector2.prototype.setPosition = function (x, y) {
-        this.x = x;
-        this.y = y;
-    };
-    Vector2.prototype.toString = function () {
-        return "<" + this.x + "," + this.y + ">";
-    };
-    return Vector2;
+    FileLoaderUtil = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [platform_browser_1.DomSanitizer])], FileLoaderUtil);
+    return FileLoaderUtil;
 }();
-exports.Vector2 = Vector2;
+exports.FileLoaderUtil = FileLoaderUtil;
 
 /***/ }),
-/* 77 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3279,7 +3192,9 @@ var ApiService = /** @class */function () {
         });
     };
     ApiService.prototype.downloadMedia = function (mediaUrl) {
-        return this.http.get(mediaUrl, { withCredentials: true });
+        return this.http.get(mediaUrl, { credentials: 'same-origin', responseType: http_1.ResponseContentType.Blob }).map(function (response) {
+            return response.blob();
+        });
     };
     ApiService.prototype.uploadMedia = function (key, file, uploadPolicy) {
         var payload = Object.assign(uploadPolicy.fields, { key: key, file: file });
@@ -3309,6 +3224,93 @@ var ApiService = /** @class */function () {
     return ApiService;
 }();
 exports.ApiService = ApiService;
+
+/***/ }),
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "firebase", function() { return firebase; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_firebaseApp__ = __webpack_require__(1100);
+/**
+ * Copyright 2017 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+var firebase = Object(__WEBPACK_IMPORTED_MODULE_0__src_firebaseApp__["a" /* createFirebaseNamespace */])();
+/* harmony default export */ __webpack_exports__["default"] = (firebase);
+
+
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var LOCATION_JITTER = 10;
+var ROUNDING_BASE = 1;
+function getPosNeg() {
+    return Math.random() > 0.5 ? -1 : 1;
+}
+function getRandomPosition() {
+    return getPosNeg() * LOCATION_JITTER * Math.random();
+}
+var Vector2 = /** @class */function () {
+    function Vector2(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    Vector2.build = function () {
+        var x = 180 + getRandomPosition();
+        var y = getRandomPosition();
+        return new Vector2(x, y);
+    };
+    Vector2.prototype.getX = function () {
+        return this.x;
+    };
+    Vector2.prototype.setX = function (x) {
+        this.x = x;
+    };
+    Vector2.prototype.getY = function () {
+        return this.y;
+    };
+    Vector2.prototype.setY = function (y) {
+        this.y = y;
+    };
+    Vector2.prototype.setPosition = function (x, y) {
+        this.x = x;
+        this.y = y;
+    };
+    Vector2.prototype.toString = function () {
+        return "<" + this.x + "," + this.y + ">";
+    };
+    return Vector2;
+}();
+exports.Vector2 = Vector2;
 
 /***/ }),
 /* 78 */,
@@ -3842,86 +3844,6 @@ function reject(error) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(THREE) {
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var three_1 = __webpack_require__(24);
-var vector2_1 = __webpack_require__(76);
-// xy screen position to normalized position: [0, 360], [-90, 90]
-function normalizeAbsolutePosition(x, y) {
-    var bodyRect = document.body.getBoundingClientRect();
-    var xRelative = 360 * x / bodyRect.width;
-    var yRelative = -180 * y / bodyRect.height + 90;
-    return new vector2_1.Vector2(xRelative, yRelative);
-}
-exports.normalizeAbsolutePosition = normalizeAbsolutePosition;
-// normalized position [0, 360], [-90, 90] to screen position
-function denormalizePosition(x, y) {
-    var bodyRect = document.body.getBoundingClientRect();
-    var xAbsolute = x / 360 * bodyRect.width;
-    var yAbsolute = (y / -180 + 0.5) * bodyRect.height;
-    return new vector2_1.Vector2(xAbsolute, yAbsolute);
-}
-exports.denormalizePosition = denormalizePosition;
-//added by ali to have coordinate system changes
-//these use angles in Degrees (NOT Radians)
-function car2pol(x, y, z) {
-    var rho = Math.sqrt(x * x + y * y + z * z);
-    var phi = Math.atan2(z, x) * 180 / Math.PI;
-    var theta = Math.acos(y / rho) * 180 / Math.PI;
-    return new THREE.Vector3(rho, theta, phi);
-}
-exports.car2pol = car2pol;
-//these use angles in Degrees (NOT Radians)
-function pol2car(rho, theta, phi) {
-    var x = rho * Math.sin(theta * Math.PI / 180) * Math.cos(phi * Math.PI / 180);
-    var z = rho * Math.sin(theta * Math.PI / 180) * Math.sin(phi * Math.PI / 180);
-    var y = rho * Math.cos(theta * Math.PI / 180);
-    return new THREE.Vector3(x, y, z);
-}
-exports.pol2car = pol2car;
-//these angles are in radians (NOT degrees)
-// xyz to spherical
-function coordinateToSpherical(x, y, z) {
-    var rho = Math.sqrt(x * x + y * y + z * z);
-    var theta = Math.atan2(z, x);
-    var phi = Math.acos(y / rho);
-    return {
-        rho: rho,
-        theta: theta,
-        phi: phi // azimuth angle (y)
-    };
-}
-exports.coordinateToSpherical = coordinateToSpherical;
-// spherical to xyz
-function sphericalToCoordinate(radialDistance, theta, phi) {
-    var x = radialDistance * Math.cos(theta) * Math.sin(phi);
-    var z = radialDistance * Math.sin(theta) * Math.sin(phi);
-    var y = radialDistance * Math.cos(phi);
-    return new three_1.Vector3(x, y, z);
-}
-exports.sphericalToCoordinate = sphericalToCoordinate;
-function clamp(value, lowerBound, upperBound) {
-    return Math.max(lowerBound, Math.min(upperBound, value));
-}
-exports.clamp = clamp;
-// given coordinates where 0 <= x <= 360 and -90 <= y <= 90, get 3D position
-function getCoordinatePosition(x, y, r) {
-    var radialDistance = r || 300;
-    var locationX = clamp(x, 0, 360);
-    var locationY = clamp(-y, -90, 90);
-    var radianPositionX = locationX / 180 * Math.PI;
-    var radianPositionY = (locationY + 90) / 180 * Math.PI;
-    return sphericalToCoordinate(radialDistance, radianPositionX, radianPositionY);
-}
-exports.getCoordinatePosition = getCoordinatePosition;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)))
-
-/***/ }),
-/* 94 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 
 
 var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
@@ -4040,6 +3962,7 @@ var RoomManager = /** @class */function () {
 exports.RoomManager = RoomManager;
 
 /***/ }),
+/* 94 */,
 /* 95 */,
 /* 96 */,
 /* 97 */,
@@ -4050,8 +3973,7 @@ exports.RoomManager = RoomManager;
 /* 102 */,
 /* 103 */,
 /* 104 */,
-/* 105 */,
-/* 106 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4148,7 +4070,7 @@ exports.Change = Change;
 
 
 /***/ }),
-/* 107 */
+/* 106 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4196,6 +4118,86 @@ function clone(obj) {
 
 //# sourceMappingURL=object.js.map
 
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(THREE) {
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var three_1 = __webpack_require__(24);
+var vector2_1 = __webpack_require__(77);
+// xy screen position to normalized position: [0, 360], [-90, 90]
+function normalizeAbsolutePosition(x, y) {
+    var bodyRect = document.body.getBoundingClientRect();
+    var xRelative = 360 * x / bodyRect.width;
+    var yRelative = -180 * y / bodyRect.height + 90;
+    return new vector2_1.Vector2(xRelative, yRelative);
+}
+exports.normalizeAbsolutePosition = normalizeAbsolutePosition;
+// normalized position [0, 360], [-90, 90] to screen position
+function denormalizePosition(x, y) {
+    var bodyRect = document.body.getBoundingClientRect();
+    var xAbsolute = x / 360 * bodyRect.width;
+    var yAbsolute = (y / -180 + 0.5) * bodyRect.height;
+    return new vector2_1.Vector2(xAbsolute, yAbsolute);
+}
+exports.denormalizePosition = denormalizePosition;
+//added by ali to have coordinate system changes
+//these use angles in Degrees (NOT Radians)
+function car2pol(x, y, z) {
+    var rho = Math.sqrt(x * x + y * y + z * z);
+    var phi = Math.atan2(z, x) * 180 / Math.PI;
+    var theta = Math.acos(y / rho) * 180 / Math.PI;
+    return new THREE.Vector3(rho, theta, phi);
+}
+exports.car2pol = car2pol;
+//these use angles in Degrees (NOT Radians)
+function pol2car(rho, theta, phi) {
+    var x = rho * Math.sin(theta * Math.PI / 180) * Math.cos(phi * Math.PI / 180);
+    var z = rho * Math.sin(theta * Math.PI / 180) * Math.sin(phi * Math.PI / 180);
+    var y = rho * Math.cos(theta * Math.PI / 180);
+    return new THREE.Vector3(x, y, z);
+}
+exports.pol2car = pol2car;
+//these angles are in radians (NOT degrees)
+// xyz to spherical
+function coordinateToSpherical(x, y, z) {
+    var rho = Math.sqrt(x * x + y * y + z * z);
+    var theta = Math.atan2(z, x);
+    var phi = Math.acos(y / rho);
+    return {
+        rho: rho,
+        theta: theta,
+        phi: phi // azimuth angle (y)
+    };
+}
+exports.coordinateToSpherical = coordinateToSpherical;
+// spherical to xyz
+function sphericalToCoordinate(radialDistance, theta, phi) {
+    var x = radialDistance * Math.cos(theta) * Math.sin(phi);
+    var z = radialDistance * Math.sin(theta) * Math.sin(phi);
+    var y = radialDistance * Math.cos(phi);
+    return new three_1.Vector3(x, y, z);
+}
+exports.sphericalToCoordinate = sphericalToCoordinate;
+function clamp(value, lowerBound, upperBound) {
+    return Math.max(lowerBound, Math.min(upperBound, value));
+}
+exports.clamp = clamp;
+// given coordinates where 0 <= x <= 360 and -90 <= y <= 90, get 3D position
+function getCoordinatePosition(x, y, r) {
+    var radialDistance = r || 300;
+    var locationX = clamp(x, 0, 360);
+    var locationY = clamp(-y, -90, 90);
+    var radianPositionX = locationX / 180 * Math.PI;
+    var radianPositionY = (locationY + 90) / 180 * Math.PI;
+    return sphericalToCoordinate(radialDistance, radianPositionX, radianPositionY);
+}
+exports.getCoordinatePosition = getCoordinatePosition;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)))
 
 /***/ }),
 /* 108 */
@@ -4328,10 +4330,10 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var fileLoaderUtil_1 = __webpack_require__(61);
+var fileLoaderUtil_1 = __webpack_require__(67);
 var roomPropertyBuilder_1 = __webpack_require__(182);
 var imageResizeService_1 = __webpack_require__(53);
-var sceneInteractor_1 = __webpack_require__(13);
+var sceneInteractor_1 = __webpack_require__(14);
 var SlideshowBuilder = /** @class */function () {
     function SlideshowBuilder(sceneInteractor, fileLoaderUtil, propertyBuilder) {
         this.sceneInteractor = sceneInteractor;
@@ -4674,7 +4676,7 @@ PriorityIndex_1.setNodeFromJSON(nodeFromJSON);
 /* unused harmony export base64Bytes_ */
 /* unused harmony export dataURLBytes_ */
 /* unused harmony export dataURLContentType_ */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__error__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__error__ = __webpack_require__(66);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -4965,8 +4967,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(6);
-var sceneInteractor_1 = __webpack_require__(13);
+var event_bus_1 = __webpack_require__(8);
+var sceneInteractor_1 = __webpack_require__(14);
 var storageInteractor_1 = __webpack_require__(184);
 var projectInteractor_1 = __webpack_require__(54);
 var ZipFileReader = /** @class */function () {
@@ -5003,7 +5005,7 @@ exports.ZipFileReader = ZipFileReader;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var vector2_1 = __webpack_require__(76);
+var vector2_1 = __webpack_require__(77);
 var uuid_1 = __webpack_require__(109);
 var BaseElement = /** @class */function () {
     function BaseElement() {
@@ -5215,9 +5217,9 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var sceneInteractor_1 = __webpack_require__(13);
+var sceneInteractor_1 = __webpack_require__(14);
 var roomPropertyTypeService_1 = __webpack_require__(111);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var PropertyRemovalService = /** @class */function () {
     function PropertyRemovalService(sceneInteractor, eventBus) {
         this.sceneInteractor = sceneInteractor;
@@ -5294,7 +5296,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var userService_1 = __webpack_require__(187);
-var apiService_1 = __webpack_require__(77);
+var apiService_1 = __webpack_require__(68);
 __webpack_require__(249);
 var AdminInteractor = /** @class */function () {
     function AdminInteractor(userService, apiService) {
@@ -7265,7 +7267,7 @@ var minSafeInteger = -9007199254740991;
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Location; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__error__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__error__ = __webpack_require__(66);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -7402,7 +7404,7 @@ var audio_1 = __webpack_require__(108);
 var door_1 = __webpack_require__(270);
 var link_1 = __webpack_require__(271);
 var narrator_1 = __webpack_require__(267);
-var vector2_1 = __webpack_require__(76);
+var vector2_1 = __webpack_require__(77);
 var imageResizeService_1 = __webpack_require__(53);
 var reverbList_1 = __webpack_require__(268);
 var constants_1 = __webpack_require__(12);
@@ -7760,9 +7762,9 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var publicLinkHelper_1 = __webpack_require__(265);
-var sceneInteractor_1 = __webpack_require__(13);
+var sceneInteractor_1 = __webpack_require__(14);
 var projectInteractor_1 = __webpack_require__(54);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
 var userInteractor_1 = __webpack_require__(38);
@@ -7895,9 +7897,9 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(6);
-var sceneInteractor_1 = __webpack_require__(13);
-var vector2_1 = __webpack_require__(76);
+var event_bus_1 = __webpack_require__(8);
+var sceneInteractor_1 = __webpack_require__(14);
+var vector2_1 = __webpack_require__(77);
 var HOTSPOT_DISTANCE_THESH = 80;
 var CombinedHotspotUtil = /** @class */function () {
     function CombinedHotspotUtil(sceneInteractor, ngZone, eventBus) {
@@ -7975,7 +7977,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var fileLoaderUtil_1 = __webpack_require__(61);
+var fileLoaderUtil_1 = __webpack_require__(67);
 var audioContextProvider_1 = __webpack_require__(272);
 var Recorder = __webpack_require__(381);
 var AudioRecorderService = /** @class */function () {
@@ -8071,7 +8073,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // Angular Modules
 var core_1 = __webpack_require__(2);
 var platform_browser_1 = __webpack_require__(52);
-var forms_1 = __webpack_require__(100);
+var forms_1 = __webpack_require__(99);
 // UI components
 var checkbox_1 = __webpack_require__(1305);
 var text_input_1 = __webpack_require__(1308);
@@ -8082,7 +8084,7 @@ var loading_modal_1 = __webpack_require__(1317);
 var message_modal_1 = __webpack_require__(1320);
 var shareable_modal_1 = __webpack_require__(1323);
 // Services
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var shareable_loader_1 = __webpack_require__(186);
 var CommonModule = /** @class */function () {
     function CommonModule() {}
@@ -8116,13 +8118,13 @@ var core_1 = __webpack_require__(2);
 // project module imports
 var data_module_1 = __webpack_require__(1327);
 // internal module imports
-var sceneInteractor_1 = __webpack_require__(13);
+var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
 var cameraInteractor_1 = __webpack_require__(276);
 var storageInteractor_1 = __webpack_require__(184);
 var userInteractor_1 = __webpack_require__(38);
 var projectInteractor_1 = __webpack_require__(54);
-var assetInteractor_1 = __webpack_require__(62);
+var assetInteractor_1 = __webpack_require__(61);
 var VideoInteractor_1 = __webpack_require__(275);
 var searchInteractor_1 = __webpack_require__(281);
 var adminInteractor_1 = __webpack_require__(140);
@@ -8947,7 +8949,7 @@ exports.ImmutableTree = ImmutableTree;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var Change_1 = __webpack_require__(106);
+var Change_1 = __webpack_require__(105);
 var ChildrenNode_1 = __webpack_require__(36);
 var PriorityIndex_1 = __webpack_require__(33);
 /**
@@ -9267,7 +9269,7 @@ exports.RepoManager = RepoManager;
 /* harmony export (immutable) */ __webpack_exports__["c"] = nonNegativeNumberSpec;
 /* harmony export (immutable) */ __webpack_exports__["a"] = looseObjectSpec;
 /* harmony export (immutable) */ __webpack_exports__["d"] = nullFunctionSpec;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__error__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__error__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__metadata__ = __webpack_require__(262);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__type__ = __webpack_require__(46);
 /**
@@ -9613,7 +9615,7 @@ function metadataValidator(p) {
 /* harmony export (immutable) */ __webpack_exports__["d"] = makeUploadUrl;
 /* harmony export (immutable) */ __webpack_exports__["c"] = makeQueryString;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(180);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__object__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__object__ = __webpack_require__(106);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -10160,19 +10162,21 @@ var __generator = this && this.__generator || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var Observable_1 = __webpack_require__(0);
-var roomManager_1 = __webpack_require__(94);
+var roomManager_1 = __webpack_require__(93);
 var roomPropertyBuilder_1 = __webpack_require__(182);
-var fileLoaderUtil_1 = __webpack_require__(61);
+var apiService_1 = __webpack_require__(68);
+var fileLoaderUtil_1 = __webpack_require__(67);
 __webpack_require__(245);
 __webpack_require__(1175);
 var constants_1 = __webpack_require__(12);
 var JSZip = __webpack_require__(235);
 var JsYaml = __webpack_require__(233);
 var DeserializationService = /** @class */function () {
-    function DeserializationService(roomManager, propertyBuilder, fileLoaderUtil) {
+    function DeserializationService(roomManager, propertyBuilder, fileLoaderUtil, apiService) {
         this.roomManager = roomManager;
         this.propertyBuilder = propertyBuilder;
         this.fileLoaderUtil = fileLoaderUtil;
+        this.apiService = apiService;
         this.zip = new JSZip();
     }
     DeserializationService.prototype.deserializeRooms = function (storyFile, binaryFileMap, baseFilePath) {
@@ -10303,42 +10307,45 @@ var DeserializationService = /** @class */function () {
         });
     };
     DeserializationService.prototype.unzipStoryFile = function (file) {
-        return Observable_1.Observable.fromPromise(this.zip.loadAsync(file).then(deserializeProject.bind(this)));
+        var _this = this;
+        return Observable_1.Observable.fromPromise(this.zip.loadAsync(file).then(function (file) {
+            return _this.deserializeProject(file);
+        }));
+        try {} catch (error) {}
+        console.log('error', mediaFile.name, error);
+        ;
     };
-    DeserializationService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [roomManager_1.RoomManager, roomPropertyBuilder_1.PropertyBuilder, fileLoaderUtil_1.FileLoaderUtil])], DeserializationService);
-    return DeserializationService;
-}();
-exports.DeserializationService = DeserializationService;
-// Given a jszip file containing an image or audio
-// return a promise containing the name of the file
-// and binary data
-function loadMediaFile(mediaFile, getBinaryFileData) {
-    console.log('loading media file', mediaFile);
-    return mediaFile.async(constants_1.UINT8ARRAY).then(function (fileData) {
-        console.log('---fileData', mediaFile);
-        var fileType = getFileType(mediaFile.name);
-        return new Blob([fileData], { type: fileType });
-    }).then(function (blob) {
-        console.log('---blob', mediaFile);
-        return getBinaryFileData(blob);
-    }).then(function (binaryDataFile) {
-        console.log('success', mediaFile.name);
-        return {
-            name: mediaFile.name,
-            fileData: binaryDataFile
-        };
-    }).catch(function (error) {
-        return console.log('error', mediaFile.name, error);
-    });
-}
-function loadRemoteMediaFile(mediaFile, getBinaryFileData) {
-    console.log('loading remote media file', mediaFile);
-    // TODO: If possible, use angular.http here
-    var remoteFileUrl = mediaFile.remoteFile.replace('socialvr-staging.s3.amazonaws.com', 'socialvr-staging.imgix.net') + "?q=60";
-    return fetch(remoteFileUrl, { credentials: 'same-origin' }).then(function (response) {
-        return response.blob().then(function (fileData) {
+    // Given a jszip file containing an image or audio
+    // return a promise containing the name of the file
+    // and binary data
+    DeserializationService.prototype.loadMediaFile = function (mediaFile, getBinaryFileData) {
+        var _this = this;
+        console.log('loading media file', mediaFile);
+        return mediaFile.async(constants_1.UINT8ARRAY).then(function (fileData) {
             console.log('---fileData', mediaFile);
-            var fileType = getFileType(mediaFile.file);
+            var fileType = _this.getFileType(mediaFile.name);
+            return new Blob([fileData], { type: fileType });
+        }).then(function (blob) {
+            console.log('---blob', mediaFile);
+            return getBinaryFileData(blob);
+        }).then(function (binaryDataFile) {
+            console.log('success', mediaFile.name);
+            return {
+                name: mediaFile.name,
+                fileData: binaryDataFile
+            };
+        });
+    };
+    DeserializationService.prototype.loadRemoteMediaFile = function (mediaFile, getBinaryFileData) {
+        var _this = this;
+        console.log('loading remote media file', mediaFile);
+        var remoteFileUrl = mediaFile.remoteFile;
+        if (mediaFile.remoteFile.indexOf('socialvr-staging.s3.amazonaws.com') > 0) {
+            remoteFileUrl = mediaFile.remoteFile.replace('socialvr-staging.s3.amazonaws.com', 'socialvr-staging.imgix.net') + "?q=60";
+        }
+        return this.apiService.downloadMedia(remoteFileUrl).toPromise().then(function (fileData) {
+            console.log('---fileData', mediaFile);
+            var fileType = _this.getFileType(mediaFile.file);
             return new Blob([fileData], { type: fileType });
         }).then(function (blob) {
             console.log('---blob', mediaFile);
@@ -10353,218 +10360,144 @@ function loadRemoteMediaFile(mediaFile, getBinaryFileData) {
         }).catch(function (error) {
             return console.log('error', mediaFile.file, error);
         });
-    }).catch(function (error) {
-        return console.log('error', error);
-    });
-}
-function loadMediaFileWrapper(mediaFile, getBinaryFileData) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    console.log('loadMediaFileWrapper', mediaFile);
-                    return [4 /*yield*/, loadMediaFile(mediaFile, getBinaryFileData)];
-                case 1:
-                    return [2 /*return*/, _a.sent()];
-            }
-        });
-    });
-}
-// Given a json object of jszip files, return a list of
-// promises containing image and audio binary data
-function loadMediaFiles(fileMap, storyFilePath, getBinaryFileData) {
-    return __awaiter(this, void 0, void 0, function () {
-        var _this = this;
-        var files, remoteFiles, getRemoteFiles, mediaFiles, i, file;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    console.log('load local media files', fileMap);
-                    files = Object.keys(fileMap).filter(function (fileKey) {
-                        return fileKey.indexOf(constants_1.STORY_FILE_YAML) < 0;
-                    }).filter(function (fileKey) {
-                        return fileKey.indexOf(constants_1.STORY_FILE_JSON) < 0;
-                    }).map(function (fileKey) {
-                        return fileMap[fileKey];
-                    }).filter(function (file) {
-                        return !file.dir;
-                    });
-                    console.log('local files to load', files);
-                    console.log('load remote media files');
-                    remoteFiles = [];
-                    getRemoteFiles = new Promise(function (resolve, reject) {
-                        return resolve(remoteFiles);
-                    });
-                    // Only check for remote files if storyFile is JSON
-                    if (storyFilePath.indexOf(constants_1.STORY_FILE_JSON) >= 0) {
-                        getRemoteFiles = fileMap[storyFilePath].async('string').then(function (storyString) {
-                            var storyJson = JSON.parse(storyString);
-                            storyJson.rooms.map(function (room) {
-                                var assets = room.clips.concat(room.images, [room.ambient, room.image, room.thumbnail || {}, room.narrator.intro, room.narrator.reprise]);
-                                assets.map(function (asset) {
-                                    if (asset.hasOwnProperty('remoteFile')) {
-                                        // Add to remoteFiles if not present locally
-                                        asset.filePath = room.uuid + "/" + asset.file;
-                                        if (files.map(function (file) {
-                                            return file.name;
-                                        }).indexOf(asset.filePath) < 0) {
-                                            remoteFiles.push(asset);
+    };
+    // Given a json object of jszip files, return a list of
+    // promises containing image and audio binary data
+    DeserializationService.prototype.loadMediaFiles = function (fileMap, storyFilePath, getBinaryFileData) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var files, remoteFiles, getRemoteFiles, mediaFiles, i, file;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log('load local media files', fileMap);
+                        files = Object.keys(fileMap).filter(function (fileKey) {
+                            return fileKey.indexOf(constants_1.STORY_FILE_YAML) < 0;
+                        }).filter(function (fileKey) {
+                            return fileKey.indexOf(constants_1.STORY_FILE_JSON) < 0;
+                        }).map(function (fileKey) {
+                            return fileMap[fileKey];
+                        }).filter(function (file) {
+                            return !file.dir;
+                        });
+                        console.log('local files to load', files);
+                        console.log('load remote media files');
+                        remoteFiles = [];
+                        getRemoteFiles = new Promise(function (resolve, reject) {
+                            return resolve(remoteFiles);
+                        });
+                        // Only check for remote files if storyFile is JSON
+                        if (storyFilePath.indexOf(constants_1.STORY_FILE_JSON) >= 0) {
+                            getRemoteFiles = fileMap[storyFilePath].async('string').then(function (storyString) {
+                                var storyJson = JSON.parse(storyString);
+                                storyJson.rooms.map(function (room) {
+                                    var assets = room.clips.concat(room.images, [room.ambient, room.image, room.thumbnail || {}, room.narrator.intro, room.narrator.reprise]);
+                                    assets.map(function (asset) {
+                                        if (asset.hasOwnProperty('remoteFile') && asset.remoteFile) {
+                                            // Add to remoteFiles if not present locally
+                                            asset.filePath = room.uuid + "/" + asset.file;
+                                            if (files.map(function (file) {
+                                                return file.name;
+                                            }).indexOf(asset.filePath) < 0) {
+                                                remoteFiles.push(asset);
+                                            }
                                         }
+                                    });
+                                });
+                                return remoteFiles;
+                            });
+                        }
+                        mediaFiles = [];
+                        return [4 /*yield*/, getRemoteFiles.then(function (remoteFiles) {
+                            return __awaiter(_this, void 0, void 0, function () {
+                                var i, file;
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0:
+                                            console.log('remote files to load', remoteFiles);
+                                            i = 0;
+                                            _a.label = 1;
+                                        case 1:
+                                            if (!(i < remoteFiles.length)) return [3 /*break*/, 4];
+                                            file = remoteFiles[i];
+                                            return [4 /*yield*/, this.loadRemoteMediaFile(file, getBinaryFileData).then(function (mediaFile) {
+                                                return mediaFiles.push(mediaFile);
+                                            })];
+                                        case 2:
+                                            _a.sent();
+                                            _a.label = 3;
+                                        case 3:
+                                            i++;
+                                            return [3 /*break*/, 1];
+                                        case 4:
+                                            return [2 /*return*/];
                                     }
                                 });
                             });
-                            return remoteFiles;
-                        });
-                    }
-                    mediaFiles = [];
-                    return [4 /*yield*/, getRemoteFiles.then(function (remoteFiles) {
-                        return __awaiter(_this, void 0, void 0, function () {
-                            var i, file;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        console.log('remote files to load', remoteFiles);
-                                        i = 0;
-                                        _a.label = 1;
-                                    case 1:
-                                        if (!(i < remoteFiles.length)) return [3 /*break*/, 4];
-                                        file = remoteFiles[i];
-                                        return [4 /*yield*/, loadRemoteMediaFile(file, getBinaryFileData).then(function (mediaFile) {
-                                            return mediaFiles.push(mediaFile);
-                                        })];
-                                    case 2:
-                                        _a.sent();
-                                        _a.label = 3;
-                                    case 3:
-                                        i++;
-                                        return [3 /*break*/, 1];
-                                    case 4:
-                                        return [2 /*return*/];
-                                }
-                            });
-                        });
-                    })];
-                case 1:
-                    _a.sent();
-                    i = 0;
-                    _a.label = 2;
-                case 2:
-                    if (!(i < files.length)) return [3 /*break*/, 5];
-                    file = files[i];
-                    return [4 /*yield*/, loadMediaFile(file, getBinaryFileData).then(function (mediaFile) {
-                        return mediaFiles.push(mediaFile);
-                    })];
-                case 3:
-                    _a.sent();
-                    _a.label = 4;
-                case 4:
-                    i++;
-                    return [3 /*break*/, 2];
-                case 5:
-                    console.log('allfiles', mediaFiles);
-                    return [2 /*return*/, mediaFiles];
-            }
+                        })];
+                    case 1:
+                        _a.sent();
+                        i = 0;
+                        _a.label = 2;
+                    case 2:
+                        if (!(i < files.length)) return [3 /*break*/, 5];
+                        file = files[i];
+                        return [4 /*yield*/, this.loadMediaFile(file, getBinaryFileData).then(function (mediaFile) {
+                            return mediaFiles.push(mediaFile);
+                        })];
+                    case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4:
+                        i++;
+                        return [3 /*break*/, 2];
+                    case 5:
+                        console.log('allfiles', mediaFiles);
+                        return [2 /*return*/, mediaFiles];
+                }
+            });
         });
-    });
-}
-function meterPromises(rate, promiseList) {
-    return __awaiter(this, void 0, void 0, function () {
-        var meteredPromises, results, _i, meteredPromises_1, subList;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    meteredPromises = promiseList.reduce(function (aggretate, mediaFilePromise, index) {
-                        if (index % rate === 0) {
-                            var newList = [mediaFilePromise];
-                            aggretate.push(newList);
-                        } else {
-                            var lastElement = aggretate[aggretate.length - 1];
-                            lastElement.push(mediaFilePromise);
-                        }
-                        return aggretate;
-                    }, []);
-                    results = [];
-                    _i = 0, meteredPromises_1 = meteredPromises;
-                    _a.label = 1;
-                case 1:
-                    if (!(_i < meteredPromises_1.length)) return [3 /*break*/, 4];
-                    subList = meteredPromises_1[_i];
-                    return [4 /*yield*/, Promise.all(subList).then(function (resultList) {
-                        console.log('adding to resultList:', resultList);
-                        results = results.concat(resultList);
-                    })];
-                case 2:
-                    _a.sent();
-                    _a.label = 3;
-                case 3:
-                    _i++;
-                    return [3 /*break*/, 1];
-                case 4:
-                    return [2 /*return*/, results];
-            }
-        });
-    });
-}
-// function meterList(rate, promiseList) {
-//   return new Promise((resolve, reject) => {
-//     // meter media file loading
-//     // const rate = 1;
-//     const meteredPromises = promiseList
-//       .reduce((aggretate, mediaFilePromise, index) => {
-//         if (index % rate === 0) {
-//           const newList = [mediaFilePromise];
-//           aggretate.push(newList);
-//         }
-//         else {
-//           const lastElement = aggretate[aggretate.length - 1];
-//           lastElement.push(mediaFilePromise);
-//         }
-//         return aggretate;
-//       }, []);
-//
-//     meteredPromises.map(subList => Promise.all(subList))
-//   });
-// }
-// Given a JSON object representing story file,
-// return a promise that resolves when the story file is deserialized
-function deserializeProject(jsZipData) {
-    var _this = this;
-    console.log('jsZipData', jsZipData);
-    var fileMap = jsZipData.files;
-    var storyFilePath = Object.keys(fileMap).filter(function (fileKey) {
-        return fileKey.indexOf(constants_1.STORY_FILE_YAML) > -1;
-    })[0] || constants_1.STORY_FILE_YAML;
-    var baseFilePath = storyFilePath.substring(0, storyFilePath.indexOf(constants_1.STORY_FILE_YAML));
-    // If a story.json file is present, assume assets have been uploaded to S3
-    if (Object.keys(fileMap).indexOf(constants_1.STORY_FILE_JSON) > -1) {
-        baseFilePath = storyFilePath.substring(0, storyFilePath.indexOf(constants_1.STORY_FILE_JSON));
-        storyFilePath = "" + baseFilePath + constants_1.STORY_FILE_JSON;
-    }
-    var storyFile = fileMap[storyFilePath];
-    console.log('storyFile', storyFile);
-    var getBinaryFileData = this.fileLoaderUtil.getBinaryFileData.bind(this.fileLoaderUtil);
-    var mediaFilePromises = loadMediaFiles(fileMap, storyFilePath, getBinaryFileData);
-    return mediaFilePromises.then(function (bianryFileMap) {
-        return _this.deserializeRooms(storyFile, bianryFileMap, baseFilePath);
-    });
-    // return Promise.all(mediaFilePromises)
-    //     .then(bianryFileMap => this.deserializeRooms(storyFile, bianryFileMap, baseFilePath));
-    // return meterPromises(2, mediaFilePromises)
-    //   .then(bianryFileMap => this.deserializeRooms(storyFile, bianryFileMap, baseFilePath));
-}
-function getFileType(fileName) {
-    var fileType = fileName.substring(fileName.lastIndexOf('.'), fileName.length);
-    var fileMap = {
-        '.mp3': constants_1.MIME_TYPE_MP3,
-        '.wav': constants_1.MIME_TYPE_WAV,
-        '.aac': constants_1.MIME_TYPE_AAC,
-        '.m4a': constants_1.MIME_TYPE_XM4A,
-        '.png': constants_1.MIME_TYPE_PNG,
-        '.jpg': constants_1.MIME_TYPE_JPG,
-        '.jpeg': constants_1.MIME_TYPE_JPEG
     };
-    return fileMap[fileType] || constants_1.MIME_TYPE_PNG;
-}
+    // Given a JSON object representing story file,
+    // return a promise that resolves when the story file is deserialized
+    DeserializationService.prototype.deserializeProject = function (jsZipData) {
+        var _this = this;
+        console.log('jsZipData', jsZipData);
+        var fileMap = jsZipData.files;
+        var storyFilePath = Object.keys(fileMap).filter(function (fileKey) {
+            return fileKey.indexOf(constants_1.STORY_FILE_YAML) > -1;
+        })[0] || constants_1.STORY_FILE_YAML;
+        var baseFilePath = storyFilePath.substring(0, storyFilePath.indexOf(constants_1.STORY_FILE_YAML));
+        // If a story.json file is present, assume assets have been uploaded to S3
+        if (Object.keys(fileMap).indexOf(constants_1.STORY_FILE_JSON) > -1) {
+            baseFilePath = storyFilePath.substring(0, storyFilePath.indexOf(constants_1.STORY_FILE_JSON));
+            storyFilePath = "" + baseFilePath + constants_1.STORY_FILE_JSON;
+        }
+        var storyFile = fileMap[storyFilePath];
+        console.log('storyFile', storyFile);
+        var getBinaryFileData = this.fileLoaderUtil.getBinaryFileData.bind(this.fileLoaderUtil);
+        var mediaFilePromises = this.loadMediaFiles(fileMap, storyFilePath, getBinaryFileData);
+        return mediaFilePromises.then(function (bianryFileMap) {
+            return _this.deserializeRooms(storyFile, bianryFileMap, baseFilePath);
+        });
+    };
+    DeserializationService.prototype.getFileType = function (fileName) {
+        var fileType = fileName.substring(fileName.lastIndexOf('.'), fileName.length);
+        var fileMap = {
+            '.mp3': constants_1.MIME_TYPE_MP3,
+            '.wav': constants_1.MIME_TYPE_WAV,
+            '.aac': constants_1.MIME_TYPE_AAC,
+            '.m4a': constants_1.MIME_TYPE_XM4A,
+            '.png': constants_1.MIME_TYPE_PNG,
+            '.jpg': constants_1.MIME_TYPE_JPG,
+            '.jpeg': constants_1.MIME_TYPE_JPEG
+        };
+        return fileMap[fileType] || constants_1.MIME_TYPE_PNG;
+    };
+    DeserializationService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [roomManager_1.RoomManager, roomPropertyBuilder_1.PropertyBuilder, fileLoaderUtil_1.FileLoaderUtil, apiService_1.ApiService])], DeserializationService);
+    return DeserializationService;
+}();
+exports.DeserializationService = DeserializationService;
 
 /***/ }),
 /* 274 */
@@ -10587,8 +10520,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var Observable_1 = __webpack_require__(0);
 var constants_1 = __webpack_require__(12);
-var assetInteractor_1 = __webpack_require__(62);
-var roomManager_1 = __webpack_require__(94);
+var assetInteractor_1 = __webpack_require__(61);
+var roomManager_1 = __webpack_require__(93);
 var http_1 = __webpack_require__(159);
 var imageResizeService_1 = __webpack_require__(53);
 __webpack_require__(245);
@@ -10854,7 +10787,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var apiService_1 = __webpack_require__(77);
+var apiService_1 = __webpack_require__(68);
 // import 'rxjs/add/operator/do';
 var VideoInteractor = /** @class */function () {
     function VideoInteractor(apiService) {
@@ -10971,7 +10904,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var assetInteractor_1 = __webpack_require__(62);
+var assetInteractor_1 = __webpack_require__(61);
 var audioContextProvider_1 = __webpack_require__(272);
 var AudioPlayService = /** @class */function () {
     function AudioPlayService(assetInteractor) {
@@ -11065,8 +10998,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var assetInteractor_1 = __webpack_require__(62);
-var iconPositionUtil_1 = __webpack_require__(93);
+var assetInteractor_1 = __webpack_require__(61);
+var iconPositionUtil_1 = __webpack_require__(107);
 var constants_1 = __webpack_require__(12);
 var TWEEN = __webpack_require__(280);
 var MenuManager = /** @class */function () {
@@ -12202,7 +12135,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var apiService_1 = __webpack_require__(77);
+var apiService_1 = __webpack_require__(68);
 var SearchInteractor = /** @class */function () {
     function SearchInteractor(apiService) {
         this.apiService = apiService;
@@ -12423,7 +12356,7 @@ exports.SearchInteractor = SearchInteractor;
  */
 
 __webpack_require__(1095);
-module.exports = __webpack_require__(75).default;
+module.exports = __webpack_require__(76).default;
 
 
 /***/ }),
@@ -15596,7 +15529,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var app_1 = __webpack_require__(75);
+var app_1 = __webpack_require__(76);
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(3);
 var util_3 = __webpack_require__(3);
@@ -17624,7 +17557,7 @@ exports.FirebaseIFrameScriptHolder = FirebaseIFrameScriptHolder;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var app_1 = __webpack_require__(75);
+var app_1 = __webpack_require__(76);
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(9);
 var StatsManager_1 = __webpack_require__(259);
@@ -18593,10 +18526,10 @@ var ErrorCode;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Reference; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__implementation_args__ = __webpack_require__(261);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_blob__ = __webpack_require__(508);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__implementation_error__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__implementation_error__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__implementation_location__ = __webpack_require__(181);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__implementation_metadata__ = __webpack_require__(262);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__implementation_object__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__implementation_object__ = __webpack_require__(106);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__implementation_path__ = __webpack_require__(507);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__implementation_requests__ = __webpack_require__(509);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__implementation_string__ = __webpack_require__(134);
@@ -19079,9 +19012,9 @@ var FbsBlob = /** @class */ (function () {
 /* harmony export (immutable) */ __webpack_exports__["b"] = continueResumableUpload;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__array__ = __webpack_require__(264);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blob__ = __webpack_require__(508);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__error__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__error__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__metadata__ = __webpack_require__(262);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__object__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__object__ = __webpack_require__(106);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestinfo__ = __webpack_require__(1161);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__type__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__url__ = __webpack_require__(263);
@@ -19434,7 +19367,7 @@ module.exports = "DEV";
 Object.defineProperty(exports, "__esModule", { value: true });
 var audio_1 = __webpack_require__(108);
 var image_1 = __webpack_require__(183);
-var vector2_1 = __webpack_require__(76);
+var vector2_1 = __webpack_require__(77);
 var mediaFile_1 = __webpack_require__(266);
 var narrator_1 = __webpack_require__(267);
 var uuid_1 = __webpack_require__(109);
@@ -20305,9 +20238,9 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var projectInteractor_1 = __webpack_require__(54);
-var sceneInteractor_1 = __webpack_require__(13);
+var sceneInteractor_1 = __webpack_require__(14);
 var chatInteractor_1 = __webpack_require__(277);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var MultiViewService = /** @class */function () {
     function MultiViewService(eventBus, projectInteractor, chatInteractor, sceneInteractor) {
         this.eventBus = eventBus;
@@ -20565,8 +20498,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
-var sceneInteractor_1 = __webpack_require__(13);
-var assetInteractor_1 = __webpack_require__(62);
+var sceneInteractor_1 = __webpack_require__(14);
+var assetInteractor_1 = __webpack_require__(61);
 var audioPlayService_1 = __webpack_require__(278);
 var AudioManager = /** @class */function () {
     function AudioManager(metaDataInteractor, sceneInteractor, assetInteractor, audioPlayService) {
@@ -20678,8 +20611,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var sceneInteractor_1 = __webpack_require__(13);
-var assetInteractor_1 = __webpack_require__(62);
+var sceneInteractor_1 = __webpack_require__(14);
+var assetInteractor_1 = __webpack_require__(61);
 var constants_1 = __webpack_require__(12);
 var iconPaths = [new assetInteractor_1.AssetModel('door', 'door', constants_1.ICON_PATH + "door_filled.png"), new assetInteractor_1.AssetModel('image', 'image', constants_1.ICON_PATH + "image_filled.png"), new assetInteractor_1.AssetModel('text', 'text', constants_1.ICON_PATH + "text_filled.png"), new assetInteractor_1.AssetModel('audio', 'audio', constants_1.ICON_PATH + "audio_filled.png"), new assetInteractor_1.AssetModel('link', 'link', constants_1.ICON_PATH + "link_filled.png"), new assetInteractor_1.AssetModel('back', 'back', constants_1.ICON_PATH + "back_filled.png"), new assetInteractor_1.AssetModel('home', 'home', constants_1.ICON_PATH + "home_filled.png"), new assetInteractor_1.AssetModel('colorBall', 'colorBall', constants_1.IMAGE_PATH + "color_ball.jpg"), new assetInteractor_1.AssetModel('imageMask', 'imageMask', constants_1.IMAGE_PATH + "image-mask_1920.jpg")];
 var TextureLoader = /** @class */function () {
@@ -20739,18 +20672,18 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var sceneInteractor_1 = __webpack_require__(13);
-var assetInteractor_1 = __webpack_require__(62);
+var sceneInteractor_1 = __webpack_require__(14);
+var assetInteractor_1 = __webpack_require__(61);
 var roomPropertyTypeService_1 = __webpack_require__(111);
 var audioPlayService_1 = __webpack_require__(278);
-var roomManager_1 = __webpack_require__(94);
+var roomManager_1 = __webpack_require__(93);
 var menuManager_1 = __webpack_require__(279);
 var textMaterialBuilder_1 = __webpack_require__(1216);
 var imageResizeService_1 = __webpack_require__(53);
-var iconPositionUtil_1 = __webpack_require__(93);
-var event_bus_1 = __webpack_require__(6);
+var iconPositionUtil_1 = __webpack_require__(107);
+var event_bus_1 = __webpack_require__(8);
 var MeshUtil = __webpack_require__(522);
-var iconPositionUtil_2 = __webpack_require__(93);
+var iconPositionUtil_2 = __webpack_require__(107);
 var constants_1 = __webpack_require__(12);
 var fontHelper_1 = __webpack_require__(526);
 var TWEEN = __webpack_require__(280);
@@ -21552,7 +21485,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var apiService_1 = __webpack_require__(77);
+var apiService_1 = __webpack_require__(68);
 var GroupInteractor = /** @class */function () {
     function GroupInteractor(apiService) {
         this.apiService = apiService;
@@ -24312,7 +24245,7 @@ exports.stringLength = function (str) {
 /* 1112 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {var firebase = __webpack_require__(75).default; (function(){/**
+/* WEBPACK VAR INJECTION */(function(global) {var firebase = __webpack_require__(76).default; (function(){/**
  * Copyright 2017 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24654,7 +24587,7 @@ c){a=new T(a);c({INTERNAL:{getUid:r(a.getUid,a),getToken:r(a.If,a),addAuthTokenL
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var app_1 = __webpack_require__(75);
+var app_1 = __webpack_require__(76);
 var Database_1 = __webpack_require__(476);
 var Query_1 = __webpack_require__(479);
 var Reference_1 = __webpack_require__(256);
@@ -26385,7 +26318,7 @@ var ViewCache_1 = __webpack_require__(492);
 var EventGenerator_1 = __webpack_require__(1129);
 var util_1 = __webpack_require__(3);
 var Operation_1 = __webpack_require__(91);
-var Change_1 = __webpack_require__(106);
+var Change_1 = __webpack_require__(105);
 var PriorityIndex_1 = __webpack_require__(33);
 /**
  * A view represents a specific location and query that has 1 or more event registrations.
@@ -26595,7 +26528,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Operation_1 = __webpack_require__(91);
 var util_1 = __webpack_require__(3);
 var ChildChangeAccumulator_1 = __webpack_require__(1127);
-var Change_1 = __webpack_require__(106);
+var Change_1 = __webpack_require__(105);
 var ChildrenNode_1 = __webpack_require__(36);
 var KeyIndex_1 = __webpack_require__(132);
 var ImmutableTree_1 = __webpack_require__(257);
@@ -27195,7 +27128,7 @@ exports.ViewProcessor = ViewProcessor;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var Change_1 = __webpack_require__(106);
+var Change_1 = __webpack_require__(105);
 var util_2 = __webpack_require__(3);
 /**
  * @constructor
@@ -27393,7 +27326,7 @@ exports.WriteTreeCompleteChildSource = WriteTreeCompleteChildSource;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var Node_1 = __webpack_require__(45);
-var Change_1 = __webpack_require__(106);
+var Change_1 = __webpack_require__(105);
 var util_1 = __webpack_require__(3);
 /**
  * An EventGenerator is used to convert "raw" changes (Change) as computed by the
@@ -29838,7 +29771,7 @@ var RangedFilter_1 = __webpack_require__(500);
 var ChildrenNode_1 = __webpack_require__(36);
 var Node_1 = __webpack_require__(45);
 var util_1 = __webpack_require__(3);
-var Change_1 = __webpack_require__(106);
+var Change_1 = __webpack_require__(105);
 /**
  * Applies a limit and a range to a node and uses RangedFilter to do the heavy lifting where possible
  *
@@ -31066,7 +30999,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["registerMessaging"] = registerMessaging;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_controllers_window_controller__ = __webpack_require__(1150);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_controllers_sw_controller__ = __webpack_require__(1154);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__firebase_app__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__firebase_app__ = __webpack_require__(76);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -32254,7 +32187,7 @@ __webpack_require__(1156);
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["registerStorage"] = registerStorage;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_app__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_app__ = __webpack_require__(76);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_implementation_string__ = __webpack_require__(134);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_implementation_taskenums__ = __webpack_require__(135);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_implementation_xhriopool__ = __webpack_require__(1157);
@@ -32352,8 +32285,8 @@ var XhrIoPool = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NetworkXhrIo; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__error__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__object__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__error__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__object__ = __webpack_require__(106);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__promise_external__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__type__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__xhrio__ = __webpack_require__(505);
@@ -32663,7 +32596,7 @@ var RequestInfo = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__implementation_args__ = __webpack_require__(261);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__implementation_array__ = __webpack_require__(264);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__implementation_async__ = __webpack_require__(1165);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__implementation_error__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__implementation_error__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__implementation_promise_external__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__implementation_requests__ = __webpack_require__(509);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__implementation_type__ = __webpack_require__(46);
@@ -33535,7 +33468,7 @@ var ServiceInternals = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthWrapper; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(180);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__error__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__error__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__failrequest__ = __webpack_require__(1168);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__location__ = __webpack_require__(181);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__promise_external__ = __webpack_require__(92);
@@ -33702,7 +33635,7 @@ var FailRequest = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RequestMap; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__object__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__object__ = __webpack_require__(106);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(180);
 /**
  * Copyright 2017 Google Inc.
@@ -33771,11 +33704,11 @@ var RequestMap = /** @class */ (function () {
 /* unused harmony export addAuthHeader_ */
 /* unused harmony export addVersionHeader_ */
 /* harmony export (immutable) */ __webpack_exports__["a"] = makeRequest;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_app__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_app__ = __webpack_require__(76);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__array__ = __webpack_require__(264);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__backoff__ = __webpack_require__(1171);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__error__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__object__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__error__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__object__ = __webpack_require__(106);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__promise_external__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__type__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__url__ = __webpack_require__(263);
@@ -34190,7 +34123,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 var platform_browser_1 = __webpack_require__(52);
-var forms_1 = __webpack_require__(100);
+var forms_1 = __webpack_require__(99);
 // UI components
 var editor_1 = __webpack_require__(1174);
 // Editor
@@ -34245,7 +34178,7 @@ var droppable_1 = __webpack_require__(1286);
 var file_loader_1 = __webpack_require__(1287);
 var hidden_file_loader_1 = __webpack_require__(1290);
 var file_loader_multi_1 = __webpack_require__(1293);
-var fileLoaderUtil_1 = __webpack_require__(61);
+var fileLoaderUtil_1 = __webpack_require__(67);
 var propertyRemovalService_1 = __webpack_require__(139);
 var close_button_1 = __webpack_require__(1296);
 var info_button_1 = __webpack_require__(1299);
@@ -34324,12 +34257,12 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var fileLoaderUtil_1 = __webpack_require__(61);
-var event_bus_1 = __webpack_require__(6);
-var iconPositionUtil_1 = __webpack_require__(93);
+var fileLoaderUtil_1 = __webpack_require__(67);
+var event_bus_1 = __webpack_require__(8);
+var iconPositionUtil_1 = __webpack_require__(107);
 var publicLinkHelper_1 = __webpack_require__(265);
 var zipFileReader_1 = __webpack_require__(136);
-var sceneInteractor_1 = __webpack_require__(13);
+var sceneInteractor_1 = __webpack_require__(14);
 var VideoInteractor_1 = __webpack_require__(275);
 var imageResizeService_1 = __webpack_require__(53);
 var SlideshowBuilder_1 = __webpack_require__(110);
@@ -35248,8 +35181,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(6);
-var sceneInteractor_1 = __webpack_require__(13);
+var event_bus_1 = __webpack_require__(8);
+var sceneInteractor_1 = __webpack_require__(14);
 var combinedHotspotUtil_1 = __webpack_require__(188);
 var EditSpaceFlat = /** @class */function () {
     function EditSpaceFlat(sceneInteractor, combinedHotspotUtil, eventBus) {
@@ -35361,14 +35294,14 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 __webpack_require__(24);
 __webpack_require__(516);
-var event_bus_1 = __webpack_require__(6);
-var sceneInteractor_1 = __webpack_require__(13);
+var event_bus_1 = __webpack_require__(8);
+var sceneInteractor_1 = __webpack_require__(14);
 var cameraInteractor_1 = __webpack_require__(276);
-var vector2_1 = __webpack_require__(76);
+var vector2_1 = __webpack_require__(77);
 var combinedHotspotUtil_1 = __webpack_require__(188);
-var assetInteractor_1 = __webpack_require__(62);
+var assetInteractor_1 = __webpack_require__(61);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
-var iconPositionUtil_1 = __webpack_require__(93);
+var iconPositionUtil_1 = __webpack_require__(107);
 var threeUtil_1 = __webpack_require__(518);
 var video3D_1 = __webpack_require__(519);
 var EditSpaceSphere = /** @class */function () {
@@ -35651,16 +35584,14 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(6);
-var fileLoaderUtil_1 = __webpack_require__(61);
-var sceneInteractor_1 = __webpack_require__(13);
+var event_bus_1 = __webpack_require__(8);
+var fileLoaderUtil_1 = __webpack_require__(67);
+var sceneInteractor_1 = __webpack_require__(14);
 var imageResizeService_1 = __webpack_require__(53);
 var zipFileReader_1 = __webpack_require__(136);
 var SlideshowBuilder_1 = __webpack_require__(110);
 var DefaultOverlay = /** @class */function () {
-    function DefaultOverlay(eventBus, fileLoaderUtil, zipFileReader, sceneInteractor, slideshowBuilder
-    //private backgroundArray: any
-    ) {
+    function DefaultOverlay(eventBus, fileLoaderUtil, zipFileReader, sceneInteractor, slideshowBuilder) {
         this.eventBus = eventBus;
         this.fileLoaderUtil = fileLoaderUtil;
         this.zipFileReader = zipFileReader;
@@ -35681,7 +35612,6 @@ var DefaultOverlay = /** @class */function () {
        */
     DefaultOverlay.prototype.onFileDrop = function (event) {
         var _this = this;
-        console.log("onFileDrop: ", event);
         if (event.files && event.files.length > 1) {
             this.eventBus.onStartLoading();
             this.slideshowBuilder.build(event.files).then(function (resolve) {
@@ -35691,18 +35621,21 @@ var DefaultOverlay = /** @class */function () {
             });
             return;
         }
+        var file = event.files[0];
+        if (fileLoaderUtil_1.mimeTypeMap.image.indexOf(file.type) > -1) {
+            this.loadImageFile(file);
+        } else if (fileLoaderUtil_1.mimeTypeMap.zip.indexOf(file.type) > -1) {
+            this.loadZipFile(file);
+        }
     };
     DefaultOverlay.prototype.onFileChange = function ($event) {
         var file = $event.target.files && $event.target.files[0];
         var files = $event.target.files;
-        console.log('adding multi 1: ', $event.target.files);
         if (!file) {
             this.eventBus.onModalMessage('Error', 'No valid file selected');
             return;
         }
-        //console.log("hi: ",file);
         if ($event.target.files.length > 1) {
-            console.log('adding multi 2');
             this.addSlideshow(files);
         } else if (fileLoaderUtil_1.mimeTypeMap.image.indexOf(file.type) > -1) {
             this.loadImageFile(file);
@@ -35745,9 +35678,7 @@ var DefaultOverlay = /** @class */function () {
         selector: 'default-overlay',
         styles: [__webpack_require__(1188)],
         template: __webpack_require__(1189)
-    }), __metadata("design:paramtypes", [event_bus_1.EventBus, fileLoaderUtil_1.FileLoaderUtil, zipFileReader_1.ZipFileReader, sceneInteractor_1.SceneInteractor, SlideshowBuilder_1.SlideshowBuilder
-    //private backgroundArray: any
-    ])], DefaultOverlay);
+    }), __metadata("design:paramtypes", [event_bus_1.EventBus, fileLoaderUtil_1.FileLoaderUtil, zipFileReader_1.ZipFileReader, sceneInteractor_1.SceneInteractor, SlideshowBuilder_1.SlideshowBuilder])], DefaultOverlay);
     return DefaultOverlay;
 }();
 exports.DefaultOverlay = DefaultOverlay;
@@ -35798,7 +35729,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var icon_base_1 = __webpack_require__(1191);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var roomPropertyTypeService_1 = __webpack_require__(111);
 var propertyRemovalService_1 = __webpack_require__(139);
 var combinedHotspotUtil_1 = __webpack_require__(188);
@@ -35931,9 +35862,9 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(6);
-var vector2_1 = __webpack_require__(76);
-var iconPositionUtil_1 = __webpack_require__(93);
+var event_bus_1 = __webpack_require__(8);
+var vector2_1 = __webpack_require__(77);
+var iconPositionUtil_1 = __webpack_require__(107);
 var constants_1 = __webpack_require__(12);
 var IconBase = /** @class */function () {
     function IconBase(eventBus, ngZone) {
@@ -36239,7 +36170,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var image_1 = __webpack_require__(183);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var imageResizeService_1 = __webpack_require__(53);
 var ImageEditor = /** @class */function () {
     function ImageEditor(eventBus) {
@@ -36295,9 +36226,9 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var door_1 = __webpack_require__(270);
-var sceneInteractor_1 = __webpack_require__(13);
+var sceneInteractor_1 = __webpack_require__(14);
 var constants_1 = __webpack_require__(12);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var DoorEditor = /** @class */function () {
     function DoorEditor(sceneInteractor, eventBus) {
         this.sceneInteractor = sceneInteractor;
@@ -36677,11 +36608,11 @@ __webpack_require__(24);
 __webpack_require__(467);
 __webpack_require__(468);
 __webpack_require__(516);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
-var sceneInteractor_1 = __webpack_require__(13);
+var sceneInteractor_1 = __webpack_require__(14);
 var cameraInteractor_1 = __webpack_require__(276);
-var assetInteractor_1 = __webpack_require__(62);
+var assetInteractor_1 = __webpack_require__(61);
 var multiViewService_1 = __webpack_require__(520);
 var MeshUtil = __webpack_require__(522);
 var audioManager_1 = __webpack_require__(523);
@@ -37201,7 +37132,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var userInteractor_1 = __webpack_require__(38);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var router_1 = __webpack_require__(17);
 var Topbar = /** @class */function () {
     function Topbar(ngZone, eventBus, userInteractor, router, activatedRoute) {
@@ -37398,9 +37329,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 var router_2 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var userInteractor_1 = __webpack_require__(38);
-var assetInteractor_1 = __webpack_require__(62);
+var assetInteractor_1 = __webpack_require__(61);
 var UnauthUserTab = /** @class */function () {
     function UnauthUserTab(router, assetInteractor, userInteractor, eventBus, route) {
         this.router = router;
@@ -37574,9 +37505,9 @@ var projectMetaDataInteractor_1 = __webpack_require__(37);
 var storageInteractor_1 = __webpack_require__(184);
 var userInteractor_1 = __webpack_require__(38);
 var projectInteractor_1 = __webpack_require__(54);
-var sceneInteractor_1 = __webpack_require__(13);
+var sceneInteractor_1 = __webpack_require__(14);
 var adminInteractor_1 = __webpack_require__(140);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var constants_1 = __webpack_require__(12);
 var FileSaver = __webpack_require__(528);
 var AuthUserTab = /** @class */function () {
@@ -37782,8 +37713,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(6);
-var sceneInteractor_1 = __webpack_require__(13);
+var event_bus_1 = __webpack_require__(8);
+var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
 var TreeTab = /** @class */function () {
     function TreeTab(sceneInteractor, metaDataInteractor, eventBus) {
@@ -37908,7 +37839,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var roomPropertyTypeService_1 = __webpack_require__(111);
 var propertyRemovalService_1 = __webpack_require__(139);
-var sceneInteractor_1 = __webpack_require__(13);
+var sceneInteractor_1 = __webpack_require__(14);
 var RowItem = /** @class */function () {
     function RowItem(propertyRemovalService, sceneInteractor) {
         this.propertyRemovalService = propertyRemovalService;
@@ -37991,11 +37922,11 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var sceneInteractor_1 = __webpack_require__(13);
+var sceneInteractor_1 = __webpack_require__(14);
 var storageInteractor_1 = __webpack_require__(184);
 var projectInteractor_1 = __webpack_require__(54);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var userInteractor_1 = __webpack_require__(38);
 var SlideshowBuilder_1 = __webpack_require__(110);
 var constants_1 = __webpack_require__(12);
@@ -38240,15 +38171,13 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(6);
-var fileLoaderUtil_1 = __webpack_require__(61);
-var sceneInteractor_1 = __webpack_require__(13);
+var event_bus_1 = __webpack_require__(8);
+var fileLoaderUtil_1 = __webpack_require__(67);
+var sceneInteractor_1 = __webpack_require__(14);
 var imageResizeService_1 = __webpack_require__(53);
 //added by ali for dragging images in
 var SlideshowBuilder_1 = __webpack_require__(110);
 var VideoInteractor_1 = __webpack_require__(275);
-var iconPositionUtil_1 = __webpack_require__(93);
-var fileLoaderUtil_2 = __webpack_require__(61);
 var zipFileReader_1 = __webpack_require__(136);
 var Upload = /** @class */function () {
     function Upload(router, eventBus, fileLoaderUtil, slideshowBuilder, sceneInteractor, videoInteractor, zipFileReader) {
@@ -38262,48 +38191,38 @@ var Upload = /** @class */function () {
         this.onFileLoad = new core_1.EventEmitter();
     }
     Upload.prototype.onDrop = function (event) {
-        var _this = this;
         event.stopPropagation();
         event.preventDefault();
-        // At the moment, only deal with multiple background images
-        // TODO: enable dragging in multiple files for hotspots as well
-        //if (event.dataTransfer.files && event.dataTransfer.files.length > 1) {
-        this.eventBus.onStartLoading();
-        this.slideshowBuilder.build(event.dataTransfer.files).then(function (resolve) {
-            _this.eventBus.onStopLoading();
-            _this.requestRender();
-        }).catch(function (error) {
-            return _this.eventBus.onModalMessage('error', error);
-        });
-        //  return;
-        //}
         var file = event.dataTransfer.files && event.dataTransfer.files[0];
         if (!file) {
             return;
         }
+        if (event.dataTransfer.files && event.dataTransfer.files.length > 1) {
+            this.loadSlideshow(event.dataTransfer.files);
+            return;
+        }
+        this.loadBackgroundImage(file);
     };
     Upload.prototype.onFileChange = function ($event) {
-        var _this = this;
         var file = $event.target.files && $event.target.files[0];
         if (!file) {
             this.eventBus.onModalMessage('Error', 'No valid file selected');
             return;
         }
         if ($event.target.files && $event.target.files.length > 1) {
-            this.eventBus.onStartLoading();
-            this.slideshowBuilder.build($event.target.files).then(function (resolve) {
-                _this.eventBus.onStopLoading();
-            }).catch(function (error) {
-                return _this.eventBus.onModalMessage('error', error);
-            });
+            this.loadSlideshow($event.target.files);
             return;
         }
-        this.eventBus.onStartLoading();
+        this.loadBackgroundImage(file);
+    };
+    Upload.prototype.loadBackgroundImage = function (file) {
+        var _this = this;
         this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
+        this.eventBus.onStartLoading();
         this.fileLoaderUtil.validateFileLoadEvent(file, 'image').then(this.fileLoaderUtil.getBinaryFileData.bind(this.fileLoaderUtil)).then(function (fileData) {
             return imageResizeService_1.resizeImage(fileData, 'backgroundImage');
         }).then(function (resized) {
-            var roomId = _this.sceneInteractor.getActiveRoomId();
+            var roomId = _this.sceneInteractor.addRoom();
             var room = _this.sceneInteractor.getRoomById(roomId);
             room.setFileData(file.name, resized.backgroundImage);
             room.setThumbnail(file.name, resized.thumbnail);
@@ -38314,105 +38233,19 @@ var Upload = /** @class */function () {
         }).catch(function (error) {
             return _this.eventBus.onModalMessage('Error', error);
         });
-        this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
+    };
+    Upload.prototype.loadSlideshow = function (files) {
+        var _this = this;
+        this.eventBus.onStartLoading();
+        this.slideshowBuilder.build(files).then(function (resolve) {
+            _this.eventBus.onStopLoading();
+        }).catch(function (error) {
+            return _this.eventBus.onModalMessage('error', error);
+        });
     };
     Upload.prototype.onOffClick = function ($event) {
-        //console.log('onOffClick user-tab');
         if (!$event.isOffClick) return;
         this.router.navigate(['/editor', { outlets: { 'modal': '' } }]);
-    };
-    //added by ali for dropping background images
-    Upload.prototype.requestRender = function () {
-        var _this = this;
-        if (this.isFlat()) return;
-        setTimeout(function () {
-            _this.editSpaceSphere.render();
-        });
-    };
-    Upload.prototype.processDroppedFile = function (file, x, y) {
-        var _this = this;
-        var fileName = file.name;
-        var dropPosition = this.isFlat() ? iconPositionUtil_1.normalizeAbsolutePosition(x, y) : this.editSpaceSphere.transformScreenPositionTo3dNormal(x, y);
-        var fileType = Object.keys(fileLoaderUtil_2.mimeTypeMap).find(function (fileType) {
-            return fileLoaderUtil_2.mimeTypeMap[fileType].indexOf(file.type) > -1;
-        });
-        if (!fileType) {
-            var errorTitle = 'Incompatible File Type';
-            var errorMessage = 'Try using an image (.jpg, .jpeg, .png), an audio file (.mp3, .wav), or a story file (.zip)';
-            this.eventBus.onModalMessage(errorTitle, errorMessage);
-            return;
-        }
-        if (fileType === 'video') {
-            console.log('bam, video', file);
-            this.getFileTypeStrategy(fileType)(file, null, dropPosition);
-            return;
-            //this.getFileTypeStrategy(fileType)(file, binaryFileData, dropPosition))
-        }
-        this.fileLoaderUtil.getBinaryFileData(file).then(function (binaryFileData) {
-            return _this.getFileTypeStrategy(fileType)(file, binaryFileData, dropPosition);
-        }).catch(function (error) {
-            return _this.eventBus.onModalMessage('Error', error);
-        });
-    };
-    Upload.prototype.isFlat = function () {
-        return this.router.url.includes('view:flat');
-    };
-    Upload.prototype.getFileTypeStrategy = function (fileType) {
-        var _this = this;
-        var fileTypeStrategy = {
-            audio: function (file, binaryFileData, position) {
-                var activeRoomId = _this.sceneInteractor.getActiveRoomId();
-                var audio = _this.sceneInteractor.addAudio(activeRoomId);
-                audio.setFileName(file.name);
-                audio.setBinaryFileData(binaryFileData);
-                audio.setLocation(position);
-                _this.requestRender();
-            },
-            image: function (file, binaryFileData, position) {
-                var activeRoomId = _this.sceneInteractor.getActiveRoomId();
-                if (!_this.hasBackgroundImage()) {
-                    _this.eventBus.onStartLoading();
-                    imageResizeService_1.resizeImage(binaryFileData, 'backgroundImage').then(function (resized) {
-                        var room = _this.sceneInteractor.getRoomById(activeRoomId);
-                        room.setFileData(file.name, resized.backgroundImage);
-                        room.setThumbnail(file.name, resized.thumbnail);
-                        _this.requestRender();
-                        _this.eventBus.onStopLoading();
-                    }).catch(function (error) {
-                        return _this.eventBus.onModalMessage('Image loading error', error);
-                    });
-                    return;
-                }
-                imageResizeService_1.resizeImage(binaryFileData, 'hotspotImage').then(function (resizedImageData) {
-                    var image = _this.sceneInteractor.addImage(activeRoomId);
-                    image.setFileName(file.name);
-                    image.setBinaryFileData(resizedImageData);
-                    image.setLocation(position);
-                    _this.requestRender();
-                }).catch(function (error) {
-                    return _this.eventBus.onModalMessage('Image loading error', error);
-                });
-            },
-            zip: function (file, binaryFileData, position) {
-                _this.zipFileReader.loadFile(file);
-                //TODO: set as read - write
-            },
-            video: function (file, binaryFileData, position) {
-                _this.videoInteractor.uploadVideo(file).subscribe(function (data) {
-                    var activeRoomId = _this.sceneInteractor.getActiveRoomId();
-                    var room = _this.sceneInteractor.getRoomById(activeRoomId);
-                    room.setBackgroundVideo('', data.downloadUrl);
-                    console.log('bam, success', data);
-                }, function (error) {
-                    return console.log('damn', error);
-                });
-            }
-        };
-        return fileTypeStrategy[fileType];
-    };
-    Upload.prototype.hasBackgroundImage = function () {
-        var activeRoomId = this.sceneInteractor.getActiveRoomId();
-        return this.sceneInteractor.roomHasBackgroundImage(activeRoomId);
     };
     __decorate([core_1.ViewChild('editSpaceSphere'), __metadata("design:type", Object)], Upload.prototype, "editSpaceSphere", void 0);
     __decorate([core_1.Output(), __metadata("design:type", Object)], Upload.prototype, "onFileLoad", void 0);
@@ -38561,8 +38394,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(6);
-var sceneInteractor_1 = __webpack_require__(13);
+var event_bus_1 = __webpack_require__(8);
+var sceneInteractor_1 = __webpack_require__(14);
 var ActionMenu = /** @class */function () {
     function ActionMenu(sceneInteractor, eventBus) {
         this.sceneInteractor = sceneInteractor;
@@ -38653,8 +38486,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
 var imageResizeService_1 = __webpack_require__(53);
-var sceneInteractor_1 = __webpack_require__(13);
-var event_bus_1 = __webpack_require__(6);
+var sceneInteractor_1 = __webpack_require__(14);
+var event_bus_1 = __webpack_require__(8);
 var reverbList_1 = __webpack_require__(268);
 var audioRecorderService_1 = __webpack_require__(189);
 var constants_1 = __webpack_require__(12);
@@ -38843,8 +38676,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(6);
-var sceneInteractor_1 = __webpack_require__(13);
+var event_bus_1 = __webpack_require__(8);
+var sceneInteractor_1 = __webpack_require__(14);
 var imageResizeService_1 = __webpack_require__(53);
 var EditSpaceToggle = /** @class */function () {
     function EditSpaceToggle(sceneInteractor, eventBus, router) {
@@ -38977,8 +38810,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(6);
-var sceneInteractor_1 = __webpack_require__(13);
+var event_bus_1 = __webpack_require__(8);
+var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
 var imageResizeService_1 = __webpack_require__(53);
 var SlideshowBuilder_1 = __webpack_require__(110);
@@ -39150,7 +38983,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var roomPropertyTypeService_1 = __webpack_require__(111);
 var propertyRemovalService_1 = __webpack_require__(139);
-var sceneInteractor_1 = __webpack_require__(13);
+var sceneInteractor_1 = __webpack_require__(14);
 var StorymapItem = /** @class */function () {
     function StorymapItem(propertyRemovalService, sceneInteractor, ngZone) {
         this.propertyRemovalService = propertyRemovalService;
@@ -39257,25 +39090,18 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(6);
-var sceneInteractor_1 = __webpack_require__(13);
 var AddRoomButton = /** @class */function () {
-    function AddRoomButton(router, sceneInteractor, eventBus) {
+    function AddRoomButton(router) {
         this.router = router;
-        this.sceneInteractor = sceneInteractor;
-        this.eventBus = eventBus;
     }
     AddRoomButton.prototype.addRoom = function ($event) {
-        console.log('addRoom');
-        //this.sceneInteractor.addRoom();
         this.router.navigate(['/editor', { outlets: { 'modal': 'upload' } }]);
-        //this.eventBus.onSelectRoom(null, true);
     };
     AddRoomButton = __decorate([core_1.Component({
         selector: 'add-room',
         styles: [__webpack_require__(1279)],
         template: __webpack_require__(1280)
-    }), __metadata("design:paramtypes", [router_1.Router, sceneInteractor_1.SceneInteractor, event_bus_1.EventBus])], AddRoomButton);
+    }), __metadata("design:paramtypes", [router_1.Router])], AddRoomButton);
     return AddRoomButton;
 }();
 exports.AddRoomButton = AddRoomButton;
@@ -39312,8 +39138,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(6);
-var sceneInteractor_1 = __webpack_require__(13);
+var event_bus_1 = __webpack_require__(8);
+var sceneInteractor_1 = __webpack_require__(14);
 var Fullscreen = /** @class */function () {
     function Fullscreen(sceneInteractor, eventBus, router) {
         this.sceneInteractor = sceneInteractor;
@@ -39406,7 +39232,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var DraggableIcon = /** @class */function () {
     function DraggableIcon(element, eventBus) {
         this.element = element;
@@ -39520,7 +39346,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var OffClick = /** @class */function () {
     function OffClick(element, eventBus) {
         this.element = element;
@@ -39570,8 +39396,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(6);
-var fileLoaderUtil_1 = __webpack_require__(61);
+var event_bus_1 = __webpack_require__(8);
+var fileLoaderUtil_1 = __webpack_require__(67);
 var Droppable = /** @class */function () {
     function Droppable(eventBus, fileLoaderUtil) {
         this.eventBus = eventBus;
@@ -39651,8 +39477,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(6);
-var fileLoaderUtil_1 = __webpack_require__(61);
+var event_bus_1 = __webpack_require__(8);
+var fileLoaderUtil_1 = __webpack_require__(67);
 var uuid_1 = __webpack_require__(109);
 var FileLoader = /** @class */function () {
     function FileLoader(eventBus, fileLoaderUtil) {
@@ -39728,7 +39554,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var zipFileReader_1 = __webpack_require__(136);
 var HiddenFileLoader = /** @class */function () {
     function HiddenFileLoader(eventBus, zipFileReader) {
@@ -40160,7 +39986,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var core_2 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var MODAL_TYPE = {
     MESSAGE: 'MESSAGE',
     LOADER: 'LOADER',
@@ -40522,10 +40348,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // external imports
 var core_1 = __webpack_require__(2);
 var http_1 = __webpack_require__(159);
-var roomManager_1 = __webpack_require__(94);
+var roomManager_1 = __webpack_require__(93);
 var roomPropertyBuilder_1 = __webpack_require__(182);
 var cameraService_1 = __webpack_require__(517);
-var apiService_1 = __webpack_require__(77);
+var apiService_1 = __webpack_require__(68);
 // import {ApiService} from 'data/api/stubApiService';
 var userService_1 = __webpack_require__(187);
 var authenticationService_1 = __webpack_require__(185);
@@ -40566,7 +40392,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 var platform_browser_1 = __webpack_require__(52);
-var forms_1 = __webpack_require__(100);
+var forms_1 = __webpack_require__(99);
 // UI components
 var admin_1 = __webpack_require__(1329);
 var admin_user_groups_1 = __webpack_require__(1332);
@@ -40662,11 +40488,11 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var userInteractor_1 = __webpack_require__(38);
 var adminInteractor_1 = __webpack_require__(140);
 var projectInteractor_1 = __webpack_require__(54);
-var sceneInteractor_1 = __webpack_require__(13);
+var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
 var constants_1 = __webpack_require__(12);
 var AdminUserGroups = /** @class */function () {
@@ -40906,7 +40732,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 var platform_browser_1 = __webpack_require__(52);
-var forms_1 = __webpack_require__(100);
+var forms_1 = __webpack_require__(99);
 // UI components
 var explore_1 = __webpack_require__(1339);
 var search_explore_1 = __webpack_require__(1342);
@@ -41082,11 +40908,11 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(6);
+var event_bus_1 = __webpack_require__(8);
 var userInteractor_1 = __webpack_require__(38);
 var groupInteractor_1 = __webpack_require__(529);
 var projectInteractor_1 = __webpack_require__(54);
-var sceneInteractor_1 = __webpack_require__(13);
+var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
 var constants_1 = __webpack_require__(12);
 var UserGroups = /** @class */function () {
@@ -41180,7 +41006,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 var platform_browser_1 = __webpack_require__(52);
-var forms_1 = __webpack_require__(100);
+var forms_1 = __webpack_require__(99);
 // UI components
 var chat_1 = __webpack_require__(1349);
 // Common UI components
