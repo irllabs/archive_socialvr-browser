@@ -7,6 +7,7 @@ import {Room} from 'data/scene/entities/room';
 import {Image} from 'data/scene/entities/image';
 import {Audio} from 'data/scene/entities/audio';
 
+import {ApiService} from 'data/api/apiService';
 import {FileLoaderUtil} from 'ui/editor/util/fileLoaderUtil';
 
 import 'rxjs/add/observable/fromPromise';
@@ -31,6 +32,7 @@ export class DeserializationService {
     private roomManager: RoomManager,
     private propertyBuilder: PropertyBuilder,
     private fileLoaderUtil: FileLoaderUtil,
+    private apiService: ApiService,
   ) {}
 
   private deserializeRooms(storyFile: any, binaryFileMap: any, baseFilePath: string): Promise<any> {
