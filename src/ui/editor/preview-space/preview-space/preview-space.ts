@@ -1,7 +1,9 @@
+// Note: https://stackoverflow.com/questions/47246901/three-js-memory-leak-regardless-of-removing-mesh-from-scene
+
 import {Component, NgZone, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
-import 'three';
+import * as THREE from 'three';
 import 'three/VRControls';
 import 'three/VREffect';
 import 'three/SvrControls';
@@ -208,7 +210,6 @@ export class PreviewSpace {
     // }).start();
 
     this.roomHistory.push(roomId);
-
   }
 
   //for still image backgrounds
@@ -232,9 +233,10 @@ export class PreviewSpace {
     //   fragmentShader: roomSphereFragShader,
     //   side: THREE.FrontSide
     // });
-
-    this.sphereMesh.material = new THREE.MeshBasicMaterial({map: sphereTexture, side: THREE.FrontSide});
+    // MeshUtil.cleanMeshMemory(this.sphereMesh);
+    this.sphereMesh.material = new THREE.MeshBasicMaterial({map: sphereTexture, side: THREE.BackSide});
     this.hotspotManager.load(this.scene, this.camera, this.goToRoom.bind(this));
+
     if(!this.menuManager.exists()) {
       this.menuManager.load(this.scene, this.camera.position, this.goToLastRoom.bind(this),this.goToHomeRoom.bind(this));
     }
@@ -246,7 +248,7 @@ export class PreviewSpace {
     this.video3D = new Video3D();
     this.video3D.init(room.getBackgroundVideo())
       .then(texture => {
-        this.sphereMesh.material = new THREE.MeshBasicMaterial({map: texture, side: THREE.FrontSide});
+        this.sphereMesh.material = new THREE.MeshBasicMaterial({map: texture, side: THREE.BackSide});
         this.hotspotManager.load(this.scene, this.camera, this.goToRoom.bind(this));
         this.menuManager.load(this.scene, this.camera.position, this.goToLastRoom.bind(this),this.goToHomeRoom.bind(this));
         this.onResize(null);
