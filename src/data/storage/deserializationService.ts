@@ -164,14 +164,14 @@ export class DeserializationService {
 
   unzipStoryFile(file: any): Observable<any> {
     return Observable.fromPromise(
-      this.zip.loadAsync(file).then(this.deserializeProject(file))
+      this.zip.loadAsync(file).then(file => this.deserializeProject(file))
     );
     .catch(error => console.log('error', mediaFile.name, error));
   }
   // Given a jszip file containing an image or audio
   // return a promise containing the name of the file
   // and binary data
-  loadMediaFile(mediaFile: any, getBinaryFileData: any): Promise<any> {
+  private loadMediaFile(mediaFile: any, getBinaryFileData: any): Promise<any> {
     console.log('loading media file', mediaFile)
     return mediaFile.async(UINT8ARRAY)
     .then(fileData => {
@@ -192,12 +192,13 @@ export class DeserializationService {
     });
   }
 
-  loadRemoteMediaFile(mediaFile: any, getBinaryFileData: any): Promise<any> {
+  private loadRemoteMediaFile(mediaFile: any, getBinaryFileData: any): Promise<any> {
     console.log('loading remote media file', mediaFile)
-    // TODO: If possible, use angular.http here
-    const remoteFileUrl = `${mediaFile.remoteFile.replace('socialvr-staging.s3.amazonaws.com','socialvr-staging.imgix.net')}?q=60`;
-    return fetch(remoteFileUrl, { credentials: 'same-origin' })
-    .then(response => { return response.blob()
+    let remoteFileUrl = mediaFile.remoteFile;
+    if (mediaFile.remoteFile.indexOf('socialvr-staging.s3.amazonaws.com') > 0) {
+      remoteFileUrl = `${mediaFile.remoteFile.replace('socialvr-staging.s3.amazonaws.com','socialvr-staging.imgix.net')}?q=60`;
+    }
+    return this.apiService.downloadMedia(remoteFileUrl).toPromise()
         .then(fileData => {
           console.log('---fileData', mediaFile);
           const fileType = this.getFileType(mediaFile.file);
@@ -216,13 +217,11 @@ export class DeserializationService {
           };
         })
         .catch(error => console.log('error', mediaFile.file, error));
-    })
-    .catch(error => console.log('error', error));
   }
 
   // Given a json object of jszip files, return a list of
   // promises containing image and audio binary data
-  async loadMediaFiles(fileMap: any, storyFilePath: string, getBinaryFileData: any) {
+  private async loadMediaFiles(fileMap: any, storyFilePath: string, getBinaryFileData: any) {
     console.log('load local media files', fileMap);
     const files = Object.keys(fileMap)
       .filter(fileKey => fileKey.indexOf(STORY_FILE_YAML) < 0)
@@ -251,7 +250,7 @@ export class DeserializationService {
               room.narrator.reprise,
             ];
             assets.map(asset => {
-              if (asset.hasOwnProperty('remoteFile')) {
+              if (asset.hasOwnProperty('remoteFile') && asset.remoteFile) {
                 // Add to remoteFiles if not present locally
                 asset.filePath = `${room.uuid}/${asset.file}`;
                 if (files.map(file => file.name).indexOf(asset.filePath) < 0) {
@@ -284,7 +283,7 @@ export class DeserializationService {
 
   // Given a JSON object representing story file,
   // return a promise that resolves when the story file is deserialized
-  deserializeProject(jsZipData) {
+  private deserializeProject(jsZipData) {
     console.log('jsZipData', jsZipData)
     const fileMap = jsZipData.files;
 
@@ -306,7 +305,7 @@ export class DeserializationService {
     return mediaFilePromises.then(bianryFileMap => this.deserializeRooms(storyFile, bianryFileMap, baseFilePath));
   }
 
-  getFileType(fileName) {
+  private getFileType(fileName) {
     const fileType = fileName.substring(fileName.lastIndexOf('.'), fileName.length);
     const fileMap = {
       '.mp3': MIME_TYPE_MP3,
