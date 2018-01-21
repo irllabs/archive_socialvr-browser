@@ -188,8 +188,9 @@ export class ApiService implements Api {
     });
   }
 
-  downloadMedia(mediaUrl): Observable<any> {
-    return this.http.get(mediaUrl, {withCredentials: true})
+  downloadMedia(mediaUrl: string): Observable<any> {
+    return this.http.get(mediaUrl, {credentials: 'same-origin', responseType: ResponseContentType.Blob})
+      .map(response => response.blob());
   }
 
   uploadMedia(key: string, file, uploadPolicy): Observable<any> {
