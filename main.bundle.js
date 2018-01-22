@@ -3192,7 +3192,7 @@ var ApiService = /** @class */function () {
         });
     };
     ApiService.prototype.downloadMedia = function (mediaUrl) {
-        return this.http.get(mediaUrl, { credentials: 'same-origin', responseType: http_1.ResponseContentType.Blob }).map(function (response) {
+        return this.http.get(encodeURI(mediaUrl), { credentials: 'same-origin', responseType: http_1.ResponseContentType.Blob }).map(function (response) {
             return response.blob();
         });
     };
