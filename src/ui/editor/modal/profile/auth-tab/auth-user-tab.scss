@@ -27,6 +27,9 @@
 }
 
 .user-view__project-title {
+  white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
   cursor: pointer;
   font-size: $med-font-size;
 }

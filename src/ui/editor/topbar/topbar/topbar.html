@@ -5,7 +5,6 @@
     class="topbar__sub-row topbar__marginleft"
     title="Your current story...">
     <p
-      *ngIf="userIsLoggedIn()"
       [routerLink]="['/editor', {outlets: {'modal': ['story']}}]"
       class="topbar__row-label"
       [ngClass]="{'topbar__row-label-active': storyIsOpen}">

@@ -7,7 +7,7 @@ const environment = {
   DEV: 'https://staging-api.socialvrlab.com',
   PROD: 'https://api.socialvrlab.com'
 };
-const baseUrl = environment[build] || environment.PROD;
+const baseUrl = environment[build] || environment.DEV;
 
 export const BASE_URL: string = baseUrl;
 export const POST_PROJECT_URL_PATH: string = '/socialVR/projects/';
@@ -20,7 +20,7 @@ export const DEFAULT_IMAGE_PATH: string = `${IMAGE_PATH}default-background.png`;
 export const DEFAULT_PROJECT_NAME: string = 'New Project';
 export const DEFAULT_PROJECT_DESCRIPTION: string = 'A short description of the project';
 export const DEFAULT_DOOR_NAME: string = 'Select ...';
-export const BACKGROUND_THUMBNAIL = 'background_thumnbnail.jpg';
+export const BACKGROUND_THUMBNAIL = 'background_thumbnail.jpg';
 
 export const DEFAULT_VOLUME: number = 0.5;
 
@@ -45,7 +45,8 @@ export const MIME_TYPE_X_ZIP_COMPRESSED: string = 'application/x-zip-compressed'
 export const MIME_TYPE_MP4 = 'video/mp4';
 
 export const UINT8ARRAY: string = 'uint8array';
-export const STORY_FILE: string = 'story.yml';
+export const STORY_FILE_YAML: string = 'story.yml';
+export const STORY_FILE_JSON: string = 'story.json';
 
 export const GROUP_TYPE = {
   FEATURED: 'FEATURED',

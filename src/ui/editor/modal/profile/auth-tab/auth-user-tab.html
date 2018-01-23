@@ -65,6 +65,11 @@
             class="user-view__project-option user-view__project-option--margin">
             Delete
           </span>
+          <span
+            (click)="downloadProject(project.id, project.name)"
+            class="user-view__project-option user-view__project-option--margin">
+            Download
+          </span>
         </p>
 
       </div>

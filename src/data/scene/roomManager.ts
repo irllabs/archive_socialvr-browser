@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
+import {Audio} from 'data/scene/entities/audio';
 import {Room} from 'data/scene/entities/room';
 import {Door} from 'data/scene/entities/door';
-import {MediaFile} from 'data/scene/entities/mediaFile';
 
 import {
   DEFAULT_PROJECT_NAME,
@@ -19,7 +19,7 @@ export class RoomManager {
   private rooms: Set<Room>;
   private homeRoomId: string;
   private isReadOnly: boolean = false;
-  private soundtrack: MediaFile = new MediaFile();
+  private soundtrack: Audio = new Audio();
   private soundtrackVolume: number = DEFAULT_VOLUME;
 
   constructor() {
@@ -107,7 +107,7 @@ export class RoomManager {
     this.isReadOnly = isReadOnly;
   }
 
-  getSoundtrack(): MediaFile {
+  getSoundtrack(): Audio {
     return this.soundtrack;
   }
 
@@ -131,7 +131,7 @@ export class RoomManager {
   }
 
   removeSoundtrack() {
-    this.soundtrack = new MediaFile();
+    this.soundtrack = new Audio();
   }
 
   getSoundtrackVolume(): number {

@@ -80,6 +80,11 @@ export class ProjectInteractor {
     return this.apiService.deleteProject(userId, projectId);
   }
 
+  getProjectAsBlob(userId: string, projectId: string): Observable<Blob> {
+    return this.apiService.getProjectUrl(userId, projectId)
+      .switchMap(signedProjectUrl => this.apiService.getProject(signedProjectUrl));
+  }
+
   getProjectId(): string {
     return this.projectService.getProjectId();
   }

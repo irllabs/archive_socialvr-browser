@@ -16,7 +16,6 @@
 
     <div *ngIf="projectIsPublic()">
       <p class="public-option__text-block">Your project titled "{{projectName}}" is public.</p>
-      <p>Here is your public project link. Click to copy the URL.</p>
       <p
         class="public-option__copy-notification"
         [ngClass]="{'public-option__copy-notification--active': notificationIsVisible}">
@@ -26,7 +25,7 @@
         class="public-option__link"
         [attr.title]="publicLink"
         (click)="onPublicLinkClick($event)">
-        {{ publicLink }}
+        Click Here to Copy Link
       </p>
       <div class="public-option__text-block">
         <p>This means:</p>

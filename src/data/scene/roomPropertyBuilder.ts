@@ -65,7 +65,11 @@ export class PropertyBuilder {
 
   audioFromJson(audioJson: any, binaryFileData: string): Audio {
     const audio: Audio = <Audio> this.setBaseProperties(audioJson, new Audio());
-    const fileName = decodeURIComponent(audioJson.file);
+    let fileName = decodeURIComponent(audioJson);
+    if (audioJson.hasOwnProperty('file')) fileName = audioJson.file;
+    if (audioJson.hasOwnProperty('remoteFile')) {
+      audio.setRemoteFileName(audioJson.remoteFile);
+    }
     const volume = audioJson.volume;
     audio.setFileData(fileName, volume, binaryFileData);
     return audio;
@@ -82,6 +86,9 @@ export class PropertyBuilder {
     const image: Image = <Image> this.setBaseProperties(imageJson, new Image());
     const fileName = decodeURIComponent(imageJson.file);
     image.setFileData(fileName, binaryFileData);
+    if (imageJson.hasOwnProperty('remoteFile')) {
+      image.setRemoteFileName(imageJson.remoteFile);
+    }
     return image;
   }
 
@@ -102,12 +109,23 @@ export class PropertyBuilder {
 
   roomFromJson(roomJson: any, binaryFileData: string, thumbnail: string, backgroundAudioUrl): Room {
     const room: Room = <Room> this.setBaseProperties(roomJson, new Room());
-    const imageName = decodeURIComponent(roomJson.image);
+    let imageName = decodeURIComponent(roomJson.image);
+    let remoteFileName = '';
+    if (roomJson.image.hasOwnProperty('file')) {
+      imageName = roomJson.image.file;
+    }
+    if (roomJson.image.hasOwnProperty('remoteFile')) {
+      remoteFileName = roomJson.image.remoteFile;
+    }
     const imageData = binaryFileData || DEFAULT_IMAGE_PATH;
-    room.setFileData(imageName, imageData);
+    room.setFileData(imageName, imageData, remoteFileName);
 
     if (thumbnail) {
-      room.setThumbnail(BACKGROUND_THUMBNAIL, thumbnail);
+      if (roomJson.thumbnail.hasOwnProperty('remoteFile') && roomJson.thumbnail.remoteFile) {
+        room.setThumbnail(BACKGROUND_THUMBNAIL, thumbnail, roomJson.thumbnail.remoteFile);
+      } else {
+        room.setThumbnail(BACKGROUND_THUMBNAIL, thumbnail);
+      }
     }
     else if (!thumbnail && binaryFileData){
       resizeImage(binaryFileData, 'projectThumbnail')
@@ -118,7 +136,13 @@ export class PropertyBuilder {
     }
 
     if (backgroundAudioUrl) {
-      room.setBackgroundAudio(roomJson.ambient, roomJson.bgVolume, backgroundAudioUrl);
+      let fileName = roomJson.ambient;
+      let remoteFileName = '';
+      if (roomJson.ambient.hasOwnProperty('file')) fileName = roomJson.ambient.file
+      if (roomJson.ambient.hasOwnProperty('remoteFile')) {
+        remoteFileName = roomJson.ambient.remoteFile;
+      }
+      room.setBackgroundAudio(fileName, roomJson.bgVolume, backgroundAudioUrl, remoteFileName);
     }
 
     if (roomJson.front) {
@@ -145,14 +169,24 @@ export class PropertyBuilder {
   narratorFromJson(narratorJson, introAudioFile, returnAudioFile): Narrator {
     const narrator = new Narrator();
     if (introAudioFile) {
-      const fileName = decodeURIComponent(narratorJson.intro);
+      let fileName = decodeURIComponent(narratorJson.intro);
+      let remoteFileName = '';
+      if (narratorJson.intro.hasOwnProperty('file')) fileName = narratorJson.intro.file;
+      if (narratorJson.intro.hasOwnProperty('remoteFile')) {
+        remoteFileName = narratorJson.intro.remoteFile;
+      }
       const volume = narratorJson.volume;
-      narrator.setIntroAudio(fileName, volume, introAudioFile);
+      narrator.setIntroAudio(fileName, volume, introAudioFile, remoteFileName);
     }
     if (returnAudioFile) {
-      const fileName = decodeURIComponent(narratorJson.reprise);
+      let fileName = decodeURIComponent(narratorJson.reprise);
+      let remoteFileName = '';
+      if (narratorJson.reprise.hasOwnProperty('file')) fileName = narratorJson.reprise.file;
+      if (narratorJson.reprise.hasOwnProperty('remoteFile')) {
+        remoteFileName = narratorJson.reprise.remoteFile;
+      }
       //const volume = narratorJson.volume;
-      narrator.setReturnAudio(fileName, returnAudioFile);
+      narrator.setReturnAudio(fileName, returnAudioFile, remoteFileName);
     }
     return narrator;
   }

@@ -25,6 +25,12 @@ export class ApiService implements Api {
     return Observable.from('');
   }
 
+  // GET /media/?s3_key&content_type
+  getUploadPolicy(): Observable<any> {
+    // TODO: Mock upload policy & responses
+    return Observable.from('');
+  }
+
   getUser(): Observable<any> {
     return Observable.from(getUser);
   }
@@ -53,6 +59,11 @@ export class ApiService implements Api {
   getProject(signedProjectUrl: string): Observable<any> {
     return this.http.get(signedProjectUrl, {responseType: ResponseContentType.ArrayBuffer})
       .map(response => response.arrayBuffer());
+  }
+
+  uploadMedia(key: string, file, uploadPolicy): Observable<any> {
+    // TODO: Mock media upload
+    return Observable.from('');
   }
 
   updateProject(userId: string, projectId: string, projectName: string, projectTags: string, storyFile: any, thumbnail: string): Observable<any> {

@@ -43,6 +43,7 @@ export class Editor {
   protected subscriptions: Set<Subscription> = new Set<Subscription>();
   private isInFlatMode: boolean = true;
   private isInFullscreen: boolean = false;
+  private topCenterButtonsInvisible: boolean = true;
 
   constructor(
     private sceneInteractor: SceneInteractor,
@@ -187,6 +188,16 @@ export class Editor {
     }
     return this.hasBackgroundImage()
       && !this.isPreview();
+  }
+
+  private topCenterButtonsClass(): string {
+    console.log("what to do");
+    if (this.roomEditorIsVisible()
+      && this.hasBackgroundImage()) {
+      return "editor_center1";
+    } else {
+      return "editor_center";
+    }
   }
 
   private onHotspotMenuChange($event) {

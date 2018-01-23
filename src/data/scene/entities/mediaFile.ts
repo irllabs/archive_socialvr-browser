@@ -1,13 +1,14 @@
 export class MediaFile {
 
   private fileName: string;
+  private remoteFileName: string;
   private binaryFileData: any;
 
   getFileName(): string {
     if (this.fileName === undefined || this.fileName === null) {
       return '';
     } else {
-    return this.fileName;
+      return this.fileName;
     }
   }
 
@@ -21,6 +22,22 @@ export class MediaFile {
 
   setBinaryFileData(binaryFileData: any) {
     this.binaryFileData = binaryFileData;
+  }
+
+  getRemoteFileName(): string {
+    if (this.remoteFileName === undefined || this.remoteFileName === null) {
+      return '';
+    } else {
+      return this.remoteFileName;
+    }
+  }
+
+  setRemoteFileName(remoteFileName: string) {
+    this.remoteFileName = remoteFileName;
+  }
+
+  isUploaded(): boolean {
+    return !!this.getRemoteFileName();
   }
 
   hasAsset(): boolean {

@@ -9,6 +9,22 @@ export class Image extends BaseElement {
     super();
   }
 
+  getMediaFile(): MediaFile {
+    return this.mediaFile;
+  }
+
+  hasAsset(): Boolean {
+    return this.mediaFile.hasAsset();
+  }
+
+  getRemoteFileName(): string {
+    return this.mediaFile.getRemoteFileName();
+  }
+
+  setRemoteFileName(remoteFileName: string) {
+    this.mediaFile.setRemoteFileName(remoteFileName);
+  }
+
   getFileName(): string {
     return this.mediaFile.getFileName();
   }
@@ -33,6 +49,7 @@ export class Image extends BaseElement {
   toJson() {
     return Object.assign(super.toJson(), {
       file: encodeURIComponent(this.mediaFile.getFileName()),
+      remoteFile: this.mediaFile.getRemoteFileName(),
       size: '<2,1>' //TODO: get requirements for size vector
     });
   }

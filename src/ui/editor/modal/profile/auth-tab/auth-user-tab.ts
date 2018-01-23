@@ -11,6 +11,7 @@ import {ProjectInteractor} from 'core/project/projectInteractor';
 import {SceneInteractor} from 'core/scene/sceneInteractor';
 import {AdminInteractor} from 'core/admin/adminInteractor';
 import {EventBus, EventType} from 'ui/common/event-bus';
+import {MIME_TYPE_ZIP} from 'ui/common/constants';
 
 const FileSaver = require('file-saver');
 
@@ -119,6 +120,23 @@ export class AuthUserTab {
         success => {
           this.eventBus.onStopLoading();
           this.eventBus.onModalMessage('', `Project has been deleted from the server.`);
+        },
+        error => {
+          this.eventBus.onStopLoading();
+          this.eventBus.onModalMessage('error', error.message);
+        }
+      );
+  }
+
+  private downloadProject(projectId: number, projectName: string) {
+    const userId: string = this.userInteractor.getUserId();
+    this.eventBus.onStartLoading();
+    this.projectInteractor.getProjectAsBlob(userId, `${projectId}`)
+      .subscribe(
+        projectBlob => {
+          const blob = new Blob([projectBlob], {type: MIME_TYPE_ZIP});
+          FileSaver.saveAs(blob, `${projectName}.zip`);
+          this.eventBus.onStopLoading();
         },
         error => {
           this.eventBus.onStopLoading();

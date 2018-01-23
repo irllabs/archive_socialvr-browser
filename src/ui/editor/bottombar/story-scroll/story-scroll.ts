@@ -138,7 +138,7 @@ export class StoryScroll {
 
   toggleOpen($event) {
     this.isOpen = !this.isOpen;
-  }  
+  }
 
   private onFileLoad($event) {
     const fileName: string = $event.file.name;

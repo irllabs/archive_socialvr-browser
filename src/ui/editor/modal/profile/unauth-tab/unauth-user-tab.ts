@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Router} from '@angular/router';
 import {EventBus} from 'ui/common/event-bus';
 import {UserInteractor} from 'core/user/userInteractor';
+import {AssetInteractor} from 'core/asset/assetInteractor';
 
 @Component({
   selector: 'unauth-user-tab',
@@ -17,9 +18,10 @@ export class UnauthUserTab {
 
   constructor(
     private router: Router,
+    private assetInteractor: AssetInteractor,
     private userInteractor: UserInteractor,
     private eventBus: EventBus,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
@@ -148,6 +150,11 @@ export class UnauthUserTab {
 
   private onLogin() {
     // If post login intent needs to be used
+    this.assetInteractor.setUploadPolicy()
+      .subscribe(
+        response => console.log('S3 policy set'),
+        error => console.error(error)
+      )
   }
 
   private onOpenClick($event) {

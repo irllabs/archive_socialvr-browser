@@ -7,11 +7,12 @@ import {Vector2} from 'data/scene/entities/vector2';
 import {MediaFile} from 'data/scene/entities/mediaFile';
 import {Narrator} from 'data/scene/entities/narrator';
 
-
 import {RoomProperty} from 'data/scene/interfaces/roomProperty';
 import {generateUniqueId} from 'data/util/uuid';
 import {DEFAULT_FILE_NAME, DEFAULT_VOLUME} from 'ui/common/constants';
 import {reverbList} from 'data/scene/values/reverbList';
+
+import { BACKGROUND_THUMBNAIL } from 'ui/common/constants';
 
 export class Room implements RoomProperty {
 
@@ -20,10 +21,10 @@ export class Room implements RoomProperty {
   private timestamp: number = Date.now();
   private location: Vector2 = new Vector2(180, 80);
   private reverb: string = reverbList[0];
-  private backgroundImage: MediaFile = new MediaFile();
-  private backgroundAudio: MediaFile = new MediaFile();
+  private backgroundImage: Image = new Image();
+  private backgroundAudio: Audio = new Audio();
   private bgAudioVolume: number = DEFAULT_VOLUME;
-  private thumbnail: MediaFile = new MediaFile();
+  private thumbnail: Image = new Image();
   private audioSet: Set<Audio> = new Set<Audio>();
   private imageSet: Set<Image> = new Set<Image>();
   private textSet: Set<Text> = new Set<Text>();
@@ -140,18 +141,29 @@ export class Room implements RoomProperty {
     return this.backgroundAudio.getBinaryFileData();
   }
 
-  setFileData(fileName: string, binaryFileData: any) {
+  // TODO: Rename to setBackgroundImage
+  setFileData(fileName: string, binaryFileData: any, remoteFileName = '') {
     this.backgroundImage.setFileName(fileName);
     this.backgroundImage.setBinaryFileData(binaryFileData);
+    this.backgroundImage.setRemoteFileName(remoteFileName);
+  }
+
+  getBackgroundImage(): Image {
+    return this.backgroundImage;
   }
 
   hasBackgroundImage(): boolean {
     return this.backgroundImage.getFileName() !== DEFAULT_FILE_NAME || this.backgroundIsVideo;
   }
 
-  setThumbnail(fileName: string, binaryFileData: any) {
-    this.thumbnail.setFileName(fileName);
+  setThumbnail(fileName: string, binaryFileData: any, remoteFileName = '') {
+    this.thumbnail.setFileName(BACKGROUND_THUMBNAIL);
     this.thumbnail.setBinaryFileData(binaryFileData);
+    this.thumbnail.setRemoteFileName(remoteFileName);
+  }
+
+  getThumbnail(): Image {
+    return this.thumbnail;
   }
 
   getThumbnailImage() {
@@ -191,17 +203,18 @@ export class Room implements RoomProperty {
     this.reverb = reverb;
   }
 
-  setBackgroundAudio(fileName: string, volume: number, dataUrl: any) {
+  setBackgroundAudio(fileName: string, volume: number, dataUrl: any, remoteFileName = '') {
     this.backgroundAudio.setFileName(fileName);
     this.backgroundAudio.setBinaryFileData(dataUrl);
     this.setBackgroundAudioVolume(volume);
+    this.backgroundAudio.setRemoteFileName(remoteFileName);
   }
 
   removeBackgroundAudio() {
-    this.backgroundAudio = new MediaFile();
+    this.backgroundAudio = new Audio();
   }
 
-  getBackgroundAudio(): MediaFile {
+  getBackgroundAudio(): Audio {
     return this.backgroundAudio;
   }
 
@@ -232,15 +245,25 @@ export class Room implements RoomProperty {
   setPossibleCombinedHotspot(isPossibleCombinedHotspot: boolean) {}
 
   toJson() {
+    const image = this.getBackgroundImage().getMediaFile().hasAsset() ? this.backgroundImage.toJson() : {};
+    const thumbnail = this.getThumbnail().getMediaFile().hasAsset() ? this.thumbnail.toJson() : {};
+    const ambient = this.getBackgroundAudio().getMediaFile().hasAsset() ? this.backgroundAudio.toJson() : {};
+    const {
+      id: uuid,
+      id: file,
+      timestamp: time,
+      name,
+    } = this;
     const roomJson = {
-      uuid: this.id,
-      name: this.name,
-      time: this.timestamp,
-      file: this.id, //refers to the name of the asset directory in zip file
-      image: encodeURIComponent(this.backgroundImage.getFileName()),
+      uuid,
+      name,
+      time,
+      file,
+      image,
+      thumbnail,
+      ambient,
       reverb: this.reverb,
       front: this.location.toString(),
-      ambient: this.backgroundAudio.getFileName() ? encodeURIComponent(this.backgroundAudio.getFileName()) : '',
       bgVolume: this.bgAudioVolume,
       texts: Array.from(this.getText()).map(text => text.toJson()),
       clips: Array.from(this.getAudio()).map(audio => audio.toJson()),

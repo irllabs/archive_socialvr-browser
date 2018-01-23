@@ -6,6 +6,8 @@ export default interface ApiService {
 
   logOut(): Observable<any>;
 
+  getUploadPolicy(): Observable<any>;
+
   getUser(): Observable<any>;
 
   createUser(firstName: string, lastName: string, userName: string, password: string, email: string): Observable<any>;
@@ -23,6 +25,8 @@ export default interface ApiService {
   updateProject(userId: string, projectId: string, projectName: string, projectTags: string, storyFile: any, thumbnail: string): Observable<any>;
 
   updateSharableStatus(userId: string, projectId: string, is_public: boolean): Observable<any>;
+
+  uploadMedia(key: string, file, uploadPolicy): Observable<any>;
 
   deleteProject(userId: string, projectId: string): Observable<any>;
 

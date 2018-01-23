@@ -15,8 +15,6 @@ import {Text} from 'data/scene/entities/text';
 import {Door} from 'data/scene/entities/door';
 import {RoomProperty} from 'data/scene/interfaces/roomProperty';
 
-import {MediaFile} from 'data/scene/entities/mediaFile';
-
 import {DEFAULT_PROJECT_NAME, DEFAULT_VOLUME} from 'ui/common/constants';
 
 const FileSaver = require('file-saver');
@@ -69,7 +67,7 @@ export class Story {
     this.metaDataInteractor.setProjectTags($event.text);
   }
 
-  private getSoundtrack(): MediaFile {
+  private getSoundtrack(): Audio {
     return this.metaDataInteractor.getSoundtrack();
   }
 
@@ -160,8 +158,9 @@ export class Story {
 
     const projectName = this.metaDataInteractor.getProjectName() || 'StoryFile';
     const zipFileName = `${projectName}.zip`;
+    const bundleAssets = true;
     this.eventBus.onStartLoading();
-    this.storageInteractor.serializeProject()
+    this.storageInteractor.serializeProject(bundleAssets)
       .subscribe(
         zipFile => {
           this.eventBus.onStopLoading();

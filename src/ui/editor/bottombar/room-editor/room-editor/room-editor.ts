@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 
 import {Narrator} from 'data/scene/entities/narrator';
-import {MediaFile} from 'data/scene/entities/mediaFile';
+import {Audio} from 'data/scene/entities/audio';
 import {Room} from 'data/scene/entities/room';
 import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
 import {resizeImage} from 'data/util/imageResizeService';
@@ -58,7 +58,7 @@ export class RoomEditor {
     return this.getActiveRoom().getNarrator();
   }
 
-  private getBackgroundAudio(): MediaFile {
+  private getBackgroundAudio(): Audio {
     return this.getActiveRoom().getBackgroundAudio();
   }
 
@@ -66,11 +66,11 @@ export class RoomEditor {
     return this.getActiveRoom().getBackgroundAudioVolume();
   }
 
-  private getNarratorIntroAudioFile(): MediaFile {
+  private getNarratorIntroAudioFile(): Audio {
     return this.getNarratorIntroAudio().getIntroAudio();
   }
 
-  private getNarratorReturnAudio(): MediaFile {
+  private getNarratorReturnAudio(): Audio {
     return this.getNarratorIntroAudio().getReturnAudio();
   }
 

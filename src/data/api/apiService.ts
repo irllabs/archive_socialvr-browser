@@ -14,6 +14,7 @@ import {generateUniqueId} from 'data/util/uuid';
 const URL_GET_AUTH_TOKEN: string = '/get_auth_token/';
 const URL_LOG_IN: string = '/login/';
 const URL_LOG_OUT: string = '/logout/';
+const URL_PATH_MEDIA: string = '/media/';
 const URL_PATH_USER: string = '/user/';
 const URL_PATH_USERS: string = '/users/';
 const URL_PATH_PROJECTS: string = '/projects/';
@@ -25,7 +26,7 @@ export class ApiService implements Api {
 
   constructor(
     private http: Http,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
   ) {}
 
   // POST /get_auth_token/
@@ -44,6 +45,13 @@ export class ApiService implements Api {
   logOut(): Observable<any> {
     const URL: string = `${BASE_URL}${URL_LOG_OUT}`;
     return this.http.delete(URL, {withCredentials: true});
+  }
+
+  // GET /media/?s3_key&content_type
+  getUploadPolicy(): Observable<any> {
+    const URL: string = `${BASE_URL}${URL_PATH_MEDIA}`;
+    return this.http.get(URL, {withCredentials: true})
+      .map(response => response.json());
   }
 
   // GET  /user/
@@ -110,6 +118,11 @@ export class ApiService implements Api {
       .map(response => response.arrayBuffer());
   }
 
+  getProjectAsBlob(signedProjectUrl: string): Observable<Blob> {
+    return this.http.get(signedProjectUrl, {responseType: ResponseContentType.Blob})
+      .map(response => response.blob());
+  }
+
   // PUT /users/userId/projects/projectId/
   updateProject(userId: string, projectId: string, projectName: string, projectTags: string, storyFile: any, thumbnail: string): Observable<any> {
     const URL: string = `${BASE_URL}${URL_PATH_USERS}${userId}${URL_PATH_PROJECTS}${projectId}/`;
@@ -173,6 +186,25 @@ export class ApiService implements Api {
       withCredentials: true,
       headers: headers
     });
+  }
+
+  downloadMedia(mediaUrl: string): Observable<any> {
+    return this.http.get(encodeURI(mediaUrl), {credentials: 'same-origin', responseType: ResponseContentType.Blob})
+      .map(response => response.blob());
+  }
+
+  uploadMedia(key: string, file, uploadPolicy): Observable<any> {
+    const payload = Object.assign(uploadPolicy.fields, { key, file });
+    const formData = Object.keys(payload).reduce((formData, key) => {
+      formData.append(key, payload[key]);
+      return formData;
+    }, new FormData());
+
+    return this.http.post(uploadPolicy.url, formData, {withCredentials: true})
+      .map(response => {
+        const remoteFileName = `${uploadPolicy.url}${key}`;
+        return remoteFileName;
+      });
   }
 
   uploadVideo(videoFile): Observable<any> {
