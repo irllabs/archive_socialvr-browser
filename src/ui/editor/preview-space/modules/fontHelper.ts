@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 
 const fontPath = 'assets/fonts/Nunito_Regular.json';
 
