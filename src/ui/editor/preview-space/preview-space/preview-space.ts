@@ -30,7 +30,7 @@ import threeResourcePool from 'ui/editor/preview-space/modules/ThreeResourcePool
 
 const Stats = require('stats.js')
 const stats = new Stats();
-stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+stats.showPanel(2); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.body.appendChild( stats.dom );
 
 const TWEEN = require('@tweenjs/tween.js');
@@ -120,6 +120,7 @@ export class PreviewSpace {
   }
 
   ngOnDestroy() {
+    console.log('ngOnDestroy');
     if (this.camera) {
       const cameraDirection = new THREE.Vector3(0, 0, -1);
       cameraDirection.applyQuaternion(this.camera.quaternion);
@@ -132,6 +133,7 @@ export class PreviewSpace {
     if (!!this.video3D) {
       this.video3D.destroy();
     }
+    this.hotspotManager.cleanMaps(this.scene);
     this.menuManager.destroy();
     if (this.scene) {
       MeshUtil.clearScene(this.scene);

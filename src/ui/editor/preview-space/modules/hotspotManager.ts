@@ -26,16 +26,6 @@ import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
 import threeResourcePool from 'ui/editor/preview-space/modules/ThreeResourcePool';
 
 
-// const TWEEN = require('@tweenjs/tween.js');
-
-// function buildDashCircle(): THREE.Line {
-//   const dashCircleGeom = new THREE.CircleGeometry( THREE_CONST.HOTSPOT_DIM, THREE_CONST.DASHCIRCLE_SEG );
-//   const dashCircleMaterial = new THREE.LineDashedMaterial( { color: 0xFFFFFF, dashSize: 2, gapSize: 2, linewidth:1  } );
-//   dashCircleGeom.vertices.shift();
-//   dashCircleGeom.computeLineDistances();
-//   return new THREE.Line(dashCircleGeom,dashCircleMaterial);;
-// }
-
 @Injectable()
 export class HotspotManager {
 
@@ -63,7 +53,6 @@ export class HotspotManager {
 
   load(scene: THREE.Scene, camera: THREE.PerspectiveCamera, onRoomChange: Function) {
     this.onRoomChange = onRoomChange;
-    // this.dashCircleLine = buildDashCircle();
     this.cleanMaps(scene);
 
 
@@ -203,51 +192,28 @@ export class HotspotManager {
     return linkMesh;
   }
 
-  // graphicIcon: THREE.Mesh; // this is a png of the door, sound, text etc
-  // previewIcon: THREE.Group;
-  // label: THREE.Mesh;
-  // plane: THREE.Mesh;  // this
-
+  //clean up three.js scene
   cleanMaps(scene: THREE.Scene) {
-    //clean up three.js scene
-    // console.log('clean scene');
     this.hotspotMap.forEach(idHotspotPair => {
-      // MeshUtil.cleanMeshMemory(idHotspotPair.graphicIcon);
-      // idHotspotPair.previewIcon.children.forEach(child => MeshUtil.cleanMeshMemory(child));
-      // MeshUtil.cleanMeshMemory(idHotspotPair.label);
-      // MeshUtil.cleanMeshMemory(idHotspotPair.plane);
-
-      // scene.remove(idHotspotPair.graphicIcon);
-      // idHotspotPair.previewIcon.children.forEach(child => scene.remove(child));
-
+      // DASHED CIRCLE
       threeResourcePool.releaseDashCircle(idHotspotPair.previewIcon);
-      scene.remove(idHotspotPair.previewIcon); // DASH CIRCLE
-
+      scene.remove(idHotspotPair.previewIcon);
+      // HOTSPOT ICON
       threeResourcePool.releaseGraphicIcon(idHotspotPair.graphicIcon);
-      scene.remove(idHotspotPair.graphicIcon); // HOTSPOT ICON
-
+      scene.remove(idHotspotPair.graphicIcon);
+      // HOTSPOT LABEL
       threeResourcePool.releaseLabel(idHotspotPair.label);
-      scene.remove(idHotspotPair.label); // HOTSPOT LABEL
-
+      scene.remove(idHotspotPair.label);
+      // ACTIVATED HOTSPOT
       if (idHotspotPair.plane) {
         threeResourcePool.releaseImagePlane(idHotspotPair.plane);
         scene.remove(idHotspotPair.plane);
       }
-
-      // scene.remove(idHotspotPair.label);
-      // scene.remove(idHotspotPair.plane);
       idHotspotPair = undefined;
     });
     this.hotspotMap.clear();
-
-    //create new map to keep track of hotspots
     this.hotspotMap = new Map();
   }
-
-  // getMeshList(): THREE.Mesh[] {
-  //   return Array.from(this.hotspotMap.values())
-  //     .map(idMeshPair => idMeshPair.graphicIcon);
-  // }
 
   getHotspot(hotspotId: string): HotspotEntity {
     return this.hotspotMap.get(hotspotId);

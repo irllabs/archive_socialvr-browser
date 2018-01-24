@@ -3,16 +3,14 @@ import * as THREE from 'three';
 function clearScene(scene: THREE.Scene) {
   scene.traverse(mesh => {
     if (mesh instanceof THREE.Mesh) {
-        cleanMeshMemory(mesh);
-        mesh.material = null;
-        mesh.geometry = null;
-        if (mesh.material instanceof THREE.MeshBasicMaterial) {
-          if (mesh.material.map instanceof THREE.Texture) {
-            mesh.material.map = null; //texture
-          }
-        }
-        mesh = null;
+      cleanMeshMemory(mesh);
+      if (mesh.material && mesh.material.map) {
+        mesh.material.map = null;
       }
+      mesh.material = null;
+      mesh.geometry = null;
+      mesh = null;
+    }
   });
   scene.children.forEach(mesh => scene.remove(mesh));
 }
