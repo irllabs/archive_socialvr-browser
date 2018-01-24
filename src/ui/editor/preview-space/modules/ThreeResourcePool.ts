@@ -70,8 +70,8 @@ class ObjectResourcePool {
 
   releaseResource(resource) {
     resource.userData[IS_IN_USE] = false;
-    const usage = this.resources.map(circle => circle.userData[IS_IN_USE]);
-    console.log('realease obj', usage);
+    // const usage = this.resources.map(circle => circle.userData[IS_IN_USE]);
+    // console.log('realease obj', usage);
   }
 
 }
@@ -134,7 +134,6 @@ class ThreeResourcePool {
         child.geometry.dispose();
       }
     });
-
     this.dashCircles.releaseResource(circle);
   }
 
@@ -190,11 +189,7 @@ class ThreeResourcePool {
     this.imagePlanes.releaseResource(imagePlane);
   }
 
-
 }
-
-
-
 
 const threeResourcePool = new ThreeResourcePool();
 export default threeResourcePool;
