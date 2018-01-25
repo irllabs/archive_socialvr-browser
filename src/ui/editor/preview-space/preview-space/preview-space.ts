@@ -26,7 +26,7 @@ import {Video3D} from 'ui/editor/edit-space/video3D';
 import {buildScene, onResize} from 'ui/editor/util/threeUtil';
 import {THREE_CONST} from 'ui/common/constants';
 import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
-import threeResourcePool from 'ui/editor/preview-space/modules/ThreeResourcePool';
+// import threeResourcePool from 'ui/editor/preview-space/modules/ThreeResourcePool';
 
 const Stats = require('stats.js')
 const stats = new Stats();
@@ -69,6 +69,7 @@ export class PreviewSpace {
   private shouldInit: boolean = false;
   private inRoomTween: boolean = false;
   private lookAtVector: THREE.Vector3;
+  private sphereMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: null, side: THREE.BackSide});
 
   constructor(
     private metaDataInteractor: MetaDataInteractor,
@@ -112,10 +113,11 @@ export class PreviewSpace {
       this.initVrDisplay(),
       fontHelper.load(),
     ])
-    .then(() => {
-      threeResourcePool.init();
-      return this.initRoom();
-    })
+    .then(() => this.initRoom())
+    // .then(() => {
+    //   // threeResourcePool.init();
+    //   return this.initRoom();
+    // })
     .catch(error => console.log('EditSphereBaseInit', error));
   }
 
@@ -153,6 +155,7 @@ export class PreviewSpace {
     this.camera = scenePrimitives.camera;
     this.vrCamera = scenePrimitives.vrCamera;
     this.scene = scenePrimitives.scene;
+    this.sphereMesh.material = this.sphereMaterial;
 
     this.reticle.init(this.camera, this.vrCamera);
     //this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: window.orientation == 'undefined'});
@@ -241,7 +244,11 @@ export class PreviewSpace {
     // });
     // MeshUtil.cleanMeshMemory(this.sphereMesh);
     // this.sphereMesh.material = new THREE.MeshBasicMaterial({map: sphereTexture, side: THREE.BackSide});
-    this.sphereMesh.material = threeResourcePool.getSphereMaterialFromTexture(sphereTexture);
+    // this.sphereMesh.material = threeResourcePool.getSphereMaterialFromTexture(sphereTexture);
+    if (this.sphereMesh.material.map) {
+      this.sphereMesh.material.map.dispose();
+    }
+    this.sphereMesh.material.map = sphereTexture;
     this.hotspotManager.load(this.scene, this.camera, this.goToRoom.bind(this));
 
     if(!this.menuManager.exists()) {

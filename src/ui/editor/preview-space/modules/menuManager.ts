@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import * as THREE from 'three';
 
 import {AssetInteractor} from 'core/asset/assetInteractor';
 import {getCoordinatePosition} from 'ui/editor/util/iconPositionUtil';
@@ -244,8 +245,18 @@ export class MenuManager {
     return this.homeButtonMesh;
   }
 
-  // TODO: better cleanup
   destroy() {
+    this.menu.children.forEach(child => {
+      if (child.material && child.material.map) {
+        child.material.map.dispose();
+      }
+      if (child.material) {
+        child.material.dispose();
+      }
+      if (child.geometry) {
+        child.geometry.dispose();
+      }
+    });
     this.menu = null;
   }
 
