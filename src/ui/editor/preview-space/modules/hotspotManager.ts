@@ -23,8 +23,17 @@ import * as MeshUtil from 'ui/editor/preview-space/modules/meshUtil';
 import {sphericalToCoordinate, coordinateToSpherical, car2pol, pol2car} from 'ui/editor/util/iconPositionUtil';
 import {THREE_CONST} from 'ui/common/constants';
 import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
-import threeResourcePool from 'ui/editor/preview-space/modules/ThreeResourcePool';
 
+function buildDashCircle(): THREE.Group {
+  const dashCircleGeom = new THREE.CircleGeometry(THREE_CONST.HOTSPOT_DIM, THREE_CONST.DASHCIRCLE_SEG);
+  const dashCircleMaterial = new THREE.LineDashedMaterial({ color: 0xFFFFFF, dashSize: 2, gapSize: 2, linewidth:1 });
+  dashCircleGeom.vertices.shift();
+  dashCircleGeom.computeLineDistances();
+  const line = new THREE.Line(dashCircleGeom,dashCircleMaterial);
+  const group = new THREE.Group();
+  group.add(line);
+  return group;
+}
 
 @Injectable()
 export class HotspotManager {
@@ -66,14 +75,14 @@ export class HotspotManager {
       //console.log('position', position);
       const labelText = roomProperty.getName();
       const propertyType: string = RoomPropertyTypeService.getTypeString(roomProperty);
-      // const squareGeometry = new THREE.PlaneGeometry(THREE_CONST.HOTSPOT_DIM, THREE_CONST.HOTSPOT_DIM);
+      const squareGeometry = new THREE.PlaneGeometry(THREE_CONST.HOTSPOT_DIM, THREE_CONST.HOTSPOT_DIM);
       const hotspotTexture = this.assetInteractor.getTextureById(propertyType);
 
       //create graphic icon for hotspot, i.e. our hotspot icons
-      // const squareMaterial = new THREE.MeshBasicMaterial({map: hotspotTexture,  transparent: true, side:THREE.FrontSide});
-      // const squareMesh = new THREE.Mesh(squareGeometry, squareMaterial);
+      const squareMaterial = new THREE.MeshBasicMaterial({map: hotspotTexture,  transparent: true, side:THREE.FrontSide});
+      const squareMesh = new THREE.Mesh(squareGeometry, squareMaterial);
 
-      const squareMesh = threeResourcePool.getGraphicIcon(hotspotTexture);
+      // const squareMesh = threeResourcePool.getGraphicIcon(hotspotTexture);
       const polPol = car2pol(position.x, position.y, position.z);
       const posCar = pol2car(THREE_CONST.CAMERA_HOTSPOT,polPol.y,polPol.z);
       squareMesh.position.set(posCar.x, posCar.y, posCar.z);
@@ -85,33 +94,34 @@ export class HotspotManager {
       //create preview icon for hotspot, i.e. dash circle
       // const dashCircle: THREE.Line = this.dashCircleLine.clone();
       // var dashCircleGroup = new THREE.Group();
+      const dashCircleGroup = buildDashCircle();
       // dashCircleGroup.add(dashCircle);
 
-      const dashCircleGroup = threeResourcePool.getDashCircle();
+      // const dashCircleGroup = threeResourcePool.getDashCircle();
       dashCircleGroup.position.set(position.x, position.y, position.z);
       dashCircleGroup.lookAt(camera.position);
       dashCircleGroup.visible = true;
       scene.add(dashCircleGroup);
 
       //create label for each hotpost, i.e. the name of the hotspotEntity
-      // const fontProperties = {
-      //   font: fontHelper.getBaseFont(),
-    	// 	size: THREE_CONST.FONT_HOTSPOT_SIZE,
-    	// 	height: THREE_CONST.FONT_HOTSPOT_HEIGHT,
-    	// 	curveSegments: 12,
-    	// 	bevelEnabled: false,
-    	// 	bevelThickness: 4,
-    	// 	bevelSize: 8,
-    	// 	bevelSegments: 5
-      // };
-      // const labelMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
-      // const labelGeometry = new THREE.TextGeometry(roomProperty.getName(), fontProperties);
-      // labelGeometry.computeBoundingBox();
-      // labelGeometry.computeVertexNormals();
-      // labelGeometry.center();
+      const fontProperties = {
+        font: fontHelper.getBaseFont(),
+    		size: THREE_CONST.FONT_HOTSPOT_SIZE,
+    		height: THREE_CONST.FONT_HOTSPOT_HEIGHT,
+    		curveSegments: 12,
+    		bevelEnabled: false,
+    		bevelThickness: 4,
+    		bevelSize: 8,
+    		bevelSegments: 5
+      };
+      const labelMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
+      const labelGeometry = new THREE.TextGeometry(roomProperty.getName(), fontProperties);
+      labelGeometry.computeBoundingBox();
+      labelGeometry.computeVertexNormals();
+      labelGeometry.center();
+      const labelMesh = new THREE.Mesh(labelGeometry, labelMaterial);
       // const labelMesh = new THREE.Mesh(labelGeometry, labelMaterial);
-      // const labelMesh = new THREE.Mesh(labelGeometry, labelMaterial);
-      const labelMesh = threeResourcePool.getLabel(roomProperty.getName());
+      // const labelMesh = threeResourcePool.getLabel(roomProperty.getName());
       labelMesh.position.set(position.x, position.y - 40, position.z);
       labelMesh.lookAt(camera.position);
       labelMesh.visible = false;
@@ -147,12 +157,12 @@ export class HotspotManager {
     if (imageTexture) {
       const location = imageProperty.getLocation();
       const position = getCoordinatePosition(location.getX(), location.getY(), 250);
-      // const geometryDimensions = fitToMax(imageTexture.image.width, imageTexture.image.height, 140);
-      // const imageGeometry = new THREE.PlaneGeometry(geometryDimensions.getX(), geometryDimensions.getY());
+      const geometryDimensions = fitToMax(imageTexture.image.width, imageTexture.image.height, 140);
+      const imageGeometry = new THREE.PlaneGeometry(geometryDimensions.getX(), geometryDimensions.getY());
       //added by ali
-      // const imageMaterial = new THREE.MeshBasicMaterial({map: imageTexture, transparent: true, side:THREE.FrontSide, alphaMap: this.assetInteractor.getTextureById('imageMask')});
-      // const imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
-      const imageMesh = threeResourcePool.getImagePlane(imageTexture);
+      const imageMaterial = new THREE.MeshBasicMaterial({map: imageTexture, transparent: true, side:THREE.FrontSide, alphaMap: this.assetInteractor.getTextureById('imageMask')});
+      const imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
+      // const imageMesh = threeResourcePool.getImagePlane(imageTexture);
       imageMesh.position.set(position.x, position.y, position.z);
       imageMesh.lookAt(camera.position);
       imageMesh.material.opacity = 1;
@@ -196,17 +206,31 @@ export class HotspotManager {
   cleanMaps(scene: THREE.Scene) {
     this.hotspotMap.forEach(idHotspotPair => {
       // DASHED CIRCLE
-      threeResourcePool.releaseDashCircle(idHotspotPair.previewIcon);
+      idHotspotPair.previewIcon.children.forEach((child) => {
+        if (child.material) {
+          child.material.dispose();
+        }
+        if (child.geometry) {
+          child.geometry.dispose();
+        }
+        scene.remove(child);
+      });
       scene.remove(idHotspotPair.previewIcon);
       // HOTSPOT ICON
-      threeResourcePool.releaseGraphicIcon(idHotspotPair.graphicIcon);
+      idHotspotPair.graphicIcon.material.map.dispose();
+      idHotspotPair.graphicIcon.material.dispose();
+      idHotspotPair.graphicIcon.geometry.dispose();
       scene.remove(idHotspotPair.graphicIcon);
       // HOTSPOT LABEL
-      threeResourcePool.releaseLabel(idHotspotPair.label);
+      idHotspotPair.label.material.dispose();
+      idHotspotPair.label.geometry.dispose();
+      idHotspotPair.label.geometry = undefined;
       scene.remove(idHotspotPair.label);
       // ACTIVATED HOTSPOT
       if (idHotspotPair.plane) {
-        threeResourcePool.releaseImagePlane(idHotspotPair.plane);
+        idHotspotPair.plane.material.map.dispose();
+        idHotspotPair.plane.material.dispose();
+        idHotspotPair.plane.geometry.dispose();
         scene.remove(idHotspotPair.plane);
       }
       idHotspotPair = undefined;
@@ -220,12 +244,10 @@ export class HotspotManager {
   }
 
   update(reticle, elapsedTime: number) {
-
     const retPos = reticle.getWorldPosition();
     this.hotspotMap.forEach((hotspotEntity, id) => {
       hotspotEntity.update(retPos);
     });
-
   }
 
 }
