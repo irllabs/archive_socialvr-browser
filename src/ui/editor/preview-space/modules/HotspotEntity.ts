@@ -27,25 +27,20 @@ export default class HotspotEntity {
   goToRoom: Function;
   myWobble: number;
   scale: number;
-  //tweens:
 
-  tweenIconActivate;
-  tweenIconDeactiveate;
-  tweenAudioActivate;
-  tweenDoorActivate;
-  tweenPlaneActivate
-  tweenPlaneDeactivate;
-  tweenPreviewIconIn;
-  tweenPreviewIconOut;
-  tweenGraphicIconin;
-  tweenGraphicIconOut;
-
-  tweenLast;
-
-  //
+  private tweenIconActivate;
+  private tweenIconDeactiveate;
+  private tweenAudioActivate;
+  private tweenDoorActivate;
+  private tweenPlaneActivate
+  private tweenPlaneDeactivate;
+  private tweenPreviewIconIn;
+  private tweenPreviewIconOut;
+  private tweenGraphicIconin;
+  private tweenGraphicIconOut;
+  private tweenLast;
 
   constructor(id, hotpostProperty, graphicIcon,previewIcon, audioPlayService, goToRoom, label, rotation) {
-    console.log('000hotspot', label);
     this.id = id;
     this.hotpostProperty = hotpostProperty;
     this.yamlId = hotpostProperty.getId();

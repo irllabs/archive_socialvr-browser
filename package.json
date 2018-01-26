@@ -61,7 +61,7 @@
     "serviceworker-webpack-plugin": "^0.2.3",
     "stats.js": "^0.17.0",
     "three": "^0.89.0",
-    "webvr-polyfill": "^0.9.36",
+    "webvr-polyfill": "^0.10.2",
     "zone.js": "^0.8.16"
   },
   "repository": {
