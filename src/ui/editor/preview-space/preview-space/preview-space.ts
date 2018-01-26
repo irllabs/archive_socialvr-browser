@@ -62,7 +62,6 @@ export class PreviewSpace {
   private showVrModeButton: boolean = false;
   private video3D: Video3D;
   private animationRequest: number;
-  private isInVrMode: boolean = false;
   private lastRenderTime: number = performance.now();
   private meshList: THREE.Mesh[] = [];
   private roomHistory: string[] = [];
@@ -187,7 +186,7 @@ export class PreviewSpace {
 
 
     /*
-    if (!this.vrDisplay.isPresenting)  {
+    if (!this.vrDisplay && this.vrDisplay.isPresenting)  {
     // tween with fov
     this.camera.fov = THREE_CONST.FOV_OUT;
 
@@ -298,7 +297,7 @@ export class PreviewSpace {
   }
 
   private update(elapsedTime: number) {
-    const isInVrMode = this.vrDisplay.isPresenting;
+    const isInVrMode = this.vrDisplay && this.vrDisplay.isPresenting;
     const reticle = this.reticle.getActiveReticle(isInVrMode);
     const camera = isInVrMode ? this.vrCamera : this.camera;
     isInVrMode ? this.vrControls.update() : this.svrControls.update();
@@ -311,7 +310,7 @@ export class PreviewSpace {
   private render() {
     //this.scene.updateMatrixWorld(true);
     // render vr mode
-    if (this.vrDisplay.isPresenting) {
+    if (this.vrDisplay && this.vrDisplay.isPresenting) {
       this.vrEffect.render(this.scene, this.vrCamera);
       this.animationRequest = this.vrDisplay.requestAnimationFrame(this.animate.bind(this));
     }
@@ -362,7 +361,7 @@ export class PreviewSpace {
     this.inRoomTween = true;
     this.lookAtVector = new THREE.Vector3(0,0,0);
     //get the direciton we should move in
-    if (this.vrDisplay.isPresenting) {
+    if (this.vrDisplay && this.vrDisplay.isPresenting) {
       this.vrCamera.getWorldDirection( this.lookAtVector );
     } else {
       this.camera.getWorldDirection( this.lookAtVector );
@@ -426,7 +425,7 @@ export class PreviewSpace {
           this.isInRenderLoop = false;
 
           this.vrEffect.setSize(window.innerWidth, window.innerHeight);
-          this.reticle.showVrReticle(this.vrDisplay.isPresenting);
+          this.reticle.showVrReticle(this.vrDisplay && this.vrDisplay.isPresenting);
           this.isInRenderLoop = true;
           this.animate();
         })

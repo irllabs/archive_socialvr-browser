@@ -9,14 +9,14 @@ import 'core-js/es7';
 import 'zone.js/dist/zone';
 import 'zone.js/dist/long-stack-trace-zone';
 
-import 'webvr-polyfill';
+// import WebVRPolyfill from 'webvr-polyfill';
+import * as WebVRPolyfill from 'webvr-polyfill';
 
 //custom browser compatibility
 navigator.getUserMedia = navigator.getUserMedia || (<any>navigator).webkitGetUserMedia;
 (<any>window).AudioContext = (<any>window).AudioContext || (<any>window).webkitAudioContext;
 
-
-// (<any>window).WebVRConfig = {
+// const webVrConfig = {
 //   FORCE_ENABLE_VR: false,
 //   K_FILTER: 0.98,
 //   PREDICTION_TIME_S: 0.04,
@@ -31,3 +31,5 @@ navigator.getUserMedia = navigator.getUserMedia || (<any>navigator).webkitGetUse
 //   DIRTY_SUBMIT_FRAME_BINDINGS: false,
 //   ALWAYS_APPEND_POLYFILL_DISPLAY: true
 // };
+
+const polyfill = new WebVRPolyfill(); // PASS IN webVrConfig here if needed
