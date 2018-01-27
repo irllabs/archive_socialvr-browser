@@ -14,6 +14,9 @@ export class Ui {
   ) {}
 
   ngOnInit() {
-    this.router.navigate([{ outlets: { modal: null }}]);
+    const isShared: boolean = location.hash.indexOf('sharedproject') >= 0;
+    if (!isShared) {
+      this.router.navigate([{ outlets: { modal: null }}]);
+    }
   }
 }
