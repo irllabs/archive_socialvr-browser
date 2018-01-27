@@ -38078,9 +38078,8 @@ var Story = /** @class */function () {
         }
     };
     Story.prototype.onOffClick = function ($event) {
-        //console.log('onOffClick user-tab');
         if (!$event.isOffClick) return;
-        this.router.navigate(['/editor', { outlets: { 'modal': '' } }]);
+        this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
     };
     Story = __decorate([core_1.Component({
         selector: 'story',
@@ -41134,7 +41133,10 @@ var Ui = /** @class */function () {
         this.router = router;
     }
     Ui.prototype.ngOnInit = function () {
-        this.router.navigate([{ outlets: { modal: null } }]);
+        var isShared = location.hash.indexOf('sharedproject') >= 0;
+        if (!isShared) {
+            this.router.navigate([{ outlets: { modal: null } }]);
+        }
     };
     Ui = __decorate([core_1.Component({
         selector: 'app',
