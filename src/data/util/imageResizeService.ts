@@ -24,6 +24,10 @@ export function fitToMax(width: number, height: number, maxSize: number): Vector
     x = (width / height) * maxSize;
     y = maxSize;
   }
+  else if (width === height && width > maxSize) {
+    x = maxSize;
+    y = maxSize;
+  }
   else {
     x = width;
     y = height;
