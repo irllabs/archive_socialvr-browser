@@ -31,7 +31,7 @@ import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
 const Stats = require('stats.js')
 const stats = new Stats();
 stats.showPanel(2); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild( stats.dom );
+// document.body.appendChild( stats.dom );
 
 const TWEEN = require('@tweenjs/tween.js');
 const roomSphereFragShader = require('ui/editor/util/shaders/roomSphere.frag');
@@ -420,12 +420,11 @@ export class PreviewSpace {
     setTimeout(() => {
       onResize(this.camera, this.renderer)
         .then(() => {
-          // AHHH!!!!
           cancelAnimationFrame(this.animationRequest);
+          const isInVrMode = !!this.vrDisplay && !!this.vrDisplay.isPresenting
           this.isInRenderLoop = false;
-
           this.vrEffect.setSize(window.innerWidth, window.innerHeight);
-          this.reticle.showVrReticle(this.vrDisplay && this.vrDisplay.isPresenting);
+          this.reticle.showVrReticle(isInVrMode);
           this.isInRenderLoop = true;
           this.animate();
         })

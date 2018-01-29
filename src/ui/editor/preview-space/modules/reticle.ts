@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {THREE_CONST} from 'ui/common/constants';
+import * as THREE from 'three';
 
 @Injectable()
 export class Reticle {
