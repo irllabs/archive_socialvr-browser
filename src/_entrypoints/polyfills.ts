@@ -9,7 +9,6 @@ import 'core-js/es7';
 import 'zone.js/dist/zone';
 import 'zone.js/dist/long-stack-trace-zone';
 
-// import WebVRPolyfill from 'webvr-polyfill';
 import * as WebVRPolyfill from 'webvr-polyfill';
 
 //custom browser compatibility

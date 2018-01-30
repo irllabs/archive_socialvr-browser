@@ -1,5 +1,3 @@
-// Note: https://stackoverflow.com/questions/47246901/three-js-memory-leak-regardless-of-removing-mesh-from-scene
-
 import {Component, NgZone, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
@@ -26,7 +24,6 @@ import {Video3D} from 'ui/editor/edit-space/video3D';
 import {buildScene, onResize} from 'ui/editor/util/threeUtil';
 import {THREE_CONST} from 'ui/common/constants';
 import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
-// import threeResourcePool from 'ui/editor/preview-space/modules/ThreeResourcePool';
 
 const Stats = require('stats.js')
 const stats = new Stats();
@@ -113,15 +110,10 @@ export class PreviewSpace {
       fontHelper.load(),
     ])
     .then(() => this.initRoom())
-    // .then(() => {
-    //   // threeResourcePool.init();
-    //   return this.initRoom();
-    // })
     .catch(error => console.log('EditSphereBaseInit', error));
   }
 
   ngOnDestroy() {
-    console.log('ngOnDestroy');
     if (this.camera) {
       const cameraDirection = new THREE.Vector3(0, 0, -1);
       cameraDirection.applyQuaternion(this.camera.quaternion);
@@ -241,9 +233,6 @@ export class PreviewSpace {
     //   fragmentShader: roomSphereFragShader,
     //   side: THREE.FrontSide
     // });
-    // MeshUtil.cleanMeshMemory(this.sphereMesh);
-    // this.sphereMesh.material = new THREE.MeshBasicMaterial({map: sphereTexture, side: THREE.BackSide});
-    // this.sphereMesh.material = threeResourcePool.getSphereMaterialFromTexture(sphereTexture);
     if (this.sphereMesh.material.map) {
       this.sphereMesh.material.map.dispose();
     }
