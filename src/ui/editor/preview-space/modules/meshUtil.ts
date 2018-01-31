@@ -1,29 +1,33 @@
+import * as THREE from 'three';
 
 function clearScene(scene: THREE.Scene) {
   scene.traverse(mesh => {
     if (mesh instanceof THREE.Mesh) {
-        cleanMeshMemory(mesh);
-        mesh.material = null;
-        mesh.geometry = null;
-        if (mesh.material instanceof THREE.MeshBasicMaterial) {
-          if (mesh.material.map instanceof THREE.Texture) {
-            mesh.material.map = null; //texture
-          }
-        }
-        mesh = null;
+      cleanMeshMemory(mesh);
+      if (mesh.material && mesh.material.map) {
+        mesh.material.map = null;
       }
+      mesh.material = null;
+      mesh.geometry = null;
+      mesh = null;
+    }
   });
   scene.children.forEach(mesh => scene.remove(mesh));
 }
 
-function cleanMeshMemory(mesh: THREE.Mesh) {
+function cleanMeshMemory(mesh) {
   if (!mesh) return;
-  if (mesh.material) mesh.material.dispose();
-  if (mesh.geometry) mesh.geometry.dispose();
-  if (mesh.material && mesh.material instanceof THREE.MeshBasicMaterial) {
-    if (mesh.material.map instanceof THREE.Texture) {
-      mesh.material.map.dispose();
-    }
+  if (mesh.material && mesh.material.map) {
+    mesh.material.map.dispose();
+    mesh.material.map = undefined;
+  }
+  if (mesh.material) {
+    mesh.material.dispose();
+    mesh.material = undefined;
+  }
+  if (mesh.geometry) {
+    mesh.geometry.dispose();
+    mesh.geometry = undefined;
   }
 }
 

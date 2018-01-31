@@ -1,7 +1,7 @@
 import {Component, NgZone, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
-import 'three';
+import * as THREE from 'three';
 import 'three/VRControls';
 import 'three/VREffect';
 import 'three/SvrControls';
@@ -27,8 +27,8 @@ import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
 
 const Stats = require('stats.js')
 const stats = new Stats();
-stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-//document.body.appendChild( stats.dom );
+stats.showPanel(2); // 0: fps, 1: ms, 2: mb, 3+: custom
+// document.body.appendChild( stats.dom );
 
 const TWEEN = require('@tweenjs/tween.js');
 const roomSphereFragShader = require('ui/editor/util/shaders/roomSphere.frag');
@@ -59,13 +59,13 @@ export class PreviewSpace {
   private showVrModeButton: boolean = false;
   private video3D: Video3D;
   private animationRequest: number;
-  private isInVrMode: boolean = false;
   private lastRenderTime: number = performance.now();
   private meshList: THREE.Mesh[] = [];
   private roomHistory: string[] = [];
   private shouldInit: boolean = false;
   private inRoomTween: boolean = false;
   private lookAtVector: THREE.Vector3;
+  private sphereMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: null, side: THREE.BackSide});
 
   constructor(
     private metaDataInteractor: MetaDataInteractor,
@@ -109,7 +109,7 @@ export class PreviewSpace {
       this.initVrDisplay(),
       fontHelper.load(),
     ])
-    .then(this.initRoom.bind(this))
+    .then(() => this.initRoom())
     .catch(error => console.log('EditSphereBaseInit', error));
   }
 
@@ -126,6 +126,7 @@ export class PreviewSpace {
     if (!!this.video3D) {
       this.video3D.destroy();
     }
+    this.hotspotManager.cleanMaps(this.scene);
     this.menuManager.destroy();
     if (this.scene) {
       MeshUtil.clearScene(this.scene);
@@ -145,6 +146,7 @@ export class PreviewSpace {
     this.camera = scenePrimitives.camera;
     this.vrCamera = scenePrimitives.vrCamera;
     this.scene = scenePrimitives.scene;
+    this.sphereMesh.material = this.sphereMaterial;
 
     this.reticle.init(this.camera, this.vrCamera);
     //this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: window.orientation == 'undefined'});
@@ -176,7 +178,7 @@ export class PreviewSpace {
 
 
     /*
-    if (!this.vrDisplay.isPresenting)  {
+    if (!this.vrDisplay && this.vrDisplay.isPresenting)  {
     // tween with fov
     this.camera.fov = THREE_CONST.FOV_OUT;
 
@@ -208,7 +210,6 @@ export class PreviewSpace {
     // }).start();
 
     this.roomHistory.push(roomId);
-
   }
 
   //for still image backgrounds
@@ -232,9 +233,12 @@ export class PreviewSpace {
     //   fragmentShader: roomSphereFragShader,
     //   side: THREE.FrontSide
     // });
-
-    this.sphereMesh.material = new THREE.MeshBasicMaterial({map: sphereTexture, side: THREE.FrontSide});
+    if (this.sphereMesh.material.map) {
+      this.sphereMesh.material.map.dispose();
+    }
+    this.sphereMesh.material.map = sphereTexture;
     this.hotspotManager.load(this.scene, this.camera, this.goToRoom.bind(this));
+
     if(!this.menuManager.exists()) {
       this.menuManager.load(this.scene, this.camera.position, this.goToLastRoom.bind(this),this.goToHomeRoom.bind(this));
     }
@@ -246,7 +250,7 @@ export class PreviewSpace {
     this.video3D = new Video3D();
     this.video3D.init(room.getBackgroundVideo())
       .then(texture => {
-        this.sphereMesh.material = new THREE.MeshBasicMaterial({map: texture, side: THREE.FrontSide});
+        this.sphereMesh.material = new THREE.MeshBasicMaterial({map: texture, side: THREE.BackSide});
         this.hotspotManager.load(this.scene, this.camera, this.goToRoom.bind(this));
         this.menuManager.load(this.scene, this.camera.position, this.goToLastRoom.bind(this),this.goToHomeRoom.bind(this));
         this.onResize(null);
@@ -259,7 +263,6 @@ export class PreviewSpace {
   //////////////////////////////////////////////
 
   private animate() {
-
     if (!this.isInRenderLoop) {
       return;
     }
@@ -283,25 +286,20 @@ export class PreviewSpace {
   }
 
   private update(elapsedTime: number) {
-
-
-    const isInVrMode = this.vrDisplay.isPresenting;
+    const isInVrMode = this.vrDisplay && this.vrDisplay.isPresenting;
     const reticle = this.reticle.getActiveReticle(isInVrMode);
     const camera = isInVrMode ? this.vrCamera : this.camera;
-
     isInVrMode ? this.vrControls.update() : this.svrControls.update();
-
     if (!this.inRoomTween) {this.hotspotManager.update(reticle, elapsedTime);}
     this.menuManager.update(reticle, camera);
     this.multiViewService.update(camera);
-
     TWEEN.update();
   }
 
   private render() {
     //this.scene.updateMatrixWorld(true);
     // render vr mode
-    if (this.vrDisplay.isPresenting) {
+    if (this.vrDisplay && this.vrDisplay.isPresenting) {
       this.vrEffect.render(this.scene, this.vrCamera);
       this.animationRequest = this.vrDisplay.requestAnimationFrame(this.animate.bind(this));
     }
@@ -352,7 +350,7 @@ export class PreviewSpace {
     this.inRoomTween = true;
     this.lookAtVector = new THREE.Vector3(0,0,0);
     //get the direciton we should move in
-    if (this.vrDisplay.isPresenting) {
+    if (this.vrDisplay && this.vrDisplay.isPresenting) {
       this.vrCamera.getWorldDirection( this.lookAtVector );
     } else {
       this.camera.getWorldDirection( this.lookAtVector );
@@ -405,12 +403,17 @@ export class PreviewSpace {
   private onMouseDown(event) {}
 
   onResize(event) {
+    cancelAnimationFrame(this.animationRequest);
     this.isInRenderLoop = false;
+
     setTimeout(() => {
       onResize(this.camera, this.renderer)
         .then(() => {
+          cancelAnimationFrame(this.animationRequest);
+          const isInVrMode = !!this.vrDisplay && !!this.vrDisplay.isPresenting
+          this.isInRenderLoop = false;
           this.vrEffect.setSize(window.innerWidth, window.innerHeight);
-          this.reticle.showVrReticle(this.vrDisplay.isPresenting);
+          this.reticle.showVrReticle(isInVrMode);
           this.isInRenderLoop = true;
           this.animate();
         })
@@ -452,10 +455,10 @@ export class PreviewSpace {
                       roomData => {
                         roomData.forEach((user, index) => {
                           this.multiViewService.updateUser(user, index);
-                          if (!this.isInRenderLoop) {
-                            this.animate();
-                          }
                         });
+                        if (!this.isInRenderLoop) {
+                          this.animate();
+                        }
                       },
                       error => console.log('error', error)
                     );
