@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import * as THREE from 'three';
 
 import {Texture} from 'three';
 import {AssetModel} from 'core/asset/assetInteractor';

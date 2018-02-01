@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
+import * as THREE from 'three';
 
 import {ProjectInteractor} from 'core/project/projectInteractor';
 import {SceneInteractor} from 'core/scene/sceneInteractor';
