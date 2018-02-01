@@ -23,15 +23,17 @@ export class EventBus {
       const event: Event = new Event(EventType.MOUSE_UP, $event);
       EventBus.subject.next(event);
     });
-    window.addEventListener('click', $event => {
-      const event: Event = new Event(EventType.CLICK, $event);
-      EventBus.subject.next(event);
-    });
+    // window.addEventListener('click', $event => {
+    //   const event: Event = new Event(EventType.CLICK, $event);
+    //   EventBus.subject.next(event);
+    // });
+    // TODO: move into components that need event?
     window.addEventListener('resize', $event => {
       const eventPayload = {x: window.innerWidth, y: window.innerHeight};
       const event: Event = new Event(EventType.WINDOW_RESIZE, eventPayload);
       EventBus.subject.next(event);
     });
+    // TODO: move this into preveiw mode
     window.addEventListener('vrdisplaypresentchange', $event => {
       const event: Event = new Event(EventType.VR_DISPLAY_CHANGE, $event);
       EventBus.subject.next(event);
@@ -115,7 +117,7 @@ export enum EventType {
   MOUSE_DOWN,
   MOUSE_MOVE,
   MOUSE_UP,
-  CLICK,
+  // CLICK,
   MODAL_MESSAGE,
   START_LOADING,
   STOP_LOADING,
