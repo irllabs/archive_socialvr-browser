@@ -1,4 +1,4 @@
-import {Component, Output, EventEmitter, HostListener,  ViewChild,} from '@angular/core';
+import {Component, Output, EventEmitter, ElementRef, HostListener,  ViewChild,} from '@angular/core';
 import {Router} from '@angular/router';
 import {EventBus} from 'ui/common/event-bus';
 import {FileLoaderUtil} from 'ui/editor/util/fileLoaderUtil';
@@ -7,7 +7,6 @@ import {Room} from 'data/scene/entities/room';
 import {resizeImage} from 'data/util/imageResizeService';
 //added by ali for dragging images in
 import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
-import {VideoInteractor} from 'core/video/VideoInteractor';
 import {normalizeAbsolutePosition} from 'ui/editor/util/iconPositionUtil';
 import {mimeTypeMap} from 'ui/editor/util/fileLoaderUtil';
 import {Audio} from 'data/scene/entities/audio';
@@ -24,6 +23,7 @@ export class Upload {
 
   @ViewChild('editSpaceSphere') editSpaceSphere;
   @Output() onFileLoad = new EventEmitter();
+  private isBeingInitialized: boolean = false;
 
   constructor(
     private router: Router,
@@ -31,10 +31,9 @@ export class Upload {
     private fileLoaderUtil: FileLoaderUtil,
     private slideshowBuilder: SlideshowBuilder,
     private sceneInteractor: SceneInteractor,
-    private videoInteractor: VideoInteractor,
-    private zipFileReader: ZipFileReader
+    private zipFileReader: ZipFileReader,
+    private element: ElementRef
   ) {}
-
 
   @HostListener('drop', ['$event'])
   onDrop(event) {
@@ -47,6 +46,22 @@ export class Upload {
         return;
       }
       this.loadBackgroundImage(file);
+  }
+
+  @HostListener('document:click', ['$event'])
+  private onDocuentClick($event) {
+    const isClicked: boolean = this.element.nativeElement.contains(event.target);
+    if (this.isBeingInitialized) {
+      this.isBeingInitialized = false;
+      return;
+    }
+    if (!isClicked) {
+      this.router.navigate(['/editor', {outlets: {'modal': null}}]);
+    }
+  }
+
+  ngOnInit() {
+    this.isBeingInitialized = true;
   }
 
   private onFileChange($event) {
@@ -88,11 +103,6 @@ export class Upload {
         this.eventBus.onStopLoading();
       })
       .catch(error => this.eventBus.onModalMessage('error', error));
-  }
-
-  onOffClick($event) {
-    if (!$event.isOffClick) return;
-    this.router.navigate(['/editor', {outlets: {'modal': ''}}]);
   }
 
 }
