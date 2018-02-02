@@ -5,6 +5,8 @@ import {
   ViewChildren,
   Output,
   EventEmitter,
+  ElementRef,
+  HostListener,
   NgZone
 } from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
@@ -58,16 +60,25 @@ export class RoomIcon extends IconBase {
   private propertyType: string;
   private hotspotIconSize: string = iconSizes.LARGE;
   private deleteVisible: boolean = false;
+  private isBeingInstantiated: boolean = false;
 
   constructor(
     protected eventBus: EventBus,
     private propertyRemovalService: PropertyRemovalService,
     private combinedHotspotUtil: CombinedHotspotUtil,
-    protected ngZone: NgZone
+    protected ngZone: NgZone,
+    private element: ElementRef,
   ) {
     super(eventBus, ngZone);
   }
 
+  @HostListener('document:click', ['$event'])
+  private onDocuentClick($event) {
+    const isClicked: boolean = this.element.nativeElement.contains(event.target);
+    if (!isClicked) {
+      this.setPropertyEditorVisibility(false);
+    }
+  }
 
   ngOnInit() {
     this.propertyType = RoomPropertyTypeService.getTypeString(this.roomProperty);
@@ -86,6 +97,7 @@ export class RoomIcon extends IconBase {
       )
     );
 
+    // TODO: move to host listener event
     this.subscriptions.add(
       this.eventBus.getObservable(EventType.WINDOW_RESIZE)
        .subscribe(

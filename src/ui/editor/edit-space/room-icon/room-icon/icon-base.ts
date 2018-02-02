@@ -65,11 +65,6 @@ export abstract class IconBase implements Hotspot {
     this.setScreenPosition(absolutePosition.getX(), absolutePosition.getY());
   }
 
-  onOffClick($event) {
-    if (!$event.isOffClick) return;
-    this.setPropertyEditorVisibility(false);
-  }
-
   // Hotspot interface method
   //set absolute screen position without updating the data model
   setPixelLocation(x: number, y: number) {

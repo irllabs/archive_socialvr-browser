@@ -1,10 +1,9 @@
-import {Component, Output, ElementRef, EventEmitter} from '@angular/core';
+import {Component, Output, ElementRef, EventEmitter, HostListener} from '@angular/core';
 
 @Component({
   selector: 'hotspot-menu',
   styleUrls: ['./hotspot-menu.scss'],
-  templateUrl: './hotspot-menu.html',
-  host: { '(document:click)': 'onDocumentClick($event)', }
+  templateUrl: './hotspot-menu.html'
 })
 export class HotspotMenu {
 
@@ -15,6 +14,7 @@ export class HotspotMenu {
     private element: ElementRef
   ) {}
 
+  @HostListener('document:click', ['$event'])
   private onDocumentClick($event) {
     const isClicked: boolean = this.element.nativeElement.contains(event.target);
     if (!isClicked) {

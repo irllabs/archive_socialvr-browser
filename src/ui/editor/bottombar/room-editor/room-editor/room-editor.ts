@@ -1,4 +1,4 @@
-import {Component, ElementRef, Output, EventEmitter} from '@angular/core';
+import {Component, ElementRef, Output, EventEmitter, HostListener} from '@angular/core';
 
 import {Narrator} from 'data/scene/entities/narrator';
 import {Audio} from 'data/scene/entities/audio';
@@ -15,8 +15,7 @@ import {DEFAULT_VOLUME, DEFAULT_PROJECT_NAME} from 'ui/common/constants';
 @Component({
   selector: 'room-editor',
   styleUrls: ['./room-editor.scss'],
-  templateUrl: './room-editor.html',
-  host: { '(document:click)': 'onDocumentClick($event)', }
+  templateUrl: './room-editor.html'
 })
 export class RoomEditor {
 
@@ -30,6 +29,7 @@ export class RoomEditor {
     private metaDataInteractor: MetaDataInteractor
   ) {}
 
+  @HostListener('document:click', ['$event'])
   private onDocumentClick($event) {
     const isClicked: boolean = this.element.nativeElement.contains(event.target);
     if (!isClicked) {

@@ -23,7 +23,7 @@ export class Upload {
 
   @ViewChild('editSpaceSphere') editSpaceSphere;
   @Output() onFileLoad = new EventEmitter();
-  private isBeingInitialized: boolean = false;
+  private isBeingInstantiated: boolean = false;
 
   constructor(
     private router: Router,
@@ -51,8 +51,8 @@ export class Upload {
   @HostListener('document:click', ['$event'])
   private onDocuentClick($event) {
     const isClicked: boolean = this.element.nativeElement.contains(event.target);
-    if (this.isBeingInitialized) {
-      this.isBeingInitialized = false;
+    if (this.isBeingInstantiated) {
+      this.isBeingInstantiated = false;
       return;
     }
     if (!isClicked) {
@@ -61,7 +61,7 @@ export class Upload {
   }
 
   ngOnInit() {
-    this.isBeingInitialized = true;
+    this.isBeingInstantiated = true;
   }
 
   private onFileChange($event) {
