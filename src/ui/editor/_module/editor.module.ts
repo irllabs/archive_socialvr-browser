@@ -59,7 +59,6 @@ import {Fullscreen} from 'ui/editor/bottombar/fullscreen/fullscreen';
 
 // Util
 import {DraggableIcon} from 'ui/editor/util/draggable';
-import {OffClick} from 'ui/editor/util/off-click';
 import {Droppable} from 'ui/editor/util/droppable';
 import {FileLoader} from 'ui/editor/util/file-loader/file-loader';
 import {HiddenFileLoader} from 'ui/editor/util/hidden-file-loader/hidden-file-loader';
@@ -158,7 +157,6 @@ const route = RouterModule.forChild([
     InfoButton,
     DefaultOverlay,
     EditSpaceToggle,
-    OffClick,
     AboutTab,
     Story,
     ModalClose,
