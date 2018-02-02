@@ -1,14 +1,15 @@
-import {
-  Directive,
-  EventEmitter,
-  ElementRef,
-  HostListener,
-  Output
-} from '@angular/core';
-
-import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
+import {Directive, EventEmitter, ElementRef, HostListener, Output} from '@angular/core';
 import {EventBus, EventType} from 'ui/common/event-bus';
+
+const instanceSet: Set<DraggableIcon> = new Set<DraggableIcon>();
+
+// TODO: add touch
+document.addEventListener('mousemove', $event =>
+  instanceSet.forEach(instance => instance.onMouseMove($event))
+);
+document.addEventListener('mouseup',  $event =>
+  instanceSet.forEach(instance => instance.onMouseUp($event))
+);
 
 @Directive({
   selector: '[hotspot-icon]'
@@ -23,9 +24,6 @@ export class DraggableIcon {
   private startY: number;
   private absoluteStartX: number;
   private absoluteStartY: number;
-  private mouseMoveSubscription: Subscription;
-  private subscriptions: Set<Subscription> = new Set<Subscription>();
-
   private touchLocation = {x: 0, y: 0};
 
   constructor(
@@ -34,14 +32,11 @@ export class DraggableIcon {
   ) {}
 
   ngOnInit() {
-    const onMouseUp = this.eventBus.getObservable(EventType.MOUSE_UP)
-      .subscribe(event => this.onMouseUp(event), error => console.log('error', error));
-    this.subscriptions.add(onMouseUp);
+    instanceSet.add(this);
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    this.unSubscribeToMouseMovements();
+    instanceSet.delete(this);
   }
 
   @HostListener('mousedown', ['$event'])
@@ -50,8 +45,6 @@ export class DraggableIcon {
       return; // only allow the icon to be the draggable component
     }
     event.preventDefault();
-
-    this.subscribeToMouseMovements();
     const boundingRect = this.element.nativeElement.getBoundingClientRect();
     this.startX = event.clientX - boundingRect.left;
     this.startY = event.clientY - boundingRect.top;
@@ -61,11 +54,9 @@ export class DraggableIcon {
     return false;
   }
 
-  private onMouseMove(event) {
+  onMouseMove(event) {
+    if (!this.isActive) { return; }
     event.preventDefault();
-    if (!this.isActive) {
-      return;
-    }
     const x: number = event.clientX - this.startX;
     const y: number = event.clientY - this.startY;
     this.onMove.emit({
@@ -75,20 +66,7 @@ export class DraggableIcon {
     });
   }
 
-  private subscribeToMouseMovements() {
-    this.mouseMoveSubscription = this.eventBus.getObservable(EventType.MOUSE_MOVE)
-      .subscribe(event => this.onMouseMove(event), error => console.log('error', error));
-  }
-
-  private unSubscribeToMouseMovements() {
-    if (this.mouseMoveSubscription) {
-      this.mouseMoveSubscription.unsubscribe();
-      this.mouseMoveSubscription = null;
-    }
-  }
-
-  private onMouseUp(event) {
-    this.unSubscribeToMouseMovements();
+  onMouseUp(event) {
     if (!this.isActive) {
       return;
     }
