@@ -56,6 +56,8 @@ THREE.SvrControls = function (options) {
 	this.target0 = this.target.clone();
 	this.position0 = this.camera.position.clone();
 
+	this.touchLocation = new THREE.Vector2(0, 0);
+
 	this.getPolarAngle = () => spherical.phi;
 
 	this.getAzimuthalAngle = () => spherical.theta;
@@ -102,7 +104,7 @@ THREE.SvrControls = function (options) {
 			// angle from z-axis around y-axis
 			spherical.setFromVector3( offset );
 
-      if (hasMomentum) {
+			if (hasMomentum) {
         if (Math.abs(momentum.x) < momentumEpsilon && Math.abs(momentum.y) < momentumEpsilon) {
     			hasMomentum = false;
     		}
@@ -150,10 +152,13 @@ THREE.SvrControls = function (options) {
 	}();
 
 	this.dispose = function () {
-		scope.domElement.removeEventListener( 'contextmenu', onContextMenu, false );
-		scope.domElement.removeEventListener( 'mousedown', onMouseDown, false );
-		scope.domElement.removeEventListener( 'mousemove', onMouseMove, false );
-		scope.domElement.removeEventListener( 'mouseup', onMouseUp, false );
+		scope.domElement.removeEventListener('contextmenu', onContextMenu, false);
+		scope.domElement.removeEventListener('mousedown', onMouseDown, false);
+		document.removeEventListener('mousemove', onMouseMove, false);
+		document.removeEventListener('mouseup', onMouseUp, false);
+		scope.domElement.removeEventListener('touchstart', onTouchStart, false);
+		document.removeEventListener('touchmove', onTouchMove, false);
+		document.removeEventListener('touchend', onTouchEnd, false);
 	};
 
 	//
@@ -201,18 +206,20 @@ THREE.SvrControls = function (options) {
 		sphericalDelta.phi -= angle;
 	}
 
-	function onMouseDown( event ) {
+	function onMouseDown(event) {
 		event.preventDefault();
     hasMomentum = false;
 		isDragging = true;
     momentum = new THREE.Vector2();
-    rotateStart.set( event.clientX, event.clientY );
+    rotateStart.set(event.clientX, event.clientY);
 
 		scope.executionContext(() => {
-			document.addEventListener( 'mousemove', onMouseMove, false );
-			document.addEventListener( 'mouseup', onMouseUp, false );
+			document.addEventListener('mousemove', onMouseMove, false);
+			document.addEventListener('mouseup', onMouseUp, false);
+			document.addEventListener('touchmove', onTouchMove, { passive: false });
+			document.addEventListener('touchend', onTouchEnd, false);
 		});
-		scope.dispatchEvent( startEvent );
+		scope.dispatchEvent(startEvent);
 		scope.onMouseDownCallback(event);
 	}
 
@@ -241,17 +248,49 @@ THREE.SvrControls = function (options) {
 	function onMouseUp( event ) {
     hasMomentum = true;
 		isDragging = false;
-
-		// this.executionContext(() => {
-			document.removeEventListener( 'mousemove', onMouseMove, false );
-			document.removeEventListener( 'mouseup', onMouseUp, false );
-		// });
+		document.removeEventListener('mousemove', onMouseMove, false);
+		document.removeEventListener('mouseup', onMouseUp, false);
+		document.removeEventListener('touchmove', onTouchMove, false);
+		document.removeEventListener('touchend', onTouchEnd, false);
 		scope.dispatchEvent(endEvent);
 	}
 
+	function onTouchStart(event) {
+		if (event.touches.length > 1) { return; }
+		const x = event.touches[0].clientX;
+		const y = event.touches[0].clientY;
+		scope.touchLocation.x = x;
+		scope.touchLocation.y = y;
+		event.clientX = x;
+		event.clientY = y;
+		event.movementX = 0;
+		event.movementY = 0;
+		onMouseDown(event);
+	}
+
+	function onTouchMove(event) {
+		const x = event.touches[0].clientX;
+		const y = event.touches[0].clientY;
+		event.clientX = x;
+		event.clientY = y;
+		event.movementX = x - scope.touchLocation.x;
+		event.movementY = y - scope.touchLocation.y;
+		scope.touchLocation.x = x;
+		scope.touchLocation.y = y;
+		onMouseMove(event);
+	}
+
+	function onTouchEnd(event) {
+		if (event.touches.length > 0) { return; }
+		scope.clientX = scope.touchLocation.x;
+		scope.clientY = scope.touchLocation.y;
+		onMouseUp(event);
+	}
+
 	this.executionContext(() => {
-		scope.domElement.addEventListener( 'contextmenu', e => e.preventDefault(), false );
-		scope.domElement.addEventListener( 'mousedown', onMouseDown, false );
+		scope.domElement.addEventListener('contextmenu', e => e.preventDefault(), false);
+		scope.domElement.addEventListener('mousedown', onMouseDown, false);
+		scope.domElement.addEventListener('touchstart', onTouchStart, false);
 	});
 
 	// force an update at start
