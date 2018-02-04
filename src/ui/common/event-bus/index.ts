@@ -10,20 +10,6 @@ export class EventBus {
 
   private static subject: Subject<Event> = new Subject<Event>();
 
-  private static staticConstructor = (() => {
-    // TODO: move into components that need event?
-    window.addEventListener('resize', $event => {
-      const eventPayload = {x: window.innerWidth, y: window.innerHeight};
-      const event: Event = new Event(EventType.WINDOW_RESIZE, eventPayload);
-      EventBus.subject.next(event);
-    });
-    // TODO: move this into preveiw mode
-    window.addEventListener('vrdisplaypresentchange', $event => {
-      const event: Event = new Event(EventType.VR_DISPLAY_CHANGE, $event);
-      EventBus.subject.next(event);
-    });
-  })();
-
   getObservable(eventType: EventType): Observable<any> {
     return EventBus.subject
       .filter(evt => evt.eventType === eventType)
@@ -97,9 +83,7 @@ export enum EventType {
   START_LOADING,
   STOP_LOADING,
   OPEN_FILE_LOADER,
-  WINDOW_RESIZE,
   SHAREABLE_MODAL,
   OPEN_EXPLORE_MODAL,
-  VR_DISPLAY_CHANGE,
   HOTSPOT_EDITOR_VISIBILITY
 }

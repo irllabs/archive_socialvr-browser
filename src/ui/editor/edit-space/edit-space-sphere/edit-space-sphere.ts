@@ -109,7 +109,8 @@ export class EditSpaceSphere {
       camera: this.camera,
       domElement: canvas,
       initialTarget: this.cameraInteractor.getCameraDirection(),
-      onMouseDownCallback: this.onMouseDown.bind(this)
+      onMouseDownCallback: this.onMouseDown.bind(this),
+      executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone)
     });
   }
 

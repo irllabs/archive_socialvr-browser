@@ -6,7 +6,6 @@ import 'three/VRControls';
 import 'three/VREffect';
 import 'three/SvrControls';
 
-import {EventBus, EventType} from 'ui/common/event-bus';
 import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
 import {SceneInteractor} from 'core/scene/sceneInteractor';
 import {CameraInteractor} from 'core/scene/cameraInteractor';
@@ -67,17 +66,16 @@ export class PreviewSpace {
   private lookAtVector: THREE.Vector3;
   private sphereMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: null, side: THREE.BackSide});
   private onResizeFn: Function = this.onResize.bind(this);
+  private onVrDisplayChangeFn: Function = this.onVrDisplayChange.bind(this);
 
   constructor(
     private metaDataInteractor: MetaDataInteractor,
     private sceneInteractor: SceneInteractor,
     private cameraInteractor: CameraInteractor,
-    private eventBus: EventBus,
     private ngZone: NgZone,
     private assetInteractor: AssetInteractor,
     private route: ActivatedRoute,
     private router: Router,
-    // private multiViewService: MultiViewService,
     private audioManager: AudioManager,
     private textureLoader: TextureLoader,
     private hotspotManager: HotspotManager,
@@ -100,13 +98,13 @@ export class PreviewSpace {
     this.shouldInit = true;
     this.ngZone.runOutsideAngular(() => {
       window.addEventListener('resize', this.onResizeFn, false);
+      window.addEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);
     });
   }
 
   ngAfterViewInit() {
     if (!this.shouldInit) return;
     this.initScene();
-    this.subscribeToEvents();
     Promise.all([
       this.audioManager.loadBuffers(),
       this.textureLoader.load(),
@@ -119,7 +117,8 @@ export class PreviewSpace {
 
   ngOnDestroy() {
     // this.svrControls.dispose();
-    window.removeEventListener('resize', this.onResizeFn, false)
+    window.removeEventListener('resize', this.onResizeFn, false);
+    window.removeEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);;
     if (this.camera) {
       const cameraDirection = new THREE.Vector3(0, 0, -1);
       cameraDirection.applyQuaternion(this.camera.quaternion);
@@ -350,18 +349,17 @@ export class PreviewSpace {
     this.isInRenderLoop = false;
     setTimeout(()=>{
        this.sceneInteractor.setActiveRoomId(lastRoom);
-       this.eventBus.onSelectRoom(lastRoom, false);
+       this.initRoom();
     });
   }
 
   goToHomeRoom() {
     var homeRoom = this.sceneInteractor.getHomeRoomId();
     this.sceneInteractor.setActiveRoomId(homeRoom);
-    this.eventBus.onSelectRoom(homeRoom, false);
+    this.initRoom();
   }
 
   goToRoom(outgoingRoomId) {
-
     this.inRoomTween = true;
     this.lookAtVector = new THREE.Vector3(0,0,0);
     //get the direciton we should move in
@@ -371,7 +369,6 @@ export class PreviewSpace {
       this.camera.getWorldDirection( this.lookAtVector );
     }
 
-
     //tween with sphere position
     var tweenRoomOut = new TWEEN.Tween(this.sphereMesh.position).to({
         x: -1 * this.lookAtVector.x * THREE_CONST.TWEEN_ROOM_MOVE,
@@ -380,11 +377,10 @@ export class PreviewSpace {
     },THREE_CONST.TWEEN_ROOM_MOVETIMEIN).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
 
     }).onComplete( () => {
-      //console.log("onCopmlete for tween");
       this.isInRenderLoop = false;
       this.inRoomTween = false;
       this.sceneInteractor.setActiveRoomId(outgoingRoomId);
-      this.eventBus.onSelectRoom(outgoingRoomId, false);
+      this.initRoom();
     }).start();
   }
 
@@ -436,54 +432,8 @@ export class PreviewSpace {
     });
   }
 
-  protected subscribeToEvents() {
-    if (this.subscriptions.size > 0) {
-      return;
-    }
-    const onRoomSelect: Subscription = this.eventBus.getObservable(EventType.SELECT_ROOM)
-      .subscribe(observedData => this.initRoom(), error => console.log('error', error));
-
-    // TODO: add as normal listener
-    const onVrDisplayChange: Subscription = this.eventBus.getObservable(EventType.VR_DISPLAY_CHANGE)
-        .subscribe(
-          event => this.onResize(null),
-          error => console.log('error', error)
-        );
-
-    // TODO: move this to ngOnInit ... even though it is a subscription
-    // const onMultiView: Subscription = this.route.queryParams
-    //       .filter(params => !!params['multiview'])
-    //       .map(params => params['multiview'])
-    //       //.first()
-    //       .subscribe(
-    //         multiViewValue => {
-    //           this.multiViewService.openSharedValue(multiViewValue)
-    //             .then(() => {
-    //               this.ngAfterViewInit();
-    //               const onRoomChange = this.multiViewService.observeRoom()
-    //                 .subscribe(
-    //                   roomData => {
-    //                     roomData.forEach((user, index) => {
-    //                       this.multiViewService.updateUser(user, index);
-    //                     });
-    //                     if (!this.isInRenderLoop) {
-    //                       this.animate();
-    //                     }
-    //                   },
-    //                   error => console.log('error', error)
-    //                 );
-    //               this.subscriptions.add(onRoomChange);
-    //             })
-    //             .catch(error => console.log('error', error));
-    //         },
-    //         error => console.log('error', error)
-    //       );
-
-    this.subscriptions.add(onRoomSelect);
-    this.subscriptions.add(onVrDisplayChange);
-    // this.subscriptions.add(onMultiView);
+  onVrDisplayChange(event) {
+    this.onResize(event);
   }
-
-
 
 }
