@@ -26,7 +26,6 @@ import {resizeImage} from 'data/util/imageResizeService';
 import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
 import {ShareableLoader} from 'ui/common/shareable-loader';
 import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
-import {addTouchListenersToElement} from 'ui/editor/util/touchUtil';
 import {ResponsiveUtil} from 'ui/editor/util/responsiveUtil';
 
 @Component({
@@ -70,7 +69,6 @@ export class Editor {
         },
         error => console.log('error', error)
       );
-    addTouchListenersToElement(this.element.nativeElement);
     this.subscribeToEvents();
   }
 
