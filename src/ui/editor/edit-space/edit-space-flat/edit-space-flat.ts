@@ -17,6 +17,7 @@ import {CombinedHotspotUtil} from 'ui/editor/util/combinedHotspotUtil';
 export class EditSpaceFlat {
 
   private subscriptions: Set<Subscription> = new Set<Subscription>();
+  private onResizeFn: Function = this.onResize.bind(this);
 
   @ViewChildren('roomIcon') roomIconComponentList: RoomIcon[];
 
@@ -38,18 +39,13 @@ export class EditSpaceFlat {
         error => console.log('EditSpaceFlat.ngOnInit', error)
       );
 
-    const windowResize: Subscription = this.eventBus.getObservable(EventType.WINDOW_RESIZE)
-      .subscribe(
-        windowDims => this.onResize(null),
-        error => console.log('EditSpaceFlat.onResize', error)
-      );
-
     const roomChange: Subscription = this.eventBus.getObservable(EventType.SELECT_ROOM)
       .subscribe(roomId => this.onResize(null), error => console.log('EditSpaceFlat.onSelectRoom', error));
 
     this.subscriptions.add(selectProperty);
-    this.subscriptions.add(windowResize);
     this.subscriptions.add(roomChange);
+
+    window.addEventListener('resize', this.onResizeFn, false);
   }
 
   isVideo() {
@@ -60,6 +56,7 @@ export class EditSpaceFlat {
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    window.removeEventListener('resize', this.onResizeFn, false)
   }
 
   //EditSpace interface method

@@ -6,18 +6,30 @@
 //  - Hard coding rotation speed
 //  - Adding momentum
 
-THREE.SvrControls = function (object, domElement, initialTarget) {
+const defaultExecutionContext = (fn) => {
+	if (fn && typeof fn === 'function') {
+		fn();
+	}
+};
 
-	this.object = object;
+// THREE.SvrControls = function (camera, domElement, initialTarget) {
+THREE.SvrControls = function (options) {
 
-	this.domElement = ( domElement !== undefined ) ? domElement : document;
+	// this.camera = camera;
+	this.camera = options.camera;
+	// this.domElement = ( domElement !== undefined ) ? domElement : document;
+	// this.domElement = (options.domElement !== undefined) ? options.domElement : document;
+	this.domElement = options.domElement ? options.domElement : document;
 
 	// "target" sets the location of focus, where the object orbits around
 	this.target = new THREE.Vector3(
-		initialTarget.x || 0,
-		initialTarget.y || 0,
-		initialTarget.z || 0
+		options.initialTarget.x || 0,
+		options.initialTarget.y || 0,
+		options.initialTarget.z || 0
 	);
+
+	this.onMouseDownCallback = options.onMouseDownCallback || (() => {});
+	this.executionContext = options.executionContext || defaultExecutionContext;
 
 	// How far you can dolly in and out ( PerspectiveCamera only )
 	this.minDistance = 0;
@@ -42,50 +54,45 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 
 	// for reset
 	this.target0 = this.target.clone();
-	this.position0 = this.object.position.clone();
+	this.position0 = this.camera.position.clone();
 
-	this.getPolarAngle = function () {
-		return spherical.phi;
-	};
+	this.getPolarAngle = () => spherical.phi;
 
-	this.getAzimuthalAngle = function () {
-		return spherical.theta;
-	};
+	this.getAzimuthalAngle = () => spherical.theta;
 
-	this.hasMomentum = function () {
-		return hasMomentum;
-	};
+	this.hasMomentum = () => hasMomentum;
 
-	this.reset = function () {
+	this.shouldRender = () => isDragging || hasMomentum;
+
+	this.reset = () => {
 		scope.target.copy( scope.target0 );
-		scope.object.position.copy( scope.position0 );
-		scope.object.updateProjectionMatrix();
+		scope.camera.position.copy( scope.position0 );
+		scope.camera.updateProjectionMatrix();
 		scope.dispatchEvent( changeEvent );
 		scope.update();
 	};
 
-	this.lookAt = function(targetVector) {
+	this.lookAt = (targetVector) => {
 		scope.target.copy( targetVector );
-		scope.object.lookAt( scope.target );
-		scope.object.updateProjectionMatrix();
+		scope.camera.lookAt( scope.target );
+		scope.camera.updateProjectionMatrix();
 		scope.dispatchEvent( changeEvent );
 		scope.update();
 	}
 
 	this.update = function () {
+		const offset = new THREE.Vector3();
 
-		var offset = new THREE.Vector3();
+		// camera.up is the orbit axis
+		const quat = new THREE.Quaternion().setFromUnitVectors( options.camera.up, new THREE.Vector3( 0, 1, 0 ) );
+		const quatInverse = quat.clone().inverse();
 
-		// so camera.up is the orbit axis
-		var quat = new THREE.Quaternion().setFromUnitVectors( object.up, new THREE.Vector3( 0, 1, 0 ) );
-		var quatInverse = quat.clone().inverse();
-
-		var lastPosition = new THREE.Vector3();
-		var lastQuaternion = new THREE.Quaternion();
+		const lastPosition = new THREE.Vector3();
+		const lastQuaternion = new THREE.Quaternion();
 
 		return function update() {
 
-			var position = scope.object.position;
+			const position = scope.camera.position;
 
 			offset.copy( position ).sub( scope.target );
 
@@ -133,7 +140,7 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 
 			position.copy( scope.target ).add( offset );
 
-			scope.object.lookAt( scope.target );
+			scope.camera.lookAt( scope.target );
 
 			sphericalDelta.set( 0, 0, 0 );
 
@@ -153,29 +160,30 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 	// internals
 	//
 
-	var scope = this;
+	const scope = this;
 
-	var changeEvent = { type: 'change' };
-	var startEvent = { type: 'start' };
-	var endEvent = { type: 'end' };
+	const changeEvent = { type: 'change' };
+	const startEvent = { type: 'start' };
+	const endEvent = { type: 'end' };
 
 	// current position in spherical coordinates
-	var spherical = new THREE.Spherical();
-	var sphericalDelta = new THREE.Spherical();
+	const spherical = new THREE.Spherical();
+	const sphericalDelta = new THREE.Spherical();
 
-	var scale = 1;
-	var panOffset = new THREE.Vector3();
+	let scale = 1;
+	const panOffset = new THREE.Vector3();
 
 	var rotateStart = new THREE.Vector2();
 	var rotateEnd = new THREE.Vector2();
 	var rotateDelta = new THREE.Vector2();
 
-	var hasMomentum = false;
-	var momentum = new THREE.Vector2();
-	var dampingFactor = 0.9;
-	var dampingDecay = 0.005;
-	var momentumEpsilon = 0.25;
+	let hasMomentum = false;
+	let momentum = new THREE.Vector2();
+	let dampingFactor = 0.9;
+	let dampingDecay = 0.005;
+	let momentumEpsilon = 0.25;
 
+	let isDragging = false;
 
 	function getAutoRotationAngle() {
 		return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed;
@@ -196,19 +204,25 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 	function onMouseDown( event ) {
 		event.preventDefault();
     hasMomentum = false;
+		isDragging = true;
     momentum = new THREE.Vector2();
     rotateStart.set( event.clientX, event.clientY );
-		scope.domElement.addEventListener( 'mousemove', onMouseMove, false );
-		scope.domElement.addEventListener( 'mouseup', onMouseUp, false );
+
+		scope.executionContext(() => {
+			document.addEventListener( 'mousemove', onMouseMove, false );
+			document.addEventListener( 'mouseup', onMouseUp, false );
+		});
 		scope.dispatchEvent( startEvent );
+		scope.onMouseDownCallback(event);
 	}
 
 	function onMouseMove( event ) {
+		if (!isDragging) { return; }
     event.preventDefault();
 		rotateEnd.set( event.clientX, event.clientY );
 		rotateDelta.subVectors( rotateEnd, rotateStart );
 
-		var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
+		const element = scope.domElement === document ? scope.domElement.body : scope.domElement;
 
 		rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientWidth * scope.rotateSpeed );
 
@@ -226,17 +240,19 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 
 	function onMouseUp( event ) {
     hasMomentum = true;
-    scope.domElement.removeEventListener( 'mousemove', onMouseMove, false );
-		scope.domElement.removeEventListener( 'mouseup', onMouseUp, false );
-		scope.dispatchEvent( endEvent );
+		isDragging = false;
+
+		// this.executionContext(() => {
+			document.removeEventListener( 'mousemove', onMouseMove, false );
+			document.removeEventListener( 'mouseup', onMouseUp, false );
+		// });
+		scope.dispatchEvent(endEvent);
 	}
 
-	function onContextMenu( event ) {
-		event.preventDefault();
-	}
-
-	scope.domElement.addEventListener( 'contextmenu', onContextMenu, false );
-	scope.domElement.addEventListener( 'mousedown', onMouseDown, false );
+	this.executionContext(() => {
+		scope.domElement.addEventListener( 'contextmenu', e => e.preventDefault(), false );
+		scope.domElement.addEventListener( 'mousedown', onMouseDown, false );
+	});
 
 	// force an update at start
 	this.update();
