@@ -10,6 +10,12 @@ document.addEventListener('mousemove', $event =>
 document.addEventListener('mouseup',  $event =>
   instanceSet.forEach(instance => instance.onMouseUp($event))
 );
+document.addEventListener('touchmove', $event => {
+  instanceSet.forEach(instance => instance.onTouchMove($event));
+}, { passive: false });
+document.addEventListener('touchend', $event => {
+  instanceSet.forEach(instance => instance.onTouchEnd($event))
+}, false);
 
 @Directive({
   selector: '[hotspot-icon]'
@@ -54,6 +60,18 @@ export class DraggableIcon {
     return false;
   }
 
+  @HostListener('touchstart', ['$event'])
+  private onTouchStart($event) {
+    if ($event.touches.length > 1) { return; }
+    const x = $event.touches[0].clientX;
+    const y = $event.touches[0].clientY;
+    this.touchLocation.x = x;
+    this.touchLocation.y = y;
+    $event.clientX = x;
+    $event.clientY = y;
+    this.onMouseDown($event);
+  }
+
   onMouseMove(event) {
     if (!this.isActive) { return; }
     event.preventDefault();
@@ -83,6 +101,23 @@ export class DraggableIcon {
       didMove: didMove
     });
     this.isActive = false;
+  }
+
+  private onTouchMove($event) {
+    const x = $event.touches[0].clientX;
+    const y = $event.touches[0].clientY;
+    this.touchLocation.x = x;
+    this.touchLocation.y = y;
+    $event.clientX = x;
+    $event.clientY = y;
+    this.onMouseMove($event);
+  }
+
+  private onTouchEnd($event) {
+    if ($event.touches.length > 0) { return; }
+    $event.clientX = this.touchLocation.x;
+    $event.clientY = this.touchLocation.y;
+    this.onMouseUp($event);
   }
 
 }
