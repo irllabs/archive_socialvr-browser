@@ -2,9 +2,7 @@
   #editSpaceSphere
   class="edit-space">
 
-  <canvas
-    #globeCanvas
-    (mousedown)="onMouseDown($event)">
+  <canvas #globeCanvas>
   </canvas>
 
   <div *ngFor="let roomProperty of getItems()">

@@ -43,11 +43,12 @@ export class EditSpaceSphere {
   private vrCamera: THREE.PerspectiveCamera;
   private sphereMesh: THREE.Mesh;
   private subscriptions: Set<Subscription> = new Set<Subscription>();
-  private isDragging: boolean = false;
+  // private isDragging: boolean = false;
   private video3D: Video3D;
   private animationRequest: number;
   private windowWidth: number;
   private windowHeight: number;
+  private onResizeFn: Function = this.onResize.bind(this);
 
   constructor(
     private sceneInteractor: SceneInteractor,
@@ -66,6 +67,9 @@ export class EditSpaceSphere {
     }
     this.windowWidth = window.innerWidth;
     this.windowHeight = window.innerHeight;
+    this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('resize', this.onResizeFn, false);
+    });
   }
 
   ngAfterViewInit() {
@@ -78,13 +82,15 @@ export class EditSpaceSphere {
   }
 
   ngOnDestroy() {
+    window.removeEventListener('resize', this.onResizeFn, false)
     if (this.camera) {
       const cameraDirection = new THREE.Vector3(0, 0, -1);
       cameraDirection.applyQuaternion(this.camera.quaternion);
       this.cameraInteractor.setCameraDirection(cameraDirection.x, cameraDirection.y, cameraDirection.z);
     }
     cancelAnimationFrame(this.animationRequest);
-    this.isDragging = false;
+    // this.isDragging = false;
+    // this.svrControls.dispose();
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     if (!!this.video3D) {
       this.video3D.destroy();
@@ -99,7 +105,12 @@ export class EditSpaceSphere {
     this.vrCamera = sceneComponents.vrCamera;
     this.scene = sceneComponents.scene;
     this.renderer = new THREE.WebGLRenderer({canvas: canvas, alpha: true, antialias: window.orientation == 'undefined'});
-    this.svrControls = new THREE.SvrControls(this.camera, canvas, this.cameraInteractor.getCameraDirection());
+    this.svrControls = new THREE.SvrControls({
+      camera: this.camera,
+      domElement: canvas,
+      initialTarget: this.cameraInteractor.getCameraDirection(),
+      onMouseDownCallback: this.onMouseDown.bind(this)
+    });
   }
 
   initRoom() {
@@ -168,26 +179,8 @@ export class EditSpaceSphere {
         error => console.log('error', error)
       );
 
-    const onMouseUp: Subscription = this.eventBus.getObservable(EventType.MOUSE_UP)
-      .subscribe(
-        event => {
-          const activeRoomId = this.sceneInteractor.getActiveRoomId();
-          const room = this.sceneInteractor.getRoomById(activeRoomId);
-          this.isDragging = false;
-        },
-        error => console.log('error', error)
-      );
-
-    const windowResize: Subscription = this.eventBus.getObservable(EventType.WINDOW_RESIZE)
-      .subscribe(
-        windowDims => this.onResize(windowDims),
-        error => console.log('EditSpaceFlat.onResize', error)
-      );
-
     this.subscriptions.add(onRoomSelect);
-    this.subscriptions.add(onMouseUp);
     this.subscriptions.add(onPropertySelect);
-    this.subscriptions.add(windowResize);
   }
 
   private onNewPropertyAdded(propertyId: string) {
@@ -212,8 +205,9 @@ export class EditSpaceSphere {
     }
     this.renderer.render(this.scene, this.camera);
 
-    const shouldRender = this.isDragging || this.svrControls.hasMomentum();
-    if (shouldRender) {
+    // const shouldRender = this.isDragging || this.svrControls.hasMomentum();
+    // if (shouldRender) {
+    if (this.svrControls.shouldRender()) {
       this.ngZone.runOutsideAngular(() => {
         this.animationRequest = requestAnimationFrame(this.render.bind(this));
       });
@@ -221,7 +215,6 @@ export class EditSpaceSphere {
   }
 
   private onMouseDown(event) {
-    this.isDragging = true;
     this.render();
   }
 

@@ -11,7 +11,7 @@ import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
 import {SceneInteractor} from 'core/scene/sceneInteractor';
 import {CameraInteractor} from 'core/scene/cameraInteractor';
 import {AssetInteractor} from 'core/asset/assetInteractor';
-import {MultiViewService} from 'ui/editor/preview-space/modules/multiViewService';
+// import {MultiViewService} from 'ui/editor/preview-space/modules/multiViewService';
 import * as MeshUtil from 'ui/editor/preview-space/modules/meshUtil';
 import {AudioManager} from 'ui/editor/preview-space/modules/audioManager';
 import {TextureLoader} from 'ui/editor/preview-space/modules/textureLoader';
@@ -27,8 +27,8 @@ import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
 
 const Stats = require('stats.js')
 const stats = new Stats();
-stats.showPanel(2); // 0: fps, 1: ms, 2: mb, 3+: custom
-// document.body.appendChild( stats.dom );
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild( stats.dom );
 
 const TWEEN = require('@tweenjs/tween.js');
 const roomSphereFragShader = require('ui/editor/util/shaders/roomSphere.frag');
@@ -66,6 +66,7 @@ export class PreviewSpace {
   private inRoomTween: boolean = false;
   private lookAtVector: THREE.Vector3;
   private sphereMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: null, side: THREE.BackSide});
+  private onResizeFn: Function = this.onResize.bind(this);
 
   constructor(
     private metaDataInteractor: MetaDataInteractor,
@@ -76,7 +77,7 @@ export class PreviewSpace {
     private assetInteractor: AssetInteractor,
     private route: ActivatedRoute,
     private router: Router,
-    private multiViewService: MultiViewService,
+    // private multiViewService: MultiViewService,
     private audioManager: AudioManager,
     private textureLoader: TextureLoader,
     private hotspotManager: HotspotManager,
@@ -97,6 +98,9 @@ export class PreviewSpace {
       return;
     }
     this.shouldInit = true;
+    this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('resize', this.onResizeFn, false);
+    });
   }
 
   ngAfterViewInit() {
@@ -114,6 +118,8 @@ export class PreviewSpace {
   }
 
   ngOnDestroy() {
+    // this.svrControls.dispose();
+    window.removeEventListener('resize', this.onResizeFn, false)
     if (this.camera) {
       const cameraDirection = new THREE.Vector3(0, 0, -1);
       cameraDirection.applyQuaternion(this.camera.quaternion);
@@ -151,11 +157,20 @@ export class PreviewSpace {
     this.reticle.init(this.camera, this.vrCamera);
     //this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: window.orientation == 'undefined'});
     this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true});
-    this.svrControls = new THREE.SvrControls(this.camera, canvas, this.cameraInteractor.getCameraDirection());
-    this.vrControls = new THREE.VRControls(this.vrCamera);
-    this.vrEffect = new THREE.VREffect(this.renderer);
-    this.vrEffect.setSize(window.innerWidth, window.innerHeight);
+    // this.svrControls = new THREE.SvrControls(this.camera, canvas, this.cameraInteractor.getCameraDirection());
 
+    this.svrControls = new THREE.SvrControls({
+      camera: this.camera,
+      domElement: canvas,
+      initialTarget: this.cameraInteractor.getCameraDirection(),
+      executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone)
+    });
+
+    this.ngZone.runOutsideAngular(() => {
+      this.vrControls = new THREE.VRControls(this.vrCamera);
+      this.vrEffect = new THREE.VREffect(this.renderer);
+      this.vrEffect.setSize(window.innerWidth, window.innerHeight);
+    });
   }
 
   initRoom() {
@@ -292,7 +307,7 @@ export class PreviewSpace {
     isInVrMode ? this.vrControls.update() : this.svrControls.update();
     if (!this.inRoomTween) {this.hotspotManager.update(reticle, elapsedTime);}
     this.menuManager.update(reticle, camera);
-    this.multiViewService.update(camera);
+    // this.multiViewService.update(camera);
     TWEEN.update();
   }
 
@@ -399,9 +414,8 @@ export class PreviewSpace {
   //////////////   EVENTS ETC   ////////////////
   //////////////////////////////////////////////
 
-  // TODO: mouse or touch hotspot activation
-  private onMouseDown(event) {}
-
+  // potential ios issue?
+  // https://github.com/immersive-web/webvr-polyfill/blob/master/examples/index.html
   onResize(event) {
     cancelAnimationFrame(this.animationRequest);
     this.isInRenderLoop = false;
@@ -415,6 +429,7 @@ export class PreviewSpace {
           this.vrEffect.setSize(window.innerWidth, window.innerHeight);
           this.reticle.showVrReticle(isInVrMode);
           this.isInRenderLoop = true;
+          // this.renderer.setSize(window.innerWidth, window.innerHeight, false);
           this.animate();
         })
         .catch(error => console.log('preview-space resize error', error));
@@ -428,12 +443,7 @@ export class PreviewSpace {
     const onRoomSelect: Subscription = this.eventBus.getObservable(EventType.SELECT_ROOM)
       .subscribe(observedData => this.initRoom(), error => console.log('error', error));
 
-    const windowResize: Subscription = this.eventBus.getObservable(EventType.WINDOW_RESIZE)
-      .subscribe(
-        windowDims => this.onResize(windowDims),
-        error => console.log('EditSpaceFlat.onResize', error)
-      );
-
+    // TODO: add as normal listener
     const onVrDisplayChange: Subscription = this.eventBus.getObservable(EventType.VR_DISPLAY_CHANGE)
         .subscribe(
           event => this.onResize(null),
@@ -441,38 +451,37 @@ export class PreviewSpace {
         );
 
     // TODO: move this to ngOnInit ... even though it is a subscription
-    const onMultiView: Subscription = this.route.queryParams
-          .filter(params => !!params['multiview'])
-          .map(params => params['multiview'])
-          //.first()
-          .subscribe(
-            multiViewValue => {
-              this.multiViewService.openSharedValue(multiViewValue)
-                .then(() => {
-                  this.ngAfterViewInit();
-                  const onRoomChange = this.multiViewService.observeRoom()
-                    .subscribe(
-                      roomData => {
-                        roomData.forEach((user, index) => {
-                          this.multiViewService.updateUser(user, index);
-                        });
-                        if (!this.isInRenderLoop) {
-                          this.animate();
-                        }
-                      },
-                      error => console.log('error', error)
-                    );
-                  this.subscriptions.add(onRoomChange);
-                })
-                .catch(error => console.log('error', error));
-            },
-            error => console.log('error', error)
-          );
+    // const onMultiView: Subscription = this.route.queryParams
+    //       .filter(params => !!params['multiview'])
+    //       .map(params => params['multiview'])
+    //       //.first()
+    //       .subscribe(
+    //         multiViewValue => {
+    //           this.multiViewService.openSharedValue(multiViewValue)
+    //             .then(() => {
+    //               this.ngAfterViewInit();
+    //               const onRoomChange = this.multiViewService.observeRoom()
+    //                 .subscribe(
+    //                   roomData => {
+    //                     roomData.forEach((user, index) => {
+    //                       this.multiViewService.updateUser(user, index);
+    //                     });
+    //                     if (!this.isInRenderLoop) {
+    //                       this.animate();
+    //                     }
+    //                   },
+    //                   error => console.log('error', error)
+    //                 );
+    //               this.subscriptions.add(onRoomChange);
+    //             })
+    //             .catch(error => console.log('error', error));
+    //         },
+    //         error => console.log('error', error)
+    //       );
 
     this.subscriptions.add(onRoomSelect);
-    this.subscriptions.add(windowResize);
     this.subscriptions.add(onVrDisplayChange);
-    this.subscriptions.add(onMultiView);
+    // this.subscriptions.add(onMultiView);
   }
 
 

@@ -54,6 +54,8 @@ export function onResize(camera: THREE.PerspectiveCamera, renderer: THREE.WebGLR
       const DPR: number = window.devicePixelRatio || 1;
       const rendererWidth = window.innerWidth / DPR;
       const rendererHeight = window.innerHeight / DPR;
+      // const rendererWidth = window.innerWidth * DPR;
+      // const rendererHeight = window.innerHeight * DPR;
       const aspectRatio = rendererWidth / rendererHeight;
       renderer.setPixelRatio(DPR);
       renderer.setSize(rendererWidth, rendererHeight, false);
