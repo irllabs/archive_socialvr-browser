@@ -47,27 +47,25 @@ export class AudioPlayService {
     }
   }
 
-  stopPlaying(channel: AudioBufferSourceNode) {
-    if (channel) {
-      channel.stop();
-    }
-  }
-
   stopAll() {
     this.stopPlaying(this.soundtrack);
     this.stopPlaying(this.background);
     this.stopPlaying(this.hotspot);
   }
 
-  attemptStopSample(audioBuffer) {
+  stopPlaying(audioBuffer: AudioBufferSourceNode) {
+    // Because of webkit not supporting the modern implementation of .stop() and
+    // having a dependence on audioBuffer.playbackState.
+    // See: https://bugs.webkit.org/show_bug.cgi?id=117142
     if (!audioBuffer) {
-      return;
+      return; // return if empty
     }
-    // We should just be able to call .stop, but safari 10 throws an error, so use playbackState
+    // call .stop() if not on webkit implementation
     if (audioBuffer.playbackState === undefined) {
       audioBuffer.stop();
       return;
     }
+    // else, confirm playbackState before calling 'stop'
     if (audioBuffer.playbackState === 1 || audioBuffer.playbackState === 2) {
       audioBuffer.stop();
       return;
