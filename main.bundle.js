@@ -36081,7 +36081,7 @@ var fontHelper_1 = __webpack_require__(516);
 var Stats = __webpack_require__(1191);
 var stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild(stats.dom);
+// document.body.appendChild( stats.dom );
 var TWEEN = __webpack_require__(274);
 var roomSphereFragShader = __webpack_require__(1192);
 var roomSphereVertShader = __webpack_require__(1193);
