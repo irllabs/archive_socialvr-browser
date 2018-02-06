@@ -26,21 +26,21 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(462));
 __export(__webpack_require__(463));
-__export(__webpack_require__(464));
 __export(__webpack_require__(252));
+__export(__webpack_require__(1075));
 __export(__webpack_require__(1076));
 __export(__webpack_require__(1077));
 __export(__webpack_require__(1078));
+__export(__webpack_require__(464));
 __export(__webpack_require__(1079));
 __export(__webpack_require__(465));
 __export(__webpack_require__(1080));
-__export(__webpack_require__(466));
 __export(__webpack_require__(1081));
-__export(__webpack_require__(1082));
+__export(__webpack_require__(1083));
 __export(__webpack_require__(1084));
 __export(__webpack_require__(1085));
-__export(__webpack_require__(1086));
 
 //# sourceMappingURL=index.js.map
 
@@ -51,136 +51,6 @@ __export(__webpack_require__(1086));
 /* 6 */,
 /* 7 */,
 /* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var Subject_1 = __webpack_require__(23);
-__webpack_require__(399);
-__webpack_require__(406);
-var EventBus = /** @class */function () {
-    function EventBus() {}
-    EventBus_1 = EventBus;
-    EventBus.prototype.getObservable = function (eventType) {
-        return EventBus_1.subject.filter(function (evt) {
-            return evt.eventType === eventType;
-        }).map(function (evt) {
-            return evt.value;
-        });
-    };
-    EventBus.prototype.onSelectProperty = function (propertyId, isNewProperty, shouldOpenEditor) {
-        var eventPayload = { propertyId: propertyId, isNewProperty: isNewProperty, shouldOpenEditor: shouldOpenEditor };
-        var event = new Event(EventType.SELECT_PROPERTY, eventPayload);
-        EventBus_1.subject.next(event);
-    };
-    EventBus.prototype.onSelectRoom = function (roomId, isNewProperty) {
-        var eventPayload = { roomId: roomId, isNewProperty: isNewProperty };
-        var event = new Event(EventType.SELECT_ROOM, eventPayload);
-        EventBus_1.subject.next(event);
-    };
-    EventBus.prototype.onModalMessage = function (header, body, isMessage, onDismiss, onAccept) {
-        var eventPayload = { header: header, body: body, isMessage: isMessage, onDismiss: onDismiss, onAccept: onAccept };
-        var event = new Event(EventType.MODAL_MESSAGE, eventPayload);
-        EventBus_1.subject.next(event);
-    };
-    EventBus.prototype.onStartLoading = function () {
-        EventBus_1.subject.next(new Event(EventType.START_LOADING, null));
-    };
-    EventBus.prototype.onStopLoading = function () {
-        EventBus_1.subject.next(new Event(EventType.STOP_LOADING, null));
-    };
-    EventBus.prototype.onShareableModal = function (userId, projectId) {
-        var eventPayload = { userId: userId, projectId: projectId };
-        EventBus_1.subject.next(new Event(EventType.SHAREABLE_MODAL, eventPayload));
-    };
-    EventBus.prototype.onExploreModal = function () {
-        EventBus_1.subject.next(new Event(EventType.OPEN_EXPLORE_MODAL, null));
-    };
-    EventBus.prototype.onOpenFileLoader = function (acceptedFileType) {
-        var eventPayload = { acceptedFileType: acceptedFileType };
-        EventBus_1.subject.next(new Event(EventType.OPEN_FILE_LOADER, eventPayload));
-    };
-    EventBus.prototype.onMouseDown = function ($event) {
-        var event = new Event(EventType.MOUSE_DOWN, $event);
-        EventBus_1.subject.next(event);
-    };
-    EventBus.prototype.onHotspotVisibility = function (isVisible) {
-        var eventPayload = { isVisible: isVisible };
-        var event = new Event(EventType.HOTSPOT_EDITOR_VISIBILITY, eventPayload);
-        EventBus_1.subject.next(event);
-    };
-    EventBus.subject = new Subject_1.Subject();
-    EventBus.staticConstructor = function () {
-        window.addEventListener('mousedown', function ($event) {
-            var event = new Event(EventType.MOUSE_DOWN, $event);
-            EventBus_1.subject.next(event);
-        });
-        window.addEventListener('mousemove', function ($event) {
-            var event = new Event(EventType.MOUSE_MOVE, $event);
-            EventBus_1.subject.next(event);
-        });
-        window.addEventListener('mouseup', function ($event) {
-            var event = new Event(EventType.MOUSE_UP, $event);
-            EventBus_1.subject.next(event);
-        });
-        window.addEventListener('click', function ($event) {
-            var event = new Event(EventType.CLICK, $event);
-            EventBus_1.subject.next(event);
-        });
-        window.addEventListener('resize', function ($event) {
-            var eventPayload = { x: window.innerWidth, y: window.innerHeight };
-            var event = new Event(EventType.WINDOW_RESIZE, eventPayload);
-            EventBus_1.subject.next(event);
-        });
-        window.addEventListener('vrdisplaypresentchange', function ($event) {
-            var event = new Event(EventType.VR_DISPLAY_CHANGE, $event);
-            EventBus_1.subject.next(event);
-        });
-    }();
-    EventBus = EventBus_1 = __decorate([core_1.Injectable()], EventBus);
-    return EventBus;
-    var EventBus_1;
-}();
-exports.EventBus = EventBus;
-var Event = /** @class */function () {
-    function Event(eventType, value) {
-        this.eventType = eventType;
-        this.value = value;
-    }
-    return Event;
-}();
-exports.Event = Event;
-var EventType;
-(function (EventType) {
-    EventType[EventType["SELECT_PROPERTY"] = 0] = "SELECT_PROPERTY";
-    EventType[EventType["SELECT_ROOM"] = 1] = "SELECT_ROOM";
-    EventType[EventType["MOUSE_DOWN"] = 2] = "MOUSE_DOWN";
-    EventType[EventType["MOUSE_MOVE"] = 3] = "MOUSE_MOVE";
-    EventType[EventType["MOUSE_UP"] = 4] = "MOUSE_UP";
-    EventType[EventType["CLICK"] = 5] = "CLICK";
-    EventType[EventType["MODAL_MESSAGE"] = 6] = "MODAL_MESSAGE";
-    EventType[EventType["START_LOADING"] = 7] = "START_LOADING";
-    EventType[EventType["STOP_LOADING"] = 8] = "STOP_LOADING";
-    EventType[EventType["OPEN_FILE_LOADER"] = 9] = "OPEN_FILE_LOADER";
-    EventType[EventType["WINDOW_RESIZE"] = 10] = "WINDOW_RESIZE";
-    EventType[EventType["SHAREABLE_MODAL"] = 11] = "SHAREABLE_MODAL";
-    EventType[EventType["OPEN_EXPLORE_MODAL"] = 12] = "OPEN_EXPLORE_MODAL";
-    EventType[EventType["VR_DISPLAY_CHANGE"] = 13] = "VR_DISPLAY_CHANGE";
-    EventType[EventType["HOTSPOT_EDITOR_VISIBILITY"] = 14] = "HOTSPOT_EDITOR_VISIBILITY";
-})(EventType = exports.EventType || (exports.EventType = {}));
-
-/***/ }),
-/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -818,15 +688,109 @@ exports.setTimeoutNonBlocking = function (fn, time) {
 
 
 /***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var Subject_1 = __webpack_require__(23);
+__webpack_require__(398);
+__webpack_require__(405);
+var EventBus = /** @class */function () {
+    function EventBus() {}
+    EventBus_1 = EventBus;
+    EventBus.prototype.getObservable = function (eventType) {
+        return EventBus_1.subject.filter(function (evt) {
+            return evt.eventType === eventType;
+        }).map(function (evt) {
+            return evt.value;
+        });
+    };
+    EventBus.prototype.onSelectProperty = function (propertyId, isNewProperty, shouldOpenEditor) {
+        var eventPayload = { propertyId: propertyId, isNewProperty: isNewProperty, shouldOpenEditor: shouldOpenEditor };
+        var event = new Event(EventType.SELECT_PROPERTY, eventPayload);
+        EventBus_1.subject.next(event);
+    };
+    EventBus.prototype.onSelectRoom = function (roomId, isNewProperty) {
+        var eventPayload = { roomId: roomId, isNewProperty: isNewProperty };
+        var event = new Event(EventType.SELECT_ROOM, eventPayload);
+        EventBus_1.subject.next(event);
+    };
+    EventBus.prototype.onModalMessage = function (header, body, isMessage, onDismiss, onAccept) {
+        var eventPayload = { header: header, body: body, isMessage: isMessage, onDismiss: onDismiss, onAccept: onAccept };
+        var event = new Event(EventType.MODAL_MESSAGE, eventPayload);
+        EventBus_1.subject.next(event);
+    };
+    EventBus.prototype.onStartLoading = function () {
+        EventBus_1.subject.next(new Event(EventType.START_LOADING, null));
+    };
+    EventBus.prototype.onStopLoading = function () {
+        EventBus_1.subject.next(new Event(EventType.STOP_LOADING, null));
+    };
+    EventBus.prototype.onShareableModal = function (userId, projectId) {
+        var eventPayload = { userId: userId, projectId: projectId };
+        EventBus_1.subject.next(new Event(EventType.SHAREABLE_MODAL, eventPayload));
+    };
+    EventBus.prototype.onExploreModal = function () {
+        EventBus_1.subject.next(new Event(EventType.OPEN_EXPLORE_MODAL, null));
+    };
+    EventBus.prototype.onOpenFileLoader = function (acceptedFileType) {
+        var eventPayload = { acceptedFileType: acceptedFileType };
+        EventBus_1.subject.next(new Event(EventType.OPEN_FILE_LOADER, eventPayload));
+    };
+    EventBus.prototype.onHotspotVisibility = function (isVisible) {
+        var eventPayload = { isVisible: isVisible };
+        var event = new Event(EventType.HOTSPOT_EDITOR_VISIBILITY, eventPayload);
+        EventBus_1.subject.next(event);
+    };
+    EventBus.subject = new Subject_1.Subject();
+    EventBus = EventBus_1 = __decorate([core_1.Injectable()], EventBus);
+    return EventBus;
+    var EventBus_1;
+}();
+exports.EventBus = EventBus;
+var Event = /** @class */function () {
+    function Event(eventType, value) {
+        this.eventType = eventType;
+        this.value = value;
+    }
+    return Event;
+}();
+exports.Event = Event;
+var EventType;
+(function (EventType) {
+    EventType[EventType["SELECT_PROPERTY"] = 0] = "SELECT_PROPERTY";
+    EventType[EventType["SELECT_ROOM"] = 1] = "SELECT_ROOM";
+    EventType[EventType["MODAL_MESSAGE"] = 2] = "MODAL_MESSAGE";
+    EventType[EventType["START_LOADING"] = 3] = "START_LOADING";
+    EventType[EventType["STOP_LOADING"] = 4] = "STOP_LOADING";
+    EventType[EventType["OPEN_FILE_LOADER"] = 5] = "OPEN_FILE_LOADER";
+    EventType[EventType["SHAREABLE_MODAL"] = 6] = "SHAREABLE_MODAL";
+    EventType[EventType["OPEN_EXPLORE_MODAL"] = 7] = "OPEN_EXPLORE_MODAL";
+    EventType[EventType["HOTSPOT_EDITOR_VISIBILITY"] = 8] = "HOTSPOT_EDITOR_VISIBILITY";
+})(EventType = exports.EventType || (exports.EventType = {}));
+
+/***/ }),
 /* 10 */,
-/* 11 */
+/* 11 */,
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var build = __webpack_require__(503);
+var build = __webpack_require__(502);
 // api.socialvrlab.com => socialvr-production.cirjmyp4dr.us-east-1.elasticbeanstalk.com
 // staging-api.socialvrlab.com => socialvr-staging.cirjmyp4dr.us-east-1.elasticbeanstalk.com
 var environment = {
@@ -931,7 +895,6 @@ exports.THREE_CONST = {
 };
 
 /***/ }),
-/* 12 */,
 /* 13 */,
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1142,7 +1105,7 @@ exports.SceneInteractor = SceneInteractor;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(9);
+var util_1 = __webpack_require__(8);
 var util_2 = __webpack_require__(3);
 /**
  * An immutable object representing a parsed path.  It's immutable so that you
@@ -1495,7 +1458,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Index_1 = __webpack_require__(171);
-var util_1 = __webpack_require__(9);
+var util_1 = __webpack_require__(8);
 var Node_1 = __webpack_require__(44);
 var LeafNode_1 = __webpack_require__(172);
 var nodeFromJSON;
@@ -1614,15 +1577,15 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(9);
+var util_2 = __webpack_require__(8);
 var SortedMap_1 = __webpack_require__(173);
 var Node_1 = __webpack_require__(44);
-var snap_1 = __webpack_require__(473);
+var snap_1 = __webpack_require__(472);
 var PriorityIndex_1 = __webpack_require__(32);
 var KeyIndex_1 = __webpack_require__(129);
-var IndexMap_1 = __webpack_require__(475);
+var IndexMap_1 = __webpack_require__(474);
 var LeafNode_1 = __webpack_require__(172);
-var comparators_1 = __webpack_require__(477);
+var comparators_1 = __webpack_require__(476);
 // TODO: For memory savings, don't store priorityNode_ if it's empty.
 var EMPTY_NODE;
 /**
@@ -2186,7 +2149,7 @@ var apiService_1 = __webpack_require__(66);
 var userService_1 = __webpack_require__(184);
 var authenticationService_1 = __webpack_require__(182);
 var socialAuthenticationService_1 = __webpack_require__(507);
-var authenticationMethod_1 = __webpack_require__(1152);
+var authenticationMethod_1 = __webpack_require__(1151);
 __webpack_require__(246);
 var UserInteractor = /** @class */function () {
     function UserInteractor(apiService, userService, authenticationService, socialAuthenticationService) {
@@ -2390,7 +2353,7 @@ function isNativeBlobDefined() {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector2_1 = __webpack_require__(75);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var MAX_SIZE_HOTSPOT = 1024;
 function getNearestPowerOfTwo(x) {
     return new Array(14).fill(null).map(function (_, index) {
@@ -2498,7 +2461,7 @@ var deserializationService_1 = __webpack_require__(270);
 var serializationService_1 = __webpack_require__(271);
 var apiService_1 = __webpack_require__(66);
 var roomManager_1 = __webpack_require__(91);
-var projectService_1 = __webpack_require__(506);
+var projectService_1 = __webpack_require__(505);
 var assetManager_1 = __webpack_require__(135);
 __webpack_require__(250);
 var ProjectInteractor = /** @class */function () {
@@ -2623,7 +2586,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var apiService_1 = __webpack_require__(66);
-var assetService_1 = __webpack_require__(505);
+var assetService_1 = __webpack_require__(504);
 var assetManager_1 = __webpack_require__(135);
 var AssetInteractor = /** @class */function () {
     function AssetInteractor(apiService, assetManager, assetService) {
@@ -2951,7 +2914,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var platform_browser_1 = __webpack_require__(51);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 exports.mimeTypeMap = {
     video: [constants_1.MIME_TYPE_MP4],
     audio: [constants_1.MIME_TYPE_MP3, constants_1.MIME_TYPE_WAV, constants_1.MIME_TYPE_MPEG, constants_1.MIME_TYPE_XWAV, constants_1.MIME_TYPE_AAC, constants_1.MIME_TYPE_XM4A],
@@ -3019,7 +2982,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var http_1 = __webpack_require__(156);
 var Observable_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var authenticationService_1 = __webpack_require__(182);
 // import * as firebase from 'firebase/app';
 // import 'firebase/auth';
@@ -3240,7 +3203,7 @@ exports.ApiService = ApiService;
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "firebase", function() { return firebase; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_firebaseApp__ = __webpack_require__(1075);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_firebaseApp__ = __webpack_require__(1074);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -3349,7 +3312,7 @@ exports.Vector2 = Vector2;
 Object.defineProperty(exports, "__esModule", { value: true });
 var Path_1 = __webpack_require__(22);
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(9);
+var util_2 = __webpack_require__(8);
 var util_3 = __webpack_require__(3);
 var util_4 = __webpack_require__(3);
 /**
@@ -3860,7 +3823,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var audio_1 = __webpack_require__(106);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var RoomManager = /** @class */function () {
     function RoomManager() {
         this.isReadOnly = false;
@@ -3974,7 +3937,7 @@ var audio_1 = __webpack_require__(106);
 var image_1 = __webpack_require__(180);
 var text_1 = __webpack_require__(266);
 var door_1 = __webpack_require__(267);
-var room_1 = __webpack_require__(504);
+var room_1 = __webpack_require__(503);
 var link_1 = __webpack_require__(268);
 var narrator_1 = __webpack_require__(264);
 var typeMap = {
@@ -4159,10 +4122,10 @@ function clone(obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(THREE) {
+
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var three_1 = __webpack_require__(27);
+var three_1 = __webpack_require__(28);
 var vector2_1 = __webpack_require__(75);
 // xy screen position to normalized position: [0, 360], [-90, 90]
 function normalizeAbsolutePosition(x, y) {
@@ -4186,7 +4149,7 @@ function car2pol(x, y, z) {
     var rho = Math.sqrt(x * x + y * y + z * z);
     var phi = Math.atan2(z, x) * 180 / Math.PI;
     var theta = Math.acos(y / rho) * 180 / Math.PI;
-    return new THREE.Vector3(rho, theta, phi);
+    return new three_1.Vector3(rho, theta, phi);
 }
 exports.car2pol = car2pol;
 //these use angles in Degrees (NOT Radians)
@@ -4194,7 +4157,7 @@ function pol2car(rho, theta, phi) {
     var x = rho * Math.sin(theta * Math.PI / 180) * Math.cos(phi * Math.PI / 180);
     var z = rho * Math.sin(theta * Math.PI / 180) * Math.sin(phi * Math.PI / 180);
     var y = rho * Math.cos(theta * Math.PI / 180);
-    return new THREE.Vector3(x, y, z);
+    return new three_1.Vector3(x, y, z);
 }
 exports.pol2car = pol2car;
 //these angles are in radians (NOT degrees)
@@ -4232,7 +4195,6 @@ function getCoordinatePosition(x, y, r) {
     return sphericalToCoordinate(radialDistance, radianPositionX, radianPositionY);
 }
 exports.getCoordinatePosition = getCoordinatePosition;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
 
 /***/ }),
 /* 106 */
@@ -4258,7 +4220,7 @@ var __extends = this && this.__extends || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var baseElement_1 = __webpack_require__(134);
 var mediaFile_1 = __webpack_require__(263);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var Audio = /** @class */function (_super) {
     __extends(Audio, _super);
     function Audio() {
@@ -4478,7 +4440,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Index_1 = __webpack_require__(171);
 var Node_1 = __webpack_require__(44);
-var util_1 = __webpack_require__(9);
+var util_1 = __webpack_require__(8);
 var util_2 = __webpack_require__(3);
 var __EMPTY_NODE;
 var KeyIndex = /** @class */ (function (_super) {
@@ -4581,9 +4543,9 @@ var LeafNode_1 = __webpack_require__(172);
 var Node_1 = __webpack_require__(44);
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(3);
-var childSet_1 = __webpack_require__(476);
-var comparators_1 = __webpack_require__(477);
-var IndexMap_1 = __webpack_require__(475);
+var childSet_1 = __webpack_require__(475);
+var comparators_1 = __webpack_require__(476);
+var IndexMap_1 = __webpack_require__(474);
 var PriorityIndex_1 = __webpack_require__(32);
 var USE_HINZE = true;
 /**
@@ -4967,7 +4929,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var sceneInteractor_1 = __webpack_require__(14);
 var storageInteractor_1 = __webpack_require__(181);
 var projectInteractor_1 = __webpack_require__(53);
@@ -5065,7 +5027,7 @@ exports.BaseElement = BaseElement;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(THREE) {
+
 
 var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
     var c = arguments.length,
@@ -5076,6 +5038,7 @@ var __decorate = this && this.__decorate || function (decorators, target, key, d
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
+var THREE = __webpack_require__(28);
 var audioContextProvider_1 = __webpack_require__(269);
 var AssetManager = /** @class */function () {
     function AssetManager() {
@@ -5196,7 +5159,6 @@ var AudioData = /** @class */function () {
     }
     return AudioData;
 }();
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
 
 /***/ }),
 /* 136 */
@@ -5219,7 +5181,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(14);
 var roomPropertyTypeService_1 = __webpack_require__(92);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var PropertyRemovalService = /** @class */function () {
     function PropertyRemovalService(sceneInteractor, eventBus) {
         this.sceneInteractor = sceneInteractor;
@@ -5373,8 +5335,8 @@ exports.AdminInteractor = AdminInteractor;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var DOMStorageWrapper_1 = __webpack_require__(1089);
-var MemoryStorage_1 = __webpack_require__(1090);
+var DOMStorageWrapper_1 = __webpack_require__(1088);
+var MemoryStorage_1 = __webpack_require__(1089);
 /**
  * Helper to create a DOMStorageWrapper or else fall back to MemoryStorage.
  * TODO: Once MemoryStorage and DOMStorageWrapper have a shared interface this method annotation should change
@@ -5468,7 +5430,7 @@ exports.LONG_POLLING = 'long_polling';
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var Node_1 = __webpack_require__(44);
-var util_1 = __webpack_require__(9);
+var util_1 = __webpack_require__(8);
 /**
  *
  * @constructor
@@ -5533,8 +5495,8 @@ exports.Index = Index;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(9);
-var snap_1 = __webpack_require__(473);
+var util_2 = __webpack_require__(8);
+var snap_1 = __webpack_require__(472);
 var __childrenNodeConstructor;
 /**
  * LeafNode is a class for storing leaf nodes in a DataSnapshot.  It
@@ -6473,23 +6435,23 @@ exports.SortedMap = SortedMap;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var ServerValues_1 = __webpack_require__(480);
+var ServerValues_1 = __webpack_require__(479);
 var nodeFromJSON_1 = __webpack_require__(130);
 var Path_1 = __webpack_require__(22);
-var SparseSnapshotTree_1 = __webpack_require__(481);
-var SyncTree_1 = __webpack_require__(1096);
-var SnapshotHolder_1 = __webpack_require__(1107);
+var SparseSnapshotTree_1 = __webpack_require__(480);
+var SyncTree_1 = __webpack_require__(1095);
+var SnapshotHolder_1 = __webpack_require__(1106);
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(9);
+var util_2 = __webpack_require__(8);
 var util_3 = __webpack_require__(3);
-var AuthTokenProvider_1 = __webpack_require__(1108);
+var AuthTokenProvider_1 = __webpack_require__(1107);
 var StatsManager_1 = __webpack_require__(256);
-var StatsReporter_1 = __webpack_require__(1110);
-var StatsListener_1 = __webpack_require__(486);
-var EventQueue_1 = __webpack_require__(1111);
-var PersistentConnection_1 = __webpack_require__(487);
-var ReadonlyRestClient_1 = __webpack_require__(1116);
-var Database_1 = __webpack_require__(469);
+var StatsReporter_1 = __webpack_require__(1109);
+var StatsListener_1 = __webpack_require__(485);
+var EventQueue_1 = __webpack_require__(1110);
+var PersistentConnection_1 = __webpack_require__(486);
+var ReadonlyRestClient_1 = __webpack_require__(1115);
+var Database_1 = __webpack_require__(468);
 var INTERRUPT_REASON = 'repo_interrupt';
 /**
  * A connection to a single data repository.
@@ -7397,7 +7359,7 @@ var __decorate = this && this.__decorate || function (decorators, target, key, d
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var room_1 = __webpack_require__(504);
+var room_1 = __webpack_require__(503);
 var text_1 = __webpack_require__(266);
 var image_1 = __webpack_require__(180);
 var audio_1 = __webpack_require__(106);
@@ -7407,7 +7369,7 @@ var narrator_1 = __webpack_require__(264);
 var vector2_1 = __webpack_require__(75);
 var imageResizeService_1 = __webpack_require__(52);
 var reverbList_1 = __webpack_require__(265);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var PropertyBuilder = /** @class */function () {
     function PropertyBuilder() {}
     PropertyBuilder.prototype.setBaseProperties = function (jsonData, roomProperty) {
@@ -7762,13 +7724,13 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var publicLinkHelper_1 = __webpack_require__(262);
 var sceneInteractor_1 = __webpack_require__(14);
 var projectInteractor_1 = __webpack_require__(53);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
 var userInteractor_1 = __webpack_require__(37);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var ShareableLoader = /** @class */function () {
     function ShareableLoader(userInteractor, eventBus, projectInteractor, metaDataInteractor, sceneInteractor, router) {
         this.userInteractor = userInteractor;
@@ -7897,7 +7859,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var sceneInteractor_1 = __webpack_require__(14);
 var vector2_1 = __webpack_require__(75);
 var HOTSPOT_DISTANCE_THESH = 80;
@@ -7979,7 +7941,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var fileLoaderUtil_1 = __webpack_require__(65);
 var audioContextProvider_1 = __webpack_require__(269);
-var Recorder = __webpack_require__(374);
+var Recorder = __webpack_require__(373);
 var AudioRecorderService = /** @class */function () {
     function AudioRecorderService(fileLoaderUtil) {
         this.fileLoaderUtil = fileLoaderUtil;
@@ -8075,16 +8037,16 @@ var core_1 = __webpack_require__(2);
 var platform_browser_1 = __webpack_require__(51);
 var forms_1 = __webpack_require__(97);
 // UI components
-var checkbox_1 = __webpack_require__(1282);
-var text_input_1 = __webpack_require__(1285);
-var text_input_material_1 = __webpack_require__(1288);
+var checkbox_1 = __webpack_require__(1279);
+var text_input_1 = __webpack_require__(1282);
+var text_input_material_1 = __webpack_require__(1285);
 // Modal
-var modal_1 = __webpack_require__(1291);
-var loading_modal_1 = __webpack_require__(1294);
-var message_modal_1 = __webpack_require__(1297);
-var shareable_modal_1 = __webpack_require__(1300);
+var modal_1 = __webpack_require__(1288);
+var loading_modal_1 = __webpack_require__(1291);
+var message_modal_1 = __webpack_require__(1294);
+var shareable_modal_1 = __webpack_require__(1297);
 // Services
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var shareable_loader_1 = __webpack_require__(183);
 var CommonModule = /** @class */function () {
     function CommonModule() {}
@@ -8116,20 +8078,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // external imports
 var core_1 = __webpack_require__(2);
 // project module imports
-var data_module_1 = __webpack_require__(1304);
+var data_module_1 = __webpack_require__(1301);
 // internal module imports
 var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
-var cameraInteractor_1 = __webpack_require__(273);
+var cameraInteractor_1 = __webpack_require__(272);
 var storageInteractor_1 = __webpack_require__(181);
 var userInteractor_1 = __webpack_require__(37);
 var projectInteractor_1 = __webpack_require__(53);
 var assetInteractor_1 = __webpack_require__(60);
-var VideoInteractor_1 = __webpack_require__(272);
-var searchInteractor_1 = __webpack_require__(278);
+var VideoInteractor_1 = __webpack_require__(506);
+var searchInteractor_1 = __webpack_require__(277);
 var adminInteractor_1 = __webpack_require__(137);
-var groupInteractor_1 = __webpack_require__(521);
-var chatInteractor_1 = __webpack_require__(274);
+var groupInteractor_1 = __webpack_require__(520);
+var chatInteractor_1 = __webpack_require__(276);
 var CoreModule = /** @class */function () {
     function CoreModule() {}
     CoreModule = __decorate([core_1.NgModule({
@@ -8279,18 +8241,18 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var onDisconnect_1 = __webpack_require__(1091);
-var TransactionResult_1 = __webpack_require__(1092);
-var util_1 = __webpack_require__(9);
-var NextPushId_1 = __webpack_require__(1093);
-var Query_1 = __webpack_require__(472);
+var onDisconnect_1 = __webpack_require__(1090);
+var TransactionResult_1 = __webpack_require__(1091);
+var util_1 = __webpack_require__(8);
+var NextPushId_1 = __webpack_require__(1092);
+var Query_1 = __webpack_require__(471);
 var Repo_1 = __webpack_require__(174);
 var Path_1 = __webpack_require__(22);
-var QueryParams_1 = __webpack_require__(1117);
+var QueryParams_1 = __webpack_require__(1116);
 var validation_1 = __webpack_require__(88);
 var util_2 = __webpack_require__(3);
 var util_3 = __webpack_require__(3);
-var SyncPoint_1 = __webpack_require__(484);
+var SyncPoint_1 = __webpack_require__(483);
 var Reference = /** @class */ (function (_super) {
     __extends(Reference, _super);
     /**
@@ -8586,7 +8548,7 @@ SyncPoint_1.SyncPoint.__referenceConstructor = Reference;
 Object.defineProperty(exports, "__esModule", { value: true });
 var SortedMap_1 = __webpack_require__(173);
 var Path_1 = __webpack_require__(22);
-var util_1 = __webpack_require__(9);
+var util_1 = __webpack_require__(8);
 var util_2 = __webpack_require__(3);
 var emptyChildrenSingleton;
 /**
@@ -9088,7 +9050,7 @@ exports.IndexedFilter = IndexedFilter;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var StatsCollection_1 = __webpack_require__(1109);
+var StatsCollection_1 = __webpack_require__(1108);
 var StatsManager = /** @class */ (function () {
     function StatsManager() {
     }
@@ -9139,10 +9101,10 @@ exports.StatsManager = StatsManager;
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var Repo_1 = __webpack_require__(174);
-var util_2 = __webpack_require__(9);
-var parser_1 = __webpack_require__(470);
+var util_2 = __webpack_require__(8);
+var parser_1 = __webpack_require__(469);
 var validation_1 = __webpack_require__(88);
-__webpack_require__(1119);
+__webpack_require__(1118);
 /** @const {string} */
 var DATABASE_URL_OPTION = 'databaseURL';
 var _staticInstance;
@@ -9423,9 +9385,9 @@ function nullFunctionSpec(opt_optional) {
 /* harmony export (immutable) */ __webpack_exports__["a"] = fromResourceString;
 /* harmony export (immutable) */ __webpack_exports__["d"] = toResourceString;
 /* harmony export (immutable) */ __webpack_exports__["c"] = metadataValidator;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__json__ = __webpack_require__(1134);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__json__ = __webpack_require__(1133);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__location__ = __webpack_require__(178);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__path__ = __webpack_require__(500);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__path__ = __webpack_require__(499);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__type__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__url__ = __webpack_require__(260);
 /**
@@ -9811,7 +9773,7 @@ exports.MediaFile = MediaFile;
 Object.defineProperty(exports, "__esModule", { value: true });
 // import {BaseElement} from 'data/scene/entities/baseElement';
 var audio_1 = __webpack_require__(106);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var Narrator = /** @class */function () {
     function Narrator() {
         this.introAudio = new audio_1.Audio();
@@ -9954,7 +9916,7 @@ var __extends = this && this.__extends || function () {
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
 var baseElement_1 = __webpack_require__(134);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var Door = /** @class */function (_super) {
     __extends(Door, _super);
     function Door() {
@@ -10167,8 +10129,8 @@ var roomPropertyBuilder_1 = __webpack_require__(179);
 var apiService_1 = __webpack_require__(66);
 var fileLoaderUtil_1 = __webpack_require__(65);
 __webpack_require__(242);
-__webpack_require__(1150);
-var constants_1 = __webpack_require__(11);
+__webpack_require__(1149);
+var constants_1 = __webpack_require__(12);
 var JSZip = __webpack_require__(232);
 var JsYaml = __webpack_require__(230);
 var DeserializationService = /** @class */function () {
@@ -10311,9 +10273,7 @@ var DeserializationService = /** @class */function () {
         return Observable_1.Observable.fromPromise(this.zip.loadAsync(file).then(function (file) {
             return _this.deserializeProject(file);
         }));
-        try {} catch (error) {}
-        console.log('error', mediaFile.name, error);
-        ;
+        // .catch(error => console.log('error', mediaFile.name, error));
     };
     // Given a jszip file containing an image or audio
     // return a promise containing the name of the file
@@ -10519,13 +10479,13 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var Observable_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var assetInteractor_1 = __webpack_require__(60);
 var roomManager_1 = __webpack_require__(91);
 var http_1 = __webpack_require__(156);
 var imageResizeService_1 = __webpack_require__(52);
 __webpack_require__(242);
-__webpack_require__(448);
+__webpack_require__(447);
 var JSZip = __webpack_require__(232);
 var JsYaml = __webpack_require__(230);
 var SerializationService = /** @class */function () {
@@ -10787,39 +10747,6 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var apiService_1 = __webpack_require__(66);
-// import 'rxjs/add/operator/do';
-var VideoInteractor = /** @class */function () {
-    function VideoInteractor(apiService) {
-        this.apiService = apiService;
-    }
-    VideoInteractor.prototype.uploadVideo = function (videoFile) {
-        return this.apiService.uploadVideo(videoFile);
-    };
-    VideoInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [apiService_1.ApiService])], VideoInteractor);
-    return VideoInteractor;
-}();
-exports.VideoInteractor = VideoInteractor;
-
-/***/ }),
-/* 273 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
 var cameraService_1 = __webpack_require__(510);
 var CameraInteractor = /** @class */function () {
     function CameraInteractor(cameraService) {
@@ -10837,56 +10764,7 @@ var CameraInteractor = /** @class */function () {
 exports.CameraInteractor = CameraInteractor;
 
 /***/ }),
-/* 274 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var chatService_1 = __webpack_require__(514);
-var userService_1 = __webpack_require__(184);
-var ChatInteractor = /** @class */function () {
-    function ChatInteractor(chatService, userService) {
-        this.chatService = chatService;
-        this.userService = userService;
-    }
-    ChatInteractor.prototype.createRoom = function (roomName, userName, userId) {
-        return this.chatService.createRoom(roomName, userName, userId);
-    };
-    ChatInteractor.prototype.getRooms = function () {
-        return this.chatService.getRooms();
-    };
-    ChatInteractor.prototype.joinRoom = function (chatRoomId) {
-        var userId = this.userService.getUserId();
-        var userName = this.userService.getUserName();
-        return this.chatService.joinRoom(chatRoomId, userId, userName);
-    };
-    ChatInteractor.prototype.observeRoom = function (roomAddress) {
-        return this.chatService.observeRoom(roomAddress);
-    };
-    ChatInteractor.prototype.setLookAt = function (roomAddress, x, y, z) {
-        var userId = this.userService.getUserId();
-        return this.chatService.setLookAt(roomAddress, userId, x, y, z);
-    };
-    ChatInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [chatService_1.ChatService, userService_1.UserService])], ChatInteractor);
-    return ChatInteractor;
-}();
-exports.ChatInteractor = ChatInteractor;
-
-/***/ }),
-/* 275 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10980,7 +10858,7 @@ var AudioPlayService = /** @class */function () {
 exports.AudioPlayService = AudioPlayService;
 
 /***/ }),
-/* 276 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -11900,7 +11778,7 @@ TWEEN.Interpolation = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(123)))
 
 /***/ }),
-/* 277 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11918,11 +11796,11 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var THREE = __webpack_require__(27);
+var THREE = __webpack_require__(28);
 var assetInteractor_1 = __webpack_require__(60);
 var iconPositionUtil_1 = __webpack_require__(105);
-var constants_1 = __webpack_require__(11);
-var TWEEN = __webpack_require__(276);
+var constants_1 = __webpack_require__(12);
+var TWEEN = __webpack_require__(274);
 var MenuManager = /** @class */function () {
     function MenuManager(assetInteractor) {
         this.assetInteractor = assetInteractor;
@@ -12127,7 +12005,56 @@ var MenuManager = /** @class */function () {
 exports.MenuManager = MenuManager;
 
 /***/ }),
-/* 278 */
+/* 276 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var chatService_1 = __webpack_require__(518);
+var userService_1 = __webpack_require__(184);
+var ChatInteractor = /** @class */function () {
+    function ChatInteractor(chatService, userService) {
+        this.chatService = chatService;
+        this.userService = userService;
+    }
+    ChatInteractor.prototype.createRoom = function (roomName, userName, userId) {
+        return this.chatService.createRoom(roomName, userName, userId);
+    };
+    ChatInteractor.prototype.getRooms = function () {
+        return this.chatService.getRooms();
+    };
+    ChatInteractor.prototype.joinRoom = function (chatRoomId) {
+        var userId = this.userService.getUserId();
+        var userName = this.userService.getUserName();
+        return this.chatService.joinRoom(chatRoomId, userId, userName);
+    };
+    ChatInteractor.prototype.observeRoom = function (roomAddress) {
+        return this.chatService.observeRoom(roomAddress);
+    };
+    ChatInteractor.prototype.setLookAt = function (roomAddress, x, y, z) {
+        var userId = this.userService.getUserId();
+        return this.chatService.setLookAt(roomAddress, userId, x, y, z);
+    };
+    ChatInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [chatService_1.ChatService, userService_1.UserService])], ChatInteractor);
+    return ChatInteractor;
+}();
+exports.ChatInteractor = ChatInteractor;
+
+/***/ }),
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12159,6 +12086,7 @@ var SearchInteractor = /** @class */function () {
 exports.SearchInteractor = SearchInteractor;
 
 /***/ }),
+/* 278 */,
 /* 279 */,
 /* 280 */,
 /* 281 */,
@@ -12341,8 +12269,7 @@ exports.SearchInteractor = SearchInteractor;
 /* 458 */,
 /* 459 */,
 /* 460 */,
-/* 461 */,
-/* 462 */
+/* 461 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -12361,12 +12288,12 @@ exports.SearchInteractor = SearchInteractor;
  * limitations under the License.
  */
 
-__webpack_require__(1070);
+__webpack_require__(1069);
 module.exports = __webpack_require__(74).default;
 
 
 /***/ }),
-/* 463 */
+/* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12414,7 +12341,7 @@ exports.assertionError = function (message) {
 
 
 /***/ }),
-/* 464 */
+/* 463 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12700,7 +12627,7 @@ exports.base64Decode = function (str) {
 
 
 /***/ }),
-/* 465 */
+/* 464 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12745,7 +12672,7 @@ exports.stringify = stringify;
 
 
 /***/ }),
-/* 466 */
+/* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12887,6 +12814,29 @@ exports.every = function (obj, fn) {
 
 
 /***/ }),
+/* 466 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright 2017 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+__webpack_require__(1086);
+
+
+/***/ }),
 /* 467 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -12906,34 +12856,11 @@ exports.every = function (obj, fn) {
  * limitations under the License.
  */
 
-__webpack_require__(1087);
+module.exports = __webpack_require__(1087);
 
 
 /***/ }),
 /* 468 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Copyright 2017 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-module.exports = __webpack_require__(1088);
-
-
-/***/ }),
-/* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12954,8 +12881,8 @@ module.exports = __webpack_require__(1088);
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(9);
-var parser_1 = __webpack_require__(470);
+var util_1 = __webpack_require__(8);
+var parser_1 = __webpack_require__(469);
 var Path_1 = __webpack_require__(22);
 var Reference_1 = __webpack_require__(253);
 var Repo_1 = __webpack_require__(174);
@@ -13073,7 +13000,7 @@ exports.DatabaseInternals = DatabaseInternals;
 
 
 /***/ }),
-/* 470 */
+/* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13095,8 +13022,8 @@ exports.DatabaseInternals = DatabaseInternals;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var Path_1 = __webpack_require__(22);
-var RepoInfo_1 = __webpack_require__(471);
-var util_1 = __webpack_require__(9);
+var RepoInfo_1 = __webpack_require__(470);
+var util_1 = __webpack_require__(8);
 /**
  * @param {!string} pathString
  * @return {string}
@@ -13197,7 +13124,7 @@ exports.parseURL = function (dataURL) {
 
 
 /***/ }),
-/* 471 */
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13315,7 +13242,7 @@ exports.RepoInfo = RepoInfo;
 
 
 /***/ }),
-/* 472 */
+/* 471 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13339,13 +13266,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var KeyIndex_1 = __webpack_require__(129);
 var PriorityIndex_1 = __webpack_require__(32);
-var ValueIndex_1 = __webpack_require__(474);
-var PathIndex_1 = __webpack_require__(478);
-var util_2 = __webpack_require__(9);
+var ValueIndex_1 = __webpack_require__(473);
+var PathIndex_1 = __webpack_require__(477);
+var util_2 = __webpack_require__(8);
 var Path_1 = __webpack_require__(22);
 var validation_1 = __webpack_require__(88);
 var util_3 = __webpack_require__(3);
-var EventRegistration_1 = __webpack_require__(1094);
+var EventRegistration_1 = __webpack_require__(1093);
 var util_4 = __webpack_require__(3);
 var __referenceConstructor;
 /**
@@ -13828,7 +13755,7 @@ exports.Query = Query;
 
 
 /***/ }),
-/* 473 */
+/* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13850,7 +13777,7 @@ exports.Query = Query;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(9);
+var util_2 = __webpack_require__(8);
 var util_3 = __webpack_require__(3);
 var MAX_NODE;
 function setMaxNode(val) {
@@ -13890,7 +13817,7 @@ exports.validatePriorityNode = function (priorityNode) {
 
 
 /***/ }),
-/* 474 */
+/* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13923,7 +13850,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Index_1 = __webpack_require__(171);
 var Node_1 = __webpack_require__(44);
-var util_1 = __webpack_require__(9);
+var util_1 = __webpack_require__(8);
 var nodeFromJSON_1 = __webpack_require__(130);
 /**
  * @constructor
@@ -13995,7 +13922,7 @@ exports.VALUE_INDEX = new ValueIndex();
 
 
 /***/ }),
-/* 475 */
+/* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14017,7 +13944,7 @@ exports.VALUE_INDEX = new ValueIndex();
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var childSet_1 = __webpack_require__(476);
+var childSet_1 = __webpack_require__(475);
 var util_2 = __webpack_require__(3);
 var Node_1 = __webpack_require__(44);
 var PriorityIndex_1 = __webpack_require__(32);
@@ -14183,7 +14110,7 @@ exports.IndexMap = IndexMap;
 
 
 /***/ }),
-/* 476 */
+/* 475 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14320,7 +14247,7 @@ exports.buildChildSet = function (childList, cmp, keyFn, mapSortFn) {
 
 
 /***/ }),
-/* 477 */
+/* 476 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14341,7 +14268,7 @@ exports.buildChildSet = function (childList, cmp, keyFn, mapSortFn) {
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(9);
+var util_1 = __webpack_require__(8);
 function NAME_ONLY_COMPARATOR(left, right) {
     return util_1.nameCompare(left.name, right.name);
 }
@@ -14355,7 +14282,7 @@ exports.NAME_COMPARATOR = NAME_COMPARATOR;
 
 
 /***/ }),
-/* 478 */
+/* 477 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14387,7 +14314,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(9);
+var util_2 = __webpack_require__(8);
 var Index_1 = __webpack_require__(171);
 var ChildrenNode_1 = __webpack_require__(35);
 var Node_1 = __webpack_require__(44);
@@ -14462,7 +14389,7 @@ exports.PathIndex = PathIndex;
 
 
 /***/ }),
-/* 479 */
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14642,7 +14569,7 @@ exports.DataSnapshot = DataSnapshot;
 
 
 /***/ }),
-/* 480 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14665,7 +14592,7 @@ exports.DataSnapshot = DataSnapshot;
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var Path_1 = __webpack_require__(22);
-var SparseSnapshotTree_1 = __webpack_require__(481);
+var SparseSnapshotTree_1 = __webpack_require__(480);
 var LeafNode_1 = __webpack_require__(172);
 var nodeFromJSON_1 = __webpack_require__(130);
 var PriorityIndex_1 = __webpack_require__(32);
@@ -14752,7 +14679,7 @@ exports.resolveDeferredValueSnapshot = function (node, serverValues) {
 
 
 /***/ }),
-/* 481 */
+/* 480 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14775,7 +14702,7 @@ exports.resolveDeferredValueSnapshot = function (node, serverValues) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Path_1 = __webpack_require__(22);
 var PriorityIndex_1 = __webpack_require__(32);
-var CountedSet_1 = __webpack_require__(482);
+var CountedSet_1 = __webpack_require__(481);
 /**
  * Helper class to store a sparse set of snapshots.
  *
@@ -14935,7 +14862,7 @@ exports.SparseSnapshotTree = SparseSnapshotTree;
 
 
 /***/ }),
-/* 482 */
+/* 481 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15038,7 +14965,7 @@ exports.CountedSet = CountedSet;
 
 
 /***/ }),
-/* 483 */
+/* 482 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15092,7 +15019,7 @@ exports.Overwrite = Overwrite;
 
 
 /***/ }),
-/* 484 */
+/* 483 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15117,8 +15044,8 @@ var CacheNode_1 = __webpack_require__(175);
 var ChildrenNode_1 = __webpack_require__(35);
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(3);
-var ViewCache_1 = __webpack_require__(485);
-var View_1 = __webpack_require__(1100);
+var ViewCache_1 = __webpack_require__(484);
+var View_1 = __webpack_require__(1099);
 var __referenceConstructor;
 /**
  * SyncPoint represents a single location in a SyncTree with 1 or more event registrations, meaning we need to
@@ -15349,7 +15276,7 @@ exports.SyncPoint = SyncPoint;
 
 
 /***/ }),
-/* 485 */
+/* 484 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15452,7 +15379,7 @@ exports.ViewCache = ViewCache;
 
 
 /***/ }),
-/* 486 */
+/* 485 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15504,7 +15431,7 @@ exports.StatsListener = StatsListener;
 
 
 /***/ }),
-/* 487 */
+/* 486 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15539,15 +15466,15 @@ var app_1 = __webpack_require__(74);
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(3);
 var util_3 = __webpack_require__(3);
-var util_4 = __webpack_require__(9);
+var util_4 = __webpack_require__(8);
 var Path_1 = __webpack_require__(22);
-var VisibilityMonitor_1 = __webpack_require__(1112);
-var OnlineMonitor_1 = __webpack_require__(1113);
+var VisibilityMonitor_1 = __webpack_require__(1111);
+var OnlineMonitor_1 = __webpack_require__(1112);
 var util_5 = __webpack_require__(3);
-var Connection_1 = __webpack_require__(489);
+var Connection_1 = __webpack_require__(488);
 var util_6 = __webpack_require__(3);
 var util_7 = __webpack_require__(3);
-var ServerActions_1 = __webpack_require__(492);
+var ServerActions_1 = __webpack_require__(491);
 var RECONNECT_MIN_DELAY = 1000;
 var RECONNECT_MAX_DELAY_DEFAULT = 60 * 5 * 1000; // 5 minutes in milliseconds (Case: 1858)
 var RECONNECT_MAX_DELAY_FOR_ADMINS = 30 * 1000; // 30 seconds for admin clients (likely to be a backend server)
@@ -16320,7 +16247,7 @@ exports.PersistentConnection = PersistentConnection;
 
 
 /***/ }),
-/* 488 */
+/* 487 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16406,7 +16333,7 @@ exports.EventEmitter = EventEmitter;
 
 
 /***/ }),
-/* 489 */
+/* 488 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16427,10 +16354,10 @@ exports.EventEmitter = EventEmitter;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(9);
+var util_1 = __webpack_require__(8);
 var storage_1 = __webpack_require__(169);
 var Constants_1 = __webpack_require__(170);
-var TransportManager_1 = __webpack_require__(1114);
+var TransportManager_1 = __webpack_require__(1113);
 // Abort upgrade attempt if it takes longer than 60s.
 var UPGRADE_TIMEOUT = 60000;
 // For some transports (WebSockets), we need to "validate" the transport by exchanging a few requests and responses.
@@ -16906,7 +16833,7 @@ exports.Connection = Connection;
 
 
 /***/ }),
-/* 490 */
+/* 489 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16927,10 +16854,10 @@ exports.Connection = Connection;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(9);
-var CountedSet_1 = __webpack_require__(482);
+var util_1 = __webpack_require__(8);
+var CountedSet_1 = __webpack_require__(481);
 var StatsManager_1 = __webpack_require__(256);
-var PacketReceiver_1 = __webpack_require__(1115);
+var PacketReceiver_1 = __webpack_require__(1114);
 var Constants_1 = __webpack_require__(170);
 var util_2 = __webpack_require__(3);
 var util_3 = __webpack_require__(3);
@@ -17542,7 +17469,7 @@ exports.FirebaseIFrameScriptHolder = FirebaseIFrameScriptHolder;
 
 
 /***/ }),
-/* 491 */
+/* 490 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17565,7 +17492,7 @@ exports.FirebaseIFrameScriptHolder = FirebaseIFrameScriptHolder;
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_1 = __webpack_require__(74);
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(9);
+var util_2 = __webpack_require__(8);
 var StatsManager_1 = __webpack_require__(256);
 var Constants_1 = __webpack_require__(170);
 var util_3 = __webpack_require__(3);
@@ -17901,7 +17828,7 @@ exports.WebSocketConnection = WebSocketConnection;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(123)))
 
 /***/ }),
-/* 492 */
+/* 491 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17979,7 +17906,7 @@ exports.ServerActions = ServerActions;
 
 
 /***/ }),
-/* 493 */
+/* 492 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18129,15 +18056,15 @@ exports.RangedFilter = RangedFilter;
 
 
 /***/ }),
-/* 494 */
+/* 493 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_util__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__firebase_util__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_errors__ = __webpack_require__(176);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_token_manager__ = __webpack_require__(1126);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_notification_permission__ = __webpack_require__(496);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_token_manager__ = __webpack_require__(1125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_notification_permission__ = __webpack_require__(495);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -18310,7 +18237,7 @@ var ControllerInterface = /** @class */ (function () {
 
 
 /***/ }),
-/* 495 */
+/* 494 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18411,7 +18338,7 @@ var SUBSCRIPTION_DETAILS = {
 
 
 /***/ }),
-/* 496 */
+/* 495 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18441,7 +18368,7 @@ var SUBSCRIPTION_DETAILS = {
 
 
 /***/ }),
-/* 497 */
+/* 496 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18491,7 +18418,7 @@ var createNewMsg = function (msgType, msgData) {
 
 
 /***/ }),
-/* 498 */
+/* 497 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18525,22 +18452,22 @@ var ErrorCode;
 
 
 /***/ }),
-/* 499 */
+/* 498 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Reference; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__implementation_args__ = __webpack_require__(258);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_blob__ = __webpack_require__(501);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_blob__ = __webpack_require__(500);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__implementation_error__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__implementation_location__ = __webpack_require__(178);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__implementation_metadata__ = __webpack_require__(259);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__implementation_object__ = __webpack_require__(104);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__implementation_path__ = __webpack_require__(500);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__implementation_requests__ = __webpack_require__(502);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__implementation_path__ = __webpack_require__(499);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__implementation_requests__ = __webpack_require__(501);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__implementation_string__ = __webpack_require__(131);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__implementation_type__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__task__ = __webpack_require__(1137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__task__ = __webpack_require__(1136);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -18783,7 +18710,7 @@ var Reference = /** @class */ (function () {
 
 
 /***/ }),
-/* 500 */
+/* 499 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18856,12 +18783,12 @@ function lastComponent(path) {
 
 
 /***/ }),
-/* 501 */
+/* 500 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FbsBlob; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__fs__ = __webpack_require__(1135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__fs__ = __webpack_require__(1134);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__string__ = __webpack_require__(131);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__type__ = __webpack_require__(45);
 /**
@@ -18996,7 +18923,7 @@ var FbsBlob = /** @class */ (function () {
 
 
 /***/ }),
-/* 502 */
+/* 501 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19017,11 +18944,11 @@ var FbsBlob = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return resumableUploadChunkSize; });
 /* harmony export (immutable) */ __webpack_exports__["b"] = continueResumableUpload;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__array__ = __webpack_require__(261);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blob__ = __webpack_require__(501);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blob__ = __webpack_require__(500);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__error__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__metadata__ = __webpack_require__(259);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__object__ = __webpack_require__(104);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestinfo__ = __webpack_require__(1136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestinfo__ = __webpack_require__(1135);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__type__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__url__ = __webpack_require__(260);
 /**
@@ -19358,13 +19285,13 @@ function continueResumableUpload(location, authWrapper, url, blob, chunkSize, ma
 
 
 /***/ }),
-/* 503 */
+/* 502 */
 /***/ (function(module, exports) {
 
 module.exports = "DEV";
 
 /***/ }),
-/* 504 */
+/* 503 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19377,9 +19304,9 @@ var vector2_1 = __webpack_require__(75);
 var mediaFile_1 = __webpack_require__(263);
 var narrator_1 = __webpack_require__(264);
 var uuid_1 = __webpack_require__(107);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var reverbList_1 = __webpack_require__(265);
-var constants_2 = __webpack_require__(11);
+var constants_2 = __webpack_require__(12);
 var Room = /** @class */function () {
     function Room() {
         this.id = uuid_1.generateUniqueId();
@@ -19623,7 +19550,7 @@ var Room = /** @class */function () {
 exports.Room = Room;
 
 /***/ }),
-/* 505 */
+/* 504 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19669,7 +19596,7 @@ var AssetService = /** @class */function () {
 exports.AssetService = AssetService;
 
 /***/ }),
-/* 506 */
+/* 505 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19702,6 +19629,39 @@ var ProjectService = /** @class */function () {
     return ProjectService;
 }();
 exports.ProjectService = ProjectService;
+
+/***/ }),
+/* 506 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var apiService_1 = __webpack_require__(66);
+// import 'rxjs/add/operator/do';
+var VideoInteractor = /** @class */function () {
+    function VideoInteractor(apiService) {
+        this.apiService = apiService;
+    }
+    VideoInteractor.prototype.uploadVideo = function (videoFile) {
+        return this.apiService.uploadVideo(videoFile);
+    };
+    VideoInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [apiService_1.ApiService])], VideoInteractor);
+    return VideoInteractor;
+}();
+exports.VideoInteractor = VideoInteractor;
 
 /***/ }),
 /* 507 */
@@ -19805,18 +19765,30 @@ exports.ResponsiveUtil = ResponsiveUtil;
 //  - Hard coding rotation speed
 //  - Adding momentum
 
-THREE.SvrControls = function (object, domElement, initialTarget) {
+const defaultExecutionContext = (fn) => {
+	if (fn && typeof fn === 'function') {
+		fn();
+	}
+};
 
-	this.object = object;
+// THREE.SvrControls = function (camera, domElement, initialTarget) {
+THREE.SvrControls = function (options) {
 
-	this.domElement = ( domElement !== undefined ) ? domElement : document;
+	// this.camera = camera;
+	this.camera = options.camera;
+	// this.domElement = ( domElement !== undefined ) ? domElement : document;
+	// this.domElement = (options.domElement !== undefined) ? options.domElement : document;
+	this.domElement = options.domElement ? options.domElement : document;
 
 	// "target" sets the location of focus, where the object orbits around
 	this.target = new THREE.Vector3(
-		initialTarget.x || 0,
-		initialTarget.y || 0,
-		initialTarget.z || 0
+		options.initialTarget.x || 0,
+		options.initialTarget.y || 0,
+		options.initialTarget.z || 0
 	);
+
+	this.onMouseDownCallback = options.onMouseDownCallback || (() => {});
+	this.executionContext = options.executionContext || defaultExecutionContext;
 
 	// How far you can dolly in and out ( PerspectiveCamera only )
 	this.minDistance = 0;
@@ -19841,50 +19813,47 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 
 	// for reset
 	this.target0 = this.target.clone();
-	this.position0 = this.object.position.clone();
+	this.position0 = this.camera.position.clone();
 
-	this.getPolarAngle = function () {
-		return spherical.phi;
-	};
+	this.touchLocation = new THREE.Vector2(0, 0);
 
-	this.getAzimuthalAngle = function () {
-		return spherical.theta;
-	};
+	this.getPolarAngle = () => spherical.phi;
 
-	this.hasMomentum = function () {
-		return hasMomentum;
-	};
+	this.getAzimuthalAngle = () => spherical.theta;
 
-	this.reset = function () {
+	this.hasMomentum = () => hasMomentum;
+
+	this.shouldRender = () => isDragging || hasMomentum;
+
+	this.reset = () => {
 		scope.target.copy( scope.target0 );
-		scope.object.position.copy( scope.position0 );
-		scope.object.updateProjectionMatrix();
+		scope.camera.position.copy( scope.position0 );
+		scope.camera.updateProjectionMatrix();
 		scope.dispatchEvent( changeEvent );
 		scope.update();
 	};
 
-	this.lookAt = function(targetVector) {
+	this.lookAt = (targetVector) => {
 		scope.target.copy( targetVector );
-		scope.object.lookAt( scope.target );
-		scope.object.updateProjectionMatrix();
+		scope.camera.lookAt( scope.target );
+		scope.camera.updateProjectionMatrix();
 		scope.dispatchEvent( changeEvent );
 		scope.update();
 	}
 
 	this.update = function () {
+		const offset = new THREE.Vector3();
 
-		var offset = new THREE.Vector3();
+		// camera.up is the orbit axis
+		const quat = new THREE.Quaternion().setFromUnitVectors( options.camera.up, new THREE.Vector3( 0, 1, 0 ) );
+		const quatInverse = quat.clone().inverse();
 
-		// so camera.up is the orbit axis
-		var quat = new THREE.Quaternion().setFromUnitVectors( object.up, new THREE.Vector3( 0, 1, 0 ) );
-		var quatInverse = quat.clone().inverse();
-
-		var lastPosition = new THREE.Vector3();
-		var lastQuaternion = new THREE.Quaternion();
+		const lastPosition = new THREE.Vector3();
+		const lastQuaternion = new THREE.Quaternion();
 
 		return function update() {
 
-			var position = scope.object.position;
+			const position = scope.camera.position;
 
 			offset.copy( position ).sub( scope.target );
 
@@ -19894,7 +19863,7 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 			// angle from z-axis around y-axis
 			spherical.setFromVector3( offset );
 
-      if (hasMomentum) {
+			if (hasMomentum) {
         if (Math.abs(momentum.x) < momentumEpsilon && Math.abs(momentum.y) < momentumEpsilon) {
     			hasMomentum = false;
     		}
@@ -19932,7 +19901,7 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 
 			position.copy( scope.target ).add( offset );
 
-			scope.object.lookAt( scope.target );
+			scope.camera.lookAt( scope.target );
 
 			sphericalDelta.set( 0, 0, 0 );
 
@@ -19942,39 +19911,43 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 	}();
 
 	this.dispose = function () {
-		scope.domElement.removeEventListener( 'contextmenu', onContextMenu, false );
-		scope.domElement.removeEventListener( 'mousedown', onMouseDown, false );
-		scope.domElement.removeEventListener( 'mousemove', onMouseMove, false );
-		scope.domElement.removeEventListener( 'mouseup', onMouseUp, false );
+		scope.domElement.removeEventListener('contextmenu', onContextMenu, false);
+		scope.domElement.removeEventListener('mousedown', onMouseDown, false);
+		document.removeEventListener('mousemove', onMouseMove, false);
+		document.removeEventListener('mouseup', onMouseUp, false);
+		scope.domElement.removeEventListener('touchstart', onTouchStart, false);
+		document.removeEventListener('touchmove', onTouchMove, false);
+		document.removeEventListener('touchend', onTouchEnd, false);
 	};
 
 	//
 	// internals
 	//
 
-	var scope = this;
+	const scope = this;
 
-	var changeEvent = { type: 'change' };
-	var startEvent = { type: 'start' };
-	var endEvent = { type: 'end' };
+	const changeEvent = { type: 'change' };
+	const startEvent = { type: 'start' };
+	const endEvent = { type: 'end' };
 
 	// current position in spherical coordinates
-	var spherical = new THREE.Spherical();
-	var sphericalDelta = new THREE.Spherical();
+	const spherical = new THREE.Spherical();
+	const sphericalDelta = new THREE.Spherical();
 
-	var scale = 1;
-	var panOffset = new THREE.Vector3();
+	let scale = 1;
+	const panOffset = new THREE.Vector3();
 
 	var rotateStart = new THREE.Vector2();
 	var rotateEnd = new THREE.Vector2();
 	var rotateDelta = new THREE.Vector2();
 
-	var hasMomentum = false;
-	var momentum = new THREE.Vector2();
-	var dampingFactor = 0.9;
-	var dampingDecay = 0.005;
-	var momentumEpsilon = 0.25;
+	let hasMomentum = false;
+	let momentum = new THREE.Vector2();
+	let dampingFactor = 0.9;
+	let dampingDecay = 0.005;
+	let momentumEpsilon = 0.25;
 
+	let isDragging = false;
 
 	function getAutoRotationAngle() {
 		return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed;
@@ -19992,22 +19965,30 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 		sphericalDelta.phi -= angle;
 	}
 
-	function onMouseDown( event ) {
+	function onMouseDown(event) {
 		event.preventDefault();
     hasMomentum = false;
+		isDragging = true;
     momentum = new THREE.Vector2();
-    rotateStart.set( event.clientX, event.clientY );
-		scope.domElement.addEventListener( 'mousemove', onMouseMove, false );
-		scope.domElement.addEventListener( 'mouseup', onMouseUp, false );
-		scope.dispatchEvent( startEvent );
+    rotateStart.set(event.clientX, event.clientY);
+
+		scope.executionContext(() => {
+			document.addEventListener('mousemove', onMouseMove, false);
+			document.addEventListener('mouseup', onMouseUp, false);
+			document.addEventListener('touchmove', onTouchMove, { passive: false });
+			document.addEventListener('touchend', onTouchEnd, false);
+		});
+		scope.dispatchEvent(startEvent);
+		scope.onMouseDownCallback(event);
 	}
 
 	function onMouseMove( event ) {
+		if (!isDragging) { return; }
     event.preventDefault();
 		rotateEnd.set( event.clientX, event.clientY );
 		rotateDelta.subVectors( rotateEnd, rotateStart );
 
-		var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
+		const element = scope.domElement === document ? scope.domElement.body : scope.domElement;
 
 		rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientWidth * scope.rotateSpeed );
 
@@ -20025,17 +20006,52 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 
 	function onMouseUp( event ) {
     hasMomentum = true;
-    scope.domElement.removeEventListener( 'mousemove', onMouseMove, false );
-		scope.domElement.removeEventListener( 'mouseup', onMouseUp, false );
-		scope.dispatchEvent( endEvent );
+		isDragging = false;
+		document.removeEventListener('mousemove', onMouseMove, false);
+		document.removeEventListener('mouseup', onMouseUp, false);
+		document.removeEventListener('touchmove', onTouchMove, false);
+		document.removeEventListener('touchend', onTouchEnd, false);
+		scope.dispatchEvent(endEvent);
 	}
 
-	function onContextMenu( event ) {
-		event.preventDefault();
+	function onTouchStart(event) {
+		if (event.touches.length > 1) { return; }
+		const x = event.touches[0].clientX;
+		const y = event.touches[0].clientY;
+		scope.touchLocation.x = x;
+		scope.touchLocation.y = y;
+		event.clientX = x;
+		event.clientY = y;
+		event.movementX = 0;
+		event.movementY = 0;
+		event.preventDefault = () => {};
+		onMouseDown(event);
 	}
 
-	scope.domElement.addEventListener( 'contextmenu', onContextMenu, false );
-	scope.domElement.addEventListener( 'mousedown', onMouseDown, false );
+	function onTouchMove(event) {
+		const x = event.touches[0].clientX;
+		const y = event.touches[0].clientY;
+		event.clientX = x;
+		event.clientY = y;
+		event.movementX = x - scope.touchLocation.x;
+		event.movementY = y - scope.touchLocation.y;
+		scope.touchLocation.x = x;
+		scope.touchLocation.y = y;
+		onMouseMove(event);
+	}
+
+	function onTouchEnd(event) {
+		if (event.touches.length > 0) { return; }
+		scope.clientX = scope.touchLocation.x;
+		scope.clientY = scope.touchLocation.y;
+		onMouseUp(event);
+	}
+
+	this.executionContext(() => {
+		scope.domElement.addEventListener('contextmenu', e => e.preventDefault(), false);
+		scope.domElement.addEventListener('mousedown', onMouseDown, false);
+		scope.domElement.addEventListener('touchstart', onTouchStart, false);
+	});
 
 	// force an update at start
 	this.update();
@@ -20044,7 +20060,7 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 THREE.SvrControls.prototype = Object.create( THREE.EventDispatcher.prototype );
 THREE.SvrControls.prototype.constructor = THREE.SvrControls;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
 
 /***/ }),
 /* 510 */
@@ -20084,10 +20100,11 @@ exports.CameraService = CameraService;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(THREE) {
+
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
+var THREE = __webpack_require__(28);
 // This file contains common 3D logic for edit-space-sphere and preview-space
 var SPHERE_RADIUS = constants_1.THREE_CONST.SPHERE_RADIUS;
 var NUM_SPHERE_SLICES = constants_1.THREE_CONST.SPHERE_SLICES;
@@ -20150,16 +20167,16 @@ function onResize(camera, renderer) {
     });
 }
 exports.onResize = onResize;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
 
 /***/ }),
 /* 512 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(THREE) {
+
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var THREE = __webpack_require__(28);
 var Video3D = /** @class */function () {
     function Video3D() {
         this.editSpaceHasRendered = false;
@@ -20222,230 +20239,9 @@ var Video3D = /** @class */function () {
     return Video3D;
 }();
 exports.Video3D = Video3D;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
 
 /***/ }),
 /* 513 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(THREE) {
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var projectInteractor_1 = __webpack_require__(53);
-var sceneInteractor_1 = __webpack_require__(14);
-var chatInteractor_1 = __webpack_require__(274);
-var event_bus_1 = __webpack_require__(8);
-var MultiViewService = /** @class */function () {
-    function MultiViewService(eventBus, projectInteractor, chatInteractor, sceneInteractor) {
-        this.eventBus = eventBus;
-        this.projectInteractor = projectInteractor;
-        this.chatInteractor = chatInteractor;
-        this.sceneInteractor = sceneInteractor;
-        this.chatRoomId = '';
-        this.lastLookAtTime = performance.now();
-        this.testMultiViewPosition = new Map();
-        this.lastCameraPosition = new THREE.Vector3(0, 0, 0);
-    }
-    MultiViewService.prototype.initBeachBalls = function (scene, colorBallTexture) {
-        var _this = this;
-        var cbGeometry = new THREE.SphereGeometry(5, 32, 32);
-        // const cbTexture = this.assetInteractor.getTextureById('colorBall');
-        colorBallTexture.wrapS = THREE.RepeatWrapping;
-        colorBallTexture.wrapT = THREE.RepeatWrapping;
-        colorBallTexture.offset.set(0, 0);
-        colorBallTexture.repeat.set(2, 1);
-        var cbMaterial = new THREE.MeshBasicMaterial({ map: colorBallTexture, side: THREE.FrontSide });
-        var cbMesh = new THREE.Mesh(cbGeometry, cbMaterial);
-        // this.colorBallMesh = cbMesh;
-        new Array(2).fill(null).map(function (nullVal, index) {
-            return index + 1;
-        }).forEach(function (index) {
-            var colorBall = cbMesh.clone();
-            colorBall.position.set(10, 10, 10);
-            // colorBall.lookAt(camera.position);
-            colorBall.visible = true;
-            _this.testMultiViewPosition.set(index, colorBall);
-            scene.add(colorBall);
-        });
-    };
-    MultiViewService.prototype.update = function (camera) {
-        // if change in look at, send value
-        var cameraDirection = camera.getWorldDirection();
-        if (cameraDirection.equals(this.lastCameraPosition)) {
-            return;
-        }
-        this.lastCameraPosition = cameraDirection;
-        var zVector = new THREE.Vector3(0, 0, -100);
-        var cameraVector = camera.localToWorld(zVector);
-        this.setLookAt(cameraVector.x, cameraVector.y, cameraVector.z);
-    };
-    MultiViewService.prototype.updateUser = function (user, index) {
-        var userHasData = user.lookingAt.x && user.lookingAt.y && user.lookingAt.z;
-        if (this.testMultiViewPosition.has(index) && userHasData) {
-            this.testMultiViewPosition.get(index).position.set(user.lookingAt.x, user.lookingAt.y, user.lookingAt.z);
-        }
-    };
-    MultiViewService.prototype.openSharedValue = function (sharedValue) {
-        var _a = sharedValue.split('-'),
-            userId = _a[0],
-            projectId = _a[1];
-        if (userId === undefined || projectId === undefined) {
-            console.log('error', 'userId', userId, 'projectId', projectId);
-            return;
-        }
-        console.log('open project for', userId, projectId);
-        console.log('join chat room:', sharedValue);
-        this.chatRoomId = sharedValue;
-        // if current project === multiview project, join chatroom
-        // if current project !== multiview project, open project and join chatroom
-        this.joinMultiView();
-        // .switchMap(chatRoomId => this.joinMultiView(chatRoomId));
-        // const chatAddress = `/chatrooms/${this.chatRoomId}/`;
-        return this.openProject(userId, projectId);
-        // .then(() => this.chatInteractor.observeRoom(chatAddress));
-    };
-    MultiViewService.prototype.setLookAt = function (x, y, z) {
-        if (performance.now() - this.lastLookAtTime > 100) {
-            this.chatInteractor.setLookAt(this.chatRoomId, x, y, z);
-            this.lastLookAtTime = performance.now();
-        }
-    };
-    MultiViewService.prototype.observeRoom = function () {
-        var address = "/chatrooms/" + this.chatRoomId + "/";
-        return this.chatInteractor.observeRoom(address);
-    };
-    // TODO: refactor into different service
-    MultiViewService.prototype.openProject = function (userId, projectId) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.eventBus.onStartLoading();
-            _this.projectInteractor.openProject(userId, projectId).subscribe(function (response) {
-                //reset the current scene
-                _this.sceneInteractor.setActiveRoomId(null);
-                _this.eventBus.onSelectRoom(null, false);
-                // this.metaDataInteractor.setIsReadOnly(false);
-                resolve();
-            }, function (error) {
-                return reject(error);
-            }, function () {
-                return _this.eventBus.onStopLoading();
-            });
-        });
-    };
-    MultiViewService.prototype.joinMultiView = function () {
-        this.chatInteractor.joinRoom(this.chatRoomId).subscribe(function (success) {
-            return console.log('joined Room', success);
-        }, function (error) {
-            return console.log('error', error);
-        });
-    };
-    MultiViewService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [event_bus_1.EventBus, projectInteractor_1.ProjectInteractor, chatInteractor_1.ChatInteractor, sceneInteractor_1.SceneInteractor])], MultiViewService);
-    return MultiViewService;
-}();
-exports.MultiViewService = MultiViewService;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
-
-/***/ }),
-/* 514 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var Observable_1 = __webpack_require__(0);
-var firebase = __webpack_require__(462);
-__webpack_require__(467);
-__webpack_require__(468);
-var authenticationService_1 = __webpack_require__(182);
-var ChatService = /** @class */function () {
-    function ChatService(authenticationService // remove
-    ) {
-        this.authenticationService = authenticationService; // remove
-    }
-    // TODO: remove
-    ChatService.prototype.createRoom = function (roomName, userName, userId) {
-        var room = {
-            name: roomName,
-            creatorId: userId,
-            users: {
-                id: {
-                    name: userName
-                }
-            },
-            project: {
-                userId: '',
-                projectId: ''
-            }
-        };
-        var chatRoomKey = firebase.database().ref().child('/chatrooms/').push().key;
-        var updateDB = firebase.database().ref("/chatrooms/" + chatRoomKey).update(room);
-        return Observable_1.Observable.fromPromise(updateDB);
-    };
-    // TODO: remove
-    ChatService.prototype.getRooms = function () {
-        var observable = Observable_1.Observable.create(function (observer) {
-            firebase.database().ref('/chatrooms/').on('value', function (snapshot) {
-                observer.next(snapshot.val());
-            });
-        });
-        return observable;
-    };
-    // return a promise with the room address
-    ChatService.prototype.joinRoom = function (chatRoomId, userId, userName) {
-        var roomAddress = "/chatrooms/" + chatRoomId + "/";
-        var userAddress = "" + roomAddress + userId;
-        var userData = {
-            name: userName
-        };
-        var updateDB = firebase.database().ref(userAddress).update(userData);
-        return Observable_1.Observable.fromPromise(updateDB);
-    };
-    ChatService.prototype.observeRoom = function (roomAddress) {
-        console.log('roomAddress', roomAddress);
-        return Observable_1.Observable.create(function (observer) {
-            firebase.database().ref(roomAddress).on('value', function (snapshot) {
-                observer.next(snapshot.val());
-            });
-        });
-    };
-    ChatService.prototype.setLookAt = function (roomAddress, userId, x, y, z) {
-        var userAddress = "/chatrooms/" + roomAddress + "/" + userId + "/lookingAt";
-        var lookingAt = { x: x, y: y, z: z };
-        var updateDB = firebase.database().ref(userAddress).update(lookingAt);
-        return Observable_1.Observable.fromPromise(updateDB);
-    };
-    ChatService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [authenticationService_1.AuthenticationService // remove
-    ])], ChatService);
-    return ChatService;
-}();
-exports.ChatService = ChatService;
-
-/***/ }),
-/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20466,7 +20262,7 @@ var core_1 = __webpack_require__(2);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
 var sceneInteractor_1 = __webpack_require__(14);
 var assetInteractor_1 = __webpack_require__(60);
-var audioPlayService_1 = __webpack_require__(275);
+var audioPlayService_1 = __webpack_require__(273);
 var AudioManager = /** @class */function () {
     function AudioManager(metaDataInteractor, sceneInteractor, assetInteractor, audioPlayService) {
         this.metaDataInteractor = metaDataInteractor;
@@ -20559,7 +20355,7 @@ var AudioManager = /** @class */function () {
 exports.AudioManager = AudioManager;
 
 /***/ }),
-/* 516 */
+/* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20579,7 +20375,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(14);
 var assetInteractor_1 = __webpack_require__(60);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var iconPaths = [new assetInteractor_1.AssetModel('door', 'door', constants_1.ICON_PATH + "door_filled.png"), new assetInteractor_1.AssetModel('image', 'image', constants_1.ICON_PATH + "image_filled.png"), new assetInteractor_1.AssetModel('text', 'text', constants_1.ICON_PATH + "text_filled.png"), new assetInteractor_1.AssetModel('audio', 'audio', constants_1.ICON_PATH + "audio_filled.png"), new assetInteractor_1.AssetModel('link', 'link', constants_1.ICON_PATH + "link_filled.png"), new assetInteractor_1.AssetModel('back', 'back', constants_1.ICON_PATH + "back_filled.png"), new assetInteractor_1.AssetModel('home', 'home', constants_1.ICON_PATH + "home_filled.png"), new assetInteractor_1.AssetModel('colorBall', 'colorBall', constants_1.IMAGE_PATH + "color_ball.jpg"), new assetInteractor_1.AssetModel('imageMask', 'imageMask', constants_1.IMAGE_PATH + "image-mask_1920.jpg")];
 var TextureLoader = /** @class */function () {
     function TextureLoader(sceneInteractor, assetInteractor) {
@@ -20620,7 +20416,7 @@ var TextureLoader = /** @class */function () {
 exports.TextureLoader = TextureLoader;
 
 /***/ }),
-/* 517 */
+/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20638,21 +20434,21 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var THREE = __webpack_require__(27);
-var HotspotEntity_1 = __webpack_require__(1192);
+var THREE = __webpack_require__(28);
+var HotspotEntity_1 = __webpack_require__(1189);
 var sceneInteractor_1 = __webpack_require__(14);
 var assetInteractor_1 = __webpack_require__(60);
 var roomPropertyTypeService_1 = __webpack_require__(92);
-var audioPlayService_1 = __webpack_require__(275);
+var audioPlayService_1 = __webpack_require__(273);
 var roomManager_1 = __webpack_require__(91);
-var menuManager_1 = __webpack_require__(277);
-var textMaterialBuilder_1 = __webpack_require__(1193);
+var menuManager_1 = __webpack_require__(275);
+var textMaterialBuilder_1 = __webpack_require__(1190);
 var imageResizeService_1 = __webpack_require__(52);
 var iconPositionUtil_1 = __webpack_require__(105);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var iconPositionUtil_2 = __webpack_require__(105);
-var constants_1 = __webpack_require__(11);
-var fontHelper_1 = __webpack_require__(518);
+var constants_1 = __webpack_require__(12);
+var fontHelper_1 = __webpack_require__(516);
 function buildDashCircle() {
     var dashCircleGeom = new THREE.CircleGeometry(constants_1.THREE_CONST.HOTSPOT_DIM, constants_1.THREE_CONST.DASHCIRCLE_SEG);
     var dashCircleMaterial = new THREE.LineDashedMaterial({ color: 0xFFFFFF, dashSize: 2, gapSize: 2, linewidth: 1 });
@@ -20857,14 +20653,14 @@ var HotspotManager = /** @class */function () {
 exports.HotspotManager = HotspotManager;
 
 /***/ }),
-/* 518 */
+/* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = __webpack_require__(27);
+var THREE = __webpack_require__(28);
 var fontPath = 'assets/fonts/Nunito_Regular.json';
 var FontHelper = /** @class */function () {
     function FontHelper() {}
@@ -20888,7 +20684,7 @@ var fontHelper = new FontHelper();
 exports.default = fontHelper;
 
 /***/ }),
-/* 519 */
+/* 517 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20906,8 +20702,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var constants_1 = __webpack_require__(11);
-var THREE = __webpack_require__(27);
+var constants_1 = __webpack_require__(12);
+var THREE = __webpack_require__(28);
 var Reticle = /** @class */function () {
     function Reticle() {
         this.reticleRaycaster = new THREE.Raycaster();
@@ -20975,7 +20771,94 @@ var Reticle = /** @class */function () {
 exports.Reticle = Reticle;
 
 /***/ }),
-/* 520 */
+/* 518 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var Observable_1 = __webpack_require__(0);
+var firebase = __webpack_require__(461);
+__webpack_require__(466);
+__webpack_require__(467);
+var authenticationService_1 = __webpack_require__(182);
+var ChatService = /** @class */function () {
+    function ChatService(authenticationService // remove
+    ) {
+        this.authenticationService = authenticationService; // remove
+    }
+    // TODO: remove
+    ChatService.prototype.createRoom = function (roomName, userName, userId) {
+        var room = {
+            name: roomName,
+            creatorId: userId,
+            users: {
+                id: {
+                    name: userName
+                }
+            },
+            project: {
+                userId: '',
+                projectId: ''
+            }
+        };
+        var chatRoomKey = firebase.database().ref().child('/chatrooms/').push().key;
+        var updateDB = firebase.database().ref("/chatrooms/" + chatRoomKey).update(room);
+        return Observable_1.Observable.fromPromise(updateDB);
+    };
+    // TODO: remove
+    ChatService.prototype.getRooms = function () {
+        var observable = Observable_1.Observable.create(function (observer) {
+            firebase.database().ref('/chatrooms/').on('value', function (snapshot) {
+                observer.next(snapshot.val());
+            });
+        });
+        return observable;
+    };
+    // return a promise with the room address
+    ChatService.prototype.joinRoom = function (chatRoomId, userId, userName) {
+        var roomAddress = "/chatrooms/" + chatRoomId + "/";
+        var userAddress = "" + roomAddress + userId;
+        var userData = {
+            name: userName
+        };
+        var updateDB = firebase.database().ref(userAddress).update(userData);
+        return Observable_1.Observable.fromPromise(updateDB);
+    };
+    ChatService.prototype.observeRoom = function (roomAddress) {
+        console.log('roomAddress', roomAddress);
+        return Observable_1.Observable.create(function (observer) {
+            firebase.database().ref(roomAddress).on('value', function (snapshot) {
+                observer.next(snapshot.val());
+            });
+        });
+    };
+    ChatService.prototype.setLookAt = function (roomAddress, userId, x, y, z) {
+        var userAddress = "/chatrooms/" + roomAddress + "/" + userId + "/lookingAt";
+        var lookingAt = { x: x, y: y, z: z };
+        var updateDB = firebase.database().ref(userAddress).update(lookingAt);
+        return Observable_1.Observable.fromPromise(updateDB);
+    };
+    ChatService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [authenticationService_1.AuthenticationService // remove
+    ])], ChatService);
+    return ChatService;
+}();
+exports.ChatService = ChatService;
+
+/***/ }),
+/* 519 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* FileSaver.js
@@ -21161,7 +21044,7 @@ var saveAs = saveAs || (function(view) {
 
 if (typeof module !== "undefined" && module.exports) {
   module.exports.saveAs = saveAs;
-} else if (("function" !== "undefined" && __webpack_require__(1212) !== null) && (__webpack_require__(1213) !== null)) {
+} else if (("function" !== "undefined" && __webpack_require__(1210) !== null) && (__webpack_require__(1211) !== null)) {
   !(__WEBPACK_AMD_DEFINE_RESULT__ = function() {
     return saveAs;
   }.call(exports, __webpack_require__, exports, module),
@@ -21170,7 +21053,7 @@ if (typeof module !== "undefined" && module.exports) {
 
 
 /***/ }),
-/* 521 */
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21202,6 +21085,7 @@ var GroupInteractor = /** @class */function () {
 exports.GroupInteractor = GroupInteractor;
 
 /***/ }),
+/* 521 */,
 /* 522 */,
 /* 523 */,
 /* 524 */,
@@ -21747,19 +21631,18 @@ exports.GroupInteractor = GroupInteractor;
 /* 1064 */,
 /* 1065 */,
 /* 1066 */,
-/* 1067 */,
-/* 1068 */
+/* 1067 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var platform_browser_dynamic_1 = __webpack_require__(330);
+var platform_browser_dynamic_1 = __webpack_require__(329);
 var core_1 = __webpack_require__(2);
-var firebase_1 = __webpack_require__(1069);
-var ui_module_1 = __webpack_require__(1147);
-var build = __webpack_require__(503);
+var firebase_1 = __webpack_require__(1068);
+var ui_module_1 = __webpack_require__(1146);
+var build = __webpack_require__(502);
 if (build === 'PROD') {
     core_1.enableProdMode();
 }
@@ -21785,7 +21668,7 @@ platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(ui_module_1.
 // }
 
 /***/ }),
-/* 1069 */
+/* 1068 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -21804,26 +21687,26 @@ platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(ui_module_1.
  * limitations under the License.
  */
 
-var firebase = __webpack_require__(462);
+var firebase = __webpack_require__(461);
+__webpack_require__(466);
 __webpack_require__(467);
-__webpack_require__(468);
-__webpack_require__(1123);
-__webpack_require__(1130);
+__webpack_require__(1122);
+__webpack_require__(1129);
 
 module.exports = firebase;
 
 
 /***/ }),
-/* 1070 */
+/* 1069 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_polyfills_promise__ = __webpack_require__(1071);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_polyfills_promise__ = __webpack_require__(1070);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_polyfills_promise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__src_polyfills_promise__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_shims_find__ = __webpack_require__(1073);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_shims_find__ = __webpack_require__(1072);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_shims_find___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__src_shims_find__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_shims_findIndex__ = __webpack_require__(1074);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_shims_findIndex__ = __webpack_require__(1073);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_shims_findIndex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__src_shims_findIndex__);
 /**
  * Copyright 2017 Google Inc.
@@ -21848,7 +21731,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 1071 */
+/* 1070 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -21881,7 +21764,7 @@ var __global = (function () {
 // Polyfill Promise
 if (typeof Promise === 'undefined') {
     // HACK: TS throws an error if I attempt to use 'dot-notation'
-    __global['Promise'] = Promise = __webpack_require__(1072);
+    __global['Promise'] = Promise = __webpack_require__(1071);
 }
 
 //# sourceMappingURL=promise.js.map
@@ -21889,7 +21772,7 @@ if (typeof Promise === 'undefined') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
 
 /***/ }),
-/* 1072 */
+/* 1071 */
 /***/ (function(module, exports) {
 
 (function (root) {
@@ -22128,7 +22011,7 @@ if (typeof Promise === 'undefined') {
 
 
 /***/ }),
-/* 1073 */
+/* 1072 */
 /***/ (function(module, exports) {
 
 /**
@@ -22192,7 +22075,7 @@ if (!Array.prototype.find) {
 
 
 /***/ }),
-/* 1074 */
+/* 1073 */
 /***/ (function(module, exports) {
 
 /**
@@ -22256,7 +22139,7 @@ if (!Array.prototype.findIndex) {
 
 
 /***/ }),
-/* 1075 */
+/* 1074 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22627,7 +22510,7 @@ var appErrors = new __WEBPACK_IMPORTED_MODULE_0__firebase_util__["ErrorFactory"]
 
 
 /***/ }),
-/* 1076 */
+/* 1075 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22709,7 +22592,7 @@ exports.patchProperty = patchProperty;
 
 
 /***/ }),
-/* 1077 */
+/* 1076 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22777,7 +22660,7 @@ exports.Deferred = Deferred;
 
 
 /***/ }),
-/* 1078 */
+/* 1077 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22846,7 +22729,7 @@ exports.isNodeSdk = function () {
 
 
 /***/ }),
-/* 1079 */
+/* 1078 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22936,7 +22819,7 @@ exports.ErrorFactory = ErrorFactory;
 
 
 /***/ }),
-/* 1080 */
+/* 1079 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22957,8 +22840,8 @@ exports.ErrorFactory = ErrorFactory;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var crypt_1 = __webpack_require__(464);
-var json_1 = __webpack_require__(465);
+var crypt_1 = __webpack_require__(463);
+var json_1 = __webpack_require__(464);
 /**
  * Decodes a Firebase auth. token into constituent parts.
  *
@@ -23071,7 +22954,7 @@ exports.isAdmin = function (token) {
 
 
 /***/ }),
-/* 1081 */
+/* 1080 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23092,7 +22975,7 @@ exports.isAdmin = function (token) {
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var obj_1 = __webpack_require__(466);
+var obj_1 = __webpack_require__(465);
 /**
  * Returns a querystring-formatted string (e.g. &arg=val&arg2=val2) from a params
  * object (e.g. {arg: 'val', arg2: 'val2'})
@@ -23137,7 +23020,7 @@ exports.querystringDecode = function (querystring) {
 
 
 /***/ }),
-/* 1082 */
+/* 1081 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23168,7 +23051,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var hash_1 = __webpack_require__(1083);
+var hash_1 = __webpack_require__(1082);
 /**
  * @fileoverview SHA-1 cryptographic hash.
  * Variable names follow the notation in FIPS PUB 180-3:
@@ -23423,7 +23306,7 @@ exports.Sha1 = Sha1;
 
 
 /***/ }),
-/* 1083 */
+/* 1082 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23485,7 +23368,7 @@ exports.Hash = Hash;
 
 
 /***/ }),
-/* 1084 */
+/* 1083 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23712,7 +23595,7 @@ function noop() {
 
 
 /***/ }),
-/* 1085 */
+/* 1084 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23829,7 +23712,7 @@ exports.validateContextObject = validateContextObject;
 
 
 /***/ }),
-/* 1086 */
+/* 1085 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23850,7 +23733,7 @@ exports.validateContextObject = validateContextObject;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var assert_1 = __webpack_require__(463);
+var assert_1 = __webpack_require__(462);
 // Code originally came from goog.crypt.stringToUtf8ByteArray, but for some reason they
 // automatically replaced '\r\n' with '\n', and they didn't handle surrogate pairs,
 // so it's been modified.
@@ -23928,7 +23811,7 @@ exports.stringLength = function (str) {
 
 
 /***/ }),
-/* 1087 */
+/* 1086 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var firebase = __webpack_require__(74).default; (function(){/**
@@ -24252,7 +24135,7 @@ c){a=new T(a);c({INTERNAL:{getUid:r(a.getUid,a),getToken:r(a.If,a),addAuthTokenL
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
 
 /***/ }),
-/* 1088 */
+/* 1087 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24274,13 +24157,13 @@ c){a=new T(a);c({INTERNAL:{getUid:r(a.getUid,a),getToken:r(a.If,a),addAuthTokenL
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_1 = __webpack_require__(74);
-var Database_1 = __webpack_require__(469);
-var Query_1 = __webpack_require__(472);
+var Database_1 = __webpack_require__(468);
+var Query_1 = __webpack_require__(471);
 var Reference_1 = __webpack_require__(253);
-var util_1 = __webpack_require__(9);
+var util_1 = __webpack_require__(8);
 var RepoManager_1 = __webpack_require__(257);
-var INTERNAL = __webpack_require__(1121);
-var TEST_ACCESS = __webpack_require__(1122);
+var INTERNAL = __webpack_require__(1120);
+var TEST_ACCESS = __webpack_require__(1121);
 var util_2 = __webpack_require__(3);
 function registerDatabase(instance) {
     // Register the Database Service with the 'firebase' namespace.
@@ -24306,7 +24189,7 @@ registerDatabase(app_1.default);
 
 
 /***/ }),
-/* 1089 */
+/* 1088 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24396,7 +24279,7 @@ exports.DOMStorageWrapper = DOMStorageWrapper;
 
 
 /***/ }),
-/* 1090 */
+/* 1089 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24454,7 +24337,7 @@ exports.MemoryStorage = MemoryStorage;
 
 
 /***/ }),
-/* 1091 */
+/* 1090 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24477,7 +24360,7 @@ exports.MemoryStorage = MemoryStorage;
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var validation_1 = __webpack_require__(88);
-var util_2 = __webpack_require__(9);
+var util_2 = __webpack_require__(8);
 var util_3 = __webpack_require__(3);
 /**
  * @constructor
@@ -24575,7 +24458,7 @@ exports.OnDisconnect = OnDisconnect;
 
 
 /***/ }),
-/* 1092 */
+/* 1091 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24623,7 +24506,7 @@ exports.TransactionResult = TransactionResult;
 
 
 /***/ }),
-/* 1093 */
+/* 1092 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24708,7 +24591,7 @@ exports.nextPushId = (function () {
 
 
 /***/ }),
-/* 1094 */
+/* 1093 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24729,8 +24612,8 @@ exports.nextPushId = (function () {
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var DataSnapshot_1 = __webpack_require__(479);
-var Event_1 = __webpack_require__(1095);
+var DataSnapshot_1 = __webpack_require__(478);
+var Event_1 = __webpack_require__(1094);
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(3);
 /**
@@ -24930,7 +24813,7 @@ exports.ChildEventRegistration = ChildEventRegistration;
 
 
 /***/ }),
-/* 1095 */
+/* 1094 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25049,7 +24932,7 @@ exports.CancelEvent = CancelEvent;
 
 
 /***/ }),
-/* 1096 */
+/* 1095 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25071,18 +24954,18 @@ exports.CancelEvent = CancelEvent;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(9);
-var AckUserWrite_1 = __webpack_require__(1097);
+var util_2 = __webpack_require__(8);
+var AckUserWrite_1 = __webpack_require__(1096);
 var ChildrenNode_1 = __webpack_require__(35);
 var util_3 = __webpack_require__(3);
 var ImmutableTree_1 = __webpack_require__(254);
-var ListenComplete_1 = __webpack_require__(1098);
-var Merge_1 = __webpack_require__(1099);
+var ListenComplete_1 = __webpack_require__(1097);
+var Merge_1 = __webpack_require__(1098);
 var Operation_1 = __webpack_require__(89);
-var Overwrite_1 = __webpack_require__(483);
+var Overwrite_1 = __webpack_require__(482);
 var Path_1 = __webpack_require__(22);
-var SyncPoint_1 = __webpack_require__(484);
-var WriteTree_1 = __webpack_require__(1105);
+var SyncPoint_1 = __webpack_require__(483);
+var WriteTree_1 = __webpack_require__(1104);
 /**
  * SyncTree is the central class for managing event callback registration, data caching, views
  * (query processing), and event generation.  There are typically two SyncTree instances for
@@ -25767,7 +25650,7 @@ exports.SyncTree = SyncTree;
 
 
 /***/ }),
-/* 1097 */
+/* 1096 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25836,7 +25719,7 @@ exports.AckUserWrite = AckUserWrite;
 
 
 /***/ }),
-/* 1098 */
+/* 1097 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25888,7 +25771,7 @@ exports.ListenComplete = ListenComplete;
 
 
 /***/ }),
-/* 1099 */
+/* 1098 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25910,7 +25793,7 @@ exports.ListenComplete = ListenComplete;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var Operation_1 = __webpack_require__(89);
-var Overwrite_1 = __webpack_require__(483);
+var Overwrite_1 = __webpack_require__(482);
 var Path_1 = __webpack_require__(22);
 var util_1 = __webpack_require__(3);
 /**
@@ -25975,7 +25858,7 @@ exports.Merge = Merge;
 
 
 /***/ }),
-/* 1100 */
+/* 1099 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25997,11 +25880,11 @@ exports.Merge = Merge;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var IndexedFilter_1 = __webpack_require__(255);
-var ViewProcessor_1 = __webpack_require__(1101);
+var ViewProcessor_1 = __webpack_require__(1100);
 var ChildrenNode_1 = __webpack_require__(35);
 var CacheNode_1 = __webpack_require__(175);
-var ViewCache_1 = __webpack_require__(485);
-var EventGenerator_1 = __webpack_require__(1104);
+var ViewCache_1 = __webpack_require__(484);
+var EventGenerator_1 = __webpack_require__(1103);
 var util_1 = __webpack_require__(3);
 var Operation_1 = __webpack_require__(89);
 var Change_1 = __webpack_require__(103);
@@ -26190,7 +26073,7 @@ exports.View = View;
 
 
 /***/ }),
-/* 1101 */
+/* 1100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26213,13 +26096,13 @@ exports.View = View;
 Object.defineProperty(exports, "__esModule", { value: true });
 var Operation_1 = __webpack_require__(89);
 var util_1 = __webpack_require__(3);
-var ChildChangeAccumulator_1 = __webpack_require__(1102);
+var ChildChangeAccumulator_1 = __webpack_require__(1101);
 var Change_1 = __webpack_require__(103);
 var ChildrenNode_1 = __webpack_require__(35);
 var KeyIndex_1 = __webpack_require__(129);
 var ImmutableTree_1 = __webpack_require__(254);
 var Path_1 = __webpack_require__(22);
-var CompleteChildSource_1 = __webpack_require__(1103);
+var CompleteChildSource_1 = __webpack_require__(1102);
 /**
  * @constructor
  * @struct
@@ -26792,7 +26675,7 @@ exports.ViewProcessor = ViewProcessor;
 
 
 /***/ }),
-/* 1102 */
+/* 1101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26880,7 +26763,7 @@ exports.ChildChangeAccumulator = ChildChangeAccumulator;
 
 
 /***/ }),
-/* 1103 */
+/* 1102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26990,7 +26873,7 @@ exports.WriteTreeCompleteChildSource = WriteTreeCompleteChildSource;
 
 
 /***/ }),
-/* 1104 */
+/* 1103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27127,7 +27010,7 @@ exports.EventGenerator = EventGenerator;
 
 
 /***/ }),
-/* 1105 */
+/* 1104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27151,7 +27034,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(3);
 var Path_1 = __webpack_require__(22);
-var CompoundWrite_1 = __webpack_require__(1106);
+var CompoundWrite_1 = __webpack_require__(1105);
 var PriorityIndex_1 = __webpack_require__(32);
 var ChildrenNode_1 = __webpack_require__(35);
 /**
@@ -27767,7 +27650,7 @@ exports.WriteTreeRef = WriteTreeRef;
 
 
 /***/ }),
-/* 1106 */
+/* 1105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27991,7 +27874,7 @@ exports.CompoundWrite = CompoundWrite;
 
 
 /***/ }),
-/* 1107 */
+/* 1106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28036,7 +27919,7 @@ exports.SnapshotHolder = SnapshotHolder;
 
 
 /***/ }),
-/* 1108 */
+/* 1107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28057,7 +27940,7 @@ exports.SnapshotHolder = SnapshotHolder;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(9);
+var util_1 = __webpack_require__(8);
 /**
  * Abstraction around FirebaseApp's token fetching capabilities.
  */
@@ -28128,7 +28011,7 @@ exports.AuthTokenProvider = AuthTokenProvider;
 
 
 /***/ }),
-/* 1109 */
+/* 1108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28177,7 +28060,7 @@ exports.StatsCollection = StatsCollection;
 
 
 /***/ }),
-/* 1110 */
+/* 1109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28199,8 +28082,8 @@ exports.StatsCollection = StatsCollection;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(9);
-var StatsListener_1 = __webpack_require__(486);
+var util_2 = __webpack_require__(8);
+var StatsListener_1 = __webpack_require__(485);
 // Assuming some apps may have a short amount of time on page, and a bulk of firebase operations probably
 // happen on page load, we try to report our first set of stats pretty quickly, but we wait at least 10
 // seconds to try to ensure the Firebase connection is established / settled.
@@ -28252,7 +28135,7 @@ exports.StatsReporter = StatsReporter;
 
 
 /***/ }),
-/* 1111 */
+/* 1110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28273,7 +28156,7 @@ exports.StatsReporter = StatsReporter;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(9);
+var util_1 = __webpack_require__(8);
 /**
  * The event queue serves a few purposes:
  * 1. It ensures we maintain event order in the face of event callbacks doing operations that result in more
@@ -28431,7 +28314,7 @@ exports.EventList = EventList;
 
 
 /***/ }),
-/* 1112 */
+/* 1111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28462,7 +28345,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var EventEmitter_1 = __webpack_require__(488);
+var EventEmitter_1 = __webpack_require__(487);
 var util_1 = __webpack_require__(3);
 /**
  * @extends {EventEmitter}
@@ -28528,7 +28411,7 @@ exports.VisibilityMonitor = VisibilityMonitor;
 
 
 /***/ }),
-/* 1113 */
+/* 1112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28560,7 +28443,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var EventEmitter_1 = __webpack_require__(488);
+var EventEmitter_1 = __webpack_require__(487);
 var util_2 = __webpack_require__(3);
 /**
  * Monitors online state (as reported by window.online/offline events).
@@ -28623,7 +28506,7 @@ exports.OnlineMonitor = OnlineMonitor;
 
 
 /***/ }),
-/* 1114 */
+/* 1113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28644,9 +28527,9 @@ exports.OnlineMonitor = OnlineMonitor;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var BrowserPollConnection_1 = __webpack_require__(490);
-var WebSocketConnection_1 = __webpack_require__(491);
-var util_1 = __webpack_require__(9);
+var BrowserPollConnection_1 = __webpack_require__(489);
+var WebSocketConnection_1 = __webpack_require__(490);
+var util_1 = __webpack_require__(8);
 /**
  * Currently simplistic, this class manages what transport a Connection should use at various stages of its
  * lifecycle.
@@ -28729,7 +28612,7 @@ exports.TransportManager = TransportManager;
 
 
 /***/ }),
-/* 1115 */
+/* 1114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28750,7 +28633,7 @@ exports.TransportManager = TransportManager;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(9);
+var util_1 = __webpack_require__(8);
 /**
  * This class ensures the packets from the server arrive in order
  * This class takes data from the server and ensures it gets passed into the callbacks in order.
@@ -28822,7 +28705,7 @@ exports.PacketReceiver = PacketReceiver;
 
 
 /***/ }),
-/* 1116 */
+/* 1115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28854,11 +28737,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(9);
+var util_2 = __webpack_require__(8);
 var util_3 = __webpack_require__(3);
 var util_4 = __webpack_require__(3);
 var util_5 = __webpack_require__(3);
-var ServerActions_1 = __webpack_require__(492);
+var ServerActions_1 = __webpack_require__(491);
 /**
  * An implementation of ServerActions that communicates with the server via REST requests.
  * This is mostly useful for compatibility with crawlers, where we don't want to spin up a full
@@ -29019,7 +28902,7 @@ exports.ReadonlyRestClient = ReadonlyRestClient;
 
 
 /***/ }),
-/* 1117 */
+/* 1116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29041,14 +28924,14 @@ exports.ReadonlyRestClient = ReadonlyRestClient;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(9);
+var util_2 = __webpack_require__(8);
 var KeyIndex_1 = __webpack_require__(129);
 var PriorityIndex_1 = __webpack_require__(32);
-var ValueIndex_1 = __webpack_require__(474);
-var PathIndex_1 = __webpack_require__(478);
+var ValueIndex_1 = __webpack_require__(473);
+var PathIndex_1 = __webpack_require__(477);
 var IndexedFilter_1 = __webpack_require__(255);
-var LimitedFilter_1 = __webpack_require__(1118);
-var RangedFilter_1 = __webpack_require__(493);
+var LimitedFilter_1 = __webpack_require__(1117);
+var RangedFilter_1 = __webpack_require__(492);
 var util_3 = __webpack_require__(3);
 /**
  * This class is an immutable-from-the-public-api struct containing a set of query parameters defining a
@@ -29432,7 +29315,7 @@ exports.QueryParams = QueryParams;
 
 
 /***/ }),
-/* 1118 */
+/* 1117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29453,7 +29336,7 @@ exports.QueryParams = QueryParams;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var RangedFilter_1 = __webpack_require__(493);
+var RangedFilter_1 = __webpack_require__(492);
 var ChildrenNode_1 = __webpack_require__(35);
 var Node_1 = __webpack_require__(44);
 var util_1 = __webpack_require__(3);
@@ -29698,7 +29581,7 @@ exports.LimitedFilter = LimitedFilter;
 
 
 /***/ }),
-/* 1119 */
+/* 1118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29721,12 +29604,12 @@ exports.LimitedFilter = LimitedFilter;
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var Reference_1 = __webpack_require__(253);
-var DataSnapshot_1 = __webpack_require__(479);
+var DataSnapshot_1 = __webpack_require__(478);
 var Path_1 = __webpack_require__(22);
-var Tree_1 = __webpack_require__(1120);
+var Tree_1 = __webpack_require__(1119);
 var PriorityIndex_1 = __webpack_require__(32);
-var util_2 = __webpack_require__(9);
-var ServerValues_1 = __webpack_require__(480);
+var util_2 = __webpack_require__(8);
+var ServerValues_1 = __webpack_require__(479);
 var validation_1 = __webpack_require__(88);
 var util_3 = __webpack_require__(3);
 var nodeFromJSON_1 = __webpack_require__(130);
@@ -30270,7 +30153,7 @@ Repo_1.Repo.prototype.abortTransactionsOnNode_ = function (node) {
 
 
 /***/ }),
-/* 1120 */
+/* 1119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30504,7 +30387,7 @@ exports.Tree = Tree;
 
 
 /***/ }),
-/* 1121 */
+/* 1120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30525,8 +30408,8 @@ exports.Tree = Tree;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var WebSocketConnection_1 = __webpack_require__(491);
-var BrowserPollConnection_1 = __webpack_require__(490);
+var WebSocketConnection_1 = __webpack_require__(490);
+var BrowserPollConnection_1 = __webpack_require__(489);
 /**
  * INTERNAL methods for internal-use only (tests, etc.).
  *
@@ -30565,7 +30448,7 @@ exports.interceptServerData = function (ref, callback) {
 
 
 /***/ }),
-/* 1122 */
+/* 1121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30586,10 +30469,10 @@ exports.interceptServerData = function (ref, callback) {
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var RepoInfo_1 = __webpack_require__(471);
-var PersistentConnection_1 = __webpack_require__(487);
+var RepoInfo_1 = __webpack_require__(470);
+var PersistentConnection_1 = __webpack_require__(486);
 var RepoManager_1 = __webpack_require__(257);
-var Connection_1 = __webpack_require__(489);
+var Connection_1 = __webpack_require__(488);
 exports.DataConnection = PersistentConnection_1.PersistentConnection;
 /**
  * @param {!string} pathString
@@ -30654,7 +30537,7 @@ exports.forceRestClient = function (forceRestClient) {
 
 
 /***/ }),
-/* 1123 */
+/* 1122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -30673,18 +30556,18 @@ exports.forceRestClient = function (forceRestClient) {
  * limitations under the License.
  */
 
-__webpack_require__(1124);
+__webpack_require__(1123);
 
 
 /***/ }),
-/* 1124 */
+/* 1123 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["registerMessaging"] = registerMessaging;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_controllers_window_controller__ = __webpack_require__(1125);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_controllers_sw_controller__ = __webpack_require__(1129);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_controllers_window_controller__ = __webpack_require__(1124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_controllers_sw_controller__ = __webpack_require__(1128);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__firebase_app__ = __webpack_require__(74);
 /**
  * Copyright 2017 Google Inc.
@@ -30726,15 +30609,15 @@ registerMessaging(__WEBPACK_IMPORTED_MODULE_2__firebase_app__["default"]);
 
 
 /***/ }),
-/* 1125 */
+/* 1124 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controller_interface__ = __webpack_require__(494);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controller_interface__ = __webpack_require__(493);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_errors__ = __webpack_require__(176);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_worker_page_message__ = __webpack_require__(497);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_default_sw__ = __webpack_require__(1128);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_notification_permission__ = __webpack_require__(496);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_worker_page_message__ = __webpack_require__(496);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_default_sw__ = __webpack_require__(1127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_notification_permission__ = __webpack_require__(495);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__firebase_util__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__firebase_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__firebase_util__);
 /**
@@ -31079,15 +30962,15 @@ var WindowController = /** @class */ (function (_super) {
 
 
 /***/ }),
-/* 1126 */
+/* 1125 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_util__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__firebase_util__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__errors__ = __webpack_require__(176);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_array_buffer_to_base64__ = __webpack_require__(1127);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__fcm_details__ = __webpack_require__(495);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_array_buffer_to_base64__ = __webpack_require__(1126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__fcm_details__ = __webpack_require__(494);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -31457,7 +31340,7 @@ var TokenManager = /** @class */ (function () {
 
 
 /***/ }),
-/* 1127 */
+/* 1126 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31492,7 +31375,7 @@ function toBase64(arrayBuffer) {
 
 
 /***/ }),
-/* 1128 */
+/* 1127 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31521,14 +31404,14 @@ function toBase64(arrayBuffer) {
 
 
 /***/ }),
-/* 1129 */
+/* 1128 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controller_interface__ = __webpack_require__(494);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controller_interface__ = __webpack_require__(493);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_errors__ = __webpack_require__(176);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_worker_page_message__ = __webpack_require__(497);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_fcm_details__ = __webpack_require__(495);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_worker_page_message__ = __webpack_require__(496);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_fcm_details__ = __webpack_require__(494);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -31844,7 +31727,7 @@ var SWController = /** @class */ (function (_super) {
 
 
 /***/ }),
-/* 1130 */
+/* 1129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -31863,11 +31746,11 @@ var SWController = /** @class */ (function (_super) {
  * limitations under the License.
  */
 
-__webpack_require__(1131);
+__webpack_require__(1130);
 
 
 /***/ }),
-/* 1131 */
+/* 1130 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31876,9 +31759,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_app__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_implementation_string__ = __webpack_require__(131);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_implementation_taskenums__ = __webpack_require__(132);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_implementation_xhriopool__ = __webpack_require__(1132);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_reference__ = __webpack_require__(499);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_service__ = __webpack_require__(1141);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_implementation_xhriopool__ = __webpack_require__(1131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_reference__ = __webpack_require__(498);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_service__ = __webpack_require__(1140);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -31927,12 +31810,12 @@ registerStorage(__WEBPACK_IMPORTED_MODULE_0__firebase_app__["default"]);
 
 
 /***/ }),
-/* 1132 */
+/* 1131 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return XhrIoPool; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__xhrio_network__ = __webpack_require__(1133);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__xhrio_network__ = __webpack_require__(1132);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -31966,7 +31849,7 @@ var XhrIoPool = /** @class */ (function () {
 
 
 /***/ }),
-/* 1133 */
+/* 1132 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31975,7 +31858,7 @@ var XhrIoPool = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__object__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__promise_external__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__type__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__xhrio__ = __webpack_require__(498);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__xhrio__ = __webpack_require__(497);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -32113,7 +31996,7 @@ var NetworkXhrIo = /** @class */ (function () {
 
 
 /***/ }),
-/* 1134 */
+/* 1133 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32159,7 +32042,7 @@ function jsonObjectOrNull(s) {
 
 
 /***/ }),
-/* 1135 */
+/* 1134 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32232,7 +32115,7 @@ function sliceBlob(blob, start, end) {
 
 
 /***/ }),
-/* 1136 */
+/* 1135 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32271,20 +32154,20 @@ var RequestInfo = /** @class */ (function () {
 
 
 /***/ }),
-/* 1137 */
+/* 1136 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UploadTask; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__implementation_taskenums__ = __webpack_require__(132);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_observer__ = __webpack_require__(1138);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tasksnapshot__ = __webpack_require__(1139);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_observer__ = __webpack_require__(1137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tasksnapshot__ = __webpack_require__(1138);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__implementation_args__ = __webpack_require__(258);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__implementation_array__ = __webpack_require__(261);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__implementation_async__ = __webpack_require__(1140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__implementation_async__ = __webpack_require__(1139);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__implementation_error__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__implementation_promise_external__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__implementation_requests__ = __webpack_require__(502);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__implementation_requests__ = __webpack_require__(501);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__implementation_type__ = __webpack_require__(45);
 /**
  * Copyright 2017 Google Inc.
@@ -32851,7 +32734,7 @@ var UploadTask = /** @class */ (function () {
 
 
 /***/ }),
-/* 1138 */
+/* 1137 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32901,7 +32784,7 @@ var Observer = /** @class */ (function () {
 
 
 /***/ }),
-/* 1139 */
+/* 1138 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32941,7 +32824,7 @@ var UploadTaskSnapshot = /** @class */ (function () {
 
 
 /***/ }),
-/* 1140 */
+/* 1139 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32987,18 +32870,18 @@ function async(f) {
 
 
 /***/ }),
-/* 1141 */
+/* 1140 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Service; });
 /* unused harmony export ServiceInternals */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__implementation_args__ = __webpack_require__(258);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_authwrapper__ = __webpack_require__(1142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_authwrapper__ = __webpack_require__(1141);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__implementation_location__ = __webpack_require__(178);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__implementation_promise_external__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__implementation_request__ = __webpack_require__(1145);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__reference__ = __webpack_require__(499);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__implementation_request__ = __webpack_require__(1144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__reference__ = __webpack_require__(498);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -33148,17 +33031,17 @@ var ServiceInternals = /** @class */ (function () {
 
 
 /***/ }),
-/* 1142 */
+/* 1141 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthWrapper; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(177);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__error__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__failrequest__ = __webpack_require__(1143);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__failrequest__ = __webpack_require__(1142);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__location__ = __webpack_require__(178);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__promise_external__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestmap__ = __webpack_require__(1144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestmap__ = __webpack_require__(1143);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__type__ = __webpack_require__(45);
 
 
@@ -33284,7 +33167,7 @@ var AuthWrapper = /** @class */ (function () {
 
 
 /***/ }),
-/* 1143 */
+/* 1142 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33316,7 +33199,7 @@ var FailRequest = /** @class */ (function () {
 
 
 /***/ }),
-/* 1144 */
+/* 1143 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33382,7 +33265,7 @@ var RequestMap = /** @class */ (function () {
 
 
 /***/ }),
-/* 1145 */
+/* 1144 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33392,13 +33275,13 @@ var RequestMap = /** @class */ (function () {
 /* harmony export (immutable) */ __webpack_exports__["a"] = makeRequest;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_app__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__array__ = __webpack_require__(261);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__backoff__ = __webpack_require__(1146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__backoff__ = __webpack_require__(1145);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__error__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__object__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__promise_external__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__type__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__url__ = __webpack_require__(260);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__xhrio__ = __webpack_require__(498);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__xhrio__ = __webpack_require__(497);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -33622,7 +33505,7 @@ function makeRequest(requestInfo, authToken, pool) {
 
 
 /***/ }),
-/* 1146 */
+/* 1145 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33748,7 +33631,7 @@ function stop(id) {
 
 
 /***/ }),
-/* 1147 */
+/* 1146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33767,12 +33650,12 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 var common_1 = __webpack_require__(113);
 // UI Modules
-var editor_module_1 = __webpack_require__(1148);
-var admin_module_1 = __webpack_require__(1305);
-var explore_module_1 = __webpack_require__(1315);
-var chat_module_1 = __webpack_require__(1325);
+var editor_module_1 = __webpack_require__(1147);
+var admin_module_1 = __webpack_require__(1302);
+var explore_module_1 = __webpack_require__(1312);
+var chat_module_1 = __webpack_require__(1322);
 // UI components
-var ui_1 = __webpack_require__(1329);
+var ui_1 = __webpack_require__(1326);
 // Module routes
 var routes = router_1.RouterModule.forRoot([{ path: '**', redirectTo: 'editor', pathMatch: 'full' }]);
 var UiModule = /** @class */function () {
@@ -33791,7 +33674,7 @@ var UiModule = /** @class */function () {
 exports.UiModule = UiModule;
 
 /***/ }),
-/* 1148 */
+/* 1147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33811,68 +33694,67 @@ var router_1 = __webpack_require__(17);
 var platform_browser_1 = __webpack_require__(51);
 var forms_1 = __webpack_require__(97);
 // UI components
-var editor_1 = __webpack_require__(1149);
+var editor_1 = __webpack_require__(1148);
 // Editor
-var edit_space_flat_1 = __webpack_require__(1156);
-var edit_space_sphere_1 = __webpack_require__(1159);
-var default_overlay_1 = __webpack_require__(1162);
-var room_icon_1 = __webpack_require__(1165);
-var property_editor_1 = __webpack_require__(1169);
-var text_editor_1 = __webpack_require__(1172);
-var image_editor_1 = __webpack_require__(1175);
-var door_editor_1 = __webpack_require__(1178);
-var link_editor_1 = __webpack_require__(1181);
-var audio_editor_1 = __webpack_require__(1184);
-var audio_recorder_1 = __webpack_require__(1187);
+var edit_space_flat_1 = __webpack_require__(1154);
+var edit_space_sphere_1 = __webpack_require__(1157);
+var default_overlay_1 = __webpack_require__(1160);
+var room_icon_1 = __webpack_require__(1163);
+var property_editor_1 = __webpack_require__(1166);
+var text_editor_1 = __webpack_require__(1169);
+var image_editor_1 = __webpack_require__(1172);
+var door_editor_1 = __webpack_require__(1175);
+var link_editor_1 = __webpack_require__(1178);
+var audio_editor_1 = __webpack_require__(1181);
+var audio_recorder_1 = __webpack_require__(1184);
 // Preview mode
 // TODO: make into separate module
-var preview_space_1 = __webpack_require__(1190);
-var audioPlayService_1 = __webpack_require__(275);
-var multiViewService_1 = __webpack_require__(513);
-var audioManager_1 = __webpack_require__(515);
-var textureLoader_1 = __webpack_require__(516);
-var hotspotManager_1 = __webpack_require__(517);
-var menuManager_1 = __webpack_require__(277);
-var reticle_1 = __webpack_require__(519);
+var preview_space_1 = __webpack_require__(1187);
+var audioPlayService_1 = __webpack_require__(273);
+var multiViewService_1 = __webpack_require__(1196);
+var audioManager_1 = __webpack_require__(513);
+var textureLoader_1 = __webpack_require__(514);
+var hotspotManager_1 = __webpack_require__(515);
+var menuManager_1 = __webpack_require__(275);
+var reticle_1 = __webpack_require__(517);
 // Topbar
-var topbar_1 = __webpack_require__(1199);
-var about_1 = __webpack_require__(1202);
+var topbar_1 = __webpack_require__(1197);
+var about_1 = __webpack_require__(1200);
 // Modals
-var user_tab_1 = __webpack_require__(1205);
-var unauth_user_tab_1 = __webpack_require__(1208);
-var auth_user_tab_1 = __webpack_require__(1211);
-var tree_tab_1 = __webpack_require__(1216);
-var row_item_1 = __webpack_require__(1219);
-var story_1 = __webpack_require__(1222);
-var modal_close_1 = __webpack_require__(1225);
-var upload_1 = __webpack_require__(1228);
+var user_tab_1 = __webpack_require__(1203);
+var unauth_user_tab_1 = __webpack_require__(1206);
+var auth_user_tab_1 = __webpack_require__(1209);
+var tree_tab_1 = __webpack_require__(1214);
+var row_item_1 = __webpack_require__(1217);
+var story_1 = __webpack_require__(1220);
+var modal_close_1 = __webpack_require__(1223);
+var upload_1 = __webpack_require__(1226);
 // Bottombar
-var hotspot_menu_1 = __webpack_require__(1231);
-var fab_1 = __webpack_require__(1234);
-var action_menu_1 = __webpack_require__(1237);
-var room_editor_1 = __webpack_require__(1240);
-var room_editor_icon_1 = __webpack_require__(1243);
-var edit_space_toggle_1 = __webpack_require__(1246);
-var story_scroll_1 = __webpack_require__(1249);
-var storymap_item_1 = __webpack_require__(1252);
-var add_room_1 = __webpack_require__(1255);
-var fullscreen_1 = __webpack_require__(1258);
+var hotspot_menu_1 = __webpack_require__(1229);
+var fab_1 = __webpack_require__(1232);
+var action_menu_1 = __webpack_require__(1235);
+var room_editor_1 = __webpack_require__(1238);
+var room_editor_icon_1 = __webpack_require__(1241);
+var edit_space_toggle_1 = __webpack_require__(1244);
+var story_scroll_1 = __webpack_require__(1247);
+var storymap_item_1 = __webpack_require__(1250);
+var add_room_1 = __webpack_require__(1253);
+var fullscreen_1 = __webpack_require__(1256);
 // Util
-var draggable_1 = __webpack_require__(1261);
-var off_click_1 = __webpack_require__(1262);
-var droppable_1 = __webpack_require__(1263);
-var file_loader_1 = __webpack_require__(1264);
-var hidden_file_loader_1 = __webpack_require__(1267);
-var file_loader_multi_1 = __webpack_require__(1270);
+var draggable_1 = __webpack_require__(1259);
+var droppable_1 = __webpack_require__(1260);
+var file_loader_1 = __webpack_require__(1261);
+var hidden_file_loader_1 = __webpack_require__(1264);
+var file_loader_multi_1 = __webpack_require__(1267);
 var fileLoaderUtil_1 = __webpack_require__(65);
 var propertyRemovalService_1 = __webpack_require__(136);
-var close_button_1 = __webpack_require__(1273);
-var info_button_1 = __webpack_require__(1276);
+var close_button_1 = __webpack_require__(1270);
+var info_button_1 = __webpack_require__(1273);
 var zipFileReader_1 = __webpack_require__(133);
 var audioRecorderService_1 = __webpack_require__(186);
 var combinedHotspotUtil_1 = __webpack_require__(185);
 var SlideshowBuilder_1 = __webpack_require__(108);
-var slider_1 = __webpack_require__(1279);
+var slider_1 = __webpack_require__(1276);
 var responsiveUtil_1 = __webpack_require__(508);
 // Common UI components
 var common_module_1 = __webpack_require__(187);
@@ -33915,7 +33797,7 @@ var route = router_1.RouterModule.forChild([{
 var EditorModule = /** @class */function () {
     function EditorModule() {}
     EditorModule = __decorate([core_1.NgModule({
-        declarations: [editor_1.Editor, edit_space_flat_1.EditSpaceFlat, edit_space_sphere_1.EditSpaceSphere, preview_space_1.PreviewSpace, topbar_1.Topbar, room_icon_1.RoomIcon, room_editor_icon_1.RoomEditorIcon, property_editor_1.PropertyEditor, text_editor_1.TextEditor, image_editor_1.ImageEditor, audio_editor_1.AudioEditor, door_editor_1.DoorEditor, room_editor_1.RoomEditor, link_editor_1.LinkEditor, draggable_1.DraggableIcon, droppable_1.Droppable, file_loader_1.FileLoader, hidden_file_loader_1.HiddenFileLoader, file_loader_multi_1.FileLoaderMulti, tree_tab_1.TreeTab, row_item_1.RowItem, user_tab_1.UserTab, unauth_user_tab_1.UnauthUserTab, auth_user_tab_1.AuthUserTab, action_menu_1.ActionMenu, close_button_1.CloseButton, info_button_1.InfoButton, default_overlay_1.DefaultOverlay, edit_space_toggle_1.EditSpaceToggle, off_click_1.OffClick, about_1.AboutTab, story_1.Story, modal_close_1.ModalClose, upload_1.Upload, fab_1.Fab, hotspot_menu_1.HotspotMenu, audio_recorder_1.AudioRecorder, slider_1.Slider, story_scroll_1.StoryScroll, storymap_item_1.StorymapItem, add_room_1.AddRoomButton, fullscreen_1.Fullscreen],
+        declarations: [editor_1.Editor, edit_space_flat_1.EditSpaceFlat, edit_space_sphere_1.EditSpaceSphere, preview_space_1.PreviewSpace, topbar_1.Topbar, room_icon_1.RoomIcon, room_editor_icon_1.RoomEditorIcon, property_editor_1.PropertyEditor, text_editor_1.TextEditor, image_editor_1.ImageEditor, audio_editor_1.AudioEditor, door_editor_1.DoorEditor, room_editor_1.RoomEditor, link_editor_1.LinkEditor, draggable_1.DraggableIcon, droppable_1.Droppable, file_loader_1.FileLoader, hidden_file_loader_1.HiddenFileLoader, file_loader_multi_1.FileLoaderMulti, tree_tab_1.TreeTab, row_item_1.RowItem, user_tab_1.UserTab, unauth_user_tab_1.UnauthUserTab, auth_user_tab_1.AuthUserTab, action_menu_1.ActionMenu, close_button_1.CloseButton, info_button_1.InfoButton, default_overlay_1.DefaultOverlay, edit_space_toggle_1.EditSpaceToggle, about_1.AboutTab, story_1.Story, modal_close_1.ModalClose, upload_1.Upload, fab_1.Fab, hotspot_menu_1.HotspotMenu, audio_recorder_1.AudioRecorder, slider_1.Slider, story_scroll_1.StoryScroll, storymap_item_1.StorymapItem, add_room_1.AddRoomButton, fullscreen_1.Fullscreen],
         imports: [platform_browser_1.BrowserModule, core_module_1.CoreModule, common_module_1.CommonModule, forms_1.FormsModule, route],
         providers: [fileLoaderUtil_1.FileLoaderUtil, propertyRemovalService_1.PropertyRemovalService, zipFileReader_1.ZipFileReader, audioRecorderService_1.AudioRecorderService, combinedHotspotUtil_1.CombinedHotspotUtil, audioPlayService_1.AudioPlayService, SlideshowBuilder_1.SlideshowBuilder, responsiveUtil_1.ResponsiveUtil, multiViewService_1.MultiViewService, audioManager_1.AudioManager, textureLoader_1.TextureLoader, hotspotManager_1.HotspotManager, menuManager_1.MenuManager, reticle_1.Reticle]
     })], EditorModule);
@@ -33924,7 +33806,7 @@ var EditorModule = /** @class */function () {
 exports.EditorModule = EditorModule;
 
 /***/ }),
-/* 1149 */
+/* 1148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33944,17 +33826,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 var fileLoaderUtil_1 = __webpack_require__(65);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var iconPositionUtil_1 = __webpack_require__(105);
 var publicLinkHelper_1 = __webpack_require__(262);
 var zipFileReader_1 = __webpack_require__(133);
 var sceneInteractor_1 = __webpack_require__(14);
-var VideoInteractor_1 = __webpack_require__(272);
+var VideoInteractor_1 = __webpack_require__(506);
 var imageResizeService_1 = __webpack_require__(52);
 var SlideshowBuilder_1 = __webpack_require__(108);
 var shareable_loader_1 = __webpack_require__(183);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
-var touchUtil_1 = __webpack_require__(1153);
 var responsiveUtil_1 = __webpack_require__(508);
 var Editor = /** @class */function () {
     function Editor(sceneInteractor, fileLoaderUtil, eventBus, zipFileReader, slideshowBuilder, videoInteractor, route, router, shareableLoader, metaDataInteractor, element, responsiveUtil) {
@@ -33991,7 +33872,6 @@ var Editor = /** @class */function () {
         }, function (error) {
             return console.log('error', error);
         });
-        touchUtil_1.addTouchListenersToElement(this.element.nativeElement);
         this.subscribeToEvents();
     };
     Editor.prototype.ngOnDestroy = function () {
@@ -34279,27 +34159,27 @@ var Editor = /** @class */function () {
     __decorate([core_1.HostListener('drop', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], Editor.prototype, "onDrop", null);
     Editor = __decorate([core_1.Component({
         selector: 'editor',
-        styles: [__webpack_require__(1154)],
-        template: __webpack_require__(1155)
+        styles: [__webpack_require__(1152)],
+        template: __webpack_require__(1153)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, fileLoaderUtil_1.FileLoaderUtil, event_bus_1.EventBus, zipFileReader_1.ZipFileReader, SlideshowBuilder_1.SlideshowBuilder, VideoInteractor_1.VideoInteractor, router_1.ActivatedRoute, router_1.Router, shareable_loader_1.ShareableLoader, projectMetaDataInteractor_1.MetaDataInteractor, core_1.ElementRef, responsiveUtil_1.ResponsiveUtil])], Editor);
     return Editor;
 }();
 exports.Editor = Editor;
 
 /***/ }),
-/* 1150 */
+/* 1149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // the whatwg-fetch polyfill installs the fetch() function
 // on the global object (window or self)
 //
 // Return that as the export for use in Webpack, Browserify etc.
-__webpack_require__(1151);
+__webpack_require__(1150);
 module.exports = self.fetch.bind(self);
 
 
 /***/ }),
-/* 1151 */
+/* 1150 */
 /***/ (function(module, exports) {
 
 (function(self) {
@@ -34766,7 +34646,7 @@ module.exports = self.fetch.bind(self);
 
 
 /***/ }),
-/* 1152 */
+/* 1151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34781,75 +34661,19 @@ var AuthenticationMethod;
 })(AuthenticationMethod = exports.AuthenticationMethod || (exports.AuthenticationMethod = {}));
 
 /***/ }),
-/* 1153 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __assign = this && this.__assign || Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-    }
-    return t;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-function addTouchListenersToElement(element) {
-    var defaultEventValues = {
-        view: window,
-        bubbles: true,
-        cancelable: true
-    };
-    var lastPosition;
-    element.addEventListener('touchstart', function ($event) {
-        $event.stopPropagation();
-        var clientX = $event.touches[0].clientX;
-        var clientY = $event.touches[0].clientY;
-        var screenX = $event.touches[0].screenX;
-        var screenY = $event.touches[0].screenY;
-        lastPosition = { clientX: clientX, clientY: clientY, screenX: screenX, screenY: screenY };
-        var event = new MouseEvent('mousedown', __assign({}, defaultEventValues, lastPosition));
-        var element = $event.target;
-        element.dispatchEvent(event);
-    });
-    element.addEventListener('touchmove', function ($event) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        var clientX = $event.touches[0].clientX;
-        var clientY = $event.touches[0].clientY;
-        var screenX = $event.touches[0].screenX;
-        var screenY = $event.touches[0].screenY;
-        var movementX = screenX - lastPosition.screenX;
-        var movementY = screenY - lastPosition.screenY;
-        lastPosition = { clientX: clientX, clientY: clientY, screenX: screenX, screenY: screenY };
-        var event = new MouseEvent('mousemove', __assign({}, defaultEventValues, lastPosition, { movementX: movementX, movementY: movementY }));
-        var element = $event.target;
-        element.dispatchEvent(event);
-    }, { passive: false });
-    element.addEventListener('touchend', function ($event) {
-        $event.stopPropagation();
-        var event = new MouseEvent('mouseup', __assign({}, defaultEventValues, lastPosition));
-        var element = $event.target;
-        element.dispatchEvent(event);
-    });
-}
-exports.addTouchListenersToElement = addTouchListenersToElement;
-
-/***/ }),
-/* 1154 */
+/* 1152 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.editor {\n  position: relative;\n  height: 100%;\n  width: 100%;\n  overflow: hidden; }\n\n.editor__hotspot-menu {\n  position: absolute;\n  bottom: 0;\n  margin-bottom: 10px;\n  left: 0; }\n\n.editor__topbar {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%; }\n\n.editor__toggle {\n  position: absolute;\n  top: calc(50% - 40px);\n  right: 0;\n  overflow-x: hidden;\n  overflow-y: hidden; }\n\n.editor_center {\n  background-color: #888888;\n  padding: 8px 16px;\n  opacity: 0.7;\n  border-radius: 2px;\n  margin-top: 16px;\n  position: absolute;\n  top: 0%;\n  left: 50%;\n  display: flex;\n  flex-direction: row;\n  align-items: space-between;\n  transform: translate(-50%, 0%); }\n\n.editor_center1 {\n  display: none; }\n\n.editor_center > div {\n  margin: 0px 8px;\n  /* and that, will result in a 10px gap */ }\n\n.editor__editPlayToggle {\n  /*\ntop:0;\nposition: absolute;\nleft:50%;\n*/\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n  .editor__editPlayToggle:hover {\n    opacity: 1; }\n\n.editor__edit2D3DToggle {\n  /*\n  top:0;\n  position: absolute;\n  left: 60%;\n  */\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n  .editor__edit2D3DToggle:hover {\n    opacity: 1; }\n\n.center-panel {\n  font-size: 0.8em;\n  font-weight: 600;\n  color: white; }\n\n.editor__2d3d {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  margin-top: 3px; }\n\n.editor__2d3d {\n  margin-left: 3px;\n  margin-right: 3px;\n  opacity: 0.5; }\n\n.editor__2d3d--active {\n  color: #FFF;\n  opacity: 1; }\n\n.editor__editPlayToggleButton {\n  margin-top: 4px; }\n\n.editor__edit2d3dToggleButton {\n  margin-top: 4px; }\n\n.editor__fullscreen {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  margin-bottom: 16px;\n  margin-right: 16px; }\n\n.editor__edit-space {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  background-color: #EEEEEE; }\n"
 
 /***/ }),
-/* 1155 */
+/* 1153 */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"editor\">\n\n  <!-- Router outlet for edit-space-flat, edit-space-sphere, and preview-space components -->\n  <router-outlet name=\"view\"></router-outlet>\n\n  <topbar\n    *ngIf=\"!isPreview()\"\n    class=\"editor__topbar\">\n  </topbar>\n\n<div\n      class=\"editor_center\"\n      [ngClass]=\"{'editor_center1': !hasBackgroundImage()}\">\n  <div\n    class=\"editor__edit2D3DToggle\">\n    <p\n      *ngIf=\"roomEditorIsVisible()\"\n      class='topbar__row-label center-panel'>Edit 3D</p>\n    <checkbox\n      *ngIf=\"roomEditorIsVisible()\"\n      (changeEmitter)=\"on2d3dViewClick($event)\"\n      class=\"editor__edit2d3dToggleButton\">\n    </checkbox>\n  </div>\n\n  <div\n    class=\"editor__editPlayToggle\">\n    <p\n      *ngIf=\"showPreviewCheckbox()\"\n      class='topbar__row-label center-panel'>Preview</p>\n    <checkbox\n      *ngIf=\"showPreviewCheckbox()\"\n      [initialValue]=\"isPreview()\"\n      (changeEmitter)=\"onEditPlayChange($event)\"\n      class=\"editor__editPlayToggleButton\">\n    </checkbox>\n\n  </div>\n</div>\n  <hotspot-menu\n    *ngIf=\"hotspotMenuIsVisible()\"\n    (onMenuChange)=\"onHotspotMenuChange($event)\"\n    class=\"editor__hotspot-menu\">\n  </hotspot-menu>\n\n  <!--\n  <edit-space-toggle\n    *ngIf=\"viewToggleIsVisible()\"\n    class=\"editor__toggle\">\n  </edit-space-toggle>\n-->\n\n  <!-- Story Map -->\n  <story-scroll\n      *ngIf=\"roomEditorIsVisible()\"\n      class=\"editor__story-scroll\">\n  </story-scroll>\n\n  <!-- Fullscreen -->\n  <fullscreen\n      *ngIf=\"roomEditorIsVisible()\"\n      class=\"editor__fullscreen\">\n  </fullscreen>\n\n  <modal></modal>\n  <hidden-file-loader></hidden-file-loader>\n\n</div>\n\n<router-outlet name=\"modal\"></router-outlet>\n"
+module.exports = "\n<div class=\"editor\">\n\n  <!-- Router outlet for edit-space-flat, edit-space-sphere, and preview-space components -->\n  <router-outlet name=\"view\"></router-outlet>\n\n  <topbar\n    *ngIf=\"!isPreview()\"\n    class=\"editor__topbar\">\n  </topbar>\n\n<div\n      class=\"editor_center\"\n      [ngClass]=\"{'editor_center1': !hasBackgroundImage()}\">\n  <div\n    class=\"editor__edit2D3DToggle\">\n    <p\n      *ngIf=\"roomEditorIsVisible()\"\n      class='topbar__row-label center-panel'>Edit 3D</p>\n    <checkbox\n      *ngIf=\"roomEditorIsVisible()\"\n      [initialValue]=\"!isInFlatMode\"\n      (changeEmitter)=\"on2d3dViewClick($event)\"\n      class=\"editor__edit2d3dToggleButton\">\n    </checkbox>\n  </div>\n\n  <div\n    class=\"editor__editPlayToggle\">\n    <p\n      *ngIf=\"showPreviewCheckbox()\"\n      class='topbar__row-label center-panel'>Preview</p>\n    <checkbox\n      *ngIf=\"showPreviewCheckbox()\"\n      [initialValue]=\"isPreview()\"\n      (changeEmitter)=\"onEditPlayChange($event)\"\n      class=\"editor__editPlayToggleButton\">\n    </checkbox>\n\n  </div>\n</div>\n  <hotspot-menu\n    *ngIf=\"hotspotMenuIsVisible()\"\n    (onMenuChange)=\"onHotspotMenuChange($event)\"\n    class=\"editor__hotspot-menu\">\n  </hotspot-menu>\n\n  <!--\n  <edit-space-toggle\n    *ngIf=\"viewToggleIsVisible()\"\n    class=\"editor__toggle\">\n  </edit-space-toggle>\n-->\n\n  <!-- Story Map -->\n  <story-scroll\n      *ngIf=\"roomEditorIsVisible()\"\n      class=\"editor__story-scroll\">\n  </story-scroll>\n\n  <!-- Fullscreen -->\n  <fullscreen\n      *ngIf=\"roomEditorIsVisible()\"\n      class=\"editor__fullscreen\">\n  </fullscreen>\n\n  <modal></modal>\n  <hidden-file-loader></hidden-file-loader>\n\n</div>\n\n<router-outlet name=\"modal\"></router-outlet>\n"
 
 /***/ }),
-/* 1156 */
+/* 1154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34867,7 +34691,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var sceneInteractor_1 = __webpack_require__(14);
 var combinedHotspotUtil_1 = __webpack_require__(185);
 var EditSpaceFlat = /** @class */function () {
@@ -34876,6 +34700,7 @@ var EditSpaceFlat = /** @class */function () {
         this.combinedHotspotUtil = combinedHotspotUtil;
         this.eventBus = eventBus;
         this.subscriptions = new Set();
+        this.onResizeFn = this.onResize.bind(this);
     }
     EditSpaceFlat.prototype.ngOnInit = function () {
         var _this = this;
@@ -34888,19 +34713,14 @@ var EditSpaceFlat = /** @class */function () {
         }, function (error) {
             return console.log('EditSpaceFlat.ngOnInit', error);
         });
-        var windowResize = this.eventBus.getObservable(event_bus_1.EventType.WINDOW_RESIZE).subscribe(function (windowDims) {
-            return _this.onResize(null);
-        }, function (error) {
-            return console.log('EditSpaceFlat.onResize', error);
-        });
         var roomChange = this.eventBus.getObservable(event_bus_1.EventType.SELECT_ROOM).subscribe(function (roomId) {
             return _this.onResize(null);
         }, function (error) {
             return console.log('EditSpaceFlat.onSelectRoom', error);
         });
         this.subscriptions.add(selectProperty);
-        this.subscriptions.add(windowResize);
         this.subscriptions.add(roomChange);
+        window.addEventListener('resize', this.onResizeFn, false);
     };
     EditSpaceFlat.prototype.isVideo = function () {
         var roomId = this.sceneInteractor.getActiveRoomId();
@@ -34911,6 +34731,7 @@ var EditSpaceFlat = /** @class */function () {
         this.subscriptions.forEach(function (subscription) {
             return subscription.unsubscribe();
         });
+        window.removeEventListener('resize', this.onResizeFn, false);
     };
     //EditSpace interface method
     EditSpaceFlat.prototype.onResize = function ($event) {
@@ -34939,27 +34760,27 @@ var EditSpaceFlat = /** @class */function () {
     __decorate([core_1.ViewChildren('roomIcon'), __metadata("design:type", Array)], EditSpaceFlat.prototype, "roomIconComponentList", void 0);
     EditSpaceFlat = __decorate([core_1.Component({
         selector: 'edit-space-flat',
-        styles: [__webpack_require__(1157)],
-        template: __webpack_require__(1158)
+        styles: [__webpack_require__(1155)],
+        template: __webpack_require__(1156)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, combinedHotspotUtil_1.CombinedHotspotUtil, event_bus_1.EventBus])], EditSpaceFlat);
     return EditSpaceFlat;
 }();
 exports.EditSpaceFlat = EditSpaceFlat;
 
 /***/ }),
-/* 1157 */
+/* 1155 */
 /***/ (function(module, exports) {
 
 module.exports = ".edit-space {\n  width: 100%;\n  height: 100%; }\n\n.edit-space-background {\n  width: 100%;\n  height: 100%;\n  user-select: none;\n  -moz-user-select: none;\n  -webkit-user-drag: none;\n  -webkit-user-select: none;\n  -ms-user-select: none; }\n\n.edit-space-background--video {\n  object-fit: inherit; }\n"
 
 /***/ }),
-/* 1158 */
+/* 1156 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"edit-space\">\n\n  <img\n    *ngIf=\"!isVideo()\"\n    [attr.src]=\"getBackgroundImage()\"\n    (dragstart)=\"$event.preventDefault()\"\n    class=\"edit-space-background\">\n\n  <video\n    *ngIf=\"isVideo()\"\n    [attr.src]=\"getBackgroundVideo()\"\n    (dragstart)=\"$event.preventDefault()\"\n    class=\"edit-space-background edit-space-background--video\">\n  </video>\n\n\n  <div *ngFor=\"let roomProperty of getItems()\">\n    <room-icon\n      #roomIcon\n      [roomProperty]=\"roomProperty\">\n    </room-icon>\n  </div>\n\n  <default-overlay\n    *ngIf=\"!roomHasBackgroundImage()\">\n  </default-overlay>\n\n</div>\n"
 
 /***/ }),
-/* 1159 */
+/* 1157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34978,11 +34799,11 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var THREE = __webpack_require__(27);
+var THREE = __webpack_require__(28);
 __webpack_require__(509);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var sceneInteractor_1 = __webpack_require__(14);
-var cameraInteractor_1 = __webpack_require__(273);
+var cameraInteractor_1 = __webpack_require__(272);
 var vector2_1 = __webpack_require__(75);
 var combinedHotspotUtil_1 = __webpack_require__(185);
 var assetInteractor_1 = __webpack_require__(60);
@@ -35001,14 +34822,18 @@ var EditSpaceSphere = /** @class */function () {
         this.metaDataInteractor = metaDataInteractor;
         this.router = router;
         this.subscriptions = new Set();
-        this.isDragging = false;
+        this.onResizeFn = this.onResize.bind(this);
     }
     EditSpaceSphere.prototype.ngOnInit = function () {
+        var _this = this;
         if (this.metaDataInteractor.projectIsEmpty()) {
             this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
         }
         this.windowWidth = window.innerWidth;
         this.windowHeight = window.innerHeight;
+        this.ngZone.runOutsideAngular(function () {
+            window.addEventListener('resize', _this.onResizeFn, false);
+        });
     };
     EditSpaceSphere.prototype.ngAfterViewInit = function () {
         // this.initScene.call(this);
@@ -35019,13 +34844,15 @@ var EditSpaceSphere = /** @class */function () {
         });
     };
     EditSpaceSphere.prototype.ngOnDestroy = function () {
+        window.removeEventListener('resize', this.onResizeFn, false);
         if (this.camera) {
             var cameraDirection = new THREE.Vector3(0, 0, -1);
             cameraDirection.applyQuaternion(this.camera.quaternion);
             this.cameraInteractor.setCameraDirection(cameraDirection.x, cameraDirection.y, cameraDirection.z);
         }
         cancelAnimationFrame(this.animationRequest);
-        this.isDragging = false;
+        // this.isDragging = false;
+        // this.svrControls.dispose();
         this.subscriptions.forEach(function (subscription) {
             return subscription.unsubscribe();
         });
@@ -35041,7 +34868,13 @@ var EditSpaceSphere = /** @class */function () {
         this.vrCamera = sceneComponents.vrCamera;
         this.scene = sceneComponents.scene;
         this.renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: window.orientation == 'undefined' });
-        this.svrControls = new THREE.SvrControls(this.camera, canvas, this.cameraInteractor.getCameraDirection());
+        this.svrControls = new THREE.SvrControls({
+            camera: this.camera,
+            domElement: canvas,
+            initialTarget: this.cameraInteractor.getCameraDirection(),
+            onMouseDownCallback: this.onMouseDown.bind(this),
+            executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone)
+        });
     };
     EditSpaceSphere.prototype.initRoom = function () {
         var _this = this;
@@ -35102,22 +34935,8 @@ var EditSpaceSphere = /** @class */function () {
         }, function (error) {
             return console.log('error', error);
         });
-        var onMouseUp = this.eventBus.getObservable(event_bus_1.EventType.MOUSE_UP).subscribe(function (event) {
-            var activeRoomId = _this.sceneInteractor.getActiveRoomId();
-            var room = _this.sceneInteractor.getRoomById(activeRoomId);
-            _this.isDragging = false;
-        }, function (error) {
-            return console.log('error', error);
-        });
-        var windowResize = this.eventBus.getObservable(event_bus_1.EventType.WINDOW_RESIZE).subscribe(function (windowDims) {
-            return _this.onResize(windowDims);
-        }, function (error) {
-            return console.log('EditSpaceFlat.onResize', error);
-        });
         this.subscriptions.add(onRoomSelect);
-        this.subscriptions.add(onMouseUp);
         this.subscriptions.add(onPropertySelect);
-        this.subscriptions.add(windowResize);
     };
     EditSpaceSphere.prototype.onNewPropertyAdded = function (propertyId) {
         var _this = this;
@@ -35142,15 +34961,15 @@ var EditSpaceSphere = /** @class */function () {
             this.video3D.attemptEditSpaceRender();
         }
         this.renderer.render(this.scene, this.camera);
-        var shouldRender = this.isDragging || this.svrControls.hasMomentum();
-        if (shouldRender) {
+        // const shouldRender = this.isDragging || this.svrControls.hasMomentum();
+        // if (shouldRender) {
+        if (this.svrControls.shouldRender()) {
             this.ngZone.runOutsideAngular(function () {
                 _this.animationRequest = requestAnimationFrame(_this.render.bind(_this));
             });
         }
     };
     EditSpaceSphere.prototype.onMouseDown = function (event) {
-        this.isDragging = true;
         this.render();
     };
     EditSpaceSphere.prototype.onMoveEnd = function ($event) {
@@ -35195,8 +35014,8 @@ var EditSpaceSphere = /** @class */function () {
     __decorate([core_1.ViewChild('globeCanvas'), __metadata("design:type", Object)], EditSpaceSphere.prototype, "globeCanvas", void 0);
     EditSpaceSphere = __decorate([core_1.Component({
         selector: 'edit-space-sphere',
-        styles: [__webpack_require__(1160)],
-        template: __webpack_require__(1161)
+        styles: [__webpack_require__(1158)],
+        template: __webpack_require__(1159)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, cameraInteractor_1.CameraInteractor, event_bus_1.EventBus, core_1.NgZone, combinedHotspotUtil_1.CombinedHotspotUtil, assetInteractor_1.AssetInteractor, projectMetaDataInteractor_1.MetaDataInteractor, router_1.Router])], EditSpaceSphere);
     return EditSpaceSphere;
 }();
@@ -35239,19 +35058,19 @@ function getNormalizedPositionFromScreenPosition(screenX, screenY, camera, conte
 }
 
 /***/ }),
-/* 1160 */
+/* 1158 */
 /***/ (function(module, exports) {
 
 module.exports = ".edit-space {\n  width: 100%;\n  height: 100%;\n  cursor: move; }\n"
 
 /***/ }),
-/* 1161 */
+/* 1159 */
 /***/ (function(module, exports) {
 
-module.exports = "<div\n  #editSpaceSphere\n  class=\"edit-space\">\n\n  <canvas\n    #globeCanvas\n    (mousedown)=\"onMouseDown($event)\">\n  </canvas>\n\n  <div *ngFor=\"let roomProperty of getItems()\">\n    <room-icon\n      #roomIcon\n      [roomProperty]=\"roomProperty\"\n      (onIconDragEnd)=\"onMoveEnd($event)\">\n    </room-icon>\n  </div>\n\n</div>\n"
+module.exports = "<div\n  #editSpaceSphere\n  class=\"edit-space\">\n\n  <canvas #globeCanvas>\n  </canvas>\n\n  <div *ngFor=\"let roomProperty of getItems()\">\n    <room-icon\n      #roomIcon\n      [roomProperty]=\"roomProperty\"\n      (onIconDragEnd)=\"onMoveEnd($event)\">\n    </room-icon>\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1162 */
+/* 1160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35269,7 +35088,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var fileLoaderUtil_1 = __webpack_require__(65);
 var sceneInteractor_1 = __webpack_require__(14);
 var imageResizeService_1 = __webpack_require__(52);
@@ -35361,46 +35180,32 @@ var DefaultOverlay = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], DefaultOverlay.prototype, "onFileLoad", void 0);
     DefaultOverlay = __decorate([core_1.Component({
         selector: 'default-overlay',
-        styles: [__webpack_require__(1163)],
-        template: __webpack_require__(1164)
+        styles: [__webpack_require__(1161)],
+        template: __webpack_require__(1162)
     }), __metadata("design:paramtypes", [event_bus_1.EventBus, fileLoaderUtil_1.FileLoaderUtil, zipFileReader_1.ZipFileReader, sceneInteractor_1.SceneInteractor, SlideshowBuilder_1.SlideshowBuilder])], DefaultOverlay);
     return DefaultOverlay;
 }();
 exports.DefaultOverlay = DefaultOverlay;
 
 /***/ }),
-/* 1163 */
+/* 1161 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FFF;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FFF; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FFF; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n\n.upload__fields {\n  width: 50%;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n\n.upload__hidden-input {\n  display: none; }\n\n.default-overlay {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n  top: 0;\n  left: 0;\n  background-color: #888888;\n  display: flex;\n  justify-content: space-around;\n  align-items: center; }\n\n.upload__box_splash {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  color: white;\n  font-size: 3vw;\n  text-align: center;\n  border: 2px dashed #EEEEEE;\n  border-radius: 20px;\n  width: 50%;\n  height: 50%;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  cursor: pointer; }\n\n.default-overlay__background {\n  width: 100%;\n  height: 100%;\n  background-image: url(\"assets/images/background_bosnia-waterfall.JPG\");\n  background-size: 100% 100%;\n  -webkit-filter: blur(50px);\n  -moz-filter: blur(50px);\n  -o-filter: blur(50px);\n  -ms-filter: blur(50px);\n  filter: blur(50px); }\n\n.default-overlay__hidden-input {\n  display: none; }\n\n.default-overlay__box {\n  border: 2px dashed #EEEEEE;\n  border-radius: 20px;\n  padding: 50px;\n  margin: 10px;\n  font-size: 1.6em;\n  text-align: center;\n  cursor: pointer; }\n\n.default-overlay__logo {\n  margin-top: 24px;\n  font-size: 2em;\n  font-weight: 600;\n  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);\n  position: absolute;\n  top: 0%;\n  cursor: pointer;\n  text-decoration: none !important; }\n  .default-overlay__logo:hover {\n    color: #ADADAD; }\n\n.default-overlay__logo-social a:link {\n  text-decoration: none !important;\n  border-bottom: 0px; }\n\n.default-overlay__logo-vr {\n  color: #EEEEEE;\n  font-weight: 800; }\n"
 
 /***/ }),
-/* 1164 */
+/* 1162 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\ndroppable\n(onFileLoad)=\"onFileDrop($event)\"\n[acceptedFileType]=\"'image'\"\n[acceptMultpleFiles]=\"true\"\nclass=\"default-overlay\">\n\n\n  <p class=\"default-overlay__background\">\n  </p>\n\n  <div>\n    <input\n      id=\"hiddenBackgroundInput\"\n      type=\"file\"\n      multiple\n      (change)=\"onFileChange($event)\"\n      class=\"upload__hidden-input\">\n    <label\n      for=\"hiddenBackgroundInput\"\n      class=\"upload__box_splash\">\n      Drag in 360 photos\n      <br />\n      or\n      <br />\n      click to import\n    </label>\n  </div>\n\n\n  <p class=\"default-overlay__logo font-header\">\n    <span class=\"default-overlay__logo-social\">\n      <a target=\"_blank\" href=\"https://irl.studio/products/socialvr/\">Social VR</a>\n    </span>\n  </p>\n\n</div>\n"
 
 /***/ }),
-/* 1165 */
+/* 1163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var __extends = this && this.__extends || function () {
-    var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
-        d.__proto__ = b;
-    } || function (d, b) {
-        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() {
-            this.constructor = d;
-        }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-}();
 var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
     var c = arguments.length,
         r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
@@ -35413,12 +35218,13 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var icon_base_1 = __webpack_require__(1166);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
+var vector2_1 = __webpack_require__(75);
 var roomPropertyTypeService_1 = __webpack_require__(92);
 var propertyRemovalService_1 = __webpack_require__(136);
 var combinedHotspotUtil_1 = __webpack_require__(185);
-var constants_1 = __webpack_require__(11);
+var iconPositionUtil_1 = __webpack_require__(105);
+var constants_1 = __webpack_require__(12);
 var ICON_MAP = {
     text: 'text_filled.png',
     image: 'image_filled.png',
@@ -35431,19 +35237,42 @@ var iconSizes = {
     MEDIUM: 'MEDIUM',
     LARGE: 'LARGE'
 };
-var RoomIcon = /** @class */function (_super) {
-    __extends(RoomIcon, _super);
-    function RoomIcon(eventBus, propertyRemovalService, combinedHotspotUtil, ngZone) {
-        var _this = _super.call(this, eventBus, ngZone) || this;
-        _this.eventBus = eventBus;
-        _this.propertyRemovalService = propertyRemovalService;
-        _this.combinedHotspotUtil = combinedHotspotUtil;
-        _this.ngZone = ngZone;
-        _this.isPossibleCombinedHotspot = false;
-        _this.hotspotIconSize = iconSizes.LARGE;
-        _this.deleteVisible = false;
-        return _this;
+var instanceSet = new Set();
+window.addEventListener('resize', function ($event) {
+    return instanceSet.forEach(function (instance) {
+        return instance.onResize($event);
+    });
+});
+var ROUND_UNIT = 0.5;
+function round(n, precision) {
+    return Math.round(n * precision) / precision;
+}
+function snapToGrid(position) {
+    return new vector2_1.Vector2(round(position.getX(), ROUND_UNIT), round(position.getY(), ROUND_UNIT));
+}
+var RoomIcon = /** @class */function () {
+    function RoomIcon(eventBus, propertyRemovalService, combinedHotspotUtil, ngZone, element) {
+        this.eventBus = eventBus;
+        this.propertyRemovalService = propertyRemovalService;
+        this.combinedHotspotUtil = combinedHotspotUtil;
+        this.ngZone = ngZone;
+        this.element = element;
+        this.onIconDragEnd = new core_1.EventEmitter();
+        this.propertyEditorIsVisible = false;
+        this.screenPosition = new vector2_1.Vector2(0, 0);
+        this.subscriptions = new Set();
+        this.windowDimensions = new vector2_1.Vector2(window.innerWidth, window.innerHeight);
+        this.isPossibleCombinedHotspot = false;
+        this.hotspotIconSize = iconSizes.LARGE;
+        this.deleteVisible = false;
+        this.isBeingInstantiated = false;
     }
+    RoomIcon.prototype.onDocuentClick = function ($event) {
+        var isClicked = this.element.nativeElement.contains(event.target);
+        if (!isClicked) {
+            this.setPropertyEditorVisibility(false);
+        }
+    };
     RoomIcon.prototype.ngOnInit = function () {
         var _this = this;
         this.propertyType = roomPropertyTypeService_1.RoomPropertyTypeService.getTypeString(this.roomProperty);
@@ -35456,28 +35285,141 @@ var RoomIcon = /** @class */function (_super) {
         }, function (error) {
             return console.log('error', error);
         }));
-        this.subscriptions.add(this.eventBus.getObservable(event_bus_1.EventType.WINDOW_RESIZE).subscribe(function (windowDims) {
-            return _this.onResize(windowDims);
-        }, function (error) {
-            return console.log('EditSpaceFlat.onResize', error);
-        }));
-        _super.prototype.ngOnInit.call(this);
-        this.onResize({
-            x: window.innerWidth,
-            y: window.innerHeight
+        this.updatePosition();
+        this.onResize();
+        instanceSet.add(this);
+    };
+    RoomIcon.prototype.ngOnDestroy = function () {
+        this.subscriptions.forEach(function (subscription) {
+            return subscription.unsubscribe();
+        });
+        instanceSet.delete(this);
+    };
+    RoomIcon.prototype.setPosition = function (location) {
+        var absolutePosition = iconPositionUtil_1.denormalizePosition(location.getX(), location.getY());
+        var adjustedX = absolutePosition.getX() - constants_1.ROOM_ICON_BUFFER_WIDTH;
+        var adjustedY = absolutePosition.getY() - constants_1.ROOM_ICON_BUFFER_HEIGHT;
+        this.setPixelLocation(adjustedX, adjustedY);
+        this.setScreenPosition(absolutePosition.getX(), absolutePosition.getY());
+    };
+    // Hotspot interface method
+    RoomIcon.prototype.setPixelLocationWithBuffer = function (x, y) {
+        var adjustedX = x - constants_1.ROOM_ICON_BUFFER_WIDTH;
+        var adjustedY = y - constants_1.ROOM_ICON_BUFFER_HEIGHT;
+        this.setScreenPosition(adjustedX, adjustedY);
+        this.setPixelLocation(adjustedX, adjustedY);
+    };
+    // $sidebar-width: 280px;
+    // $property-editor-height: 200px;
+    RoomIcon.prototype.setScreenPosition = function (x, y) {
+        var shift = {
+            right: x < 280 / 2,
+            left: x > this.windowDimensions.getX() - 280 / 2,
+            up: y > this.windowDimensions.getY() - 200
+        };
+        this.screenPosition.setPosition(x, y);
+    };
+    // Hotspot interface method
+    //set absolute screen position without updating the data model
+    RoomIcon.prototype.setPixelLocation = function (x, y) {
+        this.iconElement.nativeElement.style.left = x + "px";
+        this.iconElement.nativeElement.style.top = y + "px";
+    };
+    RoomIcon.prototype.onMove = function ($event) {
+        var _this = this;
+        var x = $event.x + constants_1.ROOM_ICON_BUFFER_WIDTH;
+        var y = $event.y + constants_1.ROOM_ICON_BUFFER_HEIGHT;
+        if ($event.shiftKey) {
+            if (this.onIconDragEnd.observers.length) {
+                // snap to grid in 3D view
+                this.onIconDragEnd.emit({
+                    setIconLocation: function (x, y) {
+                        _this.setLocation(snapToGrid(new vector2_1.Vector2(x, y)));
+                    },
+                    x: x,
+                    y: y
+                });
+            } else {
+                // snap to grid in 2D view
+                var normalizedLocation = iconPositionUtil_1.normalizeAbsolutePosition(x, y);
+                var snappedLocation = snapToGrid(normalizedLocation);
+                var denormalizedPosition = iconPositionUtil_1.denormalizePosition(snappedLocation.getX(), snappedLocation.getY());
+                this.setScreenPosition(denormalizedPosition.getX(), denormalizedPosition.getY());
+                this.setPixelLocation(denormalizedPosition.getX() - constants_1.ROOM_ICON_BUFFER_WIDTH, denormalizedPosition.getY() - constants_1.ROOM_ICON_BUFFER_HEIGHT);
+            }
+        } else {
+            // don't snap to grid
+            this.setScreenPosition(x, y);
+            this.setPixelLocation($event.x, $event.y);
+        }
+        //this.combinedHotspotUtil.onIconMove(this.roomProperty, x, y);
+    };
+    RoomIcon.prototype.onMoveEnd = function ($event) {
+        var _this = this;
+        if (!$event.didMove) {
+            setTimeout(function () {
+                _this.setPropertyEditorVisibility(true);
+            }, 200); //this.setPropertyEditorVisibility(true);
+            return;
+        }
+        var adjustedX = $event.x + constants_1.ROOM_ICON_BUFFER_WIDTH;
+        var adjustedY = $event.y + constants_1.ROOM_ICON_BUFFER_HEIGHT;
+        // if parent components are observing onIconDragEnd
+        // (such as edit-space-sphere), then notify parent
+        // with coordinates and callback function to set model position
+        if (this.onIconDragEnd.observers.length) {
+            this.onIconDragEnd.emit({
+                setIconLocation: function (x, y) {
+                    var location = new vector2_1.Vector2(x, y);
+                    if (!$event.shiftKey) {
+                        location = snapToGrid(location);
+                    }
+                    // this.roomProperty.setLocation(location);
+                    _this.setLocation(location);
+                },
+                x: adjustedX,
+                y: adjustedY
+            });
+        } else {
+            var location_1 = iconPositionUtil_1.normalizeAbsolutePosition(adjustedX, adjustedY);
+            if (!$event.shiftKey) {
+                location_1 = snapToGrid(location_1);
+            }
+            // this.roomProperty.setLocation(location);
+            this.setLocation(location_1);
+        }
+        // TODO: combined hotspot logic
+        //const activeNeighborId: string = this.combinedHotspotUtil.getActiveNeighborId();
+    };
+    // Hotspot interface method
+    RoomIcon.prototype.getScreenPosition = function () {
+        return this.screenPosition;
+    };
+    RoomIcon.prototype.setPropertyEditorVisibility = function (isVisible) {
+        var _this = this;
+        if (this.propertyEditorIsVisible === isVisible) {
+            return;
+        }
+        this.ngZone.run(function () {
+            _this.propertyEditorIsVisible = isVisible;
+            _this.eventBus.onHotspotVisibility(isVisible);
         });
     };
-    RoomIcon.prototype.onResize = function (windowDims) {
-        if (windowDims.x < 767) {
+    RoomIcon.prototype.onResize = function () {
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        this.windowDimensions.setX(width);
+        this.windowDimensions.setY(height);
+        if (width < 767) {
             this.hotspotIconSize = iconSizes.SMALL;
-        } else if (windowDims.x < 992) {
+        } else if (width < 992) {
             this.hotspotIconSize = iconSizes.MEDIUM;
         } else {
             this.hotspotIconSize = iconSizes.LARGE;
         }
     };
     RoomIcon.prototype.updatePosition = function () {
-        _super.prototype.setPosition.call(this, this.roomProperty.getLocation());
+        this.setPosition(this.roomProperty.getLocation());
     };
     // Hotspot interface method
     RoomIcon.prototype.getName = function () {
@@ -35518,205 +35460,33 @@ var RoomIcon = /** @class */function (_super) {
     RoomIcon.prototype.setLocation = function (location) {
         this.roomProperty.setLocation(location);
     };
+    __decorate([core_1.ViewChild('iconElement'), __metadata("design:type", Object)], RoomIcon.prototype, "iconElement", void 0);
+    __decorate([core_1.Output(), __metadata("design:type", Object)], RoomIcon.prototype, "onIconDragEnd", void 0);
     __decorate([core_1.Input(), __metadata("design:type", Object)], RoomIcon.prototype, "roomProperty", void 0);
+    __decorate([core_1.HostListener('document:click', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], RoomIcon.prototype, "onDocuentClick", null);
     RoomIcon = __decorate([core_1.Component({
         selector: 'room-icon',
-        styles: [__webpack_require__(1167)],
-        template: __webpack_require__(1168)
-    }), __metadata("design:paramtypes", [event_bus_1.EventBus, propertyRemovalService_1.PropertyRemovalService, combinedHotspotUtil_1.CombinedHotspotUtil, core_1.NgZone])], RoomIcon);
+        styles: [__webpack_require__(1164)],
+        template: __webpack_require__(1165)
+    }), __metadata("design:paramtypes", [event_bus_1.EventBus, propertyRemovalService_1.PropertyRemovalService, combinedHotspotUtil_1.CombinedHotspotUtil, core_1.NgZone, core_1.ElementRef])], RoomIcon);
     return RoomIcon;
-}(icon_base_1.IconBase);
+}();
 exports.RoomIcon = RoomIcon;
 
 /***/ }),
-/* 1166 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
-var vector2_1 = __webpack_require__(75);
-var iconPositionUtil_1 = __webpack_require__(105);
-var constants_1 = __webpack_require__(11);
-var IconBase = /** @class */function () {
-    function IconBase(eventBus, ngZone) {
-        this.eventBus = eventBus;
-        this.ngZone = ngZone;
-        this.onIconDragEnd = new core_1.EventEmitter();
-        this.propertyEditorIsVisible = false;
-        this.screenPosition = new vector2_1.Vector2(0, 0);
-        this.subscriptions = new Set();
-        this.windowDimensions = new vector2_1.Vector2(window.innerWidth, window.innerHeight);
-    }
-    IconBase.prototype.ngOnInit = function () {
-        var _this = this;
-        this.updatePosition();
-        this.subscriptions.add(this.eventBus.getObservable(event_bus_1.EventType.WINDOW_RESIZE).subscribe(function (windowDims) {
-            _this.windowDimensions.setX(windowDims.x);
-            _this.windowDimensions.setY(windowDims.y);
-        }, function (error) {
-            return console.log('EditSpaceFlat.onResize', error);
-        }));
-    };
-    IconBase.prototype.ngOnDestroy = function () {
-        this.subscriptions.forEach(function (subscription) {
-            return subscription.unsubscribe();
-        });
-    };
-    IconBase.prototype.setPosition = function (location) {
-        var absolutePosition = iconPositionUtil_1.denormalizePosition(location.getX(), location.getY());
-        var adjustedX = absolutePosition.getX() - constants_1.ROOM_ICON_BUFFER_WIDTH;
-        var adjustedY = absolutePosition.getY() - constants_1.ROOM_ICON_BUFFER_HEIGHT;
-        this.setPixelLocation(adjustedX, adjustedY);
-        this.setScreenPosition(absolutePosition.getX(), absolutePosition.getY());
-    };
-    IconBase.prototype.onOffClick = function ($event) {
-        if (!$event.isOffClick) return;
-        this.setPropertyEditorVisibility(false);
-    };
-    // Hotspot interface method
-    //set absolute screen position without updating the data model
-    IconBase.prototype.setPixelLocation = function (x, y) {
-        this.iconElement.nativeElement.style.left = x + "px";
-        this.iconElement.nativeElement.style.top = y + "px";
-    };
-    // Hotspot interface method
-    IconBase.prototype.setPixelLocationWithBuffer = function (x, y) {
-        var adjustedX = x - constants_1.ROOM_ICON_BUFFER_WIDTH;
-        var adjustedY = y - constants_1.ROOM_ICON_BUFFER_HEIGHT;
-        this.setScreenPosition(adjustedX, adjustedY);
-        this.setPixelLocation(adjustedX, adjustedY);
-    };
-    // $sidebar-width: 280px;
-    // $property-editor-height: 200px;
-    IconBase.prototype.setScreenPosition = function (x, y) {
-        var shift = {
-            right: x < 280 / 2,
-            left: x > this.windowDimensions.getX() - 280 / 2,
-            up: y > this.windowDimensions.getY() - 200
-        };
-        this.screenPosition.setPosition(x, y);
-    };
-    IconBase.prototype.onMove = function ($event) {
-        var _this = this;
-        var x = $event.x + constants_1.ROOM_ICON_BUFFER_WIDTH;
-        var y = $event.y + constants_1.ROOM_ICON_BUFFER_HEIGHT;
-        if ($event.shiftKey) {
-            if (this.onIconDragEnd.observers.length) {
-                // snap to grid in 3D view
-                this.onIconDragEnd.emit({
-                    setIconLocation: function (x, y) {
-                        _this.setLocation(snapToGrid(new vector2_1.Vector2(x, y)));
-                    },
-                    x: x,
-                    y: y
-                });
-            } else {
-                // snap to grid in 2D view
-                var normalizedLocation = iconPositionUtil_1.normalizeAbsolutePosition(x, y);
-                var snappedLocation = snapToGrid(normalizedLocation);
-                var denormalizedPosition = iconPositionUtil_1.denormalizePosition(snappedLocation.getX(), snappedLocation.getY());
-                this.setScreenPosition(denormalizedPosition.getX(), denormalizedPosition.getY());
-                this.setPixelLocation(denormalizedPosition.getX() - constants_1.ROOM_ICON_BUFFER_WIDTH, denormalizedPosition.getY() - constants_1.ROOM_ICON_BUFFER_HEIGHT);
-            }
-        } else {
-            // don't snap to grid
-            this.setScreenPosition(x, y);
-            this.setPixelLocation($event.x, $event.y);
-        }
-        //this.combinedHotspotUtil.onIconMove(this.roomProperty, x, y);
-    };
-    IconBase.prototype.onMoveEnd = function ($event) {
-        var _this = this;
-        if (!$event.didMove) {
-            setTimeout(function () {
-                _this.setPropertyEditorVisibility(true);
-            }, 200); //this.setPropertyEditorVisibility(true);
-            return;
-        }
-        var adjustedX = $event.x + constants_1.ROOM_ICON_BUFFER_WIDTH;
-        var adjustedY = $event.y + constants_1.ROOM_ICON_BUFFER_HEIGHT;
-        // if parent components are observing onIconDragEnd
-        // (such as edit-space-sphere), then notify parent
-        // with coordinates and callback function to set model position
-        if (this.onIconDragEnd.observers.length) {
-            this.onIconDragEnd.emit({
-                setIconLocation: function (x, y) {
-                    var location = new vector2_1.Vector2(x, y);
-                    if (!$event.shiftKey) {
-                        location = snapToGrid(location);
-                    }
-                    // this.roomProperty.setLocation(location);
-                    _this.setLocation(location);
-                },
-                x: adjustedX,
-                y: adjustedY
-            });
-        } else {
-            var location_1 = iconPositionUtil_1.normalizeAbsolutePosition(adjustedX, adjustedY);
-            if (!$event.shiftKey) {
-                location_1 = snapToGrid(location_1);
-            }
-            // this.roomProperty.setLocation(location);
-            this.setLocation(location_1);
-        }
-        // TODO: combined hotspot logic
-        //const activeNeighborId: string = this.combinedHotspotUtil.getActiveNeighborId();
-    };
-    // Hotspot interface method
-    IconBase.prototype.getScreenPosition = function () {
-        return this.screenPosition;
-    };
-    IconBase.prototype.setPropertyEditorVisibility = function (isVisible) {
-        var _this = this;
-        if (this.propertyEditorIsVisible === isVisible) {
-            return;
-        }
-        this.ngZone.run(function () {
-            _this.propertyEditorIsVisible = isVisible;
-            _this.eventBus.onHotspotVisibility(isVisible);
-        });
-    };
-    __decorate([core_1.ViewChild('iconElement'), __metadata("design:type", Object)], IconBase.prototype, "iconElement", void 0);
-    __decorate([core_1.Output(), __metadata("design:type", Object)], IconBase.prototype, "onIconDragEnd", void 0);
-    return IconBase;
-}();
-exports.IconBase = IconBase;
-var ROUND_UNIT = 0.5;
-function round(n, precision) {
-    return Math.round(n * precision) / precision;
-}
-function snapToGrid(position) {
-    return new vector2_1.Vector2(round(position.getX(), ROUND_UNIT), round(position.getY(), ROUND_UNIT));
-}
-
-/***/ }),
-/* 1167 */
+/* 1164 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.icon {\n  position: absolute;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  cursor: grab;\n  width: 80px; }\n  .icon:active {\n    cursor: grabbing; }\n  .icon:hover .icon__delete {\n    visibility: visible; }\n\n.icon__image {\n  height: 48px;\n  display: block;\n  margin: 0 auto; }\n\n.icon__delete {\n  background-image: url(\"assets/icons/delete_filled.png\");\n  background-color: transparent;\n  background-size: 90%;\n  background-repeat: no-repeat;\n  width: 21px;\n  height: 21px;\n  visibility: hidden;\n  transform: translate(75%, 0%); }\n\n.icon__image--medium {\n  height: 33px; }\n\n.icon__image--small {\n  height: 20px; }\n\n.icon__label {\n  text-align: center;\n  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);\n  margin: 2px 0 0 0; }\n\n.icon__hotspot-sphere {\n  position: absolute;\n  border: 2px dashed white;\n  border-radius: 50%;\n  padding: 60px;\n  top: -32px;\n  left: -18px; }\n\n.icon__property-editor {\n  position: absolute; }\n"
 
 /***/ }),
-/* 1168 */
+/* 1165 */
 /***/ (function(module, exports) {
 
-module.exports = "<div\n  #iconElement\n  id=\"icon-element\"\n  class=\"icon\"\n  hotspot-icon\n  off-click\n  (onMove)=\"onMove($event)\"\n  (onMoveEnd)=\"onMoveEnd($event)\"\n  (onOffClick)=\"onOffClick($event)\">\n  <div\n    (click)=\"onDeleteClick($event)\"\n    class=\"icon__delete\">\n  </div>\n  \n  <img\n    id=\"draggableIcon\"\n    class=\"icon__image\"\n    [attr.src]=\"iconPath\"\n    [ngClass]=\"{\n      'icon__image--small': hotspotIconSize === 'SMALL',\n      'icon__image--medium': hotspotIconSize === 'MEDIUM'\n    }\">\n\n  <text-input\n    [textModel]=\"getName()\"\n    [isHotspot]=\"true\"\n    (onTextChange)=\"onNameChange($event)\">\n  </text-input>\n\n\n\n\n  <property-editor\n    *ngIf=\"propertyEditorIsVisible\"\n    [roomProperty]=\"roomProperty\"\n    (onDeselect)=\"onDeselect($event)\"\n    class=\"icon__property-editor\">\n  </property-editor>\n\n\n</div>\n"
+module.exports = "<div\n  #iconElement\n  id=\"icon-element\"\n  class=\"icon\"\n  hotspot-icon\n  (onMove)=\"onMove($event)\"\n  (onMoveEnd)=\"onMoveEnd($event)\">\n  <div\n    (click)=\"onDeleteClick($event)\"\n    class=\"icon__delete\">\n  </div>\n\n  <img\n    id=\"draggableIcon\"\n    class=\"icon__image\"\n    [attr.src]=\"iconPath\"\n    [ngClass]=\"{\n      'icon__image--small': hotspotIconSize === 'SMALL',\n      'icon__image--medium': hotspotIconSize === 'MEDIUM'\n    }\">\n\n  <text-input\n    [textModel]=\"getName()\"\n    [isHotspot]=\"true\"\n    (onTextChange)=\"onNameChange($event)\">\n  </text-input>\n\n\n\n\n  <property-editor\n    *ngIf=\"propertyEditorIsVisible\"\n    [roomProperty]=\"roomProperty\"\n    (onDeselect)=\"onDeselect($event)\"\n    class=\"icon__property-editor\">\n  </property-editor>\n\n\n</div>\n"
 
 /***/ }),
-/* 1169 */
+/* 1166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35772,27 +35542,27 @@ var PropertyEditor = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], PropertyEditor.prototype, "onDeselect", void 0);
     PropertyEditor = __decorate([core_1.Component({
         selector: 'property-editor',
-        styles: [__webpack_require__(1170)],
-        template: __webpack_require__(1171)
+        styles: [__webpack_require__(1167)],
+        template: __webpack_require__(1168)
     }), __metadata("design:paramtypes", [propertyRemovalService_1.PropertyRemovalService])], PropertyEditor);
     return PropertyEditor;
 }();
 exports.PropertyEditor = PropertyEditor;
 
 /***/ }),
-/* 1170 */
+/* 1167 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.property-editor {\n  z-index: 5; }\n\n.property-editor__old {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  height: 200px;\n  width: 280px;\n  position: absolute;\n  left: -100px;\n  padding: 5px;\n  background-color: #ADADAD;\n  z-index: 5;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n  @media (max-width: 767px) {\n    .property-editor__old {\n      position: fixed;\n      width: 100%;\n      left: 0;\n      top: 0;\n      margin-top: 50px;\n      z-index: 5; } }\n\n.property-editor__row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  padding: 10px 0; }\n\n.property-editor__title {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.property-editor__select {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  align-items: center;\n  margin-top: 10px; }\n\n.property-editor__label {\n  margin-right: 10px;\n  font-size: 0.8em;\n  color: #888888; }\n\n.property-editor__title-input {\n  flex-grow: 2;\n  font-size: 1.1em; }\n\n.property-editor__content-editor {\n  flex: 2; }\n\n.property-editor__delete-button {\n  margin-top: 8px;\n  width: 100%;\n  font-size: 0.8em;\n  background-color: #FF3571;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  border-radius: 4px;\n  cursor: pointer; }\n"
 
 /***/ }),
-/* 1171 */
+/* 1168 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"modal-window property-editor\">\n\n  <div class=\"modal-window__fields\">\n\n    <text-editor\n      *ngIf=\"propertyIs('text')\"\n      [textProperty]=\"roomProperty\">\n    </text-editor>\n\n    <image-editor\n      *ngIf=\"propertyIs('image')\"\n      [imageProperty]=\"roomProperty\">\n    </image-editor>\n\n    <door-editor\n      *ngIf=\"propertyIs('door')\"\n      [doorProperty]=\"roomProperty\">\n    </door-editor>\n\n    <audio-editor\n      *ngIf=\"propertyIs('audio')\"\n      [audioProperty]=\"roomProperty\">\n    </audio-editor>\n\n    <link-editor\n      *ngIf=\"propertyIs('link')\"\n      [linkProperty]=\"roomProperty\">\n    </link-editor>\n\n    <div\n      class=\"property-editor__delete-button\"\n      (click)=\"deleteProperty()\">\n      Delete {{ getPropertyName() }}\n    </div>\n\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1172 */
+/* 1169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35816,24 +35586,80 @@ var TextEditor = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", text_1.Text)], TextEditor.prototype, "textProperty", void 0);
     TextEditor = __decorate([core_1.Component({
         selector: 'text-editor',
-        styles: [__webpack_require__(1173)],
-        template: __webpack_require__(1174)
+        styles: [__webpack_require__(1170)],
+        template: __webpack_require__(1171)
     })], TextEditor);
     return TextEditor;
 }();
 exports.TextEditor = TextEditor;
 
 /***/ }),
-/* 1173 */
+/* 1170 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.text-editor__text-area {\n  border-color: #EEEEEE;\n  resize: none;\n  font-size: 1.1em;\n  width: 100%;\n  height: 10vh; }\n"
 
 /***/ }),
-/* 1174 */
+/* 1171 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"text-editor\">\n  <p class=\"hotspot-inspector__label\">\n    Enter Text:\n  </p>\n  <textarea\n    name=\"textarea\"\n    class=\"text-editor__text-area\"\n    [(ngModel)]=\"textProperty.body\">\n  </textarea>\n\n</div>\n"
+
+/***/ }),
+/* 1172 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var image_1 = __webpack_require__(180);
+var event_bus_1 = __webpack_require__(9);
+var imageResizeService_1 = __webpack_require__(52);
+var ImageEditor = /** @class */function () {
+    function ImageEditor(eventBus) {
+        this.eventBus = eventBus;
+    }
+    ImageEditor.prototype.onFileLoad = function ($event) {
+        var _this = this;
+        imageResizeService_1.resizeImage($event.binaryFileData, 'hotspotImage').then(function (resizedImageData) {
+            return _this.imageProperty.setFileData($event.file.name, resizedImageData);
+        }).catch(function (error) {
+            return _this.eventBus.onModalMessage('Image loading error', error);
+        });
+    };
+    __decorate([core_1.Input(), __metadata("design:type", image_1.Image)], ImageEditor.prototype, "imageProperty", void 0);
+    ImageEditor = __decorate([core_1.Component({
+        selector: 'image-editor',
+        styles: [__webpack_require__(1173)],
+        template: __webpack_require__(1174)
+    }), __metadata("design:paramtypes", [event_bus_1.EventBus])], ImageEditor);
+    return ImageEditor;
+}();
+exports.ImageEditor = ImageEditor;
+
+/***/ }),
+/* 1173 */
+/***/ (function(module, exports) {
+
+module.exports = ".image-editor__file-loader {\n  width: 100%;\n  display: inline-block;\n  position: relative;\n  left: 50%;\n  transform: translate(-50%, 0); }\n\n.image-editor__image-display {\n  display: block;\n  position: relative;\n  max-height: 300px;\n  margin-left: auto;\n  margin-right: auto;\n  justify-content: center;\n  overflow: hidde; }\n"
+
+/***/ }),
+/* 1174 */
+/***/ (function(module, exports) {
+
+module.exports = "<div\n  droppable\n  (onFileLoad)=\"onFileLoad($event)\"\n  [acceptedFileType]=\"'image'\">\n\n  <file-loader\n    (onFileLoad)=\"onFileLoad($event)\"\n    [acceptedFileType]=\"'image'\"\n    class=\"image-editor__file-loader\">\n  </file-loader>\n\n  <img\n    [attr.src]=\"imageProperty.getBinaryFileData()\"\n    class=\"image-editor__image-display\">\n\n</div>\n"
 
 /***/ }),
 /* 1175 */
@@ -35854,66 +35680,10 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var image_1 = __webpack_require__(180);
-var event_bus_1 = __webpack_require__(8);
-var imageResizeService_1 = __webpack_require__(52);
-var ImageEditor = /** @class */function () {
-    function ImageEditor(eventBus) {
-        this.eventBus = eventBus;
-    }
-    ImageEditor.prototype.onFileLoad = function ($event) {
-        var _this = this;
-        imageResizeService_1.resizeImage($event.binaryFileData, 'hotspotImage').then(function (resizedImageData) {
-            return _this.imageProperty.setFileData($event.file.name, resizedImageData);
-        }).catch(function (error) {
-            return _this.eventBus.onModalMessage('Image loading error', error);
-        });
-    };
-    __decorate([core_1.Input(), __metadata("design:type", image_1.Image)], ImageEditor.prototype, "imageProperty", void 0);
-    ImageEditor = __decorate([core_1.Component({
-        selector: 'image-editor',
-        styles: [__webpack_require__(1176)],
-        template: __webpack_require__(1177)
-    }), __metadata("design:paramtypes", [event_bus_1.EventBus])], ImageEditor);
-    return ImageEditor;
-}();
-exports.ImageEditor = ImageEditor;
-
-/***/ }),
-/* 1176 */
-/***/ (function(module, exports) {
-
-module.exports = ".image-editor__file-loader {\n  width: 100%;\n  display: inline-block;\n  position: relative;\n  left: 50%;\n  transform: translate(-50%, 0); }\n\n.image-editor__image-display {\n  display: block;\n  position: relative;\n  max-height: 300px;\n  margin-left: auto;\n  margin-right: auto;\n  justify-content: center;\n  overflow: hidde; }\n"
-
-/***/ }),
-/* 1177 */
-/***/ (function(module, exports) {
-
-module.exports = "<div\n  droppable\n  (onFileLoad)=\"onFileLoad($event)\"\n  [acceptedFileType]=\"'image'\">\n\n  <file-loader\n    (onFileLoad)=\"onFileLoad($event)\"\n    [acceptedFileType]=\"'image'\"\n    class=\"image-editor__file-loader\">\n  </file-loader>\n\n  <img\n    [attr.src]=\"imageProperty.getBinaryFileData()\"\n    class=\"image-editor__image-display\">\n\n</div>\n"
-
-/***/ }),
-/* 1178 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
 var door_1 = __webpack_require__(267);
 var sceneInteractor_1 = __webpack_require__(14);
-var constants_1 = __webpack_require__(11);
-var event_bus_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(12);
+var event_bus_1 = __webpack_require__(9);
 var DoorEditor = /** @class */function () {
     function DoorEditor(sceneInteractor, eventBus) {
         this.sceneInteractor = sceneInteractor;
@@ -36006,27 +35776,27 @@ var DoorEditor = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", door_1.Door)], DoorEditor.prototype, "doorProperty", void 0);
     DoorEditor = __decorate([core_1.Component({
         selector: 'door-editor',
-        styles: [__webpack_require__(1179)],
-        template: __webpack_require__(1180)
+        styles: [__webpack_require__(1176)],
+        template: __webpack_require__(1177)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, event_bus_1.EventBus])], DoorEditor);
     return DoorEditor;
 }();
 exports.DoorEditor = DoorEditor;
 
 /***/ }),
-/* 1179 */
+/* 1176 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FFF;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FFF; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FFF; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n\n.property-editor {\n  z-index: 5; }\n\n.property-editor__old {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  height: 200px;\n  width: 280px;\n  position: absolute;\n  left: -100px;\n  padding: 5px;\n  background-color: #ADADAD;\n  z-index: 5;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n  @media (max-width: 767px) {\n    .property-editor__old {\n      position: fixed;\n      width: 100%;\n      left: 0;\n      top: 0;\n      margin-top: 50px;\n      z-index: 5; } }\n\n.property-editor__row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  padding: 10px 0; }\n\n.property-editor__title {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.property-editor__select {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  align-items: center;\n  margin-top: 10px; }\n\n.property-editor__label {\n  margin-right: 10px;\n  font-size: 0.8em;\n  color: #888888; }\n\n.property-editor__title-input {\n  flex-grow: 2;\n  font-size: 1.1em; }\n\n.property-editor__content-editor {\n  flex: 2; }\n\n.property-editor__delete-button {\n  margin-top: 8px;\n  width: 100%;\n  font-size: 0.8em;\n  background-color: #FF3571;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  border-radius: 4px;\n  cursor: pointer; }\n\n.door-editor__select {\n  margin-bottom: 10px; }\n\n.door-editor__go-button {\n  margin-top: 10px; }\n\n.door-editor__transport {\n  margin-top: 35px;\n  margin-top: 10px; }\n\n.auto-go {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  align-items: center;\n  margin-top: 10px; }\n\n.auto-go__input-box {\n  flex-grow: 1;\n  margin-left: 15px;\n  opacity: 0; }\n\n.auto-go__input-box--visible {\n  opacity: 1; }\n"
 
 /***/ }),
-/* 1180 */
+/* 1177 */
 /***/ (function(module, exports) {
 
 module.exports = "<div>\n    <div>\n      <p class=\"hotspot-inspector__label\">\n        Door to:\n      </p>\n      <select\n        [(ngModel)]=\"selectedRoom\"\n        (change)=\"onRoomChange($event)\"\n        class=\"hotspot-inspector__select door-editor__select\">\n        <option\n          *ngFor=\"let room of roomList\"\n          [selected]=\"room.id === selectedRoom\"\n          [disabled]=\"room.disabled\"\n          [ngValue]=\"room\">\n            {{room.name}}\n        </option>\n      </select>\n    </div>\n\n    <div class=\"button door-editor__go-button\"\n      *ngIf=\"showTransportButton()\">\n      <p\n        (click)=\"onTransportClick($event)\">\n        Go!\n      </p>\n    </div>\n\n\n    <div class=\"auto-go\">\n\n      <span class=\"hotspot-inspector__label width-auto\">\n        Auto\n      </span>\n\n      <checkbox\n        [initialValue]=\"sliderIsVisible()\"\n        (changeEmitter)=\"onCheckboxChange($event)\">\n      </checkbox>\n\n      <!-- This will become a slider when we have finish the slider component -->\n      <text-input-material\n        [inputType]=\"'number'\"\n        [inputLabel]=\"'Seconds (between 1 and 60)'\"\n        [textModel]=\"getAutoTimeViewModel()\"\n        (onTextChange)=\"onSecondsChange($event)\"\n        (onBlurEvent)=\"onSecondsBlur($event)\"\n        class=\"auto-go__input-box\"\n        [ngClass]=\"{'auto-go__input-box--visible': sliderIsVisible()}\">\n      </text-input-material>\n\n    </div>\n  </div>\n\n  <!-- <div *ngIf=\"sliderIsVisible()\">\n    <input\n      id=\"rangeSlider\"\n      type=\"range\"\n      min=\"1\"\n      max=\"60\"\n      step=\"1\"\n      [value]=\"getDoorAutotime()\"\n      (change)=\"setDoorAutotime($event)\"/>\n    <span class=\"hotspot-inspector__label\">\n      {{getDoorAutotime()}} Seconds\n    </span>\n  </div> -->\n\n  <!-- <slider></slider> -->\n"
 
 /***/ }),
-/* 1181 */
+/* 1178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36060,27 +35830,27 @@ var LinkEditor = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", link_1.Link)], LinkEditor.prototype, "linkProperty", void 0);
     LinkEditor = __decorate([core_1.Component({
         selector: 'link-editor',
-        styles: [__webpack_require__(1182)],
-        template: __webpack_require__(1183)
+        styles: [__webpack_require__(1179)],
+        template: __webpack_require__(1180)
     })], LinkEditor);
     return LinkEditor;
 }();
 exports.LinkEditor = LinkEditor;
 
 /***/ }),
-/* 1182 */
+/* 1179 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FFF;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FFF; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FFF; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n\n.property-editor {\n  z-index: 5; }\n\n.property-editor__old {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  height: 200px;\n  width: 280px;\n  position: absolute;\n  left: -100px;\n  padding: 5px;\n  background-color: #ADADAD;\n  z-index: 5;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n  @media (max-width: 767px) {\n    .property-editor__old {\n      position: fixed;\n      width: 100%;\n      left: 0;\n      top: 0;\n      margin-top: 50px;\n      z-index: 5; } }\n\n.property-editor__row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  padding: 10px 0; }\n\n.property-editor__title {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.property-editor__select {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  align-items: center;\n  margin-top: 10px; }\n\n.property-editor__label {\n  margin-right: 10px;\n  font-size: 0.8em;\n  color: #888888; }\n\n.property-editor__title-input {\n  flex-grow: 2;\n  font-size: 1.1em; }\n\n.property-editor__content-editor {\n  flex: 2; }\n\n.property-editor__delete-button {\n  margin-top: 8px;\n  width: 100%;\n  font-size: 0.8em;\n  background-color: #FF3571;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  border-radius: 4px;\n  cursor: pointer; }\n\n.link-editor__text-area {\n  resize: none;\n  font-size: 1.1em;\n  width: 274px;\n  height: 96px;\n  background: transparent; }\n\n.link-editor__go-button {\n  width: 278px; }\n"
 
 /***/ }),
-/* 1183 */
+/* 1180 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"link-editor\">\n\n  <textarea\n    name=\"textarea\"\n    class=\"link-editor__text-area\"\n    [(ngModel)]=\"linkProperty.body\">\n  </textarea>\n\n  <div class=\"button link-editor__go-button\"\n    *ngIf=\"showLinkButton()\">\n    <p\n      (click)=\"onLinkClick($event)\">\n      Go!\n    </p>\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1184 */
+/* 1181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36098,7 +35868,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var audio_1 = __webpack_require__(106);
 var audioRecorderService_1 = __webpack_require__(186);
 var AudioEditor = /** @class */function () {
@@ -36122,27 +35892,27 @@ var AudioEditor = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", audio_1.Audio)], AudioEditor.prototype, "audioProperty", void 0);
     AudioEditor = __decorate([core_1.Component({
         selector: 'audio-editor',
-        styles: [__webpack_require__(1185)],
-        template: __webpack_require__(1186)
+        styles: [__webpack_require__(1182)],
+        template: __webpack_require__(1183)
     })], AudioEditor);
     return AudioEditor;
 }();
 exports.AudioEditor = AudioEditor;
 
 /***/ }),
-/* 1185 */
+/* 1182 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.audio-editor__record-button {\n  display: inline-block;\n  position: relative;\n  margin-left: 5px;\n  margin-bottom: 10px; }\n\n.audio-editor__file-loader {\n  position: relative;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.audio-editor__audio-player {\n  width: 100%;\n  position: relative;\n  margin-top: 5px; }\n"
 
 /***/ }),
-/* 1186 */
+/* 1183 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  droppable\n  (onFileLoad)=\"onFileLoad($event)\"\n  [acceptedFileType]=\"'audio'\">\n\n\n  <div class=\"hotspot-inspector_row\">\n    <file-loader\n      (onFileLoad)=\"onFileLoad($event)\"\n      [acceptedFileType]=\"'audio'\"\n      class=\"audio-editor__file-loader\">\n    </file-loader>\n\n    <audio-recorder\n      *ngIf=\"showAudioRecorder()\"\n      (onRecorded)=\"onAudioRecorded($event)\"\n      class=\"audio-editor__record-button\">\n    </audio-recorder>\n  </div>\n\n\n\n  <audio\n    *ngIf=\"hasAudioFile()\"\n    [attr.src]=\"audioProperty.getBinaryFileData()\"\n    type=\"audio/mp3\"\n    controls=\"controls\"\n    [volume]=\"audioProperty.getVolume()\"\n    (volumechange)=\"onVolumeChange($event)\"\n    class=\"audio-editor__audio-player\">\n  </audio>\n\n</div>\n"
 
 /***/ }),
-/* 1187 */
+/* 1184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36239,8 +36009,8 @@ var AudioRecorder = /** @class */function () {
     __decorate([core_1.ViewChild('audioRecorder'), __metadata("design:type", Object)], AudioRecorder.prototype, "audioRecorderButton", void 0);
     AudioRecorder = __decorate([core_1.Component({
         selector: 'audio-recorder',
-        styles: [__webpack_require__(1188)],
-        template: __webpack_require__(1189)
+        styles: [__webpack_require__(1185)],
+        template: __webpack_require__(1186)
     }), __metadata("design:paramtypes", [audioRecorderService_1.AudioRecorderService, core_1.NgZone])], AudioRecorder);
     return AudioRecorder;
 }();
@@ -36258,24 +36028,23 @@ function linearInterpolateValue(u, v, value, inverseValue) {
 }
 
 /***/ }),
-/* 1188 */
+/* 1185 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.circle-beacon:before,\n.circle-beacon:after {\n  width: 36px;\n  height: 36px;\n  content: '';\n  position: absolute;\n  top: -2px;\n  left: -2px;\n  border-radius: 50%;\n  border: 2px solid #FF3571; }\n\n.circle-beacon:before {\n  animation: ripple 1.5s linear infinite; }\n\n.circle-beacon:after {\n  animation: ripple 1.5s linear 1s infinite; }\n\n@keyframes ripple {\n  0% {\n    transform: scale(1);\n    opacity: 0; }\n  10% {\n    transform: scale(1.05);\n    opacity: 1; }\n  100% {\n    transform: scale(1.75);\n    opacity: 0; } }\n\n.audio-recorder {\n  position: relative;\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  background-color: #AD0034; }\n"
 
 /***/ }),
-/* 1189 */
+/* 1186 */
 /***/ (function(module, exports) {
 
 module.exports = "<div \n  #audioRecorder\n  (click)=\"onClick($event)\"\n  class=\"audio-recorder\"\n  [ngClass]=\"{'circle-beacon': isRecording}\">\n</div>\n"
 
 /***/ }),
-/* 1190 */
+/* 1187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-// Note: https://stackoverflow.com/questions/47246901/three-js-memory-leak-regardless-of-removing-mesh-from-scene
 
 var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
     var c = arguments.length,
@@ -36290,45 +36059,41 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var THREE = __webpack_require__(27);
+var THREE = __webpack_require__(28);
+__webpack_require__(459);
 __webpack_require__(460);
-__webpack_require__(461);
 __webpack_require__(509);
-var event_bus_1 = __webpack_require__(8);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
 var sceneInteractor_1 = __webpack_require__(14);
-var cameraInteractor_1 = __webpack_require__(273);
+var cameraInteractor_1 = __webpack_require__(272);
 var assetInteractor_1 = __webpack_require__(60);
-var multiViewService_1 = __webpack_require__(513);
-var MeshUtil = __webpack_require__(1191);
-var audioManager_1 = __webpack_require__(515);
-var textureLoader_1 = __webpack_require__(516);
-var hotspotManager_1 = __webpack_require__(517);
-var menuManager_1 = __webpack_require__(277);
-var reticle_1 = __webpack_require__(519);
+// import {MultiViewService} from 'ui/editor/preview-space/modules/multiViewService';
+var MeshUtil = __webpack_require__(1188);
+var audioManager_1 = __webpack_require__(513);
+var textureLoader_1 = __webpack_require__(514);
+var hotspotManager_1 = __webpack_require__(515);
+var menuManager_1 = __webpack_require__(275);
+var reticle_1 = __webpack_require__(517);
 var video3D_1 = __webpack_require__(512);
 var threeUtil_1 = __webpack_require__(511);
-var constants_1 = __webpack_require__(11);
-var fontHelper_1 = __webpack_require__(518);
-// import threeResourcePool from 'ui/editor/preview-space/modules/ThreeResourcePool';
-var Stats = __webpack_require__(1194);
+var constants_1 = __webpack_require__(12);
+var fontHelper_1 = __webpack_require__(516);
+var Stats = __webpack_require__(1191);
 var stats = new Stats();
-stats.showPanel(2); // 0: fps, 1: ms, 2: mb, 3+: custom
-// document.body.appendChild( stats.dom );
-var TWEEN = __webpack_require__(276);
-var roomSphereFragShader = __webpack_require__(1195);
-var roomSphereVertShader = __webpack_require__(1196);
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild(stats.dom);
+var TWEEN = __webpack_require__(274);
+var roomSphereFragShader = __webpack_require__(1192);
+var roomSphereVertShader = __webpack_require__(1193);
 var PreviewSpace = /** @class */function () {
-    function PreviewSpace(metaDataInteractor, sceneInteractor, cameraInteractor, eventBus, ngZone, assetInteractor, route, router, multiViewService, audioManager, textureLoader, hotspotManager, menuManager, reticle) {
+    function PreviewSpace(metaDataInteractor, sceneInteractor, cameraInteractor, ngZone, assetInteractor, route, router, audioManager, textureLoader, hotspotManager, menuManager, reticle) {
         this.metaDataInteractor = metaDataInteractor;
         this.sceneInteractor = sceneInteractor;
         this.cameraInteractor = cameraInteractor;
-        this.eventBus = eventBus;
         this.ngZone = ngZone;
         this.assetInteractor = assetInteractor;
         this.route = route;
         this.router = router;
-        this.multiViewService = multiViewService;
         this.audioManager = audioManager;
         this.textureLoader = textureLoader;
         this.hotspotManager = hotspotManager;
@@ -36343,11 +36108,14 @@ var PreviewSpace = /** @class */function () {
         this.shouldInit = false;
         this.inRoomTween = false;
         this.sphereMaterial = new THREE.MeshBasicMaterial({ map: null, side: THREE.BackSide });
+        this.onResizeFn = this.onResize.bind(this);
+        this.onVrDisplayChangeFn = this.onVrDisplayChange.bind(this);
     }
     //////////////////////////////////////////////
     ///////////    HOUSE KEEPING    //////////////
     //////////////////////////////////////////////
     PreviewSpace.prototype.ngOnInit = function () {
+        var _this = this;
         var projectIsEmpty = this.metaDataInteractor.projectIsEmpty();
         var isMultiView = this.router.url.includes('multiview=');
         if (projectIsEmpty && !isMultiView) {
@@ -36355,12 +36123,15 @@ var PreviewSpace = /** @class */function () {
             return;
         }
         this.shouldInit = true;
+        this.ngZone.runOutsideAngular(function () {
+            window.addEventListener('resize', _this.onResizeFn, false);
+            window.addEventListener('vrdisplaypresentchange', _this.onVrDisplayChangeFn, false);
+        });
     };
     PreviewSpace.prototype.ngAfterViewInit = function () {
         var _this = this;
         if (!this.shouldInit) return;
         this.initScene();
-        this.subscribeToEvents();
         Promise.all([this.audioManager.loadBuffers(), this.textureLoader.load(), this.initVrDisplay(), fontHelper_1.default.load()]).then(function () {
             return _this.initRoom();
         }).catch(function (error) {
@@ -36368,7 +36139,10 @@ var PreviewSpace = /** @class */function () {
         });
     };
     PreviewSpace.prototype.ngOnDestroy = function () {
-        console.log('ngOnDestroy');
+        // this.svrControls.dispose();
+        window.removeEventListener('resize', this.onResizeFn, false);
+        window.removeEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);
+        ;
         if (this.camera) {
             var cameraDirection = new THREE.Vector3(0, 0, -1);
             cameraDirection.applyQuaternion(this.camera.quaternion);
@@ -36393,6 +36167,7 @@ var PreviewSpace = /** @class */function () {
     ///////////  INITIALIZATION     //////////////
     //////////////////////////////////////////////
     PreviewSpace.prototype.initScene = function () {
+        var _this = this;
         var canvas = this.globeCanvas.nativeElement;
         var scenePrimitives = threeUtil_1.buildScene();
         this.sphereMesh = scenePrimitives.sphereMesh;
@@ -36402,11 +36177,19 @@ var PreviewSpace = /** @class */function () {
         this.sphereMesh.material = this.sphereMaterial;
         this.reticle.init(this.camera, this.vrCamera);
         //this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: window.orientation == 'undefined'});
-        this.renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-        this.svrControls = new THREE.SvrControls(this.camera, canvas, this.cameraInteractor.getCameraDirection());
-        this.vrControls = new THREE.VRControls(this.vrCamera);
-        this.vrEffect = new THREE.VREffect(this.renderer);
-        this.vrEffect.setSize(window.innerWidth, window.innerHeight);
+        this.renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false });
+        // this.svrControls = new THREE.SvrControls(this.camera, canvas, this.cameraInteractor.getCameraDirection());
+        this.svrControls = new THREE.SvrControls({
+            camera: this.camera,
+            domElement: canvas,
+            initialTarget: this.cameraInteractor.getCameraDirection(),
+            executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone)
+        });
+        this.ngZone.runOutsideAngular(function () {
+            _this.vrControls = new THREE.VRControls(_this.vrCamera);
+            _this.vrEffect = new THREE.VREffect(_this.renderer);
+            _this.vrEffect.setSize(window.innerWidth, window.innerHeight);
+        });
     };
     PreviewSpace.prototype.initRoom = function () {
         var roomId = this.sceneInteractor.getActiveRoomId();
@@ -36475,9 +36258,6 @@ var PreviewSpace = /** @class */function () {
         //   fragmentShader: roomSphereFragShader,
         //   side: THREE.FrontSide
         // });
-        // MeshUtil.cleanMeshMemory(this.sphereMesh);
-        // this.sphereMesh.material = new THREE.MeshBasicMaterial({map: sphereTexture, side: THREE.BackSide});
-        // this.sphereMesh.material = threeResourcePool.getSphereMaterialFromTexture(sphereTexture);
         if (this.sphereMesh.material.map) {
             this.sphereMesh.material.map.dispose();
         }
@@ -36535,7 +36315,7 @@ var PreviewSpace = /** @class */function () {
             this.hotspotManager.update(reticle, elapsedTime);
         }
         this.menuManager.update(reticle, camera);
-        this.multiViewService.update(camera);
+        // this.multiViewService.update(camera);
         TWEEN.update();
     };
     PreviewSpace.prototype.render = function () {
@@ -36575,13 +36355,13 @@ var PreviewSpace = /** @class */function () {
         this.isInRenderLoop = false;
         setTimeout(function () {
             _this.sceneInteractor.setActiveRoomId(lastRoom);
-            _this.eventBus.onSelectRoom(lastRoom, false);
+            _this.initRoom();
         });
     };
     PreviewSpace.prototype.goToHomeRoom = function () {
         var homeRoom = this.sceneInteractor.getHomeRoomId();
         this.sceneInteractor.setActiveRoomId(homeRoom);
-        this.eventBus.onSelectRoom(homeRoom, false);
+        this.initRoom();
     };
     PreviewSpace.prototype.goToRoom = function (outgoingRoomId) {
         var _this = this;
@@ -36599,11 +36379,10 @@ var PreviewSpace = /** @class */function () {
             y: -1 * this.lookAtVector.y * constants_1.THREE_CONST.TWEEN_ROOM_MOVE,
             z: -1 * this.lookAtVector.z * constants_1.THREE_CONST.TWEEN_ROOM_MOVE
         }, constants_1.THREE_CONST.TWEEN_ROOM_MOVETIMEIN).easing(TWEEN.Easing.Linear.None).onUpdate(function () {}).onComplete(function () {
-            //console.log("onCopmlete for tween");
             _this.isInRenderLoop = false;
             _this.inRoomTween = false;
             _this.sceneInteractor.setActiveRoomId(outgoingRoomId);
-            _this.eventBus.onSelectRoom(outgoingRoomId, false);
+            _this.initRoom();
         }).start();
     };
     //////////////////////////////////////////////
@@ -36629,8 +36408,8 @@ var PreviewSpace = /** @class */function () {
     //////////////////////////////////////////////
     //////////////   EVENTS ETC   ////////////////
     //////////////////////////////////////////////
-    // TODO: mouse or touch hotspot activation
-    PreviewSpace.prototype.onMouseDown = function (event) {};
+    // potential ios issue?
+    // https://github.com/immersive-web/webvr-polyfill/blob/master/examples/index.html
     PreviewSpace.prototype.onResize = function (event) {
         var _this = this;
         cancelAnimationFrame(this.animationRequest);
@@ -36641,6 +36420,9 @@ var PreviewSpace = /** @class */function () {
                 var isInVrMode = !!_this.vrDisplay && !!_this.vrDisplay.isPresenting;
                 _this.isInRenderLoop = false;
                 _this.vrEffect.setSize(window.innerWidth, window.innerHeight);
+                // better image quality but worse performance
+                _this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+                _this.renderer.setSize(window.innerWidth, window.innerHeight, false);
                 _this.reticle.showVrReticle(isInVrMode);
                 _this.isInRenderLoop = true;
                 _this.animate();
@@ -36649,76 +36431,29 @@ var PreviewSpace = /** @class */function () {
             });
         });
     };
-    PreviewSpace.prototype.subscribeToEvents = function () {
-        var _this = this;
-        if (this.subscriptions.size > 0) {
-            return;
-        }
-        var onRoomSelect = this.eventBus.getObservable(event_bus_1.EventType.SELECT_ROOM).subscribe(function (observedData) {
-            return _this.initRoom();
-        }, function (error) {
-            return console.log('error', error);
-        });
-        var windowResize = this.eventBus.getObservable(event_bus_1.EventType.WINDOW_RESIZE).subscribe(function (windowDims) {
-            return _this.onResize(windowDims);
-        }, function (error) {
-            return console.log('EditSpaceFlat.onResize', error);
-        });
-        var onVrDisplayChange = this.eventBus.getObservable(event_bus_1.EventType.VR_DISPLAY_CHANGE).subscribe(function (event) {
-            return _this.onResize(null);
-        }, function (error) {
-            return console.log('error', error);
-        });
-        // TODO: move this to ngOnInit ... even though it is a subscription
-        var onMultiView = this.route.queryParams.filter(function (params) {
-            return !!params['multiview'];
-        }).map(function (params) {
-            return params['multiview'];
-        }).subscribe(function (multiViewValue) {
-            _this.multiViewService.openSharedValue(multiViewValue).then(function () {
-                _this.ngAfterViewInit();
-                var onRoomChange = _this.multiViewService.observeRoom().subscribe(function (roomData) {
-                    roomData.forEach(function (user, index) {
-                        _this.multiViewService.updateUser(user, index);
-                    });
-                    if (!_this.isInRenderLoop) {
-                        _this.animate();
-                    }
-                }, function (error) {
-                    return console.log('error', error);
-                });
-                _this.subscriptions.add(onRoomChange);
-            }).catch(function (error) {
-                return console.log('error', error);
-            });
-        }, function (error) {
-            return console.log('error', error);
-        });
-        this.subscriptions.add(onRoomSelect);
-        this.subscriptions.add(windowResize);
-        this.subscriptions.add(onVrDisplayChange);
-        this.subscriptions.add(onMultiView);
+    PreviewSpace.prototype.onVrDisplayChange = function (event) {
+        this.onResize(event);
     };
     __decorate([core_1.ViewChild('editSpaceSphere'), __metadata("design:type", Object)], PreviewSpace.prototype, "editSpaceSphere", void 0);
     __decorate([core_1.ViewChild('globeCanvas'), __metadata("design:type", Object)], PreviewSpace.prototype, "globeCanvas", void 0);
     PreviewSpace = __decorate([core_1.Component({
         selector: 'preview-space',
-        styles: [__webpack_require__(1197)],
-        template: __webpack_require__(1198)
-    }), __metadata("design:paramtypes", [projectMetaDataInteractor_1.MetaDataInteractor, sceneInteractor_1.SceneInteractor, cameraInteractor_1.CameraInteractor, event_bus_1.EventBus, core_1.NgZone, assetInteractor_1.AssetInteractor, router_1.ActivatedRoute, router_1.Router, multiViewService_1.MultiViewService, audioManager_1.AudioManager, textureLoader_1.TextureLoader, hotspotManager_1.HotspotManager, menuManager_1.MenuManager, reticle_1.Reticle])], PreviewSpace);
+        styles: [__webpack_require__(1194)],
+        template: __webpack_require__(1195)
+    }), __metadata("design:paramtypes", [projectMetaDataInteractor_1.MetaDataInteractor, sceneInteractor_1.SceneInteractor, cameraInteractor_1.CameraInteractor, core_1.NgZone, assetInteractor_1.AssetInteractor, router_1.ActivatedRoute, router_1.Router, audioManager_1.AudioManager, textureLoader_1.TextureLoader, hotspotManager_1.HotspotManager, menuManager_1.MenuManager, reticle_1.Reticle])], PreviewSpace);
     return PreviewSpace;
 }();
 exports.PreviewSpace = PreviewSpace;
 
 /***/ }),
-/* 1191 */
+/* 1188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = __webpack_require__(27);
+var THREE = __webpack_require__(28);
 function clearScene(scene) {
     scene.traverse(function (mesh) {
         if (mesh instanceof THREE.Mesh) {
@@ -36737,20 +36472,16 @@ function clearScene(scene) {
 }
 exports.clearScene = clearScene;
 function cleanMeshMemory(mesh) {
-    console.log("cleanMeshMemory", mesh);
     if (!mesh) return;
     if (mesh.material && mesh.material.map) {
-        console.log('clean mesh texture');
         mesh.material.map.dispose();
         mesh.material.map = undefined;
     }
     if (mesh.material) {
-        console.log('clean mesh material');
         mesh.material.dispose();
         mesh.material = undefined;
     }
     if (mesh.geometry) {
-        console.log('clean mesh geometry');
         mesh.geometry.dispose();
         mesh.geometry = undefined;
     }
@@ -36758,7 +36489,7 @@ function cleanMeshMemory(mesh) {
 exports.cleanMeshMemory = cleanMeshMemory;
 
 /***/ }),
-/* 1192 */
+/* 1189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36766,8 +36497,8 @@ exports.cleanMeshMemory = cleanMeshMemory;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var roomPropertyTypeService_1 = __webpack_require__(92);
-var constants_1 = __webpack_require__(11);
-var TWEEN = __webpack_require__(276);
+var constants_1 = __webpack_require__(12);
+var TWEEN = __webpack_require__(274);
 var HotspotEntity = /** @class */function () {
     function HotspotEntity(id, hotpostProperty, graphicIcon, previewIcon, audioPlayService, goToRoom, label, rotation) {
         this.id = id;
@@ -37058,13 +36789,14 @@ var HotspotEntity = /** @class */function () {
 exports.default = HotspotEntity;
 
 /***/ }),
-/* 1193 */
+/* 1190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(THREE) {
+
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var THREE = __webpack_require__(28);
 var fontSize = 26;
 var TextLine = /** @class */function () {
     function TextLine(x, y, text) {
@@ -37124,10 +36856,9 @@ function buildMaterialFromText(textContext) {
     };
 }
 exports.buildMaterialFromText = buildMaterialFromText;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27)))
 
 /***/ }),
-/* 1194 */
+/* 1191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // stats.js - http://github.com/mrdoob/stats.js
@@ -37138,31 +36869,164 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
 
 
 /***/ }),
-/* 1195 */
+/* 1192 */
 /***/ (function(module, exports) {
 
 module.exports = "uniform sampler2D texture;\nvarying vec2 vUv;\n\nvoid main() {\n  gl_FragColor = texture2D( texture, vUv );\n}\n"
 
 /***/ }),
-/* 1196 */
+/* 1193 */
 /***/ (function(module, exports) {
 
 module.exports = "uniform sampler2D texture;\nuniform float time; // 0 to 1, seconds\nvarying vec2 vUv;\n\nvoid main() {\n  vec3 p = position;\n  vec3 newPosition = p + normal * - texture2D( texture, uv ).y * 100.0;\n  gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );\n  vUv = uv;\n}\n"
 
 /***/ }),
-/* 1197 */
+/* 1194 */
 /***/ (function(module, exports) {
 
 module.exports = ".preview-space {\n  width: 100%;\n  height: 100%;\n  cursor: default; }\n\n.preview-space__vr-mode-button {\n  position: absolute;\n  top: 0;\n  left: 75%;\n  margin-top: 10px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  transform: translate(-50%, 0%); }\n"
 
 /***/ }),
-/* 1198 */
+/* 1195 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"preview-space\">\n\n  <canvas\n    #globeCanvas\n    (mousedown)=\"onMouseDown($event)\">\n  </canvas>\n\n  <div\n    *ngIf=\"showVrModeButton\"\n    class=\"preview-space__vr-mode-button\"\n    (click)=\"requestVrMode($event)\">\n    VR Mode\n  </div>\n\n</div>\n"
+module.exports = "<div class=\"preview-space\">\n\n  <canvas #globeCanvas>\n  </canvas>\n\n  <div\n    *ngIf=\"showVrModeButton\"\n    class=\"preview-space__vr-mode-button\"\n    (click)=\"requestVrMode($event)\">\n    VR Mode\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1199 */
+/* 1196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var THREE = __webpack_require__(28);
+var projectInteractor_1 = __webpack_require__(53);
+var sceneInteractor_1 = __webpack_require__(14);
+var chatInteractor_1 = __webpack_require__(276);
+var event_bus_1 = __webpack_require__(9);
+var MultiViewService = /** @class */function () {
+    function MultiViewService(eventBus, projectInteractor, chatInteractor, sceneInteractor) {
+        this.eventBus = eventBus;
+        this.projectInteractor = projectInteractor;
+        this.chatInteractor = chatInteractor;
+        this.sceneInteractor = sceneInteractor;
+        this.chatRoomId = '';
+        this.lastLookAtTime = performance.now();
+        this.testMultiViewPosition = new Map();
+        this.lastCameraPosition = new THREE.Vector3(0, 0, 0);
+    }
+    MultiViewService.prototype.initBeachBalls = function (scene, colorBallTexture) {
+        var _this = this;
+        var cbGeometry = new THREE.SphereGeometry(5, 32, 32);
+        // const cbTexture = this.assetInteractor.getTextureById('colorBall');
+        colorBallTexture.wrapS = THREE.RepeatWrapping;
+        colorBallTexture.wrapT = THREE.RepeatWrapping;
+        colorBallTexture.offset.set(0, 0);
+        colorBallTexture.repeat.set(2, 1);
+        var cbMaterial = new THREE.MeshBasicMaterial({ map: colorBallTexture, side: THREE.FrontSide });
+        var cbMesh = new THREE.Mesh(cbGeometry, cbMaterial);
+        // this.colorBallMesh = cbMesh;
+        new Array(2).fill(null).map(function (nullVal, index) {
+            return index + 1;
+        }).forEach(function (index) {
+            var colorBall = cbMesh.clone();
+            colorBall.position.set(10, 10, 10);
+            // colorBall.lookAt(camera.position);
+            colorBall.visible = true;
+            _this.testMultiViewPosition.set(index, colorBall);
+            scene.add(colorBall);
+        });
+    };
+    MultiViewService.prototype.update = function (camera) {
+        // if change in look at, send value
+        var cameraDirection = camera.getWorldDirection();
+        if (cameraDirection.equals(this.lastCameraPosition)) {
+            return;
+        }
+        this.lastCameraPosition = cameraDirection;
+        var zVector = new THREE.Vector3(0, 0, -100);
+        var cameraVector = camera.localToWorld(zVector);
+        this.setLookAt(cameraVector.x, cameraVector.y, cameraVector.z);
+    };
+    MultiViewService.prototype.updateUser = function (user, index) {
+        var userHasData = user.lookingAt.x && user.lookingAt.y && user.lookingAt.z;
+        if (this.testMultiViewPosition.has(index) && userHasData) {
+            this.testMultiViewPosition.get(index).position.set(user.lookingAt.x, user.lookingAt.y, user.lookingAt.z);
+        }
+    };
+    MultiViewService.prototype.openSharedValue = function (sharedValue) {
+        var _a = sharedValue.split('-'),
+            userId = _a[0],
+            projectId = _a[1];
+        if (userId === undefined || projectId === undefined) {
+            console.log('error', 'userId', userId, 'projectId', projectId);
+            return;
+        }
+        console.log('open project for', userId, projectId);
+        console.log('join chat room:', sharedValue);
+        this.chatRoomId = sharedValue;
+        // if current project === multiview project, join chatroom
+        // if current project !== multiview project, open project and join chatroom
+        this.joinMultiView();
+        // .switchMap(chatRoomId => this.joinMultiView(chatRoomId));
+        // const chatAddress = `/chatrooms/${this.chatRoomId}/`;
+        return this.openProject(userId, projectId);
+        // .then(() => this.chatInteractor.observeRoom(chatAddress));
+    };
+    MultiViewService.prototype.setLookAt = function (x, y, z) {
+        if (performance.now() - this.lastLookAtTime > 100) {
+            this.chatInteractor.setLookAt(this.chatRoomId, x, y, z);
+            this.lastLookAtTime = performance.now();
+        }
+    };
+    MultiViewService.prototype.observeRoom = function () {
+        var address = "/chatrooms/" + this.chatRoomId + "/";
+        return this.chatInteractor.observeRoom(address);
+    };
+    // TODO: refactor into different service
+    MultiViewService.prototype.openProject = function (userId, projectId) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.eventBus.onStartLoading();
+            _this.projectInteractor.openProject(userId, projectId).subscribe(function (response) {
+                //reset the current scene
+                _this.sceneInteractor.setActiveRoomId(null);
+                _this.eventBus.onSelectRoom(null, false);
+                // this.metaDataInteractor.setIsReadOnly(false);
+                resolve();
+            }, function (error) {
+                return reject(error);
+            }, function () {
+                return _this.eventBus.onStopLoading();
+            });
+        });
+    };
+    MultiViewService.prototype.joinMultiView = function () {
+        this.chatInteractor.joinRoom(this.chatRoomId).subscribe(function (success) {
+            return console.log('joined Room', success);
+        }, function (error) {
+            return console.log('error', error);
+        });
+    };
+    MultiViewService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [event_bus_1.EventBus, projectInteractor_1.ProjectInteractor, chatInteractor_1.ChatInteractor, sceneInteractor_1.SceneInteractor])], MultiViewService);
+    return MultiViewService;
+}();
+exports.MultiViewService = MultiViewService;
+
+/***/ }),
+/* 1197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37181,7 +37045,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var userInteractor_1 = __webpack_require__(37);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var router_1 = __webpack_require__(17);
 var Topbar = /** @class */function () {
     function Topbar(ngZone, eventBus, userInteractor, router, activatedRoute) {
@@ -37243,27 +37107,27 @@ var Topbar = /** @class */function () {
     };
     Topbar = __decorate([core_1.Component({
         selector: 'topbar',
-        styles: [__webpack_require__(1200)],
-        template: __webpack_require__(1201)
+        styles: [__webpack_require__(1198)],
+        template: __webpack_require__(1199)
     }), __metadata("design:paramtypes", [core_1.NgZone, event_bus_1.EventBus, userInteractor_1.UserInteractor, router_1.Router, router_1.ActivatedRoute])], Topbar);
     return Topbar;
 }();
 exports.Topbar = Topbar;
 
 /***/ }),
-/* 1200 */
+/* 1198 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.topbar {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  margin-top: 16px;\n  overflow: hidden; }\n\n.topbar__row {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between; }\n\n.topbar__row-label {\n  color: #888888;\n  font-weight: 600;\n  background-color: #FFF;\n  opacity: 0.7;\n  border-radius: 4px;\n  padding: 16px 24px;\n  overflow: hidden;\n  cursor: pointer; }\n  .topbar__row-label:hover {\n    opacity: 1; }\n  .topbar__row-label:active {\n    background-color: #FFF;\n    color: #FF3571; }\n  .topbar__row-label:focus {\n    outline: 0; }\n\n.topbar__row-label-active {\n  color: #FF3571;\n  opacity: 1;\n  overflow: hidden; }\n\n.topbar__row-menus {\n  flex-grow: 2; }\n\n.topbar__marginright {\n  margin-right: 16px; }\n\n.topbar__marginleft {\n  margin-left: 16px; }\n\n.topbar__row-story {\n  justify-content: center; }\n\n.topbar__position-absolute {\n  position: absolute; }\n\n.topbar__story-tab {\n  position: fixed;\n  transform: translateX(-110%);\n  left: 0;\n  transition: transform 0.2s ease-out; }\n  @media (max-width: 767px) {\n    .topbar__story-tab {\n      width: 98%; } }\n\n.topbar__story-tab--active {\n  transform: translateX(0); }\n\n.topbar__user-tab {\n  position: fixed;\n  transform: translateX(110%);\n  right: 0;\n  transition: transform 0.2s ease-out; }\n  @media (max-width: 767px) {\n    .topbar__user-tab {\n      width: 98%; } }\n\n.topbar__user-tab--active {\n  transform: translateX(0); }\n\n.topbar__about-tab {\n  margin-left: -62.5px; }\n"
 
 /***/ }),
-/* 1201 */
+/* 1199 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"topbar topbar__row\">\n\n  <!-- Story-->\n<div\n    class=\"topbar__sub-row topbar__marginleft\"\n    title=\"Your current story...\">\n    <p\n      [routerLink]=\"['/editor', {outlets: {'modal': ['story']}}]\"\n      class=\"topbar__row-label\"\n      [ngClass]=\"{'topbar__row-label-active': storyIsOpen}\">\n      Story\n    </p>\n  </div>\n\n\n\n  <!-- profile -->\n  <div\n    class=\"topbar__marginright\"\n    title=\"User login\">\n\n    <p\n      [routerLink]=\"['/editor', {outlets: {'modal': ['profile']}}]\"\n      class=\"topbar__row-label\"\n      [ngClass]=\"{'topbar__row-label-active': profileIsOpen}\">\n      Profile\n    </p>\n\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1202 */
+/* 1200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37282,27 +37146,27 @@ var AboutTab = /** @class */function () {
     function AboutTab() {}
     AboutTab = __decorate([core_1.Component({
         selector: 'about-tab',
-        styles: [__webpack_require__(1203)],
-        template: __webpack_require__(1204)
+        styles: [__webpack_require__(1201)],
+        template: __webpack_require__(1202)
     })], AboutTab);
     return AboutTab;
 }();
 exports.AboutTab = AboutTab;
 
 /***/ }),
-/* 1203 */
+/* 1201 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.about-tab {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  max-width: 250px; }\n\n.about-tab-heading {\n  margin-bottom: 10px;\n  border-bottom: 1px solid #FFF;\n  color: #888888; }\n\n.about-tab-text {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n"
 
 /***/ }),
-/* 1204 */
+/* 1202 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"about-tab\">\n\n  <p class=\"about-tab-heading font-header\">\n    Welcome\n  </p>\n\n\n  <p class=\"about-tab-text\">\n    SocialVR is an easy-to-use Virtual Reality (VR) authoring tool.  It works in Chrome and Firefox, and all it allows you to create complex VR experiences using 360-photos and annotation.\n  </p>\n\n  <p class=\"about-tab-text\">\n    To learn more about SocialVR, click <a href=\"http://socialvrlab.com/\" target=\"_blank\">here.</a>\n  </p>\n\n  <p class=\"about-tab-text\">\n    If you need more help, please <a href=\"mailto:hi@socialvrlab.com\" target=\"_blank\">email us</a>\n  </p>\n\n</div>\n"
 
 /***/ }),
-/* 1205 */
+/* 1203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37323,42 +37187,55 @@ var core_1 = __webpack_require__(2);
 var userInteractor_1 = __webpack_require__(37);
 var router_1 = __webpack_require__(17);
 var UserTab = /** @class */function () {
-    function UserTab(userInteractor, router) {
+    function UserTab(userInteractor, router, element) {
         this.userInteractor = userInteractor;
         this.router = router;
+        this.element = element;
+        this.isBeingInstantiated = false;
     }
+    UserTab.prototype.ngOnInit = function () {
+        this.isBeingInstantiated = true;
+    };
+    UserTab.prototype.onDocumentClick = function ($event) {
+        var isClicked = this.element.nativeElement.contains(event.target);
+        // short circuit the first off click when component is being created
+        if (this.isBeingInstantiated) {
+            this.isBeingInstantiated = false;
+            return;
+        }
+        if (!isClicked) {
+            // close user modal
+            this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
+        }
+    };
     UserTab.prototype.userIsLoggedIn = function () {
         return this.userInteractor.isLoggedIn();
     };
-    UserTab.prototype.onOffClick = function ($event) {
-        //console.log('onOffClick user-tab');
-        if (!$event.isOffClick) return;
-        this.router.navigate(['/editor', { outlets: { 'modal': '' } }]);
-    };
+    __decorate([core_1.HostListener('document:click', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], UserTab.prototype, "onDocumentClick", null);
     UserTab = __decorate([core_1.Component({
         selector: 'user-tab',
-        styles: [__webpack_require__(1206)],
-        template: __webpack_require__(1207),
+        styles: [__webpack_require__(1204)],
+        template: __webpack_require__(1205),
         encapsulation: core_1.ViewEncapsulation.None
-    }), __metadata("design:paramtypes", [userInteractor_1.UserInteractor, router_1.Router])], UserTab);
+    }), __metadata("design:paramtypes", [userInteractor_1.UserInteractor, router_1.Router, core_1.ElementRef])], UserTab);
     return UserTab;
 }();
 exports.UserTab = UserTab;
 
 /***/ }),
-/* 1206 */
+/* 1204 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.profile {\n  width: 95%;\n  height: 95%;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%);\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.user-view {\n  margin: 15px;\n  padding: 10px;\n  width: 250px; }\n\n.user-view__description {\n  margin-bottom: 10px; }\n\n.user-view__description-margin-top {\n  border-top: 1px solid #EEEEEE;\n  margin-top: 10px;\n  padding-top: 10px; }\n\n.user-view__input {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  flex-grow: 1;\n  color: #888888; }\n"
 
 /***/ }),
-/* 1207 */
+/* 1205 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-window\"\n  off-click\n  (onOffClick)=\"onOffClick($event)\">\n\n  <unauth-user-tab *ngIf=\"!userIsLoggedIn()\"></unauth-user-tab>\n  <auth-user-tab *ngIf=\"userIsLoggedIn()\"></auth-user-tab>\n\n</div>\n"
+module.exports = "<div class=\"modal-window\">\n\n  <unauth-user-tab *ngIf=\"!userIsLoggedIn()\"></unauth-user-tab>\n  <auth-user-tab *ngIf=\"userIsLoggedIn()\"></auth-user-tab>\n\n</div>\n"
 
 /***/ }),
-/* 1208 */
+/* 1206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37378,7 +37255,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 var router_2 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var userInteractor_1 = __webpack_require__(37);
 var assetInteractor_1 = __webpack_require__(60);
 var UnauthUserTab = /** @class */function () {
@@ -37510,27 +37387,27 @@ var UnauthUserTab = /** @class */function () {
     };
     UnauthUserTab = __decorate([core_1.Component({
         selector: 'unauth-user-tab',
-        styles: [__webpack_require__(1209)],
-        template: __webpack_require__(1210)
+        styles: [__webpack_require__(1207)],
+        template: __webpack_require__(1208)
     }), __metadata("design:paramtypes", [router_2.Router, assetInteractor_1.AssetInteractor, userInteractor_1.UserInteractor, event_bus_1.EventBus, router_1.ActivatedRoute])], UnauthUserTab);
     return UnauthUserTab;
 }();
 exports.UnauthUserTab = UnauthUserTab;
 
 /***/ }),
-/* 1209 */
+/* 1207 */
 /***/ (function(module, exports) {
 
 module.exports = ".unauth-user-tab__fields {\n  min-width: 350px;\n  position: absolute;\n  background-color: white;\n  padding: 20px;\n  border-radius: 8px;\n  top: 50%;\n  left: 50%;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n"
 
 /***/ }),
-/* 1210 */
+/* 1208 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"unauth-user-tab__fields\">\n  <div *ngIf=\"!isCreatingAccount\">\n    <text-input-material\n      [inputLabel]=\"'Username'\"\n      [textModel]=\"getViewModelProperty('username')\"\n      (onTextChange)=\"setViewModelProperty($event, 'username')\">\n    </text-input-material>\n\n    <text-input-material\n      [inputType]=\"'password'\"\n      [inputLabel]=\"'Password'\"\n      [textModel]=\"getViewModelProperty('password')\"\n      (onTextChange)=\"setViewModelProperty($event, 'password')\">\n    </text-input-material>\n    <div class=\"horiz-line-bottom\"></div>\n<div class=\"button_row\">\n    <div\n      (click)=\"logIn($event)\"\n      class=\"button sign-in-button\">\n      Sign In\n    </div>\n\n    <div\n        class=\"button\"\n        title=\"Click to create new story, SHIFT-click to upload zip file\"\n       (click)=\"onOpenClick($event)\">\n      Select a Story Archive\n    </div>\n</div>\n  </div>\n\n  <div *ngIf=\"isCreatingAccount\">\n\n    <!-- create username -->\n    <text-input-material\n      [inputLabel]=\"'Username'\"\n      [textModel]=\"getViewModelProperty('createUsername')\"\n      (onTextChange)=\"setViewModelProperty($event, 'createUsername')\">\n    </text-input-material>\n\n    <!-- create password -->\n    <text-input-material\n      [inputLabel]=\"'Password'\"\n      [textModel]=\"getViewModelProperty('createPassword')\"\n      (onTextChange)=\"setViewModelProperty($event, 'createPassword')\">\n    </text-input-material>\n\n    <!-- create firstname -->\n    <text-input-material\n      [inputLabel]=\"'First name'\"\n      [textModel]=\"getViewModelProperty('createFirstname')\"\n      (onTextChange)=\"setViewModelProperty($event, 'createFirstname')\">\n    </text-input-material>\n\n    <!-- create firstname -->\n    <text-input-material\n      [inputLabel]=\"'Last name'\"\n      [textModel]=\"getViewModelProperty('createLastname')\"\n      (onTextChange)=\"setViewModelProperty($event, 'createLastname')\">\n    </text-input-material>\n\n    <!-- create email -->\n    <text-input-material\n      [inputLabel]=\"'Email'\"\n      [textModel]=\"getViewModelProperty('createEmail')\"\n      (onTextChange)=\"setViewModelProperty($event, 'createEmail')\">\n    </text-input-material>\n\n\n  </div>\n  <!-- create account button -->\n  <div\n    *ngIf=\"createUserIsUnlocked\"\n    (click)=\"createAccount($event)\"\n    class=\"button user-view__button\">\n    Create account\n  </div>\n\n\n  <!-- reset button -->\n  <div\n    *ngIf=\"isCreatingAccount\"\n    (click)=\"resetFields($event)\"\n    class=\"button user-view__button\">\n    Cancel\n  </div>\n</div>\n"
 
 /***/ }),
-/* 1211 */
+/* 1209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37556,9 +37433,9 @@ var userInteractor_1 = __webpack_require__(37);
 var projectInteractor_1 = __webpack_require__(53);
 var sceneInteractor_1 = __webpack_require__(14);
 var adminInteractor_1 = __webpack_require__(137);
-var event_bus_1 = __webpack_require__(8);
-var constants_1 = __webpack_require__(11);
-var FileSaver = __webpack_require__(520);
+var event_bus_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(12);
+var FileSaver = __webpack_require__(519);
 var AuthUserTab = /** @class */function () {
     function AuthUserTab(userInteractor, projectInteractor, sceneInteractor, eventBus, storageInteractor, metaDataInteractor, adminInteractor, router) {
         this.userInteractor = userInteractor;
@@ -37706,15 +37583,15 @@ var AuthUserTab = /** @class */function () {
     };
     AuthUserTab = __decorate([core_1.Component({
         selector: 'auth-user-tab',
-        styles: [__webpack_require__(1214)],
-        template: __webpack_require__(1215)
+        styles: [__webpack_require__(1212)],
+        template: __webpack_require__(1213)
     }), __metadata("design:paramtypes", [userInteractor_1.UserInteractor, projectInteractor_1.ProjectInteractor, sceneInteractor_1.SceneInteractor, event_bus_1.EventBus, storageInteractor_1.StorageInteractor, projectMetaDataInteractor_1.MetaDataInteractor, adminInteractor_1.AdminInteractor, router_1.Router])], AuthUserTab);
     return AuthUserTab;
 }();
 exports.AuthUserTab = AuthUserTab;
 
 /***/ }),
-/* 1212 */
+/* 1210 */
 /***/ (function(module, exports) {
 
 module.exports = function() {
@@ -37723,7 +37600,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 1213 */
+/* 1211 */
 /***/ (function(module, exports) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
@@ -37732,19 +37609,19 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }),
-/* 1214 */
+/* 1212 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FFF;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FFF; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FFF; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n\n.user-view__project-list-header {\n  font-weight: bold;\n  color: #888888; }\n\n.user-view__project-list {\n  color: #888888;\n  overflow-y: auto;\n  max-height: 90px;\n  font-size: 0.8em;\n  margin-bottom: 16px; }\n\n.user-view__project {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  color: #ADADAD;\n  margin-top: 3px;\n  margin-bottom: 6px;\n  border-bottom: 1px solid #EEEEEE;\n  padding-bottom: 3px; }\n\n.user-view__project-title {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  cursor: pointer;\n  font-size: 1em; }\n\n.user-view__project-title:hover {\n  cursor: pointer;\n  color: #888888; }\n\n.user-view__project-title--selected {\n  color: #FF3571; }\n\n.user-view__project-options {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: flex-end;\n  align-items: center; }\n\n.user-view__project-option {\n  font-size: 0.8em;\n  margin-left: 10px;\n  cursor: pointer;\n  border-color: #EEEEEE;\n  border: 0px;\n  padding-left: 3px;\n  padding-right: 3px;\n  border-style: dashed;\n  border-radius: 4px; }\n\n.user-view__project-option:hover {\n  color: black;\n  border-color: #888888;\n  border: 0px;\n  border-style: solid; }\n"
 
 /***/ }),
-/* 1215 */
+/* 1213 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"modal-window__fields\">\n  <div class=\"dropdown-title\">\n      <p>Hello {{getUserName()}}!</p>\n  </div>\n\n  <div\n    *ngIf=\"!isWorkingOnSavedProject()\"\n    class=\"dropdown-text\">\n    <p>\n      <span class=\"dropdown-text__accent\">Current project is not saved.</span><br><span class=\"dropdown-text\">To save it, click on 'Story' and then 'Save'.</span>\n    </p>\n\n    <!-- Divider -->\n  </div>\n\n  <div\n    *ngIf=\"!userHasProjects()\"\n    class=\"dropdown-text__bold\">\n    <p>No saved projects.</p>\n  </div>\n\n  <div *ngIf=\"userHasProjects()\">\n    <p class=\"dropdown-text__bold\">\n      PROJECTS\n    </p>\n    <!-- TODO: make scrollable -->\n    <div class=\"user-view__project-list\">\n      <div\n        *ngFor=\"let project of projectList\"\n        class=\"user-view__project\">\n\n        <p\n          class=\"user-view__project-title\"\n          *ngIf=\"!projectIsSelected(project.id)\"\n          (click)=\"openProject(project.id)\"\n          [ngClass]=\"{'user-view__project-title--selected': projectIsSelected(project.id)}\">\n          {{project.name}}\n        </p>\n\n        <p\n          class=\"user-view__project-title--selected\"\n          *ngIf=\"projectIsSelected(project.id)\"\n          [ngClass]=\"{'user-view__project-title--selected': projectIsSelected(project.id)}\">\n          {{project.name}}\n        </p>\n\n        <p class=\"user-view__project-options\">\n          <span\n            (click)=\"openProject(project.id)\"\n            class=\"user-view__project-option user-view__project-option--margin\">\n            Open\n          </span>\n          <span\n            (click)=\"shareProject(project.id)\"\n            class=\"user-view__project-option user-view__project-option--margin\">\n            Share\n          </span>\n          <span\n            (click)=\"openMultiView(project.id)\"\n            class=\"user-view__project-option user-view__project-option--margin\">\n            Multi-View\n          </span>\n          <span\n            (click)=\"requestDeleteProject(project.id)\"\n            class=\"user-view__project-option user-view__project-option--margin\">\n            Delete\n          </span>\n          <span\n            (click)=\"downloadProject(project.id, project.name)\"\n            class=\"user-view__project-option user-view__project-option--margin\">\n            Download\n          </span>\n        </p>\n\n      </div>\n    </div>\n  </div>\n  <!-- Logout and Explore buttons -->\n\n<div class=\"button_row\">\n  <div\n    (click)=\"onExploreClick($event)\"\n    title=\"Click to explore other Social VR projects\"\n    class=\"button\">\n    Explore</div>\n\n  <div\n    class=\"button\"\n    title=\"Click to add a room to current story\"\n    (click)=\"onLogOutClick($event)\">\n    Sign Out\n  </div>\n\n  <div\n    *ngIf=\"userIsAdmin()\"\n    (click)=\"onAdminClick($event)\"\n    title=\"Click to administer your groups\"\n    class=\"button\">\n    Admin\n  </div>\n  </div>\n</div>\n"
 
 /***/ }),
-/* 1216 */
+/* 1214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37762,7 +37639,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
 var TreeTab = /** @class */function () {
@@ -37848,27 +37725,27 @@ var TreeTab = /** @class */function () {
     };
     TreeTab = __decorate([core_1.Component({
         selector: 'tree-tab',
-        styles: [__webpack_require__(1217)],
-        template: __webpack_require__(1218)
+        styles: [__webpack_require__(1215)],
+        template: __webpack_require__(1216)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, projectMetaDataInteractor_1.MetaDataInteractor, event_bus_1.EventBus])], TreeTab);
     return TreeTab;
 }();
 exports.TreeTab = TreeTab;
 
 /***/ }),
-/* 1217 */
+/* 1215 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.tree-view {\n  background-color: #EEEEEE;\n  background: transparent;\n  height: 300px;\n  overflow-y: scroll; }\n\n.tree-view__room-container {\n  display: block;\n  overflow-y: auto; }\n\n.tree-view__row-item {\n  color: #888888;\n  font-size: 0.8em; }\n  .tree-view__row-item:hover {\n    color: #000; }\n\n.tree-view__room {\n  margin-left: 0px; }\n\n.tree-view__room-property-container {\n  max-height: 0;\n  overflow: hidden;\n  transition: max-height 0.1s;\n  margin-left: 10px; }\n\n.tree-view__room-property-container--expanded {\n  max-height: 500px; }\n"
 
 /***/ }),
-/* 1218 */
+/* 1216 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"tree-view\">\n\n    <div\n      *ngFor=\"let roomId of getRoomIdList()\"\n      class=\"tree-view__room\">\n\n      <!-- Room Label -->\n      <row-item\n        [roomProperty]=\"getRoomById(roomId)\"\n        [caretIsExpanded]=\"roomIsExpanded(roomId)\"\n        [isActive]=\"roomIsSelected(roomId)\"\n        (click)=\"onRoomSelect(roomId)\"\n        class=\"tree-view__row-item\">\n      </row-item>\n\n      <!-- Room Properties -->\n      <div\n        class=\"tree-view__room-property-container\"\n        [ngClass]=\"{'tree-view__room-property-container--expanded': roomIsExpanded(roomId)}\">\n\n        <!-- Room Property Label -->\n        <row-item\n          *ngFor=\"let roomProperty of getPropertyList()\"\n          (click)=\"onPropertySelect(roomProperty)\"\n          [roomProperty]=\"roomProperty\"\n          [isActive]=\"propertyIsSelected(roomProperty)\"\n          class=\"tree-view__row-item tree-view__row-item--margin-left\">\n        </row-item>\n\n      </div>\n\n    </div>\n\n</div>\n"
 
 /***/ }),
-/* 1219 */
+/* 1217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37932,27 +37809,27 @@ var RowItem = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", Boolean)], RowItem.prototype, "isActive", void 0);
     RowItem = __decorate([core_1.Component({
         selector: 'row-item',
-        styles: [__webpack_require__(1220)],
-        template: __webpack_require__(1221)
+        styles: [__webpack_require__(1218)],
+        template: __webpack_require__(1219)
     }), __metadata("design:paramtypes", [propertyRemovalService_1.PropertyRemovalService, sceneInteractor_1.SceneInteractor])], RowItem);
     return RowItem;
 }();
 exports.RowItem = RowItem;
 
 /***/ }),
-/* 1220 */
+/* 1218 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.row-item {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: flex-start;\n  align-items: center;\n  height: 30px;\n  width: 100%;\n  cursor: pointer;\n  margin: 0px 0; }\n  .row-item:hover .row-item__delete {\n    visibility: visible; }\n  .row-item:hover .row-item__home-icon {\n    width: 21px;\n    height: 21px; }\n\n.row-item__room--active {\n  background-color: #FF3571;\n  background-clip: content-box;\n  padding: 2px 0;\n  color: white; }\n\n.row-item__room-property {\n  margin-left: 10px;\n  height: 22px; }\n\n.row-item__room-property--active {\n  background-color: #888888;\n  color: white; }\n\n.row-item__icon {\n  height: 20px;\n  width: 20px; }\n\n.row-item__text-input {\n  margin-left: 10px; }\n\n.row-item__spacer {\n  flex-grow: 2; }\n\n.row-item__delete {\n  margin-right: 10px;\n  visibility: hidden; }\n\n.row-item__caret {\n  width: 0;\n  height: 0;\n  border-top: 6px solid transparent;\n  border-bottom: 6px solid transparent;\n  border-left: 10.404px solid #888888;\n  border-radius: 2px;\n  margin-right: 5px;\n  transition: .08s linear; }\n\n.row-item__caret--selected {\n  transform: rotate(90deg); }\n\n.row-item__home-icon {\n  background-image: url(\"assets/icons/icon-home.png\");\n  background-color: transparent;\n  background-size: 90%;\n  background-repeat: no-repeat;\n  height: 0px;\n  width: 0px;\n  transition: height 0.1s ease-in-out, width 0.1s ease-in-out; }\n\n.row-item__home-icon--active {\n  width: 21px;\n  height: 21px; }\n\n.row-item__thumbnail {\n  width: 44px;\n  height: 22px;\n  margin-left: 5px; }\n"
 
 /***/ }),
-/* 1221 */
+/* 1219 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  class=\"row-item\"\n  [ngClass]=\"{\n    'row-item__room-property': !propertyIsRoom,\n    'row-item__room--active': isActive && propertyIsRoom,\n    'row-item__room-property--active': isActive && !propertyIsRoom\n  }\">\n\n  <div\n    *ngIf=\"propertyIsRoom\"\n    class=\"row-item__caret\"\n    [ngClass]=\"{'row-item__caret--selected': caretIsExpanded}\">\n  </div>\n\n  <img\n    *ngIf=\"propertyIsRoom\"\n    [attr.src]=\"getBackgroundThumbnail()\"\n    class=\"row-item__thumbnail\">\n\n  <text-input\n    class=\"row-item__text-input\"\n    [isRowItem]=\"true\"\n    [isActive]=\"isActive\"\n    [textModel]=\"getLabelText()\"\n    (onTextChange)=\"onLabelChange($event)\">\n  </text-input>\n\n  <span class=\"row-item__spacer\"></span>\n\n  <span\n    *ngIf=\"propertyIsRoom\"\n    (click)=\"setAsHomeRoom()\"\n    class=\"row-item__home-icon\"\n    [ngClass]=\"{'row-item__home-icon--active': isHomeRoom()}\">\n  </span>\n\n  <close-button\n    class=\"row-item__delete\"\n    (onButtonClick)=\"onDeleteClick($event)\">\n  </close-button>\n\n</div>\n"
 
 /***/ }),
-/* 1222 */
+/* 1220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37975,13 +37852,13 @@ var sceneInteractor_1 = __webpack_require__(14);
 var storageInteractor_1 = __webpack_require__(181);
 var projectInteractor_1 = __webpack_require__(53);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var userInteractor_1 = __webpack_require__(37);
 var SlideshowBuilder_1 = __webpack_require__(108);
-var constants_1 = __webpack_require__(11);
-var FileSaver = __webpack_require__(520);
+var constants_1 = __webpack_require__(12);
+var FileSaver = __webpack_require__(519);
 var Story = /** @class */function () {
-    function Story(router, sceneInteractor, storageInteractor, metaDataInteractor, userInteractor, projectInteractor, eventBus, slideshowBuilder) {
+    function Story(router, sceneInteractor, storageInteractor, metaDataInteractor, userInteractor, projectInteractor, eventBus, slideshowBuilder, element) {
         this.router = router;
         this.sceneInteractor = sceneInteractor;
         this.storageInteractor = storageInteractor;
@@ -37990,7 +37867,19 @@ var Story = /** @class */function () {
         this.projectInteractor = projectInteractor;
         this.eventBus = eventBus;
         this.slideshowBuilder = slideshowBuilder;
+        this.element = element;
+        this.isBeingInstantiated = true;
     }
+    Story.prototype.onDocuentClick = function ($event) {
+        var isClicked = this.element.nativeElement.contains(event.target);
+        if (this.isBeingInstantiated) {
+            this.isBeingInstantiated = false;
+            return;
+        }
+        if (!isClicked) {
+            this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
+        }
+    };
     Story.prototype.addRoom = function ($event) {
         this.sceneInteractor.addRoom();
         this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
@@ -38126,33 +38015,30 @@ var Story = /** @class */function () {
             this.projectInteractor.createProject(userId).subscribe(onSuccess, onError);
         }
     };
-    Story.prototype.onOffClick = function ($event) {
-        if (!$event.isOffClick) return;
-        this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
-    };
+    __decorate([core_1.HostListener('document:click', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], Story.prototype, "onDocuentClick", null);
     Story = __decorate([core_1.Component({
         selector: 'story',
-        styles: [__webpack_require__(1223)],
-        template: __webpack_require__(1224)
-    }), __metadata("design:paramtypes", [router_1.Router, sceneInteractor_1.SceneInteractor, storageInteractor_1.StorageInteractor, projectMetaDataInteractor_1.MetaDataInteractor, userInteractor_1.UserInteractor, projectInteractor_1.ProjectInteractor, event_bus_1.EventBus, SlideshowBuilder_1.SlideshowBuilder])], Story);
+        styles: [__webpack_require__(1221)],
+        template: __webpack_require__(1222)
+    }), __metadata("design:paramtypes", [router_1.Router, sceneInteractor_1.SceneInteractor, storageInteractor_1.StorageInteractor, projectMetaDataInteractor_1.MetaDataInteractor, userInteractor_1.UserInteractor, projectInteractor_1.ProjectInteractor, event_bus_1.EventBus, SlideshowBuilder_1.SlideshowBuilder, core_1.ElementRef])], Story);
     return Story;
 }();
 exports.Story = Story;
 
 /***/ }),
-/* 1223 */
+/* 1221 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FFF;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FFF; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FFF; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n\n.story__soundtrack__upload-button {\n  width: 100%;\n  box-sizing: border-box; }\n\n.story__soundtrack__delete-button {\n  background-color: #FF3571;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  cursor: pointer;\n  width: 100%; }\n\n.story__soundtrack__audio-player {\n  width: 100%;\n  margin-top: 5px; }\n"
 
 /***/ }),
-/* 1224 */
+/* 1222 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-window\"\n  off-click\n  (onOffClick)=\"onOffClick($event)\">\n\n\n  <div class=\"modal-window__fields\">\n\n    <!-- Title -->\n    <text-input-material\n      [inputLabel]=\"'Title'\"\n      [textModel]=\"getProjectName()\"\n      (onTextChange)=\"setProjectName($event)\">\n    </text-input-material>\n\n    <!-- Tags -->\n    <text-input-material\n      [inputLabel]=\"'Tags'\"\n      [textModel]=\"getProjectTags()\"\n      (onTextChange)=\"setProjectTags($event)\">\n    </text-input-material>\n\n    <!-- Divider -->\n    <div class=\"horiz-line-bottom\"></div>\n\n    <!-- Soundtrack -->\n\n<div class=\"button_row\">\n      <div\n        class=\"button\"\n        title=\"Click to create new story\"\n        (click)=\"onNewStoryClick($event)\">\n        New Story\n      </div>\n      <div class=\"button\" title=\"Click to save current story to server\"\n       (click)=\"onSaveStoryClick($event)\">\n        Save Story\n      </div>\n\n</div>\n\n<div class=\"button_row\">\n      <div class=\"button\" title=\"Click to download story as zip file\"\n       (click)=\"onSaveStroyLocallyClick($event)\">\n        Download as .zip\n      </div>\n      <div\n        class=\"button\"\n        title=\"Click to upload zip file\"\n        (click)=\"onOpenStoryLocallyClick($event)\">\n        Upload from .zip\n      </div>\n\n      </div>\n\n      <div class=\"dropdown-input-row\">\n      <file-loader\n        *ngIf=\"!getSoundtrack().hasAsset()\"\n          (onFileLoad)=\"onSoundtrackLoad($event)\"\n          [acceptedFileType]=\"'audio'\"\n          [displayText]=\"'Add Soundtrack'\"\n          class=\"story__soundtrack__upload-button\">\n      </file-loader>\n\n      <div\n        *ngIf=\"getSoundtrack().hasAsset()\"\n        class=\"story__soundtrack__delete-button\"\n        (click)=\"removeSoundtrack()\">\n        Remove Soundtrack\n      </div>\n\n      <audio\n        *ngIf=\"getSoundtrack().hasAsset()\"\n        [attr.src]=\"getSoundtrack().getBinaryFileData()\"\n        type=\"audio/mp3\"\n        controls=\"controls\"\n        [volume]=\"getSoundtrackVolume()\"\n        (volumechange)=\"onVolumeChange($event)\"\n        class=\"story__soundtrack__audio-player\">\n      </audio>\n\n</div>\n\n  </div>\n\n\n</div>\n"
+module.exports = "<div class=\"modal-window\">\n\n  <div class=\"modal-window__fields\">\n\n    <!-- Title -->\n    <text-input-material\n      [inputLabel]=\"'Title'\"\n      [textModel]=\"getProjectName()\"\n      (onTextChange)=\"setProjectName($event)\">\n    </text-input-material>\n\n    <!-- Tags -->\n    <text-input-material\n      [inputLabel]=\"'Tags'\"\n      [textModel]=\"getProjectTags()\"\n      (onTextChange)=\"setProjectTags($event)\">\n    </text-input-material>\n\n    <!-- Divider -->\n    <div class=\"horiz-line-bottom\"></div>\n\n    <!-- Soundtrack -->\n\n<div class=\"button_row\">\n      <div\n        class=\"button\"\n        title=\"Click to create new story\"\n        (click)=\"onNewStoryClick($event)\">\n        New Story\n      </div>\n      <div class=\"button\" title=\"Click to save current story to server\"\n       (click)=\"onSaveStoryClick($event)\">\n        Save Story\n      </div>\n\n</div>\n\n<div class=\"button_row\">\n      <div class=\"button\" title=\"Click to download story as zip file\"\n       (click)=\"onSaveStroyLocallyClick($event)\">\n        Download as .zip\n      </div>\n      <div\n        class=\"button\"\n        title=\"Click to upload zip file\"\n        (click)=\"onOpenStoryLocallyClick($event)\">\n        Upload from .zip\n      </div>\n\n      </div>\n\n      <div class=\"dropdown-input-row\">\n      <file-loader\n        *ngIf=\"!getSoundtrack().hasAsset()\"\n          (onFileLoad)=\"onSoundtrackLoad($event)\"\n          [acceptedFileType]=\"'audio'\"\n          [displayText]=\"'Add Soundtrack'\"\n          class=\"story__soundtrack__upload-button\">\n      </file-loader>\n\n      <div\n        *ngIf=\"getSoundtrack().hasAsset()\"\n        class=\"story__soundtrack__delete-button\"\n        (click)=\"removeSoundtrack()\">\n        Remove Soundtrack\n      </div>\n\n      <audio\n        *ngIf=\"getSoundtrack().hasAsset()\"\n        [attr.src]=\"getSoundtrack().getBinaryFileData()\"\n        type=\"audio/mp3\"\n        controls=\"controls\"\n        [volume]=\"getSoundtrackVolume()\"\n        (volumechange)=\"onVolumeChange($event)\"\n        class=\"story__soundtrack__audio-player\">\n      </audio>\n\n</div>\n\n  </div>\n\n\n</div>\n"
 
 /***/ }),
-/* 1225 */
+/* 1223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38180,27 +38066,27 @@ var ModalClose = /** @class */function () {
     };
     ModalClose = __decorate([core_1.Component({
         selector: 'modal-close',
-        styles: [__webpack_require__(1226)],
-        template: __webpack_require__(1227)
+        styles: [__webpack_require__(1224)],
+        template: __webpack_require__(1225)
     }), __metadata("design:paramtypes", [router_1.Router])], ModalClose);
     return ModalClose;
 }();
 exports.ModalClose = ModalClose;
 
 /***/ }),
-/* 1226 */
+/* 1224 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.modal-close {\n  width: 100%;\n  text-align: center;\n  position: absolute;\n  bottom: 0; }\n\n.modal-close__button {\n  color: #888888;\n  cursor: pointer; }\n"
 
 /***/ }),
-/* 1227 */
+/* 1225 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"modal-close\">\n\n  <p\n    (click)=\"onClose($event)\"\n    class=\"modal-close__button\">\n    Close\n  </p>\n\n</div>\n"
 
 /***/ }),
-/* 1228 */
+/* 1226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38219,24 +38105,24 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var fileLoaderUtil_1 = __webpack_require__(65);
 var sceneInteractor_1 = __webpack_require__(14);
 var imageResizeService_1 = __webpack_require__(52);
 //added by ali for dragging images in
 var SlideshowBuilder_1 = __webpack_require__(108);
-var VideoInteractor_1 = __webpack_require__(272);
 var zipFileReader_1 = __webpack_require__(133);
 var Upload = /** @class */function () {
-    function Upload(router, eventBus, fileLoaderUtil, slideshowBuilder, sceneInteractor, videoInteractor, zipFileReader) {
+    function Upload(router, eventBus, fileLoaderUtil, slideshowBuilder, sceneInteractor, zipFileReader, element) {
         this.router = router;
         this.eventBus = eventBus;
         this.fileLoaderUtil = fileLoaderUtil;
         this.slideshowBuilder = slideshowBuilder;
         this.sceneInteractor = sceneInteractor;
-        this.videoInteractor = videoInteractor;
         this.zipFileReader = zipFileReader;
+        this.element = element;
         this.onFileLoad = new core_1.EventEmitter();
+        this.isBeingInstantiated = false;
     }
     Upload.prototype.onDrop = function (event) {
         event.stopPropagation();
@@ -38250,6 +38136,19 @@ var Upload = /** @class */function () {
             return;
         }
         this.loadBackgroundImage(file);
+    };
+    Upload.prototype.onDocuentClick = function ($event) {
+        var isClicked = this.element.nativeElement.contains(event.target);
+        if (this.isBeingInstantiated) {
+            this.isBeingInstantiated = false;
+            return;
+        }
+        if (!isClicked) {
+            this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
+        }
+    };
+    Upload.prototype.ngOnInit = function () {
+        this.isBeingInstantiated = true;
     };
     Upload.prototype.onFileChange = function ($event) {
         var file = $event.target.files && $event.target.files[0];
@@ -38291,36 +38190,33 @@ var Upload = /** @class */function () {
             return _this.eventBus.onModalMessage('error', error);
         });
     };
-    Upload.prototype.onOffClick = function ($event) {
-        if (!$event.isOffClick) return;
-        this.router.navigate(['/editor', { outlets: { 'modal': '' } }]);
-    };
     __decorate([core_1.ViewChild('editSpaceSphere'), __metadata("design:type", Object)], Upload.prototype, "editSpaceSphere", void 0);
     __decorate([core_1.Output(), __metadata("design:type", Object)], Upload.prototype, "onFileLoad", void 0);
     __decorate([core_1.HostListener('drop', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], Upload.prototype, "onDrop", null);
+    __decorate([core_1.HostListener('document:click', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], Upload.prototype, "onDocuentClick", null);
     Upload = __decorate([core_1.Component({
         selector: 'upload',
-        styles: [__webpack_require__(1229)],
-        template: __webpack_require__(1230)
-    }), __metadata("design:paramtypes", [router_1.Router, event_bus_1.EventBus, fileLoaderUtil_1.FileLoaderUtil, SlideshowBuilder_1.SlideshowBuilder, sceneInteractor_1.SceneInteractor, VideoInteractor_1.VideoInteractor, zipFileReader_1.ZipFileReader])], Upload);
+        styles: [__webpack_require__(1227)],
+        template: __webpack_require__(1228)
+    }), __metadata("design:paramtypes", [router_1.Router, event_bus_1.EventBus, fileLoaderUtil_1.FileLoaderUtil, SlideshowBuilder_1.SlideshowBuilder, sceneInteractor_1.SceneInteractor, zipFileReader_1.ZipFileReader, core_1.ElementRef])], Upload);
     return Upload;
 }();
 exports.Upload = Upload;
 
 /***/ }),
-/* 1229 */
+/* 1227 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FFF;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FFF; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FFF; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n\n.upload__fields {\n  width: 50%;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n\n.upload__hidden-input {\n  display: none; }\n\n.upload__box {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  background-image: url(\"assets/images/white-semi-transparent.png\");\n  color: #888888;\n  font-size: 3vw;\n  text-align: center;\n  border: 2px dashed #888888;\n  border-radius: 20px;\n  width: 50%;\n  height: 50%;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  cursor: pointer; }\n"
 
 /***/ }),
-/* 1230 */
+/* 1228 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-window\"\n  off-click\n  (onOffClick)=\"onOffClick($event)\">\n  <input\n    id=\"hiddenBackgroundInput\"\n    type=\"file\"\n    multiple\n    (change)=\"onFileChange($event)\"\n    class=\"upload__hidden-input\">\n  <label\n    for=\"hiddenBackgroundInput\"\n    class=\"upload__box\">\n    Drag in 360 photos\n    <br />\n    or\n    <br />\n    click to import\n  </label>\n</div>\n"
+module.exports = "<div class=\"modal-window\">\n  <input\n    id=\"hiddenBackgroundInput\"\n    type=\"file\"\n    multiple\n    (change)=\"onFileChange($event)\"\n    class=\"upload__hidden-input\">\n  <label\n    for=\"hiddenBackgroundInput\"\n    class=\"upload__box\">\n    Drag in 360 photos\n    <br />\n    or\n    <br />\n    click to import\n  </label>\n</div>\n"
 
 /***/ }),
-/* 1231 */
+/* 1229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38339,47 +38235,47 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var HotspotMenu = /** @class */function () {
-    function HotspotMenu(ngZone) {
-        this.ngZone = ngZone;
+    function HotspotMenu(element) {
+        this.element = element;
         this.onMenuChange = new core_1.EventEmitter();
         this.isOpen = false;
     }
-    HotspotMenu.prototype.onOffClick = function ($event) {
-        var _this = this;
-        if (!$event.isOffClick) return;
-        this.ngZone.run(function () {
-            _this.isOpen = false;
-            _this.onMenuChange.emit({ isOpen: _this.isOpen });
-        });
+    HotspotMenu.prototype.onDocumentClick = function ($event) {
+        var isClicked = this.element.nativeElement.contains(event.target);
+        if (!isClicked) {
+            this.isOpen = false;
+            this.onMenuChange.emit({ isOpen: this.isOpen });
+        }
     };
     HotspotMenu.prototype.onFabClick = function ($event) {
         this.isOpen = !this.isOpen;
         this.onMenuChange.emit({ isOpen: this.isOpen });
     };
     __decorate([core_1.Output(), __metadata("design:type", Object)], HotspotMenu.prototype, "onMenuChange", void 0);
+    __decorate([core_1.HostListener('document:click', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], HotspotMenu.prototype, "onDocumentClick", null);
     HotspotMenu = __decorate([core_1.Component({
         selector: 'hotspot-menu',
-        styles: [__webpack_require__(1232)],
-        template: __webpack_require__(1233)
-    }), __metadata("design:paramtypes", [core_1.NgZone])], HotspotMenu);
+        styles: [__webpack_require__(1230)],
+        template: __webpack_require__(1231)
+    }), __metadata("design:paramtypes", [core_1.ElementRef])], HotspotMenu);
     return HotspotMenu;
 }();
 exports.HotspotMenu = HotspotMenu;
 
 /***/ }),
-/* 1232 */
+/* 1230 */
 /***/ (function(module, exports) {
 
 module.exports = ".hotspot-menu {\n  display: flex;\n  flex-direction: column-reverse;\n  align-items: center; }\n\n.hotspot-menu__fab {\n  transition: margin-bottom .15s ease-in-out;\n  margin-left: 10px; }\n\n.hotspot-menu__fab-open {\n  margin-left: 0px !important; }\n"
 
 /***/ }),
-/* 1233 */
+/* 1231 */
 /***/ (function(module, exports) {
 
-module.exports = "<div\n  off-click\n  (onOffClick)=\"onOffClick($event)\"\n  class=\"hotspot-menu\">\n\n\n  <fab\n    class=\"hotspot-menu__fab\"\n    (click)=\"onFabClick($event)\"\n    [isOpen]=\"isOpen\"\n    [ngClass]=\"{'hotspot-menu__fab-open': isOpen}\">\n  </fab>\n\n  <action-menu\n    class=\"hotspot-menu__action-menu\"\n    [isOpen]=\"isOpen\"\n    class=\"topbar__position-absolute\">\n  </action-menu>\n\n\n\n</div>\n"
+module.exports = "<div class=\"hotspot-menu\">\n\n\n  <fab\n    class=\"hotspot-menu__fab\"\n    (click)=\"onFabClick($event)\"\n    [isOpen]=\"isOpen\"\n    [ngClass]=\"{'hotspot-menu__fab-open': isOpen}\">\n  </fab>\n\n  <action-menu\n    class=\"hotspot-menu__action-menu\"\n    [isOpen]=\"isOpen\"\n    class=\"topbar__position-absolute\">\n  </action-menu>\n\n\n\n</div>\n"
 
 /***/ }),
-/* 1234 */
+/* 1232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38404,27 +38300,27 @@ var Fab = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", Boolean)], Fab.prototype, "isOpen", void 0);
     Fab = __decorate([core_1.Component({
         selector: 'fab',
-        styles: [__webpack_require__(1235)],
-        template: __webpack_require__(1236)
+        styles: [__webpack_require__(1233)],
+        template: __webpack_require__(1234)
     })], Fab);
     return Fab;
 }();
 exports.Fab = Fab;
 
 /***/ }),
-/* 1235 */
+/* 1233 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.fab {\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  background-color: white;\n  position: relative;\n  cursor: pointer; }\n\n.fab__bar {\n  display: block;\n  position: absolute;\n  height: 4px;\n  width: 32px;\n  border-radius: 2px;\n  background-color: #888888;\n  left: 4px;\n  top: 18px;\n  transition: .15s ease-in-out; }\n\n.fab__bar--open {\n  display: block;\n  position: absolute;\n  height: 4px;\n  width: 32px;\n  border-radius: 2px;\n  background-color: #FF3571;\n  left: 4px;\n  top: 18px;\n  transition: .15s ease-in-out; }\n\n.fab :nth-child(1) {\n  transform: rotate(0deg); }\n\n.fab :nth-child(2) {\n  transform: rotate(90deg); }\n\n.fab--open :nth-child(1) {\n  transform: rotate(45deg); }\n\n.fab--open :nth-child(2) {\n  transform: rotate(135deg); }\n"
 
 /***/ }),
-/* 1236 */
+/* 1234 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  class=\"fab\"\n  [ngClass]=\"{'fab--open': isOpen}\">\n  <span class=\"fab__bar\" [ngClass]=\"{'fab__bar--open': isOpen}\"></span>\n  <span class=\"fab__bar\" [ngClass]=\"{'fab__bar--open': isOpen}\"></span>\n</div>\n"
 
 /***/ }),
-/* 1237 */
+/* 1235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38442,7 +38338,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var sceneInteractor_1 = __webpack_require__(14);
 var ActionMenu = /** @class */function () {
     function ActionMenu(sceneInteractor, eventBus) {
@@ -38494,27 +38390,27 @@ var ActionMenu = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", Boolean)], ActionMenu.prototype, "isOpen", void 0);
     ActionMenu = __decorate([core_1.Component({
         selector: 'action-menu',
-        styles: [__webpack_require__(1238)],
-        template: __webpack_require__(1239)
+        styles: [__webpack_require__(1236)],
+        template: __webpack_require__(1237)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, event_bus_1.EventBus])], ActionMenu);
     return ActionMenu;
 }();
 exports.ActionMenu = ActionMenu;
 
 /***/ }),
-/* 1238 */
+/* 1236 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.action-menu__list {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  margin-left: -40px;\n  width: 0;\n  transition: width 0.15s ease-out, margin-left 0.15s ease-out;\n  overflow: hidden; }\n\n.action-menu__list--open {\n  width: calc(30px + 40px);\n  margin-left: 0px; }\n\n.action-menu__list-item {\n  cursor: pointer;\n  height: 65px; }\n  .action-menu__list-item:hover {\n    font-size: 1.05em; }\n\n.action-menu__list-icon {\n  height: 40px;\n  width: 40px;\n  display: block;\n  margin: 0 auto;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: 100%;\n  background-color: transparent;\n  opacity: 0.8;\n  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5)); }\n\n.action-menu__list-label {\n  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);\n  transition: font-size .15s ease-out;\n  text-align: center;\n  font-size: 0.8em; }\n\n.list-icon__text {\n  background-image: url(\"assets/icons/text_filled.png\"); }\n\n.list-icon__audio {\n  background-image: url(\"assets/icons/audio_filled.png\"); }\n\n.list-icon__image {\n  background-image: url(\"assets/icons/image_filled.png\"); }\n\n.list-icon__door {\n  background-image: url(\"assets/icons/door_filled.png\"); }\n\n.list-icon__room {\n  background-image: url(\"assets/icons/room.png\"); }\n\n.list-icon__link {\n  background-image: url(\"assets/icons/link_filled.png\"); }\n"
 
 /***/ }),
-/* 1239 */
+/* 1237 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  class=\"action-menu__list\"\n  [ngClass]=\"{'action-menu__list--open': isOpen}\">\n\n  <div (click)=\"addText($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__text\"></div>\n    <p class=\"action-menu__list-label\">Text<p>\n  </div>\n\n  <div (click)=\"addAudio($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__audio\"></div>\n    <p class=\"action-menu__list-label\">Audio<p>\n  </div>\n\n  <div (click)=\"addImage($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__image\"></div>\n    <p class=\"action-menu__list-label\">Image<p>\n  </div>\n\n  <div (click)=\"addDoor($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__door\"></div>\n    <p class=\"action-menu__list-label\">Doorway<p>\n  </div>\n\n<!--\n  //Link Hotspot \n  <div (click)=\"addLink($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__link\"></div>\n    <p class=\"action-menu__list-label\">Link<p>\n  </div>\n -->\n</div>\n"
 
 /***/ }),
-/* 1240 */
+/* 1238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38535,17 +38431,25 @@ var core_1 = __webpack_require__(2);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
 var imageResizeService_1 = __webpack_require__(52);
 var sceneInteractor_1 = __webpack_require__(14);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var reverbList_1 = __webpack_require__(265);
 var audioRecorderService_1 = __webpack_require__(186);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var RoomEditor = /** @class */function () {
-    function RoomEditor(sceneInteractor, eventBus, metaDataInteractor) {
+    function RoomEditor(sceneInteractor, element, eventBus, metaDataInteractor) {
         this.sceneInteractor = sceneInteractor;
+        this.element = element;
         this.eventBus = eventBus;
         this.metaDataInteractor = metaDataInteractor;
+        this.onOffClick = new core_1.EventEmitter();
         this.reverbOptions = reverbList_1.reverbList;
     }
+    RoomEditor.prototype.onDocumentClick = function ($event) {
+        var isClicked = this.element.nativeElement.contains(event.target);
+        if (!isClicked) {
+            this.onOffClick.emit();
+        }
+    };
     RoomEditor.prototype.onBackgroundImageLoad = function ($event) {
         var _this = this;
         var fileName = $event.file.name;
@@ -38628,29 +38532,31 @@ var RoomEditor = /** @class */function () {
         var room = this.sceneInteractor.getRoomById(roomId);
         room.setName($event.text);
     };
+    __decorate([core_1.Output(), __metadata("design:type", Object)], RoomEditor.prototype, "onOffClick", void 0);
+    __decorate([core_1.HostListener('document:click', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], RoomEditor.prototype, "onDocumentClick", null);
     RoomEditor = __decorate([core_1.Component({
         selector: 'room-editor',
-        styles: [__webpack_require__(1241)],
-        template: __webpack_require__(1242)
-    }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, event_bus_1.EventBus, projectMetaDataInteractor_1.MetaDataInteractor])], RoomEditor);
+        styles: [__webpack_require__(1239)],
+        template: __webpack_require__(1240)
+    }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, core_1.ElementRef, event_bus_1.EventBus, projectMetaDataInteractor_1.MetaDataInteractor])], RoomEditor);
     return RoomEditor;
 }();
 exports.RoomEditor = RoomEditor;
 
 /***/ }),
-/* 1241 */
+/* 1239 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.room-editor {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  width: 280px;\n  padding: 16px;\n  background: white;\n  border-radius: 4px;\n  backdrop-filter: blur(4px); }\n\n.room-editor__audio-player {\n  width: 100%;\n  margin-top: 5px; }\n\n.room-editor__audio-file-loader {\n  width: 220px; }\n\n.room-editor__audio-record-button {\n  margin-left: 8px; }\n\n.room-editor__delete-button {\n  font-size: 0.8em;\n  background-color: #FF3571;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  border-radius: 4px;\n  cursor: pointer;\n  width: 230px; }\n"
 
 /***/ }),
-/* 1242 */
+/* 1240 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"room-editor\">\n\n\t<!-- Title -->\n  <text-input-material\n    [inputLabel]=\"'Room Name'\"\n    [textModel]=\"getRoomName()\"\n    (onTextChange)=\"setRoomName($event)\">\n  </text-input-material>\n  <br/>\n\t<file-loader\n    \t(onFileLoad)=\"onBackgroundImageLoad($event)\"\n      [displayText]=\"'Add Background Image'\"\n\t    [acceptedFileType]=\"'image'\">\n\t</file-loader>\n\n\t<file-loader\n\t\t*ngIf=\"!getBackgroundAudio().hasAsset()\"\n    [displayText]=\"'Add Room Background Audio'\"\n\n    \t(onFileLoad)=\"onBackgroundAudioLoad($event)\"\n\t    [acceptedFileType]=\"'audio'\">\n\t</file-loader>\n\n\t<div\n\t\t*ngIf=\"getBackgroundAudio().hasAsset()\"\n\t\tclass=\"room-editor__delete-button\"\n\t\t(click)=\"removeBackgroundAudio()\">\n\t\tRemove Background Audio\n\t</div>\n\n\t<audio\n\t\t*ngIf=\"getBackgroundAudio().hasAsset()\"\n\t\t[attr.src]=\"getBackgroundAudio().getBinaryFileData()\"\n\t\ttype=\"audio/mp3\"\n\t\tcontrols=\"controls\"\n\t\t[volume]=\"getBackgroundAudioVolume()\"\n    \t(volumechange)=\"onBGAVolumeChange($event)\"\n\t\tclass=\"room-editor__audio-player\">\n\t</audio>\n\n\t<!-- <div>\n\t\t<p class=\"hotspot-inspector__label\">Reverb</p>\n\n\t\t<select\n\t\t\t(change)=\"onReverbChange($event)\"\n\t\t\tclass=\"hotspot-inspector__select room-editor__reverb-select\">\n\t\t\t<option\n\t\t\t\t*ngFor=\"let reverb of reverbOptions\"\n\t\t\t\t[selected]=\"reverb === getActiveReverb()\">\n\t\t\t\t\t{{reverb}}\n\t\t\t</option>\n\t\t</select>\n\n\t</div> -->\n\n  \t<div class=\"hotspot-inspector_row\">\n\t\t<div class=\"hotspot-inspector_row\">\n\t\t\t<file-loader\n\t\t\t\t*ngIf=\"!getNarratorIntroAudioFile().hasAsset()\"\n\t\t    \t(onFileLoad)=\"onIntroAudioLoad($event)\"\n\t\t\t    [acceptedFileType]=\"'audio'\"\n          [displayText]=\"'Select a Room Narration Audio'\"\n\n\t\t\t\t\tclass=\"room-editor__audio-file-loader\">\n\t\t\t</file-loader>\n\t\t\t<div\n\t\t\t\t*ngIf=\"getNarratorIntroAudioFile().hasAsset()\"\n\t\t\t\tclass=\"room-editor__delete-button\"\n\t\t\t\t(click)=\"removeNarratorIntroAudio()\">\n\t\t\t\tRemove Narration\n\t\t\t</div>\n\t\t</div>\n\t\t<audio-recorder\n\t\t\t*ngIf=\"showAudioRecorder()\"\n      \t\t(onRecorded)=\"onNarratorIntroRecorded($event)\"\n      \t\tclass=\"audio-editor__record-button room-editor__audio-record-button\">\n    \t</audio-recorder>\n  \t</div>\n\t<audio\n\t\t*ngIf=\"getNarratorIntroAudioFile().hasAsset()\"\n\t\t[attr.src]=\"getNarratorIntroAudioFile().getBinaryFileData()\"\n\t\ttype=\"audio/mp3\"\n\t\tcontrols=\"controls\"\n\t\t[volume]=\"getNarratorIntroAudio().getVolume()\"\n    \t(volumechange)=\"onNarrationVolumeChange($event)\"\n\t\tclass=\"room-editor__audio-player\">\n\t</audio>\n\n\t\t<!--  disabled by ali, at aparna's request\n\t\t<div class=\"hotspot-inspector_row\">\n\t\t\t<div>\n\t\t\t\t<p class=\"hotspot-inspector__label room-editor__audio-file-loader\">Narration: Return</p>\n\t\t\t\t<file-loader\n\t\t\t    \t(onFileLoad)=\"onReturnAudioLoad($event)\"\n\t\t\t\t    [acceptedFileType]=\"'audio'\"\n\t\t\t\t\t\tclass=\"room-editor__audio-file-loader\">\n\t\t\t\t</file-loader>\n\t\t\t</div>\n\t\t\t<audio-recorder\n\t\t\t\t(onRecorded)=\"onNarratorReturnRecorded($event)\"\n\t\t\t\tclass=\"audio-editor__record-button room-editor__audio-record-button\">\n\t\t\t</audio-recorder>\n\t\t</div>\n\t\t<audio\n\t\t\t*ngIf=\"getNarratorReturnAudio().hasAsset()\"\n\t\t\t[attr.src]=\"getNarratorReturnAudio().getBinaryFileData()\"\n\t\t\ttype=\"audio/mp3\"\n\t\t\tcontrols=\"controls\"\n\t\t\tclass=\"room-editor__audio-player room-editor__audio-record-button\">\n\t\t</audio>\n\t\t-->\n\n</div>\n"
 
 /***/ }),
-/* 1243 */
+/* 1241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38685,27 +38591,27 @@ var RoomEditorIcon = /** @class */function () {
     };
     RoomEditorIcon = __decorate([core_1.Component({
         selector: 'room-editor-icon',
-        styles: [__webpack_require__(1244)],
-        template: __webpack_require__(1245)
+        styles: [__webpack_require__(1242)],
+        template: __webpack_require__(1243)
     }), __metadata("design:paramtypes", [core_1.NgZone])], RoomEditorIcon);
     return RoomEditorIcon;
 }();
 exports.RoomEditorIcon = RoomEditorIcon;
 
 /***/ }),
-/* 1244 */
+/* 1242 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.room-editor-icon {\n  display: flex;\n  flex-direction: column; }\n\n.room-editor-icon__image {\n  width: 40px;\n  height: 40px;\n  margin-bottom: 10px; }\n\n.room-editor-icon__editor {\n  margin-left: -120px;\n  margin-bottom: 15px; }\n"
 
 /***/ }),
-/* 1245 */
+/* 1243 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  id=\"icon-element\"\n  class=\"room-editor-icon\">\n\n  <room-editor\n    *ngIf=\"inspectorIsVisible\"\n    class=\"room-editor-icon__editor\">\n  </room-editor>\n\n  <img\n    (click)=\"onSelect($event)\"\n    class=\"room-editor-icon__image\"\n    src=\"assets/icons/room-pink.png\">\n\n</div>\n"
 
 /***/ }),
-/* 1246 */
+/* 1244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38724,7 +38630,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var sceneInteractor_1 = __webpack_require__(14);
 var imageResizeService_1 = __webpack_require__(52);
 var EditSpaceToggle = /** @class */function () {
@@ -38820,27 +38726,27 @@ var EditSpaceToggle = /** @class */function () {
     };
     EditSpaceToggle = __decorate([core_1.Component({
         selector: 'edit-space-toggle',
-        styles: [__webpack_require__(1247)],
-        template: __webpack_require__(1248)
+        styles: [__webpack_require__(1245)],
+        template: __webpack_require__(1246)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, event_bus_1.EventBus, router_1.Router])], EditSpaceToggle);
     return EditSpaceToggle;
 }();
 exports.EditSpaceToggle = EditSpaceToggle;
 
 /***/ }),
-/* 1247 */
+/* 1245 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FFF;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FFF; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FFF; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n\n.toggler {\n  margin-right: 10px; }\n\n.toggler__label {\n  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);\n  margin-bottom: 6px; }\n\n.toggler__switches {\n  height: 100px;\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n"
 
 /***/ }),
-/* 1248 */
+/* 1246 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  droppable\n  [acceptedFileType]=\"'image'\"\n  (onFileLoad)=\"onFileLoad($event)\"\n  class=\"toggler\">\n\n    <div class=\"toggler__switches\">\n\n      <p class=\"toggler__label\">Edit | Play</p>\n      <checkbox\n        [initialValue]=\"setEditPlaySliderIsVisible()\"\n        (changeEmitter)=\"onEditPlayChange($event)\">\n      </checkbox>\n      <br/>\n      <div *ngIf=\"!editorIsPreview()\">\n        <p class=\"toggler__label\">2D | 3D</p>\n        <checkbox\n          [initialValue]=\"set2d3dSliderIsVisible()\"\n          (changeEmitter)=\"on2d3dChange($event)\">\n        </checkbox>\n      </div>\n    </div>\n\n</div>\n"
 
 /***/ }),
-/* 1249 */
+/* 1247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38858,17 +38764,16 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
 var imageResizeService_1 = __webpack_require__(52);
 var SlideshowBuilder_1 = __webpack_require__(108);
 var StoryScroll = /** @class */function () {
-    function StoryScroll(sceneInteractor, metaDataInteractor, eventBus, ngZone, slideshowBuilder) {
+    function StoryScroll(sceneInteractor, metaDataInteractor, eventBus, slideshowBuilder) {
         this.sceneInteractor = sceneInteractor;
         this.metaDataInteractor = metaDataInteractor;
         this.eventBus = eventBus;
-        this.ngZone = ngZone;
         this.slideshowBuilder = slideshowBuilder;
         this.projectIsSelected = true;
         this.subscriptions = new Set();
@@ -38949,14 +38854,15 @@ var StoryScroll = /** @class */function () {
         return this.metaDataInteractor.getProjectName();
     };
     StoryScroll.prototype.onInfoClick = function ($event) {
-        this.inspectorIsVisible = true;
+        var _this = this;
+        setTimeout(function () {
+            return _this.inspectorIsVisible = true;
+        });
     };
     StoryScroll.prototype.onOffClick = function ($event) {
-        var _this = this;
-        if (!$event.isOffClick) return;
-        this.ngZone.run(function () {
-            return _this.inspectorIsVisible = false;
-        });
+        if (this.inspectorIsVisible) {
+            this.inspectorIsVisible = false;
+        }
     };
     StoryScroll.prototype.toggleOpen = function ($event) {
         this.isOpen = !this.isOpen;
@@ -38991,27 +38897,27 @@ var StoryScroll = /** @class */function () {
     };
     StoryScroll = __decorate([core_1.Component({
         selector: 'story-scroll',
-        styles: [__webpack_require__(1250)],
-        template: __webpack_require__(1251)
-    }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, projectMetaDataInteractor_1.MetaDataInteractor, event_bus_1.EventBus, core_1.NgZone, SlideshowBuilder_1.SlideshowBuilder])], StoryScroll);
+        styles: [__webpack_require__(1248)],
+        template: __webpack_require__(1249)
+    }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, projectMetaDataInteractor_1.MetaDataInteractor, event_bus_1.EventBus, SlideshowBuilder_1.SlideshowBuilder])], StoryScroll);
     return StoryScroll;
 }();
 exports.StoryScroll = StoryScroll;
 
 /***/ }),
-/* 1250 */
+/* 1248 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.story-scroll {\n  position: absolute;\n  bottom: 0;\n  width: 70%;\n  left: 15%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-content: center;\n  transform: translateY(85px);\n  transition: transform 0.25s ease-in-out; }\n\n.stroy-scroll--open {\n  transform: translateY(0); }\n\n.story-scroll__toggle-button {\n  position: relative;\n  width: 100px;\n  height: 30px;\n  margin: auto auto -30px auto;\n  cursor: pointer; }\n\n.story-scroll__toggle-arrow {\n  display: block;\n  position: absolute;\n  height: 5px;\n  width: 30px;\n  margin: 1px;\n  background: #FFF;\n  border-radius: 10px;\n  transition: transform 0.25s ease; }\n\n.story-scroll__toggle-arrow-left {\n  transform: rotate(-45deg);\n  left: 27%; }\n\n.story-scroll__toggle-arrow-left--open {\n  transform: rotate(45deg); }\n\n.story-scroll__toggle-arrow-right {\n  transform: rotate(45deg);\n  left: 45%; }\n\n.story-scroll__toggle-arrow-right--open {\n  transform: rotate(-45deg); }\n\n.story-scroll__room-editor {\n  justify-content: center;\n  align-content: center;\n  margin: auto; }\n\n.story-scroll__scroll {\n  background-color: #EEEEEE;\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  background: transparent;\n  max-width: 100%;\n  align-items: center; }\n\n.story-scroll__room-group {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  overflow-x: scroll;\n  overflow-y: hidden;\n  padding-left: 80px; }\n\n.story-scroll__room {\n  flex-direction: row;\n  margin-left: 0px; }\n\n.story-scroll__storymap-item {\n  color: #888888;\n  font-size: 0.8em; }\n  .story-scroll__storymap-item:hover {\n    color: #000; }\n\n.story-scroll__room-property-container {\n  max-height: 0;\n  overflow: hidden;\n  transition: max-height 0.1s;\n  margin-left: 10px; }\n\n.story-scroll__room-property-container--expanded {\n  max-height: 500px; }\n"
 
 /***/ }),
-/* 1251 */
+/* 1249 */
 /***/ (function(module, exports) {
 
-module.exports = "<div\n  class=\"story-scroll\"\n  [ngClass]=\"{'stroy-scroll--open': isOpen}\">\n\n  <room-editor\n    *ngIf=\"inspectorIsVisible\"\n    off-click\n    (onOffClick)=\"onOffClick($event)\"\n    class=\"story-scroll__room-editor\">\n  </room-editor>\n\n  <div *ngIf=\"!inspectorIsVisible\">\n    <div\n      (click)=\"toggleOpen($event)\"\n      class=\"story-scroll__toggle-button\">\n      <span\n        class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-left\"\n        [ngClass]=\"{'story-scroll__toggle-arrow-left--open': isOpen}\">\n      </span>\n      <span\n      class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-right\"\n      [ngClass]=\"{'story-scroll__toggle-arrow-right--open': isOpen}\">\n      </span>\n    </div>\n  </div>\n\n\n  <div\n    droppable\n    [acceptedFileType]=\"'image'\"\n    [acceptMultpleFiles]=\"true\"\n    (onFileLoad)=\"addSlideshow($event)\"\n    class=\"story-scroll__scroll\">\n\n      <div class=\"story-scroll__room-group\">\n        <div\n          *ngFor=\"let roomId of getRoomIdList()\"\n          class=\"story-scroll__room\">\n\n          <!-- Room Label -->\n          <storymap-item\n            [roomProperty]=\"getRoomById(roomId)\"\n            [isActive]=\"roomIsSelected(roomId)\"\n            (click)=\"onRoomSelect(roomId)\"\n            (infoEvent)=\"onInfoClick($event)\"\n            class=\"story-scroll__storymap-item\">\n          </storymap-item>\n        </div>\n      </div>\n\n\n      <add-room></add-room>\n\n  </div>\n\n</div>\n"
+module.exports = "<div\n  class=\"story-scroll\"\n  [ngClass]=\"{'stroy-scroll--open': isOpen}\">\n\n  <room-editor\n    *ngIf=\"inspectorIsVisible\"\n    (onOffClick)=\"onOffClick($event)\"\n    class=\"story-scroll__room-editor\">\n  </room-editor>\n\n  <div *ngIf=\"!inspectorIsVisible\">\n    <div\n      (click)=\"toggleOpen($event)\"\n      class=\"story-scroll__toggle-button\">\n      <span\n        class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-left\"\n        [ngClass]=\"{'story-scroll__toggle-arrow-left--open': isOpen}\">\n      </span>\n      <span\n      class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-right\"\n      [ngClass]=\"{'story-scroll__toggle-arrow-right--open': isOpen}\">\n      </span>\n    </div>\n  </div>\n\n\n  <div\n    droppable\n    [acceptedFileType]=\"'image'\"\n    [acceptMultpleFiles]=\"true\"\n    (onFileLoad)=\"addSlideshow($event)\"\n    class=\"story-scroll__scroll\">\n\n      <div class=\"story-scroll__room-group\">\n        <div\n          *ngFor=\"let roomId of getRoomIdList()\"\n          class=\"story-scroll__room\">\n\n          <!-- Room Label -->\n          <storymap-item\n            [roomProperty]=\"getRoomById(roomId)\"\n            [isActive]=\"roomIsSelected(roomId)\"\n            (click)=\"onRoomSelect(roomId)\"\n            (infoEvent)=\"onInfoClick($event)\"\n            class=\"story-scroll__storymap-item\">\n          </storymap-item>\n        </div>\n      </div>\n\n\n      <add-room></add-room>\n\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1252 */
+/* 1250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39099,27 +39005,27 @@ var StorymapItem = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], StorymapItem.prototype, "deleteEvent", void 0);
     StorymapItem = __decorate([core_1.Component({
         selector: 'storymap-item',
-        styles: [__webpack_require__(1253)],
-        template: __webpack_require__(1254)
+        styles: [__webpack_require__(1251)],
+        template: __webpack_require__(1252)
     }), __metadata("design:paramtypes", [propertyRemovalService_1.PropertyRemovalService, sceneInteractor_1.SceneInteractor, core_1.NgZone])], StorymapItem);
     return StorymapItem;
 }();
 exports.StorymapItem = StorymapItem;
 
 /***/ }),
-/* 1253 */
+/* 1251 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.storymap-item {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: flex-start;\n  align-items: center;\n  width: 100%;\n  cursor: pointer;\n  margin: 0px 0; }\n  .storymap-item:hover .story-map-item__buttons {\n    visibility: visible; }\n\n.story-map-item__buttons {\n  display: flex;\n  flex-direction: row;\n  transform: translate(0%, 80px);\n  visibility: hidden;\n  z-index: 1; }\n\n.storymap-item__button {\n  margin-left: 5px;\n  margin-right: 5px;\n  background-color: transparent;\n  background-size: 90%;\n  background-repeat: no-repeat;\n  width: 21px;\n  height: 21px; }\n\n.storymap-item__roomname {\n  justify-content: center;\n  margin: 0px 0px 0px 0px;\n  transform: translate(0%, 40px);\n  z-index: 1; }\n\n.storymap-item__delete {\n  background-image: url(\"assets/icons/delete_filled.png\"); }\n\n.storymap-item__info {\n  background-image: url(\"assets/icons/info_filled.png\"); }\n\n.storymap-item__home-icon {\n  background-image: url(\"assets/icons/home.png\"); }\n  .storymap-item__home-icon:hover {\n    background-image: url(\"assets/icons/home_filled.png\"); }\n\n.storymap-item__home-icon--active {\n  background-image: url(\"assets/icons/home_filled.png\"); }\n\n.storymap-item__thumbnailbox {\n  background-color: #EEEEEE;\n  height: 80px;\n  margin: 0 5px; }\n\n.storymap-item__thumbnail {\n  width: 120px;\n  height: 80px;\n  opacity: 0.5;\n  transition: opacity 0.25s ease-in-out; }\n\n.storymap-item__thumbnail--active {\n  opacity: 1; }\n"
 
 /***/ }),
-/* 1254 */
+/* 1252 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"storymap-item\">\n\n  <div class=\"storymap-item__roomname\">\n    <text-input\n      [textModel]=\"getName()\"\n      [isRoomName]=\"true\"\n      (onTextChange)=\"onNameChange($event)\">\n    </text-input>\n  </div>\n  \n  <div class=\"story-map-item__buttons\">\n    <div\n      class=\"storymap-item__button storymap-item__delete\"\n      (click)=\"onDeleteClick($event)\">\n    </div>\n\n    <div\n      class=\"storymap-item__button storymap-item__info\"\n      (click)=\"onInfoClick($event)\">\n    </div>\n\n    <div\n      (click)=\"setAsHomeRoom()\"\n      class=\"storymap-item__button storymap-item__home-icon\"\n      [ngClass]=\"{'storymap-item__home-icon--active': isHomeRoom()}\">\n    </div>\n\n  </div>\n\n  <div class='storymap-item__thumbnailbox'>\n    <img\n      [attr.src]=\"getBackgroundThumbnail()\"\n      class=\"storymap-item__thumbnail\"\n      [ngClass]=\"{'storymap-item__thumbnail--active': isActive}\">\n  </div>\n\n\n</div>\n"
 
 /***/ }),
-/* 1255 */
+/* 1253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39147,27 +39053,27 @@ var AddRoomButton = /** @class */function () {
     };
     AddRoomButton = __decorate([core_1.Component({
         selector: 'add-room',
-        styles: [__webpack_require__(1256)],
-        template: __webpack_require__(1257)
+        styles: [__webpack_require__(1254)],
+        template: __webpack_require__(1255)
     }), __metadata("design:paramtypes", [router_1.Router])], AddRoomButton);
     return AddRoomButton;
 }();
 exports.AddRoomButton = AddRoomButton;
 
 /***/ }),
-/* 1256 */
+/* 1254 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.add-room {\n  position: relative;\n  cursor: pointer;\n  margin-left: 5px; }\n\n.add-room__rect {\n  position: absolute;\n  opacity: 50%;\n  width: 60px;\n  height: 80px;\n  background-color: white;\n  top: -29px; }\n\n.add-room__plus {\n  transform: translate(10px, -8px); }\n\n.add-room__barh {\n  display: block;\n  position: absolute;\n  height: 4px;\n  width: 32px;\n  border-radius: 2px;\n  background-color: #888888;\n  left: 4px;\n  top: 18px;\n  transition: .15s ease-in-out;\n  transform: rotate(0deg); }\n\n.add-room__barv {\n  display: block;\n  position: absolute;\n  height: 4px;\n  width: 32px;\n  border-radius: 2px;\n  background-color: #888888;\n  left: 4px;\n  top: 18px;\n  transition: .15s ease-in-out;\n  transform: rotate(90deg); }\n"
 
 /***/ }),
-/* 1257 */
+/* 1255 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  class=\"add-room\"\n  (click)=\"addRoom($event)\">\n  <span class=\"add-room__rect\"></span>\n  <div class=\"add-room__plus\">\n    <span class=\"add-room__barh\"></span>\n    <span class=\"add-room__barv\"></span>\n  </div>\n</div>\n"
 
 /***/ }),
-/* 1258 */
+/* 1256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39186,7 +39092,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var sceneInteractor_1 = __webpack_require__(14);
 var Fullscreen = /** @class */function () {
     function Fullscreen(sceneInteractor, eventBus, router) {
@@ -39242,27 +39148,27 @@ var Fullscreen = /** @class */function () {
     };
     Fullscreen = __decorate([core_1.Component({
         selector: 'fullscreen',
-        styles: [__webpack_require__(1259)],
-        template: __webpack_require__(1260)
+        styles: [__webpack_require__(1257)],
+        template: __webpack_require__(1258)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, event_bus_1.EventBus, router_1.Router])], Fullscreen);
     return Fullscreen;
 }();
 exports.Fullscreen = Fullscreen;
 
 /***/ }),
-/* 1259 */
+/* 1257 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml * {\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n*, *:after, *:before {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box; }\n\n.icon {\n  width: 40px;\n  height: 40px;\n  display: block;\n  overflow: show; }\n\n.icon svg {\n  max-width: 100%; }\n\nmain {\n  position: absolute; }\n\n.fullscreen {\n  width: 100%;\n  height: 100%;\n  margin: 0 auto;\n  display: block;\n  position: relative;\n  text-decoration: none; }\n  .fullscreen .fs-icon {\n    -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n    -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n    -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n    -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n    transition: 0.5s ease-out;\n    background-color: #FFF;\n    border: 0px;\n    color: 0px;\n    text-decoration: none;\n    opacity: 0.8; }\n    .fullscreen .fs-icon .outline {\n      fill: #ADADAD; }\n    .fullscreen .fs-icon .arrow {\n      fill: #ADADAD;\n      -webkit-transition: prefixed-for-transition(-webkit-, fill 1s ease);\n      -moz-transition: prefixed-for-transition(-moz-, fill 1s ease);\n      -ms-transition: prefixed-for-transition(-ms-, fill 1s ease);\n      -o-transition: prefixed-for-transition(-o-, fill 1s ease);\n      transition: fill 1s ease; }\n    .fullscreen .fs-icon .tl {\n      -webkit-transform: rotate(0deg);\n      -moz-transform: rotate(0deg);\n      -ms-transform: rotate(0deg);\n      -o-transform: rotate(0deg);\n      transform: rotate(0deg);\n      -webkit-transform-origin: 50%;\n      -moz-transform-origin: 50%;\n      -ms-transform-origin: 50%;\n      -o-transform-origin: 50%;\n      transform: 50%;\n      -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n      -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n      -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n      -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n      transition: 0.5s ease-out;\n      animation: tl 1s ease-in-out; }\n    .fullscreen .fs-icon .tr {\n      -webkit-transform: rotate(0deg);\n      -moz-transform: rotate(0deg);\n      -ms-transform: rotate(0deg);\n      -o-transform: rotate(0deg);\n      transform: rotate(0deg);\n      -webkit-transform-origin: 50%;\n      -moz-transform-origin: 50%;\n      -ms-transform-origin: 50%;\n      -o-transform-origin: 50%;\n      transform: 50%;\n      -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n      -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n      -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n      -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n      transition: 0.5s ease-out;\n      animation: tr 1s ease-in-out; }\n    .fullscreen .fs-icon .bl {\n      -webkit-transform: rotate(0deg);\n      -moz-transform: rotate(0deg);\n      -ms-transform: rotate(0deg);\n      -o-transform: rotate(0deg);\n      transform: rotate(0deg);\n      -webkit-transform-origin: 50%;\n      -moz-transform-origin: 50%;\n      -ms-transform-origin: 50%;\n      -o-transform-origin: 50%;\n      transform: 50%;\n      -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n      -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n      -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n      -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n      transition: 0.5s ease-out;\n      animation: bl 1s ease-in-out; }\n    .fullscreen .fs-icon .br {\n      -webkit-transform: rotate(0deg);\n      -moz-transform: rotate(0deg);\n      -ms-transform: rotate(0deg);\n      -o-transform: rotate(0deg);\n      transform: rotate(0deg);\n      -webkit-transform-origin: 50%;\n      -moz-transform-origin: 50%;\n      -ms-transform-origin: 50%;\n      -o-transform-origin: 50%;\n      transform: 50%;\n      -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n      -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n      -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n      -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n      transition: 0.5s ease-out;\n      animation: br 1s ease-in-out; }\n  .fullscreen:hover .fs-icon {\n    opacity: 1; }\n    .fullscreen:hover .fs-icon .outline {\n      fill: #888888;\n      -webkit-transition: prefixed-for-transition(-webkit-, fill 1s ease);\n      -moz-transition: prefixed-for-transition(-moz-, fill 1s ease);\n      -ms-transition: prefixed-for-transition(-ms-, fill 1s ease);\n      -o-transition: prefixed-for-transition(-o-, fill 1s ease);\n      transition: fill 1s ease; }\n    .fullscreen:hover .fs-icon .arrow {\n      fill: #888888;\n      -webkit-transition: prefixed-for-transition(-webkit-, fill 1s ease);\n      -moz-transition: prefixed-for-transition(-moz-, fill 1s ease);\n      -ms-transition: prefixed-for-transition(-ms-, fill 1s ease);\n      -o-transition: prefixed-for-transition(-o-, fill 1s ease);\n      transition: fill 1s ease;\n      -webkit-transition: prefixed-for-transition(-webkit-, transform 0.5s ease-out);\n      -moz-transition: prefixed-for-transition(-moz-, transform 0.5s ease-out);\n      -ms-transition: prefixed-for-transition(-ms-, transform 0.5s ease-out);\n      -o-transition: prefixed-for-transition(-o-, transform 0.5s ease-out);\n      transition: transform 0.5s ease-out; }\n  .fullscreen:active {\n    opacity: 1; }\n    .fullscreen:active .fs-icon {\n      -webkit-transform: scale(1.1);\n      -moz-transform: scale(1.1);\n      -ms-transform: scale(1.1);\n      -o-transform: scale(1.1);\n      transform: scale(1.1);\n      -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n      -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n      -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n      -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n      transition: 0.5s ease-out;\n      background-color: #888888; }\n      .fullscreen:active .fs-icon .arrow {\n        fill: #FF3571;\n        -webkit-transition: prefixed-for-transition(-webkit-, fill 1s ease);\n        -moz-transition: prefixed-for-transition(-moz-, fill 1s ease);\n        -ms-transition: prefixed-for-transition(-ms-, fill 1s ease);\n        -o-transition: prefixed-for-transition(-o-, fill 1s ease);\n        transition: fill 1s ease;\n        opacity: 100; }\n      .fullscreen:active .fs-icon .outline {\n        fill: #FF3571;\n        -webkit-transition: prefixed-for-transition(-webkit-, fill 1s ease);\n        -moz-transition: prefixed-for-transition(-moz-, fill 1s ease);\n        -ms-transition: prefixed-for-transition(-ms-, fill 1s ease);\n        -o-transition: prefixed-for-transition(-o-, fill 1s ease);\n        transition: fill 1s ease; }\n      .fullscreen:active .fs-icon .tl {\n        -webkit-transform: translate(-4px, -4px);\n        -moz-transform: translate(-4px, -4px);\n        -ms-transform: translate(-4px, -4px);\n        -o-transform: translate(-4px, -4px);\n        transform: translate(-4px, -4px); }\n      .fullscreen:active .fs-icon .tr {\n        -webkit-transform: translate(4px, -4px);\n        -moz-transform: translate(4px, -4px);\n        -ms-transform: translate(4px, -4px);\n        -o-transform: translate(4px, -4px);\n        transform: translate(4px, -4px); }\n      .fullscreen:active .fs-icon .bl {\n        -webkit-transform: translate(-4px, 4px);\n        -moz-transform: translate(-4px, 4px);\n        -ms-transform: translate(-4px, 4px);\n        -o-transform: translate(-4px, 4px);\n        transform: translate(-4px, 4px); }\n      .fullscreen:active .fs-icon .br {\n        -webkit-transform: translate(4px, 4px);\n        -moz-transform: translate(4px, 4px);\n        -ms-transform: translate(4px, 4px);\n        -o-transform: translate(4px, 4px);\n        transform: translate(4px, 4px); }\n\n.fullscreen__full {\n  opacity: 1; }\n  .fullscreen__full .fs-icon .arrow {\n    fill: #FF3571;\n    -webkit-transition: prefixed-for-transition(-webkit-, fill 1s ease);\n    -moz-transition: prefixed-for-transition(-moz-, fill 1s ease);\n    -ms-transition: prefixed-for-transition(-ms-, fill 1s ease);\n    -o-transition: prefixed-for-transition(-o-, fill 1s ease);\n    transition: fill 1s ease;\n    opacity: 100; }\n  .fullscreen__full .fs-icon .outline {\n    fill: #FF3571;\n    -webkit-transition: prefixed-for-transition(-webkit-, fill 1s ease);\n    -moz-transition: prefixed-for-transition(-moz-, fill 1s ease);\n    -ms-transition: prefixed-for-transition(-ms-, fill 1s ease);\n    -o-transition: prefixed-for-transition(-o-, fill 1s ease);\n    transition: fill 1s ease; }\n  .fullscreen__full .fs-icon .tl, .fullscreen__full .fs-icon .br {\n    -webkit-transform: rotate(-180deg);\n    -moz-transform: rotate(-180deg);\n    -ms-transform: rotate(-180deg);\n    -o-transform: rotate(-180deg);\n    transform: rotate(-180deg);\n    -webkit-transform-origin: 50%;\n    -moz-transform-origin: 50%;\n    -ms-transform-origin: 50%;\n    -o-transform-origin: 50%;\n    transform: 50%;\n    -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n    -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n    -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n    -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n    transition: 0.5s ease-out; }\n  .fullscreen__full .fs-icon .tr, .fullscreen__full .fs-icon .bl {\n    -webkit-transform: rotate(180deg);\n    -moz-transform: rotate(180deg);\n    -ms-transform: rotate(180deg);\n    -o-transform: rotate(180deg);\n    transform: rotate(180deg);\n    -webkit-transform-origin: 50%;\n    -moz-transform-origin: 50%;\n    -ms-transform-origin: 50%;\n    -o-transform-origin: 50%;\n    transform: 50%;\n    -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n    -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n    -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n    -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n    transition: 0.5s ease-out; }\n\n/*\n.fullscreen__full:hover {\n    .fs-icon {\n        @include transform (scale(1));\n      .outline {\n      }\n      .tl {\n        @include transform (rotate(-180deg));\n        @include transform-origin (100%);\n\n          @include transform (translate(-8px, -8px));\n      }\n      .tr {\n        @include transform (rotate(-180deg));\n        @include transform-origin (100%);\n\n          @include transform (translate(8px, -8px));\n      }\n      .bl {\n        @include transform (rotate(-180deg));\n        @include transform-origin (100%);\n\n          @include transform (translate(-8px, 8px));\n      }\n      .br {\n        @include transform (rotate(-180deg));\n        @include transform-origin (100%);\n\n          @include transform (translate(8px, 8px));\n      }\n    }\n  }\n*/\n@keyframes tl {\n  0% {\n    transform: translate(8px, 8px);\n    opacity: 0; }\n  15% {\n    opacity: 0; }\n  40% {\n    opacity: 1; } }\n\n@keyframes tr {\n  0% {\n    transform: translate(-8px, 8px);\n    opacity: 0; }\n  15% {\n    opacity: 0; }\n  40% {\n    opacity: 1; } }\n\n@keyframes bl {\n  0% {\n    transform: translate(8px, -8px);\n    opacity: 0; }\n  15% {\n    opacity: 0; }\n  40% {\n    opacity: 1; } }\n\n@keyframes br {\n  0% {\n    transform: translate(-8px, -8px);\n    opacity: 0; }\n  15% {\n    opacity: 0; }\n  40% {\n    opacity: 1; } }\n"
 
 /***/ }),
-/* 1260 */
+/* 1258 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"fullscreen\"\n  (click)=\"onFullscreenClick($event)\"\n  [ngClass]=\"{'fullscreen__full': isInFullscreen}\">\n    <div class=\"icon\">\n        <a class=\"fullscreen\" href=\"#!\"><svg class=\"fs-icon\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" x=\"0px\" y=\"0px\" viewBox=\"0 0 100 100\" enable-background=\"new 0 0 100 100\" xml:space=\"preserve\">\n\n            <!-- Top Right -->\n            <path class=\"tr arrow\" d=\"M74.6 33.6l0-4.3L63.2 40.7c-1.1 1.1-2.8 1.1-3.8 0c-1.1-1.1-1.1-2.8 0-3.9l11.4-11.4h-4.3 c-1.5 0-2.7-1.2-2.7-2.7c0-1.5 1.2-2.7 2.7-2.7h10.9c1.5 0 2.7 1.2 2.7 2.7v10.9c0 1.5-1.2 2.7-2.7 2.7 C75.8 36.3 74.6 35.1 74.6 33.6z\"/>\n\n            <!-- Top Left -->\n            <path class=\"tl arrow\" d=\"M33.6 25.4h-4.3l11.4 11.4c1.1 1.1 1.1 2.8 0 3.8c-1.1 1.1-2.8 1.1-3.8 0L25.4 29.3v4.3 c0 1.5-1.2 2.7-2.7 2.7c-1.5 0-2.7-1.2-2.7-2.7V22.7c0-1.5 1.2-2.7 2.7-2.7l10.9 0c1.5 0 2.7 1.2 2.7 2.7 C36.3 24.2 35.1 25.4 33.6 25.4z\"/>\n\n            <!-- Bottom Left -->\n            <path class=\"bl arrow\" d=\"M25.4 66.4l0 4.3l11.4-11.4c1.1-1.1 2.8-1.1 3.8 0c1.1 1.1 1.1 2.8 0 3.9L29.3 74.6h4.3 c1.5 0 2.7 1.2 2.7 2.7c0 1.5-1.2 2.7-2.7 2.7H22.7c-1.5 0-2.7-1.2-2.7-2.7V66.4c0-1.5 1.2-2.7 2.7-2.7 C24.2 63.7 25.4 64.9 25.4 66.4z\"/>\n\n            <!-- Bottom Right -->\n            <path class=\"br arrow\" d=\"M66.4 74.6h4.3L59.3 63.2c-1.1-1.1-1.1-2.8 0-3.8c1.1-1.1 2.8-1.1 3.8 0l11.4 11.4v-4.3 c0-1.5 1.2-2.7 2.7-2.7c1.5 0 2.7 1.2 2.7 2.7v10.9c0 1.5-1.2 2.7-2.7 2.7l-10.9 0c-1.5 0-2.7-1.2-2.7-2.7 C63.7 75.8 64.9 74.6 66.4 74.6z\"/>\n\n            <!-- Outline -->\n            <path class=\"outline\" d=\"M94 5c0.5 0 1 0.5 1 1v88c0 0.5-0.5 1-1 1H6c-0.5 0-1-0.5-1-1V6c0-0.5 0.5-1 1-1H94 M94 0H6C2.7 0 0 2.7 0 6v88 c0 3.3 2.7 6 6 6h88c3.3 0 6-2.7 6-6V6C100 2.7 97.3 0 94 0L94 0z\"/>\n          </svg>\n        </a>\n    </div>\n</div>\n"
 
 /***/ }),
-/* 1261 */
+/* 1259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39280,7 +39186,29 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
+var instanceSet = new Set();
+// TODO: add touch
+document.addEventListener('mousemove', function ($event) {
+    return instanceSet.forEach(function (instance) {
+        return instance.onMouseMove($event);
+    });
+});
+document.addEventListener('mouseup', function ($event) {
+    return instanceSet.forEach(function (instance) {
+        return instance.onMouseUp($event);
+    });
+});
+document.addEventListener('touchmove', function ($event) {
+    instanceSet.forEach(function (instance) {
+        return instance.onTouchMove($event);
+    });
+}, { passive: false });
+document.addEventListener('touchend', function ($event) {
+    instanceSet.forEach(function (instance) {
+        return instance.onTouchEnd($event);
+    });
+}, false);
 var DraggableIcon = /** @class */function () {
     function DraggableIcon(element, eventBus) {
         this.element = element;
@@ -39288,30 +39216,19 @@ var DraggableIcon = /** @class */function () {
         this.onMove = new core_1.EventEmitter();
         this.onMoveEnd = new core_1.EventEmitter();
         this.isActive = false;
-        this.subscriptions = new Set();
         this.touchLocation = { x: 0, y: 0 };
     }
     DraggableIcon.prototype.ngOnInit = function () {
-        var _this = this;
-        var onMouseUp = this.eventBus.getObservable(event_bus_1.EventType.MOUSE_UP).subscribe(function (event) {
-            return _this.onMouseUp(event);
-        }, function (error) {
-            return console.log('error', error);
-        });
-        this.subscriptions.add(onMouseUp);
+        instanceSet.add(this);
     };
     DraggableIcon.prototype.ngOnDestroy = function () {
-        this.subscriptions.forEach(function (subscription) {
-            return subscription.unsubscribe();
-        });
-        this.unSubscribeToMouseMovements();
+        instanceSet.delete(this);
     };
     DraggableIcon.prototype.onMouseDown = function (event) {
         if (event.target.id !== 'draggableIcon') {
             return; // only allow the icon to be the draggable component
         }
         event.preventDefault();
-        this.subscribeToMouseMovements();
         var boundingRect = this.element.nativeElement.getBoundingClientRect();
         this.startX = event.clientX - boundingRect.left;
         this.startY = event.clientY - boundingRect.top;
@@ -39320,11 +39237,23 @@ var DraggableIcon = /** @class */function () {
         this.isActive = true;
         return false;
     };
+    DraggableIcon.prototype.onTouchStart = function ($event) {
+        if ($event.touches.length > 1) {
+            return;
+        }
+        var x = $event.touches[0].clientX;
+        var y = $event.touches[0].clientY;
+        this.touchLocation.x = x;
+        this.touchLocation.y = y;
+        $event.clientX = x;
+        $event.clientY = y;
+        this.onMouseDown($event);
+    };
     DraggableIcon.prototype.onMouseMove = function (event) {
-        event.preventDefault();
         if (!this.isActive) {
             return;
         }
+        event.preventDefault();
         var x = event.clientX - this.startX;
         var y = event.clientY - this.startY;
         this.onMove.emit({
@@ -39333,22 +39262,7 @@ var DraggableIcon = /** @class */function () {
             shiftKey: event.shiftKey
         });
     };
-    DraggableIcon.prototype.subscribeToMouseMovements = function () {
-        var _this = this;
-        this.mouseMoveSubscription = this.eventBus.getObservable(event_bus_1.EventType.MOUSE_MOVE).subscribe(function (event) {
-            return _this.onMouseMove(event);
-        }, function (error) {
-            return console.log('error', error);
-        });
-    };
-    DraggableIcon.prototype.unSubscribeToMouseMovements = function () {
-        if (this.mouseMoveSubscription) {
-            this.mouseMoveSubscription.unsubscribe();
-            this.mouseMoveSubscription = null;
-        }
-    };
     DraggableIcon.prototype.onMouseUp = function (event) {
-        this.unSubscribeToMouseMovements();
         if (!this.isActive) {
             return;
         }
@@ -39362,9 +39276,27 @@ var DraggableIcon = /** @class */function () {
         });
         this.isActive = false;
     };
+    DraggableIcon.prototype.onTouchMove = function ($event) {
+        var x = $event.touches[0].clientX;
+        var y = $event.touches[0].clientY;
+        this.touchLocation.x = x;
+        this.touchLocation.y = y;
+        $event.clientX = x;
+        $event.clientY = y;
+        this.onMouseMove($event);
+    };
+    DraggableIcon.prototype.onTouchEnd = function ($event) {
+        if ($event.touches.length > 0) {
+            return;
+        }
+        $event.clientX = this.touchLocation.x;
+        $event.clientY = this.touchLocation.y;
+        this.onMouseUp($event);
+    };
     __decorate([core_1.Output(), __metadata("design:type", Object)], DraggableIcon.prototype, "onMove", void 0);
     __decorate([core_1.Output(), __metadata("design:type", Object)], DraggableIcon.prototype, "onMoveEnd", void 0);
     __decorate([core_1.HostListener('mousedown', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], DraggableIcon.prototype, "onMouseDown", null);
+    __decorate([core_1.HostListener('touchstart', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], DraggableIcon.prototype, "onTouchStart", null);
     DraggableIcon = __decorate([core_1.Directive({
         selector: '[hotspot-icon]'
     }), __metadata("design:paramtypes", [core_1.ElementRef, event_bus_1.EventBus])], DraggableIcon);
@@ -39376,7 +39308,7 @@ function getTotalDistance(x1, x2, y1, y2) {
 }
 
 /***/ }),
-/* 1262 */
+/* 1260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39394,57 +39326,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
-var OffClick = /** @class */function () {
-    function OffClick(element, eventBus) {
-        this.element = element;
-        this.eventBus = eventBus;
-        this.onOffClick = new core_1.EventEmitter();
-        this.subscriptions = new Set();
-    }
-    OffClick.prototype.ngOnInit = function () {
-        var _this = this;
-        var onClick = this.eventBus.getObservable(event_bus_1.EventType.MOUSE_DOWN).subscribe(function (event) {
-            var isClicked = _this.element.nativeElement.contains(event.target);
-            _this.onOffClick.emit({ isOffClick: !isClicked });
-        }, function (error) {
-            return console.log('error', error);
-        });
-        this.subscriptions.add(onClick);
-    };
-    OffClick.prototype.ngOnDestroy = function () {
-        this.subscriptions.forEach(function (subscription) {
-            return subscription.unsubscribe();
-        });
-    };
-    __decorate([core_1.Output(), __metadata("design:type", Object)], OffClick.prototype, "onOffClick", void 0);
-    OffClick = __decorate([core_1.Directive({
-        selector: '[off-click]'
-    }), __metadata("design:paramtypes", [core_1.ElementRef, event_bus_1.EventBus])], OffClick);
-    return OffClick;
-}();
-exports.OffClick = OffClick;
-
-/***/ }),
-/* 1263 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var fileLoaderUtil_1 = __webpack_require__(65);
 var Droppable = /** @class */function () {
     function Droppable(eventBus, fileLoaderUtil) {
@@ -39507,7 +39389,7 @@ var Droppable = /** @class */function () {
 exports.Droppable = Droppable;
 
 /***/ }),
-/* 1264 */
+/* 1261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39525,7 +39407,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var fileLoaderUtil_1 = __webpack_require__(65);
 var uuid_1 = __webpack_require__(107);
 var FileLoader = /** @class */function () {
@@ -39564,27 +39446,27 @@ var FileLoader = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", String)], FileLoader.prototype, "displayText", void 0);
     FileLoader = __decorate([core_1.Component({
         selector: 'file-loader',
-        styles: [__webpack_require__(1265)],
-        template: __webpack_require__(1266)
+        styles: [__webpack_require__(1262)],
+        template: __webpack_require__(1263)
     }), __metadata("design:paramtypes", [event_bus_1.EventBus, fileLoaderUtil_1.FileLoaderUtil])], FileLoader);
     return FileLoader;
 }();
 exports.FileLoader = FileLoader;
 
 /***/ }),
-/* 1265 */
+/* 1262 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.file-loader {\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  align-items: center;\n  align-content: center; }\n\n.file-loader__hidden-input {\n  display: none; }\n"
 
 /***/ }),
-/* 1266 */
+/* 1263 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  droppable\n  (onFileLoad)=\"onFileDrop($event)\"\n  [acceptedFileType]=\"acceptedFileType\"\n  class=\"file-loader\">\n\n  <input\n    type=\"file\"\n    [attr.id]=\"inputId\"\n    (change)=\"onFileChange($event)\"\n    class=\"file-loader__hidden-input\">\n\n  <label\n    [attr.for]=\"inputId\"\n    class=\"button-full-width\">\n    {{displayText}}\n  </label>\n\n</div>\n"
 
 /***/ }),
-/* 1267 */
+/* 1264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39602,7 +39484,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var zipFileReader_1 = __webpack_require__(133);
 var HiddenFileLoader = /** @class */function () {
     function HiddenFileLoader(eventBus, zipFileReader) {
@@ -39635,27 +39517,27 @@ var HiddenFileLoader = /** @class */function () {
     __decorate([core_1.ViewChild('hiddenLabel'), __metadata("design:type", Object)], HiddenFileLoader.prototype, "hiddenLabel", void 0);
     HiddenFileLoader = __decorate([core_1.Component({
         selector: 'hidden-file-loader',
-        styles: [__webpack_require__(1268)],
-        template: __webpack_require__(1269)
+        styles: [__webpack_require__(1265)],
+        template: __webpack_require__(1266)
     }), __metadata("design:paramtypes", [event_bus_1.EventBus, zipFileReader_1.ZipFileReader])], HiddenFileLoader);
     return HiddenFileLoader;
 }();
 exports.HiddenFileLoader = HiddenFileLoader;
 
 /***/ }),
-/* 1268 */
+/* 1265 */
 /***/ (function(module, exports) {
 
 module.exports = ".hidden-file-loader {\n  display: none;\n  width: 0;\n  height: 0; }\n"
 
 /***/ }),
-/* 1269 */
+/* 1266 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"hidden-file-loader\">\n\n  <input\n    type=\"file\"\n    id=\"hiddenInput\"\n    (change)=\"onFileChange($event)\">\n\n  <label\n    #hiddenLabel\n    for=\"hiddenInput\">\n  </label>\n\n</div>\n"
 
 /***/ }),
-/* 1270 */
+/* 1267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39690,27 +39572,27 @@ var FileLoaderMulti = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", String)], FileLoaderMulti.prototype, "displayText", void 0);
     FileLoaderMulti = __decorate([core_1.Component({
         selector: 'file-loader-multi',
-        styles: [__webpack_require__(1271)],
-        template: __webpack_require__(1272)
+        styles: [__webpack_require__(1268)],
+        template: __webpack_require__(1269)
     })], FileLoaderMulti);
     return FileLoaderMulti;
 }();
 exports.FileLoaderMulti = FileLoaderMulti;
 
 /***/ }),
-/* 1271 */
+/* 1268 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.file-loader-multi {\n  display: flex;\n  flex-direction: row; }\n\n.file-loader-multi__hidden-input {\n  display: none; }\n\n.file-loader-multi__label {\n  width: 100%; }\n"
 
 /***/ }),
-/* 1272 */
+/* 1269 */
 /***/ (function(module, exports) {
 
 module.exports = "<div \n  droppable\n  (onFileLoad)=\"onFileDrop($event)\"\n  [acceptedFileType]=\"acceptedFileType\"\n  [acceptMultpleFiles]=\"true\"\n  class=\"file-loader-multi\">\n\n  <input\n    type=\"file\"\n    multiple\n    [attr.id]=\"inputId\"\n    (change)=\"onFileChange($event)\"\n    class=\"file-loader-multi__hidden-input\">\n\n  <label\n    [attr.for]=\"inputId\"\n    class=\"file-loader-multi__label\">\n    {{displayText}}\n  </label>\n\n</div>\n"
 
 /***/ }),
-/* 1273 */
+/* 1270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39738,27 +39620,27 @@ var CloseButton = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], CloseButton.prototype, "onButtonClick", void 0);
     CloseButton = __decorate([core_1.Component({
         selector: 'close-button',
-        styles: [__webpack_require__(1274)],
-        template: __webpack_require__(1275)
+        styles: [__webpack_require__(1271)],
+        template: __webpack_require__(1272)
     })], CloseButton);
     return CloseButton;
 }();
 exports.CloseButton = CloseButton;
 
 /***/ }),
-/* 1274 */
+/* 1271 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.close-button {\n  width: 18px;\n  height: 18px;\n  border-radius: 50%;\n  background-color: #888888;\n  position: relative;\n  border: 2px solid #FFF; }\n\n.close-button :nth-child(1) {\n  transform: rotate(45deg); }\n\n.close-button :nth-child(2) {\n  transform: rotate(-45deg); }\n\n.close-button__bar {\n  display: block;\n  position: absolute;\n  height: 2px;\n  width: 14px;\n  border-radius: 1px;\n  background-color: #FFF;\n  left: 2px;\n  top: 8px; }\n"
 
 /***/ }),
-/* 1275 */
+/* 1272 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  class=\"close-button\"\n  (click)=\"onClick()\">\n  <span class=\"close-button__bar\"></span>\n  <span class=\"close-button__bar\"></span>\n</div>\n"
 
 /***/ }),
-/* 1276 */
+/* 1273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39786,27 +39668,27 @@ var InfoButton = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], InfoButton.prototype, "onButtonClick", void 0);
     InfoButton = __decorate([core_1.Component({
         selector: 'info-button',
-        styles: [__webpack_require__(1277)],
-        template: __webpack_require__(1278)
+        styles: [__webpack_require__(1274)],
+        template: __webpack_require__(1275)
     })], InfoButton);
     return InfoButton;
 }();
 exports.InfoButton = InfoButton;
 
 /***/ }),
-/* 1277 */
+/* 1274 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.info-button {\n  width: 18px;\n  height: 18px;\n  border-radius: 50%;\n  background-color: #888888;\n  position: relative;\n  border: 2px solid #FFF; }\n\n.info-button :nth-child(1) {\n  transform: rotate(90deg); }\n\n.info-button__bar {\n  display: block;\n  position: absolute;\n  height: 2px;\n  width: 14px;\n  border-radius: 1px;\n  background-color: #FFF;\n  left: 2px;\n  top: 8px; }\n"
 
 /***/ }),
-/* 1278 */
+/* 1275 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  class=\"info-button\"\n  (click)=\"onClick()\">\n  <span class=\"info-button__bar\"></span>\n</div>\n"
 
 /***/ }),
-/* 1279 */
+/* 1276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39825,27 +39707,27 @@ var Slider = /** @class */function () {
     function Slider() {}
     Slider = __decorate([core_1.Component({
         selector: 'slider',
-        styles: [__webpack_require__(1280)],
-        template: __webpack_require__(1281)
+        styles: [__webpack_require__(1277)],
+        template: __webpack_require__(1278)
     })], Slider);
     return Slider;
 }();
 exports.Slider = Slider;
 
 /***/ }),
-/* 1280 */
+/* 1277 */
 /***/ (function(module, exports) {
 
 module.exports = ".range {\n  display: inline-block;\n  margin: 36px 20px 20px; }\n\ninput[type=range] {\n  -webkit-appearance: none;\n  position: relative; }\n\ninput[type=range]::-webkit-slider-runnable-track {\n  width: 300px;\n  height: 2px;\n  border: none;\n  border-radius: 3px; }\n\ninput[type=range]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  border: none;\n  height: 12px;\n  width: 12px;\n  border-radius: 510%;\n  background: #141414;\n  border: 2px solid #515151;\n  margin-top: -5px;\n  cursor: pointer; }\n\n.focused::-webkit-slider-thumb {\n  box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.15); }\n\n.clicked::-webkit-slider-thumb {\n  -webkit-transform: scale(1.5); }\n\n.disabled::-webkit-slider-thumb {\n  -webkit-transform: scale(0.9);\n  box-shadow: 0 0 0 3px #141414;\n  background: #515151 !important;\n  border-color: #515151 !important; }\n\ninput[type=range]:focus {\n  outline: none; }\n\n.range:hover input[type=range]:before {\n  color: white;\n  content: '50';\n  position: absolute;\n  font-family: Roboto Slab;\n  top: -49px;\n  background: #3f51b5;\n  padding: 8px 0 3px;\n  font-size: 14px;\n  width: 30px;\n  text-align: center;\n  border-radius: 100% 100% 0 0; }\n\n.range:hover input[type=range]:after {\n  content: '';\n  position: absolute;\n  top: -19px;\n  left: 50px;\n  border-left: 15px solid transparent;\n  border-right: 15px solid transparent;\n  border-top: 8px solid #3f51b5;\n  font-family: Roboto Slab; }\n"
 
 /***/ }),
-/* 1281 */
+/* 1278 */
 /***/ (function(module, exports) {
 
 module.exports = "\n<input type=\"range\" max=\"100\" value=\"50\">\n"
 
 /***/ }),
-/* 1282 */
+/* 1279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39878,27 +39760,27 @@ var Checkbox = /** @class */function () {
     __decorate([core_1.ViewChild('input'), __metadata("design:type", Object)], Checkbox.prototype, "inputElement", void 0);
     Checkbox = __decorate([core_1.Component({
         selector: 'checkbox',
-        styles: [__webpack_require__(1283)],
-        template: __webpack_require__(1284)
+        styles: [__webpack_require__(1280)],
+        template: __webpack_require__(1281)
     })], Checkbox);
     return Checkbox;
 }();
 exports.Checkbox = Checkbox;
 
 /***/ }),
-/* 1283 */
+/* 1280 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.checkbox__label {\n  position: relative;\n  display: block;\n  height: 16px;\n  width: 32px;\n  background-color: #ADADAD;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: background-color 0.2s ease; }\n\n.checkbox__input:checked ~ label {\n  background-color: #FF87AA; }\n\n.checkbox__label:after {\n  position: absolute;\n  left: 0;\n  top: -2px;\n  display: block;\n  width: 20px;\n  height: 20px;\n  border-radius: 50%;\n  background-color: #EEEEEE;\n  content: '';\n  transition: left 0.2s ease; }\n\n.checkbox__input:checked ~ label:after {\n  left: 12px;\n  background-color: #AD0034; }\n\n.checkbox__input--hidden {\n  display: none; }\n"
 
 /***/ }),
-/* 1284 */
+/* 1281 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"checkbox\">\n  <input\n  \t#input\n  \ttype=\"checkbox\"\n  \t[attr.id]=\"uniqueId\"\n    [checked]=\"initialValue\"\n  \t(change)=\"onChange($event.target.checked)\"\n  \tclass=\"checkbox__input checkbox__input--hidden\"/>\n  <label [attr.for]=\"uniqueId\" class=\"checkbox__label\"></label>\n</div>\n"
 
 /***/ }),
-/* 1285 */
+/* 1282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39937,27 +39819,27 @@ var TextInput = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], TextInput.prototype, "onTextChange", void 0);
     TextInput = __decorate([core_1.Component({
         selector: 'text-input',
-        styles: [__webpack_require__(1286)],
-        template: __webpack_require__(1287)
+        styles: [__webpack_require__(1283)],
+        template: __webpack_require__(1284)
     })], TextInput);
     return TextInput;
 }();
 exports.TextInput = TextInput;
 
 /***/ }),
-/* 1286 */
+/* 1283 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.text-input__input {\n  outline: none;\n  background: none;\n  border: none;\n  width: 170px;\n  color: #888888;\n  font-size: 1em;\n  display: block;\n  border-bottom: 2px hidden #EEEEEE;\n  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.32);\n  transition: border-bottom 0.1s linear;\n  background: transparent; }\n  .text-input__input:focus {\n    outline: none;\n    border-bottom: 2px solid #EEEEEE; }\n\n.text-input__input--icon {\n  color: #FFF;\n  border-bottom: 2px hidden #EEEEEE;\n  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.32);\n  text-align: center;\n  margin: 5px 0 0 0px; }\n\n.text-input__input-row {\n  width: 110px; }\n\n.text-input__input-row--active {\n  color: #FFF; }\n\n.text-input__storymap--roomname {\n  text-align: center;\n  color: white;\n  width: 110px;\n  text-shadow: 2px 2px #888888; }\n"
 
 /***/ }),
-/* 1287 */
+/* 1284 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"text-input\">\n\n  <input\n    type=\"text\"\n    [ngModel]=\"textModel\"\n    (ngModelChange)=\"onModelChange($event)\"\n    class=\"text-input__input\"\n    [ngClass]=\"{\n      'text-input__input--icon': isHotspot,\n      'text-input__input-row': isRowItem,\n      'text-input__input-row--active': isActive,\n      'text-input__storymap--roomname': isRoomName\n    }\">\n\n</div>\n"
 
 /***/ }),
-/* 1288 */
+/* 1285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39995,27 +39877,27 @@ var TextInputMaterial = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], TextInputMaterial.prototype, "onBlurEvent", void 0);
     TextInputMaterial = __decorate([core_1.Component({
         selector: 'text-input-material',
-        styles: [__webpack_require__(1289)],
-        template: __webpack_require__(1290)
+        styles: [__webpack_require__(1286)],
+        template: __webpack_require__(1287)
     })], TextInputMaterial);
     return TextInputMaterial;
 }();
 exports.TextInputMaterial = TextInputMaterial;
 
 /***/ }),
-/* 1289 */
+/* 1286 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.text-input-material {\n  height: 40px;\n  position: relative; }\n\n.input {\n  font-size: 1em;\n  display: block;\n  width: 100%;\n  border: none;\n  background: none;\n  border-bottom: 1px solid #888888;\n  position: absolute;\n  bottom: 0;\n  color: #888888;\n  outline: none;\n  box-shadow: none;\n  -webkit-appearance: none;\n  margin: 0; }\n  .input:focus {\n    outline: none; }\n\ninput[type=number]::-webkit-inner-spin-button,\ninput[type=number]::-webkit-outer-spin-button {\n  -webkit-appearance: none;\n  margin: 0; }\n\n.label {\n  color: #888888;\n  font-weight: normal;\n  position: absolute;\n  pointer-events: none;\n  top: 10px;\n  transition: 0.2s ease all; }\n\n/* active state */\n.input:focus ~ .label, .input:valid ~ .label {\n  top: 0px;\n  font-size: 0.8em; }\n\n.bar {\n  position: absolute;\n  bottom: 0;\n  display: block;\n  width: 100%; }\n\n.bar:before, .bar:after {\n  content: '';\n  height: 2px;\n  width: 0;\n  bottom: 1px;\n  position: absolute;\n  background: #888888;\n  transition: 0.2s ease all; }\n\n.bar:before {\n  left: 50%; }\n\n.bar:after {\n  right: 50%; }\n\n/* active state */\n.input:focus ~ .bar:before, .input:focus ~ .bar:after {\n  width: 50%; }\n\n.highlight {\n  position: absolute;\n  height: 60%;\n  width: 100px;\n  top: 25%;\n  left: 0;\n  pointer-events: none;\n  opacity: 0.5; }\n\n/* active state */\n.input:focus ~ .highlight {\n  animation: inputHighlighter 0.3s ease; }\n\n@keyframes inputHighlighter {\n  from {\n    background: #5264AE; }\n  to {\n    width: 0;\n    background: transparent; } }\n"
 
 /***/ }),
-/* 1290 */
+/* 1287 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"text-input-material\">\n\n  <input\n    [attr.type]=\"inputType\"\n    [ngModel]=\"textModel\"\n    (ngModelChange)=\"onModelChange($event)\"\n    (blur)=\"onBlur(textModel)\"\n    class=\"input\"\n    required>\n  <span class=\"highlight\"></span>\n  <span class=\"bar\"></span>\n  <label class=\"label\">{{inputLabel}}</label>\n\n</div>\n"
 
 /***/ }),
-/* 1291 */
+/* 1288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40034,7 +39916,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var core_2 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var MODAL_TYPE = {
     MESSAGE: 'MESSAGE',
     LOADER: 'LOADER',
@@ -40138,8 +40020,8 @@ var Modal = /** @class */function () {
     };
     Modal = __decorate([core_1.Component({
         selector: 'modal',
-        styles: [__webpack_require__(1292)],
-        template: __webpack_require__(1293),
+        styles: [__webpack_require__(1289)],
+        template: __webpack_require__(1290),
         encapsulation: core_2.ViewEncapsulation.None
     }), __metadata("design:paramtypes", [event_bus_1.EventBus])], Modal);
     return Modal;
@@ -40147,19 +40029,19 @@ var Modal = /** @class */function () {
 exports.Modal = Modal;
 
 /***/ }),
-/* 1292 */
+/* 1289 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.modal {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n  top: 0;\n  left: 0;\n  background-color: rgba(0, 0, 0, 0.7);\n  z-index: 10; }\n\n.modal__content {\n  min-width: 320px;\n  left: 50%;\n  top: 50%;\n  position: absolute;\n  /* top: 0; */\n  transform: translate(-50%, -50%);\n  background: white;\n  border-radius: 16px;\n  border-width: 0px;\n  border-color: transparent; }\n\n.modal__content-header {\n  padding-top: 16px;\n  padding-bottom: 4px; }\n\n.modal__content-body {\n  padding-bottom: 16px;\n  padding-top: 4px;\n  padding-left: 24px;\n  padding-right: 24px;\n  color: #888888; }\n\n.modal__content-body-text {\n  text-align: center;\n  margin-top: 5px; }\n\n.modal__content-selector {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-around; }\n\n.modal__content-selection {\n  flex-grow: 1;\n  flex-basis: 0;\n  border: 4px solid #EEEEEE;\n  border-radius: 4px;\n  background-color: #EEEEEE;\n  color: #FFF;\n  font-size: 1.1em;\n  padding: 10px;\n  margin: 0 10px;\n  text-align: center;\n  cursor: pointer; }\n\n.modal__content-body-options {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end; }\n\n.modal__content-body-close {\n  margin-top: 20px;\n  padding: 10px;\n  color: #888888;\n  font-weight: 600;\n  text-align: right;\n  cursor: pointer; }\n"
 
 /***/ }),
-/* 1293 */
+/* 1290 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  *ngIf=\"isOpen\"\n  class=\"modal\">\n\n  <loading-modal\n    *ngIf=\"isLoaderModal()\">\n  </loading-modal>\n\n  <message-modal\n    *ngIf=\"isMessageModal()\"\n    (onClose)=\"closeModal($event)\"\n    [messageData]=\"messageData\">\n  </message-modal>\n\n  <shareable-modal\n    *ngIf=\"isSharableModal()\"\n    (onClose)=\"closeModal($event)\"\n    [shareableData]=\"shareableData\">\n  </shareable-modal>\n\n</div>\n"
 
 /***/ }),
-/* 1294 */
+/* 1291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40178,27 +40060,27 @@ var LoadingModal = /** @class */function () {
     function LoadingModal() {}
     LoadingModal = __decorate([core_1.Component({
         selector: 'loading-modal',
-        styles: [__webpack_require__(1295)],
-        template: __webpack_require__(1296)
+        styles: [__webpack_require__(1292)],
+        template: __webpack_require__(1293)
     })], LoadingModal);
     return LoadingModal;
 }();
 exports.LoadingModal = LoadingModal;
 
 /***/ }),
-/* 1295 */
+/* 1292 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.modal__content__loader,\n.modal__content__loader:before,\n.modal__content__loader:after {\n  border-radius: 50%;\n  width: 25px;\n  height: 25px;\n  animation-fill-mode: both;\n  animation: loaderkeyframes 1.8s infinite ease-in-out; }\n\n.modal__content__loader {\n  color: #ADADAD;\n  margin: -25px auto 25px auto;\n  transform: translateZ(0);\n  animation-delay: -0.16s; }\n\n.modal__content__loader:before,\n.modal__content__loader:after {\n  content: '';\n  position: absolute;\n  top: 0; }\n\n.modal__content__loader:before {\n  left: -35px;\n  animation-delay: -0.32s; }\n\n.modal__content__loader:after {\n  left: 35px; }\n\n@keyframes loaderkeyframes {\n  0%,\n  80%,\n  100% {\n    box-shadow: 0 25px 0 -12.5px; }\n  40% {\n    box-shadow: 0 25px 0 0; } }\n"
 
 /***/ }),
-/* 1296 */
+/* 1293 */
 /***/ (function(module, exports) {
 
 module.exports = "\n<div class=\"modal__content\">\n  <div class=\"modal__content-header\">\n    <div class=\" modal__content__loader\"></div>\n  </div>\n  <div class=\"modal__content-body\">\n    <p class=\"modal__content-body-text\">\n      Loading your project, just a moment...\n    </p>\n  </div>\n</div>\n"
 
 /***/ }),
-/* 1297 */
+/* 1294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40227,27 +40109,27 @@ var MessageModal = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", Object)], MessageModal.prototype, "messageData", void 0);
     MessageModal = __decorate([core_1.Component({
         selector: 'message-modal',
-        styles: [__webpack_require__(1298)],
-        template: __webpack_require__(1299)
+        styles: [__webpack_require__(1295)],
+        template: __webpack_require__(1296)
     })], MessageModal);
     return MessageModal;
 }();
 exports.MessageModal = MessageModal;
 
 /***/ }),
-/* 1298 */
+/* 1295 */
 /***/ (function(module, exports) {
 
 module.exports = ""
 
 /***/ }),
-/* 1299 */
+/* 1296 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"modal__content\">\n\n  <div class=\"modal__content-header\">\n    {{ messageData.headerText }}\n  </div>\n\n  <div class=\"modal__content-body\">\n    <p class=\"modal__content-body-text\">\n      {{ messageData.bodyText }}\n    </p>\n\n    <div *ngIf=\"!messageData.isMessage\">\n      <p\n        (click)=\"closeModal($event)\"\n        class=\"modal__content-body-close\">\n        Close\n      </p>\n    </div>\n\n    <div\n      *ngIf=\"messageData.isMessage\"\n      class=\"modal__content-body-options\">\n      <p\n        (click)=\"closeModal($event)\"\n        class=\"modal__content-body-close\">\n        Cancel\n      </p>\n      <p\n        (click)=\"closeModal($event, true)\"\n        class=\"modal__content-body-close\">\n        OK\n      </p>\n    </div>\n\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1300 */
+/* 1297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40266,7 +40148,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var publicLinkHelper_1 = __webpack_require__(262);
-var clipboard_1 = __webpack_require__(1301);
+var clipboard_1 = __webpack_require__(1298);
 var projectInteractor_1 = __webpack_require__(53);
 var userInteractor_1 = __webpack_require__(37);
 var ShareableModal = /** @class */function () {
@@ -40332,22 +40214,22 @@ var ShareableModal = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", Object)], ShareableModal.prototype, "shareableData", void 0);
     ShareableModal = __decorate([core_1.Component({
         selector: 'shareable-modal',
-        styles: [__webpack_require__(1302)],
-        template: __webpack_require__(1303)
+        styles: [__webpack_require__(1299)],
+        template: __webpack_require__(1300)
     }), __metadata("design:paramtypes", [projectInteractor_1.ProjectInteractor, userInteractor_1.UserInteractor])], ShareableModal);
     return ShareableModal;
 }();
 exports.ShareableModal = ShareableModal;
 
 /***/ }),
-/* 1301 */
+/* 1298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var COPY = 'copy';
 // https://gist.github.com/lgarron/d1dee380f4ed9d825ca7
 function copyToClipboard(stringToCopy) {
@@ -40367,19 +40249,19 @@ function copyToClipboard(stringToCopy) {
 exports.copyToClipboard = copyToClipboard;
 
 /***/ }),
-/* 1302 */
+/* 1299 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.public-option-row {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  align-items: center; }\n\n.public-option-row__label {\n  margin: 5px 10px 5px 0; }\n\n.public-option__text-block {\n  margin: 10px 0; }\n\n.public-option__explanation {\n  margin: 10px 0; }\n\n.public-option__explanation-list {\n  margin: 0;\n  padding: 0 30px; }\n\n.public-option__link {\n  overflow: hidden;\n  white-space: nowrap;\n  font-weight: 1000;\n  text-overflow: ellipsis;\n  cursor: pointer;\n  color: #FF3571;\n  text-align: center; }\n\n.public-option__copy-notification {\n  color: #FF3571;\n  position: absolute;\n  background-color: #EEEEEE;\n  border: 1px solid #888888;\n  padding: 10px;\n  box-shadow: 2px 1px 4px 1px rgba(0, 0, 0, 0.5);\n  width: 225px;\n  text-align: center;\n  transform: scaleX(0);\n  transform-origin: left;\n  transition: transform 0.15s ease-out; }\n\n.public-option__copy-notification--active {\n  transform: scaleX(1); }\n"
 
 /***/ }),
-/* 1303 */
+/* 1300 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"modal__content\">\n\n  <div class=\"modal__content-header\">\n    Shareable settings\n  </div>\n\n  <div class=\"modal__content-body\">\n\n    <div class=\"public-option-row public-option__text-block\">\n      <span class=\"public-option-row__label\">Make public</span>\n      <checkbox\n        [initialValue]=\"projectIsPublic()\"\n        (changeEmitter)=\"onCheckboxChange($event)\">\n      </checkbox>\n    </div>\n\n    <div *ngIf=\"projectIsPublic()\">\n      <p class=\"public-option__text-block\">Your project titled \"{{projectName}}\" is public.</p>\n      <p\n        class=\"public-option__copy-notification\"\n        [ngClass]=\"{'public-option__copy-notification--active': notificationIsVisible}\">\n        Link copied to clipboard!\n      </p>\n      <p\n        class=\"public-option__link\"\n        [attr.title]=\"publicLink\"\n        (click)=\"onPublicLinkClick($event)\">\n        Click Here to Copy Link\n      </p>\n      <div class=\"public-option__text-block\">\n        <p>This means:</p>\n        <ul class=\"public-option__explanation-list\">\n          <li>Other people can look at this project using the link below.</li>\n          <li>Social VR users can find this project using the search tool.</li>\n          <li>Nobody else can modify this project.</li>\n        </ul>\n      </div>\n    </div>\n\n    <div *ngIf=\"!projectIsPublic()\">\n      <p class=\"public-option__text-block\">Your project titled \"{{projectName}}\" is not public.</p>\n      <p class=\"public-option__text-block\">Only you can access this project.</p>\n    </div>\n\n    <p\n      (click)=\"closeModal($event)\"\n      class=\"modal__content-body-close\">\n      Close\n    </p>\n\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1304 */
+/* 1301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40406,10 +40288,10 @@ var authenticationService_1 = __webpack_require__(182);
 var socialAuthenticationService_1 = __webpack_require__(507);
 var deserializationService_1 = __webpack_require__(270);
 var serializationService_1 = __webpack_require__(271);
-var projectService_1 = __webpack_require__(506);
+var projectService_1 = __webpack_require__(505);
 var assetManager_1 = __webpack_require__(135);
-var assetService_1 = __webpack_require__(505);
-var chatService_1 = __webpack_require__(514);
+var assetService_1 = __webpack_require__(504);
+var chatService_1 = __webpack_require__(518);
 var DataModule = /** @class */function () {
     function DataModule() {}
     DataModule = __decorate([core_1.NgModule({
@@ -40422,7 +40304,7 @@ var DataModule = /** @class */function () {
 exports.DataModule = DataModule;
 
 /***/ }),
-/* 1305 */
+/* 1302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40442,9 +40324,9 @@ var router_1 = __webpack_require__(17);
 var platform_browser_1 = __webpack_require__(51);
 var forms_1 = __webpack_require__(97);
 // UI components
-var admin_1 = __webpack_require__(1306);
-var admin_user_groups_1 = __webpack_require__(1309);
-var admin_search_explore_1 = __webpack_require__(1312);
+var admin_1 = __webpack_require__(1303);
+var admin_user_groups_1 = __webpack_require__(1306);
+var admin_search_explore_1 = __webpack_require__(1309);
 // Common UI components
 var common_module_1 = __webpack_require__(187);
 // Expose core layer (interactors) to view layer
@@ -40463,7 +40345,7 @@ var AdminModule = /** @class */function () {
 exports.AdminModule = AdminModule;
 
 /***/ }),
-/* 1306 */
+/* 1303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40497,27 +40379,27 @@ var Admin = /** @class */function () {
     __decorate([core_1.ViewChild('adminUserGroups'), __metadata("design:type", Object)], Admin.prototype, "adminUserGroupsElement", void 0);
     Admin = __decorate([core_1.Component({
         selector: 'admin',
-        styles: [__webpack_require__(1307)],
-        template: __webpack_require__(1308)
+        styles: [__webpack_require__(1304)],
+        template: __webpack_require__(1305)
     }), __metadata("design:paramtypes", [userInteractor_1.UserInteractor, adminInteractor_1.AdminInteractor])], Admin);
     return Admin;
 }();
 exports.Admin = Admin;
 
 /***/ }),
-/* 1307 */
+/* 1304 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.admin {\n  height: auto;\n  min-height: 100%;\n  background-color: #EEEEEE;\n  color: #888888;\n  padding: 15px; }\n\n.admin__no-permissions {\n  margin-top: 20px;\n  text-align: center; }\n"
 
 /***/ }),
-/* 1308 */
+/* 1305 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"admin\">\n\n  <div\n    *ngIf=\"!hasPermission()\"\n    class=\"admin__no-permissions\">\n    Only authenticated admin users can view this page.\n  </div>\n\n  <div *ngIf=\"hasPermission()\">\n\n    <admin-search-explore (onAddProject)=\"onAddProject($event)\"></admin-search-explore>\n    <admin-user-groups #adminUserGroups></admin-user-groups>\n\n  </div>\n\n  <modal></modal>\n\n</div>\n"
 
 /***/ }),
-/* 1309 */
+/* 1306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40536,13 +40418,13 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var userInteractor_1 = __webpack_require__(37);
 var adminInteractor_1 = __webpack_require__(137);
 var projectInteractor_1 = __webpack_require__(53);
 var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var AdminUserGroups = /** @class */function () {
     function AdminUserGroups(userInteractor, adminInteractor, projectInteractor, sceneInteractor, metaDataInteractor, router, eventBus) {
         this.userInteractor = userInteractor;
@@ -40627,27 +40509,27 @@ var AdminUserGroups = /** @class */function () {
     };
     AdminUserGroups = __decorate([core_1.Component({
         selector: 'admin-user-groups',
-        styles: [__webpack_require__(1310)],
-        template: __webpack_require__(1311)
+        styles: [__webpack_require__(1307)],
+        template: __webpack_require__(1308)
     }), __metadata("design:paramtypes", [userInteractor_1.UserInteractor, adminInteractor_1.AdminInteractor, projectInteractor_1.ProjectInteractor, sceneInteractor_1.SceneInteractor, projectMetaDataInteractor_1.MetaDataInteractor, router_1.Router, event_bus_1.EventBus])], AdminUserGroups);
     return AdminUserGroups;
 }();
 exports.AdminUserGroups = AdminUserGroups;
 
 /***/ }),
-/* 1310 */
+/* 1307 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.admin-user-groups {\n  margin-top: 40px; }\n\n.visibility-explanation {\n  margin-top: 10px; }\n\n.remove-button {\n  background-color: #EEEEEE; }\n"
 
 /***/ }),
-/* 1311 */
+/* 1308 */
 /***/ (function(module, exports) {
 
 module.exports = "\n<div\n  *ngIf=\"getUserGroups()\"\n  class=\"admin-user-groups\">\n  <p>Groups you can edit:</p>\n  <div *ngFor=\"let userGroup of getUserGroups()\">\n    <p class=\"story-collection__header\"> {{ userGroup.name }} </p>\n\n      <!-- PROJECTS FROM USERS IN GROUP -->\n      <p *ngIf=\"getGroupProjects(userGroup.id).length\">\n        Stories from users in {{ userGroup.name }}\n      </p>\n      <div class=\"story-collection\">\n\n        <div\n          *ngFor=\"let project of getGroupProjects(userGroup.id)\"\n          class=\"story-collection__project\">\n          <p>\n            <span class=\"text-bold\">Project: </span>\n            <span>{{ project.name }}</span>\n          </p>\n          <p>\n            <span class=\"text-bold\">User: </span>\n            <span>{{ project.user }}</span>\n          </p>\n          <p>\n            <span class=\"text-bold\">Tags: </span>\n            <span>{{ project.tags }}</span>\n          </p>\n          <img\n            *ngIf=\"project.thumbnailUrl\"\n            [attr.src]=\"project.thumbnailUrl\"\n            (click)=\"openProject(project)\"\n            class=\"story-collection__thumbnail\" />\n\n          <div class=\"flex-row-start\">\n\n            <checkbox\n              [initialValue]=\"project.isFeatured\"\n              (changeEmitter)=\"onCheckboxChange($event, userGroup.id, project.projectId, project)\">\n            </checkbox>\n\n            <p class=\"visibility-explanation\">\n              Story is {{ project.isFeatured ? '' : 'not' }} visible to {{ userGroup.name }}\n            </p>\n\n          </div>\n\n        </div>\n\n      </div>\n\n\n      <!-- EXTERNAL PROJECTS -->\n      <p *ngIf=\"getExternalProjects(userGroup.id).length\">\n        External projects\n      </p>\n      <div class=\"story-collection\">\n\n        <div\n          *ngFor=\"let project of getExternalProjects(userGroup.id)\"\n          class=\"story-collection__project\">\n          <p>\n            <span class=\"text-bold\">Project: </span>\n            <span>{{ project.name }}</span>\n          </p>\n          <p>\n            <span class=\"text-bold\">User: </span>\n            <span>{{ project.user }}</span>\n          </p>\n          <p>\n            <span class=\"text-bold\">Tags: </span>\n            <span>{{ project.tags }}</span>\n          </p>\n          <img\n            *ngIf=\"project.thumbnailUrl\"\n            [attr.src]=\"project.thumbnailUrl\"\n            (click)=\"openProject(project)\"\n            class=\"story-collection__thumbnail\" />\n\n          <div\n            (click)=\"removeExternalProject(userGroup.id, project.projectId)\"\n            class=\"button remove-button\">\n            Remove project from group\n          </div>\n\n        </div>\n\n      </div>\n\n\n\n  </div>\n</div>\n"
 
 /***/ }),
-/* 1312 */
+/* 1309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40666,11 +40548,11 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var projectInteractor_1 = __webpack_require__(53);
-var searchInteractor_1 = __webpack_require__(278);
+var searchInteractor_1 = __webpack_require__(277);
 var shareable_loader_1 = __webpack_require__(183);
 var userInteractor_1 = __webpack_require__(37);
 var adminInteractor_1 = __webpack_require__(137);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var AdminSearchExplore = /** @class */function () {
     function AdminSearchExplore(projectInteractor, searchInteractor, shareableLoader, userInteractor, adminInteractor) {
         this.projectInteractor = projectInteractor;
@@ -40742,27 +40624,27 @@ var AdminSearchExplore = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], AdminSearchExplore.prototype, "onAddProject", void 0);
     AdminSearchExplore = __decorate([core_1.Component({
         selector: 'admin-search-explore',
-        styles: [__webpack_require__(1313)],
-        template: __webpack_require__(1314)
+        styles: [__webpack_require__(1310)],
+        template: __webpack_require__(1311)
     }), __metadata("design:paramtypes", [projectInteractor_1.ProjectInteractor, searchInteractor_1.SearchInteractor, shareable_loader_1.ShareableLoader, userInteractor_1.UserInteractor, adminInteractor_1.AdminInteractor])], AdminSearchExplore);
     return AdminSearchExplore;
 }();
 exports.AdminSearchExplore = AdminSearchExplore;
 
 /***/ }),
-/* 1313 */
+/* 1310 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.search-input-box {\n  flex-grow: 2; }\n\n.search-button {\n  max-width: 70px; }\n\n.search-results {\n  max-height: 200px;\n  overflow-y: scroll;\n  margin: 5px 0 15px 0;\n  background-color: #EEEEEE; }\n\n.search-row {\n  padding: 5px 0;\n  border-bottom: 1px solid #000;\n  cursor: pointer; }\n\n.search-text-row {\n  margin: 4px 0; }\n\n.search-image-empty {\n  border: 1px solid #000; }\n"
 
 /***/ }),
-/* 1314 */
+/* 1311 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"search-explore\">\n\n  <p>Find stories to add to your groups.</p>\n\n  <div class=\"row-flex-start\">\n    <text-input-material\n      [inputLabel]=\"'Search tags'\"\n      [textModel]=\"getSearchModelProperty()\"\n      (onTextChange)=\"setSearchViewModel($event)\"\n      class=\"search-input-box\">\n    </text-input-material>\n    <div\n      class=\"button search-button\"\n      (click)=\"onSearchClick($event)\">\n      Search\n    </div>\n  </div>\n\n  <p *ngIf=\"showNoResults()\">\n    No results found for {{ searchLabel }}\n  </p>\n\n  <p\n    *ngIf=\"searchLabel\"\n    class=\"story-collection__header\">\n    <span>\n      {{ getSearchResultTitle() }}\n    </span>\n    <span class=\"text-bold\">\n      {{ searchLabel }}\n    </span>\n  </p>\n\n  <div class=\"story-collection\">\n    <div\n      *ngFor=\"let project of matchingResults\"\n      class=\"story-collection__project\">\n      <p>\n        <span class=\"text-bold\">Project: </span>\n        <span>{{ project.name }}</span>\n      </p>\n      <p>\n        <span class=\"text-bold\">User: </span>\n        <span>{{ project.user }}</span>\n      </p>\n      <p>\n        <span class=\"text-bold\">Tags: </span>\n        <span>{{ project.tags }}</span>\n      </p>\n\n      <img\n        *ngIf=\"project.thumbnailUrl\"\n        [attr.src]=\"project.thumbnailUrl\"\n        (click)=\"openProject(project)\"\n        class=\"story-collection__thumbnail\" />\n      <div\n        *ngIf=\"!project.thumbnailUrl\"\n        (click)=\"openProject(project)\"\n        class=\"story-collection__thumbnail search-image-empty\">\n      </div>\n\n      <p>Add story to group</p>\n      <div\n        *ngFor=\"let group of getUserGroups()\">\n         <p (click)=\"toggleProjectInGroup(project, group)\">\n          Group: {{ group.name }}\n        </p>\n      </div>\n\n    </div>\n  </div>\n\n\n</div>\n"
 
 /***/ }),
-/* 1315 */
+/* 1312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40782,9 +40664,9 @@ var router_1 = __webpack_require__(17);
 var platform_browser_1 = __webpack_require__(51);
 var forms_1 = __webpack_require__(97);
 // UI components
-var explore_1 = __webpack_require__(1316);
-var search_explore_1 = __webpack_require__(1319);
-var user_groups_1 = __webpack_require__(1322);
+var explore_1 = __webpack_require__(1313);
+var search_explore_1 = __webpack_require__(1316);
+var user_groups_1 = __webpack_require__(1319);
 // Common UI components
 var common_module_1 = __webpack_require__(187);
 // Expose core layer (interactors) to view layer
@@ -40802,7 +40684,7 @@ var ExploreModule = /** @class */function () {
 exports.ExploreModule = ExploreModule;
 
 /***/ }),
-/* 1316 */
+/* 1313 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40830,27 +40712,27 @@ var Explore = /** @class */function () {
     };
     Explore = __decorate([core_1.Component({
         selector: 'explore',
-        styles: [__webpack_require__(1317)],
-        template: __webpack_require__(1318)
+        styles: [__webpack_require__(1314)],
+        template: __webpack_require__(1315)
     }), __metadata("design:paramtypes", [userInteractor_1.UserInteractor])], Explore);
     return Explore;
 }();
 exports.Explore = Explore;
 
 /***/ }),
-/* 1317 */
+/* 1314 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.explore {\n  height: auto;\n  min-height: 100%;\n  background-color: #EEEEEE;\n  color: #888888;\n  padding: 15px; }\n\n.explore__no-permissions {\n  margin-top: 20px;\n  text-align: center; }\n"
 
 /***/ }),
-/* 1318 */
+/* 1315 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"explore\">\n\n  <div\n    *ngIf=\"!hasPermission()\"\n    class=\"explore__no-permissions\">\n    You don't have permission to view this page. Only authenticated users can explore.\n  </div>\n\n  <div *ngIf=\"hasPermission()\">\n\n    <search-explore class=\"explore__search-explore\"></search-explore>\n    <user-groups class=\"explore__user-groups\"></user-groups>\n\n  </div>\n\n  <modal></modal>\n\n</div>\n"
 
 /***/ }),
-/* 1319 */
+/* 1316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40869,7 +40751,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var projectInteractor_1 = __webpack_require__(53);
-var searchInteractor_1 = __webpack_require__(278);
+var searchInteractor_1 = __webpack_require__(277);
 var shareable_loader_1 = __webpack_require__(183);
 var SearchExplore = /** @class */function () {
     function SearchExplore(projectInteractor, searchInteractor, shareableLoader) {
@@ -40917,27 +40799,27 @@ var SearchExplore = /** @class */function () {
     };
     SearchExplore = __decorate([core_1.Component({
         selector: 'search-explore',
-        styles: [__webpack_require__(1320)],
-        template: __webpack_require__(1321)
+        styles: [__webpack_require__(1317)],
+        template: __webpack_require__(1318)
     }), __metadata("design:paramtypes", [projectInteractor_1.ProjectInteractor, searchInteractor_1.SearchInteractor, shareable_loader_1.ShareableLoader])], SearchExplore);
     return SearchExplore;
 }();
 exports.SearchExplore = SearchExplore;
 
 /***/ }),
-/* 1320 */
+/* 1317 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.search-input-box {\n  flex-grow: 2; }\n\n.search-button {\n  max-width: 70px; }\n\n.search-results {\n  max-height: 200px;\n  overflow-y: scroll;\n  margin: 5px 0 15px 0;\n  background-color: #EEEEEE; }\n\n.search-row {\n  padding: 5px 0;\n  border-bottom: 1px solid #000;\n  cursor: pointer; }\n\n.search-text-row {\n  margin: 4px 0; }\n\n.search-image-empty {\n  border: 1px solid #000; }\n"
 
 /***/ }),
-/* 1321 */
+/* 1318 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"search-explore\">\n\n  <p>Explore other Social VR stories</p>\n\n  <div class=\"row-flex-start\">\n    <text-input-material\n      [inputLabel]=\"'Search tags'\"\n      [textModel]=\"getSearchModelProperty()\"\n      (onTextChange)=\"setSearchViewModel($event)\"\n      class=\"search-input-box\">\n    </text-input-material>\n    <div\n      class=\"button search-button\"\n      (click)=\"onSearchClick($event)\">\n      Search\n    </div>\n  </div>\n\n  <p *ngIf=\"showNoResults()\">\n    No results found for {{ searchLabel }}\n  </p>\n\n  <p\n    *ngIf=\"searchLabel\"\n    class=\"story-collection__header\">\n    <span>\n      {{ getSearchResultTitle() }}\n    </span>\n    <span class=\"text-bold\">\n      {{ searchLabel }}\n    </span>\n  </p>\n\n  <div class=\"story-collection\">\n    <div\n      *ngFor=\"let project of matchingResults\"\n      class=\"story-collection__project\">\n      <p>\n        <span class=\"text-bold\">Project: </span>\n        <span>{{ project.name }}</span>\n      </p>\n      <p>\n        <span class=\"text-bold\">User: </span>\n        <span>{{ project.user }}</span>\n      </p>\n      <p>\n        <span class=\"text-bold\">Tags: </span>\n        <span>{{ project.tags }}</span>\n      </p>\n\n      <img\n        *ngIf=\"project.thumbnailUrl\"\n        [attr.src]=\"project.thumbnailUrl\"\n        (click)=\"openProject(project.projectUrl)\"\n        class=\"story-collection__thumbnail\" />\n      <div\n        *ngIf=\"!project.thumbnailUrl\"\n        (click)=\"openProject(project.projectUrl)\"\n        class=\"story-collection__thumbnail search-image-empty\">\n      </div>\n    </div>\n  </div>\n\n\n</div>\n"
 
 /***/ }),
-/* 1322 */
+/* 1319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40956,13 +40838,13 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(9);
 var userInteractor_1 = __webpack_require__(37);
-var groupInteractor_1 = __webpack_require__(521);
+var groupInteractor_1 = __webpack_require__(520);
 var projectInteractor_1 = __webpack_require__(53);
 var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
-var constants_1 = __webpack_require__(11);
+var constants_1 = __webpack_require__(12);
 var UserGroups = /** @class */function () {
     function UserGroups(userInteractor, groupInteractor, projectInteractor, sceneInteractor, metaDataInteractor, router, eventBus) {
         this.userInteractor = userInteractor;
@@ -41016,27 +40898,27 @@ var UserGroups = /** @class */function () {
     };
     UserGroups = __decorate([core_1.Component({
         selector: 'user-groups',
-        styles: [__webpack_require__(1323)],
-        template: __webpack_require__(1324)
+        styles: [__webpack_require__(1320)],
+        template: __webpack_require__(1321)
     }), __metadata("design:paramtypes", [userInteractor_1.UserInteractor, groupInteractor_1.GroupInteractor, projectInteractor_1.ProjectInteractor, sceneInteractor_1.SceneInteractor, projectMetaDataInteractor_1.MetaDataInteractor, router_1.Router, event_bus_1.EventBus])], UserGroups);
     return UserGroups;
 }();
 exports.UserGroups = UserGroups;
 
 /***/ }),
-/* 1323 */
+/* 1320 */
 /***/ (function(module, exports) {
 
 module.exports = ".user-groups {\n  margin-top: 80px; }\n"
 
 /***/ }),
-/* 1324 */
+/* 1321 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  div *ngIf=\"getUserGroups()\"\n  class=\"user-groups\">\n\n  <div *ngFor=\"let userGroup of getUserGroups()\">\n    <p class=\"story-collection__header\"> {{ userGroup.name }} </p>\n    <div class=\"story-collection\">\n      <div\n        *ngFor=\"let project of getProjectsByGroup(userGroup.id)\"\n        class=\"story-collection__project\">\n        <p>\n          <span class=\"text-bold\">Project: </span>\n          <span>{{ project.name }}</span>\n        </p>\n        <p>\n          <span class=\"text-bold\">User: </span>\n          <span>{{ project.user }}</span>\n        </p>\n        <p>\n          <span class=\"text-bold\">Tags: </span>\n          <span>{{ project.tags }}</span>\n        </p>\n        <img\n          *ngIf=\"project.thumbnailUrl\"\n          [attr.src]=\"project.thumbnailUrl\"\n          (click)=\"openProject(project)\"\n          class=\"story-collection__thumbnail\" />\n      </div>\n    </div>\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1325 */
+/* 1322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41056,7 +40938,7 @@ var router_1 = __webpack_require__(17);
 var platform_browser_1 = __webpack_require__(51);
 var forms_1 = __webpack_require__(97);
 // UI components
-var chat_1 = __webpack_require__(1326);
+var chat_1 = __webpack_require__(1323);
 // Common UI components
 var common_module_1 = __webpack_require__(187);
 // Expose core layer (interactors) to view layer
@@ -41074,7 +40956,7 @@ var ChatModule = /** @class */function () {
 exports.ChatModule = ChatModule;
 
 /***/ }),
-/* 1326 */
+/* 1323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41092,7 +40974,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var chatInteractor_1 = __webpack_require__(274);
+var chatInteractor_1 = __webpack_require__(276);
 var Chat = /** @class */function () {
     function Chat(chatInteractor) {
         this.chatInteractor = chatInteractor;
@@ -41137,27 +41019,27 @@ var Chat = /** @class */function () {
     };
     Chat = __decorate([core_1.Component({
         selector: 'chat',
-        styles: [__webpack_require__(1327)],
-        template: __webpack_require__(1328)
+        styles: [__webpack_require__(1324)],
+        template: __webpack_require__(1325)
     }), __metadata("design:paramtypes", [chatInteractor_1.ChatInteractor])], Chat);
     return Chat;
 }();
 exports.Chat = Chat;
 
 /***/ }),
-/* 1327 */
+/* 1324 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.chat {\n  height: auto;\n  min-height: 100%;\n  background-color: #EEEEEE;\n  color: #888888;\n  padding: 15px; }\n"
 
 /***/ }),
-/* 1328 */
+/* 1325 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"chat\">\n\n  <p>Welcome to the chat manager</p>\n\n  <div (click)=\"createRoom($event)\">\n    CreateRoom\n  </div>\n\n  <p>Rooms</p>\n  <div *ngFor=\"let room of roomList\">\n    <p>Room: <span>{{ room.name }}</span>, <span>{{ room.id }}</span></p>\n  </div>\n\n  <div *ngIf=\"userIsInRoom()\">\n    <p>Room: {{this.activeRoom}}</p>\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1329 */
+/* 1326 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41189,8 +41071,8 @@ var Ui = /** @class */function () {
     };
     Ui = __decorate([core_1.Component({
         selector: 'app',
-        styles: [__webpack_require__(1330)],
-        template: __webpack_require__(1331),
+        styles: [__webpack_require__(1327)],
+        template: __webpack_require__(1328),
         encapsulation: core_2.ViewEncapsulation.None
     }), __metadata("design:paramtypes", [router_1.Router])], Ui);
     return Ui;
@@ -41198,17 +41080,17 @@ var Ui = /** @class */function () {
 exports.Ui = Ui;
 
 /***/ }),
-/* 1330 */
+/* 1327 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FFF;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FFF; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FFF;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  margin-bottom: 4px;\n  color: #888888; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FFF; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n"
 
 /***/ }),
-/* 1331 */
+/* 1328 */
 /***/ (function(module, exports) {
 
 module.exports = "<router-outlet></router-outlet>\n"
 
 /***/ })
-],[1068]);
+],[1067]);
 //# sourceMappingURL=main.map
