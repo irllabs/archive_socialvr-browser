@@ -155,7 +155,7 @@ export class PreviewSpace {
 
     this.reticle.init(this.camera, this.vrCamera);
     //this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: window.orientation == 'undefined'});
-    this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true});
+    this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: false});
     // this.svrControls = new THREE.SvrControls(this.camera, canvas, this.cameraInteractor.getCameraDirection());
 
     this.svrControls = new THREE.SvrControls({
@@ -423,9 +423,13 @@ export class PreviewSpace {
           const isInVrMode = !!this.vrDisplay && !!this.vrDisplay.isPresenting
           this.isInRenderLoop = false;
           this.vrEffect.setSize(window.innerWidth, window.innerHeight);
+
+          // better image quality but worse performance
+          this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+          this.renderer.setSize(window.innerWidth, window.innerHeight, false);
+
           this.reticle.showVrReticle(isInVrMode);
           this.isInRenderLoop = true;
-          // this.renderer.setSize(window.innerWidth, window.innerHeight, false);
           this.animate();
         })
         .catch(error => console.log('preview-space resize error', error));

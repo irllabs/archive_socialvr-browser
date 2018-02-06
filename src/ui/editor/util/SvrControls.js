@@ -265,6 +265,7 @@ THREE.SvrControls = function (options) {
 		event.clientY = y;
 		event.movementX = 0;
 		event.movementY = 0;
+		event.preventDefault = () => {};
 		onMouseDown(event);
 	}
 

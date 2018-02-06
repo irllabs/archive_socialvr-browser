@@ -19,6 +19,7 @@
       class='topbar__row-label center-panel'>Edit 3D</p>
     <checkbox
       *ngIf="roomEditorIsVisible()"
+      [initialValue]="!isInFlatMode"
       (changeEmitter)="on2d3dViewClick($event)"
       class="editor__edit2d3dToggleButton">
     </checkbox>
