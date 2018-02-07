@@ -73,7 +73,6 @@ export class EditSpaceSphere {
   }
 
   ngAfterViewInit() {
-    // this.initScene.call(this);
     this.initScene();
     this.subscribeToEvents();
     this.loadTextures()
@@ -82,15 +81,9 @@ export class EditSpaceSphere {
   }
 
   ngOnDestroy() {
-    window.removeEventListener('resize', this.onResizeFn, false)
-    if (this.camera) {
-      const cameraDirection = new THREE.Vector3(0, 0, -1);
-      cameraDirection.applyQuaternion(this.camera.quaternion);
-      this.cameraInteractor.setCameraDirection(cameraDirection.x, cameraDirection.y, cameraDirection.z);
-    }
+    window.removeEventListener('resize', this.onResizeFn, false);
+    this.cameraInteractor.setCameraAngles(this.svrControls.getCameraAngles());
     cancelAnimationFrame(this.animationRequest);
-    // this.isDragging = false;
-    // this.svrControls.dispose();
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     if (!!this.video3D) {
       this.video3D.destroy();
@@ -108,7 +101,7 @@ export class EditSpaceSphere {
     this.svrControls = new THREE.SvrControls({
       camera: this.camera,
       domElement: canvas,
-      initialTarget: this.cameraInteractor.getCameraDirection(),
+      initialCameraAngles: this.cameraInteractor.getCameraAngles(),
       onMouseDownCallback: this.onMouseDown.bind(this),
       executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone)
     });

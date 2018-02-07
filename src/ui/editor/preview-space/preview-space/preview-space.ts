@@ -118,12 +118,8 @@ export class PreviewSpace {
   ngOnDestroy() {
     // this.svrControls.dispose();
     window.removeEventListener('resize', this.onResizeFn, false);
-    window.removeEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);;
-    if (this.camera) {
-      const cameraDirection = new THREE.Vector3(0, 0, -1);
-      cameraDirection.applyQuaternion(this.camera.quaternion);
-      this.cameraInteractor.setCameraDirection(cameraDirection.x, cameraDirection.y, cameraDirection.z);
-    }
+    window.removeEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);
+    this.cameraInteractor.setCameraAngles(this.svrControls.getCameraAngles());
     cancelAnimationFrame(this.animationRequest);
     this.isInRenderLoop = false;
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
@@ -156,12 +152,10 @@ export class PreviewSpace {
     this.reticle.init(this.camera, this.vrCamera);
     //this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: window.orientation == 'undefined'});
     this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: false});
-    // this.svrControls = new THREE.SvrControls(this.camera, canvas, this.cameraInteractor.getCameraDirection());
-
     this.svrControls = new THREE.SvrControls({
       camera: this.camera,
       domElement: canvas,
-      initialTarget: this.cameraInteractor.getCameraDirection(),
+      initialCameraAngles: this.cameraInteractor.getCameraAngles(),
       executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone)
     });
 

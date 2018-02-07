@@ -12,22 +12,12 @@ const defaultExecutionContext = (fn) => {
 	}
 };
 
-// THREE.SvrControls = function (camera, domElement, initialTarget) {
 THREE.SvrControls = function (options) {
 
 	// this.camera = camera;
 	this.camera = options.camera;
-	// this.domElement = ( domElement !== undefined ) ? domElement : document;
-	// this.domElement = (options.domElement !== undefined) ? options.domElement : document;
 	this.domElement = options.domElement ? options.domElement : document;
-
-	// "target" sets the location of focus, where the object orbits around
-	this.target = new THREE.Vector3(
-		options.initialTarget.x || 0,
-		options.initialTarget.y || 0,
-		options.initialTarget.z || 0
-	);
-
+	this.target = new THREE.Vector3();
 	this.onMouseDownCallback = options.onMouseDownCallback || (() => {});
 	this.executionContext = options.executionContext || defaultExecutionContext;
 
@@ -58,29 +48,25 @@ THREE.SvrControls = function (options) {
 
 	this.touchLocation = new THREE.Vector2(0, 0);
 
-	this.getPolarAngle = () => spherical.phi;
+	this.getCameraAngles = () => spherical;
 
-	this.getAzimuthalAngle = () => spherical.theta;
+	this.setCameraAngles = (phi, theta) => {
+		spherical.phi = phi;
+		spherical.theta = theta;
+		console.log('setCameraAngles', phi, theta)
+
+		const position = scope.camera.position;
+		const quat = new THREE.Quaternion().setFromUnitVectors( options.camera.up, new THREE.Vector3( 0, 1, 0 ) );
+		const quatInverse = quat.clone().inverse();
+		const offset = new THREE.Vector3().setFromSpherical( spherical );
+		offset.applyQuaternion( quatInverse );
+		position.copy( scope.target ).add( offset );
+		scope.camera.lookAt( scope.target );
+	};
 
 	this.hasMomentum = () => hasMomentum;
 
 	this.shouldRender = () => isDragging || hasMomentum;
-
-	this.reset = () => {
-		scope.target.copy( scope.target0 );
-		scope.camera.position.copy( scope.position0 );
-		scope.camera.updateProjectionMatrix();
-		scope.dispatchEvent( changeEvent );
-		scope.update();
-	};
-
-	this.lookAt = (targetVector) => {
-		scope.target.copy( targetVector );
-		scope.camera.lookAt( scope.target );
-		scope.camera.updateProjectionMatrix();
-		scope.dispatchEvent( changeEvent );
-		scope.update();
-	}
 
 	this.update = function () {
 		const offset = new THREE.Vector3();
@@ -93,9 +79,7 @@ THREE.SvrControls = function (options) {
 		const lastQuaternion = new THREE.Quaternion();
 
 		return function update() {
-
 			const position = scope.camera.position;
-
 			offset.copy( position ).sub( scope.target );
 
 			// rotate offset to "y-axis-is-up" space
@@ -127,14 +111,6 @@ THREE.SvrControls = function (options) {
 
 			spherical.makeSafe();
 
-			spherical.radius *= scale;
-
-			// restrict radius to be between desired limits
-			spherical.radius = Math.max( scope.minDistance, Math.min( scope.maxDistance, spherical.radius ) );
-
-			// move target to panned location
-			scope.target.add( panOffset );
-
 			offset.setFromSpherical( spherical );
 
 			// rotate offset back to "camera-up-vector-is-up" space
@@ -145,8 +121,6 @@ THREE.SvrControls = function (options) {
 			scope.camera.lookAt( scope.target );
 
 			sphericalDelta.set( 0, 0, 0 );
-
-			return false;
 		};
 
 	}();
@@ -166,21 +140,16 @@ THREE.SvrControls = function (options) {
 	//
 
 	const scope = this;
-
 	const changeEvent = { type: 'change' };
 	const startEvent = { type: 'start' };
 	const endEvent = { type: 'end' };
 
-	// current position in spherical coordinates
 	const spherical = new THREE.Spherical();
 	const sphericalDelta = new THREE.Spherical();
 
-	let scale = 1;
-	const panOffset = new THREE.Vector3();
-
-	var rotateStart = new THREE.Vector2();
-	var rotateEnd = new THREE.Vector2();
-	var rotateDelta = new THREE.Vector2();
+	let rotateStart = new THREE.Vector2();
+	let rotateEnd = new THREE.Vector2();
+	let rotateDelta = new THREE.Vector2();
 
 	let hasMomentum = false;
 	let momentum = new THREE.Vector2();
@@ -192,10 +161,6 @@ THREE.SvrControls = function (options) {
 
 	function getAutoRotationAngle() {
 		return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed;
-	}
-
-	function getZoomScale() {
-		return Math.pow( 0.95, scope.zoomSpeed );
 	}
 
 	function rotateLeft( angle ) {
@@ -294,8 +259,14 @@ THREE.SvrControls = function (options) {
 		scope.domElement.addEventListener('touchstart', onTouchStart, false);
 	});
 
-	// force an update at start
-	this.update();
+	// initialize
+	if (options.initialCameraAngles) {
+		const { phi, theta } = options.initialCameraAngles;
+		this.setCameraAngles(phi, theta);
+	}
+	else {
+		this.update();
+	}
 };
 
 THREE.SvrControls.prototype = Object.create( THREE.EventDispatcher.prototype );
