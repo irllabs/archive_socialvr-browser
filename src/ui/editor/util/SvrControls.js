@@ -6,6 +6,14 @@
 //  - Hard coding rotation speed
 //  - Adding momentum
 
+const TWO_PI = 2 * Math.PI;
+const ROTATE_SPEED = -0.3;
+const DAMPING_FACTOR = 0.9;
+const DAMPING_DECAY = 0.005;
+const MOMENTUM_EPSILON = 0.25;
+const START_EVENT = { type: 'start' };
+const END_EVENT = { type: 'end' };
+
 const defaultExecutionContext = (fn) => {
 	if (fn && typeof fn === 'function') {
 		fn();
@@ -21,47 +29,23 @@ THREE.SvrControls = function (options) {
 	this.onMouseDownCallback = options.onMouseDownCallback || (() => {});
 	this.executionContext = options.executionContext || defaultExecutionContext;
 
-	// How far you can dolly in and out ( PerspectiveCamera only )
-	this.minDistance = 0;
-	this.maxDistance = Infinity;
-
-	// How far you can zoom in and out ( OrthographicCamera only )
-	this.minZoom = 0;
-	this.maxZoom = Infinity;
-
-	// How far you can orbit vertically, upper and lower limits.
-	// Range is 0 to Math.PI radians.
-	this.minPolarAngle = 0; // radians
-	this.maxPolarAngle = Math.PI; // radians
-
-	// How far you can orbit horizontally, upper and lower limits.
-	// If set, must be a sub-interval of the interval [ - Math.PI, Math.PI ].
-	this.minAzimuthAngle = - Infinity; // radians
-	this.maxAzimuthAngle = Infinity; // radians
-
-	// Rotation speed
-	this.rotateSpeed = -0.3;
-
 	// for reset
 	this.target0 = this.target.clone();
 	this.position0 = this.camera.position.clone();
-
-	this.touchLocation = new THREE.Vector2(0, 0);
 
 	this.getCameraAngles = () => spherical;
 
 	this.setCameraAngles = (phi, theta) => {
 		spherical.phi = phi;
 		spherical.theta = theta;
-		console.log('setCameraAngles', phi, theta)
 
 		const position = scope.camera.position;
-		const quat = new THREE.Quaternion().setFromUnitVectors( options.camera.up, new THREE.Vector3( 0, 1, 0 ) );
+		const quat = new THREE.Quaternion().setFromUnitVectors(options.camera.up, new THREE.Vector3(0, 1, 0));
 		const quatInverse = quat.clone().inverse();
-		const offset = new THREE.Vector3().setFromSpherical( spherical );
-		offset.applyQuaternion( quatInverse );
-		position.copy( scope.target ).add( offset );
-		scope.camera.lookAt( scope.target );
+		const offset = new THREE.Vector3().setFromSpherical(spherical);
+		offset.applyQuaternion(quatInverse);
+		position.copy(scope.target).add(offset);
+		scope.camera.lookAt(scope.target);
 	};
 
 	this.hasMomentum = () => hasMomentum;
@@ -89,25 +73,19 @@ THREE.SvrControls = function (options) {
 			spherical.setFromVector3( offset );
 
 			if (hasMomentum) {
-        if (Math.abs(momentum.x) < momentumEpsilon && Math.abs(momentum.y) < momentumEpsilon) {
+        if (Math.abs(momentum.x) < MOMENTUM_EPSILON && Math.abs(momentum.y) < MOMENTUM_EPSILON) {
     			hasMomentum = false;
     		}
         else {
-          momentum.x *= dampingFactor;
-          momentum.y *= dampingFactor;
-      		sphericalDelta.theta += dampingDecay * momentum.x;
-      		sphericalDelta.phi   += dampingDecay * momentum.y;
+          momentum.x *= DAMPING_FACTOR;
+          momentum.y *= DAMPING_FACTOR;
+      		sphericalDelta.theta += DAMPING_DECAY * momentum.x;
+      		sphericalDelta.phi += DAMPING_DECAY * momentum.y;
         }
       }
 
 			spherical.theta += sphericalDelta.theta;
 			spherical.phi += sphericalDelta.phi;
-
-			// restrict theta to be between desired limits
-			spherical.theta = Math.max( scope.minAzimuthAngle, Math.min( scope.maxAzimuthAngle, spherical.theta ) );
-
-			// restrict phi to be between desired limits
-			spherical.phi = Math.max( scope.minPolarAngle, Math.min( scope.maxPolarAngle, spherical.phi ) );
 
 			spherical.makeSafe();
 
@@ -140,27 +118,19 @@ THREE.SvrControls = function (options) {
 	//
 
 	const scope = this;
-	const changeEvent = { type: 'change' };
-	const startEvent = { type: 'start' };
-	const endEvent = { type: 'end' };
-
 	const spherical = new THREE.Spherical();
 	const sphericalDelta = new THREE.Spherical();
-
-	let rotateStart = new THREE.Vector2();
-	let rotateEnd = new THREE.Vector2();
-	let rotateDelta = new THREE.Vector2();
+	const rotateStart = new THREE.Vector2();
+	const rotateEnd = new THREE.Vector2();
+	const rotateDelta = new THREE.Vector2();
+	const touchLocation = new THREE.Vector2(0, 0);
 
 	let hasMomentum = false;
 	let momentum = new THREE.Vector2();
-	let dampingFactor = 0.9;
-	let dampingDecay = 0.005;
-	let momentumEpsilon = 0.25;
-
 	let isDragging = false;
 
 	function getAutoRotationAngle() {
-		return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed;
+		return TWO_PI / 60 / 60 * scope.autoRotateSpeed;
 	}
 
 	function rotateLeft( angle ) {
@@ -184,7 +154,7 @@ THREE.SvrControls = function (options) {
 			document.addEventListener('touchmove', onTouchMove, { passive: false });
 			document.addEventListener('touchend', onTouchEnd, false);
 		});
-		scope.dispatchEvent(startEvent);
+		scope.dispatchEvent(START_EVENT);
 		scope.onMouseDownCallback(event);
 	}
 
@@ -192,15 +162,12 @@ THREE.SvrControls = function (options) {
 		if (!isDragging) { return; }
     event.preventDefault();
 		rotateEnd.set( event.clientX, event.clientY );
-		rotateDelta.subVectors( rotateEnd, rotateStart );
+		rotateDelta.subVectors(rotateEnd, rotateStart);
 
 		const element = scope.domElement === document ? scope.domElement.body : scope.domElement;
-
-		rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientWidth * scope.rotateSpeed );
-
-		rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight * scope.rotateSpeed );
-
-		rotateStart.copy( rotateEnd );
+		rotateLeft(TWO_PI * rotateDelta.x / element.clientWidth * ROTATE_SPEED);
+		rotateUp(TWO_PI * rotateDelta.y / element.clientHeight * ROTATE_SPEED);
+		rotateStart.copy(rotateEnd);
 
     if (event.movementX !== undefined && event.movementY !== undefined) {
       momentum.x = event.movementX;
@@ -217,15 +184,15 @@ THREE.SvrControls = function (options) {
 		document.removeEventListener('mouseup', onMouseUp, false);
 		document.removeEventListener('touchmove', onTouchMove, false);
 		document.removeEventListener('touchend', onTouchEnd, false);
-		scope.dispatchEvent(endEvent);
+		scope.dispatchEvent(END_EVENT);
 	}
 
 	function onTouchStart(event) {
 		if (event.touches.length > 1) { return; }
 		const x = event.touches[0].clientX;
 		const y = event.touches[0].clientY;
-		scope.touchLocation.x = x;
-		scope.touchLocation.y = y;
+		touchLocation.x = x;
+		touchLocation.y = y;
 		event.clientX = x;
 		event.clientY = y;
 		event.movementX = 0;
@@ -239,17 +206,17 @@ THREE.SvrControls = function (options) {
 		const y = event.touches[0].clientY;
 		event.clientX = x;
 		event.clientY = y;
-		event.movementX = x - scope.touchLocation.x;
-		event.movementY = y - scope.touchLocation.y;
-		scope.touchLocation.x = x;
-		scope.touchLocation.y = y;
+		event.movementX = x - touchLocation.x;
+		event.movementY = y - touchLocation.y;
+		touchLocation.x = x;
+		touchLocation.y = y;
 		onMouseMove(event);
 	}
 
 	function onTouchEnd(event) {
 		if (event.touches.length > 0) { return; }
-		scope.clientX = scope.touchLocation.x;
-		scope.clientY = scope.touchLocation.y;
+		event.clientX = touchLocation.x;
+		event.clientY = touchLocation.y;
 		onMouseUp(event);
 	}
 
@@ -260,12 +227,10 @@ THREE.SvrControls = function (options) {
 	});
 
 	// initialize
+	this.update();
 	if (options.initialCameraAngles) {
 		const { phi, theta } = options.initialCameraAngles;
 		this.setCameraAngles(phi, theta);
-	}
-	else {
-		this.update();
 	}
 };
 
