@@ -2,7 +2,10 @@
 <div class="editor">
 
   <!-- Router outlet for edit-space-flat, edit-space-sphere, and preview-space components -->
-  <router-outlet name="view"></router-outlet>
+  <router-outlet
+    name="view"
+    (activate)="onViewSpaceActivate($event)">
+  </router-outlet>
 
   <topbar
     *ngIf="!isPreview()"
