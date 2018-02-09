@@ -13,6 +13,7 @@ const DAMPING_DECAY = 0.005;
 const MOMENTUM_EPSILON = 0.25;
 const START_EVENT = { type: 'start' };
 const END_EVENT = { type: 'end' };
+const CENTER = new THREE.Vector3(0, 0, 0);
 
 const defaultExecutionContext = (fn) => {
 	if (fn && typeof fn === 'function') {
@@ -22,16 +23,10 @@ const defaultExecutionContext = (fn) => {
 
 THREE.SvrControls = function (options) {
 
-	// this.camera = camera;
 	this.camera = options.camera;
 	this.domElement = options.domElement ? options.domElement : document;
-	this.target = new THREE.Vector3();
 	this.onMouseDownCallback = options.onMouseDownCallback || (() => {});
 	this.executionContext = options.executionContext || defaultExecutionContext;
-
-	// for reset
-	this.target0 = this.target.clone();
-	this.position0 = this.camera.position.clone();
 
 	this.getCameraAngles = () => spherical;
 
@@ -39,13 +34,11 @@ THREE.SvrControls = function (options) {
 		spherical.phi = phi;
 		spherical.theta = theta;
 
-		const position = scope.camera.position;
-		const quat = new THREE.Quaternion().setFromUnitVectors(options.camera.up, new THREE.Vector3(0, 1, 0));
-		const quatInverse = quat.clone().inverse();
-		const offset = new THREE.Vector3().setFromSpherical(spherical);
-		offset.applyQuaternion(quatInverse);
-		position.copy(scope.target).add(offset);
-		scope.camera.lookAt(scope.target);
+		const quatInverse = getCameraQuaternion().inverse();
+		const cameraPosition = new THREE.Vector3().setFromSpherical(spherical);
+		cameraPosition.applyQuaternion(quatInverse);
+		scope.camera.position.copy(cameraPosition);
+		scope.camera.lookAt(CENTER);
 	};
 
 	this.hasMomentum = () => hasMomentum;
@@ -53,24 +46,14 @@ THREE.SvrControls = function (options) {
 	this.shouldRender = () => isDragging || hasMomentum;
 
 	this.update = function () {
-		const offset = new THREE.Vector3();
-
-		// camera.up is the orbit axis
-		const quat = new THREE.Quaternion().setFromUnitVectors( options.camera.up, new THREE.Vector3( 0, 1, 0 ) );
+		const quat = getCameraQuaternion();
 		const quatInverse = quat.clone().inverse();
 
-		const lastPosition = new THREE.Vector3();
-		const lastQuaternion = new THREE.Quaternion();
-
 		return function update() {
-			const position = scope.camera.position;
-			offset.copy( position ).sub( scope.target );
+			const cameraPosition = scope.camera.position.clone();
 
-			// rotate offset to "y-axis-is-up" space
-			offset.applyQuaternion( quat );
-
-			// angle from z-axis around y-axis
-			spherical.setFromVector3( offset );
+			cameraPosition.applyQuaternion(quat);
+			spherical.setFromVector3(cameraPosition);
 
 			if (hasMomentum) {
         if (Math.abs(momentum.x) < MOMENTUM_EPSILON && Math.abs(momentum.y) < MOMENTUM_EPSILON) {
@@ -86,19 +69,15 @@ THREE.SvrControls = function (options) {
 
 			spherical.theta += sphericalDelta.theta;
 			spherical.phi += sphericalDelta.phi;
-
 			spherical.makeSafe();
 
-			offset.setFromSpherical( spherical );
+			cameraPosition.setFromSpherical(spherical);
+			cameraPosition.applyQuaternion(quatInverse);
 
-			// rotate offset back to "camera-up-vector-is-up" space
-			offset.applyQuaternion( quatInverse );
+			scope.camera.position.copy(cameraPosition);
+			scope.camera.lookAt(CENTER);
 
-			position.copy( scope.target ).add( offset );
-
-			scope.camera.lookAt( scope.target );
-
-			sphericalDelta.set( 0, 0, 0 );
+			sphericalDelta.set(0, 0, 0);
 		};
 
 	}();
@@ -123,15 +102,11 @@ THREE.SvrControls = function (options) {
 	const rotateStart = new THREE.Vector2();
 	const rotateEnd = new THREE.Vector2();
 	const rotateDelta = new THREE.Vector2();
-	const touchLocation = new THREE.Vector2(0, 0);
+	const touchLocation = new THREE.Vector2();
 
 	let hasMomentum = false;
 	let momentum = new THREE.Vector2();
 	let isDragging = false;
-
-	function getAutoRotationAngle() {
-		return TWO_PI / 60 / 60 * scope.autoRotateSpeed;
-	}
 
 	function rotateLeft( angle ) {
 		sphericalDelta.theta -= angle;
@@ -141,11 +116,15 @@ THREE.SvrControls = function (options) {
 		sphericalDelta.phi -= angle;
 	}
 
+	function getCameraQuaternion() {
+		return new THREE.Quaternion().setFromUnitVectors(options.camera.up, new THREE.Vector3(0, 1, 0));
+	}
+
 	function onMouseDown(event) {
 		event.preventDefault();
     hasMomentum = false;
 		isDragging = true;
-    momentum = new THREE.Vector2();
+		momentum.set(0, 0);
     rotateStart.set(event.clientX, event.clientY);
 
 		scope.executionContext(() => {
