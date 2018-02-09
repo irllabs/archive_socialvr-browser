@@ -150,7 +150,6 @@ export class PreviewSpace {
     this.sphereMesh.material = this.sphereMaterial;
 
     this.reticle.init(this.camera, this.vrCamera);
-    //this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: window.orientation == 'undefined'});
     this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: false});
     this.svrControls = new THREE.SvrControls({
       camera: this.camera,
@@ -169,21 +168,13 @@ export class PreviewSpace {
   initRoom() {
     const roomId = this.sceneInteractor.getActiveRoomId();
     const room = this.sceneInteractor.getRoomById(roomId);
-    //console.log('campos init: ', this.camera.position);
-    //reset room tweens
     this.sphereMesh.position.set(0,0,0);
-    this.camera.position.x = 0;
-    this.camera.position.y = 0;
-    this.camera.position.z = 0.0001;
-    this.camera.updateProjectionMatrix();
     room.getBackgroundIsVideo() ? this.init3dRoom(room) : this.init2dRoom(roomId);
     this.audioManager.stopAllAudio();
     this.audioManager.playBackgroundAudio();
     this.audioManager.playNarration();
     this.audioManager.playSoundtrack();
     this.isInRenderLoop = true;
-
-
 
     /*
     if (!this.vrDisplay && this.vrDisplay.isPresenting)  {
@@ -285,12 +276,6 @@ export class PreviewSpace {
       this.update(elapsedTime);
       this.render();
     });
-  }
-
-  private logCamLookat(tag: number) {
-    var vector = new THREE.Vector3(0,0,0);
-    this.camera.getWorldDirection( vector );
-    console.log("lookAt: ",tag,vector);
   }
 
   private update(elapsedTime: number) {

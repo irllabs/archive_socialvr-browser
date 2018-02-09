@@ -40,10 +40,8 @@ export class EditSpaceSphere {
   private svrControls: THREE.SvrControls;
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
-  private vrCamera: THREE.PerspectiveCamera;
   private sphereMesh: THREE.Mesh;
   private subscriptions: Set<Subscription> = new Set<Subscription>();
-  // private isDragging: boolean = false;
   private video3D: Video3D;
   private animationRequest: number;
   private windowWidth: number;
@@ -95,9 +93,8 @@ export class EditSpaceSphere {
     const sceneComponents = buildScene();
     this.sphereMesh = sceneComponents.sphereMesh;
     this.camera = sceneComponents.camera;
-    this.vrCamera = sceneComponents.vrCamera;
     this.scene = sceneComponents.scene;
-    this.renderer = new THREE.WebGLRenderer({canvas: canvas, alpha: true, antialias: window.orientation == 'undefined'});
+    this.renderer = new THREE.WebGLRenderer({canvas: canvas, alpha: true, antialias: false});
     this.svrControls = new THREE.SvrControls({
       camera: this.camera,
       domElement: canvas,
