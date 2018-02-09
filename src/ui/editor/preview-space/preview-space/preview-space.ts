@@ -27,7 +27,7 @@ import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
 const Stats = require('stats.js')
 const stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild( stats.dom );
+// document.body.appendChild( stats.dom );
 
 const TWEEN = require('@tweenjs/tween.js');
 const roomSphereFragShader = require('ui/editor/util/shaders/roomSphere.frag');
