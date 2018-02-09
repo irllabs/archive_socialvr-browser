@@ -29,18 +29,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(462));
 __export(__webpack_require__(463));
 __export(__webpack_require__(252));
-__export(__webpack_require__(1075));
 __export(__webpack_require__(1076));
 __export(__webpack_require__(1077));
 __export(__webpack_require__(1078));
-__export(__webpack_require__(464));
 __export(__webpack_require__(1079));
-__export(__webpack_require__(465));
+__export(__webpack_require__(464));
 __export(__webpack_require__(1080));
+__export(__webpack_require__(465));
 __export(__webpack_require__(1081));
-__export(__webpack_require__(1083));
+__export(__webpack_require__(1082));
 __export(__webpack_require__(1084));
 __export(__webpack_require__(1085));
+__export(__webpack_require__(1086));
 
 //# sourceMappingURL=index.js.map
 
@@ -790,7 +790,7 @@ var EventType;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var build = __webpack_require__(502);
+var build = __webpack_require__(504);
 // api.socialvrlab.com => socialvr-production.cirjmyp4dr.us-east-1.elasticbeanstalk.com
 // staging-api.socialvrlab.com => socialvr-staging.cirjmyp4dr.us-east-1.elasticbeanstalk.com
 var environment = {
@@ -916,7 +916,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var roomManager_1 = __webpack_require__(91);
 var roomPropertyBuilder_1 = __webpack_require__(179);
-var assetManager_1 = __webpack_require__(135);
+var assetManager_1 = __webpack_require__(134);
 var SceneInteractor = /** @class */function () {
     function SceneInteractor(roomManager, propertyBuilder, assetManager) {
         this.roomManager = roomManager;
@@ -2145,11 +2145,11 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var apiService_1 = __webpack_require__(66);
-var userService_1 = __webpack_require__(184);
+var apiService_1 = __webpack_require__(65);
+var userService_1 = __webpack_require__(185);
 var authenticationService_1 = __webpack_require__(182);
-var socialAuthenticationService_1 = __webpack_require__(507);
-var authenticationMethod_1 = __webpack_require__(1151);
+var socialAuthenticationService_1 = __webpack_require__(512);
+var authenticationMethod_1 = __webpack_require__(1154);
 __webpack_require__(246);
 var UserInteractor = /** @class */function () {
     function UserInteractor(apiService, userService, authenticationService, socialAuthenticationService) {
@@ -2457,12 +2457,12 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var deserializationService_1 = __webpack_require__(270);
-var serializationService_1 = __webpack_require__(271);
-var apiService_1 = __webpack_require__(66);
+var deserializationService_1 = __webpack_require__(271);
+var serializationService_1 = __webpack_require__(272);
+var apiService_1 = __webpack_require__(65);
 var roomManager_1 = __webpack_require__(91);
-var projectService_1 = __webpack_require__(505);
-var assetManager_1 = __webpack_require__(135);
+var projectService_1 = __webpack_require__(510);
+var assetManager_1 = __webpack_require__(134);
 __webpack_require__(250);
 var ProjectInteractor = /** @class */function () {
     function ProjectInteractor(deserializationService, serializationService, roomManager, apiService, projectService, assetManager) {
@@ -2585,9 +2585,9 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var apiService_1 = __webpack_require__(66);
-var assetService_1 = __webpack_require__(504);
-var assetManager_1 = __webpack_require__(135);
+var apiService_1 = __webpack_require__(65);
+var assetService_1 = __webpack_require__(507);
+var assetManager_1 = __webpack_require__(134);
 var AssetInteractor = /** @class */function () {
     function AssetInteractor(apiService, assetManager, assetService) {
         this.apiService = apiService;
@@ -2913,73 +2913,6 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var platform_browser_1 = __webpack_require__(51);
-var constants_1 = __webpack_require__(12);
-exports.mimeTypeMap = {
-    video: [constants_1.MIME_TYPE_MP4],
-    audio: [constants_1.MIME_TYPE_MP3, constants_1.MIME_TYPE_WAV, constants_1.MIME_TYPE_MPEG, constants_1.MIME_TYPE_XWAV, constants_1.MIME_TYPE_AAC, constants_1.MIME_TYPE_XM4A],
-    image: [constants_1.MIME_TYPE_PNG, constants_1.MIME_TYPE_JPG, constants_1.MIME_TYPE_JPEG],
-    zip: [constants_1.MIME_TYPE_ZIP, constants_1.MIME_TYPE_X_ZIP, constants_1.MIME_TYPE_OCTET_STREAM, constants_1.MIME_TYPE_X_ZIP_COMPRESSED]
-};
-var FileLoaderUtil = /** @class */function () {
-    function FileLoaderUtil(sanitizer) {
-        this.sanitizer = sanitizer;
-    }
-    FileLoaderUtil.prototype.validateFileLoadEvent = function (file, acceptedFileType) {
-        return new Promise(function (resolve, reject) {
-            if (!exports.mimeTypeMap[acceptedFileType]) {
-                reject('Accepted file type not valid');
-            }
-            if (exports.mimeTypeMap[acceptedFileType].indexOf(file.type) < 0) {
-                var errorMessage = "File is not a valid type, must be of type: " + acceptedFileType + ".\nAccepted file types: " + exports.mimeTypeMap[acceptedFileType].join(', ');
-                reject(errorMessage);
-            }
-            resolve(file);
-        });
-    };
-    FileLoaderUtil.prototype.getBinaryFileData = function (file) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                var fileReader = new FileReader();
-                fileReader.onloadend = function () {
-                    var result = _this.sanitizer.bypassSecurityTrustUrl(fileReader.result);
-                    console.log('fileLoader.onloadEnd', result);
-                    resolve(result);
-                };
-                fileReader.onerror = function () {
-                    var error = fileReader.error;
-                    console.log('fileLoader.onerror', error);
-                    reject(error);
-                };
-                fileReader.readAsDataURL(file);
-            });
-        });
-    };
-    FileLoaderUtil = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [platform_browser_1.DomSanitizer])], FileLoaderUtil);
-    return FileLoaderUtil;
-}();
-exports.FileLoaderUtil = FileLoaderUtil;
-
-/***/ }),
-/* 66 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
 var http_1 = __webpack_require__(156);
 var Observable_1 = __webpack_require__(0);
 var constants_1 = __webpack_require__(12);
@@ -3190,6 +3123,73 @@ var ApiService = /** @class */function () {
 exports.ApiService = ApiService;
 
 /***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var platform_browser_1 = __webpack_require__(51);
+var constants_1 = __webpack_require__(12);
+exports.mimeTypeMap = {
+    video: [constants_1.MIME_TYPE_MP4],
+    audio: [constants_1.MIME_TYPE_MP3, constants_1.MIME_TYPE_WAV, constants_1.MIME_TYPE_MPEG, constants_1.MIME_TYPE_XWAV, constants_1.MIME_TYPE_AAC, constants_1.MIME_TYPE_XM4A],
+    image: [constants_1.MIME_TYPE_PNG, constants_1.MIME_TYPE_JPG, constants_1.MIME_TYPE_JPEG],
+    zip: [constants_1.MIME_TYPE_ZIP, constants_1.MIME_TYPE_X_ZIP, constants_1.MIME_TYPE_OCTET_STREAM, constants_1.MIME_TYPE_X_ZIP_COMPRESSED]
+};
+var FileLoaderUtil = /** @class */function () {
+    function FileLoaderUtil(sanitizer) {
+        this.sanitizer = sanitizer;
+    }
+    FileLoaderUtil.prototype.validateFileLoadEvent = function (file, acceptedFileType) {
+        return new Promise(function (resolve, reject) {
+            if (!exports.mimeTypeMap[acceptedFileType]) {
+                reject('Accepted file type not valid');
+            }
+            if (exports.mimeTypeMap[acceptedFileType].indexOf(file.type) < 0) {
+                var errorMessage = "File is not a valid type, must be of type: " + acceptedFileType + ".\nAccepted file types: " + exports.mimeTypeMap[acceptedFileType].join(', ');
+                reject(errorMessage);
+            }
+            resolve(file);
+        });
+    };
+    FileLoaderUtil.prototype.getBinaryFileData = function (file) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            setTimeout(function () {
+                var fileReader = new FileReader();
+                fileReader.onloadend = function () {
+                    var result = _this.sanitizer.bypassSecurityTrustUrl(fileReader.result);
+                    console.log('fileLoader.onloadEnd', result);
+                    resolve(result);
+                };
+                fileReader.onerror = function () {
+                    var error = fileReader.error;
+                    console.log('fileLoader.onerror', error);
+                    reject(error);
+                };
+                fileReader.readAsDataURL(file);
+            });
+        });
+    };
+    FileLoaderUtil = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [platform_browser_1.DomSanitizer])], FileLoaderUtil);
+    return FileLoaderUtil;
+}();
+exports.FileLoaderUtil = FileLoaderUtil;
+
+/***/ }),
 /* 67 */,
 /* 68 */,
 /* 69 */,
@@ -3203,7 +3203,7 @@ exports.ApiService = ApiService;
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "firebase", function() { return firebase; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_firebaseApp__ = __webpack_require__(1074);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_firebaseApp__ = __webpack_require__(1075);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -3822,7 +3822,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var audio_1 = __webpack_require__(106);
+var audio_1 = __webpack_require__(105);
 var constants_1 = __webpack_require__(12);
 var RoomManager = /** @class */function () {
     function RoomManager() {
@@ -3933,13 +3933,13 @@ exports.RoomManager = RoomManager;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var audio_1 = __webpack_require__(106);
+var audio_1 = __webpack_require__(105);
 var image_1 = __webpack_require__(180);
-var text_1 = __webpack_require__(266);
-var door_1 = __webpack_require__(267);
-var room_1 = __webpack_require__(503);
-var link_1 = __webpack_require__(268);
-var narrator_1 = __webpack_require__(264);
+var text_1 = __webpack_require__(265);
+var door_1 = __webpack_require__(266);
+var room_1 = __webpack_require__(505);
+var link_1 = __webpack_require__(267);
+var narrator_1 = __webpack_require__(263);
 var typeMap = {
     audio: audio_1.Audio,
     door: door_1.Door,
@@ -4124,6 +4124,118 @@ function clone(obj) {
 "use strict";
 
 
+var __extends = this && this.__extends || function () {
+    var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
+        d.__proto__ = b;
+    } || function (d, b) {
+        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() {
+            this.constructor = d;
+        }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+}();
+Object.defineProperty(exports, "__esModule", { value: true });
+var baseElement_1 = __webpack_require__(133);
+var mediaFile_1 = __webpack_require__(262);
+var constants_1 = __webpack_require__(12);
+var Audio = /** @class */function (_super) {
+    __extends(Audio, _super);
+    function Audio() {
+        var _this = _super.call(this) || this;
+        _this.mediaFile = new mediaFile_1.MediaFile();
+        _this.volume = constants_1.DEFAULT_VOLUME;
+        return _this;
+    }
+    Audio.prototype.getRemoteFileName = function () {
+        return this.mediaFile.getRemoteFileName();
+    };
+    Audio.prototype.setRemoteFileName = function (remoteFileName) {
+        this.mediaFile.setRemoteFileName(remoteFileName);
+    };
+    Audio.prototype.getMediaFile = function () {
+        return this.mediaFile;
+    };
+    Audio.prototype.hasAsset = function () {
+        return this.mediaFile.hasAsset();
+    };
+    Audio.prototype.getFileName = function () {
+        return this.mediaFile.getFileName();
+    };
+    Audio.prototype.setFileName = function (fileName) {
+        this.mediaFile.setFileName(fileName);
+    };
+    Audio.prototype.getBinaryFileData = function () {
+        return this.mediaFile.getBinaryFileData();
+    };
+    Audio.prototype.setBinaryFileData = function (binaryFileData) {
+        return this.mediaFile.setBinaryFileData(binaryFileData);
+    };
+    Audio.prototype.setFileData = function (fileName, volume, binaryFileData) {
+        this.setFileName(fileName);
+        this.setVolume(volume);
+        this.setBinaryFileData(binaryFileData);
+    };
+    Audio.prototype.setVolume = function (volume) {
+        if (volume === undefined || volume === null) {
+            this.volume = constants_1.DEFAULT_VOLUME;
+        } else {
+            this.volume = volume;
+        }
+    };
+    Audio.prototype.getVolume = function () {
+        return this.volume;
+    };
+    Audio.prototype.toJson = function () {
+        return Object.assign(_super.prototype.toJson.call(this), {
+            file: encodeURIComponent(this.mediaFile.getFileName()),
+            remoteFile: this.mediaFile.getRemoteFileName(),
+            volume: this.getVolume()
+        });
+    };
+    return Audio;
+}(baseElement_1.BaseElement);
+exports.Audio = Audio;
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var uuidSet = new Set();
+function generateId() {
+    return (Math.random() * Math.pow(2, 32 - 1) >>> 0) + '';
+}
+//TODO: use when importing a project
+function offerUniqueId(id) {
+    if (uuidSet.has(id)) {
+        id = generateUniqueId();
+    }
+    return id;
+}
+function generateUniqueId() {
+    var id = generateId();
+    while (uuidSet.has(id)) {
+        id = generateId();
+    }
+    uuidSet.add(id);
+    return id;
+}
+exports.generateUniqueId = generateUniqueId;
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 Object.defineProperty(exports, "__esModule", { value: true });
 var three_1 = __webpack_require__(28);
 var vector2_1 = __webpack_require__(75);
@@ -4197,118 +4309,6 @@ function getCoordinatePosition(x, y, r) {
 exports.getCoordinatePosition = getCoordinatePosition;
 
 /***/ }),
-/* 106 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __extends = this && this.__extends || function () {
-    var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
-        d.__proto__ = b;
-    } || function (d, b) {
-        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() {
-            this.constructor = d;
-        }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-}();
-Object.defineProperty(exports, "__esModule", { value: true });
-var baseElement_1 = __webpack_require__(134);
-var mediaFile_1 = __webpack_require__(263);
-var constants_1 = __webpack_require__(12);
-var Audio = /** @class */function (_super) {
-    __extends(Audio, _super);
-    function Audio() {
-        var _this = _super.call(this) || this;
-        _this.mediaFile = new mediaFile_1.MediaFile();
-        _this.volume = constants_1.DEFAULT_VOLUME;
-        return _this;
-    }
-    Audio.prototype.getRemoteFileName = function () {
-        return this.mediaFile.getRemoteFileName();
-    };
-    Audio.prototype.setRemoteFileName = function (remoteFileName) {
-        this.mediaFile.setRemoteFileName(remoteFileName);
-    };
-    Audio.prototype.getMediaFile = function () {
-        return this.mediaFile;
-    };
-    Audio.prototype.hasAsset = function () {
-        return this.mediaFile.hasAsset();
-    };
-    Audio.prototype.getFileName = function () {
-        return this.mediaFile.getFileName();
-    };
-    Audio.prototype.setFileName = function (fileName) {
-        this.mediaFile.setFileName(fileName);
-    };
-    Audio.prototype.getBinaryFileData = function () {
-        return this.mediaFile.getBinaryFileData();
-    };
-    Audio.prototype.setBinaryFileData = function (binaryFileData) {
-        return this.mediaFile.setBinaryFileData(binaryFileData);
-    };
-    Audio.prototype.setFileData = function (fileName, volume, binaryFileData) {
-        this.setFileName(fileName);
-        this.setVolume(volume);
-        this.setBinaryFileData(binaryFileData);
-    };
-    Audio.prototype.setVolume = function (volume) {
-        if (volume === undefined || volume === null) {
-            this.volume = constants_1.DEFAULT_VOLUME;
-        } else {
-            this.volume = volume;
-        }
-    };
-    Audio.prototype.getVolume = function () {
-        return this.volume;
-    };
-    Audio.prototype.toJson = function () {
-        return Object.assign(_super.prototype.toJson.call(this), {
-            file: encodeURIComponent(this.mediaFile.getFileName()),
-            remoteFile: this.mediaFile.getRemoteFileName(),
-            volume: this.getVolume()
-        });
-    };
-    return Audio;
-}(baseElement_1.BaseElement);
-exports.Audio = Audio;
-
-/***/ }),
-/* 107 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var uuidSet = new Set();
-function generateId() {
-    return (Math.random() * Math.pow(2, 32 - 1) >>> 0) + '';
-}
-//TODO: use when importing a project
-function offerUniqueId(id) {
-    if (uuidSet.has(id)) {
-        id = generateUniqueId();
-    }
-    return id;
-}
-function generateUniqueId() {
-    var id = generateId();
-    while (uuidSet.has(id)) {
-        id = generateId();
-    }
-    uuidSet.add(id);
-    return id;
-}
-exports.generateUniqueId = generateUniqueId;
-
-/***/ }),
 /* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4327,7 +4327,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var fileLoaderUtil_1 = __webpack_require__(65);
+var fileLoaderUtil_1 = __webpack_require__(66);
 var roomPropertyBuilder_1 = __webpack_require__(179);
 var imageResizeService_1 = __webpack_require__(52);
 var sceneInteractor_1 = __webpack_require__(14);
@@ -4917,58 +4917,9 @@ function taskStateFromInternalTaskState(state) {
 "use strict";
 
 
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(9);
-var sceneInteractor_1 = __webpack_require__(14);
-var storageInteractor_1 = __webpack_require__(181);
-var projectInteractor_1 = __webpack_require__(53);
-var ZipFileReader = /** @class */function () {
-    function ZipFileReader(sceneInteractor, storageInteractor, projectInteractor, eventBus) {
-        this.sceneInteractor = sceneInteractor;
-        this.storageInteractor = storageInteractor;
-        this.projectInteractor = projectInteractor;
-        this.eventBus = eventBus;
-    }
-    ZipFileReader.prototype.loadFile = function (zipFile) {
-        var _this = this;
-        this.eventBus.onStartLoading();
-        return this.storageInteractor.deserializeProject(zipFile).subscribe(function (val) {
-            _this.sceneInteractor.setActiveRoomId(null);
-            _this.projectInteractor.setProjectId(null);
-            _this.eventBus.onSelectRoom(null, false);
-            _this.eventBus.onStopLoading();
-        }, function (error) {
-            var errorMessage = "The zip file does not seem to be a properly formatted story file. \n Error received: " + error;
-            _this.eventBus.onModalMessage('File Upload Error', errorMessage);
-            _this.eventBus.onStopLoading();
-        });
-    };
-    ZipFileReader = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, storageInteractor_1.StorageInteractor, projectInteractor_1.ProjectInteractor, event_bus_1.EventBus])], ZipFileReader);
-    return ZipFileReader;
-}();
-exports.ZipFileReader = ZipFileReader;
-
-/***/ }),
-/* 134 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector2_1 = __webpack_require__(75);
-var uuid_1 = __webpack_require__(107);
+var uuid_1 = __webpack_require__(106);
 var BaseElement = /** @class */function () {
     function BaseElement() {
         this.id = uuid_1.generateUniqueId();
@@ -5023,7 +4974,7 @@ var BaseElement = /** @class */function () {
 exports.BaseElement = BaseElement;
 
 /***/ }),
-/* 135 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5039,7 +4990,7 @@ var __decorate = this && this.__decorate || function (decorators, target, key, d
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var THREE = __webpack_require__(28);
-var audioContextProvider_1 = __webpack_require__(269);
+var audioContextProvider_1 = __webpack_require__(268);
 var AssetManager = /** @class */function () {
     function AssetManager() {
         this.textureMap = new Map();
@@ -5161,6 +5112,55 @@ var AudioData = /** @class */function () {
 }();
 
 /***/ }),
+/* 135 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var event_bus_1 = __webpack_require__(9);
+var sceneInteractor_1 = __webpack_require__(14);
+var storageInteractor_1 = __webpack_require__(183);
+var projectInteractor_1 = __webpack_require__(53);
+var ZipFileReader = /** @class */function () {
+    function ZipFileReader(sceneInteractor, storageInteractor, projectInteractor, eventBus) {
+        this.sceneInteractor = sceneInteractor;
+        this.storageInteractor = storageInteractor;
+        this.projectInteractor = projectInteractor;
+        this.eventBus = eventBus;
+    }
+    ZipFileReader.prototype.loadFile = function (zipFile) {
+        var _this = this;
+        this.eventBus.onStartLoading();
+        return this.storageInteractor.deserializeProject(zipFile).subscribe(function (val) {
+            _this.sceneInteractor.setActiveRoomId(null);
+            _this.projectInteractor.setProjectId(null);
+            _this.eventBus.onSelectRoom(null, false);
+            _this.eventBus.onStopLoading();
+        }, function (error) {
+            var errorMessage = "The zip file does not seem to be a properly formatted story file. \n Error received: " + error;
+            _this.eventBus.onModalMessage('File Upload Error', errorMessage);
+            _this.eventBus.onStopLoading();
+        });
+    };
+    ZipFileReader = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, storageInteractor_1.StorageInteractor, projectInteractor_1.ProjectInteractor, event_bus_1.EventBus])], ZipFileReader);
+    return ZipFileReader;
+}();
+exports.ZipFileReader = ZipFileReader;
+
+/***/ }),
 /* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5257,8 +5257,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var userService_1 = __webpack_require__(184);
-var apiService_1 = __webpack_require__(66);
+var userService_1 = __webpack_require__(185);
+var apiService_1 = __webpack_require__(65);
 __webpack_require__(246);
 var AdminInteractor = /** @class */function () {
     function AdminInteractor(userService, apiService) {
@@ -5335,8 +5335,8 @@ exports.AdminInteractor = AdminInteractor;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var DOMStorageWrapper_1 = __webpack_require__(1088);
-var MemoryStorage_1 = __webpack_require__(1089);
+var DOMStorageWrapper_1 = __webpack_require__(1089);
+var MemoryStorage_1 = __webpack_require__(1090);
 /**
  * Helper to create a DOMStorageWrapper or else fall back to MemoryStorage.
  * TODO: Once MemoryStorage and DOMStorageWrapper have a shared interface this method annotation should change
@@ -6439,18 +6439,18 @@ var ServerValues_1 = __webpack_require__(479);
 var nodeFromJSON_1 = __webpack_require__(130);
 var Path_1 = __webpack_require__(22);
 var SparseSnapshotTree_1 = __webpack_require__(480);
-var SyncTree_1 = __webpack_require__(1095);
-var SnapshotHolder_1 = __webpack_require__(1106);
+var SyncTree_1 = __webpack_require__(1096);
+var SnapshotHolder_1 = __webpack_require__(1107);
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(8);
 var util_3 = __webpack_require__(3);
-var AuthTokenProvider_1 = __webpack_require__(1107);
+var AuthTokenProvider_1 = __webpack_require__(1108);
 var StatsManager_1 = __webpack_require__(256);
-var StatsReporter_1 = __webpack_require__(1109);
+var StatsReporter_1 = __webpack_require__(1110);
 var StatsListener_1 = __webpack_require__(485);
-var EventQueue_1 = __webpack_require__(1110);
+var EventQueue_1 = __webpack_require__(1111);
 var PersistentConnection_1 = __webpack_require__(486);
-var ReadonlyRestClient_1 = __webpack_require__(1115);
+var ReadonlyRestClient_1 = __webpack_require__(1116);
 var Database_1 = __webpack_require__(468);
 var INTERRUPT_REASON = 'repo_interrupt';
 /**
@@ -7359,16 +7359,16 @@ var __decorate = this && this.__decorate || function (decorators, target, key, d
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var room_1 = __webpack_require__(503);
-var text_1 = __webpack_require__(266);
+var room_1 = __webpack_require__(505);
+var text_1 = __webpack_require__(265);
 var image_1 = __webpack_require__(180);
-var audio_1 = __webpack_require__(106);
-var door_1 = __webpack_require__(267);
-var link_1 = __webpack_require__(268);
-var narrator_1 = __webpack_require__(264);
+var audio_1 = __webpack_require__(105);
+var door_1 = __webpack_require__(266);
+var link_1 = __webpack_require__(267);
+var narrator_1 = __webpack_require__(263);
 var vector2_1 = __webpack_require__(75);
 var imageResizeService_1 = __webpack_require__(52);
-var reverbList_1 = __webpack_require__(265);
+var reverbList_1 = __webpack_require__(264);
 var constants_1 = __webpack_require__(12);
 var PropertyBuilder = /** @class */function () {
     function PropertyBuilder() {}
@@ -7559,8 +7559,8 @@ var __extends = this && this.__extends || function () {
     };
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
-var baseElement_1 = __webpack_require__(134);
-var mediaFile_1 = __webpack_require__(263);
+var baseElement_1 = __webpack_require__(133);
+var mediaFile_1 = __webpack_require__(262);
 var Image = /** @class */function (_super) {
     __extends(Image, _super);
     function Image() {
@@ -7609,239 +7609,6 @@ exports.Image = Image;
 
 /***/ }),
 /* 181 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var deserializationService_1 = __webpack_require__(270);
-var serializationService_1 = __webpack_require__(271);
-var assetManager_1 = __webpack_require__(135);
-var StorageInteractor = /** @class */function () {
-    function StorageInteractor(deserializationService, serializationService, assetManager) {
-        this.deserializationService = deserializationService;
-        this.serializationService = serializationService;
-        this.assetManager = assetManager;
-    }
-    StorageInteractor.prototype.serializeProject = function (bundleAssets) {
-        return this.serializationService.zipStoryFile(bundleAssets = bundleAssets);
-    };
-    StorageInteractor.prototype.deserializeProject = function (file) {
-        var _this = this;
-        return this.deserializationService.unzipStoryFile(file).do(function (_) {
-            return _this.assetManager.clearAssets();
-        });
-    };
-    StorageInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [deserializationService_1.DeserializationService, serializationService_1.SerializationService, assetManager_1.AssetManager])], StorageInteractor);
-    return StorageInteractor;
-}();
-exports.StorageInteractor = StorageInteractor;
-
-/***/ }),
-/* 182 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var TOKEN_STORAGE = 'TOKEN_STORAGE';
-var AuthenticationService = /** @class */function () {
-    function AuthenticationService() {}
-    AuthenticationService.prototype.getToken = function () {
-        if (!this.token && sessionStorage) {
-            this.token = sessionStorage.getItem(TOKEN_STORAGE);
-        }
-        return this.token;
-    };
-    AuthenticationService.prototype.setToken = function (token) {
-        if (sessionStorage) {
-            sessionStorage.setItem(TOKEN_STORAGE, token);
-        }
-        this.token = token;
-    };
-    AuthenticationService.prototype.getAuthenticationMethod = function () {
-        return this.authMethod;
-    };
-    AuthenticationService.prototype.setAuthenticationMethod = function (authMethod) {
-        this.authMethod = authMethod;
-    };
-    AuthenticationService.prototype.isLoggedIn = function () {
-        return !!this.getToken();
-    };
-    AuthenticationService.prototype.logOut = function () {
-        if (sessionStorage) {
-            sessionStorage.removeItem(TOKEN_STORAGE);
-        }
-        this.token = undefined;
-        this.authMethod = undefined;
-    };
-    AuthenticationService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], AuthenticationService);
-    return AuthenticationService;
-}();
-exports.AuthenticationService = AuthenticationService;
-
-/***/ }),
-/* 183 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var router_1 = __webpack_require__(17);
-var event_bus_1 = __webpack_require__(9);
-var publicLinkHelper_1 = __webpack_require__(262);
-var sceneInteractor_1 = __webpack_require__(14);
-var projectInteractor_1 = __webpack_require__(53);
-var projectMetaDataInteractor_1 = __webpack_require__(36);
-var userInteractor_1 = __webpack_require__(37);
-var constants_1 = __webpack_require__(12);
-var ShareableLoader = /** @class */function () {
-    function ShareableLoader(userInteractor, eventBus, projectInteractor, metaDataInteractor, sceneInteractor, router) {
-        this.userInteractor = userInteractor;
-        this.eventBus = eventBus;
-        this.projectInteractor = projectInteractor;
-        this.metaDataInteractor = metaDataInteractor;
-        this.sceneInteractor = sceneInteractor;
-        this.router = router;
-    }
-    ShareableLoader.prototype.openDecodedProject = function (projectUrl) {
-        var _this = this;
-        this.eventBus.onStartLoading();
-        this.projectInteractor.openPublicProject(projectUrl).subscribe(function (response) {
-            var homeRoomID = _this.sceneInteractor.getHomeRoomId();
-            _this.sceneInteractor.setActiveRoomId(homeRoomID);
-            _this.eventBus.onSelectRoom(null, false);
-            _this.eventBus.onStopLoading();
-            _this.metaDataInteractor.setIsReadOnly(true);
-            //this.router.navigateByUrl('/editor');
-            _this.router.navigate(['editor', { outlets: { 'view': 'preview' } }]);
-        }, function (error) {
-            _this.eventBus.onStopLoading();
-            _this.eventBus.onModalMessage(constants_1.ERROR_OPENING_PROJECT, constants_1.SERVER_ERROR);
-        });
-    };
-    ShareableLoader.prototype.openProject = function (shareableValue) {
-        var params = publicLinkHelper_1.decodeParam(shareableValue);
-        if (params.message === 'ERROR') {
-            this.eventBus.onModalMessage(constants_1.ERROR_OPENING_PROJECT, constants_1.FORMAT_ERROR);
-            return;
-        }
-        this.openDecodedProject(params.data);
-    };
-    ShareableLoader = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [userInteractor_1.UserInteractor, event_bus_1.EventBus, projectInteractor_1.ProjectInteractor, projectMetaDataInteractor_1.MetaDataInteractor, sceneInteractor_1.SceneInteractor, router_1.Router])], ShareableLoader);
-    return ShareableLoader;
-}();
-exports.ShareableLoader = ShareableLoader;
-
-/***/ }),
-/* 184 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-// import {GROUP_ADMIN} from 'ui/common/constants';
-var USERNAME_STORAGE = 'USERNAME_STORAGE';
-// const ADMIN: string = '_admin';
-var USER_STORAGE = 'USER_STORAGE';
-var UserService = /** @class */function () {
-    function UserService() {}
-    UserService.prototype.getUser = function () {
-        if (!this.user && sessionStorage) {
-            var userString = sessionStorage.getItem(USER_STORAGE);
-            this.user = JSON.parse(userString);
-        }
-        return this.user;
-    };
-    UserService.prototype.setUser = function (user) {
-        if (sessionStorage) {
-            sessionStorage.setItem(USER_STORAGE, JSON.stringify(user));
-        }
-        this.user = user;
-    };
-    UserService.prototype.clearUser = function () {
-        if (sessionStorage) {
-            sessionStorage.removeItem(USER_STORAGE);
-        }
-        this.user = undefined;
-    };
-    UserService.prototype.getUserId = function () {
-        var user = this.getUser();
-        return user && user.id + '';
-    };
-    UserService.prototype.getUserName = function () {
-        var user = this.getUser();
-        return user && user.username;
-    };
-    UserService.prototype.getUserGroups = function () {
-        var user = this.getUser();
-        if (!user || !user.groups) {
-            return [];
-        }
-        return [].concat(user.groups, user.admin_groups);
-    };
-    UserService.prototype.getAdminGroups = function () {
-        var user = this.getUser();
-        if (!user || !user.groups) {
-            return [];
-        }
-        return user.admin_groups;
-    };
-    UserService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], UserService);
-    return UserService;
-}();
-exports.UserService = UserService;
-
-/***/ }),
-/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7921,6 +7688,239 @@ function getDistance(v, w) {
 }
 
 /***/ }),
+/* 182 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var TOKEN_STORAGE = 'TOKEN_STORAGE';
+var AuthenticationService = /** @class */function () {
+    function AuthenticationService() {}
+    AuthenticationService.prototype.getToken = function () {
+        if (!this.token && sessionStorage) {
+            this.token = sessionStorage.getItem(TOKEN_STORAGE);
+        }
+        return this.token;
+    };
+    AuthenticationService.prototype.setToken = function (token) {
+        if (sessionStorage) {
+            sessionStorage.setItem(TOKEN_STORAGE, token);
+        }
+        this.token = token;
+    };
+    AuthenticationService.prototype.getAuthenticationMethod = function () {
+        return this.authMethod;
+    };
+    AuthenticationService.prototype.setAuthenticationMethod = function (authMethod) {
+        this.authMethod = authMethod;
+    };
+    AuthenticationService.prototype.isLoggedIn = function () {
+        return !!this.getToken();
+    };
+    AuthenticationService.prototype.logOut = function () {
+        if (sessionStorage) {
+            sessionStorage.removeItem(TOKEN_STORAGE);
+        }
+        this.token = undefined;
+        this.authMethod = undefined;
+    };
+    AuthenticationService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], AuthenticationService);
+    return AuthenticationService;
+}();
+exports.AuthenticationService = AuthenticationService;
+
+/***/ }),
+/* 183 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var deserializationService_1 = __webpack_require__(271);
+var serializationService_1 = __webpack_require__(272);
+var assetManager_1 = __webpack_require__(134);
+var StorageInteractor = /** @class */function () {
+    function StorageInteractor(deserializationService, serializationService, assetManager) {
+        this.deserializationService = deserializationService;
+        this.serializationService = serializationService;
+        this.assetManager = assetManager;
+    }
+    StorageInteractor.prototype.serializeProject = function (bundleAssets) {
+        return this.serializationService.zipStoryFile(bundleAssets = bundleAssets);
+    };
+    StorageInteractor.prototype.deserializeProject = function (file) {
+        var _this = this;
+        return this.deserializationService.unzipStoryFile(file).do(function (_) {
+            return _this.assetManager.clearAssets();
+        });
+    };
+    StorageInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [deserializationService_1.DeserializationService, serializationService_1.SerializationService, assetManager_1.AssetManager])], StorageInteractor);
+    return StorageInteractor;
+}();
+exports.StorageInteractor = StorageInteractor;
+
+/***/ }),
+/* 184 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var router_1 = __webpack_require__(17);
+var event_bus_1 = __webpack_require__(9);
+var publicLinkHelper_1 = __webpack_require__(270);
+var sceneInteractor_1 = __webpack_require__(14);
+var projectInteractor_1 = __webpack_require__(53);
+var projectMetaDataInteractor_1 = __webpack_require__(36);
+var userInteractor_1 = __webpack_require__(37);
+var constants_1 = __webpack_require__(12);
+var ShareableLoader = /** @class */function () {
+    function ShareableLoader(userInteractor, eventBus, projectInteractor, metaDataInteractor, sceneInteractor, router) {
+        this.userInteractor = userInteractor;
+        this.eventBus = eventBus;
+        this.projectInteractor = projectInteractor;
+        this.metaDataInteractor = metaDataInteractor;
+        this.sceneInteractor = sceneInteractor;
+        this.router = router;
+    }
+    ShareableLoader.prototype.openDecodedProject = function (projectUrl) {
+        var _this = this;
+        this.eventBus.onStartLoading();
+        this.projectInteractor.openPublicProject(projectUrl).subscribe(function (response) {
+            var homeRoomID = _this.sceneInteractor.getHomeRoomId();
+            _this.sceneInteractor.setActiveRoomId(homeRoomID);
+            _this.eventBus.onSelectRoom(null, false);
+            _this.eventBus.onStopLoading();
+            _this.metaDataInteractor.setIsReadOnly(true);
+            //this.router.navigateByUrl('/editor');
+            _this.router.navigate(['editor', { outlets: { 'view': 'preview' } }]);
+        }, function (error) {
+            _this.eventBus.onStopLoading();
+            _this.eventBus.onModalMessage(constants_1.ERROR_OPENING_PROJECT, constants_1.SERVER_ERROR);
+        });
+    };
+    ShareableLoader.prototype.openProject = function (shareableValue) {
+        var params = publicLinkHelper_1.decodeParam(shareableValue);
+        if (params.message === 'ERROR') {
+            this.eventBus.onModalMessage(constants_1.ERROR_OPENING_PROJECT, constants_1.FORMAT_ERROR);
+            return;
+        }
+        this.openDecodedProject(params.data);
+    };
+    ShareableLoader = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [userInteractor_1.UserInteractor, event_bus_1.EventBus, projectInteractor_1.ProjectInteractor, projectMetaDataInteractor_1.MetaDataInteractor, sceneInteractor_1.SceneInteractor, router_1.Router])], ShareableLoader);
+    return ShareableLoader;
+}();
+exports.ShareableLoader = ShareableLoader;
+
+/***/ }),
+/* 185 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+// import {GROUP_ADMIN} from 'ui/common/constants';
+var USERNAME_STORAGE = 'USERNAME_STORAGE';
+// const ADMIN: string = '_admin';
+var USER_STORAGE = 'USER_STORAGE';
+var UserService = /** @class */function () {
+    function UserService() {}
+    UserService.prototype.getUser = function () {
+        if (!this.user && sessionStorage) {
+            var userString = sessionStorage.getItem(USER_STORAGE);
+            this.user = JSON.parse(userString);
+        }
+        return this.user;
+    };
+    UserService.prototype.setUser = function (user) {
+        if (sessionStorage) {
+            sessionStorage.setItem(USER_STORAGE, JSON.stringify(user));
+        }
+        this.user = user;
+    };
+    UserService.prototype.clearUser = function () {
+        if (sessionStorage) {
+            sessionStorage.removeItem(USER_STORAGE);
+        }
+        this.user = undefined;
+    };
+    UserService.prototype.getUserId = function () {
+        var user = this.getUser();
+        return user && user.id + '';
+    };
+    UserService.prototype.getUserName = function () {
+        var user = this.getUser();
+        return user && user.username;
+    };
+    UserService.prototype.getUserGroups = function () {
+        var user = this.getUser();
+        if (!user || !user.groups) {
+            return [];
+        }
+        return [].concat(user.groups, user.admin_groups);
+    };
+    UserService.prototype.getAdminGroups = function () {
+        var user = this.getUser();
+        if (!user || !user.groups) {
+            return [];
+        }
+        return user.admin_groups;
+    };
+    UserService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], UserService);
+    return UserService;
+}();
+exports.UserService = UserService;
+
+/***/ }),
 /* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7939,8 +7939,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var fileLoaderUtil_1 = __webpack_require__(65);
-var audioContextProvider_1 = __webpack_require__(269);
+var fileLoaderUtil_1 = __webpack_require__(66);
+var audioContextProvider_1 = __webpack_require__(268);
 var Recorder = __webpack_require__(373);
 var AudioRecorderService = /** @class */function () {
     function AudioRecorderService(fileLoaderUtil) {
@@ -8047,7 +8047,7 @@ var message_modal_1 = __webpack_require__(1294);
 var shareable_modal_1 = __webpack_require__(1297);
 // Services
 var event_bus_1 = __webpack_require__(9);
-var shareable_loader_1 = __webpack_require__(183);
+var shareable_loader_1 = __webpack_require__(184);
 var CommonModule = /** @class */function () {
     function CommonModule() {}
     CommonModule = __decorate([core_1.NgModule({
@@ -8082,15 +8082,15 @@ var data_module_1 = __webpack_require__(1301);
 // internal module imports
 var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
-var cameraInteractor_1 = __webpack_require__(272);
-var storageInteractor_1 = __webpack_require__(181);
+var cameraInteractor_1 = __webpack_require__(269);
+var storageInteractor_1 = __webpack_require__(183);
 var userInteractor_1 = __webpack_require__(37);
 var projectInteractor_1 = __webpack_require__(53);
 var assetInteractor_1 = __webpack_require__(60);
-var VideoInteractor_1 = __webpack_require__(506);
+var VideoInteractor_1 = __webpack_require__(511);
 var searchInteractor_1 = __webpack_require__(277);
 var adminInteractor_1 = __webpack_require__(137);
-var groupInteractor_1 = __webpack_require__(520);
+var groupInteractor_1 = __webpack_require__(521);
 var chatInteractor_1 = __webpack_require__(276);
 var CoreModule = /** @class */function () {
     function CoreModule() {}
@@ -8241,14 +8241,14 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var onDisconnect_1 = __webpack_require__(1090);
-var TransactionResult_1 = __webpack_require__(1091);
+var onDisconnect_1 = __webpack_require__(1091);
+var TransactionResult_1 = __webpack_require__(1092);
 var util_1 = __webpack_require__(8);
-var NextPushId_1 = __webpack_require__(1092);
+var NextPushId_1 = __webpack_require__(1093);
 var Query_1 = __webpack_require__(471);
 var Repo_1 = __webpack_require__(174);
 var Path_1 = __webpack_require__(22);
-var QueryParams_1 = __webpack_require__(1116);
+var QueryParams_1 = __webpack_require__(1117);
 var validation_1 = __webpack_require__(88);
 var util_2 = __webpack_require__(3);
 var util_3 = __webpack_require__(3);
@@ -9050,7 +9050,7 @@ exports.IndexedFilter = IndexedFilter;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var StatsCollection_1 = __webpack_require__(1108);
+var StatsCollection_1 = __webpack_require__(1109);
 var StatsManager = /** @class */ (function () {
     function StatsManager() {
     }
@@ -9104,7 +9104,7 @@ var Repo_1 = __webpack_require__(174);
 var util_2 = __webpack_require__(8);
 var parser_1 = __webpack_require__(469);
 var validation_1 = __webpack_require__(88);
-__webpack_require__(1118);
+__webpack_require__(1119);
 /** @const {string} */
 var DATABASE_URL_OPTION = 'databaseURL';
 var _staticInstance;
@@ -9385,7 +9385,7 @@ function nullFunctionSpec(opt_optional) {
 /* harmony export (immutable) */ __webpack_exports__["a"] = fromResourceString;
 /* harmony export (immutable) */ __webpack_exports__["d"] = toResourceString;
 /* harmony export (immutable) */ __webpack_exports__["c"] = metadataValidator;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__json__ = __webpack_require__(1133);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__json__ = __webpack_require__(1134);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__location__ = __webpack_require__(178);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__path__ = __webpack_require__(499);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__type__ = __webpack_require__(45);
@@ -9682,49 +9682,6 @@ function remove(array, elem) {
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var SHARED_KEY = 'sharedproject';
-exports.SHARED_KEY = SHARED_KEY;
-function encodeParam(publicProjectUrl) {
-    var base64Params = btoa(publicProjectUrl);
-    return encodeURIComponent(base64Params);
-}
-function decodeParam(encodedParam) {
-    try {
-        var base64Param = decodeURIComponent(encodedParam);
-        var decodedParam = atob(base64Param);
-        return {
-            message: 'OK',
-            data: decodedParam
-        };
-    } catch (error) {
-        return {
-            message: 'ERROR',
-            data: error
-        };
-    }
-}
-exports.decodeParam = decodeParam;
-function getShareableLink(publicProjectUrl) {
-    var baseUrl = location.protocol + "//" + location.host;
-    var pathName = location.pathname;
-    var queryIndex = location.hash.indexOf('?') < 0 ? location.hash.length : location.hash.indexOf('?');
-    //const hash = location.hash.substring(0, queryIndex);
-    var hash = "#/editor/(view:flat)";
-    var queryParams = SHARED_KEY + "=" + encodeParam(publicProjectUrl);
-    console.log('pathName:', pathName);
-    console.log('hash:', hash);
-    return "" + baseUrl + pathName + hash + "?" + queryParams;
-}
-exports.getShareableLink = getShareableLink;
-
-/***/ }),
-/* 263 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", { value: true });
 var MediaFile = /** @class */function () {
     function MediaFile() {}
     MediaFile.prototype.getFileName = function () {
@@ -9764,7 +9721,7 @@ var MediaFile = /** @class */function () {
 exports.MediaFile = MediaFile;
 
 /***/ }),
-/* 264 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9772,7 +9729,7 @@ exports.MediaFile = MediaFile;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 // import {BaseElement} from 'data/scene/entities/baseElement';
-var audio_1 = __webpack_require__(106);
+var audio_1 = __webpack_require__(105);
 var constants_1 = __webpack_require__(12);
 var Narrator = /** @class */function () {
     function Narrator() {
@@ -9836,7 +9793,7 @@ var Narrator = /** @class */function () {
 exports.Narrator = Narrator;
 
 /***/ }),
-/* 265 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9847,7 +9804,7 @@ var reverbList = ["Off", "Generic", "PaddedCell", "Room", "Bathroom", "Livingroo
 exports.reverbList = reverbList;
 
 /***/ }),
-/* 266 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9868,7 +9825,7 @@ var __extends = this && this.__extends || function () {
     };
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
-var baseElement_1 = __webpack_require__(134);
+var baseElement_1 = __webpack_require__(133);
 var Text = /** @class */function (_super) {
     __extends(Text, _super);
     function Text() {
@@ -9894,7 +9851,7 @@ var Text = /** @class */function (_super) {
 exports.Text = Text;
 
 /***/ }),
-/* 267 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9915,7 +9872,7 @@ var __extends = this && this.__extends || function () {
     };
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
-var baseElement_1 = __webpack_require__(134);
+var baseElement_1 = __webpack_require__(133);
 var constants_1 = __webpack_require__(12);
 var Door = /** @class */function (_super) {
     __extends(Door, _super);
@@ -9965,7 +9922,7 @@ var Door = /** @class */function (_super) {
 exports.Door = Door;
 
 /***/ }),
-/* 268 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9986,7 +9943,7 @@ var __extends = this && this.__extends || function () {
     };
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
-var baseElement_1 = __webpack_require__(134);
+var baseElement_1 = __webpack_require__(133);
 var Link = /** @class */function (_super) {
     __extends(Link, _super);
     function Link() {
@@ -10012,7 +9969,7 @@ var Link = /** @class */function (_super) {
 exports.Link = Link;
 
 /***/ }),
-/* 269 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10026,7 +9983,85 @@ function getAudioContext() {
 exports.getAudioContext = getAudioContext;
 
 /***/ }),
+/* 269 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var cameraService_1 = __webpack_require__(506);
+var CameraInteractor = /** @class */function () {
+    function CameraInteractor(cameraService) {
+        this.cameraService = cameraService;
+    }
+    CameraInteractor.prototype.getCameraAngles = function () {
+        return this.cameraService.getCameraAngles();
+    };
+    CameraInteractor.prototype.setCameraAngles = function (cameraAngles) {
+        this.cameraService.setCameraAngles(cameraAngles);
+    };
+    CameraInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [cameraService_1.CameraService])], CameraInteractor);
+    return CameraInteractor;
+}();
+exports.CameraInteractor = CameraInteractor;
+
+/***/ }),
 /* 270 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var SHARED_KEY = 'sharedproject';
+exports.SHARED_KEY = SHARED_KEY;
+function encodeParam(publicProjectUrl) {
+    var base64Params = btoa(publicProjectUrl);
+    return encodeURIComponent(base64Params);
+}
+function decodeParam(encodedParam) {
+    try {
+        var base64Param = decodeURIComponent(encodedParam);
+        var decodedParam = atob(base64Param);
+        return {
+            message: 'OK',
+            data: decodedParam
+        };
+    } catch (error) {
+        return {
+            message: 'ERROR',
+            data: error
+        };
+    }
+}
+exports.decodeParam = decodeParam;
+function getShareableLink(publicProjectUrl) {
+    var baseUrl = location.protocol + "//" + location.host;
+    var pathName = location.pathname;
+    var queryIndex = location.hash.indexOf('?') < 0 ? location.hash.length : location.hash.indexOf('?');
+    //const hash = location.hash.substring(0, queryIndex);
+    var hash = "#/editor/(view:flat)";
+    var queryParams = SHARED_KEY + "=" + encodeParam(publicProjectUrl);
+    console.log('pathName:', pathName);
+    console.log('hash:', hash);
+    return "" + baseUrl + pathName + hash + "?" + queryParams;
+}
+exports.getShareableLink = getShareableLink;
+
+/***/ }),
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10126,10 +10161,10 @@ var core_1 = __webpack_require__(2);
 var Observable_1 = __webpack_require__(0);
 var roomManager_1 = __webpack_require__(91);
 var roomPropertyBuilder_1 = __webpack_require__(179);
-var apiService_1 = __webpack_require__(66);
-var fileLoaderUtil_1 = __webpack_require__(65);
+var apiService_1 = __webpack_require__(65);
+var fileLoaderUtil_1 = __webpack_require__(66);
 __webpack_require__(242);
-__webpack_require__(1149);
+__webpack_require__(1152);
 var constants_1 = __webpack_require__(12);
 var JSZip = __webpack_require__(232);
 var JsYaml = __webpack_require__(230);
@@ -10460,7 +10495,7 @@ var DeserializationService = /** @class */function () {
 exports.DeserializationService = DeserializationService;
 
 /***/ }),
-/* 271 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10729,41 +10764,6 @@ function getBlobFromDataUrl(safeDataUrl) {
 }
 
 /***/ }),
-/* 272 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var cameraService_1 = __webpack_require__(510);
-var CameraInteractor = /** @class */function () {
-    function CameraInteractor(cameraService) {
-        this.cameraService = cameraService;
-    }
-    CameraInteractor.prototype.getCameraDirection = function () {
-        return this.cameraService.getCameraDirection();
-    };
-    CameraInteractor.prototype.setCameraDirection = function (x, y, z) {
-        this.cameraService.setCameraDirection(x, y, z);
-    };
-    CameraInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [cameraService_1.CameraService])], CameraInteractor);
-    return CameraInteractor;
-}();
-exports.CameraInteractor = CameraInteractor;
-
-/***/ }),
 /* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10783,7 +10783,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var assetInteractor_1 = __webpack_require__(60);
-var audioContextProvider_1 = __webpack_require__(269);
+var audioContextProvider_1 = __webpack_require__(268);
 var AudioPlayService = /** @class */function () {
     function AudioPlayService(assetInteractor) {
         this.assetInteractor = assetInteractor;
@@ -11798,7 +11798,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var THREE = __webpack_require__(28);
 var assetInteractor_1 = __webpack_require__(60);
-var iconPositionUtil_1 = __webpack_require__(105);
+var iconPositionUtil_1 = __webpack_require__(107);
 var constants_1 = __webpack_require__(12);
 var TWEEN = __webpack_require__(274);
 var MenuManager = /** @class */function () {
@@ -12023,8 +12023,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var chatService_1 = __webpack_require__(518);
-var userService_1 = __webpack_require__(184);
+var chatService_1 = __webpack_require__(519);
+var userService_1 = __webpack_require__(185);
 var ChatInteractor = /** @class */function () {
     function ChatInteractor(chatService, userService) {
         this.chatService = chatService;
@@ -12072,7 +12072,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var apiService_1 = __webpack_require__(66);
+var apiService_1 = __webpack_require__(65);
 var SearchInteractor = /** @class */function () {
     function SearchInteractor(apiService) {
         this.apiService = apiService;
@@ -12288,7 +12288,7 @@ exports.SearchInteractor = SearchInteractor;
  * limitations under the License.
  */
 
-__webpack_require__(1069);
+__webpack_require__(1070);
 module.exports = __webpack_require__(74).default;
 
 
@@ -12833,7 +12833,7 @@ exports.every = function (obj, fn) {
  * limitations under the License.
  */
 
-__webpack_require__(1086);
+__webpack_require__(1087);
 
 
 /***/ }),
@@ -12856,7 +12856,7 @@ __webpack_require__(1086);
  * limitations under the License.
  */
 
-module.exports = __webpack_require__(1087);
+module.exports = __webpack_require__(1088);
 
 
 /***/ }),
@@ -13272,7 +13272,7 @@ var util_2 = __webpack_require__(8);
 var Path_1 = __webpack_require__(22);
 var validation_1 = __webpack_require__(88);
 var util_3 = __webpack_require__(3);
-var EventRegistration_1 = __webpack_require__(1093);
+var EventRegistration_1 = __webpack_require__(1094);
 var util_4 = __webpack_require__(3);
 var __referenceConstructor;
 /**
@@ -15045,7 +15045,7 @@ var ChildrenNode_1 = __webpack_require__(35);
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(3);
 var ViewCache_1 = __webpack_require__(484);
-var View_1 = __webpack_require__(1099);
+var View_1 = __webpack_require__(1100);
 var __referenceConstructor;
 /**
  * SyncPoint represents a single location in a SyncTree with 1 or more event registrations, meaning we need to
@@ -15468,8 +15468,8 @@ var util_2 = __webpack_require__(3);
 var util_3 = __webpack_require__(3);
 var util_4 = __webpack_require__(8);
 var Path_1 = __webpack_require__(22);
-var VisibilityMonitor_1 = __webpack_require__(1111);
-var OnlineMonitor_1 = __webpack_require__(1112);
+var VisibilityMonitor_1 = __webpack_require__(1112);
+var OnlineMonitor_1 = __webpack_require__(1113);
 var util_5 = __webpack_require__(3);
 var Connection_1 = __webpack_require__(488);
 var util_6 = __webpack_require__(3);
@@ -16357,7 +16357,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(8);
 var storage_1 = __webpack_require__(169);
 var Constants_1 = __webpack_require__(170);
-var TransportManager_1 = __webpack_require__(1113);
+var TransportManager_1 = __webpack_require__(1114);
 // Abort upgrade attempt if it takes longer than 60s.
 var UPGRADE_TIMEOUT = 60000;
 // For some transports (WebSockets), we need to "validate" the transport by exchanging a few requests and responses.
@@ -16857,7 +16857,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(8);
 var CountedSet_1 = __webpack_require__(481);
 var StatsManager_1 = __webpack_require__(256);
-var PacketReceiver_1 = __webpack_require__(1114);
+var PacketReceiver_1 = __webpack_require__(1115);
 var Constants_1 = __webpack_require__(170);
 var util_2 = __webpack_require__(3);
 var util_3 = __webpack_require__(3);
@@ -18063,7 +18063,7 @@ exports.RangedFilter = RangedFilter;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_util__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__firebase_util__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_errors__ = __webpack_require__(176);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_token_manager__ = __webpack_require__(1125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_token_manager__ = __webpack_require__(1126);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_notification_permission__ = __webpack_require__(495);
 /**
  * Copyright 2017 Google Inc.
@@ -18467,7 +18467,7 @@ var ErrorCode;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__implementation_requests__ = __webpack_require__(501);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__implementation_string__ = __webpack_require__(131);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__implementation_type__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__task__ = __webpack_require__(1136);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__task__ = __webpack_require__(1137);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -18788,7 +18788,7 @@ function lastComponent(path) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FbsBlob; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__fs__ = __webpack_require__(1134);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__fs__ = __webpack_require__(1135);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__string__ = __webpack_require__(131);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__type__ = __webpack_require__(45);
 /**
@@ -18948,7 +18948,7 @@ var FbsBlob = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__error__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__metadata__ = __webpack_require__(259);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__object__ = __webpack_require__(104);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestinfo__ = __webpack_require__(1135);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestinfo__ = __webpack_require__(1136);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__type__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__url__ = __webpack_require__(260);
 /**
@@ -19286,26 +19286,520 @@ function continueResumableUpload(location, authWrapper, url, blob, chunkSize, ma
 
 /***/ }),
 /* 502 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var router_1 = __webpack_require__(17);
+var THREE = __webpack_require__(28);
+__webpack_require__(503);
+var event_bus_1 = __webpack_require__(9);
+var sceneInteractor_1 = __webpack_require__(14);
+var cameraInteractor_1 = __webpack_require__(269);
+var vector2_1 = __webpack_require__(75);
+var combinedHotspotUtil_1 = __webpack_require__(181);
+var assetInteractor_1 = __webpack_require__(60);
+var projectMetaDataInteractor_1 = __webpack_require__(36);
+var iconPositionUtil_1 = __webpack_require__(107);
+var threeUtil_1 = __webpack_require__(508);
+var video3D_1 = __webpack_require__(509);
+var EditSpaceSphere = /** @class */function () {
+    function EditSpaceSphere(sceneInteractor, cameraInteractor, eventBus, ngZone, combinedHotspotUtil, assetInteractor, metaDataInteractor, router) {
+        this.sceneInteractor = sceneInteractor;
+        this.cameraInteractor = cameraInteractor;
+        this.eventBus = eventBus;
+        this.ngZone = ngZone;
+        this.combinedHotspotUtil = combinedHotspotUtil;
+        this.assetInteractor = assetInteractor;
+        this.metaDataInteractor = metaDataInteractor;
+        this.router = router;
+        this.subscriptions = new Set();
+        this.onResizeFn = this.onResize.bind(this);
+    }
+    EditSpaceSphere.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.metaDataInteractor.projectIsEmpty()) {
+            this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
+        }
+        this.windowWidth = window.innerWidth;
+        this.windowHeight = window.innerHeight;
+        this.ngZone.runOutsideAngular(function () {
+            window.addEventListener('resize', _this.onResizeFn, false);
+        });
+    };
+    EditSpaceSphere.prototype.ngAfterViewInit = function () {
+        this.initScene();
+        this.subscribeToEvents();
+        this.loadTextures().then(this.initRoom.bind(this)).catch(function (error) {
+            return console.log('load textures / init room error', error, console.trace());
+        });
+    };
+    EditSpaceSphere.prototype.ngOnDestroy = function () {
+        window.removeEventListener('resize', this.onResizeFn, false);
+        this.cameraInteractor.setCameraAngles(this.svrControls.getCameraAngles());
+        cancelAnimationFrame(this.animationRequest);
+        this.subscriptions.forEach(function (subscription) {
+            return subscription.unsubscribe();
+        });
+        if (!!this.video3D) {
+            this.video3D.destroy();
+        }
+    };
+    EditSpaceSphere.prototype.initScene = function () {
+        var canvas = this.globeCanvas.nativeElement;
+        var sceneComponents = threeUtil_1.buildScene();
+        this.sphereMesh = sceneComponents.sphereMesh;
+        this.camera = sceneComponents.camera;
+        this.scene = sceneComponents.scene;
+        this.renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
+        this.svrControls = new THREE.SvrControls({
+            camera: this.camera,
+            domElement: canvas,
+            initialCameraAngles: this.cameraInteractor.getCameraAngles(),
+            onMouseDownCallback: this.onMouseDown.bind(this),
+            executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone)
+        });
+    };
+    EditSpaceSphere.prototype.initRoom = function () {
+        var _this = this;
+        var roomId = this.sceneInteractor.getActiveRoomId();
+        var room = this.sceneInteractor.getRoomById(roomId);
+        if (room.getBackgroundIsVideo()) {
+            this.video3D = new video3D_1.Video3D();
+            this.video3D.init(room.getBackgroundVideo()).then(function (texture) {
+                _this.sphereMesh.material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide });
+                _this.onResize(null);
+            }).catch(function (error) {
+                return console.log('EditSpaceSphere.initVideo', error);
+            });
+        } else {
+            var sphereTexture = this.assetInteractor.getTextureById(roomId);
+            this.sphereMesh.material = new THREE.MeshBasicMaterial({ map: sphereTexture, side: THREE.BackSide });
+            this.onResize(null);
+        }
+    };
+    EditSpaceSphere.prototype.loadTextures = function () {
+        var _this = this;
+        var imageList = this.sceneInteractor.getRoomIds().map(function (roomId) {
+            return _this.sceneInteractor.getRoomById(roomId);
+        }).filter(function (room) {
+            return room.hasBackgroundImage() && !room.getBackgroundIsVideo();
+        }).map(function (room) {
+            var imagePath = room.getBinaryFileData();
+            if (imagePath.changingThisBreaksApplicationSecurity) {
+                imagePath = imagePath.changingThisBreaksApplicationSecurity;
+            }
+            return new assetInteractor_1.AssetModel(room.getId(), room.getFileName(), imagePath);
+        });
+        return this.assetInteractor.loadTextures(imageList);
+    };
+    EditSpaceSphere.prototype.subscribeToEvents = function () {
+        var _this = this;
+        var onPropertySelect = this.eventBus.getObservable(event_bus_1.EventType.SELECT_PROPERTY).subscribe(function (observedData) {
+            var propertyId = observedData.propertyId;
+            var isNewProperty = observedData.isNewProperty;
+            var roomIconList = _this.roomIconComponentList.filter(function (roomIcon) {
+                return roomIcon.roomProperty.getId() !== propertyId;
+            });
+            if (isNewProperty) {
+                _this.onNewPropertyAdded(propertyId);
+            }
+            _this.combinedHotspotUtil.setRoomPropertyList(roomIconList);
+        }, function (error) {
+            return console.log('error', error);
+        });
+        var onRoomSelect = this.eventBus.getObservable(event_bus_1.EventType.SELECT_ROOM).subscribe(function (observedData) {
+            if (observedData.isNewProperty) {
+                _this.initRoom();
+                return;
+            }
+            _this.loadTextures().then(_this.initRoom.bind(_this)).catch(function (error) {
+                return console.log('onRoomSelect', error);
+            });
+        }, function (error) {
+            return console.log('error', error);
+        });
+        this.subscriptions.add(onRoomSelect);
+        this.subscriptions.add(onPropertySelect);
+    };
+    EditSpaceSphere.prototype.onNewPropertyAdded = function (propertyId) {
+        var _this = this;
+        var newLocation = vector2_1.Vector2.build();
+        var denormalizedPosition = iconPositionUtil_1.denormalizePosition(newLocation.getX(), newLocation.getY());
+        var normalPosition = this.transformScreenPositionTo3dNormal(denormalizedPosition.getX(), denormalizedPosition.getY());
+        var activeRoomId = this.sceneInteractor.getActiveRoomId();
+        this.sceneInteractor.getPropertyById(activeRoomId, propertyId).setLocation(normalPosition);
+        setTimeout(function () {
+            _this.roomIconComponentList.forEach(function (roomIcon) {
+                return _this.updateRoomIconPosition(roomIcon);
+            });
+        });
+    };
+    EditSpaceSphere.prototype.render = function () {
+        var _this = this;
+        this.svrControls.update();
+        this.roomIconComponentList.forEach(function (roomIcon) {
+            return _this.updateRoomIconPosition(roomIcon);
+        });
+        if (this.video3D) {
+            this.video3D.attemptEditSpaceRender();
+        }
+        this.renderer.render(this.scene, this.camera);
+        // const shouldRender = this.isDragging || this.svrControls.hasMomentum();
+        // if (shouldRender) {
+        if (this.svrControls.shouldRender()) {
+            this.ngZone.runOutsideAngular(function () {
+                _this.animationRequest = requestAnimationFrame(_this.render.bind(_this));
+            });
+        }
+    };
+    EditSpaceSphere.prototype.onMouseDown = function (event) {
+        this.render();
+    };
+    EditSpaceSphere.prototype.onMoveEnd = function ($event) {
+        var normalPosition = this.transformScreenPositionTo3dNormal($event.x, $event.y);
+        $event.setIconLocation(normalPosition.getX(), -normalPosition.getY());
+        this.render();
+    };
+    EditSpaceSphere.prototype.onResize = function (event) {
+        var _this = this;
+        threeUtil_1.onResize(this.camera, this.renderer).then(function () {
+            _this.roomIconComponentList.forEach(function (roomIcon) {
+                return roomIcon.setPixelLocation(99999, 99999);
+            });
+            _this.render();
+        }).catch(function (error) {
+            return console.log('edit-sphere resize error', error);
+        });
+    };
+    EditSpaceSphere.prototype.updateRoomIconPosition = function (roomIcon) {
+        var location = roomIcon.getLocation();
+        var coordinatePosition = iconPositionUtil_1.getCoordinatePosition(location.getX(), location.getY());
+        var positionCameraDotProd = coordinatePosition.dot(this.camera.getWorldDirection());
+        // exit function if the camera is pointed in the opposite direction as the icon
+        if (positionCameraDotProd < 0) return;
+        var screenPosition = getScreenProjection(coordinatePosition, this.camera, this.renderer.context);
+        roomIcon.setPixelLocationWithBuffer(screenPosition.x, screenPosition.y);
+    };
+    EditSpaceSphere.prototype.getItems = function () {
+        var roomId = this.sceneInteractor.getActiveRoomId();
+        return this.sceneInteractor.getRoomProperties(roomId);
+    };
+    EditSpaceSphere.prototype.roomHasBackgroundImage = function () {
+        var roomId = this.sceneInteractor.getActiveRoomId();
+        return this.sceneInteractor.roomHasBackgroundImage(roomId);
+    };
+    EditSpaceSphere.prototype.transformScreenPositionTo3dNormal = function (x, y) {
+        var normalPosition = getNormalizedPositionFromScreenPosition(x, y, this.camera, this.renderer.context);
+        return normalPosition;
+    };
+    __decorate([core_1.ViewChildren('roomIcon'), __metadata("design:type", Array)], EditSpaceSphere.prototype, "roomIconComponentList", void 0);
+    __decorate([core_1.ViewChild('editSpaceSphere'), __metadata("design:type", Object)], EditSpaceSphere.prototype, "editSpaceSphere", void 0);
+    __decorate([core_1.ViewChild('globeCanvas'), __metadata("design:type", Object)], EditSpaceSphere.prototype, "globeCanvas", void 0);
+    EditSpaceSphere = __decorate([core_1.Component({
+        selector: 'edit-space-sphere',
+        styles: [__webpack_require__(1150)],
+        template: __webpack_require__(1151)
+    }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, cameraInteractor_1.CameraInteractor, event_bus_1.EventBus, core_1.NgZone, combinedHotspotUtil_1.CombinedHotspotUtil, assetInteractor_1.AssetInteractor, projectMetaDataInteractor_1.MetaDataInteractor, router_1.Router])], EditSpaceSphere);
+    return EditSpaceSphere;
+}();
+exports.EditSpaceSphere = EditSpaceSphere;
+// get xyz position from absolute screen position
+function getWorldPosition(screenPositionX, screenPositionY, camera, context) {
+    var width = context.canvas.width;
+    var height = context.canvas.height;
+    var x = screenPositionX / width * 2 - 1;
+    var y = -(screenPositionY / height) * 2 + 1;
+    var vector = new THREE.Vector3(x, y, 0.5);
+    return vector.unproject(camera);
+}
+// get absolute screen position from xyz position
+function getScreenProjection(position, camera, context) {
+    var proxyObject = new THREE.Object3D();
+    var vector = new THREE.Vector3();
+    var halfWidth = context.canvas.width / 2;
+    var halfHeight = context.canvas.height / 2;
+    proxyObject.position.set(position.x, position.y, position.z);
+    proxyObject.updateMatrixWorld(true);
+    vector.setFromMatrixPosition(proxyObject.matrixWorld);
+    vector.project(camera);
+    return {
+        x: vector.x * halfWidth + halfWidth,
+        y: -(vector.y * halfHeight) + halfHeight
+    };
+}
+function getNormalizedPositionFromScreenPosition(screenX, screenY, camera, context) {
+    var worldPosition = getWorldPosition(screenX, screenY, camera, context);
+    var spherical = iconPositionUtil_1.coordinateToSpherical(worldPosition.x, worldPosition.y, worldPosition.z);
+    var x = spherical.theta / Math.PI * 180;
+    var y = spherical.phi / Math.PI * 180 - 90;
+    if (x < 0) {
+        x += 360;
+    }
+    x = iconPositionUtil_1.clamp(x, 0, 360);
+    y = iconPositionUtil_1.clamp(y, -90, 90);
+    return new vector2_1.Vector2(x, y);
+}
+
+/***/ }),
+/* 503 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(THREE) {// Social VR Controls: A slimmed down version of OrbitControls
+// https://github.com/mrdoob/three.js/blob/dev/examples/js/controls/OrbitControls.js
+
+// Differences include:
+//  - Removing dollying & zooming
+//  - Hard coding rotation speed
+//  - Adding momentum
+
+const TWO_PI = 2 * Math.PI;
+const ROTATE_SPEED = -0.3;
+const DAMPING_FACTOR = 0.9;
+const DAMPING_DECAY = 0.005;
+const MOMENTUM_EPSILON = 0.25;
+const START_EVENT = { type: 'start' };
+const END_EVENT = { type: 'end' };
+const CENTER = new THREE.Vector3(0, 0, 0);
+
+const defaultExecutionContext = (fn) => {
+	if (fn && typeof fn === 'function') {
+		fn();
+	}
+};
+
+THREE.SvrControls = function (options) {
+
+	this.camera = options.camera;
+	this.domElement = options.domElement ? options.domElement : document;
+	this.onMouseDownCallback = options.onMouseDownCallback || (() => {});
+	this.executionContext = options.executionContext || defaultExecutionContext;
+
+	this.getCameraAngles = () => spherical;
+
+	this.setCameraAngles = (phi, theta) => {
+		spherical.phi = phi;
+		spherical.theta = theta;
+
+		const quatInverse = getCameraQuaternion().inverse();
+		const cameraPosition = new THREE.Vector3().setFromSpherical(spherical);
+		cameraPosition.applyQuaternion(quatInverse);
+		scope.camera.position.copy(cameraPosition);
+		scope.camera.lookAt(CENTER);
+	};
+
+	this.hasMomentum = () => hasMomentum;
+
+	this.shouldRender = () => isDragging || hasMomentum;
+
+	this.update = function () {
+		const quat = getCameraQuaternion();
+		const quatInverse = quat.clone().inverse();
+
+		return function update() {
+			const cameraPosition = scope.camera.position.clone();
+
+			cameraPosition.applyQuaternion(quat);
+			spherical.setFromVector3(cameraPosition);
+
+			if (hasMomentum) {
+        if (Math.abs(momentum.x) < MOMENTUM_EPSILON && Math.abs(momentum.y) < MOMENTUM_EPSILON) {
+    			hasMomentum = false;
+    		}
+        else {
+          momentum.x *= DAMPING_FACTOR;
+          momentum.y *= DAMPING_FACTOR;
+      		sphericalDelta.theta += DAMPING_DECAY * momentum.x;
+      		sphericalDelta.phi += DAMPING_DECAY * momentum.y;
+        }
+      }
+
+			spherical.theta += sphericalDelta.theta;
+			spherical.phi += sphericalDelta.phi;
+			spherical.makeSafe();
+
+			cameraPosition.setFromSpherical(spherical);
+			cameraPosition.applyQuaternion(quatInverse);
+
+			scope.camera.position.copy(cameraPosition);
+			scope.camera.lookAt(CENTER);
+
+			sphericalDelta.set(0, 0, 0);
+		};
+
+	}();
+
+	this.dispose = function () {
+		scope.domElement.removeEventListener('contextmenu', onContextMenu, false);
+		scope.domElement.removeEventListener('mousedown', onMouseDown, false);
+		document.removeEventListener('mousemove', onMouseMove, false);
+		document.removeEventListener('mouseup', onMouseUp, false);
+		scope.domElement.removeEventListener('touchstart', onTouchStart, false);
+		document.removeEventListener('touchmove', onTouchMove, false);
+		document.removeEventListener('touchend', onTouchEnd, false);
+	};
+
+	//
+	// internals
+	//
+
+	const scope = this;
+	const spherical = new THREE.Spherical();
+	const sphericalDelta = new THREE.Spherical();
+	const rotateStart = new THREE.Vector2();
+	const rotateEnd = new THREE.Vector2();
+	const rotateDelta = new THREE.Vector2();
+	const touchLocation = new THREE.Vector2();
+
+	let hasMomentum = false;
+	let momentum = new THREE.Vector2();
+	let isDragging = false;
+
+	function rotateLeft( angle ) {
+		sphericalDelta.theta -= angle;
+	}
+
+	function rotateUp( angle ) {
+		sphericalDelta.phi -= angle;
+	}
+
+	function getCameraQuaternion() {
+		return new THREE.Quaternion().setFromUnitVectors(options.camera.up, new THREE.Vector3(0, 1, 0));
+	}
+
+	function onMouseDown(event) {
+		event.preventDefault();
+    hasMomentum = false;
+		isDragging = true;
+		momentum.set(0, 0);
+    rotateStart.set(event.clientX, event.clientY);
+
+		scope.executionContext(() => {
+			document.addEventListener('mousemove', onMouseMove, false);
+			document.addEventListener('mouseup', onMouseUp, false);
+			document.addEventListener('touchmove', onTouchMove, { passive: false });
+			document.addEventListener('touchend', onTouchEnd, false);
+		});
+		scope.dispatchEvent(START_EVENT);
+		scope.onMouseDownCallback(event);
+	}
+
+	function onMouseMove( event ) {
+		if (!isDragging) { return; }
+    event.preventDefault();
+		rotateEnd.set( event.clientX, event.clientY );
+		rotateDelta.subVectors(rotateEnd, rotateStart);
+
+		const element = scope.domElement === document ? scope.domElement.body : scope.domElement;
+		rotateLeft(TWO_PI * rotateDelta.x / element.clientWidth * ROTATE_SPEED);
+		rotateUp(TWO_PI * rotateDelta.y / element.clientHeight * ROTATE_SPEED);
+		rotateStart.copy(rotateEnd);
+
+    if (event.movementX !== undefined && event.movementY !== undefined) {
+      momentum.x = event.movementX;
+      momentum.y = event.movementY;
+    }
+
+		scope.update();
+	}
+
+	function onMouseUp( event ) {
+    hasMomentum = true;
+		isDragging = false;
+		document.removeEventListener('mousemove', onMouseMove, false);
+		document.removeEventListener('mouseup', onMouseUp, false);
+		document.removeEventListener('touchmove', onTouchMove, false);
+		document.removeEventListener('touchend', onTouchEnd, false);
+		scope.dispatchEvent(END_EVENT);
+	}
+
+	function onTouchStart(event) {
+		if (event.touches.length > 1) { return; }
+		const x = event.touches[0].clientX;
+		const y = event.touches[0].clientY;
+		touchLocation.x = x;
+		touchLocation.y = y;
+		event.clientX = x;
+		event.clientY = y;
+		event.movementX = 0;
+		event.movementY = 0;
+		event.preventDefault = () => {};
+		onMouseDown(event);
+	}
+
+	function onTouchMove(event) {
+		const x = event.touches[0].clientX;
+		const y = event.touches[0].clientY;
+		event.clientX = x;
+		event.clientY = y;
+		event.movementX = x - touchLocation.x;
+		event.movementY = y - touchLocation.y;
+		touchLocation.x = x;
+		touchLocation.y = y;
+		onMouseMove(event);
+	}
+
+	function onTouchEnd(event) {
+		if (event.touches.length > 0) { return; }
+		event.clientX = touchLocation.x;
+		event.clientY = touchLocation.y;
+		onMouseUp(event);
+	}
+
+	this.executionContext(() => {
+		scope.domElement.addEventListener('contextmenu', e => e.preventDefault(), false);
+		scope.domElement.addEventListener('mousedown', onMouseDown, false);
+		scope.domElement.addEventListener('touchstart', onTouchStart, false);
+	});
+
+	// initialize
+	this.update();
+	if (options.initialCameraAngles) {
+		const { phi, theta } = options.initialCameraAngles;
+		this.setCameraAngles(phi, theta);
+	}
+};
+
+THREE.SvrControls.prototype = Object.create( THREE.EventDispatcher.prototype );
+THREE.SvrControls.prototype.constructor = THREE.SvrControls;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
+
+/***/ }),
+/* 504 */
 /***/ (function(module, exports) {
 
 module.exports = "DEV";
 
 /***/ }),
-/* 503 */
+/* 505 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var audio_1 = __webpack_require__(106);
+var audio_1 = __webpack_require__(105);
 var image_1 = __webpack_require__(180);
 var vector2_1 = __webpack_require__(75);
-var mediaFile_1 = __webpack_require__(263);
-var narrator_1 = __webpack_require__(264);
-var uuid_1 = __webpack_require__(107);
+var mediaFile_1 = __webpack_require__(262);
+var narrator_1 = __webpack_require__(263);
+var uuid_1 = __webpack_require__(106);
 var constants_1 = __webpack_require__(12);
-var reverbList_1 = __webpack_require__(265);
+var reverbList_1 = __webpack_require__(264);
 var constants_2 = __webpack_require__(12);
 var Room = /** @class */function () {
     function Room() {
@@ -19550,7 +20044,36 @@ var Room = /** @class */function () {
 exports.Room = Room;
 
 /***/ }),
-/* 504 */
+/* 506 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var CameraService = /** @class */function () {
+    function CameraService() {}
+    CameraService.prototype.getCameraAngles = function () {
+        return this.cameraAngles;
+    };
+    CameraService.prototype.setCameraAngles = function (cameraAngles) {
+        this.cameraAngles = cameraAngles;
+    };
+    CameraService = __decorate([core_1.Injectable()], CameraService);
+    return CameraService;
+}();
+exports.CameraService = CameraService;
+
+/***/ }),
+/* 507 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19596,507 +20119,7 @@ var AssetService = /** @class */function () {
 exports.AssetService = AssetService;
 
 /***/ }),
-/* 505 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var ProjectService = /** @class */function () {
-    function ProjectService() {}
-    ProjectService.prototype.getProjectId = function () {
-        return this.projectId;
-    };
-    ProjectService.prototype.setProjectId = function (projectId) {
-        this.projectId = projectId;
-    };
-    ProjectService.prototype.isWorkingOnSavedProject = function () {
-        return !!this.projectId;
-    };
-    ProjectService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], ProjectService);
-    return ProjectService;
-}();
-exports.ProjectService = ProjectService;
-
-/***/ }),
-/* 506 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var apiService_1 = __webpack_require__(66);
-// import 'rxjs/add/operator/do';
-var VideoInteractor = /** @class */function () {
-    function VideoInteractor(apiService) {
-        this.apiService = apiService;
-    }
-    VideoInteractor.prototype.uploadVideo = function (videoFile) {
-        return this.apiService.uploadVideo(videoFile);
-    };
-    VideoInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [apiService_1.ApiService])], VideoInteractor);
-    return VideoInteractor;
-}();
-exports.VideoInteractor = VideoInteractor;
-
-/***/ }),
-/* 507 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var Observable_1 = __webpack_require__(0);
-var SocialAuthenticationService = /** @class */function () {
-    function SocialAuthenticationService() {}
-    SocialAuthenticationService.prototype.facebookLogin = function () {
-        var FB = window.FB;
-        var fbLogin = new Promise(function (resolve, reject) {
-            FB.login(function (response) {
-                console.log('on facebook log in', response);
-                if (response.status === 'connected') {
-                    resolve(response);
-                } else {
-                    reject(response.error);
-                }
-            });
-        });
-        return Observable_1.Observable.fromPromise(fbLogin);
-    };
-    SocialAuthenticationService.prototype.googleLogin = function () {
-        var gapi = window.gapi;
-        return Observable_1.Observable.fromPromise(gapi.auth2.getAuthInstance().signIn());
-    };
-    SocialAuthenticationService.prototype.facebookLogout = function () {
-        window.FB.api('/me/permissions', 'delete', function (response) {
-            console.log('facebook logout', response);
-        });
-    };
-    SocialAuthenticationService.prototype.googleLogout = function () {
-        window.gapi.auth2.getAuthInstance().signOut().then(function () {
-            console.log('User signed out.');
-        });
-    };
-    SocialAuthenticationService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], SocialAuthenticationService);
-    return SocialAuthenticationService;
-}();
-exports.SocialAuthenticationService = SocialAuthenticationService;
-
-/***/ }),
 /* 508 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var ResponsiveUtil = /** @class */function () {
-    function ResponsiveUtil() {
-        var _this = this;
-        this.screenWidth = window.innerWidth;
-        window.addEventListener('resize', function ($event) {
-            return _this.screenWidth = window.innerWidth;
-        });
-    }
-    ResponsiveUtil.prototype.isMobile = function () {
-        return this.screenWidth < 768; // this must match values in breakpoints.scss
-    };
-    ResponsiveUtil = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], ResponsiveUtil);
-    return ResponsiveUtil;
-}();
-exports.ResponsiveUtil = ResponsiveUtil;
-
-/***/ }),
-/* 509 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(THREE) {// Social VR Controls: A slimmed down version of OrbitControls
-// https://github.com/mrdoob/three.js/blob/dev/examples/js/controls/OrbitControls.js
-
-// Differences include:
-//  - Removing dollying & zooming
-//  - Hard coding rotation speed
-//  - Adding momentum
-
-const defaultExecutionContext = (fn) => {
-	if (fn && typeof fn === 'function') {
-		fn();
-	}
-};
-
-// THREE.SvrControls = function (camera, domElement, initialTarget) {
-THREE.SvrControls = function (options) {
-
-	// this.camera = camera;
-	this.camera = options.camera;
-	// this.domElement = ( domElement !== undefined ) ? domElement : document;
-	// this.domElement = (options.domElement !== undefined) ? options.domElement : document;
-	this.domElement = options.domElement ? options.domElement : document;
-
-	// "target" sets the location of focus, where the object orbits around
-	this.target = new THREE.Vector3(
-		options.initialTarget.x || 0,
-		options.initialTarget.y || 0,
-		options.initialTarget.z || 0
-	);
-
-	this.onMouseDownCallback = options.onMouseDownCallback || (() => {});
-	this.executionContext = options.executionContext || defaultExecutionContext;
-
-	// How far you can dolly in and out ( PerspectiveCamera only )
-	this.minDistance = 0;
-	this.maxDistance = Infinity;
-
-	// How far you can zoom in and out ( OrthographicCamera only )
-	this.minZoom = 0;
-	this.maxZoom = Infinity;
-
-	// How far you can orbit vertically, upper and lower limits.
-	// Range is 0 to Math.PI radians.
-	this.minPolarAngle = 0; // radians
-	this.maxPolarAngle = Math.PI; // radians
-
-	// How far you can orbit horizontally, upper and lower limits.
-	// If set, must be a sub-interval of the interval [ - Math.PI, Math.PI ].
-	this.minAzimuthAngle = - Infinity; // radians
-	this.maxAzimuthAngle = Infinity; // radians
-
-	// Rotation speed
-	this.rotateSpeed = -0.3;
-
-	// for reset
-	this.target0 = this.target.clone();
-	this.position0 = this.camera.position.clone();
-
-	this.touchLocation = new THREE.Vector2(0, 0);
-
-	this.getPolarAngle = () => spherical.phi;
-
-	this.getAzimuthalAngle = () => spherical.theta;
-
-	this.hasMomentum = () => hasMomentum;
-
-	this.shouldRender = () => isDragging || hasMomentum;
-
-	this.reset = () => {
-		scope.target.copy( scope.target0 );
-		scope.camera.position.copy( scope.position0 );
-		scope.camera.updateProjectionMatrix();
-		scope.dispatchEvent( changeEvent );
-		scope.update();
-	};
-
-	this.lookAt = (targetVector) => {
-		scope.target.copy( targetVector );
-		scope.camera.lookAt( scope.target );
-		scope.camera.updateProjectionMatrix();
-		scope.dispatchEvent( changeEvent );
-		scope.update();
-	}
-
-	this.update = function () {
-		const offset = new THREE.Vector3();
-
-		// camera.up is the orbit axis
-		const quat = new THREE.Quaternion().setFromUnitVectors( options.camera.up, new THREE.Vector3( 0, 1, 0 ) );
-		const quatInverse = quat.clone().inverse();
-
-		const lastPosition = new THREE.Vector3();
-		const lastQuaternion = new THREE.Quaternion();
-
-		return function update() {
-
-			const position = scope.camera.position;
-
-			offset.copy( position ).sub( scope.target );
-
-			// rotate offset to "y-axis-is-up" space
-			offset.applyQuaternion( quat );
-
-			// angle from z-axis around y-axis
-			spherical.setFromVector3( offset );
-
-			if (hasMomentum) {
-        if (Math.abs(momentum.x) < momentumEpsilon && Math.abs(momentum.y) < momentumEpsilon) {
-    			hasMomentum = false;
-    		}
-        else {
-          momentum.x *= dampingFactor;
-          momentum.y *= dampingFactor;
-      		sphericalDelta.theta += dampingDecay * momentum.x;
-      		sphericalDelta.phi   += dampingDecay * momentum.y;
-        }
-      }
-
-			spherical.theta += sphericalDelta.theta;
-			spherical.phi += sphericalDelta.phi;
-
-			// restrict theta to be between desired limits
-			spherical.theta = Math.max( scope.minAzimuthAngle, Math.min( scope.maxAzimuthAngle, spherical.theta ) );
-
-			// restrict phi to be between desired limits
-			spherical.phi = Math.max( scope.minPolarAngle, Math.min( scope.maxPolarAngle, spherical.phi ) );
-
-			spherical.makeSafe();
-
-			spherical.radius *= scale;
-
-			// restrict radius to be between desired limits
-			spherical.radius = Math.max( scope.minDistance, Math.min( scope.maxDistance, spherical.radius ) );
-
-			// move target to panned location
-			scope.target.add( panOffset );
-
-			offset.setFromSpherical( spherical );
-
-			// rotate offset back to "camera-up-vector-is-up" space
-			offset.applyQuaternion( quatInverse );
-
-			position.copy( scope.target ).add( offset );
-
-			scope.camera.lookAt( scope.target );
-
-			sphericalDelta.set( 0, 0, 0 );
-
-			return false;
-		};
-
-	}();
-
-	this.dispose = function () {
-		scope.domElement.removeEventListener('contextmenu', onContextMenu, false);
-		scope.domElement.removeEventListener('mousedown', onMouseDown, false);
-		document.removeEventListener('mousemove', onMouseMove, false);
-		document.removeEventListener('mouseup', onMouseUp, false);
-		scope.domElement.removeEventListener('touchstart', onTouchStart, false);
-		document.removeEventListener('touchmove', onTouchMove, false);
-		document.removeEventListener('touchend', onTouchEnd, false);
-	};
-
-	//
-	// internals
-	//
-
-	const scope = this;
-
-	const changeEvent = { type: 'change' };
-	const startEvent = { type: 'start' };
-	const endEvent = { type: 'end' };
-
-	// current position in spherical coordinates
-	const spherical = new THREE.Spherical();
-	const sphericalDelta = new THREE.Spherical();
-
-	let scale = 1;
-	const panOffset = new THREE.Vector3();
-
-	var rotateStart = new THREE.Vector2();
-	var rotateEnd = new THREE.Vector2();
-	var rotateDelta = new THREE.Vector2();
-
-	let hasMomentum = false;
-	let momentum = new THREE.Vector2();
-	let dampingFactor = 0.9;
-	let dampingDecay = 0.005;
-	let momentumEpsilon = 0.25;
-
-	let isDragging = false;
-
-	function getAutoRotationAngle() {
-		return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed;
-	}
-
-	function getZoomScale() {
-		return Math.pow( 0.95, scope.zoomSpeed );
-	}
-
-	function rotateLeft( angle ) {
-		sphericalDelta.theta -= angle;
-	}
-
-	function rotateUp( angle ) {
-		sphericalDelta.phi -= angle;
-	}
-
-	function onMouseDown(event) {
-		event.preventDefault();
-    hasMomentum = false;
-		isDragging = true;
-    momentum = new THREE.Vector2();
-    rotateStart.set(event.clientX, event.clientY);
-
-		scope.executionContext(() => {
-			document.addEventListener('mousemove', onMouseMove, false);
-			document.addEventListener('mouseup', onMouseUp, false);
-			document.addEventListener('touchmove', onTouchMove, { passive: false });
-			document.addEventListener('touchend', onTouchEnd, false);
-		});
-		scope.dispatchEvent(startEvent);
-		scope.onMouseDownCallback(event);
-	}
-
-	function onMouseMove( event ) {
-		if (!isDragging) { return; }
-    event.preventDefault();
-		rotateEnd.set( event.clientX, event.clientY );
-		rotateDelta.subVectors( rotateEnd, rotateStart );
-
-		const element = scope.domElement === document ? scope.domElement.body : scope.domElement;
-
-		rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientWidth * scope.rotateSpeed );
-
-		rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight * scope.rotateSpeed );
-
-		rotateStart.copy( rotateEnd );
-
-    if (event.movementX !== undefined && event.movementY !== undefined) {
-      momentum.x = event.movementX;
-      momentum.y = event.movementY;
-    }
-
-		scope.update();
-	}
-
-	function onMouseUp( event ) {
-    hasMomentum = true;
-		isDragging = false;
-		document.removeEventListener('mousemove', onMouseMove, false);
-		document.removeEventListener('mouseup', onMouseUp, false);
-		document.removeEventListener('touchmove', onTouchMove, false);
-		document.removeEventListener('touchend', onTouchEnd, false);
-		scope.dispatchEvent(endEvent);
-	}
-
-	function onTouchStart(event) {
-		if (event.touches.length > 1) { return; }
-		const x = event.touches[0].clientX;
-		const y = event.touches[0].clientY;
-		scope.touchLocation.x = x;
-		scope.touchLocation.y = y;
-		event.clientX = x;
-		event.clientY = y;
-		event.movementX = 0;
-		event.movementY = 0;
-		event.preventDefault = () => {};
-		onMouseDown(event);
-	}
-
-	function onTouchMove(event) {
-		const x = event.touches[0].clientX;
-		const y = event.touches[0].clientY;
-		event.clientX = x;
-		event.clientY = y;
-		event.movementX = x - scope.touchLocation.x;
-		event.movementY = y - scope.touchLocation.y;
-		scope.touchLocation.x = x;
-		scope.touchLocation.y = y;
-		onMouseMove(event);
-	}
-
-	function onTouchEnd(event) {
-		if (event.touches.length > 0) { return; }
-		scope.clientX = scope.touchLocation.x;
-		scope.clientY = scope.touchLocation.y;
-		onMouseUp(event);
-	}
-
-	this.executionContext(() => {
-		scope.domElement.addEventListener('contextmenu', e => e.preventDefault(), false);
-		scope.domElement.addEventListener('mousedown', onMouseDown, false);
-		scope.domElement.addEventListener('touchstart', onTouchStart, false);
-	});
-
-	// force an update at start
-	this.update();
-};
-
-THREE.SvrControls.prototype = Object.create( THREE.EventDispatcher.prototype );
-THREE.SvrControls.prototype.constructor = THREE.SvrControls;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
-
-/***/ }),
-/* 510 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var CameraService = /** @class */function () {
-    function CameraService() {
-        this.direction = { x: 0, y: 0, z: 0 };
-    }
-    CameraService.prototype.getCameraDirection = function () {
-        return this.direction;
-    };
-    CameraService.prototype.setCameraDirection = function (x, y, z) {
-        this.direction.x = x;
-        this.direction.y = y;
-        this.direction.z = z;
-    };
-    CameraService = __decorate([core_1.Injectable()], CameraService);
-    return CameraService;
-}();
-exports.CameraService = CameraService;
-
-/***/ }),
-/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20169,7 +20192,7 @@ function onResize(camera, renderer) {
 exports.onResize = onResize;
 
 /***/ }),
-/* 512 */
+/* 509 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20241,7 +20264,165 @@ var Video3D = /** @class */function () {
 exports.Video3D = Video3D;
 
 /***/ }),
+/* 510 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var ProjectService = /** @class */function () {
+    function ProjectService() {}
+    ProjectService.prototype.getProjectId = function () {
+        return this.projectId;
+    };
+    ProjectService.prototype.setProjectId = function (projectId) {
+        this.projectId = projectId;
+    };
+    ProjectService.prototype.isWorkingOnSavedProject = function () {
+        return !!this.projectId;
+    };
+    ProjectService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], ProjectService);
+    return ProjectService;
+}();
+exports.ProjectService = ProjectService;
+
+/***/ }),
+/* 511 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var apiService_1 = __webpack_require__(65);
+// import 'rxjs/add/operator/do';
+var VideoInteractor = /** @class */function () {
+    function VideoInteractor(apiService) {
+        this.apiService = apiService;
+    }
+    VideoInteractor.prototype.uploadVideo = function (videoFile) {
+        return this.apiService.uploadVideo(videoFile);
+    };
+    VideoInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [apiService_1.ApiService])], VideoInteractor);
+    return VideoInteractor;
+}();
+exports.VideoInteractor = VideoInteractor;
+
+/***/ }),
+/* 512 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var Observable_1 = __webpack_require__(0);
+var SocialAuthenticationService = /** @class */function () {
+    function SocialAuthenticationService() {}
+    SocialAuthenticationService.prototype.facebookLogin = function () {
+        var FB = window.FB;
+        var fbLogin = new Promise(function (resolve, reject) {
+            FB.login(function (response) {
+                console.log('on facebook log in', response);
+                if (response.status === 'connected') {
+                    resolve(response);
+                } else {
+                    reject(response.error);
+                }
+            });
+        });
+        return Observable_1.Observable.fromPromise(fbLogin);
+    };
+    SocialAuthenticationService.prototype.googleLogin = function () {
+        var gapi = window.gapi;
+        return Observable_1.Observable.fromPromise(gapi.auth2.getAuthInstance().signIn());
+    };
+    SocialAuthenticationService.prototype.facebookLogout = function () {
+        window.FB.api('/me/permissions', 'delete', function (response) {
+            console.log('facebook logout', response);
+        });
+    };
+    SocialAuthenticationService.prototype.googleLogout = function () {
+        window.gapi.auth2.getAuthInstance().signOut().then(function () {
+            console.log('User signed out.');
+        });
+    };
+    SocialAuthenticationService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], SocialAuthenticationService);
+    return SocialAuthenticationService;
+}();
+exports.SocialAuthenticationService = SocialAuthenticationService;
+
+/***/ }),
 /* 513 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var ResponsiveUtil = /** @class */function () {
+    function ResponsiveUtil() {
+        var _this = this;
+        this.screenWidth = window.innerWidth;
+        window.addEventListener('resize', function ($event) {
+            return _this.screenWidth = window.innerWidth;
+        });
+    }
+    ResponsiveUtil.prototype.isMobile = function () {
+        return this.screenWidth < 768; // this must match values in breakpoints.scss
+    };
+    ResponsiveUtil = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], ResponsiveUtil);
+    return ResponsiveUtil;
+}();
+exports.ResponsiveUtil = ResponsiveUtil;
+
+/***/ }),
+/* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20355,7 +20536,7 @@ var AudioManager = /** @class */function () {
 exports.AudioManager = AudioManager;
 
 /***/ }),
-/* 514 */
+/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20416,7 +20597,7 @@ var TextureLoader = /** @class */function () {
 exports.TextureLoader = TextureLoader;
 
 /***/ }),
-/* 515 */
+/* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20444,11 +20625,11 @@ var roomManager_1 = __webpack_require__(91);
 var menuManager_1 = __webpack_require__(275);
 var textMaterialBuilder_1 = __webpack_require__(1190);
 var imageResizeService_1 = __webpack_require__(52);
-var iconPositionUtil_1 = __webpack_require__(105);
+var iconPositionUtil_1 = __webpack_require__(107);
 var event_bus_1 = __webpack_require__(9);
-var iconPositionUtil_2 = __webpack_require__(105);
+var iconPositionUtil_2 = __webpack_require__(107);
 var constants_1 = __webpack_require__(12);
-var fontHelper_1 = __webpack_require__(516);
+var fontHelper_1 = __webpack_require__(517);
 function buildDashCircle() {
     var dashCircleGeom = new THREE.CircleGeometry(constants_1.THREE_CONST.HOTSPOT_DIM, constants_1.THREE_CONST.DASHCIRCLE_SEG);
     var dashCircleMaterial = new THREE.LineDashedMaterial({ color: 0xFFFFFF, dashSize: 2, gapSize: 2, linewidth: 1 });
@@ -20653,7 +20834,7 @@ var HotspotManager = /** @class */function () {
 exports.HotspotManager = HotspotManager;
 
 /***/ }),
-/* 516 */
+/* 517 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20684,7 +20865,7 @@ var fontHelper = new FontHelper();
 exports.default = fontHelper;
 
 /***/ }),
-/* 517 */
+/* 518 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20771,7 +20952,7 @@ var Reticle = /** @class */function () {
 exports.Reticle = Reticle;
 
 /***/ }),
-/* 518 */
+/* 519 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20858,7 +21039,7 @@ var ChatService = /** @class */function () {
 exports.ChatService = ChatService;
 
 /***/ }),
-/* 519 */
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* FileSaver.js
@@ -21053,7 +21234,7 @@ if (typeof module !== "undefined" && module.exports) {
 
 
 /***/ }),
-/* 520 */
+/* 521 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21071,7 +21252,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var apiService_1 = __webpack_require__(66);
+var apiService_1 = __webpack_require__(65);
 var GroupInteractor = /** @class */function () {
     function GroupInteractor(apiService) {
         this.apiService = apiService;
@@ -21085,7 +21266,6 @@ var GroupInteractor = /** @class */function () {
 exports.GroupInteractor = GroupInteractor;
 
 /***/ }),
-/* 521 */,
 /* 522 */,
 /* 523 */,
 /* 524 */,
@@ -21631,7 +21811,8 @@ exports.GroupInteractor = GroupInteractor;
 /* 1064 */,
 /* 1065 */,
 /* 1066 */,
-/* 1067 */
+/* 1067 */,
+/* 1068 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21640,9 +21821,9 @@ exports.GroupInteractor = GroupInteractor;
 Object.defineProperty(exports, "__esModule", { value: true });
 var platform_browser_dynamic_1 = __webpack_require__(329);
 var core_1 = __webpack_require__(2);
-var firebase_1 = __webpack_require__(1068);
-var ui_module_1 = __webpack_require__(1146);
-var build = __webpack_require__(502);
+var firebase_1 = __webpack_require__(1069);
+var ui_module_1 = __webpack_require__(1147);
+var build = __webpack_require__(504);
 if (build === 'PROD') {
     core_1.enableProdMode();
 }
@@ -21668,7 +21849,7 @@ platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(ui_module_1.
 // }
 
 /***/ }),
-/* 1068 */
+/* 1069 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -21690,23 +21871,23 @@ platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(ui_module_1.
 var firebase = __webpack_require__(461);
 __webpack_require__(466);
 __webpack_require__(467);
-__webpack_require__(1122);
-__webpack_require__(1129);
+__webpack_require__(1123);
+__webpack_require__(1130);
 
 module.exports = firebase;
 
 
 /***/ }),
-/* 1069 */
+/* 1070 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_polyfills_promise__ = __webpack_require__(1070);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_polyfills_promise__ = __webpack_require__(1071);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_polyfills_promise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__src_polyfills_promise__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_shims_find__ = __webpack_require__(1072);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_shims_find__ = __webpack_require__(1073);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_shims_find___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__src_shims_find__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_shims_findIndex__ = __webpack_require__(1073);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_shims_findIndex__ = __webpack_require__(1074);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_shims_findIndex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__src_shims_findIndex__);
 /**
  * Copyright 2017 Google Inc.
@@ -21731,7 +21912,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 1070 */
+/* 1071 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -21764,7 +21945,7 @@ var __global = (function () {
 // Polyfill Promise
 if (typeof Promise === 'undefined') {
     // HACK: TS throws an error if I attempt to use 'dot-notation'
-    __global['Promise'] = Promise = __webpack_require__(1071);
+    __global['Promise'] = Promise = __webpack_require__(1072);
 }
 
 //# sourceMappingURL=promise.js.map
@@ -21772,7 +21953,7 @@ if (typeof Promise === 'undefined') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
 
 /***/ }),
-/* 1071 */
+/* 1072 */
 /***/ (function(module, exports) {
 
 (function (root) {
@@ -22011,7 +22192,7 @@ if (typeof Promise === 'undefined') {
 
 
 /***/ }),
-/* 1072 */
+/* 1073 */
 /***/ (function(module, exports) {
 
 /**
@@ -22075,7 +22256,7 @@ if (!Array.prototype.find) {
 
 
 /***/ }),
-/* 1073 */
+/* 1074 */
 /***/ (function(module, exports) {
 
 /**
@@ -22139,7 +22320,7 @@ if (!Array.prototype.findIndex) {
 
 
 /***/ }),
-/* 1074 */
+/* 1075 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22510,7 +22691,7 @@ var appErrors = new __WEBPACK_IMPORTED_MODULE_0__firebase_util__["ErrorFactory"]
 
 
 /***/ }),
-/* 1075 */
+/* 1076 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22592,7 +22773,7 @@ exports.patchProperty = patchProperty;
 
 
 /***/ }),
-/* 1076 */
+/* 1077 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22660,7 +22841,7 @@ exports.Deferred = Deferred;
 
 
 /***/ }),
-/* 1077 */
+/* 1078 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22729,7 +22910,7 @@ exports.isNodeSdk = function () {
 
 
 /***/ }),
-/* 1078 */
+/* 1079 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22819,7 +23000,7 @@ exports.ErrorFactory = ErrorFactory;
 
 
 /***/ }),
-/* 1079 */
+/* 1080 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22954,7 +23135,7 @@ exports.isAdmin = function (token) {
 
 
 /***/ }),
-/* 1080 */
+/* 1081 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23020,7 +23201,7 @@ exports.querystringDecode = function (querystring) {
 
 
 /***/ }),
-/* 1081 */
+/* 1082 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23051,7 +23232,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var hash_1 = __webpack_require__(1082);
+var hash_1 = __webpack_require__(1083);
 /**
  * @fileoverview SHA-1 cryptographic hash.
  * Variable names follow the notation in FIPS PUB 180-3:
@@ -23306,7 +23487,7 @@ exports.Sha1 = Sha1;
 
 
 /***/ }),
-/* 1082 */
+/* 1083 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23368,7 +23549,7 @@ exports.Hash = Hash;
 
 
 /***/ }),
-/* 1083 */
+/* 1084 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23595,7 +23776,7 @@ function noop() {
 
 
 /***/ }),
-/* 1084 */
+/* 1085 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23712,7 +23893,7 @@ exports.validateContextObject = validateContextObject;
 
 
 /***/ }),
-/* 1085 */
+/* 1086 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23811,7 +23992,7 @@ exports.stringLength = function (str) {
 
 
 /***/ }),
-/* 1086 */
+/* 1087 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var firebase = __webpack_require__(74).default; (function(){/**
@@ -24135,7 +24316,7 @@ c){a=new T(a);c({INTERNAL:{getUid:r(a.getUid,a),getToken:r(a.If,a),addAuthTokenL
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
 
 /***/ }),
-/* 1087 */
+/* 1088 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24162,8 +24343,8 @@ var Query_1 = __webpack_require__(471);
 var Reference_1 = __webpack_require__(253);
 var util_1 = __webpack_require__(8);
 var RepoManager_1 = __webpack_require__(257);
-var INTERNAL = __webpack_require__(1120);
-var TEST_ACCESS = __webpack_require__(1121);
+var INTERNAL = __webpack_require__(1121);
+var TEST_ACCESS = __webpack_require__(1122);
 var util_2 = __webpack_require__(3);
 function registerDatabase(instance) {
     // Register the Database Service with the 'firebase' namespace.
@@ -24189,7 +24370,7 @@ registerDatabase(app_1.default);
 
 
 /***/ }),
-/* 1088 */
+/* 1089 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24279,7 +24460,7 @@ exports.DOMStorageWrapper = DOMStorageWrapper;
 
 
 /***/ }),
-/* 1089 */
+/* 1090 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24337,7 +24518,7 @@ exports.MemoryStorage = MemoryStorage;
 
 
 /***/ }),
-/* 1090 */
+/* 1091 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24458,7 +24639,7 @@ exports.OnDisconnect = OnDisconnect;
 
 
 /***/ }),
-/* 1091 */
+/* 1092 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24506,7 +24687,7 @@ exports.TransactionResult = TransactionResult;
 
 
 /***/ }),
-/* 1092 */
+/* 1093 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24591,7 +24772,7 @@ exports.nextPushId = (function () {
 
 
 /***/ }),
-/* 1093 */
+/* 1094 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24613,7 +24794,7 @@ exports.nextPushId = (function () {
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var DataSnapshot_1 = __webpack_require__(478);
-var Event_1 = __webpack_require__(1094);
+var Event_1 = __webpack_require__(1095);
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(3);
 /**
@@ -24813,7 +24994,7 @@ exports.ChildEventRegistration = ChildEventRegistration;
 
 
 /***/ }),
-/* 1094 */
+/* 1095 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24932,7 +25113,7 @@ exports.CancelEvent = CancelEvent;
 
 
 /***/ }),
-/* 1095 */
+/* 1096 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24955,17 +25136,17 @@ exports.CancelEvent = CancelEvent;
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(8);
-var AckUserWrite_1 = __webpack_require__(1096);
+var AckUserWrite_1 = __webpack_require__(1097);
 var ChildrenNode_1 = __webpack_require__(35);
 var util_3 = __webpack_require__(3);
 var ImmutableTree_1 = __webpack_require__(254);
-var ListenComplete_1 = __webpack_require__(1097);
-var Merge_1 = __webpack_require__(1098);
+var ListenComplete_1 = __webpack_require__(1098);
+var Merge_1 = __webpack_require__(1099);
 var Operation_1 = __webpack_require__(89);
 var Overwrite_1 = __webpack_require__(482);
 var Path_1 = __webpack_require__(22);
 var SyncPoint_1 = __webpack_require__(483);
-var WriteTree_1 = __webpack_require__(1104);
+var WriteTree_1 = __webpack_require__(1105);
 /**
  * SyncTree is the central class for managing event callback registration, data caching, views
  * (query processing), and event generation.  There are typically two SyncTree instances for
@@ -25650,7 +25831,7 @@ exports.SyncTree = SyncTree;
 
 
 /***/ }),
-/* 1096 */
+/* 1097 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25719,7 +25900,7 @@ exports.AckUserWrite = AckUserWrite;
 
 
 /***/ }),
-/* 1097 */
+/* 1098 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25771,7 +25952,7 @@ exports.ListenComplete = ListenComplete;
 
 
 /***/ }),
-/* 1098 */
+/* 1099 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25858,7 +26039,7 @@ exports.Merge = Merge;
 
 
 /***/ }),
-/* 1099 */
+/* 1100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25880,11 +26061,11 @@ exports.Merge = Merge;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var IndexedFilter_1 = __webpack_require__(255);
-var ViewProcessor_1 = __webpack_require__(1100);
+var ViewProcessor_1 = __webpack_require__(1101);
 var ChildrenNode_1 = __webpack_require__(35);
 var CacheNode_1 = __webpack_require__(175);
 var ViewCache_1 = __webpack_require__(484);
-var EventGenerator_1 = __webpack_require__(1103);
+var EventGenerator_1 = __webpack_require__(1104);
 var util_1 = __webpack_require__(3);
 var Operation_1 = __webpack_require__(89);
 var Change_1 = __webpack_require__(103);
@@ -26073,7 +26254,7 @@ exports.View = View;
 
 
 /***/ }),
-/* 1100 */
+/* 1101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26096,13 +26277,13 @@ exports.View = View;
 Object.defineProperty(exports, "__esModule", { value: true });
 var Operation_1 = __webpack_require__(89);
 var util_1 = __webpack_require__(3);
-var ChildChangeAccumulator_1 = __webpack_require__(1101);
+var ChildChangeAccumulator_1 = __webpack_require__(1102);
 var Change_1 = __webpack_require__(103);
 var ChildrenNode_1 = __webpack_require__(35);
 var KeyIndex_1 = __webpack_require__(129);
 var ImmutableTree_1 = __webpack_require__(254);
 var Path_1 = __webpack_require__(22);
-var CompleteChildSource_1 = __webpack_require__(1102);
+var CompleteChildSource_1 = __webpack_require__(1103);
 /**
  * @constructor
  * @struct
@@ -26675,7 +26856,7 @@ exports.ViewProcessor = ViewProcessor;
 
 
 /***/ }),
-/* 1101 */
+/* 1102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26763,7 +26944,7 @@ exports.ChildChangeAccumulator = ChildChangeAccumulator;
 
 
 /***/ }),
-/* 1102 */
+/* 1103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26873,7 +27054,7 @@ exports.WriteTreeCompleteChildSource = WriteTreeCompleteChildSource;
 
 
 /***/ }),
-/* 1103 */
+/* 1104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27010,7 +27191,7 @@ exports.EventGenerator = EventGenerator;
 
 
 /***/ }),
-/* 1104 */
+/* 1105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27034,7 +27215,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(3);
 var Path_1 = __webpack_require__(22);
-var CompoundWrite_1 = __webpack_require__(1105);
+var CompoundWrite_1 = __webpack_require__(1106);
 var PriorityIndex_1 = __webpack_require__(32);
 var ChildrenNode_1 = __webpack_require__(35);
 /**
@@ -27650,7 +27831,7 @@ exports.WriteTreeRef = WriteTreeRef;
 
 
 /***/ }),
-/* 1105 */
+/* 1106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27874,7 +28055,7 @@ exports.CompoundWrite = CompoundWrite;
 
 
 /***/ }),
-/* 1106 */
+/* 1107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27919,7 +28100,7 @@ exports.SnapshotHolder = SnapshotHolder;
 
 
 /***/ }),
-/* 1107 */
+/* 1108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28011,7 +28192,7 @@ exports.AuthTokenProvider = AuthTokenProvider;
 
 
 /***/ }),
-/* 1108 */
+/* 1109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28060,7 +28241,7 @@ exports.StatsCollection = StatsCollection;
 
 
 /***/ }),
-/* 1109 */
+/* 1110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28135,7 +28316,7 @@ exports.StatsReporter = StatsReporter;
 
 
 /***/ }),
-/* 1110 */
+/* 1111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28314,7 +28495,7 @@ exports.EventList = EventList;
 
 
 /***/ }),
-/* 1111 */
+/* 1112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28411,7 +28592,7 @@ exports.VisibilityMonitor = VisibilityMonitor;
 
 
 /***/ }),
-/* 1112 */
+/* 1113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28506,7 +28687,7 @@ exports.OnlineMonitor = OnlineMonitor;
 
 
 /***/ }),
-/* 1113 */
+/* 1114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28612,7 +28793,7 @@ exports.TransportManager = TransportManager;
 
 
 /***/ }),
-/* 1114 */
+/* 1115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28705,7 +28886,7 @@ exports.PacketReceiver = PacketReceiver;
 
 
 /***/ }),
-/* 1115 */
+/* 1116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28902,7 +29083,7 @@ exports.ReadonlyRestClient = ReadonlyRestClient;
 
 
 /***/ }),
-/* 1116 */
+/* 1117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28930,7 +29111,7 @@ var PriorityIndex_1 = __webpack_require__(32);
 var ValueIndex_1 = __webpack_require__(473);
 var PathIndex_1 = __webpack_require__(477);
 var IndexedFilter_1 = __webpack_require__(255);
-var LimitedFilter_1 = __webpack_require__(1117);
+var LimitedFilter_1 = __webpack_require__(1118);
 var RangedFilter_1 = __webpack_require__(492);
 var util_3 = __webpack_require__(3);
 /**
@@ -29315,7 +29496,7 @@ exports.QueryParams = QueryParams;
 
 
 /***/ }),
-/* 1117 */
+/* 1118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29581,7 +29762,7 @@ exports.LimitedFilter = LimitedFilter;
 
 
 /***/ }),
-/* 1118 */
+/* 1119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29606,7 +29787,7 @@ var util_1 = __webpack_require__(3);
 var Reference_1 = __webpack_require__(253);
 var DataSnapshot_1 = __webpack_require__(478);
 var Path_1 = __webpack_require__(22);
-var Tree_1 = __webpack_require__(1119);
+var Tree_1 = __webpack_require__(1120);
 var PriorityIndex_1 = __webpack_require__(32);
 var util_2 = __webpack_require__(8);
 var ServerValues_1 = __webpack_require__(479);
@@ -30153,7 +30334,7 @@ Repo_1.Repo.prototype.abortTransactionsOnNode_ = function (node) {
 
 
 /***/ }),
-/* 1119 */
+/* 1120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30387,7 +30568,7 @@ exports.Tree = Tree;
 
 
 /***/ }),
-/* 1120 */
+/* 1121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30448,7 +30629,7 @@ exports.interceptServerData = function (ref, callback) {
 
 
 /***/ }),
-/* 1121 */
+/* 1122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30537,7 +30718,7 @@ exports.forceRestClient = function (forceRestClient) {
 
 
 /***/ }),
-/* 1122 */
+/* 1123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -30556,18 +30737,18 @@ exports.forceRestClient = function (forceRestClient) {
  * limitations under the License.
  */
 
-__webpack_require__(1123);
+__webpack_require__(1124);
 
 
 /***/ }),
-/* 1123 */
+/* 1124 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["registerMessaging"] = registerMessaging;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_controllers_window_controller__ = __webpack_require__(1124);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_controllers_sw_controller__ = __webpack_require__(1128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_controllers_window_controller__ = __webpack_require__(1125);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_controllers_sw_controller__ = __webpack_require__(1129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__firebase_app__ = __webpack_require__(74);
 /**
  * Copyright 2017 Google Inc.
@@ -30609,14 +30790,14 @@ registerMessaging(__WEBPACK_IMPORTED_MODULE_2__firebase_app__["default"]);
 
 
 /***/ }),
-/* 1124 */
+/* 1125 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controller_interface__ = __webpack_require__(493);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_errors__ = __webpack_require__(176);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_worker_page_message__ = __webpack_require__(496);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_default_sw__ = __webpack_require__(1127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_default_sw__ = __webpack_require__(1128);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_notification_permission__ = __webpack_require__(495);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__firebase_util__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__firebase_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__firebase_util__);
@@ -30962,14 +31143,14 @@ var WindowController = /** @class */ (function (_super) {
 
 
 /***/ }),
-/* 1125 */
+/* 1126 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_util__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__firebase_util__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__errors__ = __webpack_require__(176);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_array_buffer_to_base64__ = __webpack_require__(1126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_array_buffer_to_base64__ = __webpack_require__(1127);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__fcm_details__ = __webpack_require__(494);
 /**
  * Copyright 2017 Google Inc.
@@ -31340,7 +31521,7 @@ var TokenManager = /** @class */ (function () {
 
 
 /***/ }),
-/* 1126 */
+/* 1127 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31375,7 +31556,7 @@ function toBase64(arrayBuffer) {
 
 
 /***/ }),
-/* 1127 */
+/* 1128 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31404,7 +31585,7 @@ function toBase64(arrayBuffer) {
 
 
 /***/ }),
-/* 1128 */
+/* 1129 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31727,7 +31908,7 @@ var SWController = /** @class */ (function (_super) {
 
 
 /***/ }),
-/* 1129 */
+/* 1130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -31746,11 +31927,11 @@ var SWController = /** @class */ (function (_super) {
  * limitations under the License.
  */
 
-__webpack_require__(1130);
+__webpack_require__(1131);
 
 
 /***/ }),
-/* 1130 */
+/* 1131 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31759,9 +31940,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_app__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_implementation_string__ = __webpack_require__(131);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_implementation_taskenums__ = __webpack_require__(132);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_implementation_xhriopool__ = __webpack_require__(1131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_implementation_xhriopool__ = __webpack_require__(1132);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_reference__ = __webpack_require__(498);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_service__ = __webpack_require__(1140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_service__ = __webpack_require__(1141);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -31810,12 +31991,12 @@ registerStorage(__WEBPACK_IMPORTED_MODULE_0__firebase_app__["default"]);
 
 
 /***/ }),
-/* 1131 */
+/* 1132 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return XhrIoPool; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__xhrio_network__ = __webpack_require__(1132);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__xhrio_network__ = __webpack_require__(1133);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -31849,7 +32030,7 @@ var XhrIoPool = /** @class */ (function () {
 
 
 /***/ }),
-/* 1132 */
+/* 1133 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -31996,7 +32177,7 @@ var NetworkXhrIo = /** @class */ (function () {
 
 
 /***/ }),
-/* 1133 */
+/* 1134 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32042,7 +32223,7 @@ function jsonObjectOrNull(s) {
 
 
 /***/ }),
-/* 1134 */
+/* 1135 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32115,7 +32296,7 @@ function sliceBlob(blob, start, end) {
 
 
 /***/ }),
-/* 1135 */
+/* 1136 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32154,17 +32335,17 @@ var RequestInfo = /** @class */ (function () {
 
 
 /***/ }),
-/* 1136 */
+/* 1137 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UploadTask; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__implementation_taskenums__ = __webpack_require__(132);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_observer__ = __webpack_require__(1137);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tasksnapshot__ = __webpack_require__(1138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_observer__ = __webpack_require__(1138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tasksnapshot__ = __webpack_require__(1139);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__implementation_args__ = __webpack_require__(258);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__implementation_array__ = __webpack_require__(261);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__implementation_async__ = __webpack_require__(1139);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__implementation_async__ = __webpack_require__(1140);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__implementation_error__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__implementation_promise_external__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__implementation_requests__ = __webpack_require__(501);
@@ -32734,7 +32915,7 @@ var UploadTask = /** @class */ (function () {
 
 
 /***/ }),
-/* 1137 */
+/* 1138 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32784,7 +32965,7 @@ var Observer = /** @class */ (function () {
 
 
 /***/ }),
-/* 1138 */
+/* 1139 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32824,7 +33005,7 @@ var UploadTaskSnapshot = /** @class */ (function () {
 
 
 /***/ }),
-/* 1139 */
+/* 1140 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -32870,17 +33051,17 @@ function async(f) {
 
 
 /***/ }),
-/* 1140 */
+/* 1141 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Service; });
 /* unused harmony export ServiceInternals */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__implementation_args__ = __webpack_require__(258);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_authwrapper__ = __webpack_require__(1141);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_authwrapper__ = __webpack_require__(1142);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__implementation_location__ = __webpack_require__(178);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__implementation_promise_external__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__implementation_request__ = __webpack_require__(1144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__implementation_request__ = __webpack_require__(1145);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__reference__ = __webpack_require__(498);
 /**
  * Copyright 2017 Google Inc.
@@ -33031,17 +33212,17 @@ var ServiceInternals = /** @class */ (function () {
 
 
 /***/ }),
-/* 1141 */
+/* 1142 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthWrapper; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(177);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__error__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__failrequest__ = __webpack_require__(1142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__failrequest__ = __webpack_require__(1143);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__location__ = __webpack_require__(178);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__promise_external__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestmap__ = __webpack_require__(1143);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestmap__ = __webpack_require__(1144);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__type__ = __webpack_require__(45);
 
 
@@ -33167,7 +33348,7 @@ var AuthWrapper = /** @class */ (function () {
 
 
 /***/ }),
-/* 1142 */
+/* 1143 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33199,7 +33380,7 @@ var FailRequest = /** @class */ (function () {
 
 
 /***/ }),
-/* 1143 */
+/* 1144 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33265,7 +33446,7 @@ var RequestMap = /** @class */ (function () {
 
 
 /***/ }),
-/* 1144 */
+/* 1145 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33275,7 +33456,7 @@ var RequestMap = /** @class */ (function () {
 /* harmony export (immutable) */ __webpack_exports__["a"] = makeRequest;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_app__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__array__ = __webpack_require__(261);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__backoff__ = __webpack_require__(1145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__backoff__ = __webpack_require__(1146);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__error__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__object__ = __webpack_require__(104);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__promise_external__ = __webpack_require__(90);
@@ -33505,7 +33686,7 @@ function makeRequest(requestInfo, authToken, pool) {
 
 
 /***/ }),
-/* 1145 */
+/* 1146 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33631,7 +33812,7 @@ function stop(id) {
 
 
 /***/ }),
-/* 1146 */
+/* 1147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33650,7 +33831,7 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 var common_1 = __webpack_require__(113);
 // UI Modules
-var editor_module_1 = __webpack_require__(1147);
+var editor_module_1 = __webpack_require__(1148);
 var admin_module_1 = __webpack_require__(1302);
 var explore_module_1 = __webpack_require__(1312);
 var chat_module_1 = __webpack_require__(1322);
@@ -33674,7 +33855,7 @@ var UiModule = /** @class */function () {
 exports.UiModule = UiModule;
 
 /***/ }),
-/* 1147 */
+/* 1148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33694,10 +33875,10 @@ var router_1 = __webpack_require__(17);
 var platform_browser_1 = __webpack_require__(51);
 var forms_1 = __webpack_require__(97);
 // UI components
-var editor_1 = __webpack_require__(1148);
+var editor_1 = __webpack_require__(1149);
 // Editor
-var edit_space_flat_1 = __webpack_require__(1154);
-var edit_space_sphere_1 = __webpack_require__(1157);
+var edit_space_flat_1 = __webpack_require__(1157);
+var edit_space_sphere_1 = __webpack_require__(502);
 var default_overlay_1 = __webpack_require__(1160);
 var room_icon_1 = __webpack_require__(1163);
 var property_editor_1 = __webpack_require__(1166);
@@ -33712,11 +33893,11 @@ var audio_recorder_1 = __webpack_require__(1184);
 var preview_space_1 = __webpack_require__(1187);
 var audioPlayService_1 = __webpack_require__(273);
 var multiViewService_1 = __webpack_require__(1196);
-var audioManager_1 = __webpack_require__(513);
-var textureLoader_1 = __webpack_require__(514);
-var hotspotManager_1 = __webpack_require__(515);
+var audioManager_1 = __webpack_require__(514);
+var textureLoader_1 = __webpack_require__(515);
+var hotspotManager_1 = __webpack_require__(516);
 var menuManager_1 = __webpack_require__(275);
-var reticle_1 = __webpack_require__(517);
+var reticle_1 = __webpack_require__(518);
 // Topbar
 var topbar_1 = __webpack_require__(1197);
 var about_1 = __webpack_require__(1200);
@@ -33746,16 +33927,16 @@ var droppable_1 = __webpack_require__(1260);
 var file_loader_1 = __webpack_require__(1261);
 var hidden_file_loader_1 = __webpack_require__(1264);
 var file_loader_multi_1 = __webpack_require__(1267);
-var fileLoaderUtil_1 = __webpack_require__(65);
+var fileLoaderUtil_1 = __webpack_require__(66);
 var propertyRemovalService_1 = __webpack_require__(136);
 var close_button_1 = __webpack_require__(1270);
 var info_button_1 = __webpack_require__(1273);
-var zipFileReader_1 = __webpack_require__(133);
+var zipFileReader_1 = __webpack_require__(135);
 var audioRecorderService_1 = __webpack_require__(186);
-var combinedHotspotUtil_1 = __webpack_require__(185);
+var combinedHotspotUtil_1 = __webpack_require__(181);
 var SlideshowBuilder_1 = __webpack_require__(108);
 var slider_1 = __webpack_require__(1276);
-var responsiveUtil_1 = __webpack_require__(508);
+var responsiveUtil_1 = __webpack_require__(513);
 // Common UI components
 var common_module_1 = __webpack_require__(187);
 // Expose core layer (interactors) to view layer
@@ -33806,7 +33987,7 @@ var EditorModule = /** @class */function () {
 exports.EditorModule = EditorModule;
 
 /***/ }),
-/* 1148 */
+/* 1149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33825,18 +34006,19 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var fileLoaderUtil_1 = __webpack_require__(65);
+var edit_space_sphere_1 = __webpack_require__(502);
+var fileLoaderUtil_1 = __webpack_require__(66);
 var event_bus_1 = __webpack_require__(9);
-var iconPositionUtil_1 = __webpack_require__(105);
-var publicLinkHelper_1 = __webpack_require__(262);
-var zipFileReader_1 = __webpack_require__(133);
+var iconPositionUtil_1 = __webpack_require__(107);
+var publicLinkHelper_1 = __webpack_require__(270);
+var zipFileReader_1 = __webpack_require__(135);
 var sceneInteractor_1 = __webpack_require__(14);
-var VideoInteractor_1 = __webpack_require__(506);
+var VideoInteractor_1 = __webpack_require__(511);
 var imageResizeService_1 = __webpack_require__(52);
 var SlideshowBuilder_1 = __webpack_require__(108);
-var shareable_loader_1 = __webpack_require__(183);
+var shareable_loader_1 = __webpack_require__(184);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
-var responsiveUtil_1 = __webpack_require__(508);
+var responsiveUtil_1 = __webpack_require__(513);
 var Editor = /** @class */function () {
     function Editor(sceneInteractor, fileLoaderUtil, eventBus, zipFileReader, slideshowBuilder, videoInteractor, route, router, shareableLoader, metaDataInteractor, element, responsiveUtil) {
         this.sceneInteractor = sceneInteractor;
@@ -33910,7 +34092,6 @@ var Editor = /** @class */function () {
             var files = Object.keys(fileList_1).map(function (key) {
                 return fileList_1[key];
             });
-            //console.log('files: ', files, typeof files);
             this.processDroppedFileMulti(files, event.clientX, event.clientY);
         }
     };
@@ -33941,6 +34122,13 @@ var Editor = /** @class */function () {
     };
     Editor.prototype.isFlat = function () {
         return this.router.url.includes('view:flat');
+    };
+    Editor.prototype.onViewSpaceActivate = function (componentRef) {
+        if (componentRef instanceof edit_space_sphere_1.EditSpaceSphere) {
+            this.editSpaceSphere = componentRef;
+        } else {
+            this.editSpaceSphere = null;
+        }
     };
     Editor.prototype.hotspotMenuIsVisible = function () {
         if (this.responsiveUtil.isMobile()) {
@@ -33981,38 +34169,20 @@ var Editor = /** @class */function () {
         var activeRoomId = this.sceneInteractor.getActiveRoomId();
         return this.sceneInteractor.roomHasBackgroundImage(activeRoomId);
     };
-    Editor.prototype.processDroppedFile = function (file, x, y) {
-        var _this = this;
-        var fileName = file.name;
-        var dropPosition = this.isFlat() ? iconPositionUtil_1.normalizeAbsolutePosition(x, y) : this.editSpaceSphere.transformScreenPositionTo3dNormal(x, y);
-        var fileType = Object.keys(fileLoaderUtil_1.mimeTypeMap).find(function (fileType) {
-            return fileLoaderUtil_1.mimeTypeMap[fileType].indexOf(file.type) > -1;
-        });
-        if (!fileType) {
-            var errorTitle = 'Incompatible File Type';
-            var errorMessage = 'Try using an image (.jpg, .jpeg, .png), an audio file (.mp3, .wav), or a story file (.zip)';
-            this.eventBus.onModalMessage(errorTitle, errorMessage);
-            return;
-        }
-        if (fileType === 'video') {
-            console.log('bam, video', file);
-            this.getFileTypeStrategy(fileType)(file, null, dropPosition);
-            return;
-            //this.getFileTypeStrategy(fileType)(file, binaryFileData, dropPosition))
-        }
-        this.fileLoaderUtil.getBinaryFileData(file).then(function (binaryFileData) {
-            return _this.getFileTypeStrategy(fileType)(file, binaryFileData, dropPosition);
-        }).catch(function (error) {
-            return _this.eventBus.onModalMessage('Error', error);
-        });
-    };
     //made by ali to handle multiple hotspot creation
     Editor.prototype.processDroppedFileMulti = function (files, x, y) {
         var _this = this;
+        if (this.isPreview()) {
+            console.log('cannot import files in preview mode');
+            return;
+        }
         //this.eventBus.onStartLoading();
         var filePromises = files.map(function (file) {
             var fileName = file.name;
             var dropPosition = _this.isFlat() ? iconPositionUtil_1.normalizeAbsolutePosition(x, y) : _this.editSpaceSphere.transformScreenPositionTo3dNormal(x, y);
+            if (!_this.isFlat()) {
+                dropPosition.setY(-1 * dropPosition.getY());
+            }
             var fileType = Object.keys(fileLoaderUtil_1.mimeTypeMap).find(function (fileType) {
                 return fileLoaderUtil_1.mimeTypeMap[fileType].indexOf(file.type) > -1;
             });
@@ -34105,7 +34275,7 @@ var Editor = /** @class */function () {
         var _this = this;
         if (this.isFlat()) return;
         setTimeout(function () {
-            _this.editSpaceSphere.render();
+            return _this.editSpaceSphere.render();
         });
     };
     Editor.prototype.setEditPlaySliderIsVisible = function () {
@@ -34123,7 +34293,6 @@ var Editor = /** @class */function () {
         return this.router.url.includes('view:flat');
     };
     Editor.prototype.on2d3dViewClick = function ($event) {
-        console.log($event.value);
         if ($event.value) {
             this.on3dViewClick($event);
         } else {
@@ -34144,7 +34313,6 @@ var Editor = /** @class */function () {
             //console.log('switch to preview');
             this.router.navigate(['editor', { outlets: { 'view': 'preview' } }]);
         } else {
-            console.log('switch to edit');
             if (this.isInFlatMode) {
                 this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
             } else {
@@ -34153,33 +34321,44 @@ var Editor = /** @class */function () {
         }
         this.changeEmitter.emit({ value: $event.value });
     };
-    __decorate([core_1.ViewChild('editSpaceSphere'), __metadata("design:type", Object)], Editor.prototype, "editSpaceSphere", void 0);
     __decorate([core_1.Output(), __metadata("design:type", Object)], Editor.prototype, "changeEmitter", void 0);
     __decorate([core_1.HostListener('dragover', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], Editor.prototype, "onDragOver", null);
     __decorate([core_1.HostListener('drop', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], Editor.prototype, "onDrop", null);
     Editor = __decorate([core_1.Component({
         selector: 'editor',
-        styles: [__webpack_require__(1152)],
-        template: __webpack_require__(1153)
+        styles: [__webpack_require__(1155)],
+        template: __webpack_require__(1156)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, fileLoaderUtil_1.FileLoaderUtil, event_bus_1.EventBus, zipFileReader_1.ZipFileReader, SlideshowBuilder_1.SlideshowBuilder, VideoInteractor_1.VideoInteractor, router_1.ActivatedRoute, router_1.Router, shareable_loader_1.ShareableLoader, projectMetaDataInteractor_1.MetaDataInteractor, core_1.ElementRef, responsiveUtil_1.ResponsiveUtil])], Editor);
     return Editor;
 }();
 exports.Editor = Editor;
 
 /***/ }),
-/* 1149 */
+/* 1150 */
+/***/ (function(module, exports) {
+
+module.exports = ".edit-space {\n  width: 100%;\n  height: 100%;\n  cursor: move; }\n"
+
+/***/ }),
+/* 1151 */
+/***/ (function(module, exports) {
+
+module.exports = "<div\n  #editSpaceSphere\n  class=\"edit-space\">\n\n  <canvas #globeCanvas>\n  </canvas>\n\n  <div *ngFor=\"let roomProperty of getItems()\">\n    <room-icon\n      #roomIcon\n      [roomProperty]=\"roomProperty\"\n      (onIconDragEnd)=\"onMoveEnd($event)\">\n    </room-icon>\n  </div>\n\n</div>\n"
+
+/***/ }),
+/* 1152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // the whatwg-fetch polyfill installs the fetch() function
 // on the global object (window or self)
 //
 // Return that as the export for use in Webpack, Browserify etc.
-__webpack_require__(1150);
+__webpack_require__(1153);
 module.exports = self.fetch.bind(self);
 
 
 /***/ }),
-/* 1150 */
+/* 1153 */
 /***/ (function(module, exports) {
 
 (function(self) {
@@ -34646,7 +34825,7 @@ module.exports = self.fetch.bind(self);
 
 
 /***/ }),
-/* 1151 */
+/* 1154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34661,19 +34840,19 @@ var AuthenticationMethod;
 })(AuthenticationMethod = exports.AuthenticationMethod || (exports.AuthenticationMethod = {}));
 
 /***/ }),
-/* 1152 */
+/* 1155 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.editor {\n  position: relative;\n  height: 100%;\n  width: 100%;\n  overflow: hidden; }\n\n.editor__hotspot-menu {\n  position: absolute;\n  bottom: 0;\n  margin-bottom: 10px;\n  left: 0; }\n\n.editor__topbar {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%; }\n\n.editor__toggle {\n  position: absolute;\n  top: calc(50% - 40px);\n  right: 0;\n  overflow-x: hidden;\n  overflow-y: hidden; }\n\n.editor_center {\n  background-color: #888888;\n  padding: 8px 16px;\n  opacity: 0.7;\n  border-radius: 2px;\n  margin-top: 16px;\n  position: absolute;\n  top: 0%;\n  left: 50%;\n  display: flex;\n  flex-direction: row;\n  align-items: space-between;\n  transform: translate(-50%, 0%); }\n\n.editor_center1 {\n  display: none; }\n\n.editor_center > div {\n  margin: 0px 8px;\n  /* and that, will result in a 10px gap */ }\n\n.editor__editPlayToggle {\n  /*\ntop:0;\nposition: absolute;\nleft:50%;\n*/\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n  .editor__editPlayToggle:hover {\n    opacity: 1; }\n\n.editor__edit2D3DToggle {\n  /*\n  top:0;\n  position: absolute;\n  left: 60%;\n  */\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n  .editor__edit2D3DToggle:hover {\n    opacity: 1; }\n\n.center-panel {\n  font-size: 0.8em;\n  font-weight: 600;\n  color: white; }\n\n.editor__2d3d {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  margin-top: 3px; }\n\n.editor__2d3d {\n  margin-left: 3px;\n  margin-right: 3px;\n  opacity: 0.5; }\n\n.editor__2d3d--active {\n  color: #FFF;\n  opacity: 1; }\n\n.editor__editPlayToggleButton {\n  margin-top: 4px; }\n\n.editor__edit2d3dToggleButton {\n  margin-top: 4px; }\n\n.editor__fullscreen {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  margin-bottom: 16px;\n  margin-right: 16px; }\n\n.editor__edit-space {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  background-color: #EEEEEE; }\n"
 
 /***/ }),
-/* 1153 */
+/* 1156 */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"editor\">\n\n  <!-- Router outlet for edit-space-flat, edit-space-sphere, and preview-space components -->\n  <router-outlet name=\"view\"></router-outlet>\n\n  <topbar\n    *ngIf=\"!isPreview()\"\n    class=\"editor__topbar\">\n  </topbar>\n\n<div\n      class=\"editor_center\"\n      [ngClass]=\"{'editor_center1': !hasBackgroundImage()}\">\n  <div\n    class=\"editor__edit2D3DToggle\">\n    <p\n      *ngIf=\"roomEditorIsVisible()\"\n      class='topbar__row-label center-panel'>Edit 3D</p>\n    <checkbox\n      *ngIf=\"roomEditorIsVisible()\"\n      [initialValue]=\"!isInFlatMode\"\n      (changeEmitter)=\"on2d3dViewClick($event)\"\n      class=\"editor__edit2d3dToggleButton\">\n    </checkbox>\n  </div>\n\n  <div\n    class=\"editor__editPlayToggle\">\n    <p\n      *ngIf=\"showPreviewCheckbox()\"\n      class='topbar__row-label center-panel'>Preview</p>\n    <checkbox\n      *ngIf=\"showPreviewCheckbox()\"\n      [initialValue]=\"isPreview()\"\n      (changeEmitter)=\"onEditPlayChange($event)\"\n      class=\"editor__editPlayToggleButton\">\n    </checkbox>\n\n  </div>\n</div>\n  <hotspot-menu\n    *ngIf=\"hotspotMenuIsVisible()\"\n    (onMenuChange)=\"onHotspotMenuChange($event)\"\n    class=\"editor__hotspot-menu\">\n  </hotspot-menu>\n\n  <!--\n  <edit-space-toggle\n    *ngIf=\"viewToggleIsVisible()\"\n    class=\"editor__toggle\">\n  </edit-space-toggle>\n-->\n\n  <!-- Story Map -->\n  <story-scroll\n      *ngIf=\"roomEditorIsVisible()\"\n      class=\"editor__story-scroll\">\n  </story-scroll>\n\n  <!-- Fullscreen -->\n  <fullscreen\n      *ngIf=\"roomEditorIsVisible()\"\n      class=\"editor__fullscreen\">\n  </fullscreen>\n\n  <modal></modal>\n  <hidden-file-loader></hidden-file-loader>\n\n</div>\n\n<router-outlet name=\"modal\"></router-outlet>\n"
+module.exports = "\n<div class=\"editor\">\n\n  <!-- Router outlet for edit-space-flat, edit-space-sphere, and preview-space components -->\n  <router-outlet\n    name=\"view\"\n    (activate)=\"onViewSpaceActivate($event)\">\n  </router-outlet>\n\n  <topbar\n    *ngIf=\"!isPreview()\"\n    class=\"editor__topbar\">\n  </topbar>\n\n<div\n      class=\"editor_center\"\n      [ngClass]=\"{'editor_center1': !hasBackgroundImage()}\">\n  <div\n    class=\"editor__edit2D3DToggle\">\n    <p\n      *ngIf=\"roomEditorIsVisible()\"\n      class='topbar__row-label center-panel'>Edit 3D</p>\n    <checkbox\n      *ngIf=\"roomEditorIsVisible()\"\n      [initialValue]=\"!isInFlatMode\"\n      (changeEmitter)=\"on2d3dViewClick($event)\"\n      class=\"editor__edit2d3dToggleButton\">\n    </checkbox>\n  </div>\n\n  <div\n    class=\"editor__editPlayToggle\">\n    <p\n      *ngIf=\"showPreviewCheckbox()\"\n      class='topbar__row-label center-panel'>Preview</p>\n    <checkbox\n      *ngIf=\"showPreviewCheckbox()\"\n      [initialValue]=\"isPreview()\"\n      (changeEmitter)=\"onEditPlayChange($event)\"\n      class=\"editor__editPlayToggleButton\">\n    </checkbox>\n\n  </div>\n</div>\n  <hotspot-menu\n    *ngIf=\"hotspotMenuIsVisible()\"\n    (onMenuChange)=\"onHotspotMenuChange($event)\"\n    class=\"editor__hotspot-menu\">\n  </hotspot-menu>\n\n  <!--\n  <edit-space-toggle\n    *ngIf=\"viewToggleIsVisible()\"\n    class=\"editor__toggle\">\n  </edit-space-toggle>\n-->\n\n  <!-- Story Map -->\n  <story-scroll\n      *ngIf=\"roomEditorIsVisible()\"\n      class=\"editor__story-scroll\">\n  </story-scroll>\n\n  <!-- Fullscreen -->\n  <fullscreen\n      *ngIf=\"roomEditorIsVisible()\"\n      class=\"editor__fullscreen\">\n  </fullscreen>\n\n  <modal></modal>\n  <hidden-file-loader></hidden-file-loader>\n\n</div>\n\n<router-outlet name=\"modal\"></router-outlet>\n"
 
 /***/ }),
-/* 1154 */
+/* 1157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34693,7 +34872,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var event_bus_1 = __webpack_require__(9);
 var sceneInteractor_1 = __webpack_require__(14);
-var combinedHotspotUtil_1 = __webpack_require__(185);
+var combinedHotspotUtil_1 = __webpack_require__(181);
 var EditSpaceFlat = /** @class */function () {
     function EditSpaceFlat(sceneInteractor, combinedHotspotUtil, eventBus) {
         this.sceneInteractor = sceneInteractor;
@@ -34760,314 +34939,24 @@ var EditSpaceFlat = /** @class */function () {
     __decorate([core_1.ViewChildren('roomIcon'), __metadata("design:type", Array)], EditSpaceFlat.prototype, "roomIconComponentList", void 0);
     EditSpaceFlat = __decorate([core_1.Component({
         selector: 'edit-space-flat',
-        styles: [__webpack_require__(1155)],
-        template: __webpack_require__(1156)
+        styles: [__webpack_require__(1158)],
+        template: __webpack_require__(1159)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, combinedHotspotUtil_1.CombinedHotspotUtil, event_bus_1.EventBus])], EditSpaceFlat);
     return EditSpaceFlat;
 }();
 exports.EditSpaceFlat = EditSpaceFlat;
 
 /***/ }),
-/* 1155 */
+/* 1158 */
 /***/ (function(module, exports) {
 
 module.exports = ".edit-space {\n  width: 100%;\n  height: 100%; }\n\n.edit-space-background {\n  width: 100%;\n  height: 100%;\n  user-select: none;\n  -moz-user-select: none;\n  -webkit-user-drag: none;\n  -webkit-user-select: none;\n  -ms-user-select: none; }\n\n.edit-space-background--video {\n  object-fit: inherit; }\n"
 
 /***/ }),
-/* 1156 */
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"edit-space\">\n\n  <img\n    *ngIf=\"!isVideo()\"\n    [attr.src]=\"getBackgroundImage()\"\n    (dragstart)=\"$event.preventDefault()\"\n    class=\"edit-space-background\">\n\n  <video\n    *ngIf=\"isVideo()\"\n    [attr.src]=\"getBackgroundVideo()\"\n    (dragstart)=\"$event.preventDefault()\"\n    class=\"edit-space-background edit-space-background--video\">\n  </video>\n\n\n  <div *ngFor=\"let roomProperty of getItems()\">\n    <room-icon\n      #roomIcon\n      [roomProperty]=\"roomProperty\">\n    </room-icon>\n  </div>\n\n  <default-overlay\n    *ngIf=\"!roomHasBackgroundImage()\">\n  </default-overlay>\n\n</div>\n"
-
-/***/ }),
-/* 1157 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var router_1 = __webpack_require__(17);
-var THREE = __webpack_require__(28);
-__webpack_require__(509);
-var event_bus_1 = __webpack_require__(9);
-var sceneInteractor_1 = __webpack_require__(14);
-var cameraInteractor_1 = __webpack_require__(272);
-var vector2_1 = __webpack_require__(75);
-var combinedHotspotUtil_1 = __webpack_require__(185);
-var assetInteractor_1 = __webpack_require__(60);
-var projectMetaDataInteractor_1 = __webpack_require__(36);
-var iconPositionUtil_1 = __webpack_require__(105);
-var threeUtil_1 = __webpack_require__(511);
-var video3D_1 = __webpack_require__(512);
-var EditSpaceSphere = /** @class */function () {
-    function EditSpaceSphere(sceneInteractor, cameraInteractor, eventBus, ngZone, combinedHotspotUtil, assetInteractor, metaDataInteractor, router) {
-        this.sceneInteractor = sceneInteractor;
-        this.cameraInteractor = cameraInteractor;
-        this.eventBus = eventBus;
-        this.ngZone = ngZone;
-        this.combinedHotspotUtil = combinedHotspotUtil;
-        this.assetInteractor = assetInteractor;
-        this.metaDataInteractor = metaDataInteractor;
-        this.router = router;
-        this.subscriptions = new Set();
-        this.onResizeFn = this.onResize.bind(this);
-    }
-    EditSpaceSphere.prototype.ngOnInit = function () {
-        var _this = this;
-        if (this.metaDataInteractor.projectIsEmpty()) {
-            this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
-        }
-        this.windowWidth = window.innerWidth;
-        this.windowHeight = window.innerHeight;
-        this.ngZone.runOutsideAngular(function () {
-            window.addEventListener('resize', _this.onResizeFn, false);
-        });
-    };
-    EditSpaceSphere.prototype.ngAfterViewInit = function () {
-        // this.initScene.call(this);
-        this.initScene();
-        this.subscribeToEvents();
-        this.loadTextures().then(this.initRoom.bind(this)).catch(function (error) {
-            return console.log('load textures / init room error', error, console.trace());
-        });
-    };
-    EditSpaceSphere.prototype.ngOnDestroy = function () {
-        window.removeEventListener('resize', this.onResizeFn, false);
-        if (this.camera) {
-            var cameraDirection = new THREE.Vector3(0, 0, -1);
-            cameraDirection.applyQuaternion(this.camera.quaternion);
-            this.cameraInteractor.setCameraDirection(cameraDirection.x, cameraDirection.y, cameraDirection.z);
-        }
-        cancelAnimationFrame(this.animationRequest);
-        // this.isDragging = false;
-        // this.svrControls.dispose();
-        this.subscriptions.forEach(function (subscription) {
-            return subscription.unsubscribe();
-        });
-        if (!!this.video3D) {
-            this.video3D.destroy();
-        }
-    };
-    EditSpaceSphere.prototype.initScene = function () {
-        var canvas = this.globeCanvas.nativeElement;
-        var sceneComponents = threeUtil_1.buildScene();
-        this.sphereMesh = sceneComponents.sphereMesh;
-        this.camera = sceneComponents.camera;
-        this.vrCamera = sceneComponents.vrCamera;
-        this.scene = sceneComponents.scene;
-        this.renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: window.orientation == 'undefined' });
-        this.svrControls = new THREE.SvrControls({
-            camera: this.camera,
-            domElement: canvas,
-            initialTarget: this.cameraInteractor.getCameraDirection(),
-            onMouseDownCallback: this.onMouseDown.bind(this),
-            executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone)
-        });
-    };
-    EditSpaceSphere.prototype.initRoom = function () {
-        var _this = this;
-        var roomId = this.sceneInteractor.getActiveRoomId();
-        var room = this.sceneInteractor.getRoomById(roomId);
-        if (room.getBackgroundIsVideo()) {
-            this.video3D = new video3D_1.Video3D();
-            this.video3D.init(room.getBackgroundVideo()).then(function (texture) {
-                _this.sphereMesh.material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide });
-                _this.onResize(null);
-            }).catch(function (error) {
-                return console.log('EditSpaceSphere.initVideo', error);
-            });
-        } else {
-            var sphereTexture = this.assetInteractor.getTextureById(roomId);
-            this.sphereMesh.material = new THREE.MeshBasicMaterial({ map: sphereTexture, side: THREE.BackSide });
-            this.onResize(null);
-        }
-    };
-    EditSpaceSphere.prototype.loadTextures = function () {
-        var _this = this;
-        var imageList = this.sceneInteractor.getRoomIds().map(function (roomId) {
-            return _this.sceneInteractor.getRoomById(roomId);
-        }).filter(function (room) {
-            return room.hasBackgroundImage() && !room.getBackgroundIsVideo();
-        }).map(function (room) {
-            var imagePath = room.getBinaryFileData();
-            if (imagePath.changingThisBreaksApplicationSecurity) {
-                imagePath = imagePath.changingThisBreaksApplicationSecurity;
-            }
-            return new assetInteractor_1.AssetModel(room.getId(), room.getFileName(), imagePath);
-        });
-        return this.assetInteractor.loadTextures(imageList);
-    };
-    EditSpaceSphere.prototype.subscribeToEvents = function () {
-        var _this = this;
-        var onPropertySelect = this.eventBus.getObservable(event_bus_1.EventType.SELECT_PROPERTY).subscribe(function (observedData) {
-            var propertyId = observedData.propertyId;
-            var isNewProperty = observedData.isNewProperty;
-            var roomIconList = _this.roomIconComponentList.filter(function (roomIcon) {
-                return roomIcon.roomProperty.getId() !== propertyId;
-            });
-            if (isNewProperty) {
-                _this.onNewPropertyAdded(propertyId);
-            }
-            _this.combinedHotspotUtil.setRoomPropertyList(roomIconList);
-        }, function (error) {
-            return console.log('error', error);
-        });
-        var onRoomSelect = this.eventBus.getObservable(event_bus_1.EventType.SELECT_ROOM).subscribe(function (observedData) {
-            if (observedData.isNewProperty) {
-                _this.initRoom();
-                return;
-            }
-            _this.loadTextures().then(_this.initRoom.bind(_this)).catch(function (error) {
-                return console.log('onRoomSelect', error);
-            });
-        }, function (error) {
-            return console.log('error', error);
-        });
-        this.subscriptions.add(onRoomSelect);
-        this.subscriptions.add(onPropertySelect);
-    };
-    EditSpaceSphere.prototype.onNewPropertyAdded = function (propertyId) {
-        var _this = this;
-        var newLocation = vector2_1.Vector2.build();
-        var denormalizedPosition = iconPositionUtil_1.denormalizePosition(newLocation.getX(), newLocation.getY());
-        var normalPosition = this.transformScreenPositionTo3dNormal(denormalizedPosition.getX(), denormalizedPosition.getY());
-        var activeRoomId = this.sceneInteractor.getActiveRoomId();
-        this.sceneInteractor.getPropertyById(activeRoomId, propertyId).setLocation(normalPosition);
-        setTimeout(function () {
-            _this.roomIconComponentList.forEach(function (roomIcon) {
-                return _this.updateRoomIconPosition(roomIcon);
-            });
-        });
-    };
-    EditSpaceSphere.prototype.render = function () {
-        var _this = this;
-        this.svrControls.update();
-        this.roomIconComponentList.forEach(function (roomIcon) {
-            return _this.updateRoomIconPosition(roomIcon);
-        });
-        if (this.video3D) {
-            this.video3D.attemptEditSpaceRender();
-        }
-        this.renderer.render(this.scene, this.camera);
-        // const shouldRender = this.isDragging || this.svrControls.hasMomentum();
-        // if (shouldRender) {
-        if (this.svrControls.shouldRender()) {
-            this.ngZone.runOutsideAngular(function () {
-                _this.animationRequest = requestAnimationFrame(_this.render.bind(_this));
-            });
-        }
-    };
-    EditSpaceSphere.prototype.onMouseDown = function (event) {
-        this.render();
-    };
-    EditSpaceSphere.prototype.onMoveEnd = function ($event) {
-        var normalPosition = this.transformScreenPositionTo3dNormal($event.x, $event.y);
-        $event.setIconLocation(normalPosition.getX(), -normalPosition.getY());
-        this.render();
-    };
-    EditSpaceSphere.prototype.onResize = function (event) {
-        var _this = this;
-        threeUtil_1.onResize(this.camera, this.renderer).then(function () {
-            _this.roomIconComponentList.forEach(function (roomIcon) {
-                return roomIcon.setPixelLocation(99999, 99999);
-            });
-            _this.render();
-        }).catch(function (error) {
-            return console.log('edit-sphere resize error', error);
-        });
-    };
-    EditSpaceSphere.prototype.updateRoomIconPosition = function (roomIcon) {
-        var location = roomIcon.getLocation();
-        var coordinatePosition = iconPositionUtil_1.getCoordinatePosition(location.getX(), location.getY());
-        var positionCameraDotProd = coordinatePosition.dot(this.camera.getWorldDirection());
-        // exit function if the camera is pointed in the opposite direction as the icon
-        if (positionCameraDotProd < 0) return;
-        var screenPosition = getScreenProjection(coordinatePosition, this.camera, this.renderer.context);
-        roomIcon.setPixelLocationWithBuffer(screenPosition.x, screenPosition.y);
-    };
-    EditSpaceSphere.prototype.getItems = function () {
-        var roomId = this.sceneInteractor.getActiveRoomId();
-        return this.sceneInteractor.getRoomProperties(roomId);
-    };
-    EditSpaceSphere.prototype.roomHasBackgroundImage = function () {
-        var roomId = this.sceneInteractor.getActiveRoomId();
-        return this.sceneInteractor.roomHasBackgroundImage(roomId);
-    };
-    EditSpaceSphere.prototype.transformScreenPositionTo3dNormal = function (x, y) {
-        var normalPosition = getNormalizedPositionFromScreenPosition(x, y, this.camera, this.renderer.context);
-        return normalPosition;
-    };
-    __decorate([core_1.ViewChildren('roomIcon'), __metadata("design:type", Array)], EditSpaceSphere.prototype, "roomIconComponentList", void 0);
-    __decorate([core_1.ViewChild('editSpaceSphere'), __metadata("design:type", Object)], EditSpaceSphere.prototype, "editSpaceSphere", void 0);
-    __decorate([core_1.ViewChild('globeCanvas'), __metadata("design:type", Object)], EditSpaceSphere.prototype, "globeCanvas", void 0);
-    EditSpaceSphere = __decorate([core_1.Component({
-        selector: 'edit-space-sphere',
-        styles: [__webpack_require__(1158)],
-        template: __webpack_require__(1159)
-    }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, cameraInteractor_1.CameraInteractor, event_bus_1.EventBus, core_1.NgZone, combinedHotspotUtil_1.CombinedHotspotUtil, assetInteractor_1.AssetInteractor, projectMetaDataInteractor_1.MetaDataInteractor, router_1.Router])], EditSpaceSphere);
-    return EditSpaceSphere;
-}();
-exports.EditSpaceSphere = EditSpaceSphere;
-// get xyz position from absolute screen position
-function getWorldPosition(screenPositionX, screenPositionY, camera, context) {
-    var width = context.canvas.width;
-    var height = context.canvas.height;
-    var x = screenPositionX / width * 2 - 1;
-    var y = -(screenPositionY / height) * 2 + 1;
-    var vector = new THREE.Vector3(x, y, 0.5);
-    return vector.unproject(camera);
-}
-// get absolute screen position from xyz position
-function getScreenProjection(position, camera, context) {
-    var proxyObject = new THREE.Object3D();
-    var vector = new THREE.Vector3();
-    var halfWidth = context.canvas.width / 2;
-    var halfHeight = context.canvas.height / 2;
-    proxyObject.position.set(position.x, position.y, position.z);
-    proxyObject.updateMatrixWorld(true);
-    vector.setFromMatrixPosition(proxyObject.matrixWorld);
-    vector.project(camera);
-    return {
-        x: vector.x * halfWidth + halfWidth,
-        y: -(vector.y * halfHeight) + halfHeight
-    };
-}
-function getNormalizedPositionFromScreenPosition(screenX, screenY, camera, context) {
-    var worldPosition = getWorldPosition(screenX, screenY, camera, context);
-    var spherical = iconPositionUtil_1.coordinateToSpherical(worldPosition.x, worldPosition.y, worldPosition.z);
-    var x = spherical.theta / Math.PI * 180;
-    var y = spherical.phi / Math.PI * 180 - 90;
-    if (x < 0) {
-        x += 360;
-    }
-    x = iconPositionUtil_1.clamp(x, 0, 360);
-    y = iconPositionUtil_1.clamp(y, -90, 90);
-    return new vector2_1.Vector2(x, y);
-}
-
-/***/ }),
-/* 1158 */
-/***/ (function(module, exports) {
-
-module.exports = ".edit-space {\n  width: 100%;\n  height: 100%;\n  cursor: move; }\n"
-
-/***/ }),
 /* 1159 */
 /***/ (function(module, exports) {
 
-module.exports = "<div\n  #editSpaceSphere\n  class=\"edit-space\">\n\n  <canvas #globeCanvas>\n  </canvas>\n\n  <div *ngFor=\"let roomProperty of getItems()\">\n    <room-icon\n      #roomIcon\n      [roomProperty]=\"roomProperty\"\n      (onIconDragEnd)=\"onMoveEnd($event)\">\n    </room-icon>\n  </div>\n\n</div>\n"
+module.exports = "<div class=\"edit-space\">\n\n  <img\n    *ngIf=\"!isVideo()\"\n    [attr.src]=\"getBackgroundImage()\"\n    (dragstart)=\"$event.preventDefault()\"\n    class=\"edit-space-background\">\n\n  <video\n    *ngIf=\"isVideo()\"\n    [attr.src]=\"getBackgroundVideo()\"\n    (dragstart)=\"$event.preventDefault()\"\n    class=\"edit-space-background edit-space-background--video\">\n  </video>\n\n\n  <div *ngFor=\"let roomProperty of getItems()\">\n    <room-icon\n      #roomIcon\n      [roomProperty]=\"roomProperty\">\n    </room-icon>\n  </div>\n\n  <default-overlay\n    *ngIf=\"!roomHasBackgroundImage()\">\n  </default-overlay>\n\n</div>\n"
 
 /***/ }),
 /* 1160 */
@@ -35089,10 +34978,10 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var event_bus_1 = __webpack_require__(9);
-var fileLoaderUtil_1 = __webpack_require__(65);
+var fileLoaderUtil_1 = __webpack_require__(66);
 var sceneInteractor_1 = __webpack_require__(14);
 var imageResizeService_1 = __webpack_require__(52);
-var zipFileReader_1 = __webpack_require__(133);
+var zipFileReader_1 = __webpack_require__(135);
 var SlideshowBuilder_1 = __webpack_require__(108);
 var DefaultOverlay = /** @class */function () {
     function DefaultOverlay(eventBus, fileLoaderUtil, zipFileReader, sceneInteractor, slideshowBuilder) {
@@ -35222,8 +35111,8 @@ var event_bus_1 = __webpack_require__(9);
 var vector2_1 = __webpack_require__(75);
 var roomPropertyTypeService_1 = __webpack_require__(92);
 var propertyRemovalService_1 = __webpack_require__(136);
-var combinedHotspotUtil_1 = __webpack_require__(185);
-var iconPositionUtil_1 = __webpack_require__(105);
+var combinedHotspotUtil_1 = __webpack_require__(181);
+var iconPositionUtil_1 = __webpack_require__(107);
 var constants_1 = __webpack_require__(12);
 var ICON_MAP = {
     text: 'text_filled.png',
@@ -35580,7 +35469,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var text_1 = __webpack_require__(266);
+var text_1 = __webpack_require__(265);
 var TextEditor = /** @class */function () {
     function TextEditor() {}
     __decorate([core_1.Input(), __metadata("design:type", text_1.Text)], TextEditor.prototype, "textProperty", void 0);
@@ -35680,7 +35569,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var door_1 = __webpack_require__(267);
+var door_1 = __webpack_require__(266);
 var sceneInteractor_1 = __webpack_require__(14);
 var constants_1 = __webpack_require__(12);
 var event_bus_1 = __webpack_require__(9);
@@ -35814,7 +35703,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var link_1 = __webpack_require__(268);
+var link_1 = __webpack_require__(267);
 var LinkEditor = /** @class */function () {
     function LinkEditor() {}
     LinkEditor.prototype.showLinkButton = function () {
@@ -35869,7 +35758,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var constants_1 = __webpack_require__(12);
-var audio_1 = __webpack_require__(106);
+var audio_1 = __webpack_require__(105);
 var audioRecorderService_1 = __webpack_require__(186);
 var AudioEditor = /** @class */function () {
     function AudioEditor() {}
@@ -35931,7 +35820,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var audioRecorderService_1 = __webpack_require__(186);
-var uuid_1 = __webpack_require__(107);
+var uuid_1 = __webpack_require__(106);
 //this should really refer to colors inn our variables.scss file
 var backgroundColorOff = new Uint8Array([173, 0, 52]); //i.e. $color-red-dark
 var backgroundColorOn = new Uint8Array([255, 53, 113]); //i.e. $color-pink
@@ -36062,22 +35951,22 @@ var router_1 = __webpack_require__(17);
 var THREE = __webpack_require__(28);
 __webpack_require__(459);
 __webpack_require__(460);
-__webpack_require__(509);
+__webpack_require__(503);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
 var sceneInteractor_1 = __webpack_require__(14);
-var cameraInteractor_1 = __webpack_require__(272);
+var cameraInteractor_1 = __webpack_require__(269);
 var assetInteractor_1 = __webpack_require__(60);
 // import {MultiViewService} from 'ui/editor/preview-space/modules/multiViewService';
 var MeshUtil = __webpack_require__(1188);
-var audioManager_1 = __webpack_require__(513);
-var textureLoader_1 = __webpack_require__(514);
-var hotspotManager_1 = __webpack_require__(515);
+var audioManager_1 = __webpack_require__(514);
+var textureLoader_1 = __webpack_require__(515);
+var hotspotManager_1 = __webpack_require__(516);
 var menuManager_1 = __webpack_require__(275);
-var reticle_1 = __webpack_require__(517);
-var video3D_1 = __webpack_require__(512);
-var threeUtil_1 = __webpack_require__(511);
+var reticle_1 = __webpack_require__(518);
+var video3D_1 = __webpack_require__(509);
+var threeUtil_1 = __webpack_require__(508);
 var constants_1 = __webpack_require__(12);
-var fontHelper_1 = __webpack_require__(516);
+var fontHelper_1 = __webpack_require__(517);
 var Stats = __webpack_require__(1191);
 var stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
@@ -36142,12 +36031,7 @@ var PreviewSpace = /** @class */function () {
         // this.svrControls.dispose();
         window.removeEventListener('resize', this.onResizeFn, false);
         window.removeEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);
-        ;
-        if (this.camera) {
-            var cameraDirection = new THREE.Vector3(0, 0, -1);
-            cameraDirection.applyQuaternion(this.camera.quaternion);
-            this.cameraInteractor.setCameraDirection(cameraDirection.x, cameraDirection.y, cameraDirection.z);
-        }
+        this.cameraInteractor.setCameraAngles(this.svrControls.getCameraAngles());
         cancelAnimationFrame(this.animationRequest);
         this.isInRenderLoop = false;
         this.subscriptions.forEach(function (subscription) {
@@ -36176,13 +36060,11 @@ var PreviewSpace = /** @class */function () {
         this.scene = scenePrimitives.scene;
         this.sphereMesh.material = this.sphereMaterial;
         this.reticle.init(this.camera, this.vrCamera);
-        //this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: window.orientation == 'undefined'});
         this.renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false });
-        // this.svrControls = new THREE.SvrControls(this.camera, canvas, this.cameraInteractor.getCameraDirection());
         this.svrControls = new THREE.SvrControls({
             camera: this.camera,
             domElement: canvas,
-            initialTarget: this.cameraInteractor.getCameraDirection(),
+            initialCameraAngles: this.cameraInteractor.getCameraAngles(),
             executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone)
         });
         this.ngZone.runOutsideAngular(function () {
@@ -36194,13 +36076,7 @@ var PreviewSpace = /** @class */function () {
     PreviewSpace.prototype.initRoom = function () {
         var roomId = this.sceneInteractor.getActiveRoomId();
         var room = this.sceneInteractor.getRoomById(roomId);
-        //console.log('campos init: ', this.camera.position);
-        //reset room tweens
         this.sphereMesh.position.set(0, 0, 0);
-        this.camera.position.x = 0;
-        this.camera.position.y = 0;
-        this.camera.position.z = 0.0001;
-        this.camera.updateProjectionMatrix();
         room.getBackgroundIsVideo() ? this.init3dRoom(room) : this.init2dRoom(roomId);
         this.audioManager.stopAllAudio();
         this.audioManager.playBackgroundAudio();
@@ -36300,11 +36176,6 @@ var PreviewSpace = /** @class */function () {
             _this.update(elapsedTime);
             _this.render();
         });
-    };
-    PreviewSpace.prototype.logCamLookat = function (tag) {
-        var vector = new THREE.Vector3(0, 0, 0);
-        this.camera.getWorldDirection(vector);
-        console.log("lookAt: ", tag, vector);
     };
     PreviewSpace.prototype.update = function (elapsedTime) {
         var isInVrMode = this.vrDisplay && this.vrDisplay.isPresenting;
@@ -37428,14 +37299,14 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 __webpack_require__(250);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
-var storageInteractor_1 = __webpack_require__(181);
+var storageInteractor_1 = __webpack_require__(183);
 var userInteractor_1 = __webpack_require__(37);
 var projectInteractor_1 = __webpack_require__(53);
 var sceneInteractor_1 = __webpack_require__(14);
 var adminInteractor_1 = __webpack_require__(137);
 var event_bus_1 = __webpack_require__(9);
 var constants_1 = __webpack_require__(12);
-var FileSaver = __webpack_require__(519);
+var FileSaver = __webpack_require__(520);
 var AuthUserTab = /** @class */function () {
     function AuthUserTab(userInteractor, projectInteractor, sceneInteractor, eventBus, storageInteractor, metaDataInteractor, adminInteractor, router) {
         this.userInteractor = userInteractor;
@@ -37849,14 +37720,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 var sceneInteractor_1 = __webpack_require__(14);
-var storageInteractor_1 = __webpack_require__(181);
+var storageInteractor_1 = __webpack_require__(183);
 var projectInteractor_1 = __webpack_require__(53);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
 var event_bus_1 = __webpack_require__(9);
 var userInteractor_1 = __webpack_require__(37);
 var SlideshowBuilder_1 = __webpack_require__(108);
 var constants_1 = __webpack_require__(12);
-var FileSaver = __webpack_require__(519);
+var FileSaver = __webpack_require__(520);
 var Story = /** @class */function () {
     function Story(router, sceneInteractor, storageInteractor, metaDataInteractor, userInteractor, projectInteractor, eventBus, slideshowBuilder, element) {
         this.router = router;
@@ -38106,12 +37977,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 var event_bus_1 = __webpack_require__(9);
-var fileLoaderUtil_1 = __webpack_require__(65);
+var fileLoaderUtil_1 = __webpack_require__(66);
 var sceneInteractor_1 = __webpack_require__(14);
 var imageResizeService_1 = __webpack_require__(52);
 //added by ali for dragging images in
 var SlideshowBuilder_1 = __webpack_require__(108);
-var zipFileReader_1 = __webpack_require__(133);
+var zipFileReader_1 = __webpack_require__(135);
 var Upload = /** @class */function () {
     function Upload(router, eventBus, fileLoaderUtil, slideshowBuilder, sceneInteractor, zipFileReader, element) {
         this.router = router;
@@ -38432,7 +38303,7 @@ var projectMetaDataInteractor_1 = __webpack_require__(36);
 var imageResizeService_1 = __webpack_require__(52);
 var sceneInteractor_1 = __webpack_require__(14);
 var event_bus_1 = __webpack_require__(9);
-var reverbList_1 = __webpack_require__(265);
+var reverbList_1 = __webpack_require__(264);
 var audioRecorderService_1 = __webpack_require__(186);
 var constants_1 = __webpack_require__(12);
 var RoomEditor = /** @class */function () {
@@ -39327,7 +39198,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var event_bus_1 = __webpack_require__(9);
-var fileLoaderUtil_1 = __webpack_require__(65);
+var fileLoaderUtil_1 = __webpack_require__(66);
 var Droppable = /** @class */function () {
     function Droppable(eventBus, fileLoaderUtil) {
         this.eventBus = eventBus;
@@ -39408,8 +39279,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var event_bus_1 = __webpack_require__(9);
-var fileLoaderUtil_1 = __webpack_require__(65);
-var uuid_1 = __webpack_require__(107);
+var fileLoaderUtil_1 = __webpack_require__(66);
+var uuid_1 = __webpack_require__(106);
 var FileLoader = /** @class */function () {
     function FileLoader(eventBus, fileLoaderUtil) {
         this.eventBus = eventBus;
@@ -39485,7 +39356,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var event_bus_1 = __webpack_require__(9);
-var zipFileReader_1 = __webpack_require__(133);
+var zipFileReader_1 = __webpack_require__(135);
 var HiddenFileLoader = /** @class */function () {
     function HiddenFileLoader(eventBus, zipFileReader) {
         this.eventBus = eventBus;
@@ -39555,7 +39426,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var uuid_1 = __webpack_require__(107);
+var uuid_1 = __webpack_require__(106);
 var FileLoaderMulti = /** @class */function () {
     function FileLoaderMulti() {
         this.onFileLoad = new core_1.EventEmitter();
@@ -39745,7 +39616,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var uuid_1 = __webpack_require__(107);
+var uuid_1 = __webpack_require__(106);
 var Checkbox = /** @class */function () {
     function Checkbox() {
         this.initialValue = false;
@@ -40147,7 +40018,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var publicLinkHelper_1 = __webpack_require__(262);
+var publicLinkHelper_1 = __webpack_require__(270);
 var clipboard_1 = __webpack_require__(1298);
 var projectInteractor_1 = __webpack_require__(53);
 var userInteractor_1 = __webpack_require__(37);
@@ -40280,18 +40151,18 @@ var core_1 = __webpack_require__(2);
 var http_1 = __webpack_require__(156);
 var roomManager_1 = __webpack_require__(91);
 var roomPropertyBuilder_1 = __webpack_require__(179);
-var cameraService_1 = __webpack_require__(510);
-var apiService_1 = __webpack_require__(66);
+var cameraService_1 = __webpack_require__(506);
+var apiService_1 = __webpack_require__(65);
 // import {ApiService} from 'data/api/stubApiService';
-var userService_1 = __webpack_require__(184);
+var userService_1 = __webpack_require__(185);
 var authenticationService_1 = __webpack_require__(182);
-var socialAuthenticationService_1 = __webpack_require__(507);
-var deserializationService_1 = __webpack_require__(270);
-var serializationService_1 = __webpack_require__(271);
-var projectService_1 = __webpack_require__(505);
-var assetManager_1 = __webpack_require__(135);
-var assetService_1 = __webpack_require__(504);
-var chatService_1 = __webpack_require__(518);
+var socialAuthenticationService_1 = __webpack_require__(512);
+var deserializationService_1 = __webpack_require__(271);
+var serializationService_1 = __webpack_require__(272);
+var projectService_1 = __webpack_require__(510);
+var assetManager_1 = __webpack_require__(134);
+var assetService_1 = __webpack_require__(507);
+var chatService_1 = __webpack_require__(519);
 var DataModule = /** @class */function () {
     function DataModule() {}
     DataModule = __decorate([core_1.NgModule({
@@ -40549,7 +40420,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var projectInteractor_1 = __webpack_require__(53);
 var searchInteractor_1 = __webpack_require__(277);
-var shareable_loader_1 = __webpack_require__(183);
+var shareable_loader_1 = __webpack_require__(184);
 var userInteractor_1 = __webpack_require__(37);
 var adminInteractor_1 = __webpack_require__(137);
 var constants_1 = __webpack_require__(12);
@@ -40752,7 +40623,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var projectInteractor_1 = __webpack_require__(53);
 var searchInteractor_1 = __webpack_require__(277);
-var shareable_loader_1 = __webpack_require__(183);
+var shareable_loader_1 = __webpack_require__(184);
 var SearchExplore = /** @class */function () {
     function SearchExplore(projectInteractor, searchInteractor, shareableLoader) {
         this.projectInteractor = projectInteractor;
@@ -40840,7 +40711,7 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 var event_bus_1 = __webpack_require__(9);
 var userInteractor_1 = __webpack_require__(37);
-var groupInteractor_1 = __webpack_require__(520);
+var groupInteractor_1 = __webpack_require__(521);
 var projectInteractor_1 = __webpack_require__(53);
 var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
@@ -41092,5 +40963,5 @@ module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserr
 module.exports = "<router-outlet></router-outlet>\n"
 
 /***/ })
-],[1067]);
+],[1068]);
 //# sourceMappingURL=main.map
