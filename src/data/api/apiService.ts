@@ -3,9 +3,14 @@ import {Http, Response, Headers, RequestOptions, ResponseContentType} from '@ang
 import {Observable} from 'rxjs/Observable';
 
 import Api from 'data/api/api';
-import {BASE_URL, MIME_TYPE_MP4} from 'ui/common/constants';
 import {AuthenticationService} from 'data/authentication/authenticationService';
 import {generateUniqueId} from 'data/util/uuid';
+import {
+  BASE_URL,
+  MIME_TYPE_MP4,
+  GOOGLE_API_KEY,
+  GOOGLE_BASE_URL,
+} from 'ui/common/constants';
 
 // import * as firebase from 'firebase/app';
 // import 'firebase/auth';
@@ -20,6 +25,7 @@ const URL_PATH_USERS: string = '/users/';
 const URL_PATH_PROJECTS: string = '/projects/';
 const SIGN_URL: string = '/sign_url/';
 const SEARCH_URL: string = '/search/';
+const URL_SHORTENER_URL: string = `${GOOGLE_BASE_URL}urlshortener/v1/url`;
 
 @Injectable()
 export class ApiService implements Api {
@@ -205,6 +211,15 @@ export class ApiService implements Api {
         const remoteFileName = `${uploadPolicy.url}${key}`;
         return remoteFileName;
       });
+  }
+
+  getShortenedUrl(url: string): Observable<any> {
+    const payload= {
+      "longUrl": url
+    };
+    return this.http.post(`${URL_SHORTENER_URL}?key=${GOOGLE_API_KEY}`, payload)
+      .map(response => response.json())
+      .map(responseJson => responseJson.id)
   }
 
   uploadVideo(videoFile): Observable<any> {
