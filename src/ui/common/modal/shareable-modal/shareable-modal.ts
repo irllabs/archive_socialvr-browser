@@ -43,10 +43,10 @@ export class ShareableModal {
       // Update fields from response
       .map(
         response => {
-          this.publicLink = getShareableLink(response.public_url);
+          const publicLink = getShareableLink(response.public_url);
           this.isPublic = response.is_public;
           this.projectName = response.name;
-          return this.isPublic ? this.publicLink : null
+          return this.isPublic ? publicLink : null
         }
       )
       // Pipe to Google API to shorten
@@ -77,9 +77,9 @@ export class ShareableModal {
     this.projectInteractor.updateSharableStatus(userId, projectId, this.isPublic)
       // Update fields from response
       .map(response => {
-        this.publicLink = getShareableLink(response.public_url);
+        const publicLink = getShareableLink(response.public_url);
         this.isPublic = response.is_public
-        return this.isPublic ? this.publicLink : null
+        return this.isPublic ? publicLink : null
       })
       // Pipe to Google API to shorten
       .flatMap(
