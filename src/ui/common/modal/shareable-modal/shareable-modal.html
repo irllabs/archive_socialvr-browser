@@ -21,6 +21,9 @@
         [ngClass]="{'public-option__copy-notification--active': notificationIsVisible}">
         Link copied to clipboard!
       </p>
+      <div class="public-option__qr-code">
+        <canvas #qrCodeElem></canvas>
+      </div>
       <p
         class="public-option__link"
         [attr.title]="publicLink"
