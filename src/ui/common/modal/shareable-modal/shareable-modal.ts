@@ -1,5 +1,6 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 
+import {ApiService} from 'data/api/apiService';
 import {getShareableLink} from 'ui/editor/util/publicLinkHelper';
 import {copyToClipboard} from 'ui/editor/util/clipboard';
 import {ProjectInteractor} from 'core/project/projectInteractor';
@@ -22,7 +23,8 @@ export class ShareableModal {
 
   constructor(
     private projectInteractor: ProjectInteractor,
-    private userInteractor: UserInteractor
+    private userInteractor: UserInteractor,
+    private apiService: ApiService,
   ) {}
 
 
@@ -30,17 +32,23 @@ export class ShareableModal {
     const userId = this.shareableData.userId;
     const projectId = this.shareableData.projectId;
     this.projectInteractor.getProjectData(userId, projectId)
-      .subscribe(
+      .map(
         projectData => {
           this.isPublic = projectData.is_public;
           this.projectName = projectData.name;
           if (this.isPublic) {
-            const sharableLink = getShareableLink(projectData.public_url);
-            this.publicLink = sharableLink;
+            const projectLink = getShareableLink(projectData.public_url);
+            return projectLink;
           }
-        },
-        error => console.log('getProjectData error', error)
-      );
+        }
+      )
+      .flatMap(
+        projectLink => this.apiService.getShortenedUrl(projectLink)
+      )
+      .subscribe(
+        shortenedUrl => this.publicLink = shortenedUrl,
+        error => console.error('getShortUrl error', error),
+      )
   }
 
   private closeModal($event, isAccepted: boolean) {
