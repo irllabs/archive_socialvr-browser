@@ -55,3 +55,19 @@
 .public-option__qr-code {
   text-align: center;
 }
+
+.public-option__clipboard-text {
+  p {
+    span {
+      display: block;
+      font-size: $tiny-font-size;
+      color: $color-grey-default;
+      opacity: 0;
+    }
+    &:hover {
+      span {
+        opacity: 1;
+      }
+    }
+  }
+}

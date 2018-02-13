@@ -24,12 +24,15 @@
       <div class="public-option__qr-code">
         <canvas #qrCodeElem></canvas>
       </div>
-      <p
-        class="public-option__link"
-        [attr.title]="publicLink"
-        (click)="onPublicLinkClick($event)">
-        Click Here to Copy Link
-      </p>
+      <div class="public-option__clipboard-text">
+        <p
+          class="public-option__link"
+          [attr.title]="publicLink"
+          (click)="onPublicLinkClick($event)">
+          {{publicLink}}
+          <span>Click to Copy to Clipboard</span>
+        </p>
+      </div>
       <div class="public-option__text-block">
         <p>This means:</p>
         <ul class="public-option__explanation-list">
