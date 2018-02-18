@@ -4,7 +4,6 @@ import {Subscription} from 'rxjs/Subscription';
 import * as THREE from 'three';
 import 'three/VRControls';
 import 'three/VREffect';
-import 'three/SvrControls';
 
 import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
 import {SceneInteractor} from 'core/scene/sceneInteractor';
@@ -21,6 +20,7 @@ import {Reticle} from 'ui/editor/preview-space/modules/reticle';
 import {Room} from 'data/scene/entities/room';
 import {Video3D} from 'ui/editor/edit-space/video3D';
 import {buildScene, onResize} from 'ui/editor/util/threeUtil';
+import SvrControls from 'ui/editor/util/SvrControls';
 import {THREE_CONST} from 'ui/common/constants';
 import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
 
@@ -46,7 +46,7 @@ export class PreviewSpace {
   private renderer: THREE.WebGLRenderer;
   private vrControls: THREE.VRControls
   private vrEffect: THREE.VREffect;
-  private svrControls: THREE.SvrControls;
+  private svrControls: SvrControls;
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private vrCamera: THREE.PerspectiveCamera;
@@ -151,7 +151,7 @@ export class PreviewSpace {
 
     this.reticle.init(this.camera, this.vrCamera);
     this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: false});
-    this.svrControls = new THREE.SvrControls({
+    this.svrControls = new SvrControls({
       camera: this.camera,
       domElement: canvas,
       initialCameraAngles: this.cameraInteractor.getCameraAngles(),

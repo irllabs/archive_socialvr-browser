@@ -2,7 +2,6 @@ import {Component, Input, Output, ViewChildren, ViewChild, NgZone, EventEmitter}
 import {Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import * as THREE from 'three';
-import 'three/SvrControls';
 
 import {Hotspot} from 'ui/editor/interfaces/hotspot';
 import {EventBus, EventType} from 'ui/common/event-bus';
@@ -22,6 +21,7 @@ import {
   getCoordinatePosition, clamp
 } from 'ui/editor/util/iconPositionUtil';
 import {buildScene, onResize} from 'ui/editor/util/threeUtil';
+import SvrControls from 'ui/editor/util/SvrControls';
 import {Video3D} from 'ui/editor/edit-space/video3D';
 
 
@@ -37,7 +37,7 @@ export class EditSpaceSphere {
   @ViewChild('globeCanvas') globeCanvas;
 
   private renderer: THREE.WebGLRenderer;
-  private svrControls: THREE.SvrControls;
+  private svrControls: SvrControls;
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private sphereMesh: THREE.Mesh;
@@ -95,7 +95,7 @@ export class EditSpaceSphere {
     this.camera = sceneComponents.camera;
     this.scene = sceneComponents.scene;
     this.renderer = new THREE.WebGLRenderer({canvas: canvas, alpha: true, antialias: false});
-    this.svrControls = new THREE.SvrControls({
+    this.svrControls = new SvrControls({
       camera: this.camera,
       domElement: canvas,
       initialCameraAngles: this.cameraInteractor.getCameraAngles(),

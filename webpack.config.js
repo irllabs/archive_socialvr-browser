@@ -112,7 +112,6 @@ const defaultConfig = {
         assets: path.resolve(__dirname, 'src/assets/'),
         'three/VRControls': path.join(__dirname, 'node_modules/three/examples/js/controls/VRControls.js'),
         'three/VREffect': path.join(__dirname, 'node_modules/three/examples/js/effects/VREffect.js'),
-        'three/SvrControls': path.join(__dirname, 'src/ui/editor/util/SvrControls.js')
     }
   },
 

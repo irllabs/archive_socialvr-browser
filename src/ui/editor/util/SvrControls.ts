@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 // Social VR Controls: A slimmed down version of OrbitControls
 // https://github.com/mrdoob/three.js/blob/dev/examples/js/controls/OrbitControls.js
 
@@ -11,8 +12,6 @@ const ROTATE_SPEED = -0.3;
 const DAMPING_FACTOR = 0.9;
 const DAMPING_DECAY = 0.005;
 const MOMENTUM_EPSILON = 0.25;
-const START_EVENT = { type: 'start' };
-const END_EVENT = { type: 'end' };
 const CENTER = new THREE.Vector3(0, 0, 0);
 
 const defaultExecutionContext = (fn) => {
@@ -21,7 +20,7 @@ const defaultExecutionContext = (fn) => {
 	}
 };
 
-THREE.SvrControls = function (options) {
+const SvrControls = function (options) {
 
 	this.camera = options.camera;
 	this.domElement = options.domElement ? options.domElement : document;
@@ -83,7 +82,7 @@ THREE.SvrControls = function (options) {
 	}();
 
 	this.dispose = function () {
-		scope.domElement.removeEventListener('contextmenu', onContextMenu, false);
+		// scope.domElement.removeEventListener('contextmenu', onContextMenu, false);
 		scope.domElement.removeEventListener('mousedown', onMouseDown, false);
 		document.removeEventListener('mousemove', onMouseMove, false);
 		document.removeEventListener('mouseup', onMouseUp, false);
@@ -133,7 +132,7 @@ THREE.SvrControls = function (options) {
 			document.addEventListener('touchmove', onTouchMove, { passive: false });
 			document.addEventListener('touchend', onTouchEnd, false);
 		});
-		scope.dispatchEvent(START_EVENT);
+		// scope.dispatchEvent(START_EVENT);
 		scope.onMouseDownCallback(event);
 	}
 
@@ -163,7 +162,7 @@ THREE.SvrControls = function (options) {
 		document.removeEventListener('mouseup', onMouseUp, false);
 		document.removeEventListener('touchmove', onTouchMove, false);
 		document.removeEventListener('touchend', onTouchEnd, false);
-		scope.dispatchEvent(END_EVENT);
+		// scope.dispatchEvent(END_EVENT);
 	}
 
 	function onTouchStart(event) {
@@ -213,5 +212,4 @@ THREE.SvrControls = function (options) {
 	}
 };
 
-THREE.SvrControls.prototype = Object.create( THREE.EventDispatcher.prototype );
-THREE.SvrControls.prototype.constructor = THREE.SvrControls;
+export default SvrControls;
