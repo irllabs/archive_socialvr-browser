@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, HostListener} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {SceneInteractor} from 'core/scene/sceneInteractor';
@@ -26,6 +26,8 @@ const FileSaver = require('file-saver');
 })
 export class Story {
 
+  private isBeingInstantiated: boolean = true;
+
   constructor(
     private router: Router,
     private sceneInteractor: SceneInteractor,
@@ -34,8 +36,21 @@ export class Story {
     private userInteractor: UserInteractor,
     private projectInteractor: ProjectInteractor,
     private eventBus: EventBus,
-    private slideshowBuilder: SlideshowBuilder
+    private slideshowBuilder: SlideshowBuilder,
+    private element: ElementRef
   ) {}
+
+  @HostListener('document:click', ['$event'])
+  private onDocuentClick($event) {
+    const isClicked: boolean = this.element.nativeElement.contains(event.target);
+    if (this.isBeingInstantiated) {
+      this.isBeingInstantiated = false;
+      return;
+    }
+    if (!isClicked) {
+      this.router.navigate(['/editor', {outlets: {'modal': null}}]);
+    }
+  }
 
   addRoom($event) {
     this.sceneInteractor.addRoom();
@@ -197,11 +212,6 @@ export class Story {
       this.projectInteractor.createProject(userId)
         .subscribe(onSuccess, onError);
     }
-  }
-
-  onOffClick($event) {
-    if (!$event.isOffClick) return;
-    this.router.navigate(['/editor', {outlets: {'modal': null}}]);
   }
 
 }

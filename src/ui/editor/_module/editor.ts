@@ -2,7 +2,6 @@ import {
   Component,
   Input,
   Output,
-  ViewChild,
   HostListener,
   ElementRef,
   EventEmitter
@@ -10,6 +9,7 @@ import {
 import {Router, ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 
+import {EditSpaceSphere} from 'ui/editor/edit-space/edit-space-sphere/edit-space-sphere';
 import {FileLoaderUtil, mimeTypeMap} from 'ui/editor/util/fileLoaderUtil';
 import {EventBus, EventType} from 'ui/common/event-bus';
 import {normalizeAbsolutePosition} from 'ui/editor/util/iconPositionUtil';
@@ -26,7 +26,6 @@ import {resizeImage} from 'data/util/imageResizeService';
 import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
 import {ShareableLoader} from 'ui/common/shareable-loader';
 import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
-import {addTouchListenersToElement} from 'ui/editor/util/touchUtil';
 import {ResponsiveUtil} from 'ui/editor/util/responsiveUtil';
 
 @Component({
@@ -36,7 +35,6 @@ import {ResponsiveUtil} from 'ui/editor/util/responsiveUtil';
 })
 export class Editor {
 
-  @ViewChild('editSpaceSphere') editSpaceSphere;
   @Output() changeEmitter = new EventEmitter();
   private hotspotMenuIsOpen: boolean = false;
   private hotspotEditorIsOpen: boolean = false;
@@ -44,6 +42,7 @@ export class Editor {
   private isInFlatMode: boolean = true;
   private isInFullscreen: boolean = false;
   private topCenterButtonsInvisible: boolean = true;
+  private editSpaceSphere: EditSpaceSphere;
 
   constructor(
     private sceneInteractor: SceneInteractor,
@@ -70,7 +69,6 @@ export class Editor {
         },
         error => console.log('error', error)
       );
-    addTouchListenersToElement(this.element.nativeElement);
     this.subscribeToEvents();
   }
 
@@ -113,7 +111,6 @@ export class Editor {
         return;
       }
       const files = Object.keys(fileList).map(key => fileList[key]);
-      //console.log('files: ', files, typeof files);
       this.processDroppedFileMulti(files, event.clientX, event.clientY);
     }
   }
@@ -150,6 +147,15 @@ export class Editor {
 
   private isFlat(): boolean {
     return this.router.url.includes('view:flat');
+  }
+
+  private onViewSpaceActivate(componentRef) {
+    if (componentRef instanceof EditSpaceSphere) {
+      this.editSpaceSphere = componentRef;
+    }
+    else {
+      this.editSpaceSphere = null;
+    }
   }
 
   private hotspotMenuIsVisible(): boolean {
@@ -209,42 +215,21 @@ export class Editor {
     return this.sceneInteractor.roomHasBackgroundImage(activeRoomId);
   }
 
-  private processDroppedFile(file: any, x: number, y: number) {
-    const fileName: string = file.name;
-    const dropPosition: Vector2 = this.isFlat() ?
-        normalizeAbsolutePosition(x, y) :
-        this.editSpaceSphere.transformScreenPositionTo3dNormal(x, y);
-
-    const fileType: string = Object.keys(mimeTypeMap)
-      .find(fileType => mimeTypeMap[fileType].indexOf(file.type) > -1);
-
-    if (!fileType) {
-      const errorTitle: string = 'Incompatible File Type';
-      const errorMessage: string = 'Try using an image (.jpg, .jpeg, .png), an audio file (.mp3, .wav), or a story file (.zip)';
-      this.eventBus.onModalMessage(errorTitle, errorMessage);
-      return;
-    }
-
-    if (fileType === 'video') {
-      console.log('bam, video', file);
-      this.getFileTypeStrategy(fileType)(file, null, dropPosition);
-      return;
-      //this.getFileTypeStrategy(fileType)(file, binaryFileData, dropPosition))
-    }
-
-    this.fileLoaderUtil.getBinaryFileData(file)
-      .then(binaryFileData => this.getFileTypeStrategy(fileType)(file, binaryFileData, dropPosition))
-      .catch(error => this.eventBus.onModalMessage('Error', error));
-  }
-
   //made by ali to handle multiple hotspot creation
   private processDroppedFileMulti(files: any[], x: number, y: number) {
+    if (this.isPreview()) {
+      console.log('cannot import files in preview mode');
+      return;
+    }
     //this.eventBus.onStartLoading();
     const filePromises = files.map(file => {
       const fileName: string = file.name;
       const dropPosition: Vector2 = this.isFlat() ?
           normalizeAbsolutePosition(x, y) :
           this.editSpaceSphere.transformScreenPositionTo3dNormal(x, y);
+      if (!this.isFlat()) {
+        dropPosition.setY(-1 * dropPosition.getY());
+      }
       const fileType: string = Object.keys(mimeTypeMap)
         .find(fileType => mimeTypeMap[fileType].indexOf(file.type) > -1);
       if (!fileType) {
@@ -346,9 +331,7 @@ export class Editor {
 
   private requestRender() {
     if (this.isFlat()) return;
-    setTimeout(() => {
-      this.editSpaceSphere.render();
-    });
+    setTimeout(() => this.editSpaceSphere.render());
   }
 
   private setEditPlaySliderIsVisible(): boolean {
@@ -370,7 +353,6 @@ export class Editor {
   }
 
   private on2d3dViewClick($event) {
-    console.log($event.value);
     if ($event.value) {
       this.on3dViewClick($event);
     } else {
@@ -394,7 +376,6 @@ export class Editor {
       //console.log('switch to preview');
       this.router.navigate(['editor', {outlets: {'view': 'preview'}}]);
     } else {
-      console.log('switch to edit');
       if (this.isInFlatMode){
         this.router.navigate(['/editor', {outlets: {'view': 'flat'}}]);
       } else {

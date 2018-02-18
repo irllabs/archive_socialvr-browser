@@ -2,7 +2,10 @@
 <div class="editor">
 
   <!-- Router outlet for edit-space-flat, edit-space-sphere, and preview-space components -->
-  <router-outlet name="view"></router-outlet>
+  <router-outlet
+    name="view"
+    (activate)="onViewSpaceActivate($event)">
+  </router-outlet>
 
   <topbar
     *ngIf="!isPreview()"
@@ -19,6 +22,7 @@
       class='topbar__row-label center-panel'>Edit 3D</p>
     <checkbox
       *ngIf="roomEditorIsVisible()"
+      [initialValue]="!isInFlatMode"
       (changeEmitter)="on2d3dViewClick($event)"
       class="editor__edit2d3dToggleButton">
     </checkbox>

@@ -1,16 +1,13 @@
-import {Component, NgZone} from '@angular/core';
-
+import {Component} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
 import {EventBus, EventType} from 'ui/common/event-bus';
-
 import {SceneInteractor} from 'core/scene/sceneInteractor';
 import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
 import {RoomProperty} from 'data/scene/interfaces/roomProperty';
 import {Room} from 'data/scene/entities/room';
 import {resizeImage} from 'data/util/imageResizeService';
 import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
-
 
 @Component({
   selector: 'story-scroll',
@@ -30,7 +27,6 @@ export class StoryScroll {
     private sceneInteractor: SceneInteractor,
     private metaDataInteractor: MetaDataInteractor,
     private eventBus: EventBus,
-    private ngZone: NgZone,
     private slideshowBuilder: SlideshowBuilder
   ) {}
 
@@ -128,12 +124,13 @@ export class StoryScroll {
   }
 
   onInfoClick($event) {
-    this.inspectorIsVisible = true;
+    setTimeout(() => this.inspectorIsVisible = true);
   }
 
-  onOffClick($event) {
-    if (!$event.isOffClick) return;
-    this.ngZone.run(() => this.inspectorIsVisible = false);
+  private onOffClick($event) {
+    if (this.inspectorIsVisible) {
+      this.inspectorIsVisible = false;
+    }
   }
 
   toggleOpen($event) {

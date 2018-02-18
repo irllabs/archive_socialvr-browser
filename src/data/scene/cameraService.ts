@@ -3,16 +3,14 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class CameraService {
 
-  private direction = {x: 0, y: 0, z: 0};
+  private cameraAngles;
 
-  getCameraDirection() {
-    return this.direction;
+  getCameraAngles() {
+    return this.cameraAngles;
   }
 
-  setCameraDirection(x: number, y: number, z: number) {
-    this.direction.x = x;
-    this.direction.y = y;
-    this.direction.z = z;
+  setCameraAngles(cameraAngles) {
+    this.cameraAngles = cameraAngles;
   }
 
 }

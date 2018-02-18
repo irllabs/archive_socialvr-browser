@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+
 const fontSize = 26;
 
 class TextLine {

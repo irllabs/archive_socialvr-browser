@@ -6,184 +6,107 @@
 //  - Hard coding rotation speed
 //  - Adding momentum
 
-THREE.SvrControls = function (object, domElement, initialTarget) {
+const TWO_PI = 2 * Math.PI;
+const ROTATE_SPEED = -0.3;
+const DAMPING_FACTOR = 0.9;
+const DAMPING_DECAY = 0.005;
+const MOMENTUM_EPSILON = 0.25;
+const START_EVENT = { type: 'start' };
+const END_EVENT = { type: 'end' };
+const CENTER = new THREE.Vector3(0, 0, 0);
 
-	this.object = object;
-
-	this.domElement = ( domElement !== undefined ) ? domElement : document;
-
-	// "target" sets the location of focus, where the object orbits around
-	this.target = new THREE.Vector3(
-		initialTarget.x || 0,
-		initialTarget.y || 0,
-		initialTarget.z || 0
-	);
-
-	// How far you can dolly in and out ( PerspectiveCamera only )
-	this.minDistance = 0;
-	this.maxDistance = Infinity;
-
-	// How far you can zoom in and out ( OrthographicCamera only )
-	this.minZoom = 0;
-	this.maxZoom = Infinity;
-
-	// How far you can orbit vertically, upper and lower limits.
-	// Range is 0 to Math.PI radians.
-	this.minPolarAngle = 0; // radians
-	this.maxPolarAngle = Math.PI; // radians
-
-	// How far you can orbit horizontally, upper and lower limits.
-	// If set, must be a sub-interval of the interval [ - Math.PI, Math.PI ].
-	this.minAzimuthAngle = - Infinity; // radians
-	this.maxAzimuthAngle = Infinity; // radians
-
-	// Rotation speed
-	this.rotateSpeed = -0.3;
-
-	// for reset
-	this.target0 = this.target.clone();
-	this.position0 = this.object.position.clone();
-
-	this.getPolarAngle = function () {
-		return spherical.phi;
-	};
-
-	this.getAzimuthalAngle = function () {
-		return spherical.theta;
-	};
-
-	this.hasMomentum = function () {
-		return hasMomentum;
-	};
-
-	this.reset = function () {
-		scope.target.copy( scope.target0 );
-		scope.object.position.copy( scope.position0 );
-		scope.object.updateProjectionMatrix();
-		scope.dispatchEvent( changeEvent );
-		scope.update();
-	};
-
-	this.lookAt = function(targetVector) {
-		scope.target.copy( targetVector );
-		scope.object.lookAt( scope.target );
-		scope.object.updateProjectionMatrix();
-		scope.dispatchEvent( changeEvent );
-		scope.update();
+const defaultExecutionContext = (fn) => {
+	if (fn && typeof fn === 'function') {
+		fn();
 	}
+};
+
+THREE.SvrControls = function (options) {
+
+	this.camera = options.camera;
+	this.domElement = options.domElement ? options.domElement : document;
+	this.onMouseDownCallback = options.onMouseDownCallback || (() => {});
+	this.executionContext = options.executionContext || defaultExecutionContext;
+
+	this.getCameraAngles = () => spherical;
+
+	this.setCameraAngles = (phi, theta) => {
+		spherical.phi = phi;
+		spherical.theta = theta;
+
+		const quatInverse = getCameraQuaternion().inverse();
+		const cameraPosition = new THREE.Vector3().setFromSpherical(spherical);
+		cameraPosition.applyQuaternion(quatInverse);
+		scope.camera.position.copy(cameraPosition);
+		scope.camera.lookAt(CENTER);
+	};
+
+	this.hasMomentum = () => hasMomentum;
+
+	this.shouldRender = () => isDragging || hasMomentum;
 
 	this.update = function () {
-
-		var offset = new THREE.Vector3();
-
-		// so camera.up is the orbit axis
-		var quat = new THREE.Quaternion().setFromUnitVectors( object.up, new THREE.Vector3( 0, 1, 0 ) );
-		var quatInverse = quat.clone().inverse();
-
-		var lastPosition = new THREE.Vector3();
-		var lastQuaternion = new THREE.Quaternion();
+		const quat = getCameraQuaternion();
+		const quatInverse = quat.clone().inverse();
 
 		return function update() {
+			const cameraPosition = scope.camera.position.clone();
 
-			var position = scope.object.position;
+			cameraPosition.applyQuaternion(quat);
+			spherical.setFromVector3(cameraPosition);
 
-			offset.copy( position ).sub( scope.target );
-
-			// rotate offset to "y-axis-is-up" space
-			offset.applyQuaternion( quat );
-
-			// angle from z-axis around y-axis
-			spherical.setFromVector3( offset );
-
-      if (hasMomentum) {
-        if (Math.abs(momentum.x) < momentumEpsilon && Math.abs(momentum.y) < momentumEpsilon) {
+			if (hasMomentum) {
+        if (Math.abs(momentum.x) < MOMENTUM_EPSILON && Math.abs(momentum.y) < MOMENTUM_EPSILON) {
     			hasMomentum = false;
     		}
         else {
-          momentum.x *= dampingFactor;
-          momentum.y *= dampingFactor;
-      		sphericalDelta.theta += dampingDecay * momentum.x;
-      		sphericalDelta.phi   += dampingDecay * momentum.y;
+          momentum.x *= DAMPING_FACTOR;
+          momentum.y *= DAMPING_FACTOR;
+      		sphericalDelta.theta += DAMPING_DECAY * momentum.x;
+      		sphericalDelta.phi += DAMPING_DECAY * momentum.y;
         }
       }
 
 			spherical.theta += sphericalDelta.theta;
 			spherical.phi += sphericalDelta.phi;
-
-			// restrict theta to be between desired limits
-			spherical.theta = Math.max( scope.minAzimuthAngle, Math.min( scope.maxAzimuthAngle, spherical.theta ) );
-
-			// restrict phi to be between desired limits
-			spherical.phi = Math.max( scope.minPolarAngle, Math.min( scope.maxPolarAngle, spherical.phi ) );
-
 			spherical.makeSafe();
 
-			spherical.radius *= scale;
+			cameraPosition.setFromSpherical(spherical);
+			cameraPosition.applyQuaternion(quatInverse);
 
-			// restrict radius to be between desired limits
-			spherical.radius = Math.max( scope.minDistance, Math.min( scope.maxDistance, spherical.radius ) );
+			scope.camera.position.copy(cameraPosition);
+			scope.camera.lookAt(CENTER);
 
-			// move target to panned location
-			scope.target.add( panOffset );
-
-			offset.setFromSpherical( spherical );
-
-			// rotate offset back to "camera-up-vector-is-up" space
-			offset.applyQuaternion( quatInverse );
-
-			position.copy( scope.target ).add( offset );
-
-			scope.object.lookAt( scope.target );
-
-			sphericalDelta.set( 0, 0, 0 );
-
-			return false;
+			sphericalDelta.set(0, 0, 0);
 		};
 
 	}();
 
 	this.dispose = function () {
-		scope.domElement.removeEventListener( 'contextmenu', onContextMenu, false );
-		scope.domElement.removeEventListener( 'mousedown', onMouseDown, false );
-		scope.domElement.removeEventListener( 'mousemove', onMouseMove, false );
-		scope.domElement.removeEventListener( 'mouseup', onMouseUp, false );
+		scope.domElement.removeEventListener('contextmenu', onContextMenu, false);
+		scope.domElement.removeEventListener('mousedown', onMouseDown, false);
+		document.removeEventListener('mousemove', onMouseMove, false);
+		document.removeEventListener('mouseup', onMouseUp, false);
+		scope.domElement.removeEventListener('touchstart', onTouchStart, false);
+		document.removeEventListener('touchmove', onTouchMove, false);
+		document.removeEventListener('touchend', onTouchEnd, false);
 	};
 
 	//
 	// internals
 	//
 
-	var scope = this;
+	const scope = this;
+	const spherical = new THREE.Spherical();
+	const sphericalDelta = new THREE.Spherical();
+	const rotateStart = new THREE.Vector2();
+	const rotateEnd = new THREE.Vector2();
+	const rotateDelta = new THREE.Vector2();
+	const touchLocation = new THREE.Vector2();
 
-	var changeEvent = { type: 'change' };
-	var startEvent = { type: 'start' };
-	var endEvent = { type: 'end' };
-
-	// current position in spherical coordinates
-	var spherical = new THREE.Spherical();
-	var sphericalDelta = new THREE.Spherical();
-
-	var scale = 1;
-	var panOffset = new THREE.Vector3();
-
-	var rotateStart = new THREE.Vector2();
-	var rotateEnd = new THREE.Vector2();
-	var rotateDelta = new THREE.Vector2();
-
-	var hasMomentum = false;
-	var momentum = new THREE.Vector2();
-	var dampingFactor = 0.9;
-	var dampingDecay = 0.005;
-	var momentumEpsilon = 0.25;
-
-
-	function getAutoRotationAngle() {
-		return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed;
-	}
-
-	function getZoomScale() {
-		return Math.pow( 0.95, scope.zoomSpeed );
-	}
+	let hasMomentum = false;
+	let momentum = new THREE.Vector2();
+	let isDragging = false;
 
 	function rotateLeft( angle ) {
 		sphericalDelta.theta -= angle;
@@ -193,28 +116,37 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 		sphericalDelta.phi -= angle;
 	}
 
-	function onMouseDown( event ) {
+	function getCameraQuaternion() {
+		return new THREE.Quaternion().setFromUnitVectors(options.camera.up, new THREE.Vector3(0, 1, 0));
+	}
+
+	function onMouseDown(event) {
 		event.preventDefault();
     hasMomentum = false;
-    momentum = new THREE.Vector2();
-    rotateStart.set( event.clientX, event.clientY );
-		scope.domElement.addEventListener( 'mousemove', onMouseMove, false );
-		scope.domElement.addEventListener( 'mouseup', onMouseUp, false );
-		scope.dispatchEvent( startEvent );
+		isDragging = true;
+		momentum.set(0, 0);
+    rotateStart.set(event.clientX, event.clientY);
+
+		scope.executionContext(() => {
+			document.addEventListener('mousemove', onMouseMove, false);
+			document.addEventListener('mouseup', onMouseUp, false);
+			document.addEventListener('touchmove', onTouchMove, { passive: false });
+			document.addEventListener('touchend', onTouchEnd, false);
+		});
+		scope.dispatchEvent(START_EVENT);
+		scope.onMouseDownCallback(event);
 	}
 
 	function onMouseMove( event ) {
+		if (!isDragging) { return; }
     event.preventDefault();
 		rotateEnd.set( event.clientX, event.clientY );
-		rotateDelta.subVectors( rotateEnd, rotateStart );
+		rotateDelta.subVectors(rotateEnd, rotateStart);
 
-		var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
-
-		rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientWidth * scope.rotateSpeed );
-
-		rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight * scope.rotateSpeed );
-
-		rotateStart.copy( rotateEnd );
+		const element = scope.domElement === document ? scope.domElement.body : scope.domElement;
+		rotateLeft(TWO_PI * rotateDelta.x / element.clientWidth * ROTATE_SPEED);
+		rotateUp(TWO_PI * rotateDelta.y / element.clientHeight * ROTATE_SPEED);
+		rotateStart.copy(rotateEnd);
 
     if (event.movementX !== undefined && event.movementY !== undefined) {
       momentum.x = event.movementX;
@@ -226,20 +158,59 @@ THREE.SvrControls = function (object, domElement, initialTarget) {
 
 	function onMouseUp( event ) {
     hasMomentum = true;
-    scope.domElement.removeEventListener( 'mousemove', onMouseMove, false );
-		scope.domElement.removeEventListener( 'mouseup', onMouseUp, false );
-		scope.dispatchEvent( endEvent );
+		isDragging = false;
+		document.removeEventListener('mousemove', onMouseMove, false);
+		document.removeEventListener('mouseup', onMouseUp, false);
+		document.removeEventListener('touchmove', onTouchMove, false);
+		document.removeEventListener('touchend', onTouchEnd, false);
+		scope.dispatchEvent(END_EVENT);
 	}
 
-	function onContextMenu( event ) {
-		event.preventDefault();
+	function onTouchStart(event) {
+		if (event.touches.length > 1) { return; }
+		const x = event.touches[0].clientX;
+		const y = event.touches[0].clientY;
+		touchLocation.x = x;
+		touchLocation.y = y;
+		event.clientX = x;
+		event.clientY = y;
+		event.movementX = 0;
+		event.movementY = 0;
+		event.preventDefault = () => {};
+		onMouseDown(event);
 	}
 
-	scope.domElement.addEventListener( 'contextmenu', onContextMenu, false );
-	scope.domElement.addEventListener( 'mousedown', onMouseDown, false );
+	function onTouchMove(event) {
+		const x = event.touches[0].clientX;
+		const y = event.touches[0].clientY;
+		event.clientX = x;
+		event.clientY = y;
+		event.movementX = x - touchLocation.x;
+		event.movementY = y - touchLocation.y;
+		touchLocation.x = x;
+		touchLocation.y = y;
+		onMouseMove(event);
+	}
 
-	// force an update at start
+	function onTouchEnd(event) {
+		if (event.touches.length > 0) { return; }
+		event.clientX = touchLocation.x;
+		event.clientY = touchLocation.y;
+		onMouseUp(event);
+	}
+
+	this.executionContext(() => {
+		scope.domElement.addEventListener('contextmenu', e => e.preventDefault(), false);
+		scope.domElement.addEventListener('mousedown', onMouseDown, false);
+		scope.domElement.addEventListener('touchstart', onTouchStart, false);
+	});
+
+	// initialize
 	this.update();
+	if (options.initialCameraAngles) {
+		const { phi, theta } = options.initialCameraAngles;
+		this.setCameraAngles(phi, theta);
+	}
 };
 
 THREE.SvrControls.prototype = Object.create( THREE.EventDispatcher.prototype );

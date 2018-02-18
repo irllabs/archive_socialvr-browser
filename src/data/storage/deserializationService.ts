@@ -166,7 +166,7 @@ export class DeserializationService {
     return Observable.fromPromise(
       this.zip.loadAsync(file).then(file => this.deserializeProject(file))
     );
-    .catch(error => console.log('error', mediaFile.name, error));
+    // .catch(error => console.log('error', mediaFile.name, error));
   }
   // Given a jszip file containing an image or audio
   // return a promise containing the name of the file

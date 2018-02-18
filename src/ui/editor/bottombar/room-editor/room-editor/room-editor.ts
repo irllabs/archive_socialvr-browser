@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, Output, EventEmitter, HostListener} from '@angular/core';
 
 import {Narrator} from 'data/scene/entities/narrator';
 import {Audio} from 'data/scene/entities/audio';
@@ -19,13 +19,23 @@ import {DEFAULT_VOLUME, DEFAULT_PROJECT_NAME} from 'ui/common/constants';
 })
 export class RoomEditor {
 
+  @Output() onOffClick = new EventEmitter();
   private reverbOptions = reverbList;
 
   constructor(
     private sceneInteractor: SceneInteractor,
+    private element: ElementRef,
     private eventBus: EventBus,
     private metaDataInteractor: MetaDataInteractor
   ) {}
+
+  @HostListener('document:click', ['$event'])
+  private onDocumentClick($event) {
+    const isClicked: boolean = this.element.nativeElement.contains(event.target);
+    if (!isClicked) {
+      this.onOffClick.emit();
+    }
+  }
 
   private onBackgroundImageLoad($event) {
     const fileName: string = $event.file.name;
