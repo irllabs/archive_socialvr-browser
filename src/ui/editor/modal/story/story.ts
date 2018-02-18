@@ -42,7 +42,7 @@ export class Story {
 
   @HostListener('document:click', ['$event'])
   private onDocuentClick($event) {
-    const isClicked: boolean = this.element.nativeElement.contains(event.target);
+    const isClicked: boolean = this.element.nativeElement.contains($event.target);
     if (this.isBeingInstantiated) {
       this.isBeingInstantiated = false;
       return;

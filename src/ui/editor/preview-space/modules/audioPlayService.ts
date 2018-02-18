@@ -15,7 +15,7 @@ export class AudioPlayService {
   constructor(private assetInteractor: AssetInteractor) {
     const audioContext = getAudioContext();
     this.gainNode = audioContext.createGain();
-    this.gainNode.gain.value = 2;
+    this.gainNode.gain.setTargetAtTime(2, 0, 0);
     this.gainNode.connect(audioContext.destination);
   }
 

@@ -16,7 +16,7 @@ export class HotspotMenu {
 
   @HostListener('document:click', ['$event'])
   private onDocumentClick($event) {
-    const isClicked: boolean = this.element.nativeElement.contains(event.target);
+    const isClicked: boolean = this.element.nativeElement.contains($event.target);
     if (!isClicked) {
       this.isOpen = false;
       this.onMenuChange.emit({isOpen: this.isOpen});
