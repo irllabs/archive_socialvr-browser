@@ -49,7 +49,7 @@ export class Upload {
   }
 
   @HostListener('document:click', ['$event'])
-  private onDocuentClick($event) {
+  private onDocumentClick($event) {
     const isClicked: boolean = this.element.nativeElement.contains($event.target);
     if (this.isBeingInstantiated) {
       this.isBeingInstantiated = false;
