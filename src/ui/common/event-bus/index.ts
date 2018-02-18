@@ -10,34 +10,6 @@ export class EventBus {
 
   private static subject: Subject<Event> = new Subject<Event>();
 
-  private static staticConstructor = (() => {
-    window.addEventListener('mousedown', $event => {
-      const event: Event = new Event(EventType.MOUSE_DOWN, $event);
-      EventBus.subject.next(event);
-    });
-    window.addEventListener('mousemove', $event => {
-      const event: Event = new Event(EventType.MOUSE_MOVE, $event);
-      EventBus.subject.next(event);
-    });
-    window.addEventListener('mouseup', $event => {
-      const event: Event = new Event(EventType.MOUSE_UP, $event);
-      EventBus.subject.next(event);
-    });
-    window.addEventListener('click', $event => {
-      const event: Event = new Event(EventType.CLICK, $event);
-      EventBus.subject.next(event);
-    });
-    window.addEventListener('resize', $event => {
-      const eventPayload = {x: window.innerWidth, y: window.innerHeight};
-      const event: Event = new Event(EventType.WINDOW_RESIZE, eventPayload);
-      EventBus.subject.next(event);
-    });
-    window.addEventListener('vrdisplaypresentchange', $event => {
-      const event: Event = new Event(EventType.VR_DISPLAY_CHANGE, $event);
-      EventBus.subject.next(event);
-    });
-  })();
-
   getObservable(eventType: EventType): Observable<any> {
     return EventBus.subject
       .filter(evt => evt.eventType === eventType)
@@ -84,11 +56,6 @@ export class EventBus {
     EventBus.subject.next(new Event(EventType.OPEN_FILE_LOADER, eventPayload));
   }
 
-  onMouseDown($event) {
-    const event: Event = new Event(EventType.MOUSE_DOWN, $event);
-    EventBus.subject.next(event);
-  }
-
   onHotspotVisibility(isVisible: boolean) {
     const eventPayload = {isVisible};
     const event: Event = new Event(EventType.HOTSPOT_EDITOR_VISIBILITY, eventPayload);
@@ -112,17 +79,11 @@ export class Event {
 export enum EventType {
   SELECT_PROPERTY,
   SELECT_ROOM,
-  MOUSE_DOWN,
-  MOUSE_MOVE,
-  MOUSE_UP,
-  CLICK,
   MODAL_MESSAGE,
   START_LOADING,
   STOP_LOADING,
   OPEN_FILE_LOADER,
-  WINDOW_RESIZE,
   SHAREABLE_MODAL,
   OPEN_EXPLORE_MODAL,
-  VR_DISPLAY_CHANGE,
   HOTSPOT_EDITOR_VISIBILITY
 }

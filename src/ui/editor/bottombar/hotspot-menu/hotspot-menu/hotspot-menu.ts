@@ -1,4 +1,4 @@
-import {Component, Output, EventEmitter, NgZone} from '@angular/core';
+import {Component, Output, ElementRef, EventEmitter, HostListener} from '@angular/core';
 
 @Component({
   selector: 'hotspot-menu',
@@ -10,14 +10,17 @@ export class HotspotMenu {
   @Output() onMenuChange = new EventEmitter();
   private isOpen: boolean = false;
 
-  constructor(private ngZone: NgZone) {}
+  constructor(
+    private element: ElementRef
+  ) {}
 
-  private onOffClick($event) {
-    if (!$event.isOffClick) return;
-    this.ngZone.run(() => {
+  @HostListener('document:click', ['$event'])
+  private onDocumentClick($event) {
+    const isClicked: boolean = this.element.nativeElement.contains(event.target);
+    if (!isClicked) {
       this.isOpen = false;
       this.onMenuChange.emit({isOpen: this.isOpen});
-    });
+    }
   }
 
   private onFabClick($event) {

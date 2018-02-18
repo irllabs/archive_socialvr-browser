@@ -21,18 +21,18 @@ function denormalizePosition(x: number, y: number): Vector2 {
 
 //added by ali to have coordinate system changes
 //these use angles in Degrees (NOT Radians)
-function car2pol(x,y,z){
+function car2pol(x,y,z): Vector3 {
   var rho = Math.sqrt((x*x) + (y*y) + (z*z));
   var phi = Math.atan2(z, x) * 180/Math.PI;
   var theta = Math.acos(y / rho)* 180/Math.PI;
-  return new THREE.Vector3(rho,theta,phi);
+  return new Vector3(rho,theta,phi);
 }
 //these use angles in Degrees (NOT Radians)
-function pol2car(rho,theta,phi){
+function pol2car(rho,theta,phi): Vector3 {
   var x = rho * Math.sin(theta*Math.PI/180) * Math.cos(phi*Math.PI/180);
   var z = rho * Math.sin(theta*Math.PI/180) * Math.sin(phi*Math.PI/180);
   var y = rho * Math.cos(theta*Math.PI/180);
-  return new THREE.Vector3(x,y,z);
+  return new Vector3(x,y,z);
 }
 
 //these angles are in radians (NOT degrees)
@@ -50,7 +50,7 @@ function coordinateToSpherical(x: number, y: number, z: number): any {
 }
 
 // spherical to xyz
-function sphericalToCoordinate(radialDistance: number, theta: number, phi: number): THREE.Vector3 {
+function sphericalToCoordinate(radialDistance: number, theta: number, phi: number): Vector3 {
   const x: number = radialDistance * Math.cos(theta) * Math.sin(phi);
   const z: number = radialDistance * Math.sin(theta) * Math.sin(phi);
   const y: number = radialDistance * Math.cos(phi);
@@ -62,7 +62,7 @@ function clamp(value: number, lowerBound: number, upperBound: number): number {
 }
 
 // given coordinates where 0 <= x <= 360 and -90 <= y <= 90, get 3D position
-function getCoordinatePosition(x: number, y: number, r?: number): THREE.Vector3 {
+function getCoordinatePosition(x: number, y: number, r?: number): Vector3 {
   const radialDistance = r || 300;
   const locationX: number = clamp(x, 0, 360);
   const locationY: number = clamp(-y, -90, 90);

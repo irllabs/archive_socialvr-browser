@@ -7,12 +7,12 @@ export class CameraInteractor {
 
   constructor(private cameraService: CameraService) {}
 
-  getCameraDirection() {
-    return this.cameraService.getCameraDirection();
+  getCameraAngles() {
+    return this.cameraService.getCameraAngles();
   }
 
-  setCameraDirection(x: number, y: number, z: number) {
-    this.cameraService.setCameraDirection(x, y, z);
+  setCameraAngles(cameraAngles) {
+    this.cameraService.setCameraAngles(cameraAngles);
   }
 
 }

@@ -3,15 +3,13 @@
   id="icon-element"
   class="icon"
   hotspot-icon
-  off-click
   (onMove)="onMove($event)"
-  (onMoveEnd)="onMoveEnd($event)"
-  (onOffClick)="onOffClick($event)">
+  (onMoveEnd)="onMoveEnd($event)">
   <div
     (click)="onDeleteClick($event)"
     class="icon__delete">
   </div>
-  
+
   <img
     id="draggableIcon"
     class="icon__image"

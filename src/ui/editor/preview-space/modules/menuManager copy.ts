@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import * as THREE from 'three';
 
 import {AssetInteractor} from 'core/asset/assetInteractor';
 import {getCoordinatePosition} from 'ui/editor/util/iconPositionUtil';
