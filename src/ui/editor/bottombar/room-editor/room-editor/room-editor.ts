@@ -31,7 +31,7 @@ export class RoomEditor {
 
   @HostListener('document:click', ['$event'])
   private onDocumentClick($event) {
-    const isClicked: boolean = this.element.nativeElement.contains(event.target);
+    const isClicked: boolean = this.element.nativeElement.contains($event.target);
     if (!isClicked) {
       this.onOffClick.emit();
     }

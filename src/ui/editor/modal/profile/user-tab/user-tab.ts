@@ -25,7 +25,7 @@ export class UserTab {
 
   @HostListener('document:click', ['$event'])
   private onDocumentClick($event) {
-    const isClicked: boolean = this.element.nativeElement.contains(event.target);
+    const isClicked: boolean = this.element.nativeElement.contains($event.target);
     // short circuit the first off click when component is being created
     if (this.isBeingInstantiated) {
       this.isBeingInstantiated = false;

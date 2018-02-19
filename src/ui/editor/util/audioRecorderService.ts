@@ -72,7 +72,7 @@ function configureAudio(audioContext, audioStream) {
   const zeroGainOutput = audioContext.createGain();
 
   analyserNode.fftSize = 2048;
-  zeroGainOutput.gain.value = 0.0;
+  zeroGainOutput.gain.setTargetAtTime(0, 0, 0);
 
   micInputStream.connect(micGain);
   micGain.connect(analyserNode);
