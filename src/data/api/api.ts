@@ -28,6 +28,8 @@ export default interface ApiService {
 
   uploadMedia(key: string, file, uploadPolicy): Observable<any>;
 
+  getShortenedUrl(url: string): Observable<any>;
+
   deleteProject(userId: string, projectId: string): Observable<any>;
 
   searchPublicProjects(query: string): Observable<any>;

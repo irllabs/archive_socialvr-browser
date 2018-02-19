@@ -21,16 +21,22 @@
         [ngClass]="{'public-option__copy-notification--active': notificationIsVisible}">
         Link copied to clipboard!
       </p>
-      <p
-        class="public-option__link"
-        [attr.title]="publicLink"
-        (click)="onPublicLinkClick($event)">
-        Click Here to Copy Link
-      </p>
+      <div class="public-option__qr-code">
+        <canvas #qrCodeElem></canvas>
+      </div>
+      <div class="public-option__clipboard-text">
+        <p
+          class="public-option__link"
+          [attr.title]="publicLink"
+          (click)="onPublicLinkClick($event)">
+          {{publicLink}}
+          <span>Click to Copy to Clipboard</span>
+        </p>
+      </div>
       <div class="public-option__text-block">
         <p>This means:</p>
         <ul class="public-option__explanation-list">
-          <li>Other people can look at this project using the link below.</li>
+          <li>Other people can look at this project using the link above.</li>
           <li>Social VR users can find this project using the search tool.</li>
           <li>Nobody else can modify this project.</li>
         </ul>
