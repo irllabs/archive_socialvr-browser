@@ -28,17 +28,17 @@
   background-color: $color-action;
   background-clip: content-box;
   padding: 2px 0;
-  color: white;
+  color: $color-white;
 }
 
 .row-item__room-property {
-  margin-left: 10px; 
+  margin-left: 10px;
   height: 22px;
 }
 
 .row-item__room-property--active {
   background-color: $color-grey-dark;
-  color: white;
+  color: $color-white;
 }
 
 .row-item__icon {

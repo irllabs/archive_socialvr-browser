@@ -1,10 +1,10 @@
 .unauth-user-tab__fields {
 	min-width: 350px;
 	position: absolute;
-	background-color:white;
+	background-color: #FAFAFA;
 	padding: 20px;
 	border-radius: 8px;
-
+	box-shadow: 0 50px 100px rgba(0,0,0,.1), 0 15px 35px rgba(0,0,0,.15), 0 5px 15px rgba(0,0,0,.1);
   top: 50%;
   left: 50%;
   /* bring your own prefixes */
