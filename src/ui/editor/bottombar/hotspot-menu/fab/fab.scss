@@ -1,8 +1,8 @@
 @import '../../../../_styles/variables';
 
-$diameter: $room-icon-size;
-$bar-width: $room-icon-size - 8;
-$bar-height: 4px;
+$diameter: 64px;
+$bar-width: 3px;
+$bar-height: 24px;
 $bar-border-radius: $bar-height / 2;
 $center-position: $diameter / 2 - $bar-height / 2;
 $bar-margin: ($diameter - $bar-width) / 2;
@@ -11,7 +11,7 @@ $bar-margin: ($diameter - $bar-width) / 2;
 	width: $diameter;
 	height: $diameter;
   border-radius: 50%;
-  background-color: white;
+  background-color: $color-white;
   position: relative;
   cursor: pointer;
 }

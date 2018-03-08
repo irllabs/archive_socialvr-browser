@@ -56,7 +56,7 @@ $hotspot-sphere-size: 60px;
 
 .icon__hotspot-sphere {
   position: absolute;
-  border: 2px dashed white;
+  border: 2px dashed $color-white;
   border-radius: 50%;
   padding: $hotspot-sphere-size;
   top: -32px;
