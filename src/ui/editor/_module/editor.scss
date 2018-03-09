@@ -32,10 +32,9 @@ $half-icon-size: $room-icon-size / 2;
 }
 .editor_center {
   background-color: $color-grey-dark;
-  padding: 8px 16px;
+  padding: 8px 32px;
 
-  border-radius: 2px;
-  margin-top: 16px;
+  border-radius: 0px 0px 60px 60px;
   position: absolute;
   top: 0%;
   left: 50%;
@@ -51,7 +50,7 @@ $half-icon-size: $room-icon-size / 2;
 
 .editor_center > div
 {
-  margin:0px 8px;  /* and that, will result in a 10px gap */
+  margin:8px 16px 8px 16px;  /* and that, will result in a 10px gap */
 }
 
 .editor__editPlayToggle {

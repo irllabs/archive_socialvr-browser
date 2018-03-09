@@ -63,13 +63,13 @@ main {
     margin: 0 auto;
     display: block;
     position: relative;
+    border-radius: 2px;
     text-decoration: none;
 
     .fs-icon {
         @include transition (.5s ease-out);
         background-color: $color-white;
-        border:0px;
-        color:0px;
+        border-radius: 2px;
         text-decoration: none;
 opacity: 0.8;
         .outline {
