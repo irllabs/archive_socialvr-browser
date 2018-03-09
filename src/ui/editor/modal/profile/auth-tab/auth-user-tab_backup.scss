@@ -20,8 +20,9 @@
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
-margin: 8px 8px 0px 8px;
+margin-top: 8px;
   border-bottom: 1px solid $color-grey-dark;
+  padding-bottom: 8px;
 }
 
 .user-view__project--selected {

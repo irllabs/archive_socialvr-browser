@@ -10,9 +10,10 @@
 .user-view__project-list {
   color: $color-grey-dark;
   overflow-y: auto;
-  max-height: 90px;
+  max-height: 120px;
   font-size: $tiny-font-size;
   margin-bottom: 16px;
+box-shadow: inset 0px 8px 9px -6px #eee, inset 0px -8px 9px -6px #eee;
 }
 
 .user-view__project {
@@ -20,11 +21,12 @@
   flex-direction: row;
   justify-content: space-between;
   color: $color-grey-medium;
-  margin-top: 3px;
-  margin-bottom: 6px;
+  margin-top: 8px;
   border-bottom: 1px solid $color-grey-light;
-  padding-bottom: 3px;
+  padding-bottom: 8px;
 }
+
+
 
 .user-view__project-title {
   white-space: nowrap;
