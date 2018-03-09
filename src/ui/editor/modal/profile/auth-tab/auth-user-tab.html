@@ -46,11 +46,6 @@
 
         <p class="user-view__project-options">
           <span
-            (click)="openProject(project.id)"
-            class="user-view__project-option user-view__project-option--margin">
-            Open
-          </span>
-          <span
             (click)="shareProject(project.id)"
             class="user-view__project-option user-view__project-option--margin">
             Share
@@ -61,14 +56,14 @@
             Multi-View
           </span>
           <span
-            (click)="requestDeleteProject(project.id)"
-            class="user-view__project-option user-view__project-option--margin">
-            Delete
-          </span>
-          <span
             (click)="downloadProject(project.id, project.name)"
             class="user-view__project-option user-view__project-option--margin">
             Download
+          </span>
+          <span
+            (click)="requestDeleteProject(project.id)"
+            class="user-view__project-option user-view__project-option--margin">
+            Delete
           </span>
         </p>
 
