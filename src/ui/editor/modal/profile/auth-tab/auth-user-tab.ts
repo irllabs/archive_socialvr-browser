@@ -40,7 +40,17 @@ export class AuthUserTab {
       this.userInteractor.getUser()
         .switchMap(user => this.projectInteractor.getProjects(user.id))
         .subscribe(
-          projects => this.projectList = projects,
+          projects => {
+            this.projectList = projects.sort((a, b) => {
+              if (!a.name) { return -1; }
+              if (!b.name) { return 1; }
+              const projectNameA = a.name.toUpperCase();
+              const projectNameB = b.name.toUpperCase();
+              if (projectNameA < projectNameB) { return -1; }
+              if (projectNameA > projectNameB) { return 1; }
+              return 0;
+            });
+          },
           error => console.error('GET /users', error)
         );
     });
