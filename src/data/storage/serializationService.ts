@@ -87,7 +87,8 @@ export class SerializationService {
           .map(f => f.getMediaFile ? f.getMediaFile() : f)
           .filter(mediaFile => !mediaFile.isUploaded())
           .map(mediaFile => {
-            const key = `${directoryName}/${mediaFile.getFileName()}`;
+            const fileName = encodeURIComponent(mediaFile.getFileName());
+            const key = `${directoryName}/${fileName}`;
             const file = getBlobFromDataUrl(mediaFile.getBinaryFileData());
             const uploadPromise = this.assetInteractor.uploadMedia(key, file).toPromise()
               .then((response) => {
