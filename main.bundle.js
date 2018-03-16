@@ -21973,7 +21973,7 @@ function buildDashCircle() {
         color: 0xFFFFFF,
         dashSize: 2,
         gapSize: 2,
-        linewidth: 4
+        linewidth: 2
     });
     dashCircleGeom.vertices.shift();
     var line = new THREE.Line(dashCircleGeom, dashCircleMaterial);
