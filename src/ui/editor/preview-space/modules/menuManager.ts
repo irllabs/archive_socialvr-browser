@@ -136,29 +136,16 @@ export class MenuManager {
 
 
     //add menu to scene
-    //this.menu.add(backBtnMesh);
-    //this.menu.add(backBtnSprite);
     this.menu.add(homeBtnMesh);
     this.menu.add(homeBtnMeshG);
     this.menu.add(backBtnMesh);
     this.menu.add(backBtnMeshG);
-    //this.menu.add(backBtnSpriteG);
     this.menu.add(panelMesh);
-    //this.menu.add(panelSprite);
     this.menu.lookAt(cameraPosition);
     scene.add(this.menu);
 
     //this is required for the raycaster to work properly!!!
     this.menu.updateMatrixWorld(true);
-    this.backButtonMesh.getWorldPosition();
-    this.backButtonMeshG.getWorldPosition();
-    //this.backButtonSprite.getWorldPosition();
-    this.homeButtonMesh.getWorldPosition();
-    this.homeButtonMeshG.getWorldPosition();
-    //this.backButtonSpriteG.getWorldPosition();
-    this.panelMesh.getWorldPosition();
-    //this.panelSprite.getWorldPosition();
-
   }
 
   update(reticle, camera: THREE.PerspectiveCamera) {
