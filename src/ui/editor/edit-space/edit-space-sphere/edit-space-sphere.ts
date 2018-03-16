@@ -227,7 +227,7 @@ export class EditSpaceSphere {
   updateRoomIconPosition(roomIcon: Hotspot) {
     const location: Vector2 = roomIcon.getLocation();
     const coordinatePosition = getCoordinatePosition(location.getX(), location.getY());
-    const positionCameraDotProd: number = coordinatePosition.dot(this.camera.getWorldDirection());
+    const positionCameraDotProd: number = coordinatePosition.dot(this.camera.getWorldDirection(new THREE.Vector3()));
 
     // exit function if the camera is pointed in the opposite direction as the icon
     if (positionCameraDotProd < 0) return;

@@ -26,10 +26,15 @@ import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
 
 function buildDashCircle(): THREE.Group {
   const dashCircleGeom = new THREE.CircleGeometry(THREE_CONST.HOTSPOT_DIM, THREE_CONST.DASHCIRCLE_SEG);
-  const dashCircleMaterial = new THREE.LineDashedMaterial({ color: 0xFFFFFF, dashSize: 2, gapSize: 2, linewidth:1 });
+  const dashCircleMaterial = new THREE.LineDashedMaterial({
+    color: 0xFFFFFF,
+    dashSize: 2,
+    gapSize: 2,
+    linewidth: 4
+  });
   dashCircleGeom.vertices.shift();
-  dashCircleGeom.computeLineDistances();
-  const line = new THREE.Line(dashCircleGeom,dashCircleMaterial);
+  const line = new THREE.Line(dashCircleGeom, dashCircleMaterial);
+  line.computeLineDistances();
   const group = new THREE.Group();
   group.add(line);
   return group;
@@ -244,9 +249,10 @@ export class HotspotManager {
   }
 
   update(reticle, elapsedTime: number) {
-    const retPos = reticle.getWorldPosition();
+    let reticlePosition: THREE.Vector3 = new THREE.Vector3();
+    reticle.getWorldPosition(reticlePosition);
     this.hotspotMap.forEach((hotspotEntity, id) => {
-      hotspotEntity.update(retPos);
+      hotspotEntity.update(reticlePosition);
     });
   }
 

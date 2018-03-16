@@ -14,9 +14,9 @@ export class MenuManager {
   private backButtonMesh: THREE.Mesh;
   private homeButtonMesh: THREE.Mesh;
   private panelMesh: THREE.Mesh;
-  private backButtonPt: THREE.Vector3;
-  private homeButtonPt: THREE.Vector3;
-  private panelPt: THREE.Vector3;
+  private backButtonPt: THREE.Vector3 = new THREE.Vector3();
+  private homeButtonPt: THREE.Vector3 = new THREE.Vector3();
+  private panelPt: THREE.Vector3 = new THREE.Vector3();
   private goToBackRoom: Function;
   private goToHomeRoom: Function;
   private menuToReticle: Number;
@@ -115,21 +115,18 @@ export class MenuManager {
     //var bPosP = this.menu.localToWorld( this.backButtonPt );
     //var hPosP = this.menu.localToWorld( this.homeButtonPt );
     var bPos = this.menu.localToWorld( this.backButtonMesh.position );
-    this.backButtonPt = this.backButtonMesh.getWorldPosition();
+    this.backButtonMesh.getWorldPosition(this.backButtonPt);
     var hPos = this.menu.localToWorld( this.homeButtonMesh.position );
-    this.homeButtonPt = this.homeButtonMesh.getWorldPosition();
+    this.homeButtonMesh.getWorldPosition(this.homeButtonPt);
     var pPos = this.menu.localToWorld( this.panelMesh.position );
-    this.panelPt = this.panelMesh.getWorldPosition();
+    this.panelMesh.getWorldPosition(this.panelPt);
 
-    const menPos = this.menu.getWorldPosition();
+    let menuPos: THREE.Vector3 = new THREE.Vector3();
+    this.menu.getWorldPosition(menuPos);
 
     var panPos = new THREE.Vector3();
     panPos.setFromMatrixPosition( this.panelMesh.matrixWorld );
-    console.log(car2pol(this.panelPt.x, this.panelPt.y, this.panelPt.z));
-    console.log(car2pol(this.menu.position.x, this.menu.position.y, this.menu.position.z));
-    console.log(car2pol(menPos.x, menPos.y, menPos.z));
-    console.log(car2pol(panPos.x, panPos.y, panPos.z));
-
+    
     //debugging
     var g1 = new THREE.SphereGeometry( 5, 32, 32 );
     var m1 = new THREE.MeshBasicMaterial( {color: 0xff0000} );
@@ -160,7 +157,8 @@ export class MenuManager {
 
   update(reticle, camera: THREE.PerspectiveCamera) {
     //const menuPos = this.menu.position.clone();
-    const retPos = reticle.getWorldPosition();
+    let retPos: THREE.Vector3 = new THREE.Vector3();
+    reticle.getWorldPosition(retPos);
     this.menuToReticle = this.panelPt.distanceTo(retPos);
     //console.log(this.menuToReticle);
 

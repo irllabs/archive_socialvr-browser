@@ -60,9 +60,9 @@ export default class HotspotEntity {
   }
 
   update(reticlePos) {
-    const hotspotPosition = this.graphicIcon.getWorldPosition();
+    let hotspotPosition: THREE.Vector3 = new THREE.Vector3();
+    this.graphicIcon.getWorldPosition(hotspotPosition)
     this.distanceToReticle = hotspotPosition.distanceTo(reticlePos);
-    //console.log("distance: ",this.distanceToReticle);
     if (this.distanceToReticle > THREE_CONST.HOTSPOT_NEAR)
       {this.activeState = 0;}
     else if ((this.distanceToReticle < THREE_CONST.HOTSPOT_NEAR)
