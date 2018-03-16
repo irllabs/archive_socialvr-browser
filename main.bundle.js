@@ -4667,7 +4667,7 @@ exports.generateUniqueId = generateUniqueId;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var three_1 = __webpack_require__(28);
+var three_1 = __webpack_require__(24);
 var vector2_1 = __webpack_require__(75);
 // xy screen position to normalized position: [0, 360], [-90, 90]
 function normalizeAbsolutePosition(x, y) {
@@ -5941,7 +5941,7 @@ var __decorate = this && this.__decorate || function (decorators, target, key, d
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var audioContextProvider_1 = __webpack_require__(274);
 var AssetManager = /** @class */function () {
     function AssetManager() {
@@ -12949,7 +12949,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var assetInteractor_1 = __webpack_require__(60);
 var iconPositionUtil_1 = __webpack_require__(109);
 var constants_1 = __webpack_require__(13);
@@ -13043,27 +13043,15 @@ var MenuManager = /** @class */function () {
         //homeBtnMesh.lookAt(cameraPosition);
         this.homeButtonMeshG = homeBtnMeshG;
         //add menu to scene
-        //this.menu.add(backBtnMesh);
-        //this.menu.add(backBtnSprite);
         this.menu.add(homeBtnMesh);
         this.menu.add(homeBtnMeshG);
         this.menu.add(backBtnMesh);
         this.menu.add(backBtnMeshG);
-        //this.menu.add(backBtnSpriteG);
         this.menu.add(panelMesh);
-        //this.menu.add(panelSprite);
         this.menu.lookAt(cameraPosition);
         scene.add(this.menu);
         //this is required for the raycaster to work properly!!!
         this.menu.updateMatrixWorld(true);
-        this.backButtonMesh.getWorldPosition();
-        this.backButtonMeshG.getWorldPosition();
-        //this.backButtonSprite.getWorldPosition();
-        this.homeButtonMesh.getWorldPosition();
-        this.homeButtonMeshG.getWorldPosition();
-        //this.backButtonSpriteG.getWorldPosition();
-        this.panelMesh.getWorldPosition();
-        //this.panelSprite.getWorldPosition();
     };
     MenuManager.prototype.update = function (reticle, camera) {
         var _this = this;
@@ -20677,7 +20665,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var event_bus_1 = __webpack_require__(9);
 var sceneInteractor_1 = __webpack_require__(14);
 var cameraInteractor_1 = __webpack_require__(275);
@@ -20861,7 +20849,7 @@ var EditSpaceSphere = /** @class */function () {
     EditSpaceSphere.prototype.updateRoomIconPosition = function (roomIcon) {
         var location = roomIcon.getLocation();
         var coordinatePosition = iconPositionUtil_1.getCoordinatePosition(location.getX(), location.getY());
-        var positionCameraDotProd = coordinatePosition.dot(this.camera.getWorldDirection());
+        var positionCameraDotProd = coordinatePosition.dot(this.camera.getWorldDirection(new THREE.Vector3()));
         // exit function if the camera is pointed in the opposite direction as the icon
         if (positionCameraDotProd < 0) return;
         var screenPosition = getScreenProjection(coordinatePosition, this.camera, this.renderer.context);
@@ -21276,7 +21264,7 @@ exports.AssetService = AssetService;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var constants_1 = __webpack_require__(13);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 // This file contains common 3D logic for edit-space-sphere and preview-space
 var SPHERE_RADIUS = constants_1.THREE_CONST.SPHERE_RADIUS;
 var NUM_SPHERE_SLICES = constants_1.THREE_CONST.SPHERE_SLICES;
@@ -21348,7 +21336,7 @@ exports.onResize = onResize;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 // Social VR Controls: A slimmed down version of OrbitControls
 // https://github.com/mrdoob/three.js/blob/dev/examples/js/controls/OrbitControls.js
 // Differences include:
@@ -21548,7 +21536,7 @@ exports.default = SvrControls;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var Video3D = /** @class */function () {
     function Video3D() {
         this.editSpaceHasRendered = false;
@@ -21964,7 +21952,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var HotspotEntity_1 = __webpack_require__(1207);
 var sceneInteractor_1 = __webpack_require__(14);
 var assetInteractor_1 = __webpack_require__(60);
@@ -21981,10 +21969,15 @@ var constants_1 = __webpack_require__(13);
 var fontHelper_1 = __webpack_require__(526);
 function buildDashCircle() {
     var dashCircleGeom = new THREE.CircleGeometry(constants_1.THREE_CONST.HOTSPOT_DIM, constants_1.THREE_CONST.DASHCIRCLE_SEG);
-    var dashCircleMaterial = new THREE.LineDashedMaterial({ color: 0xFFFFFF, dashSize: 2, gapSize: 2, linewidth: 1 });
+    var dashCircleMaterial = new THREE.LineDashedMaterial({
+        color: 0xFFFFFF,
+        dashSize: 2,
+        gapSize: 2,
+        linewidth: 4
+    });
     dashCircleGeom.vertices.shift();
-    dashCircleGeom.computeLineDistances();
     var line = new THREE.Line(dashCircleGeom, dashCircleMaterial);
+    line.computeLineDistances();
     var group = new THREE.Group();
     group.add(line);
     return group;
@@ -22172,9 +22165,10 @@ var HotspotManager = /** @class */function () {
         return this.hotspotMap.get(hotspotId);
     };
     HotspotManager.prototype.update = function (reticle, elapsedTime) {
-        var retPos = reticle.getWorldPosition();
+        var reticlePosition = new THREE.Vector3();
+        reticle.getWorldPosition(reticlePosition);
         this.hotspotMap.forEach(function (hotspotEntity, id) {
-            hotspotEntity.update(retPos);
+            hotspotEntity.update(reticlePosition);
         });
     };
     HotspotManager = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, assetInteractor_1.AssetInteractor, audioPlayService_1.AudioPlayService, roomManager_1.RoomManager, menuManager_1.MenuManager, event_bus_1.EventBus])], HotspotManager);
@@ -22190,7 +22184,7 @@ exports.HotspotManager = HotspotManager;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var fontPath = 'assets/fonts/Nunito_Regular.json';
 var FontHelper = /** @class */function () {
     function FontHelper() {}
@@ -22233,7 +22227,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var constants_1 = __webpack_require__(13);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var Reticle = /** @class */function () {
     function Reticle() {
         this.reticleRaycaster = new THREE.Raycaster();
@@ -37940,7 +37934,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 __webpack_require__(468);
 __webpack_require__(469);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
@@ -38316,7 +38310,7 @@ exports.PreviewSpace = PreviewSpace;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 function clearScene(scene) {
     scene.traverse(function (mesh) {
         if (mesh instanceof THREE.Mesh) {
@@ -38359,6 +38353,7 @@ exports.cleanMeshMemory = cleanMeshMemory;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var THREE = __webpack_require__(24);
 var roomPropertyTypeService_1 = __webpack_require__(93);
 var constants_1 = __webpack_require__(13);
 var TWEEN = __webpack_require__(280);
@@ -38382,9 +38377,9 @@ var HotspotEntity = /** @class */function () {
         this.rotation = rotation;
     }
     HotspotEntity.prototype.update = function (reticlePos) {
-        var hotspotPosition = this.graphicIcon.getWorldPosition();
+        var hotspotPosition = new THREE.Vector3();
+        this.graphicIcon.getWorldPosition(hotspotPosition);
         this.distanceToReticle = hotspotPosition.distanceTo(reticlePos);
-        //console.log("distance: ",this.distanceToReticle);
         if (this.distanceToReticle > constants_1.THREE_CONST.HOTSPOT_NEAR) {
             this.activeState = 0;
         } else if (this.distanceToReticle < constants_1.THREE_CONST.HOTSPOT_NEAR && this.distanceToReticle > constants_1.THREE_CONST.HOTSPOT_ACTIVE) {
@@ -38659,7 +38654,7 @@ exports.default = HotspotEntity;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var fontSize = 26;
 var TextLine = /** @class */function () {
     function TextLine(x, y, text) {
@@ -38774,7 +38769,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var projectInteractor_1 = __webpack_require__(53);
 var sceneInteractor_1 = __webpack_require__(14);
 var chatInteractor_1 = __webpack_require__(282);
