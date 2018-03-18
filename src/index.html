@@ -6,7 +6,9 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="manifest" href="manifest.json">
-    <title>SocialVR</title>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+
+    <meta http-equiv="origin-trial" data-feature="WebVR (For Chrome M62+)" data-expires="2018-04-29" content="<%= htmlWebpackPlugin.options.originTrialToken %>">
 
     <style>
       html, body {
@@ -72,10 +74,6 @@
         </div>
       </div>
     </app>
-
-    <script type="text/javascript" src="polyfills.bundle.js"></script>
-    <script type="text/javascript" src="vendor.bundle.js"></script>
-    <script type="text/javascript" src="main.bundle.js"></script>
 
     <!-- <script src="https://apis.google.com/js/platform.js?onload=gapiOnLoad" async defer></script> -->
   </body>
