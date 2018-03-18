@@ -218,7 +218,7 @@ export class EditSpaceSphere {
   onResize(event) {
     cancelAnimationFrame(this.animationRequest);
     setTimeout(() => {
-      const DPR: number = Math.floor(window.devicePixelRatio) || 1;
+      const DPR = window.devicePixelRatio || 1;
       const width = window.innerWidth / DPR;
       const height = window.innerHeight / DPR;
       const aspectRatio = width / height;
@@ -226,18 +226,9 @@ export class EditSpaceSphere {
       this.renderer.setSize(width, height, false);
       this.camera.aspect = aspectRatio;
       this.camera.updateProjectionMatrix();
-
       this.roomIconComponentList.forEach(roomIcon => roomIcon.setPixelLocation(99999, 99999));
       this.render();
     });
-
-
-
-    // onResize(this.camera, this.renderer)
-    //   .then(() => {
-    //
-    //   })
-    //   .catch(error => console.log('edit-sphere resize error', error));
   }
 
   updateRoomIconPosition(roomIcon: Hotspot) {

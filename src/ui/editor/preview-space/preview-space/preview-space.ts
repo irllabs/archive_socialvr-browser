@@ -2,8 +2,8 @@ import {Component, NgZone, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import * as THREE from 'three';
-import 'three/VRControls';
-import 'three/VREffect';
+// import 'three/VRControls';
+// import 'three/VREffect';
 
 import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
 import {SceneInteractor} from 'core/scene/sceneInteractor';
@@ -44,8 +44,8 @@ export class PreviewSpace {
   @ViewChild('globeCanvas') globeCanvas;
 
   private renderer: THREE.WebGLRenderer;
-  private vrControls: THREE.VRControls
-  private vrEffect: THREE.VREffect;
+  // private vrControls: THREE.VRControls
+  // private vrEffect: THREE.VREffect;
   private svrControls: SvrControls;
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
@@ -53,7 +53,7 @@ export class PreviewSpace {
   private sphereMesh: THREE.Mesh;
   private subscriptions: Set<Subscription> = new Set<Subscription>();
   private vrDisplay: VRDisplay;
-  private isInRenderLoop: boolean = false;
+  private isInRenderLoop: boolean = true;
   private activateHotspotTimeout: number;
   private showVrModeButton: boolean = false;
   private video3D: Video3D;
@@ -111,7 +111,11 @@ export class PreviewSpace {
       this.initVrDisplay(),
       fontHelper.load(),
     ])
-    .then(() => this.initRoom())
+    .then(() => {
+      this.initRoom();
+      this.onResize(null);
+      this.renderer.animate(this.animate.bind(this));
+    })
     .catch(error => console.log('EditSphereBaseInit', error));
   }
 
@@ -120,7 +124,8 @@ export class PreviewSpace {
     window.removeEventListener('resize', this.onResizeFn, false);
     window.removeEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);
     this.cameraInteractor.setCameraAngles(this.svrControls.getCameraAngles());
-    cancelAnimationFrame(this.animationRequest);
+    // cancelAnimationFrame(this.animationRequest);
+    this.renderer.animate(null);
     this.isInRenderLoop = false;
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     this.audioManager.stopAllAudio();
@@ -158,11 +163,11 @@ export class PreviewSpace {
       executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone)
     });
 
-    this.ngZone.runOutsideAngular(() => {
-      this.vrControls = new THREE.VRControls(this.vrCamera);
-      this.vrEffect = new THREE.VREffect(this.renderer);
-      this.vrEffect.setSize(window.innerWidth, window.innerHeight);
-    });
+    // this.ngZone.runOutsideAngular(() => {
+    //   this.vrControls = new THREE.VRControls(this.vrCamera);
+    //   this.vrEffect = new THREE.VREffect(this.renderer);
+    //   this.vrEffect.setSize(window.innerWidth, window.innerHeight);
+    // });
   }
 
   initRoom() {
@@ -232,16 +237,19 @@ export class PreviewSpace {
     //   fragmentShader: roomSphereFragShader,
     //   side: THREE.FrontSide
     // });
+
+    const camera = this.isInVrMode() ? this.vrCamera : this.camera;
+
     if (this.sphereMesh.material.map) {
       this.sphereMesh.material.map.dispose();
     }
     this.sphereMesh.material.map = sphereTexture;
-    this.hotspotManager.load(this.scene, this.camera, this.goToRoom.bind(this));
+    this.hotspotManager.load(this.scene, camera, this.goToRoom.bind(this));
 
     if(!this.menuManager.exists()) {
-      this.menuManager.load(this.scene, this.camera.position, this.goToLastRoom.bind(this),this.goToHomeRoom.bind(this));
+      this.menuManager.load(this.scene, camera.position, this.goToLastRoom.bind(this),this.goToHomeRoom.bind(this));
     }
-    this.onResize(null);
+    // this.onResize(null);
   }
 
   //for video backgrounds
@@ -252,7 +260,7 @@ export class PreviewSpace {
         this.sphereMesh.material = new THREE.MeshBasicMaterial({map: texture, side: THREE.BackSide});
         this.hotspotManager.load(this.scene, this.camera, this.goToRoom.bind(this));
         this.menuManager.load(this.scene, this.camera.position, this.goToLastRoom.bind(this),this.goToHomeRoom.bind(this));
-        this.onResize(null);
+        // this.onResize(null);
       })
       .catch(error => console.log('EditSpaceSphere.initVideo', error));
   }
@@ -282,7 +290,10 @@ export class PreviewSpace {
     const isInVrMode = this.isInVrMode();
     const reticle = this.reticle.getActiveReticle(isInVrMode);
     const camera = isInVrMode ? this.vrCamera : this.camera;
-    isInVrMode ? this.vrControls.update() : this.svrControls.update();
+    if (!isInVrMode) {
+      this.svrControls.update();
+    }
+    // isInVrMode ? this.vrControls.update() : this.svrControls.update();
     if (!this.inRoomTween) {this.hotspotManager.update(reticle, elapsedTime);}
     this.menuManager.update(reticle, camera);
     // this.multiViewService.update(camera);
@@ -292,14 +303,20 @@ export class PreviewSpace {
   private render() {
     //this.scene.updateMatrixWorld(true);
     // render vr mode
-    if (this.vrDisplay && this.vrDisplay.isPresenting) {
-      this.vrEffect.render(this.scene, this.vrCamera);
-      this.animationRequest = this.vrDisplay.requestAnimationFrame(this.animate.bind(this));
+    // if (this.vrDisplay && this.vrDisplay.isPresenting) {
+    //   this.vrEffect.render(this.scene, this.vrCamera);
+    //   this.animationRequest = this.vrDisplay.requestAnimationFrame(this.animate.bind(this));
+    // }
+    // // render non-vr mode
+    // else {
+    //   this.renderer.render(this.scene, this.camera);
+    //   this.animationRequest = requestAnimationFrame(this.animate.bind(this));
+    // }
+    if (this.isInVrMode()) {
+      this.renderer.render(this.scene, this.vrCamera);
     }
-    // render non-vr mode
     else {
       this.renderer.render(this.scene, this.camera);
-      this.animationRequest = requestAnimationFrame(this.animate.bind(this));
     }
     stats.end();
   }
@@ -325,7 +342,7 @@ export class PreviewSpace {
   goToLastRoom() {
     this.roomHistory.pop();
     var lastRoom =   this.roomHistory[this.roomHistory.length-1];
-    this.isInRenderLoop = false;
+    // this.isInRenderLoop = false;
     setTimeout(()=>{
        this.sceneInteractor.setActiveRoomId(lastRoom);
        this.initRoom();
@@ -342,10 +359,10 @@ export class PreviewSpace {
     this.inRoomTween = true;
     this.lookAtVector = new THREE.Vector3(0,0,0);
     //get the direciton we should move in
-    if (this.vrDisplay && this.vrDisplay.isPresenting) {
-      this.vrCamera.getWorldDirection( this.lookAtVector );
+    if (this.isInVrMode()) {
+      this.vrCamera.getWorldDirection(this.lookAtVector);
     } else {
-      this.camera.getWorldDirection( this.lookAtVector );
+      this.camera.getWorldDirection(this.lookAtVector);
     }
 
     //tween with sphere position
@@ -356,7 +373,7 @@ export class PreviewSpace {
     },THREE_CONST.TWEEN_ROOM_MOVETIMEIN).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
 
     }).onComplete( () => {
-      this.isInRenderLoop = false;
+      // this.isInRenderLoop = false;
       this.inRoomTween = false;
       this.sceneInteractor.setActiveRoomId(outgoingRoomId);
       this.initRoom();
@@ -364,7 +381,6 @@ export class PreviewSpace {
   }
 
   private isInVrMode() {
-    // TODO: change this to renderer.vr.enabled or whatever
     return !!this.vrDisplay && !!this.vrDisplay.isPresenting;
   }
 
@@ -373,7 +389,7 @@ export class PreviewSpace {
   //////////////////////////////////////////////
 
   private requestVrMode($event) {
-    this.isInRenderLoop = false;
+    // this.isInRenderLoop = false;
     this.vrDisplay.requestPresent([{source: this.renderer.domElement}])
       .catch(error => console.log('requestVRMode error', error));
   }
@@ -384,6 +400,7 @@ export class PreviewSpace {
       .then(vrDisplayList => {
         if (vrDisplayList.length > 0) {
           this.vrDisplay = vrDisplayList[0];
+          this.renderer.vr.setDevice(this.vrDisplay);
           this.showVrModeButton = this.vrDisplay.capabilities.canPresent;
         }
       })
@@ -397,26 +414,38 @@ export class PreviewSpace {
   // potential ios issue?
   // https://github.com/immersive-web/webvr-polyfill/blob/master/examples/index.html
   onResize(event) {
-    cancelAnimationFrame(this.animationRequest);
-    this.isInRenderLoop = false;
+    // cancelAnimationFrame(this.animationRequest);
+    // this.renderer.animate(null);
+    // this.isInRenderLoop = false;
+    // console.log('onResize', this.isInVrMode())
 
-    setTimeout(() => {
-      const DPR: number = Math.floor(window.devicePixelRatio) || 1;
+    // setTimeout(() => {
       const width = window.innerWidth;
       const height = window.innerHeight;
       const aspectRatio = width / width;
 
-      this.vrEffect.setSize(width, height);
-      this.renderer.setPixelRatio(DPR);
-      this.renderer.setSize(width, height, false);
 
-      this.camera.aspect = aspectRatio;
-      this.camera.updateProjectionMatrix();
 
-      this.reticle.showVrReticle(this.isInVrMode());
-      this.isInRenderLoop = true;
-      this.animate();
-    });
+      const isInVrMode = this.isInVrMode();
+      console.log('resizing', isInVrMode);
+
+      if (isInVrMode) {
+        this.vrCamera.aspect = aspectRatio;
+        this.vrCamera.updateProjectionMatrix();
+      }
+      else {
+        this.camera.aspect = aspectRatio;
+        this.camera.updateProjectionMatrix();
+      }
+
+      this.renderer.setPixelRatio(window.devicePixelRatio);
+			this.renderer.setSize(width, height);
+
+      this.renderer.vr.enabled = isInVrMode;
+      this.renderer.vr.userHeight = 0; // TOFIX
+
+      this.reticle.showVrReticle(isInVrMode);
+    // });
   }
 
   onVrDisplayChange(event) {

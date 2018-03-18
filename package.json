@@ -21,6 +21,7 @@
     "@types/core-js": "^0.9.32",
     "@types/node": "^6.0.38",
     "@types/three": "0.89.12",
+    "@types/webvr-api": "0.0.32",
     "angular2-template-loader": "^0.6.2",
     "awesome-typescript-loader": "^3.2.0",
     "babel-core": "^6.24.1",
