@@ -19,7 +19,7 @@ import {MenuManager} from 'ui/editor/preview-space/modules/menuManager';
 import {Reticle} from 'ui/editor/preview-space/modules/reticle';
 import {Room} from 'data/scene/entities/room';
 import {Video3D} from 'ui/editor/edit-space/video3D';
-import {buildScene, onResize} from 'ui/editor/util/threeUtil';
+import {buildScene} from 'ui/editor/util/threeUtil';
 import SvrControls from 'ui/editor/util/SvrControls';
 import {THREE_CONST} from 'ui/common/constants';
 import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
@@ -27,7 +27,7 @@ import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
 const Stats = require('stats.js')
 const stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-// document.body.appendChild( stats.dom );
+document.body.appendChild( stats.dom );
 
 const TWEEN = require('@tweenjs/tween.js');
 const roomSphereFragShader = require('ui/editor/util/shaders/roomSphere.frag');
@@ -279,7 +279,7 @@ export class PreviewSpace {
   }
 
   private update(elapsedTime: number) {
-    const isInVrMode = this.vrDisplay && this.vrDisplay.isPresenting;
+    const isInVrMode = this.isInVrMode();
     const reticle = this.reticle.getActiveReticle(isInVrMode);
     const camera = isInVrMode ? this.vrCamera : this.camera;
     isInVrMode ? this.vrControls.update() : this.svrControls.update();
@@ -299,9 +299,9 @@ export class PreviewSpace {
     // render non-vr mode
     else {
       this.renderer.render(this.scene, this.camera);
-      stats.end();
       this.animationRequest = requestAnimationFrame(this.animate.bind(this));
     }
+    stats.end();
   }
 
   private debounce(func, wait, immediate) {
@@ -363,6 +363,11 @@ export class PreviewSpace {
     }).start();
   }
 
+  private isInVrMode() {
+    // TODO: change this to renderer.vr.enabled or whatever
+    return !!this.vrDisplay && !!this.vrDisplay.isPresenting;
+  }
+
   //////////////////////////////////////////////
   //////////////   VR MODE      ////////////////
   //////////////////////////////////////////////
@@ -396,22 +401,21 @@ export class PreviewSpace {
     this.isInRenderLoop = false;
 
     setTimeout(() => {
-      onResize(this.camera, this.renderer)
-        .then(() => {
-          cancelAnimationFrame(this.animationRequest);
-          const isInVrMode = !!this.vrDisplay && !!this.vrDisplay.isPresenting
-          this.isInRenderLoop = false;
-          this.vrEffect.setSize(window.innerWidth, window.innerHeight);
+      const DPR: number = Math.floor(window.devicePixelRatio) || 1;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const aspectRatio = width / width;
 
-          // better image quality but worse performance
-          this.renderer.setPixelRatio(window.devicePixelRatio || 1);
-          this.renderer.setSize(window.innerWidth, window.innerHeight, false);
+      this.vrEffect.setSize(width, height);
+      this.renderer.setPixelRatio(DPR);
+      this.renderer.setSize(width, height, false);
 
-          this.reticle.showVrReticle(isInVrMode);
-          this.isInRenderLoop = true;
-          this.animate();
-        })
-        .catch(error => console.log('preview-space resize error', error));
+      this.camera.aspect = aspectRatio;
+      this.camera.updateProjectionMatrix();
+
+      this.reticle.showVrReticle(this.isInVrMode());
+      this.isInRenderLoop = true;
+      this.animate();
     });
   }
 
