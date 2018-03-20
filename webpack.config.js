@@ -35,6 +35,15 @@ const webpackConfig = {
     path: path.resolve(__dirname, './dist'),
   },
   plugins: [
+    // new HtmlWebpackPlugin({
+    //   title: 'SocialVR',
+    //   inject: true,
+    //   // filename: './index.html',
+    //
+    //   // filename: path.resolve(__dirname, './dist/index.html'),
+    //   template: './src/index.html',
+    //   originTrialToken: isProduction ? productionOriginTrialToken : stagingOriginTrialToken
+    // }),
     new webpack.optimize.CommonsChunkPlugin({
       name: ['main', 'vendor', 'polyfills']
     }),
@@ -57,12 +66,6 @@ const webpackConfig = {
     }),
     new webpack.ProvidePlugin({
       'THREE': 'three'
-    }),
-    new HtmlWebpackPlugin({
-      title: 'SocialVR',
-      filename: 'index.html',
-      template: path.resolve(__dirname, './src/index.html'),
-      originTrialToken: isProduction ? productionOriginTrialToken : stagingOriginTrialToken
     })
   ],
   externals: {
