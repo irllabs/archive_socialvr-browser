@@ -19,7 +19,7 @@ import {MenuManager} from 'ui/editor/preview-space/modules/menuManager';
 import {Reticle} from 'ui/editor/preview-space/modules/reticle';
 import {Room} from 'data/scene/entities/room';
 import {Video3D} from 'ui/editor/edit-space/video3D';
-import {buildScene, onResize} from 'ui/editor/util/threeUtil';
+import {buildScene} from 'ui/editor/util/threeUtil';
 import SvrControls from 'ui/editor/util/SvrControls';
 import {THREE_CONST} from 'ui/common/constants';
 import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
@@ -113,7 +113,10 @@ export class PreviewSpace {
       this.initVrDisplay(),
       fontHelper.load(),
     ])
-    .then(() => this.initRoom())
+    .then(() => {
+      this.initRoom();
+      this.onResize(null);
+    })
     .catch(error => console.log('EditSphereBaseInit', error));
   }
 
@@ -125,6 +128,8 @@ export class PreviewSpace {
     // cancelAnimationFrame(this.animationRequest);
     // this.isInRenderLoop = false;
     this.stopAnimationLoop(0).then(() => console.log('animation loop stopped'));
+    this.renderer.dispose();
+    this.vrRenderer.dispose();
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     this.audioManager.stopAllAudio();
     if (!!this.video3D) {
@@ -156,7 +161,7 @@ export class PreviewSpace {
     this.reticle.init(this.camera, this.vrCamera);
     // this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: false});
     this.renderer = new THREE.WebGLRenderer({canvas: previewCanvas, antialias: false});
-    this.vrRenderer = new THREE.WebGLRenderer({canvas: vrCanvas, antialias: false});
+    this.vrRenderer = new THREE.WebGLRenderer({canvas: vrCanvas, antialias: true});
     this.vrRenderer.vr.enabled = true;
 		this.vrRenderer.vr.userHeight = 0; // TOFIX
     this.svrControls = new SvrControls({
@@ -249,7 +254,7 @@ export class PreviewSpace {
     if(!this.menuManager.exists()) {
       this.menuManager.load(this.scene, this.camera.position, this.goToLastRoom.bind(this),this.goToHomeRoom.bind(this));
     }
-    this.onResize(null);
+    // this.onResize(null);
   }
 
   //for video backgrounds
@@ -274,6 +279,7 @@ export class PreviewSpace {
     console.log('startAnimationLoop', this.vrDisplayIsActive())
     this.vrDisplayIsActive() ?
       this.vrRenderer.animate(this.animate.bind(this)) :
+      // this.renderer.animate(this.animate.bind(this));
       this.animate();
   }
 
@@ -281,6 +287,7 @@ export class PreviewSpace {
     return new Promise((resolve, reject) => {
       this.isInRenderLoop = false;
       cancelAnimationFrame(this.animationRequest);
+      // this.renderer.animate(null);
       this.vrRenderer.animate(null);
       setTimeout(() => resolve(), timeout);
     });
@@ -320,15 +327,9 @@ export class PreviewSpace {
   }
 
   private render() {
-    //this.scene.updateMatrixWorld(true);
-    // render vr mode
     if (this.vrDisplayIsActive()) {
-      // console.log('vrRender')
       this.vrRenderer.render(this.scene, this.vrCamera);
-      // this.vrEffect.render(this.scene, this.vrCamera);
-      // this.animationRequest = this.vrDisplay.requestAnimationFrame(this.animate.bind(this));
     }
-    // render non-vr mode
     else {
       this.renderer.render(this.scene, this.camera);
       this.animationRequest = requestAnimationFrame(this.animate.bind(this));
@@ -336,20 +337,6 @@ export class PreviewSpace {
     stats.end();
   }
 
-  private debounce(func, wait, immediate) {
-  	var timeout;
-  	return function() {
-  		var context = this, args = arguments;
-  		var later = function() {
-  			timeout = null;
-  			if (!immediate) func.apply(context, args);
-  		}
-  		var callNow = immediate && !timeout;
-  		clearTimeout(timeout);
-  		timeout = setTimeout(later, wait);
-  		if (callNow) func.apply(context, args);
-  	}
-  }
   //////////////////////////////////////////////
   /////// Room Changing Helpers ////////////////
   //////////////////////////////////////////////
@@ -437,8 +424,6 @@ export class PreviewSpace {
   //////////////   EVENTS ETC   ////////////////
   //////////////////////////////////////////////
 
-  // potential ios issue?
-  // https://github.com/immersive-web/webvr-polyfill/blob/master/examples/index.html
   onResize(event) {
     if (this.vrDisplayIsActive()) {
       this.setUpVr();
@@ -463,29 +448,23 @@ export class PreviewSpace {
     // if (this.vrHasBeenSetUp) { return; }
     console.log('setUpVrMode');
     this.stopAnimationLoop(0).then(() => console.log('setUpVrMode.animationLoopStopped'));
-    // setTimeout(() => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      this.vrCamera.aspect = width / height;
-      this.vrCamera.updateProjectionMatrix();
-      // this.vrRenderer.setPixelRatio(window.devicePixelRatio);
-      this.vrRenderer.setSize(width, height);
-      this.vrHasBeenSetUp = true;
-      this.startAnimationLoop();
-    // }, 200);
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    this.vrCamera.aspect = width / height;
+    this.vrCamera.updateProjectionMatrix();
+    // this.vrRenderer.setPixelRatio(window.devicePixelRatio);
+    this.vrRenderer.setSize(width, height);
+    this.vrHasBeenSetUp = true;
+    this.startAnimationLoop();
   }
 
   onVrDisplayChange(event) {
     const isVr = this.vrDisplayIsActive();
     console.log('onVrDisplayChange', isVr);
     this.showVrElement(isVr);
-    // if (this.vrDisplayIsActive()) {
-    //   this.setUpVr();
-    // }
+
     this.vrHasBeenSetUp = !isVr;
-    // if (!this.vrDisplayIsActive()) { {
-      this.onResize(event);
-    // }
+    this.onResize(event);
   }
 
 }
