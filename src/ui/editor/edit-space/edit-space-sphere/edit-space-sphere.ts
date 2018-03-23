@@ -216,23 +216,17 @@ export class EditSpaceSphere {
   }
 
   onResize(event) {
-
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    const DPR = window.devicePixelRatio;
+    const width = window.innerWidth / DPR;
+    const height = window.innerHeight / DPR;
     const aspectRatio = width / height;
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(width, height);
+    this.renderer.setPixelRatio(DPR);
+    this.renderer.setSize(width, height, false);
     this.camera.aspect = aspectRatio;
     this.camera.updateProjectionMatrix();
 
     this.roomIconComponentList.forEach(roomIcon => roomIcon.setPixelLocation(99999, 99999));
     this.render();
-
-    // onResize(this.camera, this.renderer)
-    //   .then(() => {
-    //
-    //   })
-    //   .catch(error => console.log('edit-sphere resize error', error));
   }
 
   updateRoomIconPosition(roomIcon: Hotspot) {

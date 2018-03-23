@@ -2,8 +2,6 @@ import {Component, NgZone, ViewChild} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
 import * as THREE from 'three';
-import 'three/VRControls';
-import 'three/VREffect';
 
 import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
 import {SceneInteractor} from 'core/scene/sceneInteractor';
@@ -45,8 +43,6 @@ export class PreviewSpace {
 
   private renderer: THREE.WebGLRenderer;
   private vrRenderer: THREE.WEbGLRenderer;
-  // private vrControls: THREE.VRControls
-  // private vrEffect: THREE.VREffect;
   private svrControls: SvrControls;
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
@@ -121,15 +117,13 @@ export class PreviewSpace {
   }
 
   ngOnDestroy() {
-    // this.svrControls.dispose();
     window.removeEventListener('resize', this.onResizeFn, false);
     window.removeEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);
     this.cameraInteractor.setCameraAngles(this.svrControls.getCameraAngles());
-    // cancelAnimationFrame(this.animationRequest);
-    // this.isInRenderLoop = false;
     this.stopAnimationLoop(0).then(() => console.log('animation loop stopped'));
     this.renderer.dispose();
     this.vrRenderer.dispose();
+    this.svrControls.dispose();
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     this.audioManager.stopAllAudio();
     if (!!this.video3D) {
@@ -159,7 +153,6 @@ export class PreviewSpace {
     this.sphereMesh.material = this.sphereMaterial;
 
     this.reticle.init(this.camera, this.vrCamera);
-    // this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: false});
     this.renderer = new THREE.WebGLRenderer({canvas: previewCanvas, antialias: false});
     this.vrRenderer = new THREE.WebGLRenderer({canvas: vrCanvas, antialias: true});
     this.vrRenderer.vr.enabled = true;
@@ -170,12 +163,6 @@ export class PreviewSpace {
       initialCameraAngles: this.cameraInteractor.getCameraAngles(),
       executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone)
     });
-
-    // this.ngZone.runOutsideAngular(() => {
-    //   this.vrControls = new THREE.VRControls(this.vrCamera);
-    //   this.vrEffect = new THREE.VREffect(this.renderer);
-    //   this.vrEffect.setSize(window.innerWidth, window.innerHeight);
-    // });
   }
 
   initRoom() {
@@ -187,40 +174,6 @@ export class PreviewSpace {
     this.audioManager.playBackgroundAudio();
     this.audioManager.playNarration();
     this.audioManager.playSoundtrack();
-    // this.isInRenderLoop = true;
-
-    /*
-    if (!this.vrDisplay && this.vrDisplay.isPresenting)  {
-    // tween with fov
-    this.camera.fov = THREE_CONST.FOV_OUT;
-
-    var tweenRoomIn = new TWEEN.Tween(this.camera)
-    .to({
-        fov: THREE_CONST.FOV_NORM
-    },THREE_CONST.TWEEN_ROOM_MOVETIMEIN)
-    .easing(TWEEN.Easing.Linear.None).onUpdate( () => { })
-    .onComplete( () => {
-      //console.log("Init room: ",roomId);
-      this.roomHistory.push(roomId);
-    }).start();
-    } else {
-      this.roomHistory.push(roomId);
-    }
-    */
-
-    //tween with sphere position towards is
-    // this.sphereMesh.position.set(THREE_CONST.TWEEN_ROOM_MOVEIN,0,0);
-    // var tweenRoomOut = new TWEEN.Tween(this.sphereMesh.position).to({
-    //     x: 0,
-    //     y: 0,
-    //     z: 0
-    // },THREE_CONST.TWEEN_ROOM_MOVETIMEIN).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
-    //
-    // }).onComplete( () => {
-    //   //console.log("onCopmlete for tween");
-    //   this.roomHistory.push(roomId);
-    // }).start();
-
     this.roomHistory.push(roomId);
   }
 
@@ -254,7 +207,6 @@ export class PreviewSpace {
     if(!this.menuManager.exists()) {
       this.menuManager.load(this.scene, this.camera.position, this.goToLastRoom.bind(this),this.goToHomeRoom.bind(this));
     }
-    // this.onResize(null);
   }
 
   //for video backgrounds
@@ -279,7 +231,6 @@ export class PreviewSpace {
     console.log('startAnimationLoop', this.vrDisplayIsActive())
     this.vrDisplayIsActive() ?
       this.vrRenderer.animate(this.animate.bind(this)) :
-      // this.renderer.animate(this.animate.bind(this));
       this.animate();
   }
 
@@ -287,7 +238,6 @@ export class PreviewSpace {
     return new Promise((resolve, reject) => {
       this.isInRenderLoop = false;
       cancelAnimationFrame(this.animationRequest);
-      // this.renderer.animate(null);
       this.vrRenderer.animate(null);
       setTimeout(() => resolve(), timeout);
     });
@@ -298,7 +248,6 @@ export class PreviewSpace {
       return;
     }
     stats.begin();
-    //console.log("animate",this.isInRenderLoop);
     this.ngZone.runOutsideAngular(() => {
       // calculate elapsed time
       const timestamp = performance.now();
@@ -314,8 +263,6 @@ export class PreviewSpace {
     const isInVrMode = this.vrDisplayIsActive();
     const reticle = this.reticle.getActiveReticle(isInVrMode);
     const camera = this.vrDisplayIsActive() ? this.vrCamera : this.camera;
-    // const camera = this.camera;
-    // isInVrMode ? this.vrControls.update() : this.svrControls.update();
     if (!isInVrMode) {
       this.svrControls.update();
     }
@@ -332,6 +279,7 @@ export class PreviewSpace {
     }
     else {
       this.renderer.render(this.scene, this.camera);
+      cancelAnimationFrame(this.animationRequest);
       this.animationRequest = requestAnimationFrame(this.animate.bind(this));
     }
     stats.end();
@@ -344,7 +292,6 @@ export class PreviewSpace {
   goToLastRoom() {
     this.roomHistory.pop();
     var lastRoom =   this.roomHistory[this.roomHistory.length-1];
-    // this.isInRenderLoop = false;
     setTimeout(()=>{
        this.sceneInteractor.setActiveRoomId(lastRoom);
        this.initRoom();
@@ -375,7 +322,6 @@ export class PreviewSpace {
     },THREE_CONST.TWEEN_ROOM_MOVETIMEIN).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
 
     }).onComplete( () => {
-      // this.isInRenderLoop = false;
       this.inRoomTween = false;
       this.sceneInteractor.setActiveRoomId(outgoingRoomId);
       this.initRoom();
@@ -387,13 +333,9 @@ export class PreviewSpace {
   //////////////////////////////////////////////
 
   private requestVrMode($event) {
-    // this.isInRenderLoop = false;
     console.log('requestVrMode', this.vrRenderer.domElement)
     this.vrDisplay.requestPresent([{source: this.vrRenderer.domElement}])
-      .then(() => {
-        console.log('vrModeGranted');
-        // this.setUpVr();
-      })
+      .then(() => console.log('vrModeGranted'))
       .catch(error => console.log('requestVRMode error', error));
   }
 
@@ -429,7 +371,6 @@ export class PreviewSpace {
       this.setUpVr();
       return;
     }
-    console.log('onResize')
 
     this.stopAnimationLoop(100)
       .then(() => {
@@ -445,14 +386,12 @@ export class PreviewSpace {
   }
 
   setUpVr() {
-    // if (this.vrHasBeenSetUp) { return; }
     console.log('setUpVrMode');
     this.stopAnimationLoop(0).then(() => console.log('setUpVrMode.animationLoopStopped'));
     const width = window.innerWidth;
     const height = window.innerHeight;
     this.vrCamera.aspect = width / height;
     this.vrCamera.updateProjectionMatrix();
-    // this.vrRenderer.setPixelRatio(window.devicePixelRatio);
     this.vrRenderer.setSize(width, height);
     this.vrHasBeenSetUp = true;
     this.startAnimationLoop();
@@ -462,7 +401,6 @@ export class PreviewSpace {
     const isVr = this.vrDisplayIsActive();
     console.log('onVrDisplayChange', isVr);
     this.showVrElement(isVr);
-
     this.vrHasBeenSetUp = !isVr;
     this.onResize(event);
   }

@@ -14,8 +14,6 @@ import 'jszip';
 import 'recorderjs';
 import 'rxjs';
 import 'three';
-import 'three/VRControls';
-import 'three/VREffect';
 // import 'zone.js';
 
 

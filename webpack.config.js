@@ -123,9 +123,7 @@ const defaultConfig = {
         ui: path.resolve(__dirname, 'src/ui/'),
         core: path.resolve(__dirname, 'src/core/'),
         data: path.resolve(__dirname, 'src/data/'),
-        assets: path.resolve(__dirname, 'src/assets/'),
-        'three/VRControls': path.join(__dirname, 'node_modules/three/examples/js/controls/VRControls.js'),
-        'three/VREffect': path.join(__dirname, 'node_modules/three/examples/js/effects/VREffect.js'),
+        assets: path.resolve(__dirname, 'src/assets/')
     }
   },
 
