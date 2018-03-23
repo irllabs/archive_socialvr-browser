@@ -2,7 +2,11 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+
+const stagingOriginTrialToken = 'Aj82eb9Pzed5zpECw31/pjc2dHGqY3OJewMogIa7cgXACC3MJgKj1MQQBmAM3R8nxqYx6idmRRHc9vWZdmHeJgUAAABYeyJvcmlnaW4iOiJodHRwczovL2NtdWFydGZhYi5naXRodWIuaW86NDQzIiwiZmVhdHVyZSI6IldlYlZSMS4xTTYyIiwiZXhwaXJ5IjoxNTI1MDIwMjExfQ==';
+const productionOriginTrialToken = 'Am27cG+0dzKwrnAZkYUsfnfS7T9dGo9xrBNQPnrMcRQqn0INEw29KppbuvdnjPjkELvJlFwTPb+9CCyGxctTXQkAAABYeyJvcmlnaW4iOiJodHRwczovL3NvY2lhbHZyLmlybC5zdHVkaW86NDQzIiwiZmVhdHVyZSI6IldlYlZSMS4xTTYyIiwiZXhwaXJ5IjoxNTI1MDIwMjExfQ==';
 
 const environment = {
   local: '"LOCAL"',
@@ -31,6 +35,15 @@ const webpackConfig = {
     path: path.resolve(__dirname, './dist'),
   },
   plugins: [
+    // new HtmlWebpackPlugin({
+    //   title: 'SocialVR',
+    //   inject: true,
+    //   // filename: './index.html',
+    //
+    //   // filename: path.resolve(__dirname, './dist/index.html'),
+    //   template: './src/index.html',
+    //   originTrialToken: isProduction ? productionOriginTrialToken : stagingOriginTrialToken
+    // }),
     new webpack.optimize.CommonsChunkPlugin({
       name: ['main', 'vendor', 'polyfills']
     }),
@@ -78,7 +91,8 @@ const webpackConfig = {
       },
       {
         test: /\.(html|vert|frag)$/,
-        loaders: ['raw-loader']
+        loaders: ['raw-loader'],
+        exclude: /index\.html$/
       },
       // {
       //   test: /\.(png|jpg)$/,
