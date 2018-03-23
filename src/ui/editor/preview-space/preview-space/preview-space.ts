@@ -22,10 +22,13 @@ import SvrControls from 'ui/editor/util/SvrControls';
 import {THREE_CONST} from 'ui/common/constants';
 import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
 
+const showStats = false;
 const Stats = require('stats.js')
 const stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild( stats.dom );
+if (showStats) {
+  document.body.appendChild( stats.dom );
+}
 
 const TWEEN = require('@tweenjs/tween.js');
 const roomSphereFragShader = require('ui/editor/util/shaders/roomSphere.frag');
@@ -247,7 +250,7 @@ export class PreviewSpace {
     if (!this.isInRenderLoop) {
       return;
     }
-    stats.begin();
+    if (showStats) { stats.begin(); }
     this.ngZone.runOutsideAngular(() => {
       // calculate elapsed time
       const timestamp = performance.now();
@@ -282,7 +285,7 @@ export class PreviewSpace {
       cancelAnimationFrame(this.animationRequest);
       this.animationRequest = requestAnimationFrame(this.animate.bind(this));
     }
-    stats.end();
+    if (showStats) { stats.end(); }
   }
 
   //////////////////////////////////////////////
