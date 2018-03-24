@@ -16,7 +16,7 @@ $background-height: 16px;
   display: block;
   height: $background-height;
   width: $background-width;
-  background-color: $background-inactive;
+  background-color: #bbb;
   border-radius: $background-height / 2;
   cursor: pointer;
   transition: background-color $antimation-length ease;
