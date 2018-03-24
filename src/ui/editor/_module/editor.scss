@@ -31,10 +31,9 @@ $half-icon-size: $room-icon-size / 2;
   overflow-y:hidden;
 }
 .editor_center {
-  background-color: $color-grey-dark;
-  padding: 8px 32px;
-
-  border-radius: 0px 0px 60px 60px;
+  background-color: rgba(136,136,136,.60);
+  padding: 8px 8px;
+      border-radius: 0px 0px 4px 4px;
   position: absolute;
   top: 0%;
   left: 50%;
@@ -42,6 +41,19 @@ $half-icon-size: $room-icon-size / 2;
   flex-direction: row;
   align-items: space-between;
   transform: translate(-50%, 0%);
+  @include breakpoint(xs) {
+    padding: 1px 4px;
+    border-radius: 0px 0px 4px 4px;
+    left: 52%;
+    font-size: 14px;
+  }
+  @include breakpoint(xxs) {
+    padding: 0px 4px;
+        border-radius: 0px 0px 4px 4px;
+        margin-top: -2px;
+        left: 49%;
+  }
+
 }
 
 .editor_center1 {

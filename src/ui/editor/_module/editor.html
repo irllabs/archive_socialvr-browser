@@ -16,6 +16,7 @@
       class="editor_center"
       [ngClass]="{'editor_center1': !hasBackgroundImage()}">
   <div
+  *ngIf="roomEditorIsVisible()"
     class="editor__edit2D3DToggle">
     <p
       *ngIf="roomEditorIsVisible()"

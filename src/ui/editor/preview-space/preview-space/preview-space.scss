@@ -5,10 +5,14 @@
 }
 
 .preview-space__vr-mode-button {
+  background-color: white;
+  padding: 8px 16px;
+      border-radius: 4px;
+      box-shadow: 0 4px 6px rgba(0,0,0,.11), 0 1px 3px rgba(0,0,0,.08);
   position: absolute;
   top: 0;
-  left: 75%;
-  margin-top: 10px;
+  left: 70%;
+      margin-top: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
