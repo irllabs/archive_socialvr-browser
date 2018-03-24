@@ -48,7 +48,7 @@ $half-icon-size: $room-icon-size / 2;
     font-size: 14px;
   }
   @include breakpoint(xxs) {
-    padding: 0px 4px;
+    padding: 1px 4px;
         border-radius: 0px 0px 4px 4px;
         margin-top: -2px;
         left: 49%;
