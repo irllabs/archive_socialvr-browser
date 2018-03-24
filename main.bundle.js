@@ -23,40 +23,40 @@ webpackJsonp([1],[
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var assert_1 = __webpack_require__(469);
+var assert_1 = __webpack_require__(471);
 exports.assert = assert_1.assert;
 exports.assertionError = assert_1.assertionError;
-var crypt_1 = __webpack_require__(470);
+var crypt_1 = __webpack_require__(472);
 exports.base64 = crypt_1.base64;
 exports.base64Decode = crypt_1.base64Decode;
 exports.base64Encode = crypt_1.base64Encode;
 var constants_1 = __webpack_require__(255);
 exports.CONSTANTS = constants_1.CONSTANTS;
-var deepCopy_1 = __webpack_require__(1091);
+var deepCopy_1 = __webpack_require__(1093);
 exports.deepCopy = deepCopy_1.deepCopy;
 exports.deepExtend = deepCopy_1.deepExtend;
 exports.patchProperty = deepCopy_1.patchProperty;
-var deferred_1 = __webpack_require__(1092);
+var deferred_1 = __webpack_require__(1094);
 exports.Deferred = deferred_1.Deferred;
-var environment_1 = __webpack_require__(1093);
+var environment_1 = __webpack_require__(1095);
 exports.getUA = environment_1.getUA;
 exports.isMobileCordova = environment_1.isMobileCordova;
 exports.isNodeSdk = environment_1.isNodeSdk;
 exports.isReactNative = environment_1.isReactNative;
-var errors_1 = __webpack_require__(1094);
+var errors_1 = __webpack_require__(1096);
 exports.ErrorFactory = errors_1.ErrorFactory;
 exports.FirebaseError = errors_1.FirebaseError;
 exports.patchCapture = errors_1.patchCapture;
-var json_1 = __webpack_require__(471);
+var json_1 = __webpack_require__(473);
 exports.jsonEval = json_1.jsonEval;
 exports.stringify = json_1.stringify;
-var jwt_1 = __webpack_require__(1095);
+var jwt_1 = __webpack_require__(1097);
 exports.decode = jwt_1.decode;
 exports.isAdmin = jwt_1.isAdmin;
 exports.issuedAtTime = jwt_1.issuedAtTime;
 exports.isValidFormat = jwt_1.isValidFormat;
 exports.isValidTimestamp = jwt_1.isValidTimestamp;
-var obj_1 = __webpack_require__(472);
+var obj_1 = __webpack_require__(474);
 exports.clone = obj_1.clone;
 exports.contains = obj_1.contains;
 exports.every = obj_1.every;
@@ -71,21 +71,21 @@ exports.isEmpty = obj_1.isEmpty;
 exports.isNonNullObject = obj_1.isNonNullObject;
 exports.map = obj_1.map;
 exports.safeGet = obj_1.safeGet;
-var query_1 = __webpack_require__(1096);
+var query_1 = __webpack_require__(1098);
 exports.querystring = query_1.querystring;
 exports.querystringDecode = query_1.querystringDecode;
-var sha1_1 = __webpack_require__(1097);
+var sha1_1 = __webpack_require__(1099);
 exports.Sha1 = sha1_1.Sha1;
-var subscribe_1 = __webpack_require__(1099);
+var subscribe_1 = __webpack_require__(1101);
 exports.async = subscribe_1.async;
 exports.createSubscribe = subscribe_1.createSubscribe;
-var validation_1 = __webpack_require__(1100);
+var validation_1 = __webpack_require__(1102);
 exports.errorPrefix = validation_1.errorPrefix;
 exports.validateArgCount = validation_1.validateArgCount;
 exports.validateCallback = validation_1.validateCallback;
 exports.validateContextObject = validation_1.validateContextObject;
 exports.validateNamespace = validation_1.validateNamespace;
-var utf8_1 = __webpack_require__(1101);
+var utf8_1 = __webpack_require__(1103);
 exports.stringLength = utf8_1.stringLength;
 exports.stringToByteArray = utf8_1.stringToByteArray;
 
@@ -838,7 +838,7 @@ var EventType;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var build = __webpack_require__(510);
+var build = __webpack_require__(512);
 // api.socialvrlab.com => socialvr-production.cirjmyp4dr.us-east-1.elasticbeanstalk.com
 // staging-api.socialvrlab.com => socialvr-staging.cirjmyp4dr.us-east-1.elasticbeanstalk.com
 var environment = {
@@ -1630,12 +1630,12 @@ var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(8);
 var SortedMap_1 = __webpack_require__(179);
 var Node_1 = __webpack_require__(45);
-var snap_1 = __webpack_require__(480);
+var snap_1 = __webpack_require__(482);
 var PriorityIndex_1 = __webpack_require__(33);
 var KeyIndex_1 = __webpack_require__(135);
-var IndexMap_1 = __webpack_require__(482);
+var IndexMap_1 = __webpack_require__(484);
 var LeafNode_1 = __webpack_require__(178);
-var comparators_1 = __webpack_require__(484);
+var comparators_1 = __webpack_require__(486);
 // TODO: For memory savings, don't store priorityNode_ if it's empty.
 var EMPTY_NODE;
 /**
@@ -2198,8 +2198,8 @@ var core_1 = __webpack_require__(2);
 var apiService_1 = __webpack_require__(61);
 var userService_1 = __webpack_require__(190);
 var authenticationService_1 = __webpack_require__(187);
-var socialAuthenticationService_1 = __webpack_require__(519);
-var authenticationMethod_1 = __webpack_require__(1170);
+var socialAuthenticationService_1 = __webpack_require__(521);
+var authenticationMethod_1 = __webpack_require__(1172);
 __webpack_require__(249);
 var UserInteractor = /** @class */function () {
     function UserInteractor(apiService, userService, authenticationService, socialAuthenticationService) {
@@ -2510,7 +2510,7 @@ var deserializationService_1 = __webpack_require__(277);
 var serializationService_1 = __webpack_require__(278);
 var apiService_1 = __webpack_require__(61);
 var roomManager_1 = __webpack_require__(92);
-var projectService_1 = __webpack_require__(517);
+var projectService_1 = __webpack_require__(519);
 var assetManager_1 = __webpack_require__(140);
 __webpack_require__(253);
 var ProjectInteractor = /** @class */function () {
@@ -2635,7 +2635,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var apiService_1 = __webpack_require__(61);
-var assetService_1 = __webpack_require__(513);
+var assetService_1 = __webpack_require__(515);
 var assetManager_1 = __webpack_require__(140);
 var AssetInteractor = /** @class */function () {
     function AssetInteractor(apiService, assetManager, assetService) {
@@ -3263,7 +3263,7 @@ exports.FileLoaderUtil = FileLoaderUtil;
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "firebase", function() { return firebase; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_firebaseApp__ = __webpack_require__(1090);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_firebaseApp__ = __webpack_require__(1092);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -4126,7 +4126,7 @@ var audio_1 = __webpack_require__(107);
 var image_1 = __webpack_require__(185);
 var text_1 = __webpack_require__(271);
 var door_1 = __webpack_require__(272);
-var room_1 = __webpack_require__(511);
+var room_1 = __webpack_require__(513);
 var link_1 = __webpack_require__(273);
 var narrator_1 = __webpack_require__(269);
 var typeMap = {
@@ -4222,8 +4222,8 @@ exports.toSJIS = function toSJIS (kanji) {
 /* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Version = __webpack_require__(529)
-var Regex = __webpack_require__(530)
+var Version = __webpack_require__(531)
+var Regex = __webpack_require__(532)
 
 /**
  * Numeric mode encodes data from the decimal digit set (0 - 9)
@@ -4667,7 +4667,7 @@ exports.generateUniqueId = generateUniqueId;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var three_1 = __webpack_require__(28);
+var three_1 = __webpack_require__(24);
 var vector2_1 = __webpack_require__(75);
 // xy screen position to normalized position: [0, 360], [-90, 90]
 function normalizeAbsolutePosition(x, y) {
@@ -5495,9 +5495,9 @@ var LeafNode_1 = __webpack_require__(178);
 var Node_1 = __webpack_require__(45);
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(3);
-var childSet_1 = __webpack_require__(483);
-var comparators_1 = __webpack_require__(484);
-var IndexMap_1 = __webpack_require__(482);
+var childSet_1 = __webpack_require__(485);
+var comparators_1 = __webpack_require__(486);
+var IndexMap_1 = __webpack_require__(484);
 var PriorityIndex_1 = __webpack_require__(33);
 var USE_HINZE = true;
 /**
@@ -5941,7 +5941,7 @@ var __decorate = this && this.__decorate || function (decorators, target, key, d
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var audioContextProvider_1 = __webpack_require__(274);
 var AssetManager = /** @class */function () {
     function AssetManager() {
@@ -6287,8 +6287,8 @@ exports.AdminInteractor = AdminInteractor;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var DOMStorageWrapper_1 = __webpack_require__(1104);
-var MemoryStorage_1 = __webpack_require__(1105);
+var DOMStorageWrapper_1 = __webpack_require__(1106);
+var MemoryStorage_1 = __webpack_require__(1107);
 /**
  * Helper to create a DOMStorageWrapper or else fall back to MemoryStorage.
  * TODO: Once MemoryStorage and DOMStorageWrapper have a shared interface this method annotation should change
@@ -6448,7 +6448,7 @@ exports.Index = Index;
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(8);
-var snap_1 = __webpack_require__(480);
+var snap_1 = __webpack_require__(482);
 var __childrenNodeConstructor;
 /**
  * LeafNode is a class for storing leaf nodes in a DataSnapshot.  It
@@ -7385,23 +7385,23 @@ exports.SortedMap = SortedMap;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var ServerValues_1 = __webpack_require__(486);
+var ServerValues_1 = __webpack_require__(488);
 var nodeFromJSON_1 = __webpack_require__(136);
 var Path_1 = __webpack_require__(22);
-var SparseSnapshotTree_1 = __webpack_require__(487);
-var SyncTree_1 = __webpack_require__(1110);
-var SnapshotHolder_1 = __webpack_require__(1121);
+var SparseSnapshotTree_1 = __webpack_require__(489);
+var SyncTree_1 = __webpack_require__(1112);
+var SnapshotHolder_1 = __webpack_require__(1123);
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(8);
 var util_3 = __webpack_require__(3);
-var AuthTokenProvider_1 = __webpack_require__(1122);
+var AuthTokenProvider_1 = __webpack_require__(1124);
 var StatsManager_1 = __webpack_require__(260);
-var StatsReporter_1 = __webpack_require__(1124);
-var StatsListener_1 = __webpack_require__(492);
-var EventQueue_1 = __webpack_require__(1125);
-var PersistentConnection_1 = __webpack_require__(493);
-var ReadonlyRestClient_1 = __webpack_require__(1130);
-var Database_1 = __webpack_require__(475);
+var StatsReporter_1 = __webpack_require__(1126);
+var StatsListener_1 = __webpack_require__(494);
+var EventQueue_1 = __webpack_require__(1127);
+var PersistentConnection_1 = __webpack_require__(495);
+var ReadonlyRestClient_1 = __webpack_require__(1132);
+var Database_1 = __webpack_require__(477);
 var INTERRUPT_REASON = 'repo_interrupt';
 /**
  * A connection to a single data repository.
@@ -8192,7 +8192,7 @@ var __decorate = this && this.__decorate || function (decorators, target, key, d
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var room_1 = __webpack_require__(511);
+var room_1 = __webpack_require__(513);
 var text_1 = __webpack_require__(271);
 var image_1 = __webpack_require__(185);
 var audio_1 = __webpack_require__(107);
@@ -8870,14 +8870,14 @@ var core_1 = __webpack_require__(2);
 var platform_browser_1 = __webpack_require__(51);
 var forms_1 = __webpack_require__(100);
 // UI components
-var checkbox_1 = __webpack_require__(1295);
-var text_input_1 = __webpack_require__(1298);
-var text_input_material_1 = __webpack_require__(1301);
+var checkbox_1 = __webpack_require__(1297);
+var text_input_1 = __webpack_require__(1300);
+var text_input_material_1 = __webpack_require__(1303);
 // Modal
-var modal_1 = __webpack_require__(1304);
-var loading_modal_1 = __webpack_require__(1307);
-var message_modal_1 = __webpack_require__(1310);
-var shareable_modal_1 = __webpack_require__(1313);
+var modal_1 = __webpack_require__(1306);
+var loading_modal_1 = __webpack_require__(1309);
+var message_modal_1 = __webpack_require__(1312);
+var shareable_modal_1 = __webpack_require__(1315);
 // Services
 var event_bus_1 = __webpack_require__(9);
 var shareable_loader_1 = __webpack_require__(189);
@@ -8911,7 +8911,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // external imports
 var core_1 = __webpack_require__(2);
 // project module imports
-var data_module_1 = __webpack_require__(1338);
+var data_module_1 = __webpack_require__(1340);
 // internal module imports
 var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
@@ -8920,10 +8920,10 @@ var storageInteractor_1 = __webpack_require__(188);
 var userInteractor_1 = __webpack_require__(38);
 var projectInteractor_1 = __webpack_require__(53);
 var assetInteractor_1 = __webpack_require__(60);
-var VideoInteractor_1 = __webpack_require__(518);
+var VideoInteractor_1 = __webpack_require__(520);
 var searchInteractor_1 = __webpack_require__(284);
 var adminInteractor_1 = __webpack_require__(143);
-var groupInteractor_1 = __webpack_require__(532);
+var groupInteractor_1 = __webpack_require__(534);
 var chatInteractor_1 = __webpack_require__(282);
 var CoreModule = /** @class */function () {
     function CoreModule() {}
@@ -9072,18 +9072,18 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var onDisconnect_1 = __webpack_require__(478);
-var TransactionResult_1 = __webpack_require__(1106);
+var onDisconnect_1 = __webpack_require__(480);
+var TransactionResult_1 = __webpack_require__(1108);
 var util_1 = __webpack_require__(8);
-var NextPushId_1 = __webpack_require__(1107);
-var Query_1 = __webpack_require__(479);
+var NextPushId_1 = __webpack_require__(1109);
+var Query_1 = __webpack_require__(481);
 var Repo_1 = __webpack_require__(180);
 var Path_1 = __webpack_require__(22);
-var QueryParams_1 = __webpack_require__(1131);
+var QueryParams_1 = __webpack_require__(1133);
 var validation_1 = __webpack_require__(88);
 var util_2 = __webpack_require__(3);
 var util_3 = __webpack_require__(3);
-var SyncPoint_1 = __webpack_require__(490);
+var SyncPoint_1 = __webpack_require__(492);
 var Reference = /** @class */ (function (_super) {
     __extends(Reference, _super);
     /**
@@ -10061,7 +10061,7 @@ exports.IndexedFilter = IndexedFilter;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var StatsCollection_1 = __webpack_require__(1123);
+var StatsCollection_1 = __webpack_require__(1125);
 var StatsManager = /** @class */ (function () {
     function StatsManager() {
     }
@@ -10113,9 +10113,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var Repo_1 = __webpack_require__(180);
 var util_2 = __webpack_require__(8);
-var parser_1 = __webpack_require__(476);
+var parser_1 = __webpack_require__(478);
 var validation_1 = __webpack_require__(88);
-__webpack_require__(1133);
+__webpack_require__(1135);
 /** @const {string} */
 var DATABASE_URL_OPTION = 'databaseURL';
 var _staticInstance;
@@ -10533,9 +10533,9 @@ function nullFunctionSpec(opt_optional) {
 /* harmony export (immutable) */ __webpack_exports__["a"] = fromResourceString;
 /* harmony export (immutable) */ __webpack_exports__["d"] = toResourceString;
 /* harmony export (immutable) */ __webpack_exports__["c"] = metadataValidator;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__json__ = __webpack_require__(1150);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__json__ = __webpack_require__(1152);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__location__ = __webpack_require__(183);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__path__ = __webpack_require__(506);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__path__ = __webpack_require__(508);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__type__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__url__ = __webpack_require__(266);
 /**
@@ -11149,7 +11149,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var cameraService_1 = __webpack_require__(512);
+var cameraService_1 = __webpack_require__(514);
 var CameraInteractor = /** @class */function () {
     function CameraInteractor(cameraService) {
         this.cameraService = cameraService;
@@ -11312,7 +11312,7 @@ var roomPropertyBuilder_1 = __webpack_require__(184);
 var apiService_1 = __webpack_require__(61);
 var fileLoaderUtil_1 = __webpack_require__(66);
 __webpack_require__(245);
-__webpack_require__(1168);
+__webpack_require__(1170);
 var constants_1 = __webpack_require__(13);
 var JSZip = __webpack_require__(236);
 var JsYaml = __webpack_require__(234);
@@ -12949,7 +12949,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var assetInteractor_1 = __webpack_require__(60);
 var iconPositionUtil_1 = __webpack_require__(109);
 var constants_1 = __webpack_require__(13);
@@ -13164,7 +13164,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var chatService_1 = __webpack_require__(526);
+var chatService_1 = __webpack_require__(528);
 var userService_1 = __webpack_require__(190);
 var ChatInteractor = /** @class */function () {
     function ChatInteractor(chatService, userService) {
@@ -13466,7 +13466,9 @@ exports.SearchInteractor = SearchInteractor;
 /* 465 */,
 /* 466 */,
 /* 467 */,
-/* 468 */
+/* 468 */,
+/* 469 */,
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -13485,12 +13487,12 @@ exports.SearchInteractor = SearchInteractor;
  * limitations under the License.
  */
 
-__webpack_require__(1085);
+__webpack_require__(1087);
 module.exports = __webpack_require__(74).default;
 
 
 /***/ }),
-/* 469 */
+/* 471 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13538,7 +13540,7 @@ exports.assertionError = function (message) {
 
 
 /***/ }),
-/* 470 */
+/* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13856,7 +13858,7 @@ exports.base64Decode = function (str) {
 
 
 /***/ }),
-/* 471 */
+/* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13901,7 +13903,7 @@ exports.stringify = stringify;
 
 
 /***/ }),
-/* 472 */
+/* 474 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14043,53 +14045,53 @@ exports.every = function (obj, fn) {
 
 
 /***/ }),
-/* 473 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Copyright 2017 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-__webpack_require__(1102);
-
-
-/***/ }),
-/* 474 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Copyright 2017 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-module.exports = __webpack_require__(1103);
-
-
-/***/ }),
 /* 475 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright 2017 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+__webpack_require__(1104);
+
+
+/***/ }),
+/* 476 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright 2017 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+module.exports = __webpack_require__(1105);
+
+
+/***/ }),
+/* 477 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14111,7 +14113,7 @@ module.exports = __webpack_require__(1103);
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(8);
-var parser_1 = __webpack_require__(476);
+var parser_1 = __webpack_require__(478);
 var Path_1 = __webpack_require__(22);
 var Reference_1 = __webpack_require__(256);
 var Repo_1 = __webpack_require__(180);
@@ -14229,7 +14231,7 @@ exports.DatabaseInternals = DatabaseInternals;
 
 
 /***/ }),
-/* 476 */
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14251,7 +14253,7 @@ exports.DatabaseInternals = DatabaseInternals;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var Path_1 = __webpack_require__(22);
-var RepoInfo_1 = __webpack_require__(477);
+var RepoInfo_1 = __webpack_require__(479);
 var util_1 = __webpack_require__(8);
 /**
  * @param {!string} pathString
@@ -14393,7 +14395,7 @@ exports.parseURL = function (dataURL) {
 
 
 /***/ }),
-/* 477 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14511,7 +14513,7 @@ exports.RepoInfo = RepoInfo;
 
 
 /***/ }),
-/* 478 */
+/* 480 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14632,7 +14634,7 @@ exports.OnDisconnect = OnDisconnect;
 
 
 /***/ }),
-/* 479 */
+/* 481 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14656,13 +14658,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var KeyIndex_1 = __webpack_require__(135);
 var PriorityIndex_1 = __webpack_require__(33);
-var ValueIndex_1 = __webpack_require__(481);
-var PathIndex_1 = __webpack_require__(485);
+var ValueIndex_1 = __webpack_require__(483);
+var PathIndex_1 = __webpack_require__(487);
 var util_2 = __webpack_require__(8);
 var Path_1 = __webpack_require__(22);
 var validation_1 = __webpack_require__(88);
 var util_3 = __webpack_require__(3);
-var EventRegistration_1 = __webpack_require__(1108);
+var EventRegistration_1 = __webpack_require__(1110);
 var util_4 = __webpack_require__(3);
 var __referenceConstructor;
 /**
@@ -15145,7 +15147,7 @@ exports.Query = Query;
 
 
 /***/ }),
-/* 480 */
+/* 482 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15207,7 +15209,7 @@ exports.validatePriorityNode = function (priorityNode) {
 
 
 /***/ }),
-/* 481 */
+/* 483 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15312,7 +15314,7 @@ exports.VALUE_INDEX = new ValueIndex();
 
 
 /***/ }),
-/* 482 */
+/* 484 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15334,7 +15336,7 @@ exports.VALUE_INDEX = new ValueIndex();
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var childSet_1 = __webpack_require__(483);
+var childSet_1 = __webpack_require__(485);
 var util_2 = __webpack_require__(3);
 var Node_1 = __webpack_require__(45);
 var PriorityIndex_1 = __webpack_require__(33);
@@ -15500,7 +15502,7 @@ exports.IndexMap = IndexMap;
 
 
 /***/ }),
-/* 483 */
+/* 485 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15637,7 +15639,7 @@ exports.buildChildSet = function (childList, cmp, keyFn, mapSortFn) {
 
 
 /***/ }),
-/* 484 */
+/* 486 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15672,7 +15674,7 @@ exports.NAME_COMPARATOR = NAME_COMPARATOR;
 
 
 /***/ }),
-/* 485 */
+/* 487 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15779,7 +15781,7 @@ exports.PathIndex = PathIndex;
 
 
 /***/ }),
-/* 486 */
+/* 488 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15802,7 +15804,7 @@ exports.PathIndex = PathIndex;
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var Path_1 = __webpack_require__(22);
-var SparseSnapshotTree_1 = __webpack_require__(487);
+var SparseSnapshotTree_1 = __webpack_require__(489);
 var LeafNode_1 = __webpack_require__(178);
 var nodeFromJSON_1 = __webpack_require__(136);
 var PriorityIndex_1 = __webpack_require__(33);
@@ -15889,7 +15891,7 @@ exports.resolveDeferredValueSnapshot = function (node, serverValues) {
 
 
 /***/ }),
-/* 487 */
+/* 489 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15912,7 +15914,7 @@ exports.resolveDeferredValueSnapshot = function (node, serverValues) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Path_1 = __webpack_require__(22);
 var PriorityIndex_1 = __webpack_require__(33);
-var CountedSet_1 = __webpack_require__(488);
+var CountedSet_1 = __webpack_require__(490);
 /**
  * Helper class to store a sparse set of snapshots.
  *
@@ -16072,7 +16074,7 @@ exports.SparseSnapshotTree = SparseSnapshotTree;
 
 
 /***/ }),
-/* 488 */
+/* 490 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16175,7 +16177,7 @@ exports.CountedSet = CountedSet;
 
 
 /***/ }),
-/* 489 */
+/* 491 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16229,7 +16231,7 @@ exports.Overwrite = Overwrite;
 
 
 /***/ }),
-/* 490 */
+/* 492 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16254,8 +16256,8 @@ var CacheNode_1 = __webpack_require__(181);
 var ChildrenNode_1 = __webpack_require__(36);
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(3);
-var ViewCache_1 = __webpack_require__(491);
-var View_1 = __webpack_require__(1114);
+var ViewCache_1 = __webpack_require__(493);
+var View_1 = __webpack_require__(1116);
 var __referenceConstructor;
 /**
  * SyncPoint represents a single location in a SyncTree with 1 or more event registrations, meaning we need to
@@ -16486,7 +16488,7 @@ exports.SyncPoint = SyncPoint;
 
 
 /***/ }),
-/* 491 */
+/* 493 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16589,7 +16591,7 @@ exports.ViewCache = ViewCache;
 
 
 /***/ }),
-/* 492 */
+/* 494 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16641,7 +16643,7 @@ exports.StatsListener = StatsListener;
 
 
 /***/ }),
-/* 493 */
+/* 495 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16678,13 +16680,13 @@ var util_2 = __webpack_require__(3);
 var util_3 = __webpack_require__(3);
 var util_4 = __webpack_require__(8);
 var Path_1 = __webpack_require__(22);
-var VisibilityMonitor_1 = __webpack_require__(1126);
-var OnlineMonitor_1 = __webpack_require__(1127);
+var VisibilityMonitor_1 = __webpack_require__(1128);
+var OnlineMonitor_1 = __webpack_require__(1129);
 var util_5 = __webpack_require__(3);
-var Connection_1 = __webpack_require__(495);
+var Connection_1 = __webpack_require__(497);
 var util_6 = __webpack_require__(3);
 var util_7 = __webpack_require__(3);
-var ServerActions_1 = __webpack_require__(498);
+var ServerActions_1 = __webpack_require__(500);
 var RECONNECT_MIN_DELAY = 1000;
 var RECONNECT_MAX_DELAY_DEFAULT = 60 * 5 * 1000; // 5 minutes in milliseconds (Case: 1858)
 var RECONNECT_MAX_DELAY_FOR_ADMINS = 30 * 1000; // 30 seconds for admin clients (likely to be a backend server)
@@ -17457,7 +17459,7 @@ exports.PersistentConnection = PersistentConnection;
 
 
 /***/ }),
-/* 494 */
+/* 496 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17543,7 +17545,7 @@ exports.EventEmitter = EventEmitter;
 
 
 /***/ }),
-/* 495 */
+/* 497 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -17567,7 +17569,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(8);
 var storage_1 = __webpack_require__(175);
 var Constants_1 = __webpack_require__(176);
-var TransportManager_1 = __webpack_require__(1128);
+var TransportManager_1 = __webpack_require__(1130);
 // Abort upgrade attempt if it takes longer than 60s.
 var UPGRADE_TIMEOUT = 60000;
 // For some transports (WebSockets), we need to "validate" the transport by exchanging a few requests and responses.
@@ -18043,7 +18045,7 @@ exports.Connection = Connection;
 
 
 /***/ }),
-/* 496 */
+/* 498 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18065,9 +18067,9 @@ exports.Connection = Connection;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(8);
-var CountedSet_1 = __webpack_require__(488);
+var CountedSet_1 = __webpack_require__(490);
 var StatsManager_1 = __webpack_require__(260);
-var PacketReceiver_1 = __webpack_require__(1129);
+var PacketReceiver_1 = __webpack_require__(1131);
 var Constants_1 = __webpack_require__(176);
 var util_2 = __webpack_require__(3);
 var util_3 = __webpack_require__(3);
@@ -18679,7 +18681,7 @@ exports.FirebaseIFrameScriptHolder = FirebaseIFrameScriptHolder;
 
 
 /***/ }),
-/* 497 */
+/* 499 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19038,7 +19040,7 @@ exports.WebSocketConnection = WebSocketConnection;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(128)))
 
 /***/ }),
-/* 498 */
+/* 500 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19116,7 +19118,7 @@ exports.ServerActions = ServerActions;
 
 
 /***/ }),
-/* 499 */
+/* 501 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19266,7 +19268,7 @@ exports.RangedFilter = RangedFilter;
 
 
 /***/ }),
-/* 500 */
+/* 502 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19274,10 +19276,10 @@ exports.RangedFilter = RangedFilter;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_util__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__firebase_util__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_errors__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_token_details_model__ = __webpack_require__(1140);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_vapid_details_model__ = __webpack_require__(1141);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_notification_permission__ = __webpack_require__(502);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_iid_model__ = __webpack_require__(1142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_token_details_model__ = __webpack_require__(1142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_vapid_details_model__ = __webpack_require__(1143);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_notification_permission__ = __webpack_require__(504);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_iid_model__ = __webpack_require__(1144);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__helpers_array_buffer_to_base64__ = __webpack_require__(262);
 /**
  * Copyright 2017 Google Inc.
@@ -19598,7 +19600,7 @@ var ControllerInterface = /** @class */ (function () {
 
 
 /***/ }),
-/* 501 */
+/* 503 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19697,7 +19699,7 @@ var DBInterface = /** @class */ (function () {
 
 
 /***/ }),
-/* 502 */
+/* 504 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19727,7 +19729,7 @@ var DBInterface = /** @class */ (function () {
 
 
 /***/ }),
-/* 503 */
+/* 505 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19777,7 +19779,7 @@ var createNewMsg = function (msgType, msgData) {
 
 
 /***/ }),
-/* 504 */
+/* 506 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19811,22 +19813,22 @@ var ErrorCode;
 
 
 /***/ }),
-/* 505 */
+/* 507 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Reference; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__implementation_args__ = __webpack_require__(264);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_blob__ = __webpack_require__(507);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_blob__ = __webpack_require__(509);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__implementation_error__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__implementation_location__ = __webpack_require__(183);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__implementation_metadata__ = __webpack_require__(265);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__implementation_object__ = __webpack_require__(106);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__implementation_path__ = __webpack_require__(506);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__implementation_requests__ = __webpack_require__(508);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__implementation_path__ = __webpack_require__(508);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__implementation_requests__ = __webpack_require__(510);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__implementation_string__ = __webpack_require__(137);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__implementation_type__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__task__ = __webpack_require__(1153);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__task__ = __webpack_require__(1155);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -20069,7 +20071,7 @@ var Reference = /** @class */ (function () {
 
 
 /***/ }),
-/* 506 */
+/* 508 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20142,12 +20144,12 @@ function lastComponent(path) {
 
 
 /***/ }),
-/* 507 */
+/* 509 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FbsBlob; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__fs__ = __webpack_require__(1151);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__fs__ = __webpack_require__(1153);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__string__ = __webpack_require__(137);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__type__ = __webpack_require__(46);
 /**
@@ -20282,7 +20284,7 @@ var FbsBlob = /** @class */ (function () {
 
 
 /***/ }),
-/* 508 */
+/* 510 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -20303,11 +20305,11 @@ var FbsBlob = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return resumableUploadChunkSize; });
 /* harmony export (immutable) */ __webpack_exports__["b"] = continueResumableUpload;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__array__ = __webpack_require__(267);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blob__ = __webpack_require__(507);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blob__ = __webpack_require__(509);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__error__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__metadata__ = __webpack_require__(265);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__object__ = __webpack_require__(106);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestinfo__ = __webpack_require__(1152);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestinfo__ = __webpack_require__(1154);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__type__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__url__ = __webpack_require__(266);
 /**
@@ -20644,7 +20646,7 @@ function continueResumableUpload(location, authWrapper, url, blob, chunkSize, ma
 
 
 /***/ }),
-/* 509 */
+/* 511 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20663,7 +20665,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var event_bus_1 = __webpack_require__(9);
 var sceneInteractor_1 = __webpack_require__(14);
 var cameraInteractor_1 = __webpack_require__(275);
@@ -20672,9 +20674,9 @@ var combinedHotspotUtil_1 = __webpack_require__(186);
 var assetInteractor_1 = __webpack_require__(60);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
 var iconPositionUtil_1 = __webpack_require__(109);
-var threeUtil_1 = __webpack_require__(514);
-var SvrControls_1 = __webpack_require__(515);
-var video3D_1 = __webpack_require__(516);
+var threeUtil_1 = __webpack_require__(516);
+var SvrControls_1 = __webpack_require__(517);
+var video3D_1 = __webpack_require__(518);
 var EditSpaceSphere = /** @class */function () {
     function EditSpaceSphere(sceneInteractor, cameraInteractor, eventBus, ngZone, combinedHotspotUtil, assetInteractor, metaDataInteractor, router) {
         this.sceneInteractor = sceneInteractor;
@@ -20834,18 +20836,15 @@ var EditSpaceSphere = /** @class */function () {
         this.render();
     };
     EditSpaceSphere.prototype.onResize = function (event) {
-        var DPR = window.devicePixelRatio;
-        var width = window.innerWidth / DPR;
-        var height = window.innerHeight / DPR;
-        var aspectRatio = width / height;
-        this.renderer.setPixelRatio(DPR);
-        this.renderer.setSize(width, height, false);
-        this.camera.aspect = aspectRatio;
-        this.camera.updateProjectionMatrix();
-        this.roomIconComponentList.forEach(function (roomIcon) {
-            return roomIcon.setPixelLocation(99999, 99999);
+        var _this = this;
+        threeUtil_1.onResize(this.camera, this.renderer).then(function () {
+            _this.roomIconComponentList.forEach(function (roomIcon) {
+                return roomIcon.setPixelLocation(99999, 99999);
+            });
+            _this.render();
+        }).catch(function (error) {
+            return console.log('edit-sphere resize error', error);
         });
-        this.render();
     };
     EditSpaceSphere.prototype.updateRoomIconPosition = function (roomIcon) {
         var location = roomIcon.getLocation();
@@ -20873,8 +20872,8 @@ var EditSpaceSphere = /** @class */function () {
     __decorate([core_1.ViewChild('globeCanvas'), __metadata("design:type", Object)], EditSpaceSphere.prototype, "globeCanvas", void 0);
     EditSpaceSphere = __decorate([core_1.Component({
         selector: 'edit-space-sphere',
-        styles: [__webpack_require__(1166)],
-        template: __webpack_require__(1167)
+        styles: [__webpack_require__(1168)],
+        template: __webpack_require__(1169)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, cameraInteractor_1.CameraInteractor, event_bus_1.EventBus, core_1.NgZone, combinedHotspotUtil_1.CombinedHotspotUtil, assetInteractor_1.AssetInteractor, projectMetaDataInteractor_1.MetaDataInteractor, router_1.Router])], EditSpaceSphere);
     return EditSpaceSphere;
 }();
@@ -20917,13 +20916,13 @@ function getNormalizedPositionFromScreenPosition(screenX, screenY, camera, conte
 }
 
 /***/ }),
-/* 510 */
+/* 512 */
 /***/ (function(module, exports) {
 
 module.exports = "DEV";
 
 /***/ }),
-/* 511 */
+/* 513 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21182,7 +21181,7 @@ var Room = /** @class */function () {
 exports.Room = Room;
 
 /***/ }),
-/* 512 */
+/* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21211,7 +21210,7 @@ var CameraService = /** @class */function () {
 exports.CameraService = CameraService;
 
 /***/ }),
-/* 513 */
+/* 515 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21257,7 +21256,7 @@ var AssetService = /** @class */function () {
 exports.AssetService = AssetService;
 
 /***/ }),
-/* 514 */
+/* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21265,7 +21264,7 @@ exports.AssetService = AssetService;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var constants_1 = __webpack_require__(13);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 // This file contains common 3D logic for edit-space-sphere and preview-space
 var SPHERE_RADIUS = constants_1.THREE_CONST.SPHERE_RADIUS;
 var NUM_SPHERE_SLICES = constants_1.THREE_CONST.SPHERE_SLICES;
@@ -21308,16 +21307,36 @@ function buildScene() {
     return { sphereMesh: sphereMesh, camera: camera, vrCamera: vrCamera, scene: scene };
 }
 exports.buildScene = buildScene;
+function onResize(camera, renderer) {
+    return new Promise(function (resolve, reject) {
+        try {
+            var DPR = window.devicePixelRatio || 1;
+            var rendererWidth = window.innerWidth / DPR;
+            var rendererHeight = window.innerHeight / DPR;
+            var aspectRatio = rendererWidth / rendererHeight;
+            renderer.setPixelRatio(DPR);
+            renderer.setSize(rendererWidth, rendererHeight, false);
+            camera.aspect = aspectRatio;
+            camera.updateProjectionMatrix();
+            setTimeout(function () {
+                return resolve();
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+exports.onResize = onResize;
 
 /***/ }),
-/* 515 */
+/* 517 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 // Social VR Controls: A slimmed down version of OrbitControls
 // https://github.com/mrdoob/three.js/blob/dev/examples/js/controls/OrbitControls.js
 // Differences include:
@@ -21510,14 +21529,14 @@ var SvrControls = function (options) {
 exports.default = SvrControls;
 
 /***/ }),
-/* 516 */
+/* 518 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var Video3D = /** @class */function () {
     function Video3D() {
         this.editSpaceHasRendered = false;
@@ -21582,7 +21601,7 @@ var Video3D = /** @class */function () {
 exports.Video3D = Video3D;
 
 /***/ }),
-/* 517 */
+/* 519 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21617,7 +21636,7 @@ var ProjectService = /** @class */function () {
 exports.ProjectService = ProjectService;
 
 /***/ }),
-/* 518 */
+/* 520 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21650,7 +21669,7 @@ var VideoInteractor = /** @class */function () {
 exports.VideoInteractor = VideoInteractor;
 
 /***/ }),
-/* 519 */
+/* 521 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21705,7 +21724,7 @@ var SocialAuthenticationService = /** @class */function () {
 exports.SocialAuthenticationService = SocialAuthenticationService;
 
 /***/ }),
-/* 520 */
+/* 522 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21740,7 +21759,7 @@ var ResponsiveUtil = /** @class */function () {
 exports.ResponsiveUtil = ResponsiveUtil;
 
 /***/ }),
-/* 521 */
+/* 523 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21854,7 +21873,7 @@ var AudioManager = /** @class */function () {
 exports.AudioManager = AudioManager;
 
 /***/ }),
-/* 522 */
+/* 524 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21915,7 +21934,7 @@ var TextureLoader = /** @class */function () {
 exports.TextureLoader = TextureLoader;
 
 /***/ }),
-/* 523 */
+/* 525 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21933,21 +21952,21 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var THREE = __webpack_require__(28);
-var HotspotEntity_1 = __webpack_require__(1205);
+var THREE = __webpack_require__(24);
+var HotspotEntity_1 = __webpack_require__(1207);
 var sceneInteractor_1 = __webpack_require__(14);
 var assetInteractor_1 = __webpack_require__(60);
 var roomPropertyTypeService_1 = __webpack_require__(93);
 var audioPlayService_1 = __webpack_require__(279);
 var roomManager_1 = __webpack_require__(92);
 var menuManager_1 = __webpack_require__(281);
-var textMaterialBuilder_1 = __webpack_require__(1206);
+var textMaterialBuilder_1 = __webpack_require__(1208);
 var imageResizeService_1 = __webpack_require__(52);
 var iconPositionUtil_1 = __webpack_require__(109);
 var event_bus_1 = __webpack_require__(9);
 var iconPositionUtil_2 = __webpack_require__(109);
 var constants_1 = __webpack_require__(13);
-var fontHelper_1 = __webpack_require__(524);
+var fontHelper_1 = __webpack_require__(526);
 function buildDashCircle() {
     var dashCircleGeom = new THREE.CircleGeometry(constants_1.THREE_CONST.HOTSPOT_DIM, constants_1.THREE_CONST.DASHCIRCLE_SEG);
     var dashCircleMaterial = new THREE.LineDashedMaterial({
@@ -22158,14 +22177,14 @@ var HotspotManager = /** @class */function () {
 exports.HotspotManager = HotspotManager;
 
 /***/ }),
-/* 524 */
+/* 526 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var fontPath = 'assets/fonts/Nunito_Regular.json';
 var FontHelper = /** @class */function () {
     function FontHelper() {}
@@ -22189,7 +22208,7 @@ var fontHelper = new FontHelper();
 exports.default = fontHelper;
 
 /***/ }),
-/* 525 */
+/* 527 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22208,7 +22227,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var constants_1 = __webpack_require__(13);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var Reticle = /** @class */function () {
     function Reticle() {
         this.reticleRaycaster = new THREE.Raycaster();
@@ -22276,7 +22295,7 @@ var Reticle = /** @class */function () {
 exports.Reticle = Reticle;
 
 /***/ }),
-/* 526 */
+/* 528 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22295,9 +22314,9 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var Observable_1 = __webpack_require__(0);
-var firebase = __webpack_require__(468);
-__webpack_require__(473);
-__webpack_require__(474);
+var firebase = __webpack_require__(470);
+__webpack_require__(475);
+__webpack_require__(476);
 var authenticationService_1 = __webpack_require__(187);
 var ChatService = /** @class */function () {
     function ChatService(authenticationService // remove
@@ -22363,7 +22382,7 @@ var ChatService = /** @class */function () {
 exports.ChatService = ChatService;
 
 /***/ }),
-/* 527 */
+/* 529 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/* FileSaver.js
@@ -22549,7 +22568,7 @@ var saveAs = saveAs || (function(view) {
 
 if (typeof module !== "undefined" && module.exports) {
   module.exports.saveAs = saveAs;
-} else if (("function" !== "undefined" && __webpack_require__(1226) !== null) && (__webpack_require__(1227) !== null)) {
+} else if (("function" !== "undefined" && __webpack_require__(1228) !== null) && (__webpack_require__(1229) !== null)) {
   !(__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
     return saveAs;
   }).call(exports, __webpack_require__, exports, module),
@@ -22558,7 +22577,7 @@ if (typeof module !== "undefined" && module.exports) {
 
 
 /***/ }),
-/* 528 */
+/* 530 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ECLevel = __webpack_require__(283)
@@ -22699,11 +22718,11 @@ exports.getTotalCodewordsCount = function getTotalCodewordsCount (version, error
 
 
 /***/ }),
-/* 529 */
+/* 531 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Utils = __webpack_require__(94)
-var ECCode = __webpack_require__(528)
+var ECCode = __webpack_require__(530)
 var ECLevel = __webpack_require__(283)
 var Mode = __webpack_require__(95)
 var isArray = __webpack_require__(127)
@@ -22878,7 +22897,7 @@ exports.getEncodedBits = function getEncodedBits (version) {
 
 
 /***/ }),
-/* 530 */
+/* 532 */
 /***/ (function(module, exports) {
 
 var numeric = '[0-9]+'
@@ -22915,7 +22934,7 @@ exports.testAlphanumeric = function testAlphanumeric (str) {
 
 
 /***/ }),
-/* 531 */
+/* 533 */
 /***/ (function(module, exports) {
 
 function hex2rgba (hex) {
@@ -23014,7 +23033,7 @@ exports.qrToImageData = function qrToImageData (imgData, qr, opts) {
 
 
 /***/ }),
-/* 532 */
+/* 534 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23046,8 +23065,6 @@ var GroupInteractor = /** @class */function () {
 exports.GroupInteractor = GroupInteractor;
 
 /***/ }),
-/* 533 */,
-/* 534 */,
 /* 535 */,
 /* 536 */,
 /* 537 */,
@@ -23596,7 +23613,9 @@ exports.GroupInteractor = GroupInteractor;
 /* 1080 */,
 /* 1081 */,
 /* 1082 */,
-/* 1083 */
+/* 1083 */,
+/* 1084 */,
+/* 1085 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23605,9 +23624,9 @@ exports.GroupInteractor = GroupInteractor;
 Object.defineProperty(exports, "__esModule", { value: true });
 var platform_browser_dynamic_1 = __webpack_require__(335);
 var core_1 = __webpack_require__(2);
-var firebase_1 = __webpack_require__(1084);
-var ui_module_1 = __webpack_require__(1163);
-var build = __webpack_require__(510);
+var firebase_1 = __webpack_require__(1086);
+var ui_module_1 = __webpack_require__(1165);
+var build = __webpack_require__(512);
 if (build === 'PROD') {
     core_1.enableProdMode();
 }
@@ -23633,7 +23652,7 @@ platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(ui_module_1.
 // }
 
 /***/ }),
-/* 1084 */
+/* 1086 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -23652,26 +23671,26 @@ platform_browser_dynamic_1.platformBrowserDynamic().bootstrapModule(ui_module_1.
  * limitations under the License.
  */
 
-var firebase = __webpack_require__(468);
-__webpack_require__(473);
-__webpack_require__(474);
-__webpack_require__(1137);
-__webpack_require__(1146);
+var firebase = __webpack_require__(470);
+__webpack_require__(475);
+__webpack_require__(476);
+__webpack_require__(1139);
+__webpack_require__(1148);
 
 module.exports = firebase;
 
 
 /***/ }),
-/* 1085 */
+/* 1087 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_polyfills_promise__ = __webpack_require__(1086);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_polyfills_promise__ = __webpack_require__(1088);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_polyfills_promise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__src_polyfills_promise__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_shims_find__ = __webpack_require__(1088);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_shims_find__ = __webpack_require__(1090);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_shims_find___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__src_shims_find__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_shims_findIndex__ = __webpack_require__(1089);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_shims_findIndex__ = __webpack_require__(1091);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_shims_findIndex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__src_shims_findIndex__);
 /**
  * Copyright 2017 Google Inc.
@@ -23696,7 +23715,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 1086 */
+/* 1088 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -23729,7 +23748,7 @@ var __global = (function () {
 // Polyfill Promise
 if (typeof Promise === 'undefined') {
     // HACK: TS throws an error if I attempt to use 'dot-notation'
-    __global['Promise'] = Promise = __webpack_require__(1087);
+    __global['Promise'] = Promise = __webpack_require__(1089);
 }
 
 //# sourceMappingURL=promise.js.map
@@ -23737,7 +23756,7 @@ if (typeof Promise === 'undefined') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ }),
-/* 1087 */
+/* 1089 */
 /***/ (function(module, exports) {
 
 (function (root) {
@@ -23976,7 +23995,7 @@ if (typeof Promise === 'undefined') {
 
 
 /***/ }),
-/* 1088 */
+/* 1090 */
 /***/ (function(module, exports) {
 
 /**
@@ -24040,7 +24059,7 @@ if (!Array.prototype.find) {
 
 
 /***/ }),
-/* 1089 */
+/* 1091 */
 /***/ (function(module, exports) {
 
 /**
@@ -24104,7 +24123,7 @@ if (!Array.prototype.findIndex) {
 
 
 /***/ }),
-/* 1090 */
+/* 1092 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -24474,7 +24493,7 @@ var appErrors = new __WEBPACK_IMPORTED_MODULE_0__firebase_util__["ErrorFactory"]
 
 
 /***/ }),
-/* 1091 */
+/* 1093 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24556,7 +24575,7 @@ exports.patchProperty = patchProperty;
 
 
 /***/ }),
-/* 1092 */
+/* 1094 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24624,7 +24643,7 @@ exports.Deferred = Deferred;
 
 
 /***/ }),
-/* 1093 */
+/* 1095 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24693,7 +24712,7 @@ exports.isNodeSdk = function () {
 
 
 /***/ }),
-/* 1094 */
+/* 1096 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24783,7 +24802,7 @@ exports.ErrorFactory = ErrorFactory;
 
 
 /***/ }),
-/* 1095 */
+/* 1097 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24804,8 +24823,8 @@ exports.ErrorFactory = ErrorFactory;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var crypt_1 = __webpack_require__(470);
-var json_1 = __webpack_require__(471);
+var crypt_1 = __webpack_require__(472);
+var json_1 = __webpack_require__(473);
 /**
  * Decodes a Firebase auth. token into constituent parts.
  *
@@ -24918,7 +24937,7 @@ exports.isAdmin = function (token) {
 
 
 /***/ }),
-/* 1096 */
+/* 1098 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24939,7 +24958,7 @@ exports.isAdmin = function (token) {
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var obj_1 = __webpack_require__(472);
+var obj_1 = __webpack_require__(474);
 /**
  * Returns a querystring-formatted string (e.g. &arg=val&arg2=val2) from a params
  * object (e.g. {arg: 'val', arg2: 'val2'})
@@ -24984,7 +25003,7 @@ exports.querystringDecode = function (querystring) {
 
 
 /***/ }),
-/* 1097 */
+/* 1099 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25015,7 +25034,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var hash_1 = __webpack_require__(1098);
+var hash_1 = __webpack_require__(1100);
 /**
  * @fileoverview SHA-1 cryptographic hash.
  * Variable names follow the notation in FIPS PUB 180-3:
@@ -25270,7 +25289,7 @@ exports.Sha1 = Sha1;
 
 
 /***/ }),
-/* 1098 */
+/* 1100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25332,7 +25351,7 @@ exports.Hash = Hash;
 
 
 /***/ }),
-/* 1099 */
+/* 1101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25559,7 +25578,7 @@ function noop() {
 
 
 /***/ }),
-/* 1100 */
+/* 1102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25676,7 +25695,7 @@ exports.validateContextObject = validateContextObject;
 
 
 /***/ }),
-/* 1101 */
+/* 1103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25697,7 +25716,7 @@ exports.validateContextObject = validateContextObject;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var assert_1 = __webpack_require__(469);
+var assert_1 = __webpack_require__(471);
 // Code originally came from goog.crypt.stringToUtf8ByteArray, but for some reason they
 // automatically replaced '\r\n' with '\n', and they didn't handle surrogate pairs,
 // so it's been modified.
@@ -25775,7 +25794,7 @@ exports.stringLength = function (str) {
 
 
 /***/ }),
-/* 1102 */
+/* 1104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {(function() {
@@ -26070,7 +26089,7 @@ c){a=new wl(a);c({INTERNAL:{getUid:r(a.getUid,a),getToken:r(a.Vb,a),addAuthToken
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ }),
-/* 1103 */
+/* 1105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26092,17 +26111,17 @@ c){a=new wl(a);c({INTERNAL:{getUid:r(a.getUid,a),getToken:r(a.Vb,a),addAuthToken
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_1 = __webpack_require__(74);
-var Database_1 = __webpack_require__(475);
+var Database_1 = __webpack_require__(477);
 exports.Database = Database_1.Database;
-var Query_1 = __webpack_require__(479);
+var Query_1 = __webpack_require__(481);
 exports.Query = Query_1.Query;
 var Reference_1 = __webpack_require__(256);
 exports.Reference = Reference_1.Reference;
 var util_1 = __webpack_require__(8);
 exports.enableLogging = util_1.enableLogging;
 var RepoManager_1 = __webpack_require__(261);
-var INTERNAL = __webpack_require__(1135);
-var TEST_ACCESS = __webpack_require__(1136);
+var INTERNAL = __webpack_require__(1137);
+var TEST_ACCESS = __webpack_require__(1138);
 var util_2 = __webpack_require__(3);
 var ServerValue = Database_1.Database.ServerValue;
 exports.ServerValue = ServerValue;
@@ -26127,14 +26146,14 @@ exports.registerDatabase = registerDatabase;
 registerDatabase(app_1.default);
 var DataSnapshot_1 = __webpack_require__(257);
 exports.DataSnapshot = DataSnapshot_1.DataSnapshot;
-var onDisconnect_1 = __webpack_require__(478);
+var onDisconnect_1 = __webpack_require__(480);
 exports.OnDisconnect = onDisconnect_1.OnDisconnect;
 
 //# sourceMappingURL=index.js.map
 
 
 /***/ }),
-/* 1104 */
+/* 1106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26224,7 +26243,7 @@ exports.DOMStorageWrapper = DOMStorageWrapper;
 
 
 /***/ }),
-/* 1105 */
+/* 1107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26282,7 +26301,7 @@ exports.MemoryStorage = MemoryStorage;
 
 
 /***/ }),
-/* 1106 */
+/* 1108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26330,7 +26349,7 @@ exports.TransactionResult = TransactionResult;
 
 
 /***/ }),
-/* 1107 */
+/* 1109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26415,7 +26434,7 @@ exports.nextPushId = (function () {
 
 
 /***/ }),
-/* 1108 */
+/* 1110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26437,7 +26456,7 @@ exports.nextPushId = (function () {
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var DataSnapshot_1 = __webpack_require__(257);
-var Event_1 = __webpack_require__(1109);
+var Event_1 = __webpack_require__(1111);
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(3);
 /**
@@ -26637,7 +26656,7 @@ exports.ChildEventRegistration = ChildEventRegistration;
 
 
 /***/ }),
-/* 1109 */
+/* 1111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26756,7 +26775,7 @@ exports.CancelEvent = CancelEvent;
 
 
 /***/ }),
-/* 1110 */
+/* 1112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26779,17 +26798,17 @@ exports.CancelEvent = CancelEvent;
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(8);
-var AckUserWrite_1 = __webpack_require__(1111);
+var AckUserWrite_1 = __webpack_require__(1113);
 var ChildrenNode_1 = __webpack_require__(36);
 var util_3 = __webpack_require__(3);
 var ImmutableTree_1 = __webpack_require__(258);
-var ListenComplete_1 = __webpack_require__(1112);
-var Merge_1 = __webpack_require__(1113);
+var ListenComplete_1 = __webpack_require__(1114);
+var Merge_1 = __webpack_require__(1115);
 var Operation_1 = __webpack_require__(89);
-var Overwrite_1 = __webpack_require__(489);
+var Overwrite_1 = __webpack_require__(491);
 var Path_1 = __webpack_require__(22);
-var SyncPoint_1 = __webpack_require__(490);
-var WriteTree_1 = __webpack_require__(1119);
+var SyncPoint_1 = __webpack_require__(492);
+var WriteTree_1 = __webpack_require__(1121);
 /**
  * SyncTree is the central class for managing event callback registration, data caching, views
  * (query processing), and event generation.  There are typically two SyncTree instances for
@@ -27474,7 +27493,7 @@ exports.SyncTree = SyncTree;
 
 
 /***/ }),
-/* 1111 */
+/* 1113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27543,7 +27562,7 @@ exports.AckUserWrite = AckUserWrite;
 
 
 /***/ }),
-/* 1112 */
+/* 1114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27595,7 +27614,7 @@ exports.ListenComplete = ListenComplete;
 
 
 /***/ }),
-/* 1113 */
+/* 1115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27617,7 +27636,7 @@ exports.ListenComplete = ListenComplete;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var Operation_1 = __webpack_require__(89);
-var Overwrite_1 = __webpack_require__(489);
+var Overwrite_1 = __webpack_require__(491);
 var Path_1 = __webpack_require__(22);
 var util_1 = __webpack_require__(3);
 /**
@@ -27682,7 +27701,7 @@ exports.Merge = Merge;
 
 
 /***/ }),
-/* 1114 */
+/* 1116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27704,11 +27723,11 @@ exports.Merge = Merge;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var IndexedFilter_1 = __webpack_require__(259);
-var ViewProcessor_1 = __webpack_require__(1115);
+var ViewProcessor_1 = __webpack_require__(1117);
 var ChildrenNode_1 = __webpack_require__(36);
 var CacheNode_1 = __webpack_require__(181);
-var ViewCache_1 = __webpack_require__(491);
-var EventGenerator_1 = __webpack_require__(1118);
+var ViewCache_1 = __webpack_require__(493);
+var EventGenerator_1 = __webpack_require__(1120);
 var util_1 = __webpack_require__(3);
 var Operation_1 = __webpack_require__(89);
 var Change_1 = __webpack_require__(105);
@@ -27897,7 +27916,7 @@ exports.View = View;
 
 
 /***/ }),
-/* 1115 */
+/* 1117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27920,13 +27939,13 @@ exports.View = View;
 Object.defineProperty(exports, "__esModule", { value: true });
 var Operation_1 = __webpack_require__(89);
 var util_1 = __webpack_require__(3);
-var ChildChangeAccumulator_1 = __webpack_require__(1116);
+var ChildChangeAccumulator_1 = __webpack_require__(1118);
 var Change_1 = __webpack_require__(105);
 var ChildrenNode_1 = __webpack_require__(36);
 var KeyIndex_1 = __webpack_require__(135);
 var ImmutableTree_1 = __webpack_require__(258);
 var Path_1 = __webpack_require__(22);
-var CompleteChildSource_1 = __webpack_require__(1117);
+var CompleteChildSource_1 = __webpack_require__(1119);
 /**
  * @constructor
  * @struct
@@ -28499,7 +28518,7 @@ exports.ViewProcessor = ViewProcessor;
 
 
 /***/ }),
-/* 1116 */
+/* 1118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28587,7 +28606,7 @@ exports.ChildChangeAccumulator = ChildChangeAccumulator;
 
 
 /***/ }),
-/* 1117 */
+/* 1119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28697,7 +28716,7 @@ exports.WriteTreeCompleteChildSource = WriteTreeCompleteChildSource;
 
 
 /***/ }),
-/* 1118 */
+/* 1120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28834,7 +28853,7 @@ exports.EventGenerator = EventGenerator;
 
 
 /***/ }),
-/* 1119 */
+/* 1121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28858,7 +28877,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(3);
 var Path_1 = __webpack_require__(22);
-var CompoundWrite_1 = __webpack_require__(1120);
+var CompoundWrite_1 = __webpack_require__(1122);
 var PriorityIndex_1 = __webpack_require__(33);
 var ChildrenNode_1 = __webpack_require__(36);
 /**
@@ -29474,7 +29493,7 @@ exports.WriteTreeRef = WriteTreeRef;
 
 
 /***/ }),
-/* 1120 */
+/* 1122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29698,7 +29717,7 @@ exports.CompoundWrite = CompoundWrite;
 
 
 /***/ }),
-/* 1121 */
+/* 1123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29743,7 +29762,7 @@ exports.SnapshotHolder = SnapshotHolder;
 
 
 /***/ }),
-/* 1122 */
+/* 1124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29835,7 +29854,7 @@ exports.AuthTokenProvider = AuthTokenProvider;
 
 
 /***/ }),
-/* 1123 */
+/* 1125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29884,7 +29903,7 @@ exports.StatsCollection = StatsCollection;
 
 
 /***/ }),
-/* 1124 */
+/* 1126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29907,7 +29926,7 @@ exports.StatsCollection = StatsCollection;
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(8);
-var StatsListener_1 = __webpack_require__(492);
+var StatsListener_1 = __webpack_require__(494);
 // Assuming some apps may have a short amount of time on page, and a bulk of firebase operations probably
 // happen on page load, we try to report our first set of stats pretty quickly, but we wait at least 10
 // seconds to try to ensure the Firebase connection is established / settled.
@@ -29959,7 +29978,7 @@ exports.StatsReporter = StatsReporter;
 
 
 /***/ }),
-/* 1125 */
+/* 1127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30138,7 +30157,7 @@ exports.EventList = EventList;
 
 
 /***/ }),
-/* 1126 */
+/* 1128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30169,7 +30188,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var EventEmitter_1 = __webpack_require__(494);
+var EventEmitter_1 = __webpack_require__(496);
 var util_1 = __webpack_require__(3);
 /**
  * @extends {EventEmitter}
@@ -30235,7 +30254,7 @@ exports.VisibilityMonitor = VisibilityMonitor;
 
 
 /***/ }),
-/* 1127 */
+/* 1129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30267,7 +30286,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var EventEmitter_1 = __webpack_require__(494);
+var EventEmitter_1 = __webpack_require__(496);
 var util_2 = __webpack_require__(3);
 /**
  * Monitors online state (as reported by window.online/offline events).
@@ -30330,7 +30349,7 @@ exports.OnlineMonitor = OnlineMonitor;
 
 
 /***/ }),
-/* 1128 */
+/* 1130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30351,8 +30370,8 @@ exports.OnlineMonitor = OnlineMonitor;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var BrowserPollConnection_1 = __webpack_require__(496);
-var WebSocketConnection_1 = __webpack_require__(497);
+var BrowserPollConnection_1 = __webpack_require__(498);
+var WebSocketConnection_1 = __webpack_require__(499);
 var util_1 = __webpack_require__(8);
 /**
  * Currently simplistic, this class manages what transport a Connection should use at various stages of its
@@ -30436,7 +30455,7 @@ exports.TransportManager = TransportManager;
 
 
 /***/ }),
-/* 1129 */
+/* 1131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30529,7 +30548,7 @@ exports.PacketReceiver = PacketReceiver;
 
 
 /***/ }),
-/* 1130 */
+/* 1132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30565,7 +30584,7 @@ var util_2 = __webpack_require__(8);
 var util_3 = __webpack_require__(3);
 var util_4 = __webpack_require__(3);
 var util_5 = __webpack_require__(3);
-var ServerActions_1 = __webpack_require__(498);
+var ServerActions_1 = __webpack_require__(500);
 /**
  * An implementation of ServerActions that communicates with the server via REST requests.
  * This is mostly useful for compatibility with crawlers, where we don't want to spin up a full
@@ -30726,7 +30745,7 @@ exports.ReadonlyRestClient = ReadonlyRestClient;
 
 
 /***/ }),
-/* 1131 */
+/* 1133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30751,11 +30770,11 @@ var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(8);
 var KeyIndex_1 = __webpack_require__(135);
 var PriorityIndex_1 = __webpack_require__(33);
-var ValueIndex_1 = __webpack_require__(481);
-var PathIndex_1 = __webpack_require__(485);
+var ValueIndex_1 = __webpack_require__(483);
+var PathIndex_1 = __webpack_require__(487);
 var IndexedFilter_1 = __webpack_require__(259);
-var LimitedFilter_1 = __webpack_require__(1132);
-var RangedFilter_1 = __webpack_require__(499);
+var LimitedFilter_1 = __webpack_require__(1134);
+var RangedFilter_1 = __webpack_require__(501);
 var util_3 = __webpack_require__(3);
 /**
  * This class is an immutable-from-the-public-api struct containing a set of query parameters defining a
@@ -31139,7 +31158,7 @@ exports.QueryParams = QueryParams;
 
 
 /***/ }),
-/* 1132 */
+/* 1134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31160,7 +31179,7 @@ exports.QueryParams = QueryParams;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var RangedFilter_1 = __webpack_require__(499);
+var RangedFilter_1 = __webpack_require__(501);
 var ChildrenNode_1 = __webpack_require__(36);
 var Node_1 = __webpack_require__(45);
 var util_1 = __webpack_require__(3);
@@ -31405,7 +31424,7 @@ exports.LimitedFilter = LimitedFilter;
 
 
 /***/ }),
-/* 1133 */
+/* 1135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31430,10 +31449,10 @@ var util_1 = __webpack_require__(3);
 var Reference_1 = __webpack_require__(256);
 var DataSnapshot_1 = __webpack_require__(257);
 var Path_1 = __webpack_require__(22);
-var Tree_1 = __webpack_require__(1134);
+var Tree_1 = __webpack_require__(1136);
 var PriorityIndex_1 = __webpack_require__(33);
 var util_2 = __webpack_require__(8);
-var ServerValues_1 = __webpack_require__(486);
+var ServerValues_1 = __webpack_require__(488);
 var validation_1 = __webpack_require__(88);
 var util_3 = __webpack_require__(3);
 var nodeFromJSON_1 = __webpack_require__(136);
@@ -31977,7 +31996,7 @@ Repo_1.Repo.prototype.abortTransactionsOnNode_ = function (node) {
 
 
 /***/ }),
-/* 1134 */
+/* 1136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32211,7 +32230,7 @@ exports.Tree = Tree;
 
 
 /***/ }),
-/* 1135 */
+/* 1137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32232,8 +32251,8 @@ exports.Tree = Tree;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var WebSocketConnection_1 = __webpack_require__(497);
-var BrowserPollConnection_1 = __webpack_require__(496);
+var WebSocketConnection_1 = __webpack_require__(499);
+var BrowserPollConnection_1 = __webpack_require__(498);
 /**
  * INTERNAL methods for internal-use only (tests, etc.).
  *
@@ -32272,7 +32291,7 @@ exports.interceptServerData = function (ref, callback) {
 
 
 /***/ }),
-/* 1136 */
+/* 1138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -32293,10 +32312,10 @@ exports.interceptServerData = function (ref, callback) {
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var RepoInfo_1 = __webpack_require__(477);
-var PersistentConnection_1 = __webpack_require__(493);
+var RepoInfo_1 = __webpack_require__(479);
+var PersistentConnection_1 = __webpack_require__(495);
 var RepoManager_1 = __webpack_require__(261);
-var Connection_1 = __webpack_require__(495);
+var Connection_1 = __webpack_require__(497);
 exports.DataConnection = PersistentConnection_1.PersistentConnection;
 /**
  * @param {!string} pathString
@@ -32361,7 +32380,7 @@ exports.forceRestClient = function (forceRestClient) {
 
 
 /***/ }),
-/* 1137 */
+/* 1139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -32380,18 +32399,18 @@ exports.forceRestClient = function (forceRestClient) {
  * limitations under the License.
  */
 
-__webpack_require__(1138);
+__webpack_require__(1140);
 
 
 /***/ }),
-/* 1138 */
+/* 1140 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["registerMessaging"] = registerMessaging;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_controllers_window_controller__ = __webpack_require__(1139);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_controllers_sw_controller__ = __webpack_require__(1145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_controllers_window_controller__ = __webpack_require__(1141);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_controllers_sw_controller__ = __webpack_require__(1147);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__firebase_app__ = __webpack_require__(74);
 /**
  * Copyright 2017 Google Inc.
@@ -32433,17 +32452,17 @@ registerMessaging(__WEBPACK_IMPORTED_MODULE_2__firebase_app__["firebase"]);
 
 
 /***/ }),
-/* 1139 */
+/* 1141 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controller_interface__ = __webpack_require__(500);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controller_interface__ = __webpack_require__(502);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_errors__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_worker_page_message__ = __webpack_require__(503);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_default_sw__ = __webpack_require__(1143);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_notification_permission__ = __webpack_require__(502);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_worker_page_message__ = __webpack_require__(505);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_default_sw__ = __webpack_require__(1145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_notification_permission__ = __webpack_require__(504);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_fcm_details__ = __webpack_require__(263);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__helpers_base64_to_array_buffer__ = __webpack_require__(1144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__helpers_base64_to_array_buffer__ = __webpack_require__(1146);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__firebase_util__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__firebase_util___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__firebase_util__);
 /**
@@ -32844,11 +32863,11 @@ var WindowController = /** @class */ (function (_super) {
 
 
 /***/ }),
-/* 1140 */
+/* 1142 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__db_interface__ = __webpack_require__(501);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__db_interface__ = __webpack_require__(503);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__errors__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_array_buffer_to_base64__ = __webpack_require__(262);
 /**
@@ -33142,11 +33161,11 @@ var TokenDetailsModel = /** @class */ (function (_super) {
 
 
 /***/ }),
-/* 1141 */
+/* 1143 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__db_interface__ = __webpack_require__(501);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__db_interface__ = __webpack_require__(503);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__errors__ = __webpack_require__(90);
 /**
  * Copyright 2017 Google Inc.
@@ -33294,7 +33313,7 @@ var VapidDetailsModel = /** @class */ (function (_super) {
 
 
 /***/ }),
-/* 1142 */
+/* 1144 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33464,7 +33483,7 @@ var IIDModel = /** @class */ (function () {
 
 
 /***/ }),
-/* 1143 */
+/* 1145 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33493,7 +33512,7 @@ var IIDModel = /** @class */ (function () {
 
 
 /***/ }),
-/* 1144 */
+/* 1146 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33529,14 +33548,14 @@ var IIDModel = /** @class */ (function () {
 
 
 /***/ }),
-/* 1145 */
+/* 1147 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controller_interface__ = __webpack_require__(500);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controller_interface__ = __webpack_require__(502);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_errors__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_fcm_details__ = __webpack_require__(263);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_worker_page_message__ = __webpack_require__(503);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_worker_page_message__ = __webpack_require__(505);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -33875,7 +33894,7 @@ var SWController = /** @class */ (function (_super) {
 
 
 /***/ }),
-/* 1146 */
+/* 1148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -33894,11 +33913,11 @@ var SWController = /** @class */ (function (_super) {
  * limitations under the License.
  */
 
-__webpack_require__(1147);
+__webpack_require__(1149);
 
 
 /***/ }),
-/* 1147 */
+/* 1149 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33907,9 +33926,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_app__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_implementation_string__ = __webpack_require__(137);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_implementation_taskenums__ = __webpack_require__(138);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_implementation_xhriopool__ = __webpack_require__(1148);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_reference__ = __webpack_require__(505);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_service__ = __webpack_require__(1157);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_implementation_xhriopool__ = __webpack_require__(1150);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_reference__ = __webpack_require__(507);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_service__ = __webpack_require__(1159);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -33958,12 +33977,12 @@ registerStorage(__WEBPACK_IMPORTED_MODULE_0__firebase_app__["default"]);
 
 
 /***/ }),
-/* 1148 */
+/* 1150 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return XhrIoPool; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__xhrio_network__ = __webpack_require__(1149);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__xhrio_network__ = __webpack_require__(1151);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -33997,7 +34016,7 @@ var XhrIoPool = /** @class */ (function () {
 
 
 /***/ }),
-/* 1149 */
+/* 1151 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -34006,7 +34025,7 @@ var XhrIoPool = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__object__ = __webpack_require__(106);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__promise_external__ = __webpack_require__(91);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__type__ = __webpack_require__(46);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__xhrio__ = __webpack_require__(504);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__xhrio__ = __webpack_require__(506);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -34144,7 +34163,7 @@ var NetworkXhrIo = /** @class */ (function () {
 
 
 /***/ }),
-/* 1150 */
+/* 1152 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -34190,7 +34209,7 @@ function jsonObjectOrNull(s) {
 
 
 /***/ }),
-/* 1151 */
+/* 1153 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -34263,7 +34282,7 @@ function sliceBlob(blob, start, end) {
 
 
 /***/ }),
-/* 1152 */
+/* 1154 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -34302,20 +34321,20 @@ var RequestInfo = /** @class */ (function () {
 
 
 /***/ }),
-/* 1153 */
+/* 1155 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UploadTask; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__implementation_taskenums__ = __webpack_require__(138);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_observer__ = __webpack_require__(1154);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tasksnapshot__ = __webpack_require__(1155);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_observer__ = __webpack_require__(1156);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tasksnapshot__ = __webpack_require__(1157);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__implementation_args__ = __webpack_require__(264);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__implementation_array__ = __webpack_require__(267);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__implementation_async__ = __webpack_require__(1156);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__implementation_async__ = __webpack_require__(1158);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__implementation_error__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__implementation_promise_external__ = __webpack_require__(91);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__implementation_requests__ = __webpack_require__(508);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__implementation_requests__ = __webpack_require__(510);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__implementation_type__ = __webpack_require__(46);
 /**
  * Copyright 2017 Google Inc.
@@ -34882,7 +34901,7 @@ var UploadTask = /** @class */ (function () {
 
 
 /***/ }),
-/* 1154 */
+/* 1156 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -34932,7 +34951,7 @@ var Observer = /** @class */ (function () {
 
 
 /***/ }),
-/* 1155 */
+/* 1157 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -34972,7 +34991,7 @@ var UploadTaskSnapshot = /** @class */ (function () {
 
 
 /***/ }),
-/* 1156 */
+/* 1158 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -35018,18 +35037,18 @@ function async(f) {
 
 
 /***/ }),
-/* 1157 */
+/* 1159 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Service; });
 /* unused harmony export ServiceInternals */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__implementation_args__ = __webpack_require__(264);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_authwrapper__ = __webpack_require__(1158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__implementation_authwrapper__ = __webpack_require__(1160);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__implementation_location__ = __webpack_require__(183);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__implementation_promise_external__ = __webpack_require__(91);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__implementation_request__ = __webpack_require__(1161);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__reference__ = __webpack_require__(505);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__implementation_request__ = __webpack_require__(1163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__reference__ = __webpack_require__(507);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -35179,17 +35198,17 @@ var ServiceInternals = /** @class */ (function () {
 
 
 /***/ }),
-/* 1158 */
+/* 1160 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthWrapper; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(182);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__error__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__failrequest__ = __webpack_require__(1159);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__failrequest__ = __webpack_require__(1161);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__location__ = __webpack_require__(183);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__promise_external__ = __webpack_require__(91);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestmap__ = __webpack_require__(1160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requestmap__ = __webpack_require__(1162);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__type__ = __webpack_require__(46);
 
 
@@ -35315,7 +35334,7 @@ var AuthWrapper = /** @class */ (function () {
 
 
 /***/ }),
-/* 1159 */
+/* 1161 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -35347,7 +35366,7 @@ var FailRequest = /** @class */ (function () {
 
 
 /***/ }),
-/* 1160 */
+/* 1162 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -35413,7 +35432,7 @@ var RequestMap = /** @class */ (function () {
 
 
 /***/ }),
-/* 1161 */
+/* 1163 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -35423,13 +35442,13 @@ var RequestMap = /** @class */ (function () {
 /* harmony export (immutable) */ __webpack_exports__["a"] = makeRequest;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__firebase_app__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__array__ = __webpack_require__(267);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__backoff__ = __webpack_require__(1162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__backoff__ = __webpack_require__(1164);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__error__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__object__ = __webpack_require__(106);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__promise_external__ = __webpack_require__(91);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__type__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__url__ = __webpack_require__(266);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__xhrio__ = __webpack_require__(504);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__xhrio__ = __webpack_require__(506);
 /**
  * Copyright 2017 Google Inc.
  *
@@ -35653,7 +35672,7 @@ function makeRequest(requestInfo, authToken, pool) {
 
 
 /***/ }),
-/* 1162 */
+/* 1164 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -35779,7 +35798,7 @@ function stop(id) {
 
 
 /***/ }),
-/* 1163 */
+/* 1165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35798,12 +35817,12 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 var common_1 = __webpack_require__(116);
 // UI Modules
-var editor_module_1 = __webpack_require__(1164);
-var admin_module_1 = __webpack_require__(1339);
-var explore_module_1 = __webpack_require__(1349);
-var chat_module_1 = __webpack_require__(1359);
+var editor_module_1 = __webpack_require__(1166);
+var admin_module_1 = __webpack_require__(1341);
+var explore_module_1 = __webpack_require__(1351);
+var chat_module_1 = __webpack_require__(1361);
 // UI components
-var ui_1 = __webpack_require__(1363);
+var ui_1 = __webpack_require__(1365);
 // Module routes
 var routes = router_1.RouterModule.forRoot([{ path: '**', redirectTo: 'editor', pathMatch: 'full' }]);
 var UiModule = /** @class */function () {
@@ -35822,7 +35841,7 @@ var UiModule = /** @class */function () {
 exports.UiModule = UiModule;
 
 /***/ }),
-/* 1164 */
+/* 1166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35842,68 +35861,68 @@ var router_1 = __webpack_require__(17);
 var platform_browser_1 = __webpack_require__(51);
 var forms_1 = __webpack_require__(100);
 // UI components
-var editor_1 = __webpack_require__(1165);
+var editor_1 = __webpack_require__(1167);
 // Editor
-var edit_space_flat_1 = __webpack_require__(1173);
-var edit_space_sphere_1 = __webpack_require__(509);
-var default_overlay_1 = __webpack_require__(1176);
-var room_icon_1 = __webpack_require__(1179);
-var property_editor_1 = __webpack_require__(1182);
-var text_editor_1 = __webpack_require__(1185);
-var image_editor_1 = __webpack_require__(1188);
-var door_editor_1 = __webpack_require__(1191);
-var link_editor_1 = __webpack_require__(1194);
-var audio_editor_1 = __webpack_require__(1197);
-var audio_recorder_1 = __webpack_require__(1200);
+var edit_space_flat_1 = __webpack_require__(1175);
+var edit_space_sphere_1 = __webpack_require__(511);
+var default_overlay_1 = __webpack_require__(1178);
+var room_icon_1 = __webpack_require__(1181);
+var property_editor_1 = __webpack_require__(1184);
+var text_editor_1 = __webpack_require__(1187);
+var image_editor_1 = __webpack_require__(1190);
+var door_editor_1 = __webpack_require__(1193);
+var link_editor_1 = __webpack_require__(1196);
+var audio_editor_1 = __webpack_require__(1199);
+var audio_recorder_1 = __webpack_require__(1202);
 // Preview mode
 // TODO: make into separate module
-var preview_space_1 = __webpack_require__(1203);
+var preview_space_1 = __webpack_require__(1205);
 var audioPlayService_1 = __webpack_require__(279);
-var multiViewService_1 = __webpack_require__(1212);
-var audioManager_1 = __webpack_require__(521);
-var textureLoader_1 = __webpack_require__(522);
-var hotspotManager_1 = __webpack_require__(523);
+var multiViewService_1 = __webpack_require__(1214);
+var audioManager_1 = __webpack_require__(523);
+var textureLoader_1 = __webpack_require__(524);
+var hotspotManager_1 = __webpack_require__(525);
 var menuManager_1 = __webpack_require__(281);
-var reticle_1 = __webpack_require__(525);
+var reticle_1 = __webpack_require__(527);
 // Topbar
-var topbar_1 = __webpack_require__(1213);
-var about_1 = __webpack_require__(1216);
+var topbar_1 = __webpack_require__(1215);
+var about_1 = __webpack_require__(1218);
 // Modals
-var user_tab_1 = __webpack_require__(1219);
-var unauth_user_tab_1 = __webpack_require__(1222);
-var auth_user_tab_1 = __webpack_require__(1225);
-var tree_tab_1 = __webpack_require__(1230);
-var row_item_1 = __webpack_require__(1233);
-var story_1 = __webpack_require__(1236);
-var modal_close_1 = __webpack_require__(1239);
-var upload_1 = __webpack_require__(1242);
+var user_tab_1 = __webpack_require__(1221);
+var unauth_user_tab_1 = __webpack_require__(1224);
+var auth_user_tab_1 = __webpack_require__(1227);
+var tree_tab_1 = __webpack_require__(1232);
+var row_item_1 = __webpack_require__(1235);
+var story_1 = __webpack_require__(1238);
+var modal_close_1 = __webpack_require__(1241);
+var upload_1 = __webpack_require__(1244);
 // Bottombar
-var hotspot_menu_1 = __webpack_require__(1245);
-var fab_1 = __webpack_require__(1248);
-var action_menu_1 = __webpack_require__(1251);
-var room_editor_1 = __webpack_require__(1254);
-var room_editor_icon_1 = __webpack_require__(1257);
-var edit_space_toggle_1 = __webpack_require__(1260);
-var story_scroll_1 = __webpack_require__(1263);
-var storymap_item_1 = __webpack_require__(1266);
-var add_room_1 = __webpack_require__(1269);
-var fullscreen_1 = __webpack_require__(1272);
+var hotspot_menu_1 = __webpack_require__(1247);
+var fab_1 = __webpack_require__(1250);
+var action_menu_1 = __webpack_require__(1253);
+var room_editor_1 = __webpack_require__(1256);
+var room_editor_icon_1 = __webpack_require__(1259);
+var edit_space_toggle_1 = __webpack_require__(1262);
+var story_scroll_1 = __webpack_require__(1265);
+var storymap_item_1 = __webpack_require__(1268);
+var add_room_1 = __webpack_require__(1271);
+var fullscreen_1 = __webpack_require__(1274);
 // Util
-var draggable_1 = __webpack_require__(1275);
-var droppable_1 = __webpack_require__(1276);
-var file_loader_1 = __webpack_require__(1277);
-var hidden_file_loader_1 = __webpack_require__(1280);
-var file_loader_multi_1 = __webpack_require__(1283);
+var draggable_1 = __webpack_require__(1277);
+var droppable_1 = __webpack_require__(1278);
+var file_loader_1 = __webpack_require__(1279);
+var hidden_file_loader_1 = __webpack_require__(1282);
+var file_loader_multi_1 = __webpack_require__(1285);
 var fileLoaderUtil_1 = __webpack_require__(66);
 var propertyRemovalService_1 = __webpack_require__(142);
-var close_button_1 = __webpack_require__(1286);
-var info_button_1 = __webpack_require__(1289);
+var close_button_1 = __webpack_require__(1288);
+var info_button_1 = __webpack_require__(1291);
 var zipFileReader_1 = __webpack_require__(141);
 var audioRecorderService_1 = __webpack_require__(191);
 var combinedHotspotUtil_1 = __webpack_require__(186);
 var SlideshowBuilder_1 = __webpack_require__(110);
-var slider_1 = __webpack_require__(1292);
-var responsiveUtil_1 = __webpack_require__(520);
+var slider_1 = __webpack_require__(1294);
+var responsiveUtil_1 = __webpack_require__(522);
 // Common UI components
 var common_module_1 = __webpack_require__(192);
 // Expose core layer (interactors) to view layer
@@ -35954,7 +35973,7 @@ var EditorModule = /** @class */function () {
 exports.EditorModule = EditorModule;
 
 /***/ }),
-/* 1165 */
+/* 1167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -35973,19 +35992,19 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var edit_space_sphere_1 = __webpack_require__(509);
+var edit_space_sphere_1 = __webpack_require__(511);
 var fileLoaderUtil_1 = __webpack_require__(66);
 var event_bus_1 = __webpack_require__(9);
 var iconPositionUtil_1 = __webpack_require__(109);
 var publicLinkHelper_1 = __webpack_require__(276);
 var zipFileReader_1 = __webpack_require__(141);
 var sceneInteractor_1 = __webpack_require__(14);
-var VideoInteractor_1 = __webpack_require__(518);
+var VideoInteractor_1 = __webpack_require__(520);
 var imageResizeService_1 = __webpack_require__(52);
 var SlideshowBuilder_1 = __webpack_require__(110);
 var shareable_loader_1 = __webpack_require__(189);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
-var responsiveUtil_1 = __webpack_require__(520);
+var responsiveUtil_1 = __webpack_require__(522);
 var Editor = /** @class */function () {
     function Editor(sceneInteractor, fileLoaderUtil, eventBus, zipFileReader, slideshowBuilder, videoInteractor, route, router, shareableLoader, metaDataInteractor, element, responsiveUtil) {
         this.sceneInteractor = sceneInteractor;
@@ -36293,39 +36312,39 @@ var Editor = /** @class */function () {
     __decorate([core_1.HostListener('drop', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], Editor.prototype, "onDrop", null);
     Editor = __decorate([core_1.Component({
         selector: 'editor',
-        styles: [__webpack_require__(1171)],
-        template: __webpack_require__(1172)
+        styles: [__webpack_require__(1173)],
+        template: __webpack_require__(1174)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, fileLoaderUtil_1.FileLoaderUtil, event_bus_1.EventBus, zipFileReader_1.ZipFileReader, SlideshowBuilder_1.SlideshowBuilder, VideoInteractor_1.VideoInteractor, router_1.ActivatedRoute, router_1.Router, shareable_loader_1.ShareableLoader, projectMetaDataInteractor_1.MetaDataInteractor, core_1.ElementRef, responsiveUtil_1.ResponsiveUtil])], Editor);
     return Editor;
 }();
 exports.Editor = Editor;
 
 /***/ }),
-/* 1166 */
+/* 1168 */
 /***/ (function(module, exports) {
 
 module.exports = ".edit-space {\n  width: 100%;\n  height: 100%;\n  cursor: move; }\n"
 
 /***/ }),
-/* 1167 */
+/* 1169 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  #editSpaceSphere\n  class=\"edit-space\">\n\n  <canvas #globeCanvas>\n  </canvas>\n\n  <div *ngFor=\"let roomProperty of getItems()\">\n    <room-icon\n      #roomIcon\n      [roomProperty]=\"roomProperty\"\n      (onIconDragEnd)=\"onMoveEnd($event)\">\n    </room-icon>\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1168 */
+/* 1170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // the whatwg-fetch polyfill installs the fetch() function
 // on the global object (window or self)
 //
 // Return that as the export for use in Webpack, Browserify etc.
-__webpack_require__(1169);
+__webpack_require__(1171);
 module.exports = self.fetch.bind(self);
 
 
 /***/ }),
-/* 1169 */
+/* 1171 */
 /***/ (function(module, exports) {
 
 (function(self) {
@@ -36792,7 +36811,7 @@ module.exports = self.fetch.bind(self);
 
 
 /***/ }),
-/* 1170 */
+/* 1172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36807,19 +36826,19 @@ var AuthenticationMethod;
 })(AuthenticationMethod = exports.AuthenticationMethod || (exports.AuthenticationMethod = {}));
 
 /***/ }),
-/* 1171 */
-/***/ (function(module, exports) {
-
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.editor {\n  position: relative;\n  height: 100%;\n  width: 100%;\n  overflow: hidden; }\n\n.editor__hotspot-menu {\n  position: absolute;\n  bottom: 0;\n  margin-bottom: 16px;\n  left: 0; }\n\n.editor__topbar {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%; }\n\n.editor__toggle {\n  position: absolute;\n  top: calc(50% - 40px);\n  right: 0;\n  overflow-x: hidden;\n  overflow-y: hidden; }\n\n.editor_center {\n  background-color: #888888;\n  padding: 8px 32px;\n  border-radius: 0px 0px 60px 60px;\n  position: absolute;\n  top: 0%;\n  left: 50%;\n  display: flex;\n  flex-direction: row;\n  align-items: space-between;\n  transform: translate(-50%, 0%); }\n\n.editor_center1 {\n  display: none; }\n\n.editor_center > div {\n  margin: 8px 16px 8px 16px;\n  /* and that, will result in a 10px gap */ }\n\n.editor__editPlayToggle {\n  /*\ntop:0;\nposition: absolute;\nleft:50%;\n*/\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n  .editor__editPlayToggle:hover {\n    opacity: 1; }\n\n.editor__edit2D3DToggle {\n  /*\n  top:0;\n  position: absolute;\n  left: 60%;\n  */\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n  .editor__edit2D3DToggle:hover {\n    opacity: 1; }\n\n.center-panel {\n  font-size: 0.8em;\n  font-weight: 600;\n  color: #FAFAFA; }\n\n.editor__2d3d {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  margin-top: 3px; }\n\n.editor__2d3d {\n  margin-left: 3px;\n  margin-right: 3px;\n  opacity: 0.5; }\n\n.editor__2d3d--active {\n  color: #FAFAFA;\n  opacity: 1; }\n\n.editor__editPlayToggleButton {\n  margin-top: 4px; }\n\n.editor__edit2d3dToggleButton {\n  margin-top: 4px; }\n\n.editor__fullscreen {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  margin-bottom: 16px;\n  margin-right: 16px; }\n\n.editor__edit-space {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  background-color: #EEEEEE; }\n"
-
-/***/ }),
-/* 1172 */
-/***/ (function(module, exports) {
-
-module.exports = "\n<div class=\"editor\">\n\n  <!-- Router outlet for edit-space-flat, edit-space-sphere, and preview-space components -->\n  <router-outlet\n    name=\"view\"\n    (activate)=\"onViewSpaceActivate($event)\">\n  </router-outlet>\n\n  <topbar\n    *ngIf=\"!isPreview()\"\n    class=\"editor__topbar\">\n  </topbar>\n\n<div\n      class=\"editor_center\"\n      [ngClass]=\"{'editor_center1': !hasBackgroundImage()}\">\n  <div\n    class=\"editor__edit2D3DToggle\">\n    <p\n      *ngIf=\"roomEditorIsVisible()\"\n      class='topbar__row-label center-panel'>Edit 3D</p>\n    <checkbox\n      *ngIf=\"roomEditorIsVisible()\"\n      [initialValue]=\"!isInFlatMode\"\n      (changeEmitter)=\"on2d3dViewClick($event)\"\n      class=\"editor__edit2d3dToggleButton\">\n    </checkbox>\n  </div>\n\n  <div\n    class=\"editor__editPlayToggle\">\n    <p\n      *ngIf=\"showPreviewCheckbox()\"\n      class='topbar__row-label center-panel'>Preview</p>\n    <checkbox\n      *ngIf=\"showPreviewCheckbox()\"\n      [initialValue]=\"isPreview()\"\n      (changeEmitter)=\"onEditPlayChange($event)\"\n      class=\"editor__editPlayToggleButton\">\n    </checkbox>\n\n  </div>\n</div>\n  <hotspot-menu\n    *ngIf=\"hotspotMenuIsVisible()\"\n    (onMenuChange)=\"onHotspotMenuChange($event)\"\n    class=\"editor__hotspot-menu\">\n  </hotspot-menu>\n\n  <!--\n  <edit-space-toggle\n    *ngIf=\"viewToggleIsVisible()\"\n    class=\"editor__toggle\">\n  </edit-space-toggle>\n-->\n\n  <!-- Story Map -->\n  <story-scroll\n      *ngIf=\"roomEditorIsVisible()\"\n      class=\"editor__story-scroll\">\n  </story-scroll>\n\n  <!-- Fullscreen -->\n  <fullscreen\n      *ngIf=\"roomEditorIsVisible()\"\n      class=\"editor__fullscreen\">\n  </fullscreen>\n\n  <modal></modal>\n  <hidden-file-loader></hidden-file-loader>\n\n</div>\n\n<router-outlet name=\"modal\"></router-outlet>\n"
-
-/***/ }),
 /* 1173 */
+/***/ (function(module, exports) {
+
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.editor {\n  position: relative;\n  height: 100%;\n  width: 100%;\n  overflow: hidden; }\n\n.editor__hotspot-menu {\n  position: absolute;\n  bottom: 0;\n  margin-bottom: 16px;\n  left: 0; }\n\n.editor__topbar {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%; }\n\n.editor__toggle {\n  position: absolute;\n  top: calc(50% - 40px);\n  right: 0;\n  overflow-x: hidden;\n  overflow-y: hidden; }\n\n.editor_center {\n  background-color: rgba(136, 136, 136, 0.6);\n  padding: 8px 8px;\n  border-radius: 0px 0px 4px 4px;\n  position: absolute;\n  top: 0%;\n  left: 50%;\n  display: flex;\n  flex-direction: row;\n  align-items: space-between;\n  transform: translate(-50%, 0%); }\n  @media (max-width: 767px) {\n    .editor_center {\n      padding: 1px 4px;\n      border-radius: 0px 0px 4px 4px;\n      left: 52%;\n      font-size: 14px; } }\n  @media (max-width: 420px) {\n    .editor_center {\n      padding: 0px 4px;\n      border-radius: 0px 0px 4px 4px;\n      margin-top: -2px;\n      left: 49%; } }\n\n.editor_center1 {\n  display: none; }\n\n.editor_center > div {\n  margin: 8px 16px 8px 16px;\n  /* and that, will result in a 10px gap */ }\n\n.editor__editPlayToggle {\n  /*\ntop:0;\nposition: absolute;\nleft:50%;\n*/\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n  .editor__editPlayToggle:hover {\n    opacity: 1; }\n\n.editor__edit2D3DToggle {\n  /*\n  top:0;\n  position: absolute;\n  left: 60%;\n  */\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n  .editor__edit2D3DToggle:hover {\n    opacity: 1; }\n\n.center-panel {\n  font-size: 0.8em;\n  font-weight: 600;\n  color: #FAFAFA; }\n\n.editor__2d3d {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  margin-top: 3px; }\n\n.editor__2d3d {\n  margin-left: 3px;\n  margin-right: 3px;\n  opacity: 0.5; }\n\n.editor__2d3d--active {\n  color: #FAFAFA;\n  opacity: 1; }\n\n.editor__editPlayToggleButton {\n  margin-top: 4px; }\n\n.editor__edit2d3dToggleButton {\n  margin-top: 4px; }\n\n.editor__fullscreen {\n  position: absolute;\n  bottom: 0;\n  right: 0;\n  margin-bottom: 16px;\n  margin-right: 16px; }\n\n.editor__edit-space {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  background-color: #EEEEEE; }\n"
+
+/***/ }),
+/* 1174 */
+/***/ (function(module, exports) {
+
+module.exports = "\n<div class=\"editor\">\n\n  <!-- Router outlet for edit-space-flat, edit-space-sphere, and preview-space components -->\n  <router-outlet\n    name=\"view\"\n    (activate)=\"onViewSpaceActivate($event)\">\n  </router-outlet>\n\n  <topbar\n    *ngIf=\"!isPreview()\"\n    class=\"editor__topbar\">\n  </topbar>\n\n<div\n      class=\"editor_center\"\n      [ngClass]=\"{'editor_center1': !hasBackgroundImage()}\">\n  <div\n  *ngIf=\"roomEditorIsVisible()\"\n    class=\"editor__edit2D3DToggle\">\n    <p\n      *ngIf=\"roomEditorIsVisible()\"\n      class='topbar__row-label center-panel'>Edit 3D</p>\n    <checkbox\n      *ngIf=\"roomEditorIsVisible()\"\n      [initialValue]=\"!isInFlatMode\"\n      (changeEmitter)=\"on2d3dViewClick($event)\"\n      class=\"editor__edit2d3dToggleButton\">\n    </checkbox>\n  </div>\n\n  <div\n    class=\"editor__editPlayToggle\">\n    <p\n      *ngIf=\"showPreviewCheckbox()\"\n      class='topbar__row-label center-panel'>Preview</p>\n    <checkbox\n      *ngIf=\"showPreviewCheckbox()\"\n      [initialValue]=\"isPreview()\"\n      (changeEmitter)=\"onEditPlayChange($event)\"\n      class=\"editor__editPlayToggleButton\">\n    </checkbox>\n\n  </div>\n</div>\n  <hotspot-menu\n    *ngIf=\"hotspotMenuIsVisible()\"\n    (onMenuChange)=\"onHotspotMenuChange($event)\"\n    class=\"editor__hotspot-menu\">\n  </hotspot-menu>\n\n  <!--\n  <edit-space-toggle\n    *ngIf=\"viewToggleIsVisible()\"\n    class=\"editor__toggle\">\n  </edit-space-toggle>\n-->\n\n  <!-- Story Map -->\n  <story-scroll\n      *ngIf=\"roomEditorIsVisible()\"\n      class=\"editor__story-scroll\">\n  </story-scroll>\n\n  <!-- Fullscreen -->\n  <fullscreen\n      *ngIf=\"roomEditorIsVisible()\"\n      class=\"editor__fullscreen\">\n  </fullscreen>\n\n  <modal></modal>\n  <hidden-file-loader></hidden-file-loader>\n\n</div>\n\n<router-outlet name=\"modal\"></router-outlet>\n"
+
+/***/ }),
+/* 1175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -36906,27 +36925,27 @@ var EditSpaceFlat = /** @class */function () {
     __decorate([core_1.ViewChildren('roomIcon'), __metadata("design:type", Array)], EditSpaceFlat.prototype, "roomIconComponentList", void 0);
     EditSpaceFlat = __decorate([core_1.Component({
         selector: 'edit-space-flat',
-        styles: [__webpack_require__(1174)],
-        template: __webpack_require__(1175)
+        styles: [__webpack_require__(1176)],
+        template: __webpack_require__(1177)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, combinedHotspotUtil_1.CombinedHotspotUtil, event_bus_1.EventBus])], EditSpaceFlat);
     return EditSpaceFlat;
 }();
 exports.EditSpaceFlat = EditSpaceFlat;
 
 /***/ }),
-/* 1174 */
+/* 1176 */
 /***/ (function(module, exports) {
 
 module.exports = ".edit-space {\n  width: 100%;\n  height: 100%; }\n\n.edit-space-background {\n  width: 100%;\n  height: 100%;\n  user-select: none;\n  -moz-user-select: none;\n  -webkit-user-drag: none;\n  -webkit-user-select: none;\n  -ms-user-select: none; }\n\n.edit-space-background--video {\n  object-fit: inherit; }\n"
 
 /***/ }),
-/* 1175 */
+/* 1177 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"edit-space\">\n\n  <img\n    *ngIf=\"!isVideo()\"\n    [attr.src]=\"getBackgroundImage()\"\n    (dragstart)=\"$event.preventDefault()\"\n    class=\"edit-space-background\">\n\n  <video\n    *ngIf=\"isVideo()\"\n    [attr.src]=\"getBackgroundVideo()\"\n    (dragstart)=\"$event.preventDefault()\"\n    class=\"edit-space-background edit-space-background--video\">\n  </video>\n\n\n  <div *ngFor=\"let roomProperty of getItems()\">\n    <room-icon\n      #roomIcon\n      [roomProperty]=\"roomProperty\">\n    </room-icon>\n  </div>\n\n  <default-overlay\n    *ngIf=\"!roomHasBackgroundImage()\">\n  </default-overlay>\n\n</div>\n"
 
 /***/ }),
-/* 1176 */
+/* 1178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37036,27 +37055,27 @@ var DefaultOverlay = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], DefaultOverlay.prototype, "onFileLoad", void 0);
     DefaultOverlay = __decorate([core_1.Component({
         selector: 'default-overlay',
-        styles: [__webpack_require__(1177)],
-        template: __webpack_require__(1178)
+        styles: [__webpack_require__(1179)],
+        template: __webpack_require__(1180)
     }), __metadata("design:paramtypes", [event_bus_1.EventBus, fileLoaderUtil_1.FileLoaderUtil, zipFileReader_1.ZipFileReader, sceneInteractor_1.SceneInteractor, SlideshowBuilder_1.SlideshowBuilder])], DefaultOverlay);
     return DefaultOverlay;
 }();
 exports.DefaultOverlay = DefaultOverlay;
 
 /***/ }),
-/* 1177 */
+/* 1179 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FAFAFA;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FAFAFA; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  padding-bottom: 4px;\n  color: #ADADAD; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FAFAFA; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%);\n  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); }\n\n.upload__fields {\n  width: 50%;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n\n.upload__hidden-input {\n  display: none; }\n\n.default-overlay {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n  top: 0;\n  left: 0;\n  background-color: #888888;\n  display: flex;\n  justify-content: space-around;\n  align-items: center; }\n\n.upload__box_splash {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  color: #FAFAFA;\n  font-size: 3vw;\n  text-align: center;\n  border: 2px dashed #EEEEEE;\n  border-radius: 20px;\n  width: 50%;\n  height: 50%;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  cursor: pointer; }\n\n.default-overlay__background {\n  width: 100%;\n  height: 100%;\n  background-image: url(\"assets/images/background_bosnia-waterfall.JPG\");\n  background-size: 100% 100%;\n  -webkit-filter: blur(50px);\n  -moz-filter: blur(50px);\n  -o-filter: blur(50px);\n  -ms-filter: blur(50px);\n  filter: blur(50px); }\n\n.default-overlay__hidden-input {\n  display: none; }\n\n.default-overlay__box {\n  border: 2px dashed #EEEEEE;\n  border-radius: 20px;\n  padding: 50px;\n  margin: 10px;\n  font-size: 1.6em;\n  text-align: center;\n  cursor: pointer; }\n\n.default-overlay__logo {\n  margin-top: 24px;\n  font-size: 2em;\n  font-weight: 600;\n  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);\n  position: absolute;\n  top: 0%;\n  cursor: pointer;\n  text-decoration: none !important; }\n  .default-overlay__logo:hover {\n    color: #ADADAD; }\n\n.default-overlay__logo-social a:link {\n  text-decoration: none !important;\n  border-bottom: 0px; }\n\n.default-overlay__logo-vr {\n  color: #EEEEEE;\n  font-weight: 800; }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FAFAFA;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FAFAFA; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  padding-bottom: 4px;\n  color: #ADADAD; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FAFAFA; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%);\n  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); }\n\n.upload__fields {\n  width: 50%;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n\n.upload__hidden-input {\n  display: none; }\n\n.default-overlay {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n  top: 0;\n  left: 0;\n  background-color: #888888;\n  display: flex;\n  justify-content: space-around;\n  align-items: center; }\n\n.upload__box_splash {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  color: #FAFAFA;\n  font-size: 3vw;\n  text-align: center;\n  border: 2px dashed #EEEEEE;\n  border-radius: 20px;\n  width: 50%;\n  height: 50%;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  cursor: pointer; }\n\n.default-overlay__background {\n  width: 100%;\n  height: 100%;\n  background-image: url(\"assets/images/background_bosnia-waterfall.JPG\");\n  background-size: 100% 100%;\n  -webkit-filter: blur(50px);\n  -moz-filter: blur(50px);\n  -o-filter: blur(50px);\n  -ms-filter: blur(50px);\n  filter: blur(50px); }\n\n.default-overlay__hidden-input {\n  display: none; }\n\n.default-overlay__box {\n  border: 2px dashed #EEEEEE;\n  border-radius: 20px;\n  padding: 50px;\n  margin: 10px;\n  font-size: 1.6em;\n  text-align: center;\n  cursor: pointer; }\n\n.default-overlay__logo {\n  color: #FAFAFA;\n  margin-top: 16px;\n  font-size: 2em;\n  font-weight: 600;\n  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);\n  position: absolute;\n  top: 0%;\n  cursor: pointer;\n  text-decoration: none !important; }\n  .default-overlay__logo:hover {\n    color: #ADADAD; }\n\n.default-overlay__logo-social a:link {\n  text-decoration: none !important;\n  border-bottom: 0px; }\n\n.default-overlay__logo-vr {\n  color: #EEEEEE;\n  font-weight: 800; }\n"
 
 /***/ }),
-/* 1178 */
+/* 1180 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\ndroppable\n(onFileLoad)=\"onFileDrop($event)\"\n[acceptedFileType]=\"'image'\"\n[acceptMultpleFiles]=\"true\"\nclass=\"default-overlay\">\n\n\n  <p class=\"default-overlay__background\">\n  </p>\n\n  <div>\n    <input\n      id=\"hiddenBackgroundInput\"\n      type=\"file\"\n      multiple\n      (change)=\"onFileChange($event)\"\n      class=\"upload__hidden-input\">\n    <label\n      for=\"hiddenBackgroundInput\"\n      class=\"upload__box_splash\">\n      Drag in 360 photos\n      <br />\n      or\n      <br />\n      click to import\n    </label>\n  </div>\n\n\n  <p class=\"default-overlay__logo font-header\">\n    <span class=\"default-overlay__logo-social\">\n      <a target=\"_blank\" href=\"https://irl.studio/products/socialvr/\">Social VR</a>\n    </span>\n  </p>\n\n</div>\n"
 
 /***/ }),
-/* 1179 */
+/* 1181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37322,27 +37341,27 @@ var RoomIcon = /** @class */function () {
     __decorate([core_1.HostListener('document:click', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], RoomIcon.prototype, "onDocumentClick", null);
     RoomIcon = __decorate([core_1.Component({
         selector: 'room-icon',
-        styles: [__webpack_require__(1180)],
-        template: __webpack_require__(1181)
+        styles: [__webpack_require__(1182)],
+        template: __webpack_require__(1183)
     }), __metadata("design:paramtypes", [event_bus_1.EventBus, propertyRemovalService_1.PropertyRemovalService, combinedHotspotUtil_1.CombinedHotspotUtil, core_1.NgZone, core_1.ElementRef])], RoomIcon);
     return RoomIcon;
 }();
 exports.RoomIcon = RoomIcon;
 
 /***/ }),
-/* 1180 */
+/* 1182 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.icon {\n  position: absolute;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  cursor: grab;\n  width: 80px; }\n  .icon:active {\n    cursor: grabbing; }\n  .icon:hover .icon__delete {\n    visibility: visible; }\n\n.icon__image {\n  height: 48px;\n  display: block;\n  margin: 0 auto;\n  filter: drop-shadow(0 7px 14px rgba(0, 0, 0, 0.3)); }\n\n.icon__delete {\n  background-image: url(\"assets/icons/delete_filled.png\");\n  background-color: transparent;\n  background-size: 90%;\n  background-repeat: no-repeat;\n  width: 21px;\n  height: 21px;\n  visibility: hidden;\n  transform: translate(75%, 0%); }\n\n.icon__image--medium {\n  height: 33px; }\n\n.icon__image--small {\n  height: 20px; }\n\n.icon__label {\n  text-align: center;\n  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);\n  margin: 2px 0 0 0; }\n\n.icon__hotspot-sphere {\n  position: absolute;\n  border: 2px dashed #FAFAFA;\n  border-radius: 50%;\n  padding: 60px;\n  top: -32px;\n  left: -18px; }\n\n.icon__property-editor {\n  position: absolute; }\n"
 
 /***/ }),
-/* 1181 */
+/* 1183 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  #iconElement\n  id=\"icon-element\"\n  class=\"icon\"\n  hotspot-icon\n  (onMove)=\"onMove($event)\"\n  (onMoveEnd)=\"onMoveEnd($event)\">\n  <div\n    (click)=\"onDeleteClick($event)\"\n    class=\"icon__delete\">\n  </div>\n\n  <img\n    id=\"draggableIcon\"\n    class=\"icon__image\"\n    [attr.src]=\"iconPath\"\n    [ngClass]=\"{\n      'icon__image--small': hotspotIconSize === 'SMALL',\n      'icon__image--medium': hotspotIconSize === 'MEDIUM'\n    }\">\n\n  <text-input\n    [textModel]=\"getName()\"\n    [isHotspot]=\"true\"\n    (onTextChange)=\"onNameChange($event)\">\n  </text-input>\n\n\n\n\n  <property-editor\n    *ngIf=\"propertyEditorIsVisible\"\n    [roomProperty]=\"roomProperty\"\n    (onDeselect)=\"onDeselect($event)\"\n    class=\"icon__property-editor\">\n  </property-editor>\n\n\n</div>\n"
 
 /***/ }),
-/* 1182 */
+/* 1184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37398,27 +37417,27 @@ var PropertyEditor = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], PropertyEditor.prototype, "onDeselect", void 0);
     PropertyEditor = __decorate([core_1.Component({
         selector: 'property-editor',
-        styles: [__webpack_require__(1183)],
-        template: __webpack_require__(1184)
+        styles: [__webpack_require__(1185)],
+        template: __webpack_require__(1186)
     }), __metadata("design:paramtypes", [propertyRemovalService_1.PropertyRemovalService])], PropertyEditor);
     return PropertyEditor;
 }();
 exports.PropertyEditor = PropertyEditor;
 
 /***/ }),
-/* 1183 */
+/* 1185 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.property-editor {\n  z-index: 5; }\n\n.property-editor__old {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  height: 200px;\n  width: 280px;\n  position: absolute;\n  left: -100px;\n  padding: 5px;\n  background-color: #ADADAD;\n  z-index: 5;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n  @media (max-width: 767px) {\n    .property-editor__old {\n      position: fixed;\n      width: 100%;\n      left: 0;\n      top: 0;\n      margin-top: 50px;\n      z-index: 5; } }\n\n.property-editor__row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  padding: 10px 0; }\n\n.property-editor__title {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.property-editor__select {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  align-items: center;\n  margin-top: 10px; }\n\n.property-editor__label {\n  margin-right: 10px;\n  font-size: 0.8em;\n  color: #888888; }\n\n.property-editor__title-input {\n  flex-grow: 2;\n  font-size: 1.1em; }\n\n.property-editor__content-editor {\n  flex: 2; }\n\n.property-editor__delete-button {\n  margin-top: 8px;\n  width: 100%;\n  font-size: 0.8em;\n  background-color: #FF3571;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  border-radius: 4px;\n  cursor: pointer; }\n"
 
 /***/ }),
-/* 1184 */
+/* 1186 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"modal-window property-editor\">\n\n  <div class=\"modal-window__fields\">\n\n    <text-editor\n      *ngIf=\"propertyIs('text')\"\n      [textProperty]=\"roomProperty\">\n    </text-editor>\n\n    <image-editor\n      *ngIf=\"propertyIs('image')\"\n      [imageProperty]=\"roomProperty\">\n    </image-editor>\n\n    <door-editor\n      *ngIf=\"propertyIs('door')\"\n      [doorProperty]=\"roomProperty\">\n    </door-editor>\n\n    <audio-editor\n      *ngIf=\"propertyIs('audio')\"\n      [audioProperty]=\"roomProperty\">\n    </audio-editor>\n\n    <link-editor\n      *ngIf=\"propertyIs('link')\"\n      [linkProperty]=\"roomProperty\">\n    </link-editor>\n\n    <div\n      class=\"property-editor__delete-button\"\n      (click)=\"deleteProperty()\">\n      Delete {{ getPropertyName() }}\n    </div>\n\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1185 */
+/* 1187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37442,27 +37461,27 @@ var TextEditor = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", text_1.Text)], TextEditor.prototype, "textProperty", void 0);
     TextEditor = __decorate([core_1.Component({
         selector: 'text-editor',
-        styles: [__webpack_require__(1186)],
-        template: __webpack_require__(1187)
+        styles: [__webpack_require__(1188)],
+        template: __webpack_require__(1189)
     })], TextEditor);
     return TextEditor;
 }();
 exports.TextEditor = TextEditor;
 
 /***/ }),
-/* 1186 */
+/* 1188 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.text-editor__text-area {\n  border-color: #EEEEEE;\n  resize: none;\n  font-size: 1.1em;\n  width: 100%;\n  height: 10vh; }\n"
 
 /***/ }),
-/* 1187 */
+/* 1189 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"text-editor\">\n  <p class=\"hotspot-inspector__label\">\n    Enter Text:\n  </p>\n  <textarea\n    name=\"textarea\"\n    class=\"text-editor__text-area\"\n    [(ngModel)]=\"textProperty.body\">\n  </textarea>\n\n</div>\n"
 
 /***/ }),
-/* 1188 */
+/* 1190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37498,27 +37517,27 @@ var ImageEditor = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", image_1.Image)], ImageEditor.prototype, "imageProperty", void 0);
     ImageEditor = __decorate([core_1.Component({
         selector: 'image-editor',
-        styles: [__webpack_require__(1189)],
-        template: __webpack_require__(1190)
+        styles: [__webpack_require__(1191)],
+        template: __webpack_require__(1192)
     }), __metadata("design:paramtypes", [event_bus_1.EventBus])], ImageEditor);
     return ImageEditor;
 }();
 exports.ImageEditor = ImageEditor;
 
 /***/ }),
-/* 1189 */
+/* 1191 */
 /***/ (function(module, exports) {
 
 module.exports = ".image-editor__file-loader {\n  width: 100%;\n  display: inline-block;\n  position: relative;\n  left: 50%;\n  transform: translate(-50%, 0); }\n\n.image-editor__image-display {\n  display: block;\n  position: relative;\n  max-height: 300px;\n  margin-left: auto;\n  margin-right: auto;\n  justify-content: center;\n  overflow: hidde; }\n"
 
 /***/ }),
-/* 1190 */
+/* 1192 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  droppable\n  (onFileLoad)=\"onFileLoad($event)\"\n  [acceptedFileType]=\"'image'\">\n\n  <file-loader\n    (onFileLoad)=\"onFileLoad($event)\"\n    [acceptedFileType]=\"'image'\"\n    class=\"image-editor__file-loader\">\n  </file-loader>\n\n  <img\n    [attr.src]=\"imageProperty.getBinaryFileData()\"\n    class=\"image-editor__image-display\">\n\n</div>\n"
 
 /***/ }),
-/* 1191 */
+/* 1193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37632,27 +37651,27 @@ var DoorEditor = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", door_1.Door)], DoorEditor.prototype, "doorProperty", void 0);
     DoorEditor = __decorate([core_1.Component({
         selector: 'door-editor',
-        styles: [__webpack_require__(1192)],
-        template: __webpack_require__(1193)
+        styles: [__webpack_require__(1194)],
+        template: __webpack_require__(1195)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, event_bus_1.EventBus])], DoorEditor);
     return DoorEditor;
 }();
 exports.DoorEditor = DoorEditor;
 
 /***/ }),
-/* 1192 */
+/* 1194 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FAFAFA;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FAFAFA; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  padding-bottom: 4px;\n  color: #ADADAD; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FAFAFA; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%);\n  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); }\n\n.property-editor {\n  z-index: 5; }\n\n.property-editor__old {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  height: 200px;\n  width: 280px;\n  position: absolute;\n  left: -100px;\n  padding: 5px;\n  background-color: #ADADAD;\n  z-index: 5;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n  @media (max-width: 767px) {\n    .property-editor__old {\n      position: fixed;\n      width: 100%;\n      left: 0;\n      top: 0;\n      margin-top: 50px;\n      z-index: 5; } }\n\n.property-editor__row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  padding: 10px 0; }\n\n.property-editor__title {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.property-editor__select {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  align-items: center;\n  margin-top: 10px; }\n\n.property-editor__label {\n  margin-right: 10px;\n  font-size: 0.8em;\n  color: #888888; }\n\n.property-editor__title-input {\n  flex-grow: 2;\n  font-size: 1.1em; }\n\n.property-editor__content-editor {\n  flex: 2; }\n\n.property-editor__delete-button {\n  margin-top: 8px;\n  width: 100%;\n  font-size: 0.8em;\n  background-color: #FF3571;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  border-radius: 4px;\n  cursor: pointer; }\n\n.door-editor__select {\n  margin-bottom: 10px; }\n\n.door-editor__go-button {\n  margin-top: 10px; }\n\n.door-editor__transport {\n  margin-top: 35px;\n  margin-top: 10px; }\n\n.auto-go {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  align-items: center;\n  margin-top: 10px; }\n\n.auto-go__input-box {\n  flex-grow: 1;\n  margin-left: 15px;\n  opacity: 0; }\n\n.auto-go__input-box--visible {\n  opacity: 1; }\n"
 
 /***/ }),
-/* 1193 */
+/* 1195 */
 /***/ (function(module, exports) {
 
 module.exports = "<div>\n    <div>\n      <p class=\"hotspot-inspector__label\">\n        Door to:\n      </p>\n      <select\n        [(ngModel)]=\"selectedRoom\"\n        (change)=\"onRoomChange($event)\"\n        class=\"hotspot-inspector__select door-editor__select\">\n        <option\n          *ngFor=\"let room of roomList\"\n          [selected]=\"room.id === selectedRoom\"\n          [disabled]=\"room.disabled\"\n          [ngValue]=\"room\">\n            {{room.name}}\n        </option>\n      </select>\n    </div>\n\n    <div class=\"button door-editor__go-button\"\n      *ngIf=\"showTransportButton()\">\n      <p\n        (click)=\"onTransportClick($event)\">\n        Go!\n      </p>\n    </div>\n\n\n    <div class=\"auto-go\">\n\n      <span class=\"hotspot-inspector__label width-auto\">\n        Auto\n      </span>\n\n      <checkbox\n        [initialValue]=\"sliderIsVisible()\"\n        (changeEmitter)=\"onCheckboxChange($event)\">\n      </checkbox>\n\n      <!-- This will become a slider when we have finish the slider component -->\n      <text-input-material\n        [inputType]=\"'number'\"\n        [inputLabel]=\"'Seconds (between 1 and 60)'\"\n        [textModel]=\"getAutoTimeViewModel()\"\n        (onTextChange)=\"onSecondsChange($event)\"\n        (onBlurEvent)=\"onSecondsBlur($event)\"\n        class=\"auto-go__input-box\"\n        [ngClass]=\"{'auto-go__input-box--visible': sliderIsVisible()}\">\n      </text-input-material>\n\n    </div>\n  </div>\n\n  <!-- <div *ngIf=\"sliderIsVisible()\">\n    <input\n      id=\"rangeSlider\"\n      type=\"range\"\n      min=\"1\"\n      max=\"60\"\n      step=\"1\"\n      [value]=\"getDoorAutotime()\"\n      (change)=\"setDoorAutotime($event)\"/>\n    <span class=\"hotspot-inspector__label\">\n      {{getDoorAutotime()}} Seconds\n    </span>\n  </div> -->\n\n  <!-- <slider></slider> -->\n"
 
 /***/ }),
-/* 1194 */
+/* 1196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37686,27 +37705,27 @@ var LinkEditor = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", link_1.Link)], LinkEditor.prototype, "linkProperty", void 0);
     LinkEditor = __decorate([core_1.Component({
         selector: 'link-editor',
-        styles: [__webpack_require__(1195)],
-        template: __webpack_require__(1196)
+        styles: [__webpack_require__(1197)],
+        template: __webpack_require__(1198)
     })], LinkEditor);
     return LinkEditor;
 }();
 exports.LinkEditor = LinkEditor;
 
 /***/ }),
-/* 1195 */
+/* 1197 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FAFAFA;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FAFAFA; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  padding-bottom: 4px;\n  color: #ADADAD; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FAFAFA; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%);\n  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); }\n\n.property-editor {\n  z-index: 5; }\n\n.property-editor__old {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  height: 200px;\n  width: 280px;\n  position: absolute;\n  left: -100px;\n  padding: 5px;\n  background-color: #ADADAD;\n  z-index: 5;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n  @media (max-width: 767px) {\n    .property-editor__old {\n      position: fixed;\n      width: 100%;\n      left: 0;\n      top: 0;\n      margin-top: 50px;\n      z-index: 5; } }\n\n.property-editor__row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  padding: 10px 0; }\n\n.property-editor__title {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.property-editor__select {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  align-items: center;\n  margin-top: 10px; }\n\n.property-editor__label {\n  margin-right: 10px;\n  font-size: 0.8em;\n  color: #888888; }\n\n.property-editor__title-input {\n  flex-grow: 2;\n  font-size: 1.1em; }\n\n.property-editor__content-editor {\n  flex: 2; }\n\n.property-editor__delete-button {\n  margin-top: 8px;\n  width: 100%;\n  font-size: 0.8em;\n  background-color: #FF3571;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  border-radius: 4px;\n  cursor: pointer; }\n\n.link-editor__text-area {\n  resize: none;\n  font-size: 1.1em;\n  width: 274px;\n  height: 96px;\n  background: transparent; }\n\n.link-editor__go-button {\n  width: 278px; }\n"
 
 /***/ }),
-/* 1196 */
+/* 1198 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"link-editor\">\n\n  <textarea\n    name=\"textarea\"\n    class=\"link-editor__text-area\"\n    [(ngModel)]=\"linkProperty.body\">\n  </textarea>\n\n  <div class=\"button link-editor__go-button\"\n    *ngIf=\"showLinkButton()\">\n    <p\n      (click)=\"onLinkClick($event)\">\n      Go!\n    </p>\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1197 */
+/* 1199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37748,27 +37767,27 @@ var AudioEditor = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", audio_1.Audio)], AudioEditor.prototype, "audioProperty", void 0);
     AudioEditor = __decorate([core_1.Component({
         selector: 'audio-editor',
-        styles: [__webpack_require__(1198)],
-        template: __webpack_require__(1199)
+        styles: [__webpack_require__(1200)],
+        template: __webpack_require__(1201)
     })], AudioEditor);
     return AudioEditor;
 }();
 exports.AudioEditor = AudioEditor;
 
 /***/ }),
-/* 1198 */
+/* 1200 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.audio-editor__record-button {\n  display: inline-block;\n  position: relative;\n  margin-left: 5px;\n  margin-bottom: 10px; }\n\n.audio-editor__file-loader {\n  position: relative;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.audio-editor__audio-player {\n  width: 100%;\n  position: relative;\n  margin-top: 5px; }\n"
 
 /***/ }),
-/* 1199 */
+/* 1201 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  droppable\n  (onFileLoad)=\"onFileLoad($event)\"\n  [acceptedFileType]=\"'audio'\">\n\n\n  <div class=\"hotspot-inspector_row\">\n    <file-loader\n      (onFileLoad)=\"onFileLoad($event)\"\n      [acceptedFileType]=\"'audio'\"\n      class=\"audio-editor__file-loader\">\n    </file-loader>\n\n    <audio-recorder\n      *ngIf=\"showAudioRecorder()\"\n      (onRecorded)=\"onAudioRecorded($event)\"\n      class=\"audio-editor__record-button\">\n    </audio-recorder>\n  </div>\n\n\n\n  <audio\n    *ngIf=\"hasAudioFile()\"\n    [attr.src]=\"audioProperty.getBinaryFileData()\"\n    type=\"audio/mp3\"\n    controls=\"controls\"\n    [volume]=\"audioProperty.getVolume()\"\n    (volumechange)=\"onVolumeChange($event)\"\n    class=\"audio-editor__audio-player\">\n  </audio>\n\n</div>\n"
 
 /***/ }),
-/* 1200 */
+/* 1202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37865,8 +37884,8 @@ var AudioRecorder = /** @class */function () {
     __decorate([core_1.ViewChild('audioRecorder'), __metadata("design:type", Object)], AudioRecorder.prototype, "audioRecorderButton", void 0);
     AudioRecorder = __decorate([core_1.Component({
         selector: 'audio-recorder',
-        styles: [__webpack_require__(1201)],
-        template: __webpack_require__(1202)
+        styles: [__webpack_require__(1203)],
+        template: __webpack_require__(1204)
     }), __metadata("design:paramtypes", [audioRecorderService_1.AudioRecorderService, core_1.NgZone])], AudioRecorder);
     return AudioRecorder;
 }();
@@ -37884,19 +37903,19 @@ function linearInterpolateValue(u, v, value, inverseValue) {
 }
 
 /***/ }),
-/* 1201 */
+/* 1203 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.circle-beacon:before,\n.circle-beacon:after {\n  width: 36px;\n  height: 36px;\n  content: '';\n  position: absolute;\n  top: -2px;\n  left: -2px;\n  border-radius: 50%;\n  border: 2px solid #FF3571; }\n\n.circle-beacon:before {\n  animation: ripple 1.5s linear infinite; }\n\n.circle-beacon:after {\n  animation: ripple 1.5s linear 1s infinite; }\n\n@keyframes ripple {\n  0% {\n    transform: scale(1);\n    opacity: 0; }\n  10% {\n    transform: scale(1.05);\n    opacity: 1; }\n  100% {\n    transform: scale(1.75);\n    opacity: 0; } }\n\n.audio-recorder {\n  position: relative;\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  background-color: #AD0034; }\n"
 
 /***/ }),
-/* 1202 */
+/* 1204 */
 /***/ (function(module, exports) {
 
 module.exports = "<div \n  #audioRecorder\n  (click)=\"onClick($event)\"\n  class=\"audio-recorder\"\n  [ngClass]=\"{'circle-beacon': isRecording}\">\n</div>\n"
 
 /***/ }),
-/* 1203 */
+/* 1205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -37915,33 +37934,32 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
+__webpack_require__(468);
+__webpack_require__(469);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
 var sceneInteractor_1 = __webpack_require__(14);
 var cameraInteractor_1 = __webpack_require__(275);
 var assetInteractor_1 = __webpack_require__(60);
 // import {MultiViewService} from 'ui/editor/preview-space/modules/multiViewService';
-var MeshUtil = __webpack_require__(1204);
-var audioManager_1 = __webpack_require__(521);
-var textureLoader_1 = __webpack_require__(522);
-var hotspotManager_1 = __webpack_require__(523);
+var MeshUtil = __webpack_require__(1206);
+var audioManager_1 = __webpack_require__(523);
+var textureLoader_1 = __webpack_require__(524);
+var hotspotManager_1 = __webpack_require__(525);
 var menuManager_1 = __webpack_require__(281);
-var reticle_1 = __webpack_require__(525);
-var video3D_1 = __webpack_require__(516);
-var threeUtil_1 = __webpack_require__(514);
-var SvrControls_1 = __webpack_require__(515);
+var reticle_1 = __webpack_require__(527);
+var video3D_1 = __webpack_require__(518);
+var threeUtil_1 = __webpack_require__(516);
+var SvrControls_1 = __webpack_require__(517);
 var constants_1 = __webpack_require__(13);
-var fontHelper_1 = __webpack_require__(524);
-var showStats = false;
-var Stats = __webpack_require__(1207);
+var fontHelper_1 = __webpack_require__(526);
+var Stats = __webpack_require__(1209);
 var stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-if (showStats) {
-    document.body.appendChild(stats.dom);
-}
+// document.body.appendChild( stats.dom );
 var TWEEN = __webpack_require__(280);
-var roomSphereFragShader = __webpack_require__(1208);
-var roomSphereVertShader = __webpack_require__(1209);
+var roomSphereFragShader = __webpack_require__(1210);
+var roomSphereVertShader = __webpack_require__(1211);
 var PreviewSpace = /** @class */function () {
     function PreviewSpace(metaDataInteractor, sceneInteractor, cameraInteractor, ngZone, assetInteractor, route, router, audioManager, textureLoader, hotspotManager, menuManager, reticle) {
         this.metaDataInteractor = metaDataInteractor;
@@ -37967,7 +37985,6 @@ var PreviewSpace = /** @class */function () {
         this.sphereMaterial = new THREE.MeshBasicMaterial({ map: null, side: THREE.BackSide });
         this.onResizeFn = this.onResize.bind(this);
         this.onVrDisplayChangeFn = this.onVrDisplayChange.bind(this);
-        this.vrHasBeenSetUp = false;
     }
     //////////////////////////////////////////////
     ///////////    HOUSE KEEPING    //////////////
@@ -37991,22 +38008,18 @@ var PreviewSpace = /** @class */function () {
         if (!this.shouldInit) return;
         this.initScene();
         Promise.all([this.audioManager.loadBuffers(), this.textureLoader.load(), this.initVrDisplay(), fontHelper_1.default.load()]).then(function () {
-            _this.initRoom();
-            _this.onResize(null);
+            return _this.initRoom();
         }).catch(function (error) {
             return console.log('EditSphereBaseInit', error);
         });
     };
     PreviewSpace.prototype.ngOnDestroy = function () {
+        // this.svrControls.dispose();
         window.removeEventListener('resize', this.onResizeFn, false);
         window.removeEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);
         this.cameraInteractor.setCameraAngles(this.svrControls.getCameraAngles());
-        this.stopAnimationLoop(0).then(function () {
-            return console.log('animation loop stopped');
-        });
-        this.renderer.dispose();
-        this.vrRenderer.dispose();
-        this.svrControls.dispose();
+        cancelAnimationFrame(this.animationRequest);
+        this.isInRenderLoop = false;
         this.subscriptions.forEach(function (subscription) {
             return subscription.unsubscribe();
         });
@@ -38024,8 +38037,8 @@ var PreviewSpace = /** @class */function () {
     ///////////  INITIALIZATION     //////////////
     //////////////////////////////////////////////
     PreviewSpace.prototype.initScene = function () {
-        var previewCanvas = this.previewCanvasWrapper.nativeElement;
-        var vrCanvas = this.vrCanvasWrapper.nativeElement;
+        var _this = this;
+        var canvas = this.globeCanvas.nativeElement;
         var scenePrimitives = threeUtil_1.buildScene();
         this.sphereMesh = scenePrimitives.sphereMesh;
         this.camera = scenePrimitives.camera;
@@ -38033,15 +38046,17 @@ var PreviewSpace = /** @class */function () {
         this.scene = scenePrimitives.scene;
         this.sphereMesh.material = this.sphereMaterial;
         this.reticle.init(this.camera, this.vrCamera);
-        this.renderer = new THREE.WebGLRenderer({ canvas: previewCanvas, antialias: false });
-        this.vrRenderer = new THREE.WebGLRenderer({ canvas: vrCanvas, antialias: true });
-        this.vrRenderer.vr.enabled = true;
-        this.vrRenderer.vr.userHeight = 0;
+        this.renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false });
         this.svrControls = new SvrControls_1.default({
             camera: this.camera,
-            domElement: previewCanvas,
+            domElement: canvas,
             initialCameraAngles: this.cameraInteractor.getCameraAngles(),
             executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone)
+        });
+        this.ngZone.runOutsideAngular(function () {
+            _this.vrControls = new THREE.VRControls(_this.vrCamera);
+            _this.vrEffect = new THREE.VREffect(_this.renderer);
+            _this.vrEffect.setSize(window.innerWidth, window.innerHeight);
         });
     };
     PreviewSpace.prototype.initRoom = function () {
@@ -38053,6 +38068,36 @@ var PreviewSpace = /** @class */function () {
         this.audioManager.playBackgroundAudio();
         this.audioManager.playNarration();
         this.audioManager.playSoundtrack();
+        this.isInRenderLoop = true;
+        /*
+        if (!this.vrDisplay && this.vrDisplay.isPresenting)  {
+        // tween with fov
+        this.camera.fov = THREE_CONST.FOV_OUT;
+             var tweenRoomIn = new TWEEN.Tween(this.camera)
+        .to({
+            fov: THREE_CONST.FOV_NORM
+        },THREE_CONST.TWEEN_ROOM_MOVETIMEIN)
+        .easing(TWEEN.Easing.Linear.None).onUpdate( () => { })
+        .onComplete( () => {
+          //console.log("Init room: ",roomId);
+          this.roomHistory.push(roomId);
+        }).start();
+        } else {
+          this.roomHistory.push(roomId);
+        }
+        */
+        //tween with sphere position towards is
+        // this.sphereMesh.position.set(THREE_CONST.TWEEN_ROOM_MOVEIN,0,0);
+        // var tweenRoomOut = new TWEEN.Tween(this.sphereMesh.position).to({
+        //     x: 0,
+        //     y: 0,
+        //     z: 0
+        // },THREE_CONST.TWEEN_ROOM_MOVETIMEIN).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
+        //
+        // }).onComplete( () => {
+        //   //console.log("onCopmlete for tween");
+        //   this.roomHistory.push(roomId);
+        // }).start();
         this.roomHistory.push(roomId);
     };
     //for still image backgrounds
@@ -38083,6 +38128,7 @@ var PreviewSpace = /** @class */function () {
         if (!this.menuManager.exists()) {
             this.menuManager.load(this.scene, this.camera.position, this.goToLastRoom.bind(this), this.goToHomeRoom.bind(this));
         }
+        this.onResize(null);
     };
     //for video backgrounds
     PreviewSpace.prototype.init3dRoom = function (room) {
@@ -38100,29 +38146,13 @@ var PreviewSpace = /** @class */function () {
     //////////////////////////////////////////////
     /////// animate, update, render //////////////
     //////////////////////////////////////////////
-    PreviewSpace.prototype.startAnimationLoop = function () {
-        this.isInRenderLoop = true;
-        this.vrDisplayIsActive() ? this.vrRenderer.animate(this.animate.bind(this)) : this.animate();
-    };
-    PreviewSpace.prototype.stopAnimationLoop = function (timeout) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.isInRenderLoop = false;
-            cancelAnimationFrame(_this.animationRequest);
-            _this.vrRenderer.animate(null);
-            setTimeout(function () {
-                return resolve();
-            }, timeout);
-        });
-    };
     PreviewSpace.prototype.animate = function () {
         var _this = this;
         if (!this.isInRenderLoop) {
             return;
         }
-        if (showStats) {
-            stats.begin();
-        }
+        stats.begin();
+        //console.log("animate",this.isInRenderLoop);
         this.ngZone.runOutsideAngular(function () {
             // calculate elapsed time
             var timestamp = performance.now();
@@ -38134,31 +38164,43 @@ var PreviewSpace = /** @class */function () {
         });
     };
     PreviewSpace.prototype.update = function (elapsedTime) {
-        var isInVrMode = this.vrDisplayIsActive();
+        var isInVrMode = this.vrDisplay && this.vrDisplay.isPresenting;
         var reticle = this.reticle.getActiveReticle(isInVrMode);
-        var camera = this.vrDisplayIsActive() ? this.vrCamera : this.camera;
-        if (!isInVrMode) {
-            this.svrControls.update();
-        }
+        var camera = isInVrMode ? this.vrCamera : this.camera;
+        isInVrMode ? this.vrControls.update() : this.svrControls.update();
         if (!this.inRoomTween) {
             this.hotspotManager.update(reticle, elapsedTime);
         }
         this.menuManager.update(reticle, camera);
-        this.reticle.showVrReticle(isInVrMode);
         // this.multiViewService.update(camera);
         TWEEN.update();
     };
     PreviewSpace.prototype.render = function () {
-        if (this.vrDisplayIsActive()) {
-            this.vrRenderer.render(this.scene, this.vrCamera);
+        //this.scene.updateMatrixWorld(true);
+        // render vr mode
+        if (this.vrDisplay && this.vrDisplay.isPresenting) {
+            this.vrEffect.render(this.scene, this.vrCamera);
+            this.animationRequest = this.vrDisplay.requestAnimationFrame(this.animate.bind(this));
         } else {
             this.renderer.render(this.scene, this.camera);
-            cancelAnimationFrame(this.animationRequest);
+            stats.end();
             this.animationRequest = requestAnimationFrame(this.animate.bind(this));
         }
-        if (showStats) {
-            stats.end();
-        }
+    };
+    PreviewSpace.prototype.debounce = function (func, wait, immediate) {
+        var timeout;
+        return function () {
+            var context = this,
+                args = arguments;
+            var later = function () {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
     };
     //////////////////////////////////////////////
     /////// Room Changing Helpers ////////////////
@@ -38167,6 +38209,7 @@ var PreviewSpace = /** @class */function () {
         var _this = this;
         this.roomHistory.pop();
         var lastRoom = this.roomHistory[this.roomHistory.length - 1];
+        this.isInRenderLoop = false;
         setTimeout(function () {
             _this.sceneInteractor.setActiveRoomId(lastRoom);
             _this.initRoom();
@@ -38182,7 +38225,7 @@ var PreviewSpace = /** @class */function () {
         this.inRoomTween = true;
         this.lookAtVector = new THREE.Vector3(0, 0, 0);
         //get the direciton we should move in
-        if (this.vrDisplayIsActive()) {
+        if (this.vrDisplay && this.vrDisplay.isPresenting) {
             this.vrCamera.getWorldDirection(this.lookAtVector);
         } else {
             this.camera.getWorldDirection(this.lookAtVector);
@@ -38193,6 +38236,7 @@ var PreviewSpace = /** @class */function () {
             y: -1 * this.lookAtVector.y * constants_1.THREE_CONST.TWEEN_ROOM_MOVE,
             z: -1 * this.lookAtVector.z * constants_1.THREE_CONST.TWEEN_ROOM_MOVE
         }, constants_1.THREE_CONST.TWEEN_ROOM_MOVETIMEIN).easing(TWEEN.Easing.Linear.None).onUpdate(function () {}).onComplete(function () {
+            _this.isInRenderLoop = false;
             _this.inRoomTween = false;
             _this.sceneInteractor.setActiveRoomId(outgoingRoomId);
             _this.initRoom();
@@ -38202,7 +38246,8 @@ var PreviewSpace = /** @class */function () {
     //////////////   VR MODE      ////////////////
     //////////////////////////////////////////////
     PreviewSpace.prototype.requestVrMode = function ($event) {
-        this.vrDisplay.requestPresent([{ source: this.vrRenderer.domElement }]).catch(function (error) {
+        this.isInRenderLoop = false;
+        this.vrDisplay.requestPresent([{ source: this.renderer.domElement }]).catch(function (error) {
             return console.log('requestVRMode error', error);
         });
     };
@@ -38211,76 +38256,61 @@ var PreviewSpace = /** @class */function () {
         return navigator.getVRDisplays().then(function (vrDisplayList) {
             if (vrDisplayList.length > 0) {
                 _this.vrDisplay = vrDisplayList[0];
-                _this.vrRenderer.vr.setDevice(_this.vrDisplay);
                 _this.showVrModeButton = _this.vrDisplay.capabilities.canPresent;
             }
         }).catch(function (error) {
             return console.log('initVrDisplay', error);
         });
     };
-    PreviewSpace.prototype.vrDisplayIsActive = function () {
-        return !!this.vrDisplay && !!this.vrDisplay.isPresenting;
-    };
-    PreviewSpace.prototype.showVrElement = function (showVrElement) {
-        this.renderer.domElement.style.setProperty('display', showVrElement ? 'none' : 'block');
-        this.vrRenderer.domElement.style.setProperty('display', showVrElement ? 'block' : 'none');
-    };
     //////////////////////////////////////////////
     //////////////   EVENTS ETC   ////////////////
     //////////////////////////////////////////////
+    // potential ios issue?
+    // https://github.com/immersive-web/webvr-polyfill/blob/master/examples/index.html
     PreviewSpace.prototype.onResize = function (event) {
         var _this = this;
-        if (this.vrDisplayIsActive()) {
-            this.setUpVr();
-            return;
-        }
-        this.stopAnimationLoop(100).then(function () {
-            var width = window.innerWidth;
-            var height = window.innerHeight;
-            var aspectRatio = width / height;
-            _this.renderer.setPixelRatio(window.devicePixelRatio);
-            _this.renderer.setSize(width, height);
-            _this.camera.aspect = aspectRatio;
-            _this.camera.updateProjectionMatrix();
-            _this.startAnimationLoop();
+        cancelAnimationFrame(this.animationRequest);
+        this.isInRenderLoop = false;
+        setTimeout(function () {
+            threeUtil_1.onResize(_this.camera, _this.renderer).then(function () {
+                cancelAnimationFrame(_this.animationRequest);
+                var isInVrMode = !!_this.vrDisplay && !!_this.vrDisplay.isPresenting;
+                _this.isInRenderLoop = false;
+                _this.vrEffect.setSize(window.innerWidth, window.innerHeight);
+                // better image quality but worse performance
+                _this.renderer.setPixelRatio(window.devicePixelRatio || 1);
+                _this.renderer.setSize(window.innerWidth, window.innerHeight, false);
+                _this.reticle.showVrReticle(isInVrMode);
+                _this.isInRenderLoop = true;
+                _this.animate();
+            }).catch(function (error) {
+                return console.log('preview-space resize error', error);
+            });
         });
     };
-    PreviewSpace.prototype.setUpVr = function () {
-        this.stopAnimationLoop(0).then(function () {});
-        var width = window.innerWidth;
-        var height = window.innerHeight;
-        this.vrCamera.aspect = width / height;
-        this.vrCamera.updateProjectionMatrix();
-        this.vrRenderer.setSize(width, height);
-        this.vrHasBeenSetUp = true;
-        this.startAnimationLoop();
-    };
     PreviewSpace.prototype.onVrDisplayChange = function (event) {
-        var isVr = this.vrDisplayIsActive();
-        this.showVrElement(isVr);
-        this.vrHasBeenSetUp = !isVr;
         this.onResize(event);
     };
-    __decorate([core_1.ViewChild('previewCanvas'), __metadata("design:type", Object)], PreviewSpace.prototype, "previewCanvasWrapper", void 0);
-    __decorate([core_1.ViewChild('vrCanvas'), __metadata("design:type", Object)], PreviewSpace.prototype, "vrCanvasWrapper", void 0);
+    __decorate([core_1.ViewChild('editSpaceSphere'), __metadata("design:type", Object)], PreviewSpace.prototype, "editSpaceSphere", void 0);
+    __decorate([core_1.ViewChild('globeCanvas'), __metadata("design:type", Object)], PreviewSpace.prototype, "globeCanvas", void 0);
     PreviewSpace = __decorate([core_1.Component({
         selector: 'preview-space',
-        styles: [__webpack_require__(1210)],
-        template: __webpack_require__(1211)
+        styles: [__webpack_require__(1212)],
+        template: __webpack_require__(1213)
     }), __metadata("design:paramtypes", [projectMetaDataInteractor_1.MetaDataInteractor, sceneInteractor_1.SceneInteractor, cameraInteractor_1.CameraInteractor, core_1.NgZone, assetInteractor_1.AssetInteractor, router_1.ActivatedRoute, router_1.Router, audioManager_1.AudioManager, textureLoader_1.TextureLoader, hotspotManager_1.HotspotManager, menuManager_1.MenuManager, reticle_1.Reticle])], PreviewSpace);
     return PreviewSpace;
 }();
 exports.PreviewSpace = PreviewSpace;
 
 /***/ }),
-/* 1204 */
+/* 1206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 function clearScene(scene) {
     scene.traverse(function (mesh) {
         if (mesh instanceof THREE.Mesh) {
@@ -38316,14 +38346,14 @@ function cleanMeshMemory(mesh) {
 exports.cleanMeshMemory = cleanMeshMemory;
 
 /***/ }),
-/* 1205 */
+/* 1207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var roomPropertyTypeService_1 = __webpack_require__(93);
 var constants_1 = __webpack_require__(13);
 var TWEEN = __webpack_require__(280);
@@ -38617,14 +38647,14 @@ var HotspotEntity = /** @class */function () {
 exports.default = HotspotEntity;
 
 /***/ }),
-/* 1206 */
+/* 1208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var fontSize = 26;
 var TextLine = /** @class */function () {
     function TextLine(x, y, text) {
@@ -38686,7 +38716,7 @@ function buildMaterialFromText(textContext) {
 exports.buildMaterialFromText = buildMaterialFromText;
 
 /***/ }),
-/* 1207 */
+/* 1209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // stats.js - http://github.com/mrdoob/stats.js
@@ -38697,31 +38727,31 @@ b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{do
 
 
 /***/ }),
-/* 1208 */
+/* 1210 */
 /***/ (function(module, exports) {
 
 module.exports = "uniform sampler2D texture;\nvarying vec2 vUv;\n\nvoid main() {\n  gl_FragColor = texture2D( texture, vUv );\n}\n"
 
 /***/ }),
-/* 1209 */
+/* 1211 */
 /***/ (function(module, exports) {
 
 module.exports = "uniform sampler2D texture;\nuniform float time; // 0 to 1, seconds\nvarying vec2 vUv;\n\nvoid main() {\n  vec3 p = position;\n  vec3 newPosition = p + normal * - texture2D( texture, uv ).y * 100.0;\n  gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );\n  vUv = uv;\n}\n"
 
 /***/ }),
-/* 1210 */
-/***/ (function(module, exports) {
-
-module.exports = ".preview-space {\n  width: 100%;\n  height: 100%;\n  cursor: default; }\n\n.preview-space__vr-mode-button {\n  position: absolute;\n  top: 0;\n  left: 75%;\n  margin-top: 10px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  transform: translate(-50%, 0%); }\n\n.preview-canvas {\n  width: 100%;\n  height: 100%; }\n\n.vr-canvas {\n  display: none; }\n"
-
-/***/ }),
-/* 1211 */
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"preview-space\">\n\n  <canvas #previewCanvas class=\"preview-canvas\"></canvas>\n  <canvas #vrCanvas class=\"preview-canvas vr-canvas\"></canvas>\n\n  <div\n    *ngIf=\"showVrModeButton\"\n    class=\"preview-space__vr-mode-button\"\n    (click)=\"requestVrMode($event)\">\n    VR Mode\n  </div>\n\n</div>\n"
-
-/***/ }),
 /* 1212 */
+/***/ (function(module, exports) {
+
+module.exports = ".preview-space {\n  width: 100%;\n  height: 100%;\n  cursor: default; }\n\n.preview-space__vr-mode-button {\n  background-color: white;\n  padding: 8px 16px;\n  border-radius: 4px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n  position: absolute;\n  top: 0;\n  left: 70%;\n  margin-top: 24px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  transform: translate(-50%, 0%); }\n"
+
+/***/ }),
+/* 1213 */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"preview-space\">\n\n  <canvas #globeCanvas>\n  </canvas>\n\n  <div\n    *ngIf=\"showVrModeButton\"\n    class=\"preview-space__vr-mode-button\"\n    (click)=\"requestVrMode($event)\">\n    VR Mode\n  </div>\n\n</div>\n"
+
+/***/ }),
+/* 1214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38739,7 +38769,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var THREE = __webpack_require__(28);
+var THREE = __webpack_require__(24);
 var projectInteractor_1 = __webpack_require__(53);
 var sceneInteractor_1 = __webpack_require__(14);
 var chatInteractor_1 = __webpack_require__(282);
@@ -38854,7 +38884,7 @@ var MultiViewService = /** @class */function () {
 exports.MultiViewService = MultiViewService;
 
 /***/ }),
-/* 1213 */
+/* 1215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38935,27 +38965,27 @@ var Topbar = /** @class */function () {
     };
     Topbar = __decorate([core_1.Component({
         selector: 'topbar',
-        styles: [__webpack_require__(1214)],
-        template: __webpack_require__(1215)
+        styles: [__webpack_require__(1216)],
+        template: __webpack_require__(1217)
     }), __metadata("design:paramtypes", [core_1.NgZone, event_bus_1.EventBus, userInteractor_1.UserInteractor, router_1.Router, router_1.ActivatedRoute])], Topbar);
     return Topbar;
 }();
 exports.Topbar = Topbar;
 
 /***/ }),
-/* 1214 */
+/* 1216 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.topbar {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  margin-top: 16px; }\n\n.topbar__row {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between; }\n\n.topbar__row-label {\n  color: #888888;\n  font-weight: 600;\n  background-color: #FAFAFA;\n  border-radius: 4px;\n  padding: 16px 24px;\n  overflow: hidden;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n  cursor: pointer; }\n  .topbar__row-label:hover {\n    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.12); }\n  .topbar__row-label:active {\n    background-color: #FAFAFA;\n    color: #FF3571;\n    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); }\n  .topbar__row-label:focus {\n    outline: 0; }\n\n.topbar__row-label-active {\n  color: #FF3571;\n  opacity: 1;\n  overflow: hidden; }\n\n.topbar__row-menus {\n  flex-grow: 2; }\n\n.topbar__marginright {\n  margin-right: 16px; }\n\n.topbar__marginleft {\n  margin-left: 16px; }\n\n.topbar__row-story {\n  justify-content: center; }\n\n.topbar__position-absolute {\n  position: absolute; }\n\n.topbar__story-tab {\n  position: fixed;\n  transform: translateX(-110%);\n  left: 0;\n  transition: transform 0.2s ease-out; }\n  @media (max-width: 767px) {\n    .topbar__story-tab {\n      width: 98%; } }\n\n.topbar__story-tab--active {\n  transform: translateX(0); }\n\n.topbar__user-tab {\n  position: fixed;\n  transform: translateX(110%);\n  right: 0;\n  transition: transform 0.2s ease-out; }\n  @media (max-width: 767px) {\n    .topbar__user-tab {\n      width: 98%; } }\n\n.topbar__user-tab--active {\n  transform: translateX(0); }\n\n.topbar__about-tab {\n  margin-left: -62.5px; }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.topbar {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  margin-top: 16px; }\n\n.topbar__row {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between; }\n\n.topbar__row-label {\n  color: #888888;\n  font-weight: 600;\n  background-color: #FAFAFA;\n  border-radius: 4px;\n  padding: 16px 24px;\n  overflow: hidden;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n  cursor: pointer; }\n  .topbar__row-label:hover {\n    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.12); }\n  .topbar__row-label:active {\n    background-color: #FAFAFA;\n    color: #FF3571;\n    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); }\n  .topbar__row-label:focus {\n    outline: 0; }\n  @media (max-width: 420px) {\n    .topbar__row-label {\n      padding: 8px 16px;\n      font-size: 14px; } }\n  @media (max-width: 767px) {\n    .topbar__row-label {\n      padding: 8px 16px;\n      font-size: 14px; } }\n\n.topbar__row-label-active {\n  color: #FF3571;\n  opacity: 1;\n  overflow: hidden; }\n\n.topbar__row-menus {\n  flex-grow: 2; }\n\n.topbar__marginright {\n  margin-right: 16px; }\n\n.topbar__marginleft {\n  margin-left: 16px; }\n\n.topbar__row-story {\n  justify-content: center; }\n\n.topbar__position-absolute {\n  position: absolute; }\n\n.topbar__story-tab {\n  position: fixed;\n  transform: translateX(-110%);\n  left: 0;\n  transition: transform 0.2s ease-out; }\n  @media (max-width: 767px) {\n    .topbar__story-tab {\n      width: 98%; } }\n\n.topbar__story-tab--active {\n  transform: translateX(0); }\n\n.topbar__user-tab {\n  position: fixed;\n  transform: translateX(110%);\n  right: 0;\n  transition: transform 0.2s ease-out; }\n  @media (max-width: 767px) {\n    .topbar__user-tab {\n      width: 98%; } }\n\n.topbar__user-tab--active {\n  transform: translateX(0); }\n\n.topbar__about-tab {\n  margin-left: -62.5px; }\n"
 
 /***/ }),
-/* 1215 */
+/* 1217 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"topbar topbar__row\">\n\n  <!-- Story-->\n<div\n    class=\"topbar__sub-row topbar__marginleft\"\n    title=\"Your current story...\">\n    <p\n      [routerLink]=\"['/editor', {outlets: {'modal': ['story']}}]\"\n      class=\"topbar__row-label\"\n      [ngClass]=\"{'topbar__row-label-active': storyIsOpen}\">\n      Story\n    </p>\n  </div>\n\n\n\n  <!-- profile -->\n  <div\n    class=\"topbar__marginright\"\n    title=\"User login\">\n\n    <p\n      [routerLink]=\"['/editor', {outlets: {'modal': ['profile']}}]\"\n      class=\"topbar__row-label\"\n      [ngClass]=\"{'topbar__row-label-active': profileIsOpen}\">\n      Profile\n    </p>\n\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1216 */
+/* 1218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -38974,27 +39004,27 @@ var AboutTab = /** @class */function () {
     function AboutTab() {}
     AboutTab = __decorate([core_1.Component({
         selector: 'about-tab',
-        styles: [__webpack_require__(1217)],
-        template: __webpack_require__(1218)
+        styles: [__webpack_require__(1219)],
+        template: __webpack_require__(1220)
     })], AboutTab);
     return AboutTab;
 }();
 exports.AboutTab = AboutTab;
 
 /***/ }),
-/* 1217 */
+/* 1219 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.about-tab {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  max-width: 250px; }\n\n.about-tab-heading {\n  margin-bottom: 10px;\n  border-bottom: 1px solid #FAFAFA;\n  color: #888888; }\n\n.about-tab-text {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n"
 
 /***/ }),
-/* 1218 */
+/* 1220 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"about-tab\">\n\n  <p class=\"about-tab-heading font-header\">\n    Welcome\n  </p>\n\n\n  <p class=\"about-tab-text\">\n    SocialVR is an easy-to-use Virtual Reality (VR) authoring tool.  It works in Chrome and Firefox, and all it allows you to create complex VR experiences using 360-photos and annotation.\n  </p>\n\n  <p class=\"about-tab-text\">\n    To learn more about SocialVR, click <a href=\"http://socialvrlab.com/\" target=\"_blank\">here.</a>\n  </p>\n\n  <p class=\"about-tab-text\">\n    If you need more help, please <a href=\"mailto:hi@socialvrlab.com\" target=\"_blank\">email us</a>\n  </p>\n\n</div>\n"
 
 /***/ }),
-/* 1219 */
+/* 1221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39042,8 +39072,8 @@ var UserTab = /** @class */function () {
     __decorate([core_1.HostListener('document:click', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], UserTab.prototype, "onDocumentClick", null);
     UserTab = __decorate([core_1.Component({
         selector: 'user-tab',
-        styles: [__webpack_require__(1220)],
-        template: __webpack_require__(1221),
+        styles: [__webpack_require__(1222)],
+        template: __webpack_require__(1223),
         encapsulation: core_1.ViewEncapsulation.None
     }), __metadata("design:paramtypes", [userInteractor_1.UserInteractor, router_1.Router, core_1.ElementRef])], UserTab);
     return UserTab;
@@ -39051,19 +39081,19 @@ var UserTab = /** @class */function () {
 exports.UserTab = UserTab;
 
 /***/ }),
-/* 1220 */
+/* 1222 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.profile {\n  width: 95%;\n  height: 95%;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%);\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.user-view {\n  margin: 15px;\n  padding: 10px;\n  width: 250px; }\n\n.user-view__description {\n  margin-bottom: 10px; }\n\n.user-view__description-margin-top {\n  border-top: 1px solid #EEEEEE;\n  margin-top: 10px;\n  padding-top: 10px; }\n\n.user-view__input {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  flex-grow: 1;\n  color: #888888; }\n"
 
 /***/ }),
-/* 1221 */
+/* 1223 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"modal-window\">\n\n  <unauth-user-tab *ngIf=\"!userIsLoggedIn()\"></unauth-user-tab>\n  <auth-user-tab *ngIf=\"userIsLoggedIn()\"></auth-user-tab>\n\n</div>\n"
 
 /***/ }),
-/* 1222 */
+/* 1224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39215,27 +39245,27 @@ var UnauthUserTab = /** @class */function () {
     };
     UnauthUserTab = __decorate([core_1.Component({
         selector: 'unauth-user-tab',
-        styles: [__webpack_require__(1223)],
-        template: __webpack_require__(1224)
+        styles: [__webpack_require__(1225)],
+        template: __webpack_require__(1226)
     }), __metadata("design:paramtypes", [router_2.Router, assetInteractor_1.AssetInteractor, userInteractor_1.UserInteractor, event_bus_1.EventBus, router_1.ActivatedRoute])], UnauthUserTab);
     return UnauthUserTab;
 }();
 exports.UnauthUserTab = UnauthUserTab;
 
 /***/ }),
-/* 1223 */
+/* 1225 */
 /***/ (function(module, exports) {
 
 module.exports = ".unauth-user-tab__fields {\n  min-width: 350px;\n  position: absolute;\n  background-color: #FAFAFA;\n  padding: 20px;\n  border-radius: 8px;\n  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1);\n  top: 50%;\n  left: 50%;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n"
 
 /***/ }),
-/* 1224 */
+/* 1226 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"unauth-user-tab__fields\">\n  <div *ngIf=\"!isCreatingAccount\">\n    <text-input-material\n      [inputLabel]=\"'Username'\"\n      [textModel]=\"getViewModelProperty('username')\"\n      (onTextChange)=\"setViewModelProperty($event, 'username')\">\n    </text-input-material>\n\n    <text-input-material\n      [inputType]=\"'password'\"\n      [inputLabel]=\"'Password'\"\n      [textModel]=\"getViewModelProperty('password')\"\n      (onTextChange)=\"setViewModelProperty($event, 'password')\">\n    </text-input-material>\n    <div class=\"horiz-line-bottom\"></div>\n<div class=\"button_row\">\n    <div\n      (click)=\"logIn($event)\"\n      class=\"button sign-in-button\">\n      Sign In\n    </div>\n\n    <div\n        class=\"button\"\n        title=\"Click to create new story, SHIFT-click to upload zip file\"\n       (click)=\"onOpenClick($event)\">\n      Select a Story Archive\n    </div>\n</div>\n  </div>\n\n  <div *ngIf=\"isCreatingAccount\">\n\n    <!-- create username -->\n    <text-input-material\n      [inputLabel]=\"'Username'\"\n      [textModel]=\"getViewModelProperty('createUsername')\"\n      (onTextChange)=\"setViewModelProperty($event, 'createUsername')\">\n    </text-input-material>\n\n    <!-- create password -->\n    <text-input-material\n      [inputLabel]=\"'Password'\"\n      [textModel]=\"getViewModelProperty('createPassword')\"\n      (onTextChange)=\"setViewModelProperty($event, 'createPassword')\">\n    </text-input-material>\n\n    <!-- create firstname -->\n    <text-input-material\n      [inputLabel]=\"'First name'\"\n      [textModel]=\"getViewModelProperty('createFirstname')\"\n      (onTextChange)=\"setViewModelProperty($event, 'createFirstname')\">\n    </text-input-material>\n\n    <!-- create firstname -->\n    <text-input-material\n      [inputLabel]=\"'Last name'\"\n      [textModel]=\"getViewModelProperty('createLastname')\"\n      (onTextChange)=\"setViewModelProperty($event, 'createLastname')\">\n    </text-input-material>\n\n    <!-- create email -->\n    <text-input-material\n      [inputLabel]=\"'Email'\"\n      [textModel]=\"getViewModelProperty('createEmail')\"\n      (onTextChange)=\"setViewModelProperty($event, 'createEmail')\">\n    </text-input-material>\n\n\n  </div>\n  <!-- create account button -->\n  <div\n    *ngIf=\"createUserIsUnlocked\"\n    (click)=\"createAccount($event)\"\n    class=\"button user-view__button\">\n    Create account\n  </div>\n\n\n  <!-- reset button -->\n  <div\n    *ngIf=\"isCreatingAccount\"\n    (click)=\"resetFields($event)\"\n    class=\"button user-view__button\">\n    Cancel\n  </div>\n</div>\n"
 
 /***/ }),
-/* 1225 */
+/* 1227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39263,7 +39293,7 @@ var sceneInteractor_1 = __webpack_require__(14);
 var adminInteractor_1 = __webpack_require__(143);
 var event_bus_1 = __webpack_require__(9);
 var constants_1 = __webpack_require__(13);
-var FileSaver = __webpack_require__(527);
+var FileSaver = __webpack_require__(529);
 var AuthUserTab = /** @class */function () {
     function AuthUserTab(userInteractor, projectInteractor, sceneInteractor, eventBus, storageInteractor, metaDataInteractor, adminInteractor, router) {
         this.userInteractor = userInteractor;
@@ -39427,15 +39457,15 @@ var AuthUserTab = /** @class */function () {
     };
     AuthUserTab = __decorate([core_1.Component({
         selector: 'auth-user-tab',
-        styles: [__webpack_require__(1228)],
-        template: __webpack_require__(1229)
+        styles: [__webpack_require__(1230)],
+        template: __webpack_require__(1231)
     }), __metadata("design:paramtypes", [userInteractor_1.UserInteractor, projectInteractor_1.ProjectInteractor, sceneInteractor_1.SceneInteractor, event_bus_1.EventBus, storageInteractor_1.StorageInteractor, projectMetaDataInteractor_1.MetaDataInteractor, adminInteractor_1.AdminInteractor, router_1.Router])], AuthUserTab);
     return AuthUserTab;
 }();
 exports.AuthUserTab = AuthUserTab;
 
 /***/ }),
-/* 1226 */
+/* 1228 */
 /***/ (function(module, exports) {
 
 module.exports = function() {
@@ -39444,7 +39474,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 1227 */
+/* 1229 */
 /***/ (function(module, exports) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
@@ -39453,19 +39483,19 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }),
-/* 1228 */
+/* 1230 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FAFAFA;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FAFAFA; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  padding-bottom: 4px;\n  color: #ADADAD; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FAFAFA; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%);\n  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); }\n\n.user-view__project-list-header {\n  font-weight: bold;\n  color: #888888; }\n\n.user-view__project-list {\n  color: #888888;\n  overflow-y: auto;\n  max-height: 120px;\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  box-shadow: inset 0px 8px 9px -6px #eee, inset 0px -8px 9px -6px #eee; }\n\n.user-view__project {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  color: #ADADAD;\n  margin-top: 8px;\n  border-bottom: 1px solid #EEEEEE;\n  padding-bottom: 8px; }\n\n.user-view__project-title {\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  cursor: pointer;\n  font-size: 1em; }\n\n.user-view__project-title:hover {\n  cursor: pointer;\n  color: #888888; }\n\n.user-view__project-title--selected {\n  color: #FF3571; }\n\n.user-view__project-options {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: flex-end;\n  align-items: center; }\n\n.user-view__project-option {\n  font-size: 0.8em;\n  margin-left: 10px;\n  cursor: pointer;\n  border-color: #EEEEEE;\n  border: 0px;\n  padding-left: 3px;\n  padding-right: 3px;\n  border-style: dashed;\n  border-radius: 4px; }\n\n.user-view__project-option:hover {\n  color: black;\n  border-color: #888888;\n  border: 0px;\n  border-style: solid; }\n"
 
 /***/ }),
-/* 1229 */
+/* 1231 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"modal-window__fields\">\n  <div class=\"dropdown-title\">\n      <p>Hello {{getUserName()}}!</p>\n  </div>\n\n  <div\n    *ngIf=\"!isWorkingOnSavedProject()\"\n    class=\"dropdown-text\">\n    <p>\n      <span class=\"dropdown-text__accent\">Current project is not saved.</span><br><span class=\"dropdown-text\">To save it, click on 'Story' and then 'Save'.</span>\n    </p>\n\n    <!-- Divider -->\n  </div>\n\n  <div\n    *ngIf=\"!userHasProjects()\"\n    class=\"dropdown-text__bold\">\n    <p>No saved projects.</p>\n  </div>\n\n  <div *ngIf=\"userHasProjects()\">\n    <p class=\"dropdown-text__bold\">\n      PROJECTS\n    </p>\n    <!-- TODO: make scrollable -->\n    <div class=\"user-view__project-list\">\n      <div\n        *ngFor=\"let project of projectList\"\n        class=\"user-view__project\">\n\n        <p\n          class=\"user-view__project-title\"\n          *ngIf=\"!projectIsSelected(project.id)\"\n          (click)=\"openProject(project.id)\"\n          [ngClass]=\"{'user-view__project-title--selected': projectIsSelected(project.id)}\">\n          {{project.name}}\n        </p>\n\n        <p\n          class=\"user-view__project-title--selected\"\n          *ngIf=\"projectIsSelected(project.id)\"\n          [ngClass]=\"{'user-view__project-title--selected': projectIsSelected(project.id)}\">\n          {{project.name}}\n        </p>\n\n        <p class=\"user-view__project-options\">\n          <span\n            (click)=\"shareProject(project.id)\"\n            class=\"user-view__project-option user-view__project-option--margin\">\n            Share\n          </span>\n          <span\n            (click)=\"openMultiView(project.id)\"\n            class=\"user-view__project-option user-view__project-option--margin\">\n            Multi-View\n          </span>\n          <span\n            (click)=\"downloadProject(project.id, project.name)\"\n            class=\"user-view__project-option user-view__project-option--margin\">\n            Download\n          </span>\n          <span\n            (click)=\"requestDeleteProject(project.id)\"\n            class=\"user-view__project-option user-view__project-option--margin\">\n            Delete\n          </span>\n        </p>\n\n      </div>\n    </div>\n  </div>\n  <!-- Logout and Explore buttons -->\n\n<div class=\"button_row\">\n  <div\n    (click)=\"onExploreClick($event)\"\n    title=\"Click to explore other Social VR projects\"\n    class=\"button\">\n    Explore</div>\n\n  <div\n    class=\"button\"\n    title=\"Click to add a room to current story\"\n    (click)=\"onLogOutClick($event)\">\n    Sign Out\n  </div>\n\n  <div\n    *ngIf=\"userIsAdmin()\"\n    (click)=\"onAdminClick($event)\"\n    title=\"Click to administer your groups\"\n    class=\"button\">\n    Admin\n  </div>\n  </div>\n</div>\n"
 
 /***/ }),
-/* 1230 */
+/* 1232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39569,27 +39599,27 @@ var TreeTab = /** @class */function () {
     };
     TreeTab = __decorate([core_1.Component({
         selector: 'tree-tab',
-        styles: [__webpack_require__(1231)],
-        template: __webpack_require__(1232)
+        styles: [__webpack_require__(1233)],
+        template: __webpack_require__(1234)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, projectMetaDataInteractor_1.MetaDataInteractor, event_bus_1.EventBus])], TreeTab);
     return TreeTab;
 }();
 exports.TreeTab = TreeTab;
 
 /***/ }),
-/* 1231 */
+/* 1233 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.tree-view {\n  background-color: #EEEEEE;\n  background: transparent;\n  height: 300px;\n  overflow-y: scroll; }\n\n.tree-view__room-container {\n  display: block;\n  overflow-y: auto; }\n\n.tree-view__row-item {\n  color: #888888;\n  font-size: 0.8em; }\n  .tree-view__row-item:hover {\n    color: #000; }\n\n.tree-view__room {\n  margin-left: 0px; }\n\n.tree-view__room-property-container {\n  max-height: 0;\n  overflow: hidden;\n  transition: max-height 0.1s;\n  margin-left: 10px; }\n\n.tree-view__room-property-container--expanded {\n  max-height: 500px; }\n"
 
 /***/ }),
-/* 1232 */
+/* 1234 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"tree-view\">\n\n    <div\n      *ngFor=\"let roomId of getRoomIdList()\"\n      class=\"tree-view__room\">\n\n      <!-- Room Label -->\n      <row-item\n        [roomProperty]=\"getRoomById(roomId)\"\n        [caretIsExpanded]=\"roomIsExpanded(roomId)\"\n        [isActive]=\"roomIsSelected(roomId)\"\n        (click)=\"onRoomSelect(roomId)\"\n        class=\"tree-view__row-item\">\n      </row-item>\n\n      <!-- Room Properties -->\n      <div\n        class=\"tree-view__room-property-container\"\n        [ngClass]=\"{'tree-view__room-property-container--expanded': roomIsExpanded(roomId)}\">\n\n        <!-- Room Property Label -->\n        <row-item\n          *ngFor=\"let roomProperty of getPropertyList()\"\n          (click)=\"onPropertySelect(roomProperty)\"\n          [roomProperty]=\"roomProperty\"\n          [isActive]=\"propertyIsSelected(roomProperty)\"\n          class=\"tree-view__row-item tree-view__row-item--margin-left\">\n        </row-item>\n\n      </div>\n\n    </div>\n\n</div>\n"
 
 /***/ }),
-/* 1233 */
+/* 1235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39653,27 +39683,27 @@ var RowItem = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", Boolean)], RowItem.prototype, "isActive", void 0);
     RowItem = __decorate([core_1.Component({
         selector: 'row-item',
-        styles: [__webpack_require__(1234)],
-        template: __webpack_require__(1235)
+        styles: [__webpack_require__(1236)],
+        template: __webpack_require__(1237)
     }), __metadata("design:paramtypes", [propertyRemovalService_1.PropertyRemovalService, sceneInteractor_1.SceneInteractor])], RowItem);
     return RowItem;
 }();
 exports.RowItem = RowItem;
 
 /***/ }),
-/* 1234 */
+/* 1236 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.row-item {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: flex-start;\n  align-items: center;\n  height: 30px;\n  width: 100%;\n  cursor: pointer;\n  margin: 0px 0; }\n  .row-item:hover .row-item__delete {\n    visibility: visible; }\n  .row-item:hover .row-item__home-icon {\n    width: 21px;\n    height: 21px; }\n\n.row-item__room--active {\n  background-color: #FF3571;\n  background-clip: content-box;\n  padding: 2px 0;\n  color: #FAFAFA; }\n\n.row-item__room-property {\n  margin-left: 10px;\n  height: 22px; }\n\n.row-item__room-property--active {\n  background-color: #888888;\n  color: #FAFAFA; }\n\n.row-item__icon {\n  height: 20px;\n  width: 20px; }\n\n.row-item__text-input {\n  margin-left: 10px; }\n\n.row-item__spacer {\n  flex-grow: 2; }\n\n.row-item__delete {\n  margin-right: 10px;\n  visibility: hidden; }\n\n.row-item__caret {\n  width: 0;\n  height: 0;\n  border-top: 6px solid transparent;\n  border-bottom: 6px solid transparent;\n  border-left: 10.404px solid #888888;\n  border-radius: 2px;\n  margin-right: 5px;\n  transition: .08s linear; }\n\n.row-item__caret--selected {\n  transform: rotate(90deg); }\n\n.row-item__home-icon {\n  background-image: url(\"assets/icons/icon-home.png\");\n  background-color: transparent;\n  background-size: 90%;\n  background-repeat: no-repeat;\n  height: 0px;\n  width: 0px;\n  transition: height 0.1s ease-in-out, width 0.1s ease-in-out; }\n\n.row-item__home-icon--active {\n  width: 21px;\n  height: 21px; }\n\n.row-item__thumbnail {\n  width: 44px;\n  height: 22px;\n  margin-left: 5px; }\n"
 
 /***/ }),
-/* 1235 */
+/* 1237 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  class=\"row-item\"\n  [ngClass]=\"{\n    'row-item__room-property': !propertyIsRoom,\n    'row-item__room--active': isActive && propertyIsRoom,\n    'row-item__room-property--active': isActive && !propertyIsRoom\n  }\">\n\n  <div\n    *ngIf=\"propertyIsRoom\"\n    class=\"row-item__caret\"\n    [ngClass]=\"{'row-item__caret--selected': caretIsExpanded}\">\n  </div>\n\n  <img\n    *ngIf=\"propertyIsRoom\"\n    [attr.src]=\"getBackgroundThumbnail()\"\n    class=\"row-item__thumbnail\">\n\n  <text-input\n    class=\"row-item__text-input\"\n    [isRowItem]=\"true\"\n    [isActive]=\"isActive\"\n    [textModel]=\"getLabelText()\"\n    (onTextChange)=\"onLabelChange($event)\">\n  </text-input>\n\n  <span class=\"row-item__spacer\"></span>\n\n  <span\n    *ngIf=\"propertyIsRoom\"\n    (click)=\"setAsHomeRoom()\"\n    class=\"row-item__home-icon\"\n    [ngClass]=\"{'row-item__home-icon--active': isHomeRoom()}\">\n  </span>\n\n  <close-button\n    class=\"row-item__delete\"\n    (onButtonClick)=\"onDeleteClick($event)\">\n  </close-button>\n\n</div>\n"
 
 /***/ }),
-/* 1236 */
+/* 1238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39700,7 +39730,7 @@ var event_bus_1 = __webpack_require__(9);
 var userInteractor_1 = __webpack_require__(38);
 var SlideshowBuilder_1 = __webpack_require__(110);
 var constants_1 = __webpack_require__(13);
-var FileSaver = __webpack_require__(527);
+var FileSaver = __webpack_require__(529);
 var Story = /** @class */function () {
     function Story(router, sceneInteractor, storageInteractor, metaDataInteractor, userInteractor, projectInteractor, eventBus, slideshowBuilder, element) {
         this.router = router;
@@ -39862,27 +39892,27 @@ var Story = /** @class */function () {
     __decorate([core_1.HostListener('document:click', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], Story.prototype, "onDocumentClick", null);
     Story = __decorate([core_1.Component({
         selector: 'story',
-        styles: [__webpack_require__(1237)],
-        template: __webpack_require__(1238)
+        styles: [__webpack_require__(1239)],
+        template: __webpack_require__(1240)
     }), __metadata("design:paramtypes", [router_1.Router, sceneInteractor_1.SceneInteractor, storageInteractor_1.StorageInteractor, projectMetaDataInteractor_1.MetaDataInteractor, userInteractor_1.UserInteractor, projectInteractor_1.ProjectInteractor, event_bus_1.EventBus, SlideshowBuilder_1.SlideshowBuilder, core_1.ElementRef])], Story);
     return Story;
 }();
 exports.Story = Story;
 
 /***/ }),
-/* 1237 */
+/* 1239 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FAFAFA;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FAFAFA; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  padding-bottom: 4px;\n  color: #ADADAD; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FAFAFA; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%);\n  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); }\n\n.story__soundtrack__upload-button {\n  width: 100%;\n  box-sizing: border-box; }\n\n.story__soundtrack__delete-button {\n  background-color: #FF3571;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  cursor: pointer;\n  width: 100%; }\n\n.story__soundtrack__audio-player {\n  width: 100%;\n  margin-top: 5px; }\n"
 
 /***/ }),
-/* 1238 */
+/* 1240 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"modal-window\">\n\n  <div class=\"modal-window__fields\">\n\n    <!-- Title -->\n    <text-input-material\n      [inputLabel]=\"'Title'\"\n      [textModel]=\"getProjectName()\"\n      (onTextChange)=\"setProjectName($event)\">\n    </text-input-material>\n\n    <!-- Tags -->\n    <text-input-material\n      [inputLabel]=\"'Tags'\"\n      [textModel]=\"getProjectTags()\"\n      (onTextChange)=\"setProjectTags($event)\">\n    </text-input-material>\n\n    <!-- Divider -->\n    <div class=\"horiz-line-bottom\"></div>\n\n    <!-- Soundtrack -->\n\n<div class=\"button_row\">\n      <div\n        class=\"button\"\n        title=\"Click to create new story\"\n        (click)=\"onNewStoryClick($event)\">\n        New Story\n      </div>\n      <div class=\"button\" title=\"Click to save current story to server\"\n       (click)=\"onSaveStoryClick($event)\">\n        Save Story\n      </div>\n\n</div>\n\n<div class=\"button_row\">\n      <div class=\"button\" title=\"Click to download story as zip file\"\n       (click)=\"onSaveStroyLocallyClick($event)\">\n        Download as .zip\n      </div>\n      <div\n        class=\"button\"\n        title=\"Click to upload zip file\"\n        (click)=\"onOpenStoryLocallyClick($event)\">\n        Upload from .zip\n      </div>\n\n      </div>\n\n      <div class=\"dropdown-input-row\">\n      <file-loader\n        *ngIf=\"!getSoundtrack().hasAsset()\"\n          (onFileLoad)=\"onSoundtrackLoad($event)\"\n          [acceptedFileType]=\"'audio'\"\n          [displayText]=\"'Add Soundtrack'\"\n          class=\"story__soundtrack__upload-button\">\n      </file-loader>\n\n      <div\n        *ngIf=\"getSoundtrack().hasAsset()\"\n        class=\"story__soundtrack__delete-button\"\n        (click)=\"removeSoundtrack()\">\n        Remove Soundtrack\n      </div>\n\n      <audio\n        *ngIf=\"getSoundtrack().hasAsset()\"\n        [attr.src]=\"getSoundtrack().getBinaryFileData()\"\n        type=\"audio/mp3\"\n        controls=\"controls\"\n        [volume]=\"getSoundtrackVolume()\"\n        (volumechange)=\"onVolumeChange($event)\"\n        class=\"story__soundtrack__audio-player\">\n      </audio>\n\n</div>\n\n  </div>\n\n\n</div>\n"
 
 /***/ }),
-/* 1239 */
+/* 1241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -39910,27 +39940,27 @@ var ModalClose = /** @class */function () {
     };
     ModalClose = __decorate([core_1.Component({
         selector: 'modal-close',
-        styles: [__webpack_require__(1240)],
-        template: __webpack_require__(1241)
+        styles: [__webpack_require__(1242)],
+        template: __webpack_require__(1243)
     }), __metadata("design:paramtypes", [router_1.Router])], ModalClose);
     return ModalClose;
 }();
 exports.ModalClose = ModalClose;
 
 /***/ }),
-/* 1240 */
+/* 1242 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.modal-close {\n  width: 100%;\n  text-align: center;\n  position: absolute;\n  bottom: 0; }\n\n.modal-close__button {\n  color: #888888;\n  cursor: pointer; }\n"
 
 /***/ }),
-/* 1241 */
+/* 1243 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"modal-close\">\n\n  <p\n    (click)=\"onClose($event)\"\n    class=\"modal-close__button\">\n    Close\n  </p>\n\n</div>\n"
 
 /***/ }),
-/* 1242 */
+/* 1244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40040,27 +40070,27 @@ var Upload = /** @class */function () {
     __decorate([core_1.HostListener('document:click', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], Upload.prototype, "onDocumentClick", null);
     Upload = __decorate([core_1.Component({
         selector: 'upload',
-        styles: [__webpack_require__(1243)],
-        template: __webpack_require__(1244)
+        styles: [__webpack_require__(1245)],
+        template: __webpack_require__(1246)
     }), __metadata("design:paramtypes", [router_1.Router, event_bus_1.EventBus, fileLoaderUtil_1.FileLoaderUtil, SlideshowBuilder_1.SlideshowBuilder, sceneInteractor_1.SceneInteractor, zipFileReader_1.ZipFileReader, core_1.ElementRef])], Upload);
     return Upload;
 }();
 exports.Upload = Upload;
 
 /***/ }),
-/* 1243 */
+/* 1245 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FAFAFA;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FAFAFA; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  padding-bottom: 4px;\n  color: #ADADAD; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FAFAFA; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%);\n  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); }\n\n.upload__fields {\n  width: 50%;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%); }\n\n.upload__hidden-input {\n  display: none; }\n\n.upload__box {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  background-image: url(\"assets/images/white-semi-transparent.png\");\n  color: #888888;\n  font-size: 3vw;\n  text-align: center;\n  border: 2px dashed #888888;\n  border-radius: 20px;\n  width: 50%;\n  height: 50%;\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  cursor: pointer; }\n"
 
 /***/ }),
-/* 1244 */
+/* 1246 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"modal-window\">\n  <input\n    id=\"hiddenBackgroundInput\"\n    type=\"file\"\n    multiple\n    (change)=\"onFileChange($event)\"\n    class=\"upload__hidden-input\">\n  <label\n    for=\"hiddenBackgroundInput\"\n    class=\"upload__box\">\n    Drag in 360 photos\n    <br />\n    or\n    <br />\n    click to import\n  </label>\n</div>\n"
 
 /***/ }),
-/* 1245 */
+/* 1247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40099,27 +40129,27 @@ var HotspotMenu = /** @class */function () {
     __decorate([core_1.HostListener('document:click', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], HotspotMenu.prototype, "onDocumentClick", null);
     HotspotMenu = __decorate([core_1.Component({
         selector: 'hotspot-menu',
-        styles: [__webpack_require__(1246)],
-        template: __webpack_require__(1247)
+        styles: [__webpack_require__(1248)],
+        template: __webpack_require__(1249)
     }), __metadata("design:paramtypes", [core_1.ElementRef])], HotspotMenu);
     return HotspotMenu;
 }();
 exports.HotspotMenu = HotspotMenu;
 
 /***/ }),
-/* 1246 */
+/* 1248 */
 /***/ (function(module, exports) {
 
 module.exports = ".hotspot-menu {\n  display: flex;\n  flex-direction: column-reverse;\n  align-items: center; }\n\n.hotspot-menu__fab {\n  transition: margin-bottom .15s ease-in-out;\n  margin-left: 16px; }\n\n.hotspot-menu__fab-open {\n  margin-left: 16px; }\n"
 
 /***/ }),
-/* 1247 */
+/* 1249 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"hotspot-menu\">\n\n\n  <fab\n    class=\"hotspot-menu__fab\"\n    (click)=\"onFabClick($event)\"\n    [isOpen]=\"isOpen\"\n    [ngClass]=\"{'hotspot-menu__fab-open': isOpen}\">\n  </fab>\n\n  <action-menu\n    class=\"hotspot-menu__action-menu\"\n    [isOpen]=\"isOpen\"\n    class=\"topbar__position-absolute\">\n  </action-menu>\n\n\n\n</div>\n"
 
 /***/ }),
-/* 1248 */
+/* 1250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40144,27 +40174,27 @@ var Fab = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", Boolean)], Fab.prototype, "isOpen", void 0);
     Fab = __decorate([core_1.Component({
         selector: 'fab',
-        styles: [__webpack_require__(1249)],
-        template: __webpack_require__(1250)
+        styles: [__webpack_require__(1251)],
+        template: __webpack_require__(1252)
     })], Fab);
     return Fab;
 }();
 exports.Fab = Fab;
 
 /***/ }),
-/* 1249 */
+/* 1251 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.fab {\n  width: 64px;\n  height: 64px;\n  border-radius: 50%;\n  background-color: #FAFAFA;\n  position: relative;\n  cursor: pointer; }\n\n.fab__bar {\n  display: block;\n  position: absolute;\n  height: 24px;\n  width: 3px;\n  border-radius: 12px;\n  background-color: #888888;\n  left: 30.5px;\n  top: 20px;\n  transition: .15s ease-in-out; }\n\n.fab__bar--open {\n  display: block;\n  position: absolute;\n  height: 24px;\n  width: 3px;\n  border-radius: 12px;\n  background-color: #FF3571;\n  left: 30.5px;\n  top: 20px;\n  transition: .15s ease-in-out; }\n\n.fab :nth-child(1) {\n  transform: rotate(0deg); }\n\n.fab :nth-child(2) {\n  transform: rotate(90deg); }\n\n.fab--open :nth-child(1) {\n  transform: rotate(45deg); }\n\n.fab--open :nth-child(2) {\n  transform: rotate(135deg); }\n"
 
 /***/ }),
-/* 1250 */
+/* 1252 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  class=\"fab\"\n  [ngClass]=\"{'fab--open': isOpen}\">\n  <span class=\"fab__bar\" [ngClass]=\"{'fab__bar--open': isOpen}\"></span>\n  <span class=\"fab__bar\" [ngClass]=\"{'fab__bar--open': isOpen}\"></span>\n</div>\n"
 
 /***/ }),
-/* 1251 */
+/* 1253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40234,27 +40264,27 @@ var ActionMenu = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", Boolean)], ActionMenu.prototype, "isOpen", void 0);
     ActionMenu = __decorate([core_1.Component({
         selector: 'action-menu',
-        styles: [__webpack_require__(1252)],
-        template: __webpack_require__(1253)
+        styles: [__webpack_require__(1254)],
+        template: __webpack_require__(1255)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, event_bus_1.EventBus])], ActionMenu);
     return ActionMenu;
 }();
 exports.ActionMenu = ActionMenu;
 
 /***/ }),
-/* 1252 */
+/* 1254 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.action-menu__list {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  margin-left: -40px;\n  width: 0;\n  transition: width 0.15s ease-out, margin-left 0.15s ease-out;\n  overflow: hidden; }\n\n.action-menu__list--open {\n  width: calc(30px + 40px);\n  margin-left: 16px; }\n\n.action-menu__list-item {\n  cursor: pointer;\n  height: 65px; }\n  .action-menu__list-item:hover {\n    font-size: 1.05em; }\n\n.action-menu__list-icon {\n  height: 40px;\n  width: 40px;\n  display: block;\n  margin: 0 auto;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: 100%;\n  background-color: transparent;\n  opacity: 0.8;\n  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5)); }\n\n.action-menu__list-label {\n  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);\n  transition: font-size .15s ease-out;\n  text-align: center;\n  font-size: 0.8em; }\n\n.list-icon__text {\n  background-image: url(\"assets/icons/text_filled.png\"); }\n\n.list-icon__audio {\n  background-image: url(\"assets/icons/audio_filled.png\"); }\n\n.list-icon__image {\n  background-image: url(\"assets/icons/image_filled.png\"); }\n\n.list-icon__door {\n  background-image: url(\"assets/icons/door_filled.png\"); }\n\n.list-icon__room {\n  background-image: url(\"assets/icons/room.png\"); }\n\n.list-icon__link {\n  background-image: url(\"assets/icons/link_filled.png\"); }\n"
 
 /***/ }),
-/* 1253 */
+/* 1255 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  class=\"action-menu__list\"\n  [ngClass]=\"{'action-menu__list--open': isOpen}\">\n\n  <div (click)=\"addText($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__text\"></div>\n    <p class=\"action-menu__list-label\">Text<p>\n  </div>\n\n  <div (click)=\"addAudio($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__audio\"></div>\n    <p class=\"action-menu__list-label\">Audio<p>\n  </div>\n\n  <div (click)=\"addImage($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__image\"></div>\n    <p class=\"action-menu__list-label\">Image<p>\n  </div>\n\n  <div (click)=\"addDoor($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__door\"></div>\n    <p class=\"action-menu__list-label\">Doorway<p>\n  </div>\n\n<!--\n  //Link Hotspot \n  <div (click)=\"addLink($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__link\"></div>\n    <p class=\"action-menu__list-label\">Link<p>\n  </div>\n -->\n</div>\n"
 
 /***/ }),
-/* 1254 */
+/* 1256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40380,27 +40410,27 @@ var RoomEditor = /** @class */function () {
     __decorate([core_1.HostListener('document:click', ['$event']), __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], RoomEditor.prototype, "onDocumentClick", null);
     RoomEditor = __decorate([core_1.Component({
         selector: 'room-editor',
-        styles: [__webpack_require__(1255)],
-        template: __webpack_require__(1256)
+        styles: [__webpack_require__(1257)],
+        template: __webpack_require__(1258)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, core_1.ElementRef, event_bus_1.EventBus, projectMetaDataInteractor_1.MetaDataInteractor])], RoomEditor);
     return RoomEditor;
 }();
 exports.RoomEditor = RoomEditor;
 
 /***/ }),
-/* 1255 */
+/* 1257 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.room-editor {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  width: 280px;\n  padding: 16px;\n  background: #FAFAFA;\n  border-radius: 4px;\n  backdrop-filter: blur(4px);\n  box-shadow: 0 50px 100px rgba(50, 50, 93, 0.1), 0 15px 35px rgba(50, 50, 93, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); }\n\n.room-editor__audio-player {\n  width: 100%;\n  margin-top: 5px; }\n\n.room-editor__audio-file-loader {\n  width: 220px; }\n\n.room-editor__audio-record-button {\n  margin-left: 8px; }\n\n.room-editor__delete-button {\n  font-size: 0.8em;\n  background-color: #FF3571;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  border-radius: 4px;\n  cursor: pointer;\n  width: 230px; }\n"
 
 /***/ }),
-/* 1256 */
+/* 1258 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"room-editor\">\n\n\t<!-- Title -->\n  <text-input-material\n    [inputLabel]=\"'Room Name'\"\n    [textModel]=\"getRoomName()\"\n    (onTextChange)=\"setRoomName($event)\">\n  </text-input-material>\n  <br/>\n\t<file-loader\n    \t(onFileLoad)=\"onBackgroundImageLoad($event)\"\n      [displayText]=\"'Add Background Image'\"\n\t    [acceptedFileType]=\"'image'\">\n\t</file-loader>\n\n\t<file-loader\n\t\t*ngIf=\"!getBackgroundAudio().hasAsset()\"\n    [displayText]=\"'Add Room Background Audio'\"\n\n    \t(onFileLoad)=\"onBackgroundAudioLoad($event)\"\n\t    [acceptedFileType]=\"'audio'\">\n\t</file-loader>\n\n\t<div\n\t\t*ngIf=\"getBackgroundAudio().hasAsset()\"\n\t\tclass=\"room-editor__delete-button\"\n\t\t(click)=\"removeBackgroundAudio()\">\n\t\tRemove Background Audio\n\t</div>\n\n\t<audio\n\t\t*ngIf=\"getBackgroundAudio().hasAsset()\"\n\t\t[attr.src]=\"getBackgroundAudio().getBinaryFileData()\"\n\t\ttype=\"audio/mp3\"\n\t\tcontrols=\"controls\"\n\t\t[volume]=\"getBackgroundAudioVolume()\"\n    \t(volumechange)=\"onBGAVolumeChange($event)\"\n\t\tclass=\"room-editor__audio-player\">\n\t</audio>\n\n\t<!-- <div>\n\t\t<p class=\"hotspot-inspector__label\">Reverb</p>\n\n\t\t<select\n\t\t\t(change)=\"onReverbChange($event)\"\n\t\t\tclass=\"hotspot-inspector__select room-editor__reverb-select\">\n\t\t\t<option\n\t\t\t\t*ngFor=\"let reverb of reverbOptions\"\n\t\t\t\t[selected]=\"reverb === getActiveReverb()\">\n\t\t\t\t\t{{reverb}}\n\t\t\t</option>\n\t\t</select>\n\n\t</div> -->\n\n  \t<div class=\"hotspot-inspector_row\">\n\t\t<div class=\"hotspot-inspector_row\">\n\t\t\t<file-loader\n\t\t\t\t*ngIf=\"!getNarratorIntroAudioFile().hasAsset()\"\n\t\t    \t(onFileLoad)=\"onIntroAudioLoad($event)\"\n\t\t\t    [acceptedFileType]=\"'audio'\"\n          [displayText]=\"'Select a Room Narration Audio'\"\n\n\t\t\t\t\tclass=\"room-editor__audio-file-loader\">\n\t\t\t</file-loader>\n\t\t\t<div\n\t\t\t\t*ngIf=\"getNarratorIntroAudioFile().hasAsset()\"\n\t\t\t\tclass=\"room-editor__delete-button\"\n\t\t\t\t(click)=\"removeNarratorIntroAudio()\">\n\t\t\t\tRemove Narration\n\t\t\t</div>\n\t\t</div>\n\t\t<audio-recorder\n\t\t\t*ngIf=\"showAudioRecorder()\"\n      \t\t(onRecorded)=\"onNarratorIntroRecorded($event)\"\n      \t\tclass=\"audio-editor__record-button room-editor__audio-record-button\">\n    \t</audio-recorder>\n  \t</div>\n\t<audio\n\t\t*ngIf=\"getNarratorIntroAudioFile().hasAsset()\"\n\t\t[attr.src]=\"getNarratorIntroAudioFile().getBinaryFileData()\"\n\t\ttype=\"audio/mp3\"\n\t\tcontrols=\"controls\"\n\t\t[volume]=\"getNarratorIntroAudio().getVolume()\"\n    \t(volumechange)=\"onNarrationVolumeChange($event)\"\n\t\tclass=\"room-editor__audio-player\">\n\t</audio>\n\n\t\t<!--  disabled by ali, at aparna's request\n\t\t<div class=\"hotspot-inspector_row\">\n\t\t\t<div>\n\t\t\t\t<p class=\"hotspot-inspector__label room-editor__audio-file-loader\">Narration: Return</p>\n\t\t\t\t<file-loader\n\t\t\t    \t(onFileLoad)=\"onReturnAudioLoad($event)\"\n\t\t\t\t    [acceptedFileType]=\"'audio'\"\n\t\t\t\t\t\tclass=\"room-editor__audio-file-loader\">\n\t\t\t\t</file-loader>\n\t\t\t</div>\n\t\t\t<audio-recorder\n\t\t\t\t(onRecorded)=\"onNarratorReturnRecorded($event)\"\n\t\t\t\tclass=\"audio-editor__record-button room-editor__audio-record-button\">\n\t\t\t</audio-recorder>\n\t\t</div>\n\t\t<audio\n\t\t\t*ngIf=\"getNarratorReturnAudio().hasAsset()\"\n\t\t\t[attr.src]=\"getNarratorReturnAudio().getBinaryFileData()\"\n\t\t\ttype=\"audio/mp3\"\n\t\t\tcontrols=\"controls\"\n\t\t\tclass=\"room-editor__audio-player room-editor__audio-record-button\">\n\t\t</audio>\n\t\t-->\n\n</div>\n"
 
 /***/ }),
-/* 1257 */
+/* 1259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40435,27 +40465,27 @@ var RoomEditorIcon = /** @class */function () {
     };
     RoomEditorIcon = __decorate([core_1.Component({
         selector: 'room-editor-icon',
-        styles: [__webpack_require__(1258)],
-        template: __webpack_require__(1259)
+        styles: [__webpack_require__(1260)],
+        template: __webpack_require__(1261)
     }), __metadata("design:paramtypes", [core_1.NgZone])], RoomEditorIcon);
     return RoomEditorIcon;
 }();
 exports.RoomEditorIcon = RoomEditorIcon;
 
 /***/ }),
-/* 1258 */
+/* 1260 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.room-editor-icon {\n  display: flex;\n  flex-direction: column; }\n\n.room-editor-icon__image {\n  width: 40px;\n  height: 40px;\n  margin-bottom: 10px; }\n\n.room-editor-icon__editor {\n  margin-left: -120px;\n  margin-bottom: 15px; }\n"
 
 /***/ }),
-/* 1259 */
+/* 1261 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  id=\"icon-element\"\n  class=\"room-editor-icon\">\n\n  <room-editor\n    *ngIf=\"inspectorIsVisible\"\n    class=\"room-editor-icon__editor\">\n  </room-editor>\n\n  <img\n    (click)=\"onSelect($event)\"\n    class=\"room-editor-icon__image\"\n    src=\"assets/icons/room-pink.png\">\n\n</div>\n"
 
 /***/ }),
-/* 1260 */
+/* 1262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40570,27 +40600,27 @@ var EditSpaceToggle = /** @class */function () {
     };
     EditSpaceToggle = __decorate([core_1.Component({
         selector: 'edit-space-toggle',
-        styles: [__webpack_require__(1261)],
-        template: __webpack_require__(1262)
+        styles: [__webpack_require__(1263)],
+        template: __webpack_require__(1264)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, event_bus_1.EventBus, router_1.Router])], EditSpaceToggle);
     return EditSpaceToggle;
 }();
 exports.EditSpaceToggle = EditSpaceToggle;
 
 /***/ }),
-/* 1261 */
+/* 1263 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FAFAFA;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FAFAFA; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  padding-bottom: 4px;\n  color: #ADADAD; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FAFAFA; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%);\n  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); }\n\n.toggler {\n  margin-right: 10px; }\n\n.toggler__label {\n  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);\n  margin-bottom: 6px; }\n\n.toggler__switches {\n  height: 100px;\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n"
 
 /***/ }),
-/* 1262 */
+/* 1264 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  droppable\n  [acceptedFileType]=\"'image'\"\n  (onFileLoad)=\"onFileLoad($event)\"\n  class=\"toggler\">\n\n    <div class=\"toggler__switches\">\n\n      <p class=\"toggler__label\">Edit | Play</p>\n      <checkbox\n        [initialValue]=\"setEditPlaySliderIsVisible()\"\n        (changeEmitter)=\"onEditPlayChange($event)\">\n      </checkbox>\n      <br/>\n      <div *ngIf=\"!editorIsPreview()\">\n        <p class=\"toggler__label\">2D | 3D</p>\n        <checkbox\n          [initialValue]=\"set2d3dSliderIsVisible()\"\n          (changeEmitter)=\"on2d3dChange($event)\">\n        </checkbox>\n      </div>\n    </div>\n\n</div>\n"
 
 /***/ }),
-/* 1263 */
+/* 1265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40741,27 +40771,27 @@ var StoryScroll = /** @class */function () {
     };
     StoryScroll = __decorate([core_1.Component({
         selector: 'story-scroll',
-        styles: [__webpack_require__(1264)],
-        template: __webpack_require__(1265)
+        styles: [__webpack_require__(1266)],
+        template: __webpack_require__(1267)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, projectMetaDataInteractor_1.MetaDataInteractor, event_bus_1.EventBus, SlideshowBuilder_1.SlideshowBuilder])], StoryScroll);
     return StoryScroll;
 }();
 exports.StoryScroll = StoryScroll;
 
 /***/ }),
-/* 1264 */
+/* 1266 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.story-scroll {\n  position: absolute;\n  bottom: 0;\n  width: 70%;\n  left: 15%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-content: center;\n  transform: translateY(85px);\n  transition: transform 0.25s ease-in-out; }\n\n.stroy-scroll--open {\n  transform: translateY(0); }\n\n.story-scroll__toggle-button {\n  position: relative;\n  width: 100px;\n  height: 30px;\n  margin: auto auto -30px auto;\n  cursor: pointer; }\n\n.story-scroll__toggle-arrow {\n  display: block;\n  position: absolute;\n  height: 5px;\n  width: 30px;\n  margin: 1px;\n  background: #FAFAFA;\n  border-radius: 10px;\n  transition: transform 0.25s ease; }\n\n.story-scroll__toggle-arrow-left {\n  transform: rotate(-45deg);\n  left: 27%; }\n\n.story-scroll__toggle-arrow-left--open {\n  transform: rotate(45deg); }\n\n.story-scroll__toggle-arrow-right {\n  transform: rotate(45deg);\n  left: 45%; }\n\n.story-scroll__toggle-arrow-right--open {\n  transform: rotate(-45deg); }\n\n.story-scroll__room-editor {\n  justify-content: center;\n  align-content: center;\n  margin: auto; }\n\n.story-scroll__scroll {\n  background-color: #EEEEEE;\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  background: transparent;\n  max-width: 100%;\n  align-items: center; }\n\n.story-scroll__room-group {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  overflow-x: scroll;\n  overflow-y: hidden;\n  padding-left: 80px; }\n\n.story-scroll__room {\n  flex-direction: row;\n  margin-left: 0px; }\n\n.story-scroll__storymap-item {\n  color: #888888;\n  font-size: 0.8em; }\n  .story-scroll__storymap-item:hover {\n    color: #000; }\n\n.story-scroll__room-property-container {\n  max-height: 0;\n  overflow: hidden;\n  transition: max-height 0.1s;\n  margin-left: 10px; }\n\n.story-scroll__room-property-container--expanded {\n  max-height: 500px; }\n"
 
 /***/ }),
-/* 1265 */
+/* 1267 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  class=\"story-scroll\"\n  [ngClass]=\"{'stroy-scroll--open': isOpen}\">\n\n  <room-editor\n    *ngIf=\"inspectorIsVisible\"\n    (onOffClick)=\"onOffClick($event)\"\n    class=\"story-scroll__room-editor\">\n  </room-editor>\n\n  <div *ngIf=\"!inspectorIsVisible\">\n    <div\n      (click)=\"toggleOpen($event)\"\n      class=\"story-scroll__toggle-button\">\n      <span\n        class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-left\"\n        [ngClass]=\"{'story-scroll__toggle-arrow-left--open': isOpen}\">\n      </span>\n      <span\n      class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-right\"\n      [ngClass]=\"{'story-scroll__toggle-arrow-right--open': isOpen}\">\n      </span>\n    </div>\n  </div>\n\n\n  <div\n    droppable\n    [acceptedFileType]=\"'image'\"\n    [acceptMultpleFiles]=\"true\"\n    (onFileLoad)=\"addSlideshow($event)\"\n    class=\"story-scroll__scroll\">\n\n      <div class=\"story-scroll__room-group\">\n        <div\n          *ngFor=\"let roomId of getRoomIdList()\"\n          class=\"story-scroll__room\">\n\n          <!-- Room Label -->\n          <storymap-item\n            [roomProperty]=\"getRoomById(roomId)\"\n            [isActive]=\"roomIsSelected(roomId)\"\n            (click)=\"onRoomSelect(roomId)\"\n            (infoEvent)=\"onInfoClick($event)\"\n            class=\"story-scroll__storymap-item\">\n          </storymap-item>\n        </div>\n      </div>\n\n\n      <add-room></add-room>\n\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1266 */
+/* 1268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40849,27 +40879,27 @@ var StorymapItem = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], StorymapItem.prototype, "deleteEvent", void 0);
     StorymapItem = __decorate([core_1.Component({
         selector: 'storymap-item',
-        styles: [__webpack_require__(1267)],
-        template: __webpack_require__(1268)
+        styles: [__webpack_require__(1269)],
+        template: __webpack_require__(1270)
     }), __metadata("design:paramtypes", [propertyRemovalService_1.PropertyRemovalService, sceneInteractor_1.SceneInteractor, core_1.NgZone])], StorymapItem);
     return StorymapItem;
 }();
 exports.StorymapItem = StorymapItem;
 
 /***/ }),
-/* 1267 */
+/* 1269 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.storymap-item {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: flex-start;\n  align-items: center;\n  width: 100%;\n  cursor: pointer;\n  margin: 0px 0; }\n  .storymap-item:hover .story-map-item__buttons {\n    visibility: visible; }\n\n.story-map-item__buttons {\n  display: flex;\n  flex-direction: row;\n  transform: translate(0%, 80px);\n  visibility: hidden;\n  z-index: 1; }\n\n.storymap-item__button {\n  margin-left: 5px;\n  margin-right: 5px;\n  background-color: transparent;\n  background-size: 90%;\n  background-repeat: no-repeat;\n  width: 21px;\n  height: 21px; }\n\n.storymap-item__roomname {\n  justify-content: center;\n  margin: 0px 0px 0px 0px;\n  transform: translate(0%, 40px);\n  z-index: 1; }\n\n.storymap-item__delete {\n  background-image: url(\"assets/icons/delete_filled.png\"); }\n\n.storymap-item__info {\n  background-image: url(\"assets/icons/info_filled.png\"); }\n\n.storymap-item__home-icon {\n  background-image: url(\"assets/icons/home.png\"); }\n  .storymap-item__home-icon:hover {\n    background-image: url(\"assets/icons/home_filled.png\"); }\n\n.storymap-item__home-icon--active {\n  background-image: url(\"assets/icons/home_filled.png\"); }\n\n.storymap-item__thumbnailbox {\n  background-color: #EEEEEE;\n  height: 80px;\n  margin: 0 5px; }\n\n.storymap-item__thumbnail {\n  width: 120px;\n  height: 80px;\n  opacity: 0.5;\n  transition: opacity 0.25s ease-in-out; }\n\n.storymap-item__thumbnail--active {\n  opacity: 1; }\n"
 
 /***/ }),
-/* 1268 */
+/* 1270 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"storymap-item\">\n\n  <div class=\"storymap-item__roomname\">\n    <text-input\n      [textModel]=\"getName()\"\n      [isRoomName]=\"true\"\n      (onTextChange)=\"onNameChange($event)\">\n    </text-input>\n  </div>\n  \n  <div class=\"story-map-item__buttons\">\n    <div\n      class=\"storymap-item__button storymap-item__delete\"\n      (click)=\"onDeleteClick($event)\">\n    </div>\n\n    <div\n      class=\"storymap-item__button storymap-item__info\"\n      (click)=\"onInfoClick($event)\">\n    </div>\n\n    <div\n      (click)=\"setAsHomeRoom()\"\n      class=\"storymap-item__button storymap-item__home-icon\"\n      [ngClass]=\"{'storymap-item__home-icon--active': isHomeRoom()}\">\n    </div>\n\n  </div>\n\n  <div class='storymap-item__thumbnailbox'>\n    <img\n      [attr.src]=\"getBackgroundThumbnail()\"\n      class=\"storymap-item__thumbnail\"\n      [ngClass]=\"{'storymap-item__thumbnail--active': isActive}\">\n  </div>\n\n\n</div>\n"
 
 /***/ }),
-/* 1269 */
+/* 1271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40897,27 +40927,27 @@ var AddRoomButton = /** @class */function () {
     };
     AddRoomButton = __decorate([core_1.Component({
         selector: 'add-room',
-        styles: [__webpack_require__(1270)],
-        template: __webpack_require__(1271)
+        styles: [__webpack_require__(1272)],
+        template: __webpack_require__(1273)
     }), __metadata("design:paramtypes", [router_1.Router])], AddRoomButton);
     return AddRoomButton;
 }();
 exports.AddRoomButton = AddRoomButton;
 
 /***/ }),
-/* 1270 */
+/* 1272 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.add-room {\n  position: relative;\n  cursor: pointer;\n  margin-left: 5px; }\n\n.add-room__rect {\n  position: absolute;\n  opacity: 50%;\n  width: 60px;\n  height: 80px;\n  background-color: #FAFAFA;\n  top: -29px; }\n\n.add-room__plus {\n  transform: translate(10px, -8px); }\n\n.add-room__barh {\n  display: block;\n  position: absolute;\n  height: 4px;\n  width: 32px;\n  border-radius: 2px;\n  background-color: #888888;\n  left: 4px;\n  top: 18px;\n  transition: .15s ease-in-out;\n  transform: rotate(0deg); }\n\n.add-room__barv {\n  display: block;\n  position: absolute;\n  height: 4px;\n  width: 32px;\n  border-radius: 2px;\n  background-color: #888888;\n  left: 4px;\n  top: 18px;\n  transition: .15s ease-in-out;\n  transform: rotate(90deg); }\n"
 
 /***/ }),
-/* 1271 */
+/* 1273 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  class=\"add-room\"\n  (click)=\"addRoom($event)\">\n  <span class=\"add-room__rect\"></span>\n  <div class=\"add-room__plus\">\n    <span class=\"add-room__barh\"></span>\n    <span class=\"add-room__barv\"></span>\n  </div>\n</div>\n"
 
 /***/ }),
-/* 1272 */
+/* 1274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -40992,27 +41022,27 @@ var Fullscreen = /** @class */function () {
     };
     Fullscreen = __decorate([core_1.Component({
         selector: 'fullscreen',
-        styles: [__webpack_require__(1273)],
-        template: __webpack_require__(1274)
+        styles: [__webpack_require__(1275)],
+        template: __webpack_require__(1276)
     }), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, event_bus_1.EventBus, router_1.Router])], Fullscreen);
     return Fullscreen;
 }();
 exports.Fullscreen = Fullscreen;
 
 /***/ }),
-/* 1273 */
+/* 1275 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml * {\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale; }\n\n*, *:after, *:before {\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  box-sizing: border-box; }\n\n.icon {\n  width: 40px;\n  height: 40px;\n  display: block;\n  overflow: show; }\n\n.icon svg {\n  max-width: 100%; }\n\nmain {\n  position: absolute; }\n\n.fullscreen {\n  width: 100%;\n  height: 100%;\n  margin: 0 auto;\n  display: block;\n  position: relative;\n  border-radius: 2px;\n  text-decoration: none; }\n  .fullscreen .fs-icon {\n    -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n    -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n    -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n    -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n    transition: 0.5s ease-out;\n    background-color: #FAFAFA;\n    border-radius: 2px;\n    text-decoration: none;\n    opacity: 0.8; }\n    .fullscreen .fs-icon .outline {\n      fill: #ADADAD; }\n    .fullscreen .fs-icon .arrow {\n      fill: #ADADAD;\n      -webkit-transition: prefixed-for-transition(-webkit-, fill 1s ease);\n      -moz-transition: prefixed-for-transition(-moz-, fill 1s ease);\n      -ms-transition: prefixed-for-transition(-ms-, fill 1s ease);\n      -o-transition: prefixed-for-transition(-o-, fill 1s ease);\n      transition: fill 1s ease; }\n    .fullscreen .fs-icon .tl {\n      -webkit-transform: rotate(0deg);\n      -moz-transform: rotate(0deg);\n      -ms-transform: rotate(0deg);\n      -o-transform: rotate(0deg);\n      transform: rotate(0deg);\n      -webkit-transform-origin: 50%;\n      -moz-transform-origin: 50%;\n      -ms-transform-origin: 50%;\n      -o-transform-origin: 50%;\n      transform: 50%;\n      -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n      -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n      -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n      -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n      transition: 0.5s ease-out;\n      animation: tl 1s ease-in-out; }\n    .fullscreen .fs-icon .tr {\n      -webkit-transform: rotate(0deg);\n      -moz-transform: rotate(0deg);\n      -ms-transform: rotate(0deg);\n      -o-transform: rotate(0deg);\n      transform: rotate(0deg);\n      -webkit-transform-origin: 50%;\n      -moz-transform-origin: 50%;\n      -ms-transform-origin: 50%;\n      -o-transform-origin: 50%;\n      transform: 50%;\n      -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n      -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n      -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n      -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n      transition: 0.5s ease-out;\n      animation: tr 1s ease-in-out; }\n    .fullscreen .fs-icon .bl {\n      -webkit-transform: rotate(0deg);\n      -moz-transform: rotate(0deg);\n      -ms-transform: rotate(0deg);\n      -o-transform: rotate(0deg);\n      transform: rotate(0deg);\n      -webkit-transform-origin: 50%;\n      -moz-transform-origin: 50%;\n      -ms-transform-origin: 50%;\n      -o-transform-origin: 50%;\n      transform: 50%;\n      -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n      -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n      -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n      -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n      transition: 0.5s ease-out;\n      animation: bl 1s ease-in-out; }\n    .fullscreen .fs-icon .br {\n      -webkit-transform: rotate(0deg);\n      -moz-transform: rotate(0deg);\n      -ms-transform: rotate(0deg);\n      -o-transform: rotate(0deg);\n      transform: rotate(0deg);\n      -webkit-transform-origin: 50%;\n      -moz-transform-origin: 50%;\n      -ms-transform-origin: 50%;\n      -o-transform-origin: 50%;\n      transform: 50%;\n      -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n      -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n      -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n      -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n      transition: 0.5s ease-out;\n      animation: br 1s ease-in-out; }\n  .fullscreen:hover .fs-icon {\n    opacity: 1; }\n    .fullscreen:hover .fs-icon .outline {\n      fill: #888888;\n      -webkit-transition: prefixed-for-transition(-webkit-, fill 1s ease);\n      -moz-transition: prefixed-for-transition(-moz-, fill 1s ease);\n      -ms-transition: prefixed-for-transition(-ms-, fill 1s ease);\n      -o-transition: prefixed-for-transition(-o-, fill 1s ease);\n      transition: fill 1s ease; }\n    .fullscreen:hover .fs-icon .arrow {\n      fill: #888888;\n      -webkit-transition: prefixed-for-transition(-webkit-, fill 1s ease);\n      -moz-transition: prefixed-for-transition(-moz-, fill 1s ease);\n      -ms-transition: prefixed-for-transition(-ms-, fill 1s ease);\n      -o-transition: prefixed-for-transition(-o-, fill 1s ease);\n      transition: fill 1s ease;\n      -webkit-transition: prefixed-for-transition(-webkit-, transform 0.5s ease-out);\n      -moz-transition: prefixed-for-transition(-moz-, transform 0.5s ease-out);\n      -ms-transition: prefixed-for-transition(-ms-, transform 0.5s ease-out);\n      -o-transition: prefixed-for-transition(-o-, transform 0.5s ease-out);\n      transition: transform 0.5s ease-out; }\n  .fullscreen:active {\n    opacity: 1; }\n    .fullscreen:active .fs-icon {\n      -webkit-transform: scale(1.1);\n      -moz-transform: scale(1.1);\n      -ms-transform: scale(1.1);\n      -o-transform: scale(1.1);\n      transform: scale(1.1);\n      -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n      -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n      -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n      -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n      transition: 0.5s ease-out;\n      background-color: #888888; }\n      .fullscreen:active .fs-icon .arrow {\n        fill: #FF3571;\n        -webkit-transition: prefixed-for-transition(-webkit-, fill 1s ease);\n        -moz-transition: prefixed-for-transition(-moz-, fill 1s ease);\n        -ms-transition: prefixed-for-transition(-ms-, fill 1s ease);\n        -o-transition: prefixed-for-transition(-o-, fill 1s ease);\n        transition: fill 1s ease;\n        opacity: 100; }\n      .fullscreen:active .fs-icon .outline {\n        fill: #FF3571;\n        -webkit-transition: prefixed-for-transition(-webkit-, fill 1s ease);\n        -moz-transition: prefixed-for-transition(-moz-, fill 1s ease);\n        -ms-transition: prefixed-for-transition(-ms-, fill 1s ease);\n        -o-transition: prefixed-for-transition(-o-, fill 1s ease);\n        transition: fill 1s ease; }\n      .fullscreen:active .fs-icon .tl {\n        -webkit-transform: translate(-4px, -4px);\n        -moz-transform: translate(-4px, -4px);\n        -ms-transform: translate(-4px, -4px);\n        -o-transform: translate(-4px, -4px);\n        transform: translate(-4px, -4px); }\n      .fullscreen:active .fs-icon .tr {\n        -webkit-transform: translate(4px, -4px);\n        -moz-transform: translate(4px, -4px);\n        -ms-transform: translate(4px, -4px);\n        -o-transform: translate(4px, -4px);\n        transform: translate(4px, -4px); }\n      .fullscreen:active .fs-icon .bl {\n        -webkit-transform: translate(-4px, 4px);\n        -moz-transform: translate(-4px, 4px);\n        -ms-transform: translate(-4px, 4px);\n        -o-transform: translate(-4px, 4px);\n        transform: translate(-4px, 4px); }\n      .fullscreen:active .fs-icon .br {\n        -webkit-transform: translate(4px, 4px);\n        -moz-transform: translate(4px, 4px);\n        -ms-transform: translate(4px, 4px);\n        -o-transform: translate(4px, 4px);\n        transform: translate(4px, 4px); }\n\n.fullscreen__full {\n  opacity: 1; }\n  .fullscreen__full .fs-icon .arrow {\n    fill: #FF3571;\n    -webkit-transition: prefixed-for-transition(-webkit-, fill 1s ease);\n    -moz-transition: prefixed-for-transition(-moz-, fill 1s ease);\n    -ms-transition: prefixed-for-transition(-ms-, fill 1s ease);\n    -o-transition: prefixed-for-transition(-o-, fill 1s ease);\n    transition: fill 1s ease;\n    opacity: 100; }\n  .fullscreen__full .fs-icon .outline {\n    fill: #FF3571;\n    -webkit-transition: prefixed-for-transition(-webkit-, fill 1s ease);\n    -moz-transition: prefixed-for-transition(-moz-, fill 1s ease);\n    -ms-transition: prefixed-for-transition(-ms-, fill 1s ease);\n    -o-transition: prefixed-for-transition(-o-, fill 1s ease);\n    transition: fill 1s ease; }\n  .fullscreen__full .fs-icon .tl, .fullscreen__full .fs-icon .br {\n    -webkit-transform: rotate(-180deg);\n    -moz-transform: rotate(-180deg);\n    -ms-transform: rotate(-180deg);\n    -o-transform: rotate(-180deg);\n    transform: rotate(-180deg);\n    -webkit-transform-origin: 50%;\n    -moz-transform-origin: 50%;\n    -ms-transform-origin: 50%;\n    -o-transform-origin: 50%;\n    transform: 50%;\n    -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n    -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n    -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n    -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n    transition: 0.5s ease-out; }\n  .fullscreen__full .fs-icon .tr, .fullscreen__full .fs-icon .bl {\n    -webkit-transform: rotate(180deg);\n    -moz-transform: rotate(180deg);\n    -ms-transform: rotate(180deg);\n    -o-transform: rotate(180deg);\n    transform: rotate(180deg);\n    -webkit-transform-origin: 50%;\n    -moz-transform-origin: 50%;\n    -ms-transform-origin: 50%;\n    -o-transform-origin: 50%;\n    transform: 50%;\n    -webkit-transition: prefixed-for-transition(-webkit-, 0.5s ease-out);\n    -moz-transition: prefixed-for-transition(-moz-, 0.5s ease-out);\n    -ms-transition: prefixed-for-transition(-ms-, 0.5s ease-out);\n    -o-transition: prefixed-for-transition(-o-, 0.5s ease-out);\n    transition: 0.5s ease-out; }\n\n/*\n.fullscreen__full:hover {\n    .fs-icon {\n        @include transform (scale(1));\n      .outline {\n      }\n      .tl {\n        @include transform (rotate(-180deg));\n        @include transform-origin (100%);\n\n          @include transform (translate(-8px, -8px));\n      }\n      .tr {\n        @include transform (rotate(-180deg));\n        @include transform-origin (100%);\n\n          @include transform (translate(8px, -8px));\n      }\n      .bl {\n        @include transform (rotate(-180deg));\n        @include transform-origin (100%);\n\n          @include transform (translate(-8px, 8px));\n      }\n      .br {\n        @include transform (rotate(-180deg));\n        @include transform-origin (100%);\n\n          @include transform (translate(8px, 8px));\n      }\n    }\n  }\n*/\n@keyframes tl {\n  0% {\n    transform: translate(8px, 8px);\n    opacity: 0; }\n  15% {\n    opacity: 0; }\n  40% {\n    opacity: 1; } }\n\n@keyframes tr {\n  0% {\n    transform: translate(-8px, 8px);\n    opacity: 0; }\n  15% {\n    opacity: 0; }\n  40% {\n    opacity: 1; } }\n\n@keyframes bl {\n  0% {\n    transform: translate(8px, -8px);\n    opacity: 0; }\n  15% {\n    opacity: 0; }\n  40% {\n    opacity: 1; } }\n\n@keyframes br {\n  0% {\n    transform: translate(-8px, -8px);\n    opacity: 0; }\n  15% {\n    opacity: 0; }\n  40% {\n    opacity: 1; } }\n"
 
 /***/ }),
-/* 1274 */
+/* 1276 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"fullscreen\"\n  (click)=\"onFullscreenClick($event)\"\n  [ngClass]=\"{'fullscreen__full': isInFullscreen}\">\n    <div class=\"icon\">\n        <a class=\"fullscreen\" href=\"#!\"><svg class=\"fs-icon\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" x=\"0px\" y=\"0px\" viewBox=\"0 0 100 100\" enable-background=\"new 0 0 100 100\" xml:space=\"preserve\">\n\n            <!-- Top Right -->\n            <path class=\"tr arrow\" d=\"M74.6 33.6l0-4.3L63.2 40.7c-1.1 1.1-2.8 1.1-3.8 0c-1.1-1.1-1.1-2.8 0-3.9l11.4-11.4h-4.3 c-1.5 0-2.7-1.2-2.7-2.7c0-1.5 1.2-2.7 2.7-2.7h10.9c1.5 0 2.7 1.2 2.7 2.7v10.9c0 1.5-1.2 2.7-2.7 2.7 C75.8 36.3 74.6 35.1 74.6 33.6z\"/>\n\n            <!-- Top Left -->\n            <path class=\"tl arrow\" d=\"M33.6 25.4h-4.3l11.4 11.4c1.1 1.1 1.1 2.8 0 3.8c-1.1 1.1-2.8 1.1-3.8 0L25.4 29.3v4.3 c0 1.5-1.2 2.7-2.7 2.7c-1.5 0-2.7-1.2-2.7-2.7V22.7c0-1.5 1.2-2.7 2.7-2.7l10.9 0c1.5 0 2.7 1.2 2.7 2.7 C36.3 24.2 35.1 25.4 33.6 25.4z\"/>\n\n            <!-- Bottom Left -->\n            <path class=\"bl arrow\" d=\"M25.4 66.4l0 4.3l11.4-11.4c1.1-1.1 2.8-1.1 3.8 0c1.1 1.1 1.1 2.8 0 3.9L29.3 74.6h4.3 c1.5 0 2.7 1.2 2.7 2.7c0 1.5-1.2 2.7-2.7 2.7H22.7c-1.5 0-2.7-1.2-2.7-2.7V66.4c0-1.5 1.2-2.7 2.7-2.7 C24.2 63.7 25.4 64.9 25.4 66.4z\"/>\n\n            <!-- Bottom Right -->\n            <path class=\"br arrow\" d=\"M66.4 74.6h4.3L59.3 63.2c-1.1-1.1-1.1-2.8 0-3.8c1.1-1.1 2.8-1.1 3.8 0l11.4 11.4v-4.3 c0-1.5 1.2-2.7 2.7-2.7c1.5 0 2.7 1.2 2.7 2.7v10.9c0 1.5-1.2 2.7-2.7 2.7l-10.9 0c-1.5 0-2.7-1.2-2.7-2.7 C63.7 75.8 64.9 74.6 66.4 74.6z\"/>\n\n            <!-- Outline -->\n            <path class=\"outline\" d=\"M94 5c0.5 0 1 0.5 1 1v88c0 0.5-0.5 1-1 1H6c-0.5 0-1-0.5-1-1V6c0-0.5 0.5-1 1-1H94 M94 0H6C2.7 0 0 2.7 0 6v88 c0 3.3 2.7 6 6 6h88c3.3 0 6-2.7 6-6V6C100 2.7 97.3 0 94 0L94 0z\"/>\n          </svg>\n        </a>\n    </div>\n</div>\n"
 
 /***/ }),
-/* 1275 */
+/* 1277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41152,7 +41182,7 @@ function getTotalDistance(x1, x2, y1, y2) {
 }
 
 /***/ }),
-/* 1276 */
+/* 1278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41233,7 +41263,7 @@ var Droppable = /** @class */function () {
 exports.Droppable = Droppable;
 
 /***/ }),
-/* 1277 */
+/* 1279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41290,27 +41320,27 @@ var FileLoader = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", String)], FileLoader.prototype, "displayText", void 0);
     FileLoader = __decorate([core_1.Component({
         selector: 'file-loader',
-        styles: [__webpack_require__(1278)],
-        template: __webpack_require__(1279)
+        styles: [__webpack_require__(1280)],
+        template: __webpack_require__(1281)
     }), __metadata("design:paramtypes", [event_bus_1.EventBus, fileLoaderUtil_1.FileLoaderUtil])], FileLoader);
     return FileLoader;
 }();
 exports.FileLoader = FileLoader;
 
 /***/ }),
-/* 1278 */
+/* 1280 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.file-loader {\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  align-items: center;\n  align-content: center; }\n\n.file-loader__hidden-input {\n  display: none; }\n"
 
 /***/ }),
-/* 1279 */
+/* 1281 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  droppable\n  (onFileLoad)=\"onFileDrop($event)\"\n  [acceptedFileType]=\"acceptedFileType\"\n  class=\"file-loader\">\n\n  <input\n    type=\"file\"\n    [attr.id]=\"inputId\"\n    (change)=\"onFileChange($event)\"\n    class=\"file-loader__hidden-input\">\n\n  <label\n    [attr.for]=\"inputId\"\n    class=\"button-full-width\">\n    {{displayText}}\n  </label>\n\n</div>\n"
 
 /***/ }),
-/* 1280 */
+/* 1282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41361,27 +41391,27 @@ var HiddenFileLoader = /** @class */function () {
     __decorate([core_1.ViewChild('hiddenLabel'), __metadata("design:type", Object)], HiddenFileLoader.prototype, "hiddenLabel", void 0);
     HiddenFileLoader = __decorate([core_1.Component({
         selector: 'hidden-file-loader',
-        styles: [__webpack_require__(1281)],
-        template: __webpack_require__(1282)
+        styles: [__webpack_require__(1283)],
+        template: __webpack_require__(1284)
     }), __metadata("design:paramtypes", [event_bus_1.EventBus, zipFileReader_1.ZipFileReader])], HiddenFileLoader);
     return HiddenFileLoader;
 }();
 exports.HiddenFileLoader = HiddenFileLoader;
 
 /***/ }),
-/* 1281 */
+/* 1283 */
 /***/ (function(module, exports) {
 
 module.exports = ".hidden-file-loader {\n  display: none;\n  width: 0;\n  height: 0; }\n"
 
 /***/ }),
-/* 1282 */
+/* 1284 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"hidden-file-loader\">\n\n  <input\n    type=\"file\"\n    id=\"hiddenInput\"\n    (change)=\"onFileChange($event)\">\n\n  <label\n    #hiddenLabel\n    for=\"hiddenInput\">\n  </label>\n\n</div>\n"
 
 /***/ }),
-/* 1283 */
+/* 1285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41416,27 +41446,27 @@ var FileLoaderMulti = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", String)], FileLoaderMulti.prototype, "displayText", void 0);
     FileLoaderMulti = __decorate([core_1.Component({
         selector: 'file-loader-multi',
-        styles: [__webpack_require__(1284)],
-        template: __webpack_require__(1285)
+        styles: [__webpack_require__(1286)],
+        template: __webpack_require__(1287)
     })], FileLoaderMulti);
     return FileLoaderMulti;
 }();
 exports.FileLoaderMulti = FileLoaderMulti;
 
 /***/ }),
-/* 1284 */
+/* 1286 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.file-loader-multi {\n  display: flex;\n  flex-direction: row; }\n\n.file-loader-multi__hidden-input {\n  display: none; }\n\n.file-loader-multi__label {\n  width: 100%; }\n"
 
 /***/ }),
-/* 1285 */
+/* 1287 */
 /***/ (function(module, exports) {
 
 module.exports = "<div \n  droppable\n  (onFileLoad)=\"onFileDrop($event)\"\n  [acceptedFileType]=\"acceptedFileType\"\n  [acceptMultpleFiles]=\"true\"\n  class=\"file-loader-multi\">\n\n  <input\n    type=\"file\"\n    multiple\n    [attr.id]=\"inputId\"\n    (change)=\"onFileChange($event)\"\n    class=\"file-loader-multi__hidden-input\">\n\n  <label\n    [attr.for]=\"inputId\"\n    class=\"file-loader-multi__label\">\n    {{displayText}}\n  </label>\n\n</div>\n"
 
 /***/ }),
-/* 1286 */
+/* 1288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41464,27 +41494,27 @@ var CloseButton = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], CloseButton.prototype, "onButtonClick", void 0);
     CloseButton = __decorate([core_1.Component({
         selector: 'close-button',
-        styles: [__webpack_require__(1287)],
-        template: __webpack_require__(1288)
+        styles: [__webpack_require__(1289)],
+        template: __webpack_require__(1290)
     })], CloseButton);
     return CloseButton;
 }();
 exports.CloseButton = CloseButton;
 
 /***/ }),
-/* 1287 */
+/* 1289 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.close-button {\n  width: 18px;\n  height: 18px;\n  border-radius: 50%;\n  background-color: #888888;\n  position: relative;\n  border: 2px solid #FAFAFA; }\n\n.close-button :nth-child(1) {\n  transform: rotate(45deg); }\n\n.close-button :nth-child(2) {\n  transform: rotate(-45deg); }\n\n.close-button__bar {\n  display: block;\n  position: absolute;\n  height: 2px;\n  width: 14px;\n  border-radius: 1px;\n  background-color: #FAFAFA;\n  left: 2px;\n  top: 8px; }\n"
 
 /***/ }),
-/* 1288 */
+/* 1290 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  class=\"close-button\"\n  (click)=\"onClick()\">\n  <span class=\"close-button__bar\"></span>\n  <span class=\"close-button__bar\"></span>\n</div>\n"
 
 /***/ }),
-/* 1289 */
+/* 1291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41512,27 +41542,27 @@ var InfoButton = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], InfoButton.prototype, "onButtonClick", void 0);
     InfoButton = __decorate([core_1.Component({
         selector: 'info-button',
-        styles: [__webpack_require__(1290)],
-        template: __webpack_require__(1291)
+        styles: [__webpack_require__(1292)],
+        template: __webpack_require__(1293)
     })], InfoButton);
     return InfoButton;
 }();
 exports.InfoButton = InfoButton;
 
 /***/ }),
-/* 1290 */
+/* 1292 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.info-button {\n  width: 18px;\n  height: 18px;\n  border-radius: 50%;\n  background-color: #888888;\n  position: relative;\n  border: 2px solid #FAFAFA; }\n\n.info-button :nth-child(1) {\n  transform: rotate(90deg); }\n\n.info-button__bar {\n  display: block;\n  position: absolute;\n  height: 2px;\n  width: 14px;\n  border-radius: 1px;\n  background-color: #FAFAFA;\n  left: 2px;\n  top: 8px; }\n"
 
 /***/ }),
-/* 1291 */
+/* 1293 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  class=\"info-button\"\n  (click)=\"onClick()\">\n  <span class=\"info-button__bar\"></span>\n</div>\n"
 
 /***/ }),
-/* 1292 */
+/* 1294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41551,27 +41581,27 @@ var Slider = /** @class */function () {
     function Slider() {}
     Slider = __decorate([core_1.Component({
         selector: 'slider',
-        styles: [__webpack_require__(1293)],
-        template: __webpack_require__(1294)
+        styles: [__webpack_require__(1295)],
+        template: __webpack_require__(1296)
     })], Slider);
     return Slider;
 }();
 exports.Slider = Slider;
 
 /***/ }),
-/* 1293 */
+/* 1295 */
 /***/ (function(module, exports) {
 
 module.exports = ".range {\n  display: inline-block;\n  margin: 36px 20px 20px; }\n\ninput[type=range] {\n  -webkit-appearance: none;\n  position: relative; }\n\ninput[type=range]::-webkit-slider-runnable-track {\n  width: 300px;\n  height: 2px;\n  border: none;\n  border-radius: 3px; }\n\ninput[type=range]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  border: none;\n  height: 12px;\n  width: 12px;\n  border-radius: 510%;\n  background: #141414;\n  border: 2px solid #515151;\n  margin-top: -5px;\n  cursor: pointer; }\n\n.focused::-webkit-slider-thumb {\n  box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.15); }\n\n.clicked::-webkit-slider-thumb {\n  -webkit-transform: scale(1.5); }\n\n.disabled::-webkit-slider-thumb {\n  -webkit-transform: scale(0.9);\n  box-shadow: 0 0 0 3px #141414;\n  background: #515151 !important;\n  border-color: #515151 !important; }\n\ninput[type=range]:focus {\n  outline: none; }\n\n.range:hover input[type=range]:before {\n  color: #FAFAFA;\n  content: '50';\n  position: absolute;\n  font-family: Roboto Slab;\n  top: -49px;\n  background: #3f51b5;\n  padding: 8px 0 3px;\n  font-size: 14px;\n  width: 30px;\n  text-align: center;\n  border-radius: 100% 100% 0 0; }\n\n.range:hover input[type=range]:after {\n  content: '';\n  position: absolute;\n  top: -19px;\n  left: 50px;\n  border-left: 15px solid transparent;\n  border-right: 15px solid transparent;\n  border-top: 8px solid #3f51b5;\n  font-family: Roboto Slab; }\n"
 
 /***/ }),
-/* 1294 */
+/* 1296 */
 /***/ (function(module, exports) {
 
 module.exports = "\n<input type=\"range\" max=\"100\" value=\"50\">\n"
 
 /***/ }),
-/* 1295 */
+/* 1297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41604,27 +41634,27 @@ var Checkbox = /** @class */function () {
     __decorate([core_1.ViewChild('input'), __metadata("design:type", Object)], Checkbox.prototype, "inputElement", void 0);
     Checkbox = __decorate([core_1.Component({
         selector: 'checkbox',
-        styles: [__webpack_require__(1296)],
-        template: __webpack_require__(1297)
+        styles: [__webpack_require__(1298)],
+        template: __webpack_require__(1299)
     })], Checkbox);
     return Checkbox;
 }();
 exports.Checkbox = Checkbox;
 
 /***/ }),
-/* 1296 */
+/* 1298 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.checkbox__label {\n  position: relative;\n  display: block;\n  height: 16px;\n  width: 32px;\n  background-color: #ADADAD;\n  border-radius: 8px;\n  cursor: pointer;\n  transition: background-color 0.2s ease; }\n\n.checkbox__input:checked ~ label {\n  background-color: #FF87AA; }\n\n.checkbox__label:after {\n  position: absolute;\n  left: 0;\n  top: -2px;\n  display: block;\n  width: 20px;\n  height: 20px;\n  border-radius: 50%;\n  background-color: #EEEEEE;\n  content: '';\n  transition: left 0.2s ease; }\n\n.checkbox__input:checked ~ label:after {\n  left: 12px;\n  background-color: #AD0034; }\n\n.checkbox__input--hidden {\n  display: none; }\n"
 
 /***/ }),
-/* 1297 */
+/* 1299 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"checkbox\">\n  <input\n  \t#input\n  \ttype=\"checkbox\"\n  \t[attr.id]=\"uniqueId\"\n    [checked]=\"initialValue\"\n  \t(change)=\"onChange($event.target.checked)\"\n  \tclass=\"checkbox__input checkbox__input--hidden\"/>\n  <label [attr.for]=\"uniqueId\" class=\"checkbox__label\"></label>\n</div>\n"
 
 /***/ }),
-/* 1298 */
+/* 1300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41663,27 +41693,27 @@ var TextInput = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], TextInput.prototype, "onTextChange", void 0);
     TextInput = __decorate([core_1.Component({
         selector: 'text-input',
-        styles: [__webpack_require__(1299)],
-        template: __webpack_require__(1300)
+        styles: [__webpack_require__(1301)],
+        template: __webpack_require__(1302)
     })], TextInput);
     return TextInput;
 }();
 exports.TextInput = TextInput;
 
 /***/ }),
-/* 1299 */
+/* 1301 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.text-input__input {\n  outline: none;\n  background: none;\n  border: none;\n  width: 80px;\n  color: #888888;\n  font-size: 1em;\n  display: block;\n  border-bottom: 2px hidden #EEEEEE;\n  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);\n  transition: border-bottom 0.1s linear;\n  background: transparent; }\n  .text-input__input:focus {\n    outline: none;\n    border-bottom: 2px solid #EEEEEE; }\n\n.text-input__input--icon {\n  color: #FAFAFA;\n  border-bottom: 2px hidden #EEEEEE;\n  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);\n  text-align: center;\n  margin: 5px 0 0 0px; }\n\n.text-input__input-row {\n  width: 110px; }\n\n.text-input__input-row--active {\n  color: #FAFAFA; }\n\n.text-input__storymap--roomname {\n  text-align: center;\n  color: #FAFAFA;\n  width: 110px;\n  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6); }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.text-input__input {\n  outline: none;\n  background: none;\n  border: none;\n  color: #888888;\n  font-size: 1em;\n  display: block;\n  border-bottom: 2px hidden #EEEEEE;\n  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);\n  transition: border-bottom 0.1s linear;\n  background: transparent; }\n  .text-input__input:focus {\n    outline: none;\n    border-bottom: 2px solid #EEEEEE; }\n\n.text-input__input--icon {\n  color: #FAFAFA;\n  border-bottom: 2px hidden #EEEEEE;\n  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);\n  text-align: center;\n  margin: 5px 0 0 0px; }\n\n.text-input__input-row {\n  width: 110px; }\n\n.text-input__input-row--active {\n  color: #FAFAFA; }\n\n.text-input__storymap--roomname {\n  text-align: center;\n  color: #FAFAFA;\n  width: 110px;\n  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6); }\n"
 
 /***/ }),
-/* 1300 */
+/* 1302 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"text-input\">\n\n  <input\n    type=\"text\"\n    [ngModel]=\"textModel\"\n    (ngModelChange)=\"onModelChange($event)\"\n    class=\"text-input__input\"\n    [ngClass]=\"{\n      'text-input__input--icon': isHotspot,\n      'text-input__input-row': isRowItem,\n      'text-input__input-row--active': isActive,\n      'text-input__storymap--roomname': isRoomName\n    }\">\n\n</div>\n"
 
 /***/ }),
-/* 1301 */
+/* 1303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41721,27 +41751,27 @@ var TextInputMaterial = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], TextInputMaterial.prototype, "onBlurEvent", void 0);
     TextInputMaterial = __decorate([core_1.Component({
         selector: 'text-input-material',
-        styles: [__webpack_require__(1302)],
-        template: __webpack_require__(1303)
+        styles: [__webpack_require__(1304)],
+        template: __webpack_require__(1305)
     })], TextInputMaterial);
     return TextInputMaterial;
 }();
 exports.TextInputMaterial = TextInputMaterial;
 
 /***/ }),
-/* 1302 */
+/* 1304 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.text-input-material {\n  height: 40px;\n  position: relative; }\n\n.input {\n  font-size: 1em;\n  display: block;\n  width: 100%;\n  border: none;\n  background: none;\n  border-bottom: 1px solid #888888;\n  position: absolute;\n  bottom: 0;\n  color: #888888;\n  outline: none;\n  box-shadow: none;\n  -webkit-appearance: none;\n  margin: 0; }\n  .input:focus {\n    outline: none; }\n\ninput[type=number]::-webkit-inner-spin-button,\ninput[type=number]::-webkit-outer-spin-button {\n  -webkit-appearance: none;\n  margin: 0; }\n\n.label {\n  color: #888888;\n  font-weight: normal;\n  position: absolute;\n  pointer-events: none;\n  top: 10px;\n  transition: 0.2s ease all; }\n\n/* active state */\n.input:focus ~ .label, .input:valid ~ .label {\n  top: 0px;\n  font-size: 0.8em; }\n\n.bar {\n  position: absolute;\n  bottom: 0;\n  display: block;\n  width: 100%; }\n\n.bar:before, .bar:after {\n  content: '';\n  height: 2px;\n  width: 0;\n  bottom: 1px;\n  position: absolute;\n  background: #888888;\n  transition: 0.2s ease all; }\n\n.bar:before {\n  left: 50%; }\n\n.bar:after {\n  right: 50%; }\n\n/* active state */\n.input:focus ~ .bar:before, .input:focus ~ .bar:after {\n  width: 50%; }\n\n.highlight {\n  position: absolute;\n  height: 60%;\n  width: 100px;\n  top: 25%;\n  left: 0;\n  pointer-events: none;\n  opacity: 0.5; }\n\n/* active state */\n.input:focus ~ .highlight {\n  animation: inputHighlighter 0.3s ease; }\n\n@keyframes inputHighlighter {\n  from {\n    background: #5264AE; }\n  to {\n    width: 0;\n    background: transparent; } }\n"
 
 /***/ }),
-/* 1303 */
+/* 1305 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"text-input-material\">\n\n  <input\n    [attr.type]=\"inputType\"\n    [ngModel]=\"textModel\"\n    (ngModelChange)=\"onModelChange($event)\"\n    (blur)=\"onBlur(textModel)\"\n    class=\"input\"\n    required>\n  <span class=\"highlight\"></span>\n  <span class=\"bar\"></span>\n  <label class=\"label\">{{inputLabel}}</label>\n\n</div>\n"
 
 /***/ }),
-/* 1304 */
+/* 1306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41864,8 +41894,8 @@ var Modal = /** @class */function () {
     };
     Modal = __decorate([core_1.Component({
         selector: 'modal',
-        styles: [__webpack_require__(1305)],
-        template: __webpack_require__(1306),
+        styles: [__webpack_require__(1307)],
+        template: __webpack_require__(1308),
         encapsulation: core_2.ViewEncapsulation.None
     }), __metadata("design:paramtypes", [event_bus_1.EventBus])], Modal);
     return Modal;
@@ -41873,19 +41903,19 @@ var Modal = /** @class */function () {
 exports.Modal = Modal;
 
 /***/ }),
-/* 1305 */
+/* 1307 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.modal {\n  position: absolute;\n  height: 100%;\n  width: 100%;\n  top: 0;\n  left: 0;\n  background-color: rgba(0, 0, 0, 0.7);\n  z-index: 10; }\n\n.modal__content {\n  min-width: 320px;\n  left: 50%;\n  top: 50%;\n  position: absolute;\n  /* top: 0; */\n  transform: translate(-50%, -50%);\n  background: #FAFAFA;\n  border-radius: 16px;\n  border-width: 0px;\n  border-color: transparent; }\n\n.modal__content-header {\n  padding-top: 16px;\n  padding-bottom: 4px; }\n\n.modal__content-body {\n  padding-bottom: 16px;\n  padding-top: 4px;\n  padding-left: 24px;\n  padding-right: 24px;\n  color: #888888; }\n\n.modal__content-body-text {\n  text-align: center;\n  margin-top: 5px; }\n\n.modal__content-selector {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-around; }\n\n.modal__content-selection {\n  flex-grow: 1;\n  flex-basis: 0;\n  border: 4px solid #EEEEEE;\n  border-radius: 4px;\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  font-size: 1.1em;\n  padding: 10px;\n  margin: 0 10px;\n  text-align: center;\n  cursor: pointer; }\n\n.modal__content-body-options {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end; }\n\n.modal__content-body-close {\n  margin-top: 20px;\n  padding: 10px;\n  color: #888888;\n  font-weight: 600;\n  text-align: right;\n  cursor: pointer; }\n"
 
 /***/ }),
-/* 1306 */
+/* 1308 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  *ngIf=\"isOpen\"\n  class=\"modal\">\n\n  <loading-modal\n    *ngIf=\"isLoaderModal()\">\n  </loading-modal>\n\n  <message-modal\n    *ngIf=\"isMessageModal()\"\n    (onClose)=\"closeModal($event)\"\n    [messageData]=\"messageData\">\n  </message-modal>\n\n  <shareable-modal\n    *ngIf=\"isSharableModal()\"\n    (onClose)=\"closeModal($event)\"\n    [shareableData]=\"shareableData\">\n  </shareable-modal>\n\n</div>\n"
 
 /***/ }),
-/* 1307 */
+/* 1309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41904,27 +41934,27 @@ var LoadingModal = /** @class */function () {
     function LoadingModal() {}
     LoadingModal = __decorate([core_1.Component({
         selector: 'loading-modal',
-        styles: [__webpack_require__(1308)],
-        template: __webpack_require__(1309)
+        styles: [__webpack_require__(1310)],
+        template: __webpack_require__(1311)
     })], LoadingModal);
     return LoadingModal;
 }();
 exports.LoadingModal = LoadingModal;
 
 /***/ }),
-/* 1308 */
+/* 1310 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.modal__content__loader,\n.modal__content__loader:before,\n.modal__content__loader:after {\n  border-radius: 50%;\n  width: 25px;\n  height: 25px;\n  animation-fill-mode: both;\n  animation: loaderkeyframes 1.8s infinite ease-in-out; }\n\n.modal__content__loader {\n  color: #ADADAD;\n  margin: -25px auto 25px auto;\n  transform: translateZ(0);\n  animation-delay: -0.16s; }\n\n.modal__content__loader:before,\n.modal__content__loader:after {\n  content: '';\n  position: absolute;\n  top: 0; }\n\n.modal__content__loader:before {\n  left: -35px;\n  animation-delay: -0.32s; }\n\n.modal__content__loader:after {\n  left: 35px; }\n\n@keyframes loaderkeyframes {\n  0%,\n  80%,\n  100% {\n    box-shadow: 0 25px 0 -12.5px; }\n  40% {\n    box-shadow: 0 25px 0 0; } }\n"
 
 /***/ }),
-/* 1309 */
+/* 1311 */
 /***/ (function(module, exports) {
 
 module.exports = "\n<div class=\"modal__content\">\n  <div class=\"modal__content-header\">\n    <div class=\" modal__content__loader\"></div>\n  </div>\n  <div class=\"modal__content-body\">\n    <p class=\"modal__content-body-text\">\n      Loading your project, just a moment...\n    </p>\n  </div>\n</div>\n"
 
 /***/ }),
-/* 1310 */
+/* 1312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41953,27 +41983,27 @@ var MessageModal = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", Object)], MessageModal.prototype, "messageData", void 0);
     MessageModal = __decorate([core_1.Component({
         selector: 'message-modal',
-        styles: [__webpack_require__(1311)],
-        template: __webpack_require__(1312)
+        styles: [__webpack_require__(1313)],
+        template: __webpack_require__(1314)
     })], MessageModal);
     return MessageModal;
 }();
 exports.MessageModal = MessageModal;
 
 /***/ }),
-/* 1311 */
+/* 1313 */
 /***/ (function(module, exports) {
 
 module.exports = ""
 
 /***/ }),
-/* 1312 */
+/* 1314 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"modal__content\">\n\n  <div class=\"modal__content-header\">\n    {{ messageData.headerText }}\n  </div>\n\n  <div class=\"modal__content-body\">\n    <p class=\"modal__content-body-text\">\n      {{ messageData.bodyText }}\n    </p>\n\n    <div *ngIf=\"!messageData.isMessage\">\n      <p\n        (click)=\"closeModal($event)\"\n        class=\"modal__content-body-close\">\n        Close\n      </p>\n    </div>\n\n    <div\n      *ngIf=\"messageData.isMessage\"\n      class=\"modal__content-body-options\">\n      <p\n        (click)=\"closeModal($event)\"\n        class=\"modal__content-body-close\">\n        Cancel\n      </p>\n      <p\n        (click)=\"closeModal($event, true)\"\n        class=\"modal__content-body-close\">\n        OK\n      </p>\n    </div>\n\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1313 */
+/* 1315 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41992,10 +42022,10 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var Observable_1 = __webpack_require__(0);
-var QRCode = __webpack_require__(1314);
+var QRCode = __webpack_require__(1316);
 var apiService_1 = __webpack_require__(61);
 var publicLinkHelper_1 = __webpack_require__(276);
-var clipboard_1 = __webpack_require__(1335);
+var clipboard_1 = __webpack_require__(1337);
 var projectInteractor_1 = __webpack_require__(53);
 var userInteractor_1 = __webpack_require__(38);
 var ShareableModal = /** @class */function () {
@@ -42073,21 +42103,21 @@ var ShareableModal = /** @class */function () {
     __decorate([core_1.ViewChild('qrCodeElem'), __metadata("design:type", Object)], ShareableModal.prototype, "qrCodeElem", void 0);
     ShareableModal = __decorate([core_1.Component({
         selector: 'shareable-modal',
-        styles: [__webpack_require__(1336)],
-        template: __webpack_require__(1337)
+        styles: [__webpack_require__(1338)],
+        template: __webpack_require__(1339)
     }), __metadata("design:paramtypes", [projectInteractor_1.ProjectInteractor, userInteractor_1.UserInteractor, apiService_1.ApiService])], ShareableModal);
     return ShareableModal;
 }();
 exports.ShareableModal = ShareableModal;
 
 /***/ }),
-/* 1314 */
+/* 1316 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var canPromise = __webpack_require__(1315)
-var QRCode = __webpack_require__(1317)
-var CanvasRenderer = __webpack_require__(1333)
-var SvgRenderer = __webpack_require__(1334)
+var canPromise = __webpack_require__(1317)
+var QRCode = __webpack_require__(1319)
+var CanvasRenderer = __webpack_require__(1335)
+var SvgRenderer = __webpack_require__(1336)
 
 function renderCanvas (renderFunc, canvas, text, opts, cb) {
   var args = [].slice.call(arguments, 1)
@@ -42161,13 +42191,13 @@ exports.toString = renderCanvas.bind(null, function (data, _, opts) {
 
 
 /***/ }),
-/* 1315 */
+/* 1317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var G = __webpack_require__(1316)
+var G = __webpack_require__(1318)
 
 module.exports = function() {
   return (
@@ -42178,7 +42208,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 1316 */
+/* 1318 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42190,23 +42220,23 @@ module.exports = (typeof self === 'object' && self.self === self && self) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ }),
-/* 1317 */
+/* 1319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(111)
 var Utils = __webpack_require__(94)
 var ECLevel = __webpack_require__(283)
-var BitBuffer = __webpack_require__(1318)
-var BitMatrix = __webpack_require__(1319)
-var AlignmentPattern = __webpack_require__(1320)
-var FinderPattern = __webpack_require__(1321)
-var MaskPattern = __webpack_require__(1322)
-var ECCode = __webpack_require__(528)
-var ReedSolomonEncoder = __webpack_require__(1323)
-var Version = __webpack_require__(529)
-var FormatInfo = __webpack_require__(1326)
+var BitBuffer = __webpack_require__(1320)
+var BitMatrix = __webpack_require__(1321)
+var AlignmentPattern = __webpack_require__(1322)
+var FinderPattern = __webpack_require__(1323)
+var MaskPattern = __webpack_require__(1324)
+var ECCode = __webpack_require__(530)
+var ReedSolomonEncoder = __webpack_require__(1325)
+var Version = __webpack_require__(531)
+var FormatInfo = __webpack_require__(1328)
 var Mode = __webpack_require__(95)
-var Segments = __webpack_require__(1327)
+var Segments = __webpack_require__(1329)
 var isArray = __webpack_require__(127)
 
 /**
@@ -42695,7 +42725,7 @@ exports.create = function create (data, options) {
 
 
 /***/ }),
-/* 1318 */
+/* 1320 */
 /***/ (function(module, exports) {
 
 function BitBuffer () {
@@ -42738,7 +42768,7 @@ module.exports = BitBuffer
 
 
 /***/ }),
-/* 1319 */
+/* 1321 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(111)
@@ -42813,7 +42843,7 @@ module.exports = BitMatrix
 
 
 /***/ }),
-/* 1320 */
+/* 1322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -42902,7 +42932,7 @@ exports.getPositions = function getPositions (version) {
 
 
 /***/ }),
-/* 1321 */
+/* 1323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getSymbolSize = __webpack_require__(94).getSymbolSize
@@ -42930,7 +42960,7 @@ exports.getPositions = function getPositions (version) {
 
 
 /***/ }),
-/* 1322 */
+/* 1324 */
 /***/ (function(module, exports) {
 
 /**
@@ -43170,11 +43200,11 @@ exports.getBestMask = function getBestMask (data, setupFormatFunc) {
 
 
 /***/ }),
-/* 1323 */
+/* 1325 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(111)
-var Polynomial = __webpack_require__(1324)
+var Polynomial = __webpack_require__(1326)
 
 function ReedSolomonEncoder (degree) {
   this.genPoly = undefined
@@ -43235,11 +43265,11 @@ module.exports = ReedSolomonEncoder
 
 
 /***/ }),
-/* 1324 */
+/* 1326 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(111)
-var GF = __webpack_require__(1325)
+var GF = __webpack_require__(1327)
 
 /**
  * Multiplies two polynomials inside Galois Field
@@ -43305,7 +43335,7 @@ exports.generateECPolynomial = function generateECPolynomial (degree) {
 
 
 /***/ }),
-/* 1325 */
+/* 1327 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(111)
@@ -43383,7 +43413,7 @@ exports.mul = function mul (x, y) {
 
 
 /***/ }),
-/* 1326 */
+/* 1328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Utils = __webpack_require__(94)
@@ -43418,17 +43448,17 @@ exports.getEncodedBits = function getEncodedBits (errorCorrectionLevel, mask) {
 
 
 /***/ }),
-/* 1327 */
+/* 1329 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Mode = __webpack_require__(95)
-var NumericData = __webpack_require__(1328)
-var AlphanumericData = __webpack_require__(1329)
-var ByteData = __webpack_require__(1330)
-var KanjiData = __webpack_require__(1331)
-var Regex = __webpack_require__(530)
+var NumericData = __webpack_require__(1330)
+var AlphanumericData = __webpack_require__(1331)
+var ByteData = __webpack_require__(1332)
+var KanjiData = __webpack_require__(1333)
+var Regex = __webpack_require__(532)
 var Utils = __webpack_require__(94)
-var dijkstra = __webpack_require__(1332)
+var dijkstra = __webpack_require__(1334)
 
 /**
  * Returns UTF8 byte length
@@ -43754,7 +43784,7 @@ exports.rawSplit = function rawSplit (data) {
 
 
 /***/ }),
-/* 1328 */
+/* 1330 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Mode = __webpack_require__(95)
@@ -43803,7 +43833,7 @@ module.exports = NumericData
 
 
 /***/ }),
-/* 1329 */
+/* 1331 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Mode = __webpack_require__(95)
@@ -43868,7 +43898,7 @@ module.exports = AlphanumericData
 
 
 /***/ }),
-/* 1330 */
+/* 1332 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Buffer = __webpack_require__(111)
@@ -43901,7 +43931,7 @@ module.exports = ByteData
 
 
 /***/ }),
-/* 1331 */
+/* 1333 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Mode = __webpack_require__(95)
@@ -43961,7 +43991,7 @@ module.exports = KanjiData
 
 
 /***/ }),
-/* 1332 */
+/* 1334 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44133,10 +44163,10 @@ if (true) {
 
 
 /***/ }),
-/* 1333 */
+/* 1335 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Utils = __webpack_require__(531)
+var Utils = __webpack_require__(533)
 
 function clearCanvas (ctx, canvas, size) {
   ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -44202,10 +44232,10 @@ exports.renderToDataURL = function renderToDataURL (qrData, canvas, options) {
 
 
 /***/ }),
-/* 1334 */
+/* 1336 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Utils = __webpack_require__(531)
+var Utils = __webpack_require__(533)
 
 function getColorAttrib (color, attrib) {
   var alpha = color.a / 255
@@ -44289,7 +44319,7 @@ exports.render = function render (qrData, options, cb) {
 
 
 /***/ }),
-/* 1335 */
+/* 1337 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44316,19 +44346,19 @@ function copyToClipboard(stringToCopy) {
 exports.copyToClipboard = copyToClipboard;
 
 /***/ }),
-/* 1336 */
+/* 1338 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.public-option-row {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  align-items: center; }\n\n.public-option-row__label {\n  margin: 5px 10px 5px 0; }\n\n.public-option__text-block {\n  margin: 10px 0; }\n\n.public-option__explanation {\n  margin: 10px 0; }\n\n.public-option__explanation-list {\n  margin: 0;\n  padding: 0 30px; }\n\n.public-option__link {\n  overflow: hidden;\n  white-space: nowrap;\n  font-weight: 1000;\n  text-overflow: ellipsis;\n  cursor: pointer;\n  color: #FF3571;\n  text-align: center; }\n\n.public-option__copy-notification {\n  color: #FF3571;\n  position: absolute;\n  background-color: #EEEEEE;\n  border: 1px solid #888888;\n  padding: 10px;\n  box-shadow: 2px 1px 4px 1px rgba(0, 0, 0, 0.5);\n  width: 225px;\n  text-align: center;\n  transform: scaleX(0);\n  transform-origin: left;\n  transition: transform 0.15s ease-out; }\n\n.public-option__copy-notification--active {\n  transform: scaleX(1); }\n\n.public-option__qr-code {\n  text-align: center; }\n\n.public-option__clipboard-text p span {\n  display: block;\n  font-size: 0.8em;\n  color: #979797;\n  opacity: 0; }\n\n.public-option__clipboard-text p:hover span {\n  opacity: 1; }\n"
 
 /***/ }),
-/* 1337 */
+/* 1339 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"modal__content\">\n\n  <div class=\"modal__content-header\">\n    Shareable settings\n  </div>\n\n  <div class=\"modal__content-body\">\n\n    <div class=\"public-option-row public-option__text-block\">\n      <span class=\"public-option-row__label\">Make public</span>\n      <checkbox\n        [initialValue]=\"projectIsPublic()\"\n        (changeEmitter)=\"onCheckboxChange($event)\">\n      </checkbox>\n    </div>\n\n    <div *ngIf=\"projectIsPublic()\">\n      <p class=\"public-option__text-block\">Your project titled \"{{projectName}}\" is public.</p>\n      <p\n        class=\"public-option__copy-notification\"\n        [ngClass]=\"{'public-option__copy-notification--active': notificationIsVisible}\">\n        Link copied to clipboard!\n      </p>\n      <div class=\"public-option__qr-code\">\n        <canvas #qrCodeElem></canvas>\n      </div>\n      <div class=\"public-option__clipboard-text\">\n        <p\n          class=\"public-option__link\"\n          [attr.title]=\"publicLink\"\n          (click)=\"onPublicLinkClick($event)\">\n          {{publicLink}}\n          <span>Click to Copy to Clipboard</span>\n        </p>\n      </div>\n      <div class=\"public-option__text-block\">\n        <p>This means:</p>\n        <ul class=\"public-option__explanation-list\">\n          <li>Other people can look at this project using the link above.</li>\n          <li>Social VR users can find this project using the search tool.</li>\n          <li>Nobody else can modify this project.</li>\n        </ul>\n      </div>\n    </div>\n\n    <div *ngIf=\"!projectIsPublic()\">\n      <p class=\"public-option__text-block\">Your project titled \"{{projectName}}\" is not public.</p>\n      <p class=\"public-option__text-block\">Only you can access this project.</p>\n    </div>\n\n    <p\n      (click)=\"closeModal($event)\"\n      class=\"modal__content-body-close\">\n      Close\n    </p>\n\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1338 */
+/* 1340 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44347,18 +44377,18 @@ var core_1 = __webpack_require__(2);
 var http_1 = __webpack_require__(162);
 var roomManager_1 = __webpack_require__(92);
 var roomPropertyBuilder_1 = __webpack_require__(184);
-var cameraService_1 = __webpack_require__(512);
+var cameraService_1 = __webpack_require__(514);
 var apiService_1 = __webpack_require__(61);
 // import {ApiService} from 'data/api/stubApiService';
 var userService_1 = __webpack_require__(190);
 var authenticationService_1 = __webpack_require__(187);
-var socialAuthenticationService_1 = __webpack_require__(519);
+var socialAuthenticationService_1 = __webpack_require__(521);
 var deserializationService_1 = __webpack_require__(277);
 var serializationService_1 = __webpack_require__(278);
-var projectService_1 = __webpack_require__(517);
+var projectService_1 = __webpack_require__(519);
 var assetManager_1 = __webpack_require__(140);
-var assetService_1 = __webpack_require__(513);
-var chatService_1 = __webpack_require__(526);
+var assetService_1 = __webpack_require__(515);
+var chatService_1 = __webpack_require__(528);
 var DataModule = /** @class */function () {
     function DataModule() {}
     DataModule = __decorate([core_1.NgModule({
@@ -44371,7 +44401,7 @@ var DataModule = /** @class */function () {
 exports.DataModule = DataModule;
 
 /***/ }),
-/* 1339 */
+/* 1341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44391,9 +44421,9 @@ var router_1 = __webpack_require__(17);
 var platform_browser_1 = __webpack_require__(51);
 var forms_1 = __webpack_require__(100);
 // UI components
-var admin_1 = __webpack_require__(1340);
-var admin_user_groups_1 = __webpack_require__(1343);
-var admin_search_explore_1 = __webpack_require__(1346);
+var admin_1 = __webpack_require__(1342);
+var admin_user_groups_1 = __webpack_require__(1345);
+var admin_search_explore_1 = __webpack_require__(1348);
 // Common UI components
 var common_module_1 = __webpack_require__(192);
 // Expose core layer (interactors) to view layer
@@ -44412,7 +44442,7 @@ var AdminModule = /** @class */function () {
 exports.AdminModule = AdminModule;
 
 /***/ }),
-/* 1340 */
+/* 1342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44446,27 +44476,27 @@ var Admin = /** @class */function () {
     __decorate([core_1.ViewChild('adminUserGroups'), __metadata("design:type", Object)], Admin.prototype, "adminUserGroupsElement", void 0);
     Admin = __decorate([core_1.Component({
         selector: 'admin',
-        styles: [__webpack_require__(1341)],
-        template: __webpack_require__(1342)
+        styles: [__webpack_require__(1343)],
+        template: __webpack_require__(1344)
     }), __metadata("design:paramtypes", [userInteractor_1.UserInteractor, adminInteractor_1.AdminInteractor])], Admin);
     return Admin;
 }();
 exports.Admin = Admin;
 
 /***/ }),
-/* 1341 */
+/* 1343 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.admin {\n  height: auto;\n  min-height: 100%;\n  background-color: #EEEEEE;\n  color: #888888;\n  padding: 15px; }\n\n.admin__no-permissions {\n  margin-top: 20px;\n  text-align: center; }\n"
 
 /***/ }),
-/* 1342 */
+/* 1344 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"admin\">\n\n  <div\n    *ngIf=\"!hasPermission()\"\n    class=\"admin__no-permissions\">\n    Only authenticated admin users can view this page.\n  </div>\n\n  <div *ngIf=\"hasPermission()\">\n\n    <admin-search-explore (onAddProject)=\"onAddProject($event)\"></admin-search-explore>\n    <admin-user-groups #adminUserGroups></admin-user-groups>\n\n  </div>\n\n  <modal></modal>\n\n</div>\n"
 
 /***/ }),
-/* 1343 */
+/* 1345 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44576,27 +44606,27 @@ var AdminUserGroups = /** @class */function () {
     };
     AdminUserGroups = __decorate([core_1.Component({
         selector: 'admin-user-groups',
-        styles: [__webpack_require__(1344)],
-        template: __webpack_require__(1345)
+        styles: [__webpack_require__(1346)],
+        template: __webpack_require__(1347)
     }), __metadata("design:paramtypes", [userInteractor_1.UserInteractor, adminInteractor_1.AdminInteractor, projectInteractor_1.ProjectInteractor, sceneInteractor_1.SceneInteractor, projectMetaDataInteractor_1.MetaDataInteractor, router_1.Router, event_bus_1.EventBus])], AdminUserGroups);
     return AdminUserGroups;
 }();
 exports.AdminUserGroups = AdminUserGroups;
 
 /***/ }),
-/* 1344 */
+/* 1346 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.admin-user-groups {\n  margin-top: 40px; }\n\n.visibility-explanation {\n  margin-top: 10px; }\n\n.remove-button {\n  background-color: #EEEEEE; }\n"
 
 /***/ }),
-/* 1345 */
+/* 1347 */
 /***/ (function(module, exports) {
 
 module.exports = "\n<div\n  *ngIf=\"getUserGroups()\"\n  class=\"admin-user-groups\">\n  <p>Groups you can edit:</p>\n  <div *ngFor=\"let userGroup of getUserGroups()\">\n    <p class=\"story-collection__header\"> {{ userGroup.name }} </p>\n\n      <!-- PROJECTS FROM USERS IN GROUP -->\n      <p *ngIf=\"getGroupProjects(userGroup.id).length\">\n        Stories from users in {{ userGroup.name }}\n      </p>\n      <div class=\"story-collection\">\n\n        <div\n          *ngFor=\"let project of getGroupProjects(userGroup.id)\"\n          class=\"story-collection__project\">\n          <p>\n            <span class=\"text-bold\">Project: </span>\n            <span>{{ project.name }}</span>\n          </p>\n          <p>\n            <span class=\"text-bold\">User: </span>\n            <span>{{ project.user }}</span>\n          </p>\n          <p>\n            <span class=\"text-bold\">Tags: </span>\n            <span>{{ project.tags }}</span>\n          </p>\n          <img\n            *ngIf=\"project.thumbnailUrl\"\n            [attr.src]=\"project.thumbnailUrl\"\n            (click)=\"openProject(project)\"\n            class=\"story-collection__thumbnail\" />\n\n          <div class=\"flex-row-start\">\n\n            <checkbox\n              [initialValue]=\"project.isFeatured\"\n              (changeEmitter)=\"onCheckboxChange($event, userGroup.id, project.projectId, project)\">\n            </checkbox>\n\n            <p class=\"visibility-explanation\">\n              Story is {{ project.isFeatured ? '' : 'not' }} visible to {{ userGroup.name }}\n            </p>\n\n          </div>\n\n        </div>\n\n      </div>\n\n\n      <!-- EXTERNAL PROJECTS -->\n      <p *ngIf=\"getExternalProjects(userGroup.id).length\">\n        External projects\n      </p>\n      <div class=\"story-collection\">\n\n        <div\n          *ngFor=\"let project of getExternalProjects(userGroup.id)\"\n          class=\"story-collection__project\">\n          <p>\n            <span class=\"text-bold\">Project: </span>\n            <span>{{ project.name }}</span>\n          </p>\n          <p>\n            <span class=\"text-bold\">User: </span>\n            <span>{{ project.user }}</span>\n          </p>\n          <p>\n            <span class=\"text-bold\">Tags: </span>\n            <span>{{ project.tags }}</span>\n          </p>\n          <img\n            *ngIf=\"project.thumbnailUrl\"\n            [attr.src]=\"project.thumbnailUrl\"\n            (click)=\"openProject(project)\"\n            class=\"story-collection__thumbnail\" />\n\n          <div\n            (click)=\"removeExternalProject(userGroup.id, project.projectId)\"\n            class=\"button remove-button\">\n            Remove project from group\n          </div>\n\n        </div>\n\n      </div>\n\n\n\n  </div>\n</div>\n"
 
 /***/ }),
-/* 1346 */
+/* 1348 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44691,27 +44721,27 @@ var AdminSearchExplore = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", Object)], AdminSearchExplore.prototype, "onAddProject", void 0);
     AdminSearchExplore = __decorate([core_1.Component({
         selector: 'admin-search-explore',
-        styles: [__webpack_require__(1347)],
-        template: __webpack_require__(1348)
+        styles: [__webpack_require__(1349)],
+        template: __webpack_require__(1350)
     }), __metadata("design:paramtypes", [projectInteractor_1.ProjectInteractor, searchInteractor_1.SearchInteractor, shareable_loader_1.ShareableLoader, userInteractor_1.UserInteractor, adminInteractor_1.AdminInteractor])], AdminSearchExplore);
     return AdminSearchExplore;
 }();
 exports.AdminSearchExplore = AdminSearchExplore;
 
 /***/ }),
-/* 1347 */
+/* 1349 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.search-input-box {\n  flex-grow: 2; }\n\n.search-button {\n  max-width: 70px; }\n\n.search-results {\n  max-height: 200px;\n  overflow-y: scroll;\n  margin: 5px 0 15px 0;\n  background-color: #EEEEEE; }\n\n.search-row {\n  padding: 5px 0;\n  border-bottom: 1px solid #000;\n  cursor: pointer; }\n\n.search-text-row {\n  margin: 4px 0; }\n\n.search-image-empty {\n  border: 1px solid #000; }\n"
 
 /***/ }),
-/* 1348 */
+/* 1350 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"search-explore\">\n\n  <p>Find stories to add to your groups.</p>\n\n  <div class=\"row-flex-start\">\n    <text-input-material\n      [inputLabel]=\"'Search tags'\"\n      [textModel]=\"getSearchModelProperty()\"\n      (onTextChange)=\"setSearchViewModel($event)\"\n      class=\"search-input-box\">\n    </text-input-material>\n    <div\n      class=\"button search-button\"\n      (click)=\"onSearchClick($event)\">\n      Search\n    </div>\n  </div>\n\n  <p *ngIf=\"showNoResults()\">\n    No results found for {{ searchLabel }}\n  </p>\n\n  <p\n    *ngIf=\"searchLabel\"\n    class=\"story-collection__header\">\n    <span>\n      {{ getSearchResultTitle() }}\n    </span>\n    <span class=\"text-bold\">\n      {{ searchLabel }}\n    </span>\n  </p>\n\n  <div class=\"story-collection\">\n    <div\n      *ngFor=\"let project of matchingResults\"\n      class=\"story-collection__project\">\n      <p>\n        <span class=\"text-bold\">Project: </span>\n        <span>{{ project.name }}</span>\n      </p>\n      <p>\n        <span class=\"text-bold\">User: </span>\n        <span>{{ project.user }}</span>\n      </p>\n      <p>\n        <span class=\"text-bold\">Tags: </span>\n        <span>{{ project.tags }}</span>\n      </p>\n\n      <img\n        *ngIf=\"project.thumbnailUrl\"\n        [attr.src]=\"project.thumbnailUrl\"\n        (click)=\"openProject(project)\"\n        class=\"story-collection__thumbnail\" />\n      <div\n        *ngIf=\"!project.thumbnailUrl\"\n        (click)=\"openProject(project)\"\n        class=\"story-collection__thumbnail search-image-empty\">\n      </div>\n\n      <p>Add story to group</p>\n      <div\n        *ngFor=\"let group of getUserGroups()\">\n         <p (click)=\"toggleProjectInGroup(project, group)\">\n          Group: {{ group.name }}\n        </p>\n      </div>\n\n    </div>\n  </div>\n\n\n</div>\n"
 
 /***/ }),
-/* 1349 */
+/* 1351 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44731,9 +44761,9 @@ var router_1 = __webpack_require__(17);
 var platform_browser_1 = __webpack_require__(51);
 var forms_1 = __webpack_require__(100);
 // UI components
-var explore_1 = __webpack_require__(1350);
-var search_explore_1 = __webpack_require__(1353);
-var user_groups_1 = __webpack_require__(1356);
+var explore_1 = __webpack_require__(1352);
+var search_explore_1 = __webpack_require__(1355);
+var user_groups_1 = __webpack_require__(1358);
 // Common UI components
 var common_module_1 = __webpack_require__(192);
 // Expose core layer (interactors) to view layer
@@ -44751,7 +44781,7 @@ var ExploreModule = /** @class */function () {
 exports.ExploreModule = ExploreModule;
 
 /***/ }),
-/* 1350 */
+/* 1352 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44779,27 +44809,27 @@ var Explore = /** @class */function () {
     };
     Explore = __decorate([core_1.Component({
         selector: 'explore',
-        styles: [__webpack_require__(1351)],
-        template: __webpack_require__(1352)
+        styles: [__webpack_require__(1353)],
+        template: __webpack_require__(1354)
     }), __metadata("design:paramtypes", [userInteractor_1.UserInteractor])], Explore);
     return Explore;
 }();
 exports.Explore = Explore;
 
 /***/ }),
-/* 1351 */
+/* 1353 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.explore {\n  height: auto;\n  min-height: 100%;\n  background-color: #EEEEEE;\n  color: #888888;\n  padding: 15px; }\n\n.explore__no-permissions {\n  margin-top: 20px;\n  text-align: center; }\n"
 
 /***/ }),
-/* 1352 */
+/* 1354 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"explore\">\n\n  <div\n    *ngIf=\"!hasPermission()\"\n    class=\"explore__no-permissions\">\n    You don't have permission to view this page. Only authenticated users can explore.\n  </div>\n\n  <div *ngIf=\"hasPermission()\">\n\n    <search-explore class=\"explore__search-explore\"></search-explore>\n    <user-groups class=\"explore__user-groups\"></user-groups>\n\n  </div>\n\n  <modal></modal>\n\n</div>\n"
 
 /***/ }),
-/* 1353 */
+/* 1355 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44866,27 +44896,27 @@ var SearchExplore = /** @class */function () {
     };
     SearchExplore = __decorate([core_1.Component({
         selector: 'search-explore',
-        styles: [__webpack_require__(1354)],
-        template: __webpack_require__(1355)
+        styles: [__webpack_require__(1356)],
+        template: __webpack_require__(1357)
     }), __metadata("design:paramtypes", [projectInteractor_1.ProjectInteractor, searchInteractor_1.SearchInteractor, shareable_loader_1.ShareableLoader])], SearchExplore);
     return SearchExplore;
 }();
 exports.SearchExplore = SearchExplore;
 
 /***/ }),
-/* 1354 */
+/* 1356 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.search-input-box {\n  flex-grow: 2; }\n\n.search-button {\n  max-width: 70px; }\n\n.search-results {\n  max-height: 200px;\n  overflow-y: scroll;\n  margin: 5px 0 15px 0;\n  background-color: #EEEEEE; }\n\n.search-row {\n  padding: 5px 0;\n  border-bottom: 1px solid #000;\n  cursor: pointer; }\n\n.search-text-row {\n  margin: 4px 0; }\n\n.search-image-empty {\n  border: 1px solid #000; }\n"
 
 /***/ }),
-/* 1355 */
+/* 1357 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"search-explore\">\n\n  <p>Explore other Social VR stories</p>\n\n  <div class=\"row-flex-start\">\n    <text-input-material\n      [inputLabel]=\"'Search tags'\"\n      [textModel]=\"getSearchModelProperty()\"\n      (onTextChange)=\"setSearchViewModel($event)\"\n      class=\"search-input-box\">\n    </text-input-material>\n    <div\n      class=\"button search-button\"\n      (click)=\"onSearchClick($event)\">\n      Search\n    </div>\n  </div>\n\n  <p *ngIf=\"showNoResults()\">\n    No results found for {{ searchLabel }}\n  </p>\n\n  <p\n    *ngIf=\"searchLabel\"\n    class=\"story-collection__header\">\n    <span>\n      {{ getSearchResultTitle() }}\n    </span>\n    <span class=\"text-bold\">\n      {{ searchLabel }}\n    </span>\n  </p>\n\n  <div class=\"story-collection\">\n    <div\n      *ngFor=\"let project of matchingResults\"\n      class=\"story-collection__project\">\n      <p>\n        <span class=\"text-bold\">Project: </span>\n        <span>{{ project.name }}</span>\n      </p>\n      <p>\n        <span class=\"text-bold\">User: </span>\n        <span>{{ project.user }}</span>\n      </p>\n      <p>\n        <span class=\"text-bold\">Tags: </span>\n        <span>{{ project.tags }}</span>\n      </p>\n\n      <img\n        *ngIf=\"project.thumbnailUrl\"\n        [attr.src]=\"project.thumbnailUrl\"\n        (click)=\"openProject(project.projectUrl)\"\n        class=\"story-collection__thumbnail\" />\n      <div\n        *ngIf=\"!project.thumbnailUrl\"\n        (click)=\"openProject(project.projectUrl)\"\n        class=\"story-collection__thumbnail search-image-empty\">\n      </div>\n    </div>\n  </div>\n\n\n</div>\n"
 
 /***/ }),
-/* 1356 */
+/* 1358 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44907,7 +44937,7 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(17);
 var event_bus_1 = __webpack_require__(9);
 var userInteractor_1 = __webpack_require__(38);
-var groupInteractor_1 = __webpack_require__(532);
+var groupInteractor_1 = __webpack_require__(534);
 var projectInteractor_1 = __webpack_require__(53);
 var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(37);
@@ -44965,27 +44995,27 @@ var UserGroups = /** @class */function () {
     };
     UserGroups = __decorate([core_1.Component({
         selector: 'user-groups',
-        styles: [__webpack_require__(1357)],
-        template: __webpack_require__(1358)
+        styles: [__webpack_require__(1359)],
+        template: __webpack_require__(1360)
     }), __metadata("design:paramtypes", [userInteractor_1.UserInteractor, groupInteractor_1.GroupInteractor, projectInteractor_1.ProjectInteractor, sceneInteractor_1.SceneInteractor, projectMetaDataInteractor_1.MetaDataInteractor, router_1.Router, event_bus_1.EventBus])], UserGroups);
     return UserGroups;
 }();
 exports.UserGroups = UserGroups;
 
 /***/ }),
-/* 1357 */
+/* 1359 */
 /***/ (function(module, exports) {
 
 module.exports = ".user-groups {\n  margin-top: 80px; }\n"
 
 /***/ }),
-/* 1358 */
+/* 1360 */
 /***/ (function(module, exports) {
 
 module.exports = "<div\n  div *ngIf=\"getUserGroups()\"\n  class=\"user-groups\">\n\n  <div *ngFor=\"let userGroup of getUserGroups()\">\n    <p class=\"story-collection__header\"> {{ userGroup.name }} </p>\n    <div class=\"story-collection\">\n      <div\n        *ngFor=\"let project of getProjectsByGroup(userGroup.id)\"\n        class=\"story-collection__project\">\n        <p>\n          <span class=\"text-bold\">Project: </span>\n          <span>{{ project.name }}</span>\n        </p>\n        <p>\n          <span class=\"text-bold\">User: </span>\n          <span>{{ project.user }}</span>\n        </p>\n        <p>\n          <span class=\"text-bold\">Tags: </span>\n          <span>{{ project.tags }}</span>\n        </p>\n        <img\n          *ngIf=\"project.thumbnailUrl\"\n          [attr.src]=\"project.thumbnailUrl\"\n          (click)=\"openProject(project)\"\n          class=\"story-collection__thumbnail\" />\n      </div>\n    </div>\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1359 */
+/* 1361 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45005,7 +45035,7 @@ var router_1 = __webpack_require__(17);
 var platform_browser_1 = __webpack_require__(51);
 var forms_1 = __webpack_require__(100);
 // UI components
-var chat_1 = __webpack_require__(1360);
+var chat_1 = __webpack_require__(1362);
 // Common UI components
 var common_module_1 = __webpack_require__(192);
 // Expose core layer (interactors) to view layer
@@ -45023,7 +45053,7 @@ var ChatModule = /** @class */function () {
 exports.ChatModule = ChatModule;
 
 /***/ }),
-/* 1360 */
+/* 1362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45086,27 +45116,27 @@ var Chat = /** @class */function () {
     };
     Chat = __decorate([core_1.Component({
         selector: 'chat',
-        styles: [__webpack_require__(1361)],
-        template: __webpack_require__(1362)
+        styles: [__webpack_require__(1363)],
+        template: __webpack_require__(1364)
     }), __metadata("design:paramtypes", [chatInteractor_1.ChatInteractor])], Chat);
     return Chat;
 }();
 exports.Chat = Chat;
 
 /***/ }),
-/* 1361 */
+/* 1363 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.chat {\n  height: auto;\n  min-height: 100%;\n  background-color: #EEEEEE;\n  color: #888888;\n  padding: 15px; }\n"
 
 /***/ }),
-/* 1362 */
+/* 1364 */
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"chat\">\n\n  <p>Welcome to the chat manager</p>\n\n  <div (click)=\"createRoom($event)\">\n    CreateRoom\n  </div>\n\n  <p>Rooms</p>\n  <div *ngFor=\"let room of roomList\">\n    <p>Room: <span>{{ room.name }}</span>, <span>{{ room.id }}</span></p>\n  </div>\n\n  <div *ngIf=\"userIsInRoom()\">\n    <p>Room: {{this.activeRoom}}</p>\n  </div>\n\n</div>\n"
 
 /***/ }),
-/* 1363 */
+/* 1365 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -45138,8 +45168,8 @@ var Ui = /** @class */function () {
     };
     Ui = __decorate([core_1.Component({
         selector: 'app',
-        styles: [__webpack_require__(1364)],
-        template: __webpack_require__(1365),
+        styles: [__webpack_require__(1366)],
+        template: __webpack_require__(1367),
         encapsulation: core_2.ViewEncapsulation.None
     }), __metadata("design:paramtypes", [router_1.Router])], Ui);
     return Ui;
@@ -45147,17 +45177,17 @@ var Ui = /** @class */function () {
 exports.Ui = Ui;
 
 /***/ }),
-/* 1364 */
+/* 1366 */
 /***/ (function(module, exports) {
 
 module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\nhtml, body {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 16px;\n  color: #FAFAFA;\n  overflow: hidden; }\n\n/* Let's get this party started */\n::-webkit-scrollbar {\n  width: 8px;\n  padding-bottom: 4px; }\n\n/* Track */\n::-webkit-scrollbar-track:horizontal {\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  -webkit-border-radius: 10px;\n  border-radius: 10px; }\n\n/* Handle */\n::-webkit-scrollbar-thumb:horizontal {\n  -webkit-border-radius: 10px;\n  border-radius: 10px;\n  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);\n  background: rgba(255, 255, 255, 0.4); }\n\n::-webkit-scrollbar-thumb:window-inactive {\n  background: rgba(255, 255, 255, 0.4); }\n\np {\n  margin: 0; }\n\na:link {\n  color: inherit;\n  text-decoration: none;\n  border-bottom: 1px solid #FAFAFA; }\n\na:active {\n  color: inherit;\n  text-decoration: none; }\n\na:visited {\n  color: inherit;\n  text-decoration: none; }\n\na:hover {\n  color: inherit;\n  text-decoration: none; }\n\n.text-bold {\n  font-weight: 700; }\n\n.button {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 48%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button-full-width {\n  border-radius: 4px;\n  background-color: transparent;\n  color: #ADADAD;\n  text-align: center;\n  font-size: 0.8em;\n  padding: 8px 16px;\n  margin-bottom: 8px;\n  width: 100%;\n  cursor: pointer;\n  border-color: #ADADAD !important;\n  border: 1px;\n  border-style: solid;\n  box-sizing: border-box; }\n\n.button_row {\n  width: auto;\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  flex-wrap: wrap; }\n\n.button:hover {\n  color: #888888;\n  cursor: pointer;\n  border-color: #888888 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:active {\n  background-color: transparent;\n  color: #FF3571;\n  text-align: center;\n  cursor: pointer;\n  border-color: #FF3571 !important;\n  border: 1px;\n  border-style: solid; }\n\n.button:focus {\n  outline: 0; }\n\n.button-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-save {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-save-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.button-delete {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px; }\n\n.button-delete-drag-drop {\n  background-color: #EEEEEE;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  margin-bottom: 5px;\n  width: 100%;\n  cursor: pointer;\n  border: 1px;\n  border-style: dashed; }\n\n.font-header {\n  font-family: \"Montserrat\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif; }\n\n.font-tiny {\n  font-family: \"Nunito Sans\", \"HelveticaNeue-Light\", \"Helvetica Neue Light\", \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  font-size: 0.8em;\n  color: #888888; }\n\n.cursor-pointer {\n  cursor: pointer; }\n\n.user-field-text-entry {\n  margin-left: 10px; }\n\n.horiz-line {\n  border-bottom: 1px dotted #888888;\n  width: 100%;\n  margin-top: 5px;\n  margin-bottom: 10px; }\n\n.horiz-line-bottom {\n  border-bottom: 1px solid transparent;\n  width: 100%;\n  margin-top: 16px;\n  margin-bottom: 16px; }\n\n.dropdown {\n  background-color: #EEEEEE;\n  margin: 15px;\n  padding: 10px;\n  width: 250px;\n  border-radius: 4px;\n  background: rgba(238, 238, 238, 0.8);\n  backdrop-filter: blur(4px); }\n\n.dropdown-title {\n  font-size: 1.2em;\n  margin-top: 8px;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-heading {\n  font-size: 1.0em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-text {\n  font-size: 0.8em;\n  margin-bottom: 16px;\n  color: #888888; }\n\n.dropdown-text__bold {\n  font-size: 0.8em;\n  font-weight: 600 !important;\n  padding-bottom: 4px;\n  color: #ADADAD; }\n\n.dropdown-text__accent {\n  font-size: 1em;\n  margin-bottom: 10px;\n  color: #FF3571; }\n\n.dropdown-label {\n  font-size: 0.8em;\n  margin-bottom: 10px;\n  color: #888888; }\n\n.dropdown-button-margin {\n  margin-right: 8px; }\n\n.dropdown-input-row {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: space-between;\n  align-items: center;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.dropdown-row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: center;\n  align-items: center; }\n\n.dropdown-input-label {\n  font-size: 1.1em;\n  min-width: 0px;\n  max-width: 63%;\n  margin-left: 10px;\n  flex-grow: 1; }\n\n.dropdown-select-box {\n  font-size: 1.1em;\n  flex-grow: 2; }\n\n.hotspot-inspector_row {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: nowrap;\n  justify-content: space-between; }\n\n.hotspot-inspector__label {\n  margin-right: 10px;\n  width: 100%;\n  font-size: 0.8em;\n  color: #888888; }\n\n.hotspot-inspector__select {\n  flex-direction: row;\n  width: 100%;\n  flex-wrap: nowrap;\n  align-items: center; }\n\n.row-flex-start {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start; }\n\n.width-auto {\n  width: auto; }\n\n.story-collection {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  justify-content: space-around; }\n\n.story-collection__header {\n  margin-top: 20px;\n  font-size: 1.2em;\n  border-bottom: 2px solid #888888; }\n\n.story-collection__project {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid black;\n  background-color: #979797;\n  color: #FAFAFA; }\n\n.story-collection__thumbnail {\n  width: 336px;\n  cursor: pointer; }\n\n.modal-window {\n  display: inline-block;\n  overflow: hidden;\n  top: 50%;\n  left: 50%;\n  border-radius: 4px;\n  /* bring your own prefixes */\n  background-color: rgba(255, 255, 255, 0.93); }\n\n.modal-window__fields {\n  min-width: 340px;\n  position: fixed;\n  background-color: white;\n  border-radius: 8px;\n  padding: 8px 16px;\n  top: 50%;\n  left: 50%;\n  z-index: 5;\n  /* bring your own prefixes */\n  transform: translate(-50%, -50%);\n  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.1), 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); }\n"
 
 /***/ }),
-/* 1365 */
+/* 1367 */
 /***/ (function(module, exports) {
 
 module.exports = "<router-outlet></router-outlet>\n"
 
 /***/ })
-],[1083]);
+],[1085]);
 //# sourceMappingURL=main.map
