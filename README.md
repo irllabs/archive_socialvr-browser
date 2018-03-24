@@ -20,6 +20,43 @@ Browser based editor tool for the Social VR project.
 * Point to the staging server: ```npm run dev```
 * Point to production: ```npm run dev-prod```
 
+### Deploy
+At the moment, deployments are manual. These scripts will deploy whatever is in your current directory so it is important to be careful.
+
+* Deploy to staging: ```npm run deploy```
+* Deploy to production:
+```sh
+npm run build:prod;
+# Make sure it built: ls -al ./dist;
+# copy to prod server
+scp -r ./dist/* irlab@irl.studio:/home/irlab/socialvr.irl.studio;
+```
+Note that `npm run deploy` and `npm build:prod` build the project in different ways.
+* `npm run deploy` points to the staging API server
+* `npm run buil:prod` points to the production API server. Also, it minifies all the JavaScript so the project can move to the browser quicker.
+
+##### Extra safe prod deployment (deploy what is currently in master)
+```sh
+#!/bin/bash
+
+# clone single branch of repo without history
+git clone --depth 1 --branch master git@github.com:cmuartfab/socialvr-browser.git;
+
+# move into cloned repo
+cd socialvr-browser;
+
+# install dependencies
+npm install;
+
+# build project
+npm run build:prod;
+
+# ls -al ./dist;
+
+# copy to prod server
+scp -r ./dist/* irlab@irl.studio:/home/irlab/socialvr.irl.studio;
+```
+
 ### Architecture
 * CLEAN, or "layered" architecture as described [here](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html).
 * We have three layers, from outside in they are: "UI", "Core", and "Data".  The UI layer is split into two sub-layers: "view" and "presentation".

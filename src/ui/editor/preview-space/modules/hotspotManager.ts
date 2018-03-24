@@ -24,6 +24,8 @@ import {sphericalToCoordinate, coordinateToSpherical, car2pol, pol2car} from 'ui
 import {THREE_CONST} from 'ui/common/constants';
 import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
 
+const SCALE = 0.001;
+
 function buildDashCircle(): THREE.Group {
   const dashCircleGeom = new THREE.CircleGeometry(THREE_CONST.HOTSPOT_DIM, THREE_CONST.DASHCIRCLE_SEG);
   const dashCircleMaterial = new THREE.LineDashedMaterial({
@@ -159,23 +161,30 @@ export class HotspotManager {
 
   buildExpandedImagePlane(imageProperty: Image, camera: THREE.PerspectiveCamera): THREE.Mesh {
     const imageTexture = this.assetInteractor.getTextureById(imageProperty.getId());
+    const location = imageProperty.getLocation();
+    const position = getCoordinatePosition(location.getX(), location.getY(), 250);
     if (imageTexture) {
-      const location = imageProperty.getLocation();
-      const position = getCoordinatePosition(location.getX(), location.getY(), 250);
       const geometryDimensions = fitToMax(imageTexture.image.width, imageTexture.image.height, 140);
       const imageGeometry = new THREE.PlaneGeometry(geometryDimensions.getX(), geometryDimensions.getY());
-      //added by ali
       const imageMaterial = new THREE.MeshBasicMaterial({map: imageTexture, transparent: true, side:THREE.FrontSide, alphaMap: this.assetInteractor.getTextureById('imageMask')});
       const imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
-      // const imageMesh = threeResourcePool.getImagePlane(imageTexture);
       imageMesh.position.set(position.x, position.y, position.z);
       imageMesh.lookAt(camera.position);
       imageMesh.material.opacity = 1;
-      imageMesh.scale.set(0.001,0.001,0.001);
+      imageMesh.scale.set(SCALE,SCALE,SCALE);
       return imageMesh;
     }
-    console.log('ERROR: mesh without a texture');
-    return new THREE.Mesh();
+
+    // error case: image hotspot without an image, use a transparent grey square
+    console.log('Error: building image hotspot without an image');
+    const materailData = buildMaterialFromText('');
+    const textGeometry = new THREE.PlaneGeometry(14, 14);
+    const textMesh = new THREE.Mesh(textGeometry, materailData.material);
+    textMesh.position.set(position.x, position.y, position.z);
+    textMesh.lookAt(camera.position);
+    textMesh.material.opacity = 1;
+    textMesh.scale.set(SCALE,SCALE,SCALE);
+    return textMesh;
   }
 
   // TODO: move to resource pool
@@ -189,7 +198,7 @@ export class HotspotManager {
     textMesh.position.set(position.x, position.y, position.z);
     textMesh.lookAt(camera.position);
     textMesh.material.opacity = 1;
-    textMesh.scale.set(0.001,0.001,0.001);
+    textMesh.scale.set(SCALE,SCALE,SCALE);
     return textMesh;
   }
 
@@ -203,7 +212,7 @@ export class HotspotManager {
     linkMesh.position.set(position.x, position.y, position.z);
     linkMesh.lookAt(camera.position);
     linkMesh.material.opacity = 1;
-    linkMesh.scale.set(0.001,0.001,0.001);
+    linkMesh.scale.set(SCALE,SCALE,SCALE);
     return linkMesh;
   }
 
