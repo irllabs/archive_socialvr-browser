@@ -159,7 +159,7 @@ export class PreviewSpace {
     this.renderer = new THREE.WebGLRenderer({canvas: previewCanvas, antialias: false});
     this.vrRenderer = new THREE.WebGLRenderer({canvas: vrCanvas, antialias: true});
     this.vrRenderer.vr.enabled = true;
-		this.vrRenderer.vr.userHeight = 0; // TOFIX
+    this.vrRenderer.vr.userHeight = 0;
     this.svrControls = new SvrControls({
       camera: this.camera,
       domElement: previewCanvas,
@@ -231,7 +231,6 @@ export class PreviewSpace {
 
   private startAnimationLoop() {
     this.isInRenderLoop = true;
-    console.log('startAnimationLoop', this.vrDisplayIsActive())
     this.vrDisplayIsActive() ?
       this.vrRenderer.animate(this.animate.bind(this)) :
       this.animate();
@@ -336,9 +335,7 @@ export class PreviewSpace {
   //////////////////////////////////////////////
 
   private requestVrMode($event) {
-    console.log('requestVrMode', this.vrRenderer.domElement)
     this.vrDisplay.requestPresent([{source: this.vrRenderer.domElement}])
-      .then(() => console.log('vrModeGranted'))
       .catch(error => console.log('requestVRMode error', error));
   }
 
@@ -349,7 +346,6 @@ export class PreviewSpace {
         if (vrDisplayList.length > 0) {
           this.vrDisplay = vrDisplayList[0];
           this.vrRenderer.vr.setDevice(this.vrDisplay);
-          console.log('vrDisplay', this.vrDisplay);
           this.showVrModeButton = this.vrDisplay.capabilities.canPresent;
         }
       })
@@ -389,8 +385,7 @@ export class PreviewSpace {
   }
 
   setUpVr() {
-    console.log('setUpVrMode');
-    this.stopAnimationLoop(0).then(() => console.log('setUpVrMode.animationLoopStopped'));
+    this.stopAnimationLoop(0).then(() => {});
     const width = window.innerWidth;
     const height = window.innerHeight;
     this.vrCamera.aspect = width / height;
@@ -402,7 +397,6 @@ export class PreviewSpace {
 
   onVrDisplayChange(event) {
     const isVr = this.vrDisplayIsActive();
-    console.log('onVrDisplayChange', isVr);
     this.showVrElement(isVr);
     this.vrHasBeenSetUp = !isVr;
     this.onResize(event);
