@@ -21967,6 +21967,7 @@ var event_bus_1 = __webpack_require__(9);
 var iconPositionUtil_2 = __webpack_require__(109);
 var constants_1 = __webpack_require__(13);
 var fontHelper_1 = __webpack_require__(526);
+var SCALE = 0.001;
 function buildDashCircle() {
     var dashCircleGeom = new THREE.CircleGeometry(constants_1.THREE_CONST.HOTSPOT_DIM, constants_1.THREE_CONST.DASHCIRCLE_SEG);
     var dashCircleMaterial = new THREE.LineDashedMaterial({
@@ -22080,23 +22081,29 @@ var HotspotManager = /** @class */function () {
     };
     HotspotManager.prototype.buildExpandedImagePlane = function (imageProperty, camera) {
         var imageTexture = this.assetInteractor.getTextureById(imageProperty.getId());
+        var location = imageProperty.getLocation();
+        var position = iconPositionUtil_1.getCoordinatePosition(location.getX(), location.getY(), 250);
         if (imageTexture) {
-            var location_1 = imageProperty.getLocation();
-            var position = iconPositionUtil_1.getCoordinatePosition(location_1.getX(), location_1.getY(), 250);
             var geometryDimensions = imageResizeService_1.fitToMax(imageTexture.image.width, imageTexture.image.height, 140);
             var imageGeometry = new THREE.PlaneGeometry(geometryDimensions.getX(), geometryDimensions.getY());
-            //added by ali
             var imageMaterial = new THREE.MeshBasicMaterial({ map: imageTexture, transparent: true, side: THREE.FrontSide, alphaMap: this.assetInteractor.getTextureById('imageMask') });
             var imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
-            // const imageMesh = threeResourcePool.getImagePlane(imageTexture);
             imageMesh.position.set(position.x, position.y, position.z);
             imageMesh.lookAt(camera.position);
             imageMesh.material.opacity = 1;
-            imageMesh.scale.set(0.001, 0.001, 0.001);
+            imageMesh.scale.set(SCALE, SCALE, SCALE);
             return imageMesh;
         }
-        console.log('ERROR: mesh without a texture');
-        return new THREE.Mesh();
+        // error case: image hotspot without an image, use a transparent grey square
+        console.log('Error: building image hotspot without an image');
+        var materailData = textMaterialBuilder_1.buildMaterialFromText('');
+        var textGeometry = new THREE.PlaneGeometry(14, 14);
+        var textMesh = new THREE.Mesh(textGeometry, materailData.material);
+        textMesh.position.set(position.x, position.y, position.z);
+        textMesh.lookAt(camera.position);
+        textMesh.material.opacity = 1;
+        textMesh.scale.set(SCALE, SCALE, SCALE);
+        return textMesh;
     };
     // TODO: move to resource pool
     HotspotManager.prototype.buildExpandedTextPlane = function (textProperty, camera) {
@@ -22109,7 +22116,7 @@ var HotspotManager = /** @class */function () {
         textMesh.position.set(position.x, position.y, position.z);
         textMesh.lookAt(camera.position);
         textMesh.material.opacity = 1;
-        textMesh.scale.set(0.001, 0.001, 0.001);
+        textMesh.scale.set(SCALE, SCALE, SCALE);
         return textMesh;
     };
     HotspotManager.prototype.buildExpandedLinkPlane = function (linkProperty, camera) {
@@ -22122,7 +22129,7 @@ var HotspotManager = /** @class */function () {
         linkMesh.position.set(position.x, position.y, position.z);
         linkMesh.lookAt(camera.position);
         linkMesh.material.opacity = 1;
-        linkMesh.scale.set(0.001, 0.001, 0.001);
+        linkMesh.scale.set(SCALE, SCALE, SCALE);
         return linkMesh;
     };
     //clean up three.js scene
@@ -38742,7 +38749,7 @@ module.exports = "uniform sampler2D texture;\nuniform float time; // 0 to 1, sec
 /* 1212 */
 /***/ (function(module, exports) {
 
-module.exports = ".preview-space {\n  width: 100%;\n  height: 100%;\n  cursor: default; }\n\n.preview-space__vr-mode-button {\n  background-color: white;\n  padding: 8px 16px;\n  border-radius: 4px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n  position: absolute;\n  top: 0;\n  left: 70%;\n  margin-top: 24px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  transform: translate(-50%, 0%); }\n"
+module.exports = ".preview-space {\n  width: 100%;\n  height: 100%;\n  cursor: default; }\n\n.preview-space__vr-mode-button {\n  color: #888;\n  font-size: 14px;\n  background-color: white;\n  padding: 8px 16px;\n  border-radius: 4px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n  position: absolute;\n  top: 0;\n  left: 70%;\n  margin-top: 24px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  transform: translate(-50%, 0%); }\n"
 
 /***/ }),
 /* 1213 */
