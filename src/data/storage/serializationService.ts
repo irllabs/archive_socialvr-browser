@@ -174,8 +174,8 @@ export class SerializationService {
       return projectFileBlobJson
   }
 
-  private buildYamlStoryFile(zip) {
-    const projectYaml = JsYaml.dump(projectYaml);
+  private buildYamlStoryFile() {
+    const projectYaml = JsYaml.dump(this.buildProjectJson());
     const projectFileBlobYaml = new Blob([projectYaml], {type: MIME_TYPE_UTF8});
     return projectFileBlobYaml;
   }
