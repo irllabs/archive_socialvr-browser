@@ -17,7 +17,7 @@ import {CombinedHotspotUtil} from 'ui/editor/util/combinedHotspotUtil';
 export class EditSpaceFlat {
 
   private subscriptions: Set<Subscription> = new Set<Subscription>();
-  private onResizeFn: Function = this.onResize.bind(this);
+  private onResizeFn: EventListenerObject = { handleEvent: this.onResize.bind(this) };
 
   @ViewChildren('roomIcon') roomIconComponentList: RoomIcon[];
 

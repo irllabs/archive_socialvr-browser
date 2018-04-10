@@ -37,7 +37,7 @@ export class EditSpaceSphere {
   @ViewChild('globeCanvas') globeCanvas;
 
   private renderer: THREE.WebGLRenderer;
-  private svrControls: SvrControls;
+  private svrControls: any;
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private sphereMesh: THREE.Mesh;
@@ -46,7 +46,7 @@ export class EditSpaceSphere {
   private animationRequest: number;
   private windowWidth: number;
   private windowHeight: number;
-  private onResizeFn: Function = this.onResize.bind(this);
+  private onResizeFn: EventListenerObject = { handleEvent: this.onResize.bind(this) };
 
   constructor(
     private sceneInteractor: SceneInteractor,

@@ -1,4 +1,5 @@
 import {Audio} from 'data/scene/entities/audio';
+import {Video} from 'data/scene/entities/video';
 import {Image} from 'data/scene/entities/image';
 import {Text} from 'data/scene/entities/text';
 import {Door} from 'data/scene/entities/door';
@@ -28,6 +29,7 @@ export class Room implements RoomProperty {
   private audioSet: Set<Audio> = new Set<Audio>();
   private imageSet: Set<Image> = new Set<Image>();
   private textSet: Set<Text> = new Set<Text>();
+  private videoSet: Set<Video> = new Set<Video>();
   private doorSet: Set<Door> = new Set<Door>();
   private linkSet: Set<Link> = new Set<Link>();
   private narrator = new Narrator();
@@ -54,6 +56,10 @@ export class Room implements RoomProperty {
 
   getAudio(): Set<Audio> {
     return this.audioSet;
+  }
+
+  getVideo(): Set<Video> {
+    return this.videoSet;
   }
 
   addAudio(audio: Audio) {
@@ -86,6 +92,14 @@ export class Room implements RoomProperty {
 
   removeText(text: Text) {
     this.textSet.delete(text);
+  }
+
+  addVideo(video: Video) {
+    this.videoSet.add(video);
+  }
+
+  removeVideo(video: Video) {
+    this.videoSet.delete(video);
   }
 
   addDoor(door: Door) {
@@ -268,6 +282,7 @@ export class Room implements RoomProperty {
       texts: Array.from(this.getText()).map(text => text.toJson()),
       clips: Array.from(this.getAudio()).map(audio => audio.toJson()),
       images: Array.from(this.getImages()).map(image => image.toJson()),
+      video: Array.from(this.getVideo()).map(video => video.toJson()),
       doors: Array.from(this.getDoors()).filter(door => door.getAutoTime() <= 0).map(door => door.toJson()),
       autoDoors: Array.from(this.getDoors()).filter(door => door.getAutoTime() > 0).map(door => door.toJson()),
       narrator: this.narrator.toJson()

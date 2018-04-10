@@ -45,8 +45,10 @@ export class MenuManager {
     this.bButState = 0;
 
     //creat group
+    let menuPos: any;
+
     this.menu = new THREE.Group();
-    var menuPos = pol2car(THREE_CONST.CAMERA_NAVPANEL,
+    menuPos = pol2car(THREE_CONST.CAMERA_NAVPANEL,
                           THREE_CONST.NAVPANEL_THETA,
                           THREE_CONST.NAVPANEL_PHI);
     this.menu.position.set(menuPos.x, menuPos.y, menuPos.z);
@@ -121,12 +123,12 @@ export class MenuManager {
     var pPos = this.menu.localToWorld( this.panelMesh.position );
     this.panelMesh.getWorldPosition(this.panelPt);
 
-    let menuPos: THREE.Vector3 = new THREE.Vector3();
+    menuPos = new THREE.Vector3();
     this.menu.getWorldPosition(menuPos);
 
     var panPos = new THREE.Vector3();
     panPos.setFromMatrixPosition( this.panelMesh.matrixWorld );
-    
+
     //debugging
     var g1 = new THREE.SphereGeometry( 5, 32, 32 );
     var m1 = new THREE.MeshBasicMaterial( {color: 0xff0000} );

@@ -195,7 +195,7 @@ export class ApiService implements Api {
   }
 
   downloadMedia(mediaUrl: string): Observable<any> {
-    return this.http.get(encodeURI(mediaUrl), {credentials: 'same-origin', responseType: ResponseContentType.Blob})
+    return this.http.get(encodeURI(mediaUrl), {responseType: ResponseContentType.Blob})
       .map(response => response.blob());
   }
 

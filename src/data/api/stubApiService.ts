@@ -56,6 +56,11 @@ export class ApiService implements Api {
     return Observable.from(projectUrl);
   }
 
+  getShortenedUrl(url: string) {
+    // TODO
+    return Observable.from('');
+  }
+
   getProject(signedProjectUrl: string): Observable<any> {
     return this.http.get(signedProjectUrl, {responseType: ResponseContentType.ArrayBuffer})
       .map(response => response.arrayBuffer());

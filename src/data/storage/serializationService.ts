@@ -53,8 +53,8 @@ export class SerializationService {
       .forEach(room => {
         const directoryName: string = room.getId();
 
-        const imageList = Array.from(room.getImages()).map(image => image)
-        const audioList = Array.from(room.getAudio()).map(audio => audio)
+        const imageList = Array.from(room.getImages()).map(image => image);
+        const audioList = Array.from(room.getAudio()).map(audio => audio);
         let mediaFiles = [...imageList, ...audioList];
 
         // Narrator intro audio
@@ -85,7 +85,9 @@ export class SerializationService {
           // TODO: Instead of checking type of entity here, use new hotspot type
           // to always have one method for fetching assets
           .map(f => f.getMediaFile ? f.getMediaFile() : f)
-          .filter(mediaFile => !mediaFile.isUploaded())
+          .filter((mediaFile: MediaFile) => {
+            return !mediaFile.isUploaded();
+          })
           .map(mediaFile => {
             const fileName = encodeURIComponent(mediaFile.getFileName());
             const key = `${directoryName}/${fileName}`;
@@ -99,7 +101,7 @@ export class SerializationService {
           })
         });
     console.log("All Uploads", uploads);
-    return Promise.all(Object.values(uploads));
+    return Promise.all(Object.keys(uploads).map(key => uploads[key]));
   }
 
   private buildAssetDirectories(zip) {

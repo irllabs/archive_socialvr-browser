@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 
 import {Audio} from 'data/scene/entities/audio';
+import {Video} from 'data/scene/entities/video';
 import {Image} from 'data/scene/entities/image';
 import {Text} from 'data/scene/entities/text';
 import {Door} from 'data/scene/entities/door';
@@ -78,15 +79,20 @@ export class SceneInteractor {
 
   getRoomProperties(roomId: string): RoomProperty[] {
     const room: Room = this.getRoomById(roomId);
-    if (!room) { return null; }
+
+    if (!room) {
+      return null;
+    }
+
     return [
       ...Array.from(room.getText()),
       ...Array.from(room.getAudio()),
+      ...Array.from(room.getVideo()),
       ...Array.from(room.getImages()),
       ...Array.from(room.getDoors()),
       ...Array.from(room.getLink())
     ]
-    .sort((a, b) => a.getTimestamp() - b.getTimestamp());
+      .sort((a, b) => a.getTimestamp() - b.getTimestamp());
   }
 
   getPropertyById(roomId: string, propertyId: string): RoomProperty {
@@ -128,6 +134,20 @@ export class SceneInteractor {
 
   removeImage(roomId: string, image: Image) {
     this.getRoomById(roomId).removeImage(image);
+  }
+
+  addVideo(roomId: string): Video {
+    const numberOfImages: number = this.getRoomById(roomId).getImages().size + 1;
+    const videoName: string = `Video ${numberOfImages}`;
+    const video: Video = this.propertyBuilder.video(videoName, '');
+
+    this.getRoomById(roomId).addVideo(video);
+
+    return video;
+  }
+
+  removeVideo(roomId: string, video: Video) {
+    this.getRoomById(roomId).removeVideo(video);
   }
 
   addDoor(roomId: string): Door {

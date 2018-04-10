@@ -34,6 +34,7 @@ import {
 const ICON_MAP = {
   text: 'text_filled.png',
   image: 'image_filled.png',
+  video: 'video_filled.png',
   audio: 'audio_filled.png',
   door: 'door_filled.png',
   link: 'link_filled.png'
@@ -48,7 +49,7 @@ const iconSizes = {
 const instanceSet: Set<RoomIcon> = new Set<RoomIcon>();
 
 window.addEventListener('resize', $event =>
-  instanceSet.forEach(instance => instance.onResize($event))
+  instanceSet.forEach((instance: RoomIcon)  => instance.onResize())
 );
 
 const ROUND_UNIT: number = 0.5;

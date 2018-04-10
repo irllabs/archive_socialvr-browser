@@ -24,7 +24,7 @@ import SvrControls from 'ui/editor/util/SvrControls';
 import {THREE_CONST} from 'ui/common/constants';
 import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
 
-const Stats = require('stats.js')
+const Stats = require('stats.js');
 const stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 // document.body.appendChild( stats.dom );
@@ -44,9 +44,9 @@ export class PreviewSpace {
   @ViewChild('globeCanvas') globeCanvas;
 
   private renderer: THREE.WebGLRenderer;
-  private vrControls: THREE.VRControls
+  private vrControls: THREE.VRControls;
   private vrEffect: THREE.VREffect;
-  private svrControls: SvrControls;
+  private svrControls: any;
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private vrCamera: THREE.PerspectiveCamera;
@@ -65,8 +65,10 @@ export class PreviewSpace {
   private inRoomTween: boolean = false;
   private lookAtVector: THREE.Vector3;
   private sphereMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: null, side: THREE.BackSide});
-  private onResizeFn: Function = this.onResize.bind(this);
-  private onVrDisplayChangeFn: Function = this.onVrDisplayChange.bind(this);
+  //private onResizeFn: Function = this.onResize.bind(this);
+  private onResizeFn: EventListenerObject = { handleEvent: this.onResize.bind(this) };
+  private onVrDisplayChangeFn: EventListenerObject = { handleEvent: this.onVrDisplayChange.bind(this) };
+  // private onVrDisplayChangeFn: Function = this.onVrDisplayChange.bind(this);
 
   constructor(
     private metaDataInteractor: MetaDataInteractor,
@@ -232,10 +234,10 @@ export class PreviewSpace {
     //   fragmentShader: roomSphereFragShader,
     //   side: THREE.FrontSide
     // });
-    if (this.sphereMesh.material.map) {
-      this.sphereMesh.material.map.dispose();
+    if (this.sphereMesh.material['map']) {
+      this.sphereMesh.material['map'].dispose();
     }
-    this.sphereMesh.material.map = sphereTexture;
+    this.sphereMesh.material['map'] = sphereTexture;
     this.hotspotManager.load(this.scene, this.camera, this.goToRoom.bind(this));
 
     if(!this.menuManager.exists()) {

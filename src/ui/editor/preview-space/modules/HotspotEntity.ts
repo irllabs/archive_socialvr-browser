@@ -21,7 +21,7 @@ export default class HotspotEntity {
   type: string;
   distanceToReticle: number;
   activeState: number; //0 for far, 1 for near, 2 for active
-  activeStateLast : number;
+  activeStateLast: number;
   plane: THREE.Mesh;  // this is for hotspots that grow and how you something, like text/image/link
   audioPlayService: AudioPlayService;
   goToRoom: Function;
@@ -32,7 +32,7 @@ export default class HotspotEntity {
   private tweenIconDeactiveate;
   private tweenAudioActivate;
   private tweenDoorActivate;
-  private tweenPlaneActivate
+  private tweenPlaneActivate;
   private tweenPlaneDeactivate;
   private tweenPreviewIconIn;
   private tweenPreviewIconOut;
@@ -40,7 +40,7 @@ export default class HotspotEntity {
   private tweenGraphicIconOut;
   private tweenLast;
 
-  constructor(id, hotpostProperty, graphicIcon,previewIcon, audioPlayService, goToRoom, label, rotation) {
+  constructor(id, hotpostProperty, graphicIcon, previewIcon, audioPlayService, goToRoom, label, rotation) {
     this.id = id;
     this.hotpostProperty = hotpostProperty;
     this.yamlId = hotpostProperty.getId();
@@ -54,7 +54,7 @@ export default class HotspotEntity {
     this.scale = this.previewIcon.scale.x;
     this.graphicIcon.visible = true;
     this.previewIcon.visible = true;
-    this.myWobble = Math.random()/1000; //to make each hotspot have a uniquye throbbing freq
+    this.myWobble = Math.random() / 1000; //to make each hotspot have a uniquye throbbing freq
     this.label = label;
     this.rotation = rotation;
   }
@@ -63,13 +63,16 @@ export default class HotspotEntity {
     let hotspotPosition: THREE.Vector3 = new THREE.Vector3();
     this.graphicIcon.getWorldPosition(hotspotPosition)
     this.distanceToReticle = hotspotPosition.distanceTo(reticlePos);
-    if (this.distanceToReticle > THREE_CONST.HOTSPOT_NEAR)
-      {this.activeState = 0;}
+    if (this.distanceToReticle > THREE_CONST.HOTSPOT_NEAR) {
+      this.activeState = 0;
+    }
     else if ((this.distanceToReticle < THREE_CONST.HOTSPOT_NEAR)
-        && (this.distanceToReticle > THREE_CONST.HOTSPOT_ACTIVE))
-      {this.activeState = 1;}
-    else if (this.distanceToReticle < THREE_CONST.HOTSPOT_ACTIVE)
-      {this.activeState = 2;}
+      && (this.distanceToReticle > THREE_CONST.HOTSPOT_ACTIVE)) {
+      this.activeState = 1;
+    }
+    else if (this.distanceToReticle < THREE_CONST.HOTSPOT_ACTIVE) {
+      this.activeState = 2;
+    }
 
     if (this.activeState !== this.activeStateLast) {
       //console.log("state: ",this.activeState);
@@ -121,8 +124,8 @@ export default class HotspotEntity {
     //animations
     if (this.activeState == 0) {
       if (this.type == 'door') {
-        var previewIconScale = (1.-(performance.now()%THREE_CONST.HOTSPOT_DOOR_FREQ)/THREE_CONST.HOTSPOT_DOOR_FREQ)
-             + 0.01;
+        var previewIconScale = (1. - (performance.now() % THREE_CONST.HOTSPOT_DOOR_FREQ) / THREE_CONST.HOTSPOT_DOOR_FREQ)
+          + 0.01;
 
         //if (Math.random() > .95) {console.log(previewIconScale);}
         this.previewIcon.scale.set(
@@ -137,8 +140,8 @@ export default class HotspotEntity {
         //       1);
       } else {
 
-        var previewIconScale = (Math.sin(performance.now()*
-            (THREE_CONST.HOTSPOT_MOD_FREQ+this.myWobble))*THREE_CONST.HOTSPOT_MOD_MAG);
+        var previewIconScale = (Math.sin(performance.now() *
+          (THREE_CONST.HOTSPOT_MOD_FREQ + this.myWobble)) * THREE_CONST.HOTSPOT_MOD_MAG);
         this.previewIcon.scale.set(
           this.previewIcon.scale.x + previewIconScale,
           this.previewIcon.scale.y + previewIconScale,
@@ -155,16 +158,34 @@ export default class HotspotEntity {
   }
 
   resetTweens() {
-    if(this.tweenIconActivate) {this.tweenIconActivate.stop();}
-    if(this.tweenIconDeactiveate) {this.tweenIconDeactiveate.stop();}
-    if(this.tweenAudioActivate) {this.tweenAudioActivate.stop();}
-    if(this.tweenDoorActivate) {this.tweenDoorActivate.stop();}
-    if(this.tweenPlaneActivate) {this.tweenPlaneActivate.stop();}
-    if(this.tweenPreviewIconIn) {this.tweenPreviewIconIn.stop();}
-    if(this.tweenPreviewIconOut) {this.tweenPreviewIconOut.stop();}
-    if(this.tweenGraphicIconin) {this.tweenGraphicIconin.stop();}
-    if(this.tweenGraphicIconOut) {this.tweenGraphicIconOut.stop();}
-    this.graphicIcon.scale.set(1,1,1);
+    if (this.tweenIconActivate) {
+      this.tweenIconActivate.stop();
+    }
+    if (this.tweenIconDeactiveate) {
+      this.tweenIconDeactiveate.stop();
+    }
+    if (this.tweenAudioActivate) {
+      this.tweenAudioActivate.stop();
+    }
+    if (this.tweenDoorActivate) {
+      this.tweenDoorActivate.stop();
+    }
+    if (this.tweenPlaneActivate) {
+      this.tweenPlaneActivate.stop();
+    }
+    if (this.tweenPreviewIconIn) {
+      this.tweenPreviewIconIn.stop();
+    }
+    if (this.tweenPreviewIconOut) {
+      this.tweenPreviewIconOut.stop();
+    }
+    if (this.tweenGraphicIconin) {
+      this.tweenGraphicIconin.stop();
+    }
+    if (this.tweenGraphicIconOut) {
+      this.tweenGraphicIconOut.stop();
+    }
+    this.graphicIcon.scale.set(1, 1, 1);
   }
 
   activate() {
@@ -172,27 +193,28 @@ export default class HotspotEntity {
       case 'image':
       case 'text':
       case 'link':
+      case 'video':
         //grow the plane
         this.plane.visible = true;
         this.tweenPlaneActivate = new TWEEN.Tween(this.plane.scale).to({
-            x: THREE_CONST.TWEEN_PLANE_SCALE,
-            y: THREE_CONST.TWEEN_PLANE_SCALE,
-            z:1
-        },THREE_CONST.TWEEN_PLANE_IN).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
+          x: THREE_CONST.TWEEN_PLANE_SCALE,
+          y: THREE_CONST.TWEEN_PLANE_SCALE,
+          z: 1
+        }, THREE_CONST.TWEEN_PLANE_IN).easing(TWEEN.Easing.Linear.None).onUpdate(() => {
           //console.log("updaing plane scale to", this.plane.scale);
-        }).onComplete( () => {
+        }).onComplete(() => {
           //console.log("Done scaling UP dash circle");
           TWEEN.remove(this.tweenPlaneActivate);
         }).start();
 
         //hide the icon
         this.tweenIconActivate = new TWEEN.Tween(this.graphicIcon.material).to({
-            opacity: 0
-        },THREE_CONST.TWEEN_ICON_OUT).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
-        }).onComplete( () => {
+          opacity: 0
+        }, THREE_CONST.TWEEN_ICON_OUT).easing(TWEEN.Easing.Linear.None).onUpdate(() => {
+        }).onComplete(() => {
           //console.log("Done scaling UP dash circle");
           TWEEN.remove(this.tweenIconActivate);
-          this.graphicIcon.visible= false;
+          this.graphicIcon.visible = false;
           this.label.visible = false;
         }).start();
         //console.log('image text link', this.id);
@@ -202,19 +224,19 @@ export default class HotspotEntity {
       case 'audio':
         // do audio stuff
         this.tweenAudioActivate = new TWEEN.Tween(this.graphicIcon.scale).to({
-            x: 0.001, y: 0.001, z: 0.001
-        },THREE_CONST.HOTSPOT_AUDIO_DELAY).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
-        }).onComplete( () => {
+          x: 0.001, y: 0.001, z: 0.001
+        }, THREE_CONST.HOTSPOT_AUDIO_DELAY).easing(TWEEN.Easing.Linear.None).onUpdate(() => {
+        }).onComplete(() => {
           //console.log("Done scaling UP dash circle");
           TWEEN.remove(this.tweenAudioActivate);
           this.graphicIcon.visible = false;
-          this.graphicIcon.scale.set(1,1,1);
+          this.graphicIcon.scale.set(1, 1, 1);
           this.audioPlayService.playHotspotAudio(this.yamlId);
           //this.goToRoomFlag = true;
         }).start();
         break;
 
-        //console.log('play audio', this.id)
+      //console.log('play audio', this.id)
 
       case 'door':
         // do door stuff
@@ -223,19 +245,19 @@ export default class HotspotEntity {
         //this.goToRoom(outgoingRoomId);
 
         this.tweenDoorActivate = new TWEEN.Tween(this.graphicIcon.scale).to({
-            x: 0.001, y: 0.001, z: 0.001
-        },THREE_CONST.HOTSPOT_DOOR_DELAY).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
-        }).onComplete( () => {
+          x: 0.001, y: 0.001, z: 0.001
+        }, THREE_CONST.HOTSPOT_DOOR_DELAY).easing(TWEEN.Easing.Linear.None).onUpdate(() => {
+        }).onComplete(() => {
           //console.log("Done scaling UP dash circle");
           TWEEN.remove(this.tweenDoorActivate);
           this.graphicIcon.visible = false;
           this.label.visible = false;
-          this.graphicIcon.scale.set(1,1,1);
-          this.goToRoom(outgoingRoomId,this.graphicIcon.position);
+          this.graphicIcon.scale.set(1, 1, 1);
+          this.goToRoom(outgoingRoomId, this.graphicIcon.position);
           //this.goToRoomFlag = true;
         }).start();
       default:
-        //console.log('missed case statement', this);
+      //console.log('missed case statement', this);
     }
   }
 
@@ -244,11 +266,12 @@ export default class HotspotEntity {
       case 'image':
       case 'text':
       case 'link':
+      case 'video':
         //console.log('deactivating',this.type);
         this.tweenPlaneDeactivate = new TWEEN.Tween(this.plane.scale).to({
-            x: .001, y:.001, z:1
-        },THREE_CONST.TWEEN_PLANE_OUT).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
-        }).onComplete( () => {
+          x: .001, y: .001, z: 1
+        }, THREE_CONST.TWEEN_PLANE_OUT).easing(TWEEN.Easing.Linear.None).onUpdate(() => {
+        }).onComplete(() => {
           //console.log("Done scaling UP dash circle");
           this.plane.visible = false;
           TWEEN.remove(this.tweenPlaneActivate);
@@ -256,11 +279,11 @@ export default class HotspotEntity {
 
         //show the icon
         //this.graphicIcon.visible= true;
-        this.graphicIcon.visible= true;
+        this.graphicIcon.visible = true;
         this.tweenIconDeactiveate = new TWEEN.Tween(this.graphicIcon.material).to({
-            opacity: 1
-        },THREE_CONST.TWEEN_ICON_IN).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
-        }).onComplete( () => {
+          opacity: 1
+        }, THREE_CONST.TWEEN_ICON_IN).easing(TWEEN.Easing.Linear.None).onUpdate(() => {
+        }).onComplete(() => {
           //console.log("Done scaling UP dash circle");
           TWEEN.remove(this.tweenIconDeactiveate);
         }).start();
@@ -273,51 +296,59 @@ export default class HotspotEntity {
         // do door stuff
         break;
       default:
-          //console.log('missed case statement', this);
+      //console.log('missed case statement', this);
     }
   }
 
-  graphic2preview(){
+  graphic2preview() {
     //stop tweens counter to this function
-    if(this.tweenPreviewIconOut){this.tweenPreviewIconOut.stop();}
-    if(this.tweenGraphicIconin){this.tweenGraphicIconin.stop();}
+    if (this.tweenPreviewIconOut) {
+      this.tweenPreviewIconOut.stop();
+    }
+    if (this.tweenGraphicIconin) {
+      this.tweenGraphicIconin.stop();
+    }
 
     this.label.visible = false;
     //start new tweens
     this.previewIcon.visible = true;
     this.tweenPreviewIconIn = new TWEEN.Tween(this.previewIcon.scale).to({
-        x: 1,
-        y: 1,
-        z: 1
-    },THREE_CONST.TWEEN_ICON_IN).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
-    }).onComplete( () => {
+      x: 1,
+      y: 1,
+      z: 1
+    }, THREE_CONST.TWEEN_ICON_IN).easing(TWEEN.Easing.Linear.None).onUpdate(() => {
+    }).onComplete(() => {
       //console.log("Done scaling UP dash circle");
       TWEEN.remove(this.tweenPreviewIconIn);
     }).start();
 
     //fade out the icon
     this.tweenGraphicIconOut = new TWEEN.Tween(this.graphicIcon.material).to({
-        opacity: 0
-    },THREE_CONST.TWEEN_ICON_OUT).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
-    }).onComplete( () => {
+      opacity: 0
+    }, THREE_CONST.TWEEN_ICON_OUT).easing(TWEEN.Easing.Linear.None).onUpdate(() => {
+    }).onComplete(() => {
       this.graphicIcon.visible = false;
       //console.log("Done fading out icon");
       TWEEN.remove(this.tweenGraphicIconOut);
     }).start();
   }
 
-  preview2graphic(){
+  preview2graphic() {
     //stop tweens counter to this function
-    if(this.tweenPreviewIconIn) {this.tweenPreviewIconIn.stop();}
-    if(this.tweenGraphicIconOut) {this.tweenGraphicIconOut.stop();}
+    if (this.tweenPreviewIconIn) {
+      this.tweenPreviewIconIn.stop();
+    }
+    if (this.tweenGraphicIconOut) {
+      this.tweenGraphicIconOut.stop();
+    }
 
     //start new tweens
     this.tweenPreviewIconOut = new TWEEN.Tween(this.previewIcon.scale).to({
-        x: 0.001,
-        y: 0.001,
-        z: 0.001
-    },THREE_CONST.TWEEN_ICON_OUT).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
-    }).onComplete( () => {
+      x: 0.001,
+      y: 0.001,
+      z: 0.001
+    }, THREE_CONST.TWEEN_ICON_OUT).easing(TWEEN.Easing.Linear.None).onUpdate(() => {
+    }).onComplete(() => {
       this.previewIcon.visible = false;
       TWEEN.remove(this.tweenPreviewIconOut);
       //console.log("Done scaling UP dash circle");
@@ -326,9 +357,9 @@ export default class HotspotEntity {
     //this.graphicIcon.visible = true;
     this.graphicIcon.visible = true;
     this.tweenGraphicIconin = new TWEEN.Tween(this.graphicIcon.material).to({
-        opacity: 1
-    },THREE_CONST.TWEEN_ICON_IN).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
-    }).onComplete( () => {
+      opacity: 1
+    }, THREE_CONST.TWEEN_ICON_IN).easing(TWEEN.Easing.Linear.None).onUpdate(() => {
+    }).onComplete(() => {
       //console.log("Done fading in icon");
       this.label.visible = true;
       TWEEN.remove(this.tweenGraphicIconin);

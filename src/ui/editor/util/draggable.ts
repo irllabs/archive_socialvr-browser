@@ -11,10 +11,10 @@ document.addEventListener('mouseup',  $event =>
   instanceSet.forEach(instance => instance.onMouseUp($event))
 );
 document.addEventListener('touchmove', $event => {
-  instanceSet.forEach(instance => instance.onTouchMove($event));
+  instanceSet.forEach((instance: DraggableIcon) => instance.onTouchMove($event));
 }, { passive: false });
 document.addEventListener('touchend', $event => {
-  instanceSet.forEach(instance => instance.onTouchEnd($event))
+  instanceSet.forEach((instance: DraggableIcon) => instance.onTouchEnd($event))
 }, false);
 
 @Directive({
@@ -103,7 +103,7 @@ export class DraggableIcon {
     this.isActive = false;
   }
 
-  private onTouchMove($event) {
+  onTouchMove($event) {
     const x = $event.touches[0].clientX;
     const y = $event.touches[0].clientY;
     this.touchLocation.x = x;
@@ -113,7 +113,7 @@ export class DraggableIcon {
     this.onMouseMove($event);
   }
 
-  private onTouchEnd($event) {
+  onTouchEnd($event) {
     if ($event.touches.length > 0) { return; }
     $event.clientX = this.touchLocation.x;
     $event.clientY = this.touchLocation.y;

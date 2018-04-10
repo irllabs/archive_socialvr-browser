@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import {Room} from 'data/scene/entities/room';
 import {Text} from 'data/scene/entities/text';
+import {Video} from 'data/scene/entities/video';
 import {Image} from 'data/scene/entities/image';
 import {Audio} from 'data/scene/entities/audio';
 import {Door} from 'data/scene/entities/door';
@@ -41,6 +42,15 @@ export class PropertyBuilder {
     const text: Text = <Text> this.setBaseProperties(textJson, new Text());
     text.body = textJson.file;
     return text;
+  }
+
+  video(name: string, body: string): Video {
+    const video: Video = new Video();
+
+    video.setName(name);
+    video.body = body;
+
+    return video;
   }
 
   link(name: string, body: string): Link {

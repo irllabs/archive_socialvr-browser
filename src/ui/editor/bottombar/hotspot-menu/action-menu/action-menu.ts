@@ -5,6 +5,7 @@ import {EventBus} from 'ui/common/event-bus';
 import {SceneInteractor} from 'core/scene/sceneInteractor';
 
 import {Audio} from 'data/scene/entities/audio';
+import {Video} from 'data/scene/entities/video';
 import {Image} from 'data/scene/entities/image';
 import {Text} from 'data/scene/entities/text';
 import {Door} from 'data/scene/entities/door';
@@ -41,6 +42,12 @@ export class ActionMenu {
     const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
     const image: Image = this.sceneInteractor.addImage(activeRoomId);
     this.eventBus.onSelectProperty(image.getId(), true);
+  }
+
+  addVideo() {
+    const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
+    const video: Video = this.sceneInteractor.addVideo(activeRoomId);
+    this.eventBus.onSelectProperty(video.getId(), true);
   }
 
   addDoor($event) {

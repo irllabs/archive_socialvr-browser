@@ -61,12 +61,12 @@ export class AudioPlayService {
       return; // return if empty
     }
     // call .stop() if not on webkit implementation
-    if (audioBuffer.playbackState === undefined) {
+    if (audioBuffer['playbackState'] === undefined) {
       audioBuffer.stop();
       return;
     }
     // else, confirm playbackState before calling 'stop'
-    if (audioBuffer.playbackState === 1 || audioBuffer.playbackState === 2) {
+    if (audioBuffer['playbackState'] === 1 || audioBuffer['playbackState'] === 2) {
       audioBuffer.stop();
       return;
     }

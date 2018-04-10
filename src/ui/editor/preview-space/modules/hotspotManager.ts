@@ -36,7 +36,7 @@ function buildDashCircle(): THREE.Group {
   });
   dashCircleGeom.vertices.shift();
   const line = new THREE.Line(dashCircleGeom, dashCircleMaterial);
-  line.computeLineDistances();
+  line['computeLineDistances']();
   const group = new THREE.Group();
   group.add(line);
   return group;
@@ -56,6 +56,7 @@ export class HotspotManager {
   private lastRoomId: string = '';
   private onRoomChange: Function;
   private activeHotspotId: string = '';
+
   // private dashCircleLine: THREE.Line;
 
   constructor(
@@ -65,7 +66,8 @@ export class HotspotManager {
     private roomManager: RoomManager,
     private menuManager: MenuManager,
     private eventBus: EventBus
-  ) {}
+  ) {
+  }
 
   load(scene: THREE.Scene, camera: THREE.PerspectiveCamera, onRoomChange: Function) {
     this.onRoomChange = onRoomChange;
@@ -73,7 +75,7 @@ export class HotspotManager {
 
 
     // Hotspot Icons - add preview and graphic icons to the scene, create map
-    const roomId: string  = this.sceneInteractor.getActiveRoomId();
+    const roomId: string = this.sceneInteractor.getActiveRoomId();
     this.sceneInteractor.getRoomProperties(roomId).forEach(roomProperty => {
 
       const location = roomProperty.getLocation();
@@ -86,15 +88,19 @@ export class HotspotManager {
       const hotspotTexture = this.assetInteractor.getTextureById(propertyType);
 
       //create graphic icon for hotspot, i.e. our hotspot icons
-      const squareMaterial = new THREE.MeshBasicMaterial({map: hotspotTexture,  transparent: true, side:THREE.FrontSide});
+      const squareMaterial = new THREE.MeshBasicMaterial({
+        map: hotspotTexture,
+        transparent: true,
+        side: THREE.FrontSide
+      });
       const squareMesh = new THREE.Mesh(squareGeometry, squareMaterial);
 
       // const squareMesh = threeResourcePool.getGraphicIcon(hotspotTexture);
       const polPol = car2pol(position.x, position.y, position.z);
-      const posCar = pol2car(THREE_CONST.CAMERA_HOTSPOT,polPol.y,polPol.z);
+      const posCar = pol2car(THREE_CONST.CAMERA_HOTSPOT, polPol.y, polPol.z);
       squareMesh.position.set(posCar.x, posCar.y, posCar.z);
       squareMesh.lookAt(camera.position);
-      squareMesh.material.opacity = 0;
+      squareMesh.material['opacity'] = 0;
       scene.add(squareMesh);
       const meshRotation = squareMesh.position;
 
@@ -113,13 +119,13 @@ export class HotspotManager {
       //create label for each hotpost, i.e. the name of the hotspotEntity
       const fontProperties = {
         font: fontHelper.getBaseFont(),
-    		size: THREE_CONST.FONT_HOTSPOT_SIZE,
-    		height: THREE_CONST.FONT_HOTSPOT_HEIGHT,
-    		curveSegments: 12,
-    		bevelEnabled: false,
-    		bevelThickness: 4,
-    		bevelSize: 8,
-    		bevelSegments: 5
+        size: THREE_CONST.FONT_HOTSPOT_SIZE,
+        height: THREE_CONST.FONT_HOTSPOT_HEIGHT,
+        curveSegments: 12,
+        bevelEnabled: false,
+        bevelThickness: 4,
+        bevelSize: 8,
+        bevelSegments: 5
       };
       const labelMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
       const labelGeometry = new THREE.TextGeometry(roomProperty.getName(), fontProperties);
@@ -135,26 +141,38 @@ export class HotspotManager {
       scene.add(labelMesh);
 
       //add to hotspotEntity map
-      const thisHotspot = new HotspotEntity(squareMesh.uuid,roomProperty,squareMesh,dashCircleGroup, this.audioPlayService, onRoomChange, labelMesh, meshRotation);
+      const thisHotspot = new HotspotEntity(squareMesh.uuid, roomProperty, squareMesh, dashCircleGroup, this.audioPlayService, onRoomChange, labelMesh, meshRotation);
       this.hotspotMap.set(squareMesh.uuid, thisHotspot);
 
-      if (propertyType === 'image') {
-        const imageProperty = roomProperty as Image;
-        const imagePlane = this.buildExpandedImagePlane(imageProperty, camera);
-        scene.add(imagePlane);
-        this.hotspotMap.get(squareMesh.uuid).plane = imagePlane;
-      }
-      else if (propertyType === 'text') {
-        const textProperty = roomProperty as Text;
-        const textPlane = this.buildExpandedTextPlane(textProperty, camera);
-        scene.add(textPlane);
-        this.hotspotMap.get(squareMesh.uuid).plane = textPlane;
-      }
-      else if (propertyType === 'link') {
-        const linkProperty = roomProperty as Link;
-        const linkPlane = this.buildExpandedLinkPlane(linkProperty, camera);
-        scene.add(linkPlane);
-        this.hotspotMap.get(squareMesh.uuid).plane = linkPlane;
+      switch (propertyType) {
+        case 'image': {
+          const imageProperty = roomProperty as Image;
+          const imagePlane = this.buildExpandedImagePlane(imageProperty, camera);
+
+          scene.add(imagePlane);
+          this.hotspotMap.get(squareMesh.uuid).plane = imagePlane;
+          break;
+        }
+        case 'text': {
+          const textProperty = roomProperty as Text;
+          const textPlane = this.buildExpandedTextPlane(textProperty, camera);
+
+          scene.add(textPlane);
+          this.hotspotMap.get(squareMesh.uuid).plane = textPlane;
+          break;
+        }
+        case 'video': {
+          // TODO: VIDEO
+          break;
+        }
+        case 'link': {
+          const linkProperty = roomProperty as Link;
+          const linkPlane = this.buildExpandedLinkPlane(linkProperty, camera);
+
+          scene.add(linkPlane);
+          this.hotspotMap.get(squareMesh.uuid).plane = linkPlane;
+          break;
+        }
       }
     });
   }
@@ -166,12 +184,17 @@ export class HotspotManager {
     if (imageTexture) {
       const geometryDimensions = fitToMax(imageTexture.image.width, imageTexture.image.height, 140);
       const imageGeometry = new THREE.PlaneGeometry(geometryDimensions.getX(), geometryDimensions.getY());
-      const imageMaterial = new THREE.MeshBasicMaterial({map: imageTexture, transparent: true, side:THREE.FrontSide, alphaMap: this.assetInteractor.getTextureById('imageMask')});
+      const imageMaterial = new THREE.MeshBasicMaterial({
+        map: imageTexture,
+        transparent: true,
+        side: THREE.FrontSide,
+        alphaMap: this.assetInteractor.getTextureById('imageMask')
+      });
       const imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
       imageMesh.position.set(position.x, position.y, position.z);
       imageMesh.lookAt(camera.position);
-      imageMesh.material.opacity = 1;
-      imageMesh.scale.set(SCALE,SCALE,SCALE);
+      imageMesh.material['opacity'] = 1;
+      imageMesh.scale.set(SCALE, SCALE, SCALE);
       return imageMesh;
     }
 
@@ -182,8 +205,8 @@ export class HotspotManager {
     const textMesh = new THREE.Mesh(textGeometry, materailData.material);
     textMesh.position.set(position.x, position.y, position.z);
     textMesh.lookAt(camera.position);
-    textMesh.material.opacity = 1;
-    textMesh.scale.set(SCALE,SCALE,SCALE);
+    textMesh.material['opacity'] = 1;
+    textMesh.scale.set(SCALE, SCALE, SCALE);
     return textMesh;
   }
 
@@ -197,8 +220,8 @@ export class HotspotManager {
     const textMesh = new THREE.Mesh(textGeometry, materailData.material);
     textMesh.position.set(position.x, position.y, position.z);
     textMesh.lookAt(camera.position);
-    textMesh.material.opacity = 1;
-    textMesh.scale.set(SCALE,SCALE,SCALE);
+    textMesh.material['opacity'] = 1;
+    textMesh.scale.set(SCALE, SCALE, SCALE);
     return textMesh;
   }
 
@@ -211,8 +234,8 @@ export class HotspotManager {
     const linkMesh = new THREE.Mesh(linkGeometry, materailData.material);
     linkMesh.position.set(position.x, position.y, position.z);
     linkMesh.lookAt(camera.position);
-    linkMesh.material.opacity = 1;
-    linkMesh.scale.set(SCALE,SCALE,SCALE);
+    linkMesh.material['opacity'] = 1;
+    linkMesh.scale.set(SCALE, SCALE, SCALE);
     return linkMesh;
   }
 
@@ -221,29 +244,29 @@ export class HotspotManager {
     this.hotspotMap.forEach(idHotspotPair => {
       // DASHED CIRCLE
       idHotspotPair.previewIcon.children.forEach((child) => {
-        if (child.material) {
-          child.material.dispose();
+        if (child['material']) {
+          child['material'].dispose();
         }
-        if (child.geometry) {
-          child.geometry.dispose();
+        if (child['geometry']) {
+          child['geometry'].dispose();
         }
         scene.remove(child);
       });
       scene.remove(idHotspotPair.previewIcon);
       // HOTSPOT ICON
-      idHotspotPair.graphicIcon.material.map.dispose();
-      idHotspotPair.graphicIcon.material.dispose();
+      idHotspotPair.graphicIcon.material['map'].dispose();
+      idHotspotPair.graphicIcon.material['dispose']();
       idHotspotPair.graphicIcon.geometry.dispose();
       scene.remove(idHotspotPair.graphicIcon);
       // HOTSPOT LABEL
-      idHotspotPair.label.material.dispose();
+      idHotspotPair.label.material['dispose']();
       idHotspotPair.label.geometry.dispose();
       idHotspotPair.label.geometry = undefined;
       scene.remove(idHotspotPair.label);
       // ACTIVATED HOTSPOT
       if (idHotspotPair.plane) {
-        idHotspotPair.plane.material.map.dispose();
-        idHotspotPair.plane.material.dispose();
+        idHotspotPair.plane.material['map'].dispose();
+        idHotspotPair.plane.material['dispose']();
         idHotspotPair.plane.geometry.dispose();
         scene.remove(idHotspotPair.plane);
       }

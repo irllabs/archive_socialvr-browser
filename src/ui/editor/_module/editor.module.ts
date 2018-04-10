@@ -18,6 +18,7 @@ import {ImageEditor} from 'ui/editor/edit-space/room-icon/property-editor/image-
 import {DoorEditor} from 'ui/editor/edit-space/room-icon/property-editor/door-editor/door-editor';
 import {LinkEditor} from 'ui/editor/edit-space/room-icon/property-editor/link-editor/link-editor';
 import {AudioEditor} from 'ui/editor/edit-space/room-icon/property-editor/audio-editor/audio-editor';
+import {VideoEditor} from 'ui/editor/edit-space/room-icon/property-editor/video-editor/video-editor';
 import {AudioRecorder} from 'ui/editor/util/audio-recorder/audio-recorder';
 
 // Preview mode
@@ -137,6 +138,7 @@ const route = RouterModule.forChild([
     RoomEditorIcon,
     PropertyEditor,
     TextEditor,
+    VideoEditor,
     ImageEditor,
     AudioEditor,
     DoorEditor,

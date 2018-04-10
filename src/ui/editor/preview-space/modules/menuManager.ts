@@ -90,7 +90,7 @@ export class MenuManager {
     const backBtnMeshG = new THREE.Mesh(backBtnGeometryG, backBtnMaterialG);
     backBtnMeshG.position.set(menuPos.x-40,menuPos.y-30,menuPos.z-98);
     backBtnMeshG.name = 'backButton';
-    backBtnMeshG.material.opacity = 0;
+    backBtnMeshG.material['opacity'] = 0;
     //backBtnMesh.lookAt(cameraPosition);
     this.backButtonMeshG = backBtnMeshG;
 
@@ -130,7 +130,7 @@ export class MenuManager {
     const homeBtnMeshG = new THREE.Mesh(homeBtnGeometryG, homeBtnMaterialG);
     homeBtnMeshG.position.set(menuPos.x+40,menuPos.y-30,menuPos.z-98);
     homeBtnMeshG.name = 'homeButton';
-    homeBtnMeshG.material.opacity = 0;
+    homeBtnMeshG.material['opacity'] = 0;
     //homeBtnMesh.lookAt(cameraPosition);
     this.homeButtonMeshG = homeBtnMeshG;
 
@@ -234,14 +234,14 @@ export class MenuManager {
 
   destroy() {
     this.menu.children.forEach(child => {
-      if (child.material && child.material.map) {
-        child.material.map.dispose();
+      if (child['material'] && child['material'].map) {
+        child['material'].map.dispose();
       }
-      if (child.material) {
-        child.material.dispose();
+      if (child['material']) {
+        child['material'].dispose();
       }
-      if (child.geometry) {
-        child.geometry.dispose();
+      if (child['geometry']) {
+        child['geometry'].dispose();
       }
     });
     this.menu = null;

@@ -5,6 +5,7 @@ import {RoomPropertyTypeService} from 'ui/editor/util/roomPropertyTypeService';
 import {EventBus} from 'ui/common/event-bus';
 
 import {Text} from 'data/scene/entities/text';
+import {Video} from 'data/scene/entities/video';
 import {Audio} from 'data/scene/entities/audio';
 import {Image} from 'data/scene/entities/image';
 import {Door} from 'data/scene/entities/door';
@@ -31,6 +32,11 @@ export class PropertyRemovalService {
       text: () => {
         const text: Text = <Text> roomProperty;
         this.sceneInteractor.removeText(roomId, text);
+        this.onDeselect();
+      },
+      video: () => {
+        const video: Video = <Video> roomProperty;
+        this.sceneInteractor.removeVideo(roomId, video);
         this.onDeselect();
       },
       audio: () => {

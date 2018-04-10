@@ -12,7 +12,7 @@
 }
 
 .action-menu__list--open {
-  width: calc(30px + #{$room-icon-size});
+  width: 64px;
   margin-left: 16px;
 }
 
@@ -52,6 +52,9 @@
   background-image: $icon-hotspot-audio;
 }
 .list-icon__image {
+  background-image: $icon-hotspot-image;
+}
+.list-icon__video {
   background-image: $icon-hotspot-image;
 }
 .list-icon__door {

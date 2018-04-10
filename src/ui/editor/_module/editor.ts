@@ -57,7 +57,8 @@ export class Editor {
     private metaDataInteractor: MetaDataInteractor,
     private element: ElementRef,
     private responsiveUtil: ResponsiveUtil
-  ) {}
+  ) {
+  }
 
   ngAfterViewInit() {
     this.route.queryParams
@@ -141,8 +142,8 @@ export class Editor {
 
   private showPreviewCheckbox(): boolean {
     return ((this.roomEditorIsVisible() ||
-            this.isPreview()) &&
-            !this.isReadOnly())
+      this.isPreview()) &&
+      !this.isReadOnly())
   }
 
   private isFlat(): boolean {
@@ -211,7 +212,7 @@ export class Editor {
   }
 
   private hasBackgroundImage(): boolean {
-    const activeRoomId: string  = this.sceneInteractor.getActiveRoomId();
+    const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
     return this.sceneInteractor.roomHasBackgroundImage(activeRoomId);
   }
 
@@ -225,42 +226,48 @@ export class Editor {
     const filePromises = files.map(file => {
       const fileName: string = file.name;
       const dropPosition: Vector2 = this.isFlat() ?
-          normalizeAbsolutePosition(x, y) :
-          this.editSpaceSphere.transformScreenPositionTo3dNormal(x, y);
+        normalizeAbsolutePosition(x, y) :
+        this.editSpaceSphere.transformScreenPositionTo3dNormal(x, y);
+
       if (!this.isFlat()) {
         dropPosition.setY(-1 * dropPosition.getY());
       }
+
       const fileType: string = Object.keys(mimeTypeMap)
         .find(fileType => mimeTypeMap[fileType].indexOf(file.type) > -1);
+
       if (!fileType) {
         const errorTitle: string = 'Incompatible File Type';
         const errorMessage: string = 'Try using an image (.jpg, .jpeg, .png), an audio file (.mp3, .wav), or a story file (.zip)';
         //this.eventBus.onModalMessage(errorTitle, errorMessage);
         return Promise.reject(errorMessage);
       }
+
       if (fileType === 'video') {
         console.log('bam, video', file);
         this.getFileTypeStrategy(fileType)(file, null, dropPosition);
         return;
         //this.getFileTypeStrategy(fileType)(file, binaryFileData, dropPosition))
       }
+
       return this.fileLoaderUtil.getBinaryFileData(file)
-      .then(binaryFileData => {
-        this.getFileTypeStrategy(fileType)(file, binaryFileData, dropPosition);
-        return Promise.resolve();
-      })
-      .catch(error => this.eventBus.onModalMessage('Error', error));
+        .then(binaryFileData => {
+          this.getFileTypeStrategy(fileType)(file, binaryFileData, dropPosition);
+          return Promise.resolve();
+        })
+        .catch(error => this.eventBus.onModalMessage('Error', error));
     });
+
     Promise.all(filePromises)
-    .then(allDone => {
-      //this.eventBus.onStopLoading();
-      //console.log('all hotspots are now loaded');
-    })
-    .catch(error => {
-      this.eventBus.onStopLoading();
-      this.eventBus.onModalMessage('error', error);
-      console.log(error);
-    })
+      .then(allDone => {
+        //this.eventBus.onStopLoading();
+        //console.log('all hotspots are now loaded');
+      })
+      .catch(error => {
+        this.eventBus.onStopLoading();
+        this.eventBus.onModalMessage('error', error);
+        console.log(error);
+      })
   }
 
   private getFileTypeStrategy(fileType: string) {
@@ -359,10 +366,11 @@ export class Editor {
       this.on2dViewClick($event);
     }
   }
+
   private on2dViewClick($event) {
     this.router.navigate(['/editor', {outlets: {'view': 'flat'}}]);
     this.isInFlatMode = true;
-    }
+  }
 
   private on3dViewClick($event) {
     this.router.navigate(['editor', {outlets: {'view': 'sphere'}}]);
@@ -376,7 +384,7 @@ export class Editor {
       //console.log('switch to preview');
       this.router.navigate(['editor', {outlets: {'view': 'preview'}}]);
     } else {
-      if (this.isInFlatMode){
+      if (this.isInFlatMode) {
         this.router.navigate(['/editor', {outlets: {'view': 'flat'}}]);
       } else {
         this.router.navigate(['/editor', {outlets: {'view': 'sphere'}}]);
