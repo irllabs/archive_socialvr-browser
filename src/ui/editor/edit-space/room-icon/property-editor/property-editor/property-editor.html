@@ -12,6 +12,16 @@
       [imageProperty]="roomProperty">
     </image-editor>
 
+    <video-editor
+      *ngIf="propertyIs('video')"
+      [videoProperty]="roomProperty">
+    </video-editor>
+
+    <universal-editor
+      *ngIf="propertyIs('universal')"
+      [universalProperty]="roomProperty">
+    </universal-editor>
+
     <door-editor
       *ngIf="propertyIs('door')"
       [doorProperty]="roomProperty">

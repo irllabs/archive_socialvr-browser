@@ -9,6 +9,8 @@ const iconPaths: AssetModel[] = [
   new AssetModel('image', 'image', `${ICON_PATH}image_filled.png`),
   new AssetModel('text',  'text',  `${ICON_PATH}text_filled.png`),
   new AssetModel('audio', 'audio', `${ICON_PATH}audio_filled.png`),
+  new AssetModel('video', 'video', `${ICON_PATH}video_filled.png`),
+  new AssetModel('universal', 'universal', `${ICON_PATH}universal_filled.png`),
   new AssetModel('link', 'link', `${ICON_PATH}link_filled.png`),
   new AssetModel('back', 'back', `${ICON_PATH}back_filled.png`),
   new AssetModel('home', 'home', `${ICON_PATH}home_filled.png`),
@@ -47,7 +49,25 @@ export class TextureLoader {
               image.getBinaryFileData().changingThisBreaksApplicationSecurity : image.getBinaryFileData();
             return new AssetModel(image.getId(), image.getFileName(), imageDataUri);
           });
-        return accumulator.concat(imagePropertyList);
+
+        const universalImagePropertyList = Array.from(room.getUniversal())
+          .filter(universal => universal.imageContent.hasAsset())
+          .map((universal) => {
+            let imageDataUri;
+
+            if (universal.imageContent.getBinaryFileData().changingThisBreaksApplicationSecurity) {
+              imageDataUri = universal.imageContent.getBinaryFileData().changingThisBreaksApplicationSecurity;
+            } else {
+              imageDataUri = universal.imageContent.getBinaryFileData();
+            }
+
+            return new AssetModel(universal.getId(), universal.imageContent.getFileName(), imageDataUri);
+          });
+
+        accumulator = accumulator.concat(imagePropertyList);
+        accumulator = accumulator.concat(universalImagePropertyList);
+
+        return accumulator;
       }, []);
 
     const imageList = backgroundImages
@@ -56,5 +76,4 @@ export class TextureLoader {
 
     return this.assetInteractor.loadTextures(imageList);
   }
-
 }

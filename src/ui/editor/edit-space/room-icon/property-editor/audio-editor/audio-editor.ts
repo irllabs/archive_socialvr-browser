@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 import {DEFAULT_FILE_NAME, DEFAULT_VOLUME} from 'ui/common/constants';
 import {Audio} from 'data/scene/entities/audio';

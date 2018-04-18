@@ -8,12 +8,12 @@ import {AssetManager} from 'data/asset/assetManager';
 
 @Injectable()
 export class AssetInteractor {
-
   constructor(
     private apiService: ApiService,
     private assetManager: AssetManager,
     private assetService: AssetService,
-  ) {}
+  ) {
+  }
 
   loadTextures(imageDataList: AssetModel[]): Promise<any> {
     return this.assetManager.loadTextures(imageDataList);
@@ -61,6 +61,7 @@ export class AssetModel {
   id: string;
   fileName: string;
   filePath: string;
+
   constructor(id: string, fileName: string, filePath: string) {
     this.id = id;
     this.fileName = fileName;

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import {Room} from 'data/scene/entities/room';
 import {Text} from 'data/scene/entities/text';
 import {Video} from 'data/scene/entities/video';
+import {Universal} from 'data/scene/entities/universal';
 import {Image} from 'data/scene/entities/image';
 import {Audio} from 'data/scene/entities/audio';
 import {Door} from 'data/scene/entities/door';
@@ -17,8 +18,7 @@ import {DEFAULT_FILE_NAME, DEFAULT_IMAGE_PATH, BACKGROUND_THUMBNAIL, DEFAULT_VOL
 
 @Injectable()
 export class PropertyBuilder {
-
-  private setBaseProperties(jsonData: any, roomProperty: RoomProperty): RoomProperty {
+  public setBaseProperties(jsonData: any, roomProperty: RoomProperty): RoomProperty {
     const builtRoomProperty: RoomProperty = roomProperty
       .setId(jsonData.uuid)
       .setName(jsonData.name)
@@ -26,6 +26,7 @@ export class PropertyBuilder {
 
     if (jsonData.vect) {
       const location: Vector2 = deserializeLocationVector(jsonData.vect);
+
       builtRoomProperty.setLocation(location);
     }
     return builtRoomProperty;
@@ -33,14 +34,18 @@ export class PropertyBuilder {
 
   text(name: string, body: string): Text {
     const text: Text = new Text();
+
     text.setName(name);
     text.body = body;
+
     return text;
   }
 
   textFromJson(textJson: any): Text {
     const text: Text = <Text> this.setBaseProperties(textJson, new Text());
+
     text.body = textJson.file;
+
     return text;
   }
 
@@ -53,52 +58,109 @@ export class PropertyBuilder {
     return video;
   }
 
+  universal(name: string, textContent: string): Universal {
+    const universal: Universal = new Universal();
+
+    universal.setName(name);
+    universal.textContent = textContent;
+    universal.setAudioContent(DEFAULT_FILE_NAME, null, DEFAULT_VOLUME);
+    universal.setImageContent(DEFAULT_FILE_NAME, null);
+
+    return universal;
+  }
+
+  universalFromJson(universalJson: any, imageBinaryFileData: string, audioBinaryFileData: string): Universal {
+    const universal: Universal = <Universal> this.setBaseProperties(universalJson, new Universal());
+
+    // text
+    universal.textContent = universalJson.text;
+
+    // image
+    let imageFileName = DEFAULT_FILE_NAME;
+
+    if (universalJson.hasOwnProperty('imageFile')) imageFileName =  decodeURIComponent(universalJson.imageFile);
+    if (universalJson.hasOwnProperty('remoteImageFile')) {
+      universal.imageContent.setRemoteFileName(universalJson.remoteFile);
+    }
+
+    universal.setImageContent(imageFileName, imageBinaryFileData);
+
+    // audio
+    let audioFileName = DEFAULT_FILE_NAME;
+
+    if (universalJson.hasOwnProperty('audioFile')) audioFileName =  decodeURIComponent(universalJson.audioFile);
+    if (universalJson.hasOwnProperty('remoteAudioFile')) {
+      universal.audioContent.setRemoteFileName(universalJson.remoteAudioFile);
+    }
+
+    universal.setAudioContent(audioFileName, audioBinaryFileData);
+    universal.loop = universalJson.loop;
+    universal.volume = universalJson.volume;
+
+    return universal;
+  }
+
   link(name: string, body: string): Link {
     const link: Link = new Link();
+
     link.setName(name);
     link.body = body;
+
     return link;
   }
 
   linkFromJson(linkJson: any): Link {
     const link: Link = <Link> this.setBaseProperties(linkJson, new Link());
+
     link.body = linkJson.file;
+
     return link;
   }
 
   audio(name: string): Audio {
     const audio: Audio = new Audio();
+
     audio.setName(name);
     audio.setFileData(DEFAULT_FILE_NAME, DEFAULT_VOLUME, null);
+
     return audio;
   }
 
   audioFromJson(audioJson: any, binaryFileData: string): Audio {
     const audio: Audio = <Audio> this.setBaseProperties(audioJson, new Audio());
     let fileName = decodeURIComponent(audioJson);
+
     if (audioJson.hasOwnProperty('file')) fileName = audioJson.file;
     if (audioJson.hasOwnProperty('remoteFile')) {
       audio.setRemoteFileName(audioJson.remoteFile);
     }
+
     const volume = audioJson.volume;
+
     audio.setFileData(fileName, volume, binaryFileData);
+
     return audio;
   }
 
   image(name: string): Image {
     const image: Image = new Image();
+
     image.setName(name);
     image.setFileData(DEFAULT_FILE_NAME, null);
+
     return image;
   }
 
   imageFromJson(imageJson: any, binaryFileData: string): Image {
     const image: Image = <Image> this.setBaseProperties(imageJson, new Image());
     const fileName = decodeURIComponent(imageJson.file);
+
     image.setFileData(fileName, binaryFileData);
+
     if (imageJson.hasOwnProperty('remoteFile')) {
       image.setRemoteFileName(imageJson.remoteFile);
     }
+
     return image;
   }
 
@@ -159,7 +221,7 @@ export class PropertyBuilder {
       const location: Vector2 = deserializeLocationVector(roomJson.front);
       room.setLocation(location);
     }
-    if (roomJson.video) {
+    if (roomJson.video && roomJson.video.length > 0) {
       room.setBackgroundVideo('', roomJson.video);
     }
 

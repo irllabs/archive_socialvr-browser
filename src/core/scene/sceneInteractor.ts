@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 
 import {Audio} from 'data/scene/entities/audio';
 import {Video} from 'data/scene/entities/video';
+import {Universal} from 'data/scene/entities/universal';
 import {Image} from 'data/scene/entities/image';
 import {Text} from 'data/scene/entities/text';
 import {Door} from 'data/scene/entities/door';
@@ -88,6 +89,7 @@ export class SceneInteractor {
       ...Array.from(room.getText()),
       ...Array.from(room.getAudio()),
       ...Array.from(room.getVideo()),
+      ...Array.from(room.getUniversal()),
       ...Array.from(room.getImages()),
       ...Array.from(room.getDoors()),
       ...Array.from(room.getLink())
@@ -104,7 +106,9 @@ export class SceneInteractor {
     const numberOfTexts: number = this.getRoomById(roomId).getText().size + 1;
     const textName: string = `Text ${numberOfTexts}`;
     const text: Text = this.propertyBuilder.text(textName, '');
+
     this.getRoomById(roomId).addText(text);
+
     return text;
   }
 
@@ -116,7 +120,9 @@ export class SceneInteractor {
     const numberOfAudio: number = this.getRoomById(roomId).getAudio().size + 1;
     const audioName: string = `Audio ${numberOfAudio}`;
     const audio: Audio = this.propertyBuilder.audio(audioName);
+
     this.getRoomById(roomId).addAudio(audio);
+
     return audio;
   }
 
@@ -128,7 +134,9 @@ export class SceneInteractor {
     const numberOfImages: number = this.getRoomById(roomId).getImages().size + 1;
     const imageName: string = `Image ${numberOfImages}`;
     const image: Image = this.propertyBuilder.image(imageName);
+
     this.getRoomById(roomId).addImage(image);
+
     return image;
   }
 
@@ -137,8 +145,8 @@ export class SceneInteractor {
   }
 
   addVideo(roomId: string): Video {
-    const numberOfImages: number = this.getRoomById(roomId).getImages().size + 1;
-    const videoName: string = `Video ${numberOfImages}`;
+    const numberOfVideos: number = this.getRoomById(roomId).getVideo().size + 1;
+    const videoName: string = `Video ${numberOfVideos}`;
     const video: Video = this.propertyBuilder.video(videoName, '');
 
     this.getRoomById(roomId).addVideo(video);
@@ -148,6 +156,20 @@ export class SceneInteractor {
 
   removeVideo(roomId: string, video: Video) {
     this.getRoomById(roomId).removeVideo(video);
+  }
+
+  addUniversal(roomId: string): Universal {
+    const numberOfUniversals: number = this.getRoomById(roomId).getUniversal().size + 1;
+    const hotSpotName: string = `Universal ${numberOfUniversals}`;
+    const universal: Universal = this.propertyBuilder.universal(hotSpotName, '');
+
+    this.getRoomById(roomId).addUniversal(universal);
+
+    return universal;
+  }
+
+  removeUniversal(roomId: string, universal: Universal) {
+    this.getRoomById(roomId).removeUniversal(universal);
   }
 
   addDoor(roomId: string): Door {

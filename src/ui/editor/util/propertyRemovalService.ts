@@ -9,9 +9,9 @@ import {Video} from 'data/scene/entities/video';
 import {Audio} from 'data/scene/entities/audio';
 import {Image} from 'data/scene/entities/image';
 import {Door} from 'data/scene/entities/door';
-import {Room} from 'data/scene/entities/room';
 import {Link} from 'data/scene/entities/link';
 import {RoomProperty} from 'data/scene/interfaces/roomProperty';
+import {Universal} from "data/scene/entities/universal";
 
 @Injectable()
 export class PropertyRemovalService {
@@ -64,6 +64,11 @@ export class PropertyRemovalService {
       link: () => {
         const link: Link = <Link> roomProperty;
         this.sceneInteractor.removeLink(roomId, link);
+        this.onDeselect();
+      },
+      universal: () => {
+        const universal: Universal = <Universal> roomProperty;
+        this.sceneInteractor.removeUniversal(roomId, universal);
         this.onDeselect();
       },
     };

@@ -1,5 +1,6 @@
 import {Audio} from 'data/scene/entities/audio';
 import {Video} from 'data/scene/entities/video';
+import {Universal} from 'data/scene/entities/universal';
 import {Image} from 'data/scene/entities/image';
 import {Text} from 'data/scene/entities/text';
 import {Door} from 'data/scene/entities/door';
@@ -16,6 +17,7 @@ const typeMap = {
   text: Text,
   link: Link,
   video: Video,
+  universal: Universal,
   narrator: Narrator
 };
 

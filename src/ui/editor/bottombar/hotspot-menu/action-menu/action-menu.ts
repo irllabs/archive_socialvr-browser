@@ -6,6 +6,7 @@ import {SceneInteractor} from 'core/scene/sceneInteractor';
 
 import {Audio} from 'data/scene/entities/audio';
 import {Video} from 'data/scene/entities/video';
+import {Universal} from 'data/scene/entities/universal';
 import {Image} from 'data/scene/entities/image';
 import {Text} from 'data/scene/entities/text';
 import {Door} from 'data/scene/entities/door';
@@ -48,6 +49,12 @@ export class ActionMenu {
     const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
     const video: Video = this.sceneInteractor.addVideo(activeRoomId);
     this.eventBus.onSelectProperty(video.getId(), true);
+  }
+
+  addUniversal() {
+    const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
+    const universal: Universal = this.sceneInteractor.addUniversal(activeRoomId);
+    this.eventBus.onSelectProperty(universal.getId(), true);
   }
 
   addDoor($event) {

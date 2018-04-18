@@ -127,8 +127,9 @@ function decodeAudioDataOrEmpty(audioContext, audioArrayBuffer: ArrayBuffer) {
 
 class TextureData {
   id: string;
-  fileName: string
+  fileName: string;
   texture: Texture;
+
   constructor(id: string, fileName: string, texture: Texture) {
     this.id = id;
     this.fileName = fileName;
@@ -138,8 +139,9 @@ class TextureData {
 
 class AudioData {
   id: string;
-  fileName: string
+  fileName: string;
   audioBuffer: AudioBuffer;
+
   constructor(id: string, fileName: string, audioBuffer: AudioBuffer) {
     this.id = id;
     this.fileName = fileName;

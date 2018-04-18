@@ -20,6 +20,7 @@ import {VideoInteractor} from 'core/video/VideoInteractor';
 import {RoomProperty} from 'data/scene/interfaces/RoomProperty';
 import {Audio} from 'data/scene/entities/audio';
 import {Image} from 'data/scene/entities/image';
+import {Universal} from 'data/scene/entities/universal';
 import {Room} from 'data/scene/entities/room';
 import {Vector2} from 'data/scene/entities/vector2';
 import {resizeImage} from 'data/util/imageResizeService';
@@ -222,9 +223,9 @@ export class Editor {
       console.log('cannot import files in preview mode');
       return;
     }
+
     //this.eventBus.onStartLoading();
     const filePromises = files.map(file => {
-      const fileName: string = file.name;
       const dropPosition: Vector2 = this.isFlat() ?
         normalizeAbsolutePosition(x, y) :
         this.editSpaceSphere.transformScreenPositionTo3dNormal(x, y);
@@ -237,17 +238,15 @@ export class Editor {
         .find(fileType => mimeTypeMap[fileType].indexOf(file.type) > -1);
 
       if (!fileType) {
-        const errorTitle: string = 'Incompatible File Type';
         const errorMessage: string = 'Try using an image (.jpg, .jpeg, .png), an audio file (.mp3, .wav), or a story file (.zip)';
-        //this.eventBus.onModalMessage(errorTitle, errorMessage);
+
         return Promise.reject(errorMessage);
       }
 
       if (fileType === 'video') {
-        console.log('bam, video', file);
         this.getFileTypeStrategy(fileType)(file, null, dropPosition);
+
         return;
-        //this.getFileTypeStrategy(fileType)(file, binaryFileData, dropPosition))
       }
 
       return this.fileLoaderUtil.getBinaryFileData(file)
@@ -275,10 +274,11 @@ export class Editor {
 
       audio: (file, binaryFileData, position) => {
         const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
-        const audio: Audio = this.sceneInteractor.addAudio(activeRoomId);
-        audio.setFileName(file.name);
-        audio.setBinaryFileData(binaryFileData);
-        audio.setLocation(position);
+        const universal: Universal = this.sceneInteractor.addUniversal(activeRoomId);
+
+        universal.setAudioContent(file.name, binaryFileData);
+        universal.setLocation(position);
+
         this.requestRender();
       },
 
@@ -289,8 +289,10 @@ export class Editor {
           resizeImage(binaryFileData, 'backgroundImage')
             .then(resized => {
               const room: Room = this.sceneInteractor.getRoomById(activeRoomId);
+
               room.setFileData(file.name, resized.backgroundImage);
               room.setThumbnail(file.name, resized.thumbnail);
+
               this.requestRender();
               this.eventBus.onStopLoading();
             })
@@ -300,10 +302,11 @@ export class Editor {
 
         resizeImage(binaryFileData, 'hotspotImage')
           .then(resizedImageData => {
-            const image: Image = this.sceneInteractor.addImage(activeRoomId);
-            image.setFileName(file.name);
-            image.setBinaryFileData(resizedImageData);
-            image.setLocation(position);
+            const universal: Universal = this.sceneInteractor.addUniversal(activeRoomId);
+
+            universal.setImageContent(file.name, resizedImageData);
+            universal.setLocation(position);
+
             this.requestRender();
           })
           .catch(error => this.eventBus.onModalMessage('Image loading error', error));
@@ -325,8 +328,8 @@ export class Editor {
             data => {
               const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
               const room: Room = this.sceneInteractor.getRoomById(activeRoomId);
+
               room.setBackgroundVideo('', data.downloadUrl);
-              console.log('bam, success', data);
             },
             error => console.log('damn', error)
           );
@@ -346,9 +349,7 @@ export class Editor {
   }
 
   private uploadIsOpen(): boolean {
-    var uploadIsVisible = this.router.url.includes('modal:upload');
-    //console.log("uploadIsVisible: ", uploadIsVisible);
-    return uploadIsVisible;
+    return this.router.url.includes('modal:upload');
   }
 
   private editorIsSphere(): boolean {

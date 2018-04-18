@@ -35,18 +35,14 @@ export class ProjectInteractor {
   }
 
   openProject(userId: string, projectId: string) {
-    console.log('openProject');
     return this.apiService.getProjectUrl(userId, projectId)
       .switchMap(signedProjectUrl => this.apiService.getProject(signedProjectUrl))
       .switchMap(projectArrayBuffer => {
-        console.log('projectArrayBuffer', projectArrayBuffer);
         return this.deserializationService.unzipStoryFile(projectArrayBuffer);
       })
       .do(projectData => {
         this.assetManager.clearAssets();
-        console.log('clearAssets');
         this.projectService.setProjectId(projectId);
-        console.log('setProjectId');
       });
   }
 
@@ -63,6 +59,7 @@ export class ProjectInteractor {
     const projectName: string = this.roomManager.getProjectName();
     const projectTags: string = this.roomManager.getProjectTags();
     const homeroomThumbnail: string = this.getHomeroomThumbnail();
+
     return this.serializationService.zipStoryFile()
       .switchMap(zipFile => this.apiService.createProject(userId, projectName, projectTags, zipFile, homeroomThumbnail))
       .do(projectData => this.projectService.setProjectId(projectData.id));
@@ -72,6 +69,7 @@ export class ProjectInteractor {
     const projectName: string = this.roomManager.getProjectName();
     const projectTags: string = this.roomManager.getProjectTags();
     const homeroomThumbnail: string = this.getHomeroomThumbnail();
+
     return this.serializationService.zipStoryFile()
       .switchMap(zipFile => this.apiService.updateProject(userId, projectId, projectName, projectTags, zipFile, homeroomThumbnail));
   }

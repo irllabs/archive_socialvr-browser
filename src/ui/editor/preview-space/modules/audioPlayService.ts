@@ -6,7 +6,6 @@ import {getAudioContext} from 'ui/editor/util/audioContextProvider';
 
 @Injectable()
 export class AudioPlayService {
-
   private gainNode: GainNode;
   private soundtrack: AudioBufferSourceNode;
   private hotspot: AudioBufferSourceNode;
@@ -22,6 +21,7 @@ export class AudioPlayService {
   //for project soundtrack which cannot be stopped by others
   playSoundtrack(audioAssetId: string) {
     const audioSource = this.getAudioSource(audioAssetId);
+
     if (audioSource) {
       audioSource.loop = true;
       audioSource.start(0);
@@ -31,19 +31,27 @@ export class AudioPlayService {
 
   playBgAudio(audioAssetId: string) {
     this.stopPlaying(this.background);
+
     const audioSource = this.getAudioSource(audioAssetId);
+
     if (audioSource) {
       audioSource.start(0);
       this.background = audioSource;
     }
   }
 
-  playHotspotAudio(audioAssetId: string) {
+  playHotspotAudio(audioAssetId: string, loop: boolean = false): AudioBufferSourceNode {
     this.stopPlaying(this.hotspot);
+
     const audioSource = this.getAudioSource(audioAssetId);
+
     if (audioSource) {
       audioSource.start(0);
+      audioSource.loop = loop;
+
       this.hotspot = audioSource;
+
+      return audioSource;
     }
   }
 
@@ -74,6 +82,7 @@ export class AudioPlayService {
 
   getAudioSource(audioAssetId: string): AudioBufferSourceNode {
     const audioBuffer = this.assetInteractor.getAudioBufferById(audioAssetId);
+
     if (!audioBuffer) {
       console.log(
         'audioPlayService.playSample error',
@@ -83,8 +92,10 @@ export class AudioPlayService {
     }
 
     const bufferSource = getAudioContext().createBufferSource();
+
     bufferSource.buffer = audioBuffer;
     bufferSource.connect(this.gainNode);
+
     return bufferSource;
   }
 

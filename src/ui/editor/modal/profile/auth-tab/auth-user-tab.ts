@@ -70,15 +70,13 @@ export class AuthUserTab {
   }
 
   private openProject(projectId: string) {
-    console.log("openProject");
     const userId: string = this.userInteractor.getUserId();
+
     this.eventBus.onStartLoading();
-    console.log("onStartLoading done");
     this.projectInteractor.openProject(userId, projectId)
       .subscribe(
         response => {
           //reset the current scene
-          console.log('observable done', response);
           this.sceneInteractor.setActiveRoomId(null);
           this.eventBus.onSelectRoom(null, false);
           this.metaDataInteractor.setIsReadOnly(false);

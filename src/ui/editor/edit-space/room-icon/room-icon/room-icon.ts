@@ -35,6 +35,7 @@ const ICON_MAP = {
   text: 'text_filled.png',
   image: 'image_filled.png',
   video: 'video_filled.png',
+  universal: 'universal_filled.png',
   audio: 'audio_filled.png',
   door: 'door_filled.png',
   link: 'link_filled.png'
@@ -307,7 +308,6 @@ export class RoomIcon implements Hotspot {
   }
 
   onMouseOver($event) {
-    console.log("mouseover")
     this.deleteVisible = true;
   }
 

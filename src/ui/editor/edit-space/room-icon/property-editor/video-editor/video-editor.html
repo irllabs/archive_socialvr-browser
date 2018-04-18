@@ -1,10 +1,19 @@
-<div class="text-editor">
+<div class="video-editor">
   <p class="hotspot-inspector__label">
-    Enter YouTube video link:
+    Enter video link:
   </p>
+
   <textarea
     name="textarea"
-    class="text-editor__text-area"
+    class="video-editor__text-area"
     [(ngModel)]="videoProperty.body">
   </textarea>
+
+  <div class="invalid-message" *ngIf="!videoProperty.isValid">The URL is not valid, please check and try again.</div>
+
+  <div class="yt-player" *ngIf="videoProperty.hasValidUrl">
+    <video controls="controls">
+        <source [src]="safeVideoUrl" type='video/webm'/>
+    </video>
+  </div>
 </div>

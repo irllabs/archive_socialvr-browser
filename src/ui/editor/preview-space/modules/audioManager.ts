@@ -76,7 +76,26 @@ export class AudioManager {
               audio.getBinaryFileData().changingThisBreaksApplicationSecurity : audio.getBinaryFileData();
             return new AssetModel(audio.getId(), audio.getFileName(), audioDataUri);
           });
-        return accumulator.concat(audioPropertyList);
+
+        const audioUniversalPropertyList = Array.from(room.getUniversal())
+          .filter(universal => universal.audioContent.hasAsset())
+          .map(universal => {
+            const binaryFileData = universal.audioContent.getBinaryFileData();
+            let audioDataUri;
+
+            if(binaryFileData.changingThisBreaksApplicationSecurity) {
+              audioDataUri = binaryFileData.changingThisBreaksApplicationSecurity;
+            } else {
+              audioDataUri = binaryFileData;
+            }
+
+            return new AssetModel(universal.getId(), universal.audioContent.getFileName(), audioDataUri);
+          });
+
+        accumulator = accumulator.concat(audioPropertyList);
+        accumulator = accumulator.concat(audioUniversalPropertyList);
+
+        return accumulator;
       }, []);
 
     const audioList = soundtrackAudio

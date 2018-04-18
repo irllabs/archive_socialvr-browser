@@ -21,5 +21,4 @@ export class Text extends BaseElement {
       file: this._body
     });
   }
-
 }

@@ -1,0 +1,110 @@
+@import '../../../../../_styles/variables';
+
+.universal-editor {
+  .invalid-message {
+    color: $color-red;
+  }
+
+  .play-loop-label {
+    padding-bottom: 5px;
+    display: inline-block;
+    width: auto;
+    line-height: 26px;
+    vertical-align: middle;
+
+    & + checkbox {
+      display: inline-block;
+      vertical-align: middle;
+      padding-bottom: 5px;
+    }
+  }
+
+  .tab-container {
+    min-width: 320px;
+    max-width: 600px;
+
+    section {
+      display: none;
+      padding: 20px 0 0;
+      border-top: 1px solid #ddd;
+    }
+
+    label.tab {
+      display: inline-block;
+      margin: 0 0 -1px;
+      padding: 10px 20px;
+      font-weight: 600;
+      text-align: center;
+      color: #bbb;
+      border: 1px solid transparent;
+
+      &:hover {
+        color: #888;
+        cursor: pointer;
+      }
+
+      .ico {
+        width: 28px;
+        vertical-align: middle;
+        display: inline-block;
+      }
+    }
+
+    input[name="tabs"] {
+      display: none;
+
+      &:checked + label {
+        color: #555;
+        border: 1px solid #ddd;
+        border-top: 2px solid orange;
+        border-bottom: 1px solid #fff;
+      }
+    }
+
+    #tab-universal-image:checked ~ #content-universal-image,
+    #tab-universal-text:checked ~ #content-universal-text,
+    #tab-universal-audio:checked ~ #content-universal-audio {
+      display: block;
+    }
+  }
+
+  .universal-editor__text-area {
+    border-color: $color-grey-light;
+
+    resize: none;
+    font-size: 1.1em;
+    width: 100%;
+    height: 10vh;
+  }
+
+  .universal-editor__record-button {
+    display: inline-block;;
+    position: relative;
+    margin-left: 5px;
+    margin-bottom: 10px;
+  }
+
+  .universal-editor__file-loader {
+    position: relative;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .universal-editor__audio-player {
+    width: 100%;
+    position: relative;
+    margin-top: 5px;
+  }
+
+  .universal-editor__image-display {
+    display: block;
+
+    max-width: 100%;
+    position: relative;
+    max-height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    overflow:hidden;
+  }
+}

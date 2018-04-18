@@ -1,8 +1,12 @@
 @import '../../../../../_styles/variables';
 
-.text-editor {}
+.video-editor {
+  .invalid-message {
+    color: $color-red;
+  }
+}
 
-.text-editor__text-area {
+.video-editor__text-area {
   border-color: $color-grey-light;
 
   resize: none;

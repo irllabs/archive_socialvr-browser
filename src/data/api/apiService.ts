@@ -85,6 +85,7 @@ export class ApiService implements Api {
   createProject(userId: string, projectName: string, projectTags: string, storyFile: any, thumbnail: string): Observable<any> {
     const URL: string = `${BASE_URL}${URL_PATH_USERS}${userId}${URL_PATH_PROJECTS}`;
     const formData: FormData = new FormData();
+
     formData.append('name', projectName);
     formData.append('tags', projectTags);
     formData.append('project_file', storyFile);

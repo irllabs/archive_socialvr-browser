@@ -14,11 +14,12 @@ import {DefaultOverlay} from 'ui/editor/edit-space/default-overlay/default-overl
 import {RoomIcon} from 'ui/editor/edit-space/room-icon/room-icon/room-icon';
 import {PropertyEditor} from 'ui/editor/edit-space/room-icon/property-editor/property-editor/property-editor';
 import {TextEditor} from 'ui/editor/edit-space/room-icon/property-editor/text-editor/text-editor';
+import {VideoEditor} from 'ui/editor/edit-space/room-icon/property-editor/video-editor/video-editor';
+import {UniversalEditor} from 'ui/editor/edit-space/room-icon/property-editor/universal-editor/universal-editor';
 import {ImageEditor} from 'ui/editor/edit-space/room-icon/property-editor/image-editor/image-editor';
 import {DoorEditor} from 'ui/editor/edit-space/room-icon/property-editor/door-editor/door-editor';
 import {LinkEditor} from 'ui/editor/edit-space/room-icon/property-editor/link-editor/link-editor';
 import {AudioEditor} from 'ui/editor/edit-space/room-icon/property-editor/audio-editor/audio-editor';
-import {VideoEditor} from 'ui/editor/edit-space/room-icon/property-editor/video-editor/video-editor';
 import {AudioRecorder} from 'ui/editor/util/audio-recorder/audio-recorder';
 
 // Preview mode
@@ -137,8 +138,9 @@ const route = RouterModule.forChild([
     RoomIcon,
     RoomEditorIcon,
     PropertyEditor,
-    TextEditor,
     VideoEditor,
+    UniversalEditor,
+    TextEditor,
     ImageEditor,
     AudioEditor,
     DoorEditor,

@@ -30,11 +30,12 @@ export class SerializationService {
     private roomManager: RoomManager,
     private http: Http,
     private assetInteractor: AssetInteractor,
-  ) {}
+  ) {
+  }
 
   private buildProjectJson() {
-    const roomList = Array.from(this.roomManager.getRooms())
-      .map(room => room.toJson());
+    const roomList = Array.from(this.roomManager.getRooms()).map(room => room.toJson());
+
     return {
       name: this.roomManager.getProjectName(),
       tags: this.roomManager.getProjectTags(),
@@ -48,14 +49,20 @@ export class SerializationService {
 
   private uploadAssets() {
     // Collect individual room assets
-    const uploads = {}
+    const uploads = {};
+
     Array.from(this.roomManager.getRooms())
       .forEach(room => {
         const directoryName: string = room.getId();
 
-        const imageList = Array.from(room.getImages()).map(image => image);
-        const audioList = Array.from(room.getAudio()).map(audio => audio);
-        let mediaFiles = [...imageList, ...audioList];
+        const imageList = Array.from(room.getImages());
+        const audioList = Array.from(room.getAudio());
+        const universalMediaFiles = Array.from(room.getUniversal()).reduce((acc, universal) => {
+          acc = acc.concat([universal.audioContent, universal.imageContent]);
+
+          return acc;
+        }, []);
+        const mediaFiles = [...imageList, ...audioList, ...universalMediaFiles];
 
         // Narrator intro audio
         const introAudio = room.getNarrator().getIntroAudio();
@@ -81,26 +88,26 @@ export class SerializationService {
         if (room.getThumbnail().getMediaFile().hasAsset()) {
           mediaFiles.push(room.getThumbnail());
         }
+
         mediaFiles
-          // TODO: Instead of checking type of entity here, use new hotspot type
-          // to always have one method for fetching assets
+        // TODO: Instead of checking type of entity here, use new hotspot type
+        // to always have one method for fetching assets
           .map(f => f.getMediaFile ? f.getMediaFile() : f)
           .filter((mediaFile: MediaFile) => {
-            return !mediaFile.isUploaded();
+            return !mediaFile.isUploaded() && !!mediaFile.getBinaryFileData();
           })
           .map(mediaFile => {
             const fileName = encodeURIComponent(mediaFile.getFileName());
             const key = `${directoryName}/${fileName}`;
             const file = getBlobFromDataUrl(mediaFile.getBinaryFileData());
-            const uploadPromise = this.assetInteractor.uploadMedia(key, file).toPromise()
+
+            uploads[key] = this.assetInteractor.uploadMedia(key, file).toPromise()
               .then((response) => {
-                console.log(`Uploaded ${key} ${response}`);
                 mediaFile.setRemoteFileName(response);
               });
-            uploads[key] = uploadPromise;
           })
-        });
-    console.log("All Uploads", uploads);
+      });
+
     return Promise.all(Object.keys(uploads).map(key => uploads[key]));
   }
 
@@ -113,22 +120,44 @@ export class SerializationService {
         const imageList = Array.from(room.getImages())
           .filter(image => image.getBinaryFileData())
           .map(image => {
-            return {
-              name: encodeURIComponent(image.getFileName()),
-              binaryData: getBase64FromDataUrl(image.getBinaryFileData())
-            };
-          }
-        );
+              return {
+                name: encodeURIComponent(image.getFileName()),
+                binaryData: getBase64FromDataUrl(image.getBinaryFileData())
+              };
+            }
+          );
 
         const audioList = Array.from(room.getAudio())
           .filter(audio => audio.getBinaryFileData())
           .map(audio => {
-            return {
+              return {
+                name: encodeURIComponent(audio.getFileName()),
+                binaryData: getBase64FromDataUrl(audio.getBinaryFileData())
+              };
+            }
+          );
+
+        Array.from(room.getUniversal()).forEach((universal) => {
+          // has Image
+          const image = universal.imageContent;
+
+          if (image.hasAsset()) {
+            imageList.push({
+              name: encodeURIComponent(image.getFileName()),
+              binaryData: getBase64FromDataUrl(image.getBinaryFileData())
+            });
+          }
+
+          // has Audio
+          const audio = universal.audioContent;
+
+          if (audio.hasAsset()) {
+            audioList.push({
               name: encodeURIComponent(audio.getFileName()),
               binaryData: getBase64FromDataUrl(audio.getBinaryFileData())
-            };
+            });
           }
-        );
+        });
 
         [...imageList, ...audioList].forEach(file => {
           zip.folder(directoryName).file(file.name, file.binaryData, {base64: true});
@@ -137,14 +166,17 @@ export class SerializationService {
         // Narrator intro audio
         const introAudio = room.getNarrator().getIntroAudio();
         const returnAudio = room.getNarrator().getReturnAudio();
+
         if (introAudio.hasAsset()) {
           const fileName = encodeURIComponent(introAudio.getFileName());
           const dataUrlString = getBase64FromDataUrl(introAudio.getBinaryFileData());
+
           zip.folder(directoryName).file(fileName, dataUrlString, {base64: true});
         }
         if (returnAudio.hasAsset()) {
           const fileName = encodeURIComponent(returnAudio.getFileName());
           const dataUrlString = getBase64FromDataUrl(returnAudio.getBinaryFileData());
+
           zip.folder(directoryName).file(fileName, dataUrlString, {base64: true});
         }
 
@@ -152,18 +184,22 @@ export class SerializationService {
         if (roomHasImage) {
           const roomImageName: string = encodeURIComponent(room.getFileName());
           const roomBinaryImageData: string = getBase64FromDataUrl(room.getBinaryFileData());
+
           zip.folder(directoryName).file(roomImageName, roomBinaryImageData, {base64: true});
         }
+
         // Room background thumbnail
         if (room.getThumbnailImage()) {
-          const roomImageName: string = encodeURIComponent(room.getFileName());
           const thumbnailImageData: string = getBase64FromDataUrl(room.getThumbnailImage());
+
           zip.folder(directoryName).file(BACKGROUND_THUMBNAIL, thumbnailImageData, {base64: true});
         }
+
         // Room background audio
         if (room.getBackgroundAudio().hasAsset()) {
           const fileName: string = encodeURIComponent(room.getBackgroundAudio().getFileName());
           const audioData: string = getBase64FromDataUrl(room.getBackgroundAudio().getBinaryFileData());
+
           zip.folder(directoryName).file(fileName, audioData, {base64: true});
         }
       });
@@ -171,9 +207,9 @@ export class SerializationService {
   }
 
   private buildJsonStoryFile() {
-      const projectJson = JSON.stringify(this.buildProjectJson());
-      const projectFileBlobJson = new Blob([projectJson], {type: MIME_TYPE_UTF8});
-      return projectFileBlobJson
+    const projectJson = JSON.stringify(this.buildProjectJson());
+    const projectFileBlobJson = new Blob([projectJson], {type: MIME_TYPE_UTF8});
+    return projectFileBlobJson
   }
 
   private buildYamlStoryFile() {
@@ -206,12 +242,14 @@ export class SerializationService {
   private buildProjectZip(bundleAssets = false) {
     const zip = new JSZip();
     let assetPromise;
+
     // If bundleassets, add all files to ZIP. Otherwise upload to S3.
     if (bundleAssets) {
       assetPromise = this.buildAssetDirectories(zip);
     } else {
       assetPromise = this.uploadAssets();
     }
+
     // Promises to be completed before ZIP file is created
     const promises = [
       // Prepare assets, then build story files
@@ -227,7 +265,7 @@ export class SerializationService {
       this.getProjectSoundtrack()
         .then(Soundtrack => zip.file(Soundtrack.getFileName(), getBase64FromDataUrl(Soundtrack.getBinaryFileData()), {base64: true}))
         .catch(error => console.log(error)),
-    ]
+    ];
     // Build ZIP
     const zipBuilder = Promise.all(promises).then(resolve => zip.generateAsync({type: 'blob'}));
     return Observable.fromPromise(zipBuilder);
@@ -256,26 +294,24 @@ function getBlobFromDataUrl(safeDataUrl): Blob {
     // convert base64 to raw binary data held in a string
 
     const dataUrlString = safeDataUrl.changingThisBreaksApplicationSecurity ?
-    safeDataUrl.changingThisBreaksApplicationSecurity : safeDataUrl;
+      safeDataUrl.changingThisBreaksApplicationSecurity : safeDataUrl;
 
-    var byteString = atob(dataUrlString.split(',')[1]);
+    const byteString = atob(dataUrlString.split(',')[1]);
     // separate out the mime component
-    var mimeString = dataUrlString.split(',')[0].split(':')[1].split(';')[0]
+    const mimeString = dataUrlString.split(',')[0].split(':')[1].split(';')[0];
     // write the bytes of the string to an ArrayBuffer
-    var ab = new ArrayBuffer(byteString.length);
+    const ab = new ArrayBuffer(byteString.length);
     // create a view into the buffer
-    var ia = new Uint8Array(ab);
+    const ia = new Uint8Array(ab);
     // set the bytes of the buffer to the correct values
-    for (var i = 0; i < byteString.length; i++) {
+    for (let i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
     // write the ArrayBuffer to a blob, and you're done
     blob = new Blob([ab], {type: mimeString});
-  }
-  catch (err) {
+  } catch (err) {
     console.error(err);
   }
-  finally {
-    return blob;
-  }
+
+  return blob;
 }
