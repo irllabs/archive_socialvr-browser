@@ -48,6 +48,15 @@
         vertical-align: middle;
         display: inline-block;
       }
+
+      @media (max-width: 767px) {
+        padding: 4px 8px;
+        font-size: 14px;
+
+        .ico {
+          width: 24px;
+        }
+      }
     }
 
     input[name="tabs"] {
