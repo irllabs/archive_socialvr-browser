@@ -13,8 +13,7 @@ export const BASE_URL: string = baseUrl;
 export const POST_PROJECT_URL_PATH: string = '/socialVR/projects/';
 export const GET_PROJECT_URL_PATH: string = '/socialVR/projects/';
 
-export const GOOGLE_BASE_URL = 'https://www.googleapis.com/';
-export const GOOGLE_API_KEY = 'AIzaSyBygUBKGYvURdnucih-SsvVrS3bDIG_yso';
+export const GOOGLE_API_KEY = 'AIzaSyB8SF8H7dKqKwCbDOFFYttpWXVlQRl1L_M';
 
 export const ICON_PATH: string = 'assets/icons/';
 export const IMAGE_PATH: string = 'assets/images/';
