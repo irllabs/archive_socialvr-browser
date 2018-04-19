@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-const fontSize = 26;
+const fontSize = 46;
 
 class TextLine {
   x: number;

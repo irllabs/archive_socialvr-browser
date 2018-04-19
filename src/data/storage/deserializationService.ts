@@ -301,7 +301,7 @@ export class DeserializationService {
           const storyJson = JSON.parse(storyString);
 
           storyJson.rooms.map((room) => {
-            const universalMediaFiles = room.universal.reduce((acc, universal) => {
+            const universalMediaFiles = (room.universal || []).reduce((acc, universal) => {
               return acc.concat([
                 {
                   file: universal.imageFile,

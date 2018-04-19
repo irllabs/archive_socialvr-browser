@@ -19,7 +19,7 @@ export class Universal extends BaseElement {
   }
 
   set textContent(content: string) {
-    this._textContent = content;
+    this._textContent = (content || '').slice(0, 245);
   }
 
   get audioContent(): MediaFile {
