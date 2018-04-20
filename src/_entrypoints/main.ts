@@ -2,7 +2,7 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {enableProdMode} from '@angular/core';
 import {initializeApp} from 'firebase';
 
-import {UiModule} from '../ui/_module/ui.module';
+import {UiModule} from 'ui/_module/ui.module';
 const build = require('build');
 
 if (build === 'PROD') {

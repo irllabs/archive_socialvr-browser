@@ -137,7 +137,7 @@ const defaultConfig = {
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
       "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
     },
-    port: 3000
+    port: 8004
     // To access dev server from other devices on the network uncomment the following line
     ,host: '0.0.0.0', disableHostCheck: true
   },

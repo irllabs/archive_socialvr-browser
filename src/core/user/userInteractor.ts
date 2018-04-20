@@ -28,6 +28,15 @@ export class UserInteractor {
       });
   }
 
+  googlelogIn(username: string, name: string) {
+    return this.apiService.sociallogIn(username, name)
+      .do(token => {
+        this.authenticationService.setToken(token);
+        this.authenticationService.setAuthenticationMethod(AuthenticationMethod.SOCIAL_VR);
+      });
+  }
+
+
   //TODO: map response to api service
   facebookLogin() {
     return this.socialAuthenticationService.facebookLogin()

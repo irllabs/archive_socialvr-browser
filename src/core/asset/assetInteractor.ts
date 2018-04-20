@@ -32,10 +32,11 @@ export class AssetInteractor {
   }
 
   setUploadPolicy() {
-    return this.apiService.getUploadPolicy()
-      .do(response => {
-        this.assetService.setUploadPolicy(response);
-      });
+  return this.apiService.getUploadPolicy()
+   .do(response =>
+      this.assetService.setUploadPolicy(response);
+    );
+
   }
 
   getUploadPolicy() {

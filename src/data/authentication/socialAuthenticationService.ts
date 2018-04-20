@@ -24,6 +24,7 @@ export class SocialAuthenticationService {
 
   googleLogin(): Observable<any> {
     const gapi = (<any>window).gapi;
+    console.log(gapi);
     return Observable.fromPromise(
       gapi.auth2.getAuthInstance().signIn()
     );

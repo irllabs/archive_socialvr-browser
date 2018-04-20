@@ -18,6 +18,7 @@ import {
 
 const URL_GET_AUTH_TOKEN: string = '/get_auth_token/';
 const URL_LOG_IN: string = '/login/';
+const SOCIAL_URL_LOG_IN: string = '/sociallogin/';
 const URL_LOG_OUT: string = '/logout/';
 const URL_PATH_MEDIA: string = '/media/';
 const URL_PATH_USER: string = '/user/';
@@ -37,10 +38,24 @@ export class ApiService implements Api {
 
   // POST /get_auth_token/
   logIn(userName: string, password: string): Observable<string> {
+    console.log(`${BASE_URL}${URL_GET_AUTH_TOKEN}`);
+
     const URL: string = `${BASE_URL}${URL_GET_AUTH_TOKEN}`;
     const payload = {
       username: userName,
       password: password
+    };
+
+    return this.http.post(URL, payload, {withCredentials: true})
+      .map(response => response.json())
+      .map(responseJson => responseJson.token);
+  }
+
+  sociallogIn(username: string, name: string): Observable<string> {
+    const URL: string = `${BASE_URL}${SOCIAL_URL_LOG_IN}`;
+    const payload = {
+      username: username,
+      name: name
     };
 
     return this.http.post(URL, payload, {withCredentials: true})
@@ -57,7 +72,7 @@ export class ApiService implements Api {
   getUploadPolicy(): Observable<any> {
     const URL: string = `${BASE_URL}${URL_PATH_MEDIA}`;
     return this.http.get(URL, {withCredentials: true})
-      .map(response => response.json());
+      .map(response => response.json())
   }
 
   // GET  /user/
@@ -97,7 +112,6 @@ export class ApiService implements Api {
   // GET /users/userId/projects/
   getProjects(userId: string): Observable<any> {
     const URL: string = `${BASE_URL}${URL_PATH_USERS}${userId}${URL_PATH_PROJECTS}`;
-    console.log('getProjects');
     return this.http.get(URL, this.getRequestOptions())
       .map(response => response.json());
   }
@@ -212,8 +226,22 @@ export class ApiService implements Api {
         return remoteFileName;
       });
   }
+    getShortenedUrl2(url: string): Observable<any> {
+    //console.log(${URL_SHORTENER_URL}?key=${GOOGLE_API_KEY});
+         let myHeaders = new Headers();
+         myHeaders.append('Content-Type', 'application/json');
+
+             const payload= {
+                  "longUrl": url
+                };
+     //console.log(payload);
+           return this.http.post(`${URL_SHORTENER_URL}?key=${GOOGLE_API_KEY}`, payload, {headers: myHeaders})
+               .map(response => response.json())
+                .map(responseJson => responseJson.id)
+  }
 
   getShortenedUrl(url: string): Observable<any> {
+
     const payload= {
       "longUrl": url
     };

@@ -7,7 +7,7 @@ import {ProjectInteractor} from 'core/project/projectInteractor';
 import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
 import {EventBus} from 'ui/common/event-bus';
 import {UserInteractor} from 'core/user/userInteractor';
-import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
+import {SlideshowBuilder} from 'ui/editor/util/slideshowBuilder';
 
 import {Audio} from 'data/scene/entities/audio';
 import {Image} from 'data/scene/entities/image';
@@ -140,25 +140,29 @@ export class Story {
   }
 
   private onSaveStoryClick(event) {
+
     if (this.metaDataInteractor.projectIsEmpty()) {
+    console.log("SAVE1")
       this.eventBus.onModalMessage('Error', 'Cannot save an empty project');
       return;
     }
     if (!this.userInteractor.isLoggedIn()) {
+     console.log("SAVE2")
       this.eventBus.onModalMessage('Error', 'You must be logged in to save to the server');
       return;
     }
     if (this.metaDataInteractor.getIsReadOnly()) {
+     console.log("SAVE3")
       this.eventBus.onModalMessage('Permissions Error', 'It looks like you are working on a different user\'s project. You cannot save this to your account but you can save it locally by shift-clicking the save button.');
       return;
     }
-    // if (this.userInteractor.isLoggedIn()) {
-
+    if (this.userInteractor.isLoggedIn()) {
+ console.log("SAVE4")
       this.saveStoryFileToServer();
-    // }
-    // else {
-    //   this.saveStoryFileLocally()
-    // }
+     }
+    else {
+       this.saveStoryFileLocally()
+    }
   }
 
   private onSaveStroyLocallyClick(event) {
@@ -193,22 +197,30 @@ export class Story {
     const projectId: string = this.projectInteractor.getProjectId();
     const isWorkingOnSavedProject: boolean = this.projectInteractor.isWorkingOnSavedProject();
 
+    console.log("userId",userId);
+    console.log("projectId",projectId);
+    console.log("isWorking      ",isWorkingOnSavedProject);
+
     const onSuccess = response => {
+    console.log("userId",userId);
       this.eventBus.onStopLoading();
       this.eventBus.onModalMessage('', 'Your project has been saved.');
     };
 
     const onError = error => {
+    console.log("userId",userId);
       this.eventBus.onStopLoading();
       this.eventBus.onModalMessage('Save error', error);
     };
 
     this.eventBus.onStartLoading();
     if (isWorkingOnSavedProject) {
+    console.log("userId",userId);
       this.projectInteractor.updateProject(userId, projectId)
         .subscribe(onSuccess, onError);
     }
     else {
+    console.log("userId",userId);
       this.projectInteractor.createProject(userId)
         .subscribe(onSuccess, onError);
     }

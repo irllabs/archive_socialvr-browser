@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {EventBus} from 'ui/common/event-bus';
 import {UserInteractor} from 'core/user/userInteractor';
 import {AssetInteractor} from 'core/asset/assetInteractor';
+import { AuthService, AppGlobals } from 'angular2-google-login';
 
 @Component({
   selector: 'unauth-user-tab',
@@ -21,8 +22,9 @@ export class UnauthUserTab {
     private assetInteractor: AssetInteractor,
     private userInteractor: UserInteractor,
     private eventBus: EventBus,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {}
+
 
   ngOnInit() {
     this.resetFields();
@@ -65,6 +67,7 @@ export class UnauthUserTab {
     }
     this.userInteractor.logIn(this.viewModel.username, this.viewModel.password)
       .subscribe(
+
         response => this.onLogin(),
         error => {
           const errorHeader: string = 'Sign in error';
@@ -73,6 +76,69 @@ export class UnauthUserTab {
         }
       );
   }
+  private GooglelogIn($event) {
+  providers: [AuthService];
+
+}
+
+
+
+
+  declare const gapi: any;
+  public auth2: any;
+  public googleInit() {
+    gapi.load('auth2', () => {
+      this.auth2 = gapi.auth2.init({
+        client_id: '731753835526-u5nt60tu5nhv7mfhd56cnqdenqc504ie.apps.googleusercontent.com',
+        cookiepolicy: 'single_host_origin',
+        scope: 'profile email'
+      });
+      this.attachSignin(document.getElementById('googleBtn'));
+    });
+  }
+  public attachSignin(element) {
+    this.auth2.attachClickHandler(element, {},
+      (googleUser) => {
+
+        let profile = googleUser.getBasicProfile();
+        console.log('Token || ' + googleUser.getAuthResponse().id_token);
+        console.log('ID: ' + profile.getId());
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail());
+        let username = profile.getEmail();
+        let  name = profile.getName();
+        console.log(username);
+        console.log(name);
+        //YOUR CODE HERE
+        this.userInteractor.googlelogIn(username, name).subscribe(
+
+            response => this.onLogin(),
+            error => {
+              const errorHeader: string = 'Google Error';
+              const errorBody: string = 'Google login have some issue. please try again';
+              this.eventBus.onModalMessage(errorHeader, errorBody);
+            }
+          );
+
+      }, (error) => {
+        console.log(error['error']);
+        //alert(JSON.stringify(error, undefined, 2));
+        const errorHeader: string = 'Google Error';
+          const errorBody: string = error['error'];
+          this.eventBus.onModalMessage(errorHeader, errorBody);
+      });
+  }
+
+ngAfterViewInit(){
+      this.googleInit();
+}
+
+
+
+
+
+
 
   private createAccount() {
     if (!this.isCreatingAccount) {
@@ -136,7 +202,6 @@ export class UnauthUserTab {
   }
 
   private googleLogin() {
-    console.log('google login');
     this.userInteractor.googleLogin()
       .subscribe(
         success => console.log('google login success', success),
@@ -149,7 +214,8 @@ export class UnauthUserTab {
   }
 
   private onLogin() {
-    // If post login intent needs to be used
+    //this.eventBus.onShareableModal();
+    //If post login intent needs to be used
     this.assetInteractor.setUploadPolicy()
       .subscribe(
         response => console.log('S3 policy set'),
@@ -164,5 +230,22 @@ export class UnauthUserTab {
     return;
 
   }
-
+  private getHomeTimeline(){
+    this.twitter.get(
+      'https://api.twitter.com/1.1/statuses/home_timeline.json',
+      {
+        count: 5
+      },
+      {
+        consumerKey: 'xGLas9OfNpBCUAOhhtSbpUmgC',
+        consumerSecret: 'Suy0wcwDaG0SOKVnVPkjzggdIX4tcjLKdEtjE6fGlGxtLDoEu5'
+      },
+      {
+        token: '984414779895832576-H8oyh5BtwZ3t3ZLllfbHECnbfaQi8SH',
+        tokenSecret: 'kQIRueRdW8xYV6vCqqd180L5M3ZoNWLp495OG5mLXPQMf'
+      }
+  ).subscribe((res)=>{
+      this.result = res.json().map(tweet => tweet.text; console.log(tweet.text););
+  });
+  }
 }

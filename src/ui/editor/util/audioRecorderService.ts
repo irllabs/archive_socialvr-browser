@@ -51,6 +51,7 @@ export class AudioRecorderService {
 
 
 function getMicAudioNode(audioContext): Promise<any> {
+console.log("123",audioContext)
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     return (<any>window).navigator.mediaDevices.getUserMedia({audio: true, video: false})
       .then(audioStream => configureAudio(audioContext, audioStream));

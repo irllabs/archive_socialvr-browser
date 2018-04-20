@@ -22,13 +22,15 @@
         Link copied to clipboard!
       </p>
       <div class="public-option__qr-code">
-        <canvas #qrCodeElem></canvas>
+         <!--<p class="chat-date"  id="abc" #abc>hello</p>-->
+        <canvas  #qrCodeElem></canvas>
       </div>
-      <div class="public-option__clipboard-text">
+      <div class="public-option__clipboard-text" style="width: 300px !important;
+    overflow-y: scroll;">
         <p
           class="public-option__link"
           [attr.title]="publicLink"
-          (click)="onPublicLinkClick($event)">
+          (click)="onPublicLinkClick($event)" style="overflow: auto !important; text-overflow: initial !important;">
           {{publicLink}}
           <span>Click to Copy to Clipboard</span>
         </p>

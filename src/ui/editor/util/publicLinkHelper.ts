@@ -24,12 +24,14 @@ function decodeParam(encodedParam: string) {
 
 function getShareableLink(publicProjectUrl: string) {
   const baseUrl = `${location.protocol}//${location.host}`;
+   console.log(location);
   const pathName = location.pathname;
   const queryIndex = location.hash.indexOf('?') < 0 ? location.hash.length : location.hash.indexOf('?');
   //const hash = location.hash.substring(0, queryIndex);
   const hash = `#/editor/(view:flat)`;
   const queryParams= `${SHARED_KEY}=${encodeParam(publicProjectUrl)}`;
-  console.log('pathName:',pathName);
+  console.log('pathName:',queryParams);
+  //console.log('pathName:',getShareableLink);
   console.log('hash:',hash);
   return `${baseUrl}${pathName}${hash}?${queryParams}`;
 }

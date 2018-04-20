@@ -205,10 +205,12 @@ export class SerializationService {
     const zip = new JSZip();
     let assetPromise;
     // If bundleassets, add all files to ZIP. Otherwise upload to S3.
+
     if (bundleAssets) {
       assetPromise = this.buildAssetDirectories(zip);
     } else {
       assetPromise = this.uploadAssets();
+
     }
     // Promises to be completed before ZIP file is created
     const promises = [

@@ -44,15 +44,7 @@ export class SlideshowBuilder {
         })
       )
       .then(roomList => roomList.forEach((room, index) => {
-        // disabled by Ali based on Aparna's request
-        // if (roomList.length>1) {
-        //   const outgoingIndex = (index >= roomList.length - 1) ? 0 : index + 1;
-        //   const outgoingRoomId = roomList[outgoingIndex].getId();
-        //   const outgoingRoomName = roomList[outgoingIndex].getName();
-        //   const door: Door = this.propertyBuilder.door(outgoingRoomId, outgoingRoomName);
-        //   door.setAutoTime(0);
-        //   room.addDoor(door);
-        // }
+
       }));
   }
 

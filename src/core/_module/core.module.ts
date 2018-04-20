@@ -12,7 +12,7 @@ import {StorageInteractor} from 'core/storage/storageInteractor';
 import {UserInteractor} from 'core/user/userInteractor';
 import {ProjectInteractor} from 'core/project/projectInteractor';
 import {AssetInteractor} from 'core/asset/assetInteractor';
-import {VideoInteractor} from 'core/video/VideoInteractor';
+import {VideoInteractor} from 'core/video/videoInteractor';
 import {SearchInteractor} from 'core/search/searchInteractor';
 import {AdminInteractor} from 'core/admin/adminInteractor';
 import {GroupInteractor} from 'core/group/groupInteractor';

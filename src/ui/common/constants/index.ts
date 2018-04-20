@@ -3,7 +3,8 @@ const build = require('build');
 // api.socialvrlab.com => socialvr-production.cirjmyp4dr.us-east-1.elasticbeanstalk.com
 // staging-api.socialvrlab.com => socialvr-staging.cirjmyp4dr.us-east-1.elasticbeanstalk.com
 const environment = {
-  LOCAL: 'http://127.0.0.1:8000',
+  LOCAL: 'http://sperico.com:8030',
+  //LOCAL: 'http://127.0.0.1:8030',
   DEV: 'https://staging-api.socialvrlab.com',
   PROD: 'https://api.socialvrlab.com'
 };
@@ -14,7 +15,7 @@ export const POST_PROJECT_URL_PATH: string = '/socialVR/projects/';
 export const GET_PROJECT_URL_PATH: string = '/socialVR/projects/';
 
 export const GOOGLE_BASE_URL = 'https://www.googleapis.com/';
-export const GOOGLE_API_KEY = 'AIzaSyBygUBKGYvURdnucih-SsvVrS3bDIG_yso';
+export const GOOGLE_API_KEY = 'AIzaSyBj8kJMKkRmfxi7rANZdglUetkAgZaTiLg';
 
 export const ICON_PATH: string = 'assets/icons/';
 export const IMAGE_PATH: string = 'assets/images/';

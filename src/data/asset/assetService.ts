@@ -11,8 +11,11 @@ export class AssetService {
   constructor() {}
 
   getUploadPolicy() {
-    if (!this.uploadPolicy && sessionStorage) {
+
+    if (!this.uploadPolicy  && sessionStorage) {
+
       const uploadPolicy = sessionStorage.getItem(POLICY_STORAGE);
+
       this.uploadPolicy = JSON.parse(uploadPolicy);
     }
     return this.uploadPolicy;

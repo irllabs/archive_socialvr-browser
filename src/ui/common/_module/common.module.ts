@@ -17,6 +17,7 @@ import {ShareableModal} from 'ui/common/modal/shareable-modal/shareable-modal';
 // Services
 import {EventBus} from 'ui/common/event-bus';
 import {ShareableLoader} from 'ui/common/shareable-loader';
+import { TwitterService } from 'ng2-twitter';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import {ShareableLoader} from 'ui/common/shareable-loader';
     ShareableModal
   ],
   providers: [
-    EventBus,
+    EventBus,TwitterService,
     ShareableLoader
   ]
 })
