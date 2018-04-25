@@ -116,6 +116,8 @@ export default class BasePlane {
   }
 
   private _animateActivate() {
+    const duration = this.get_activate_duration(THREE_CONST.TWEEN_PLANE_IN);
+
     return new Promise((resolve) => {
       if (this.hasPlaneMesh) {
         this.planeMesh.visible = true;
@@ -124,7 +126,7 @@ export default class BasePlane {
             x: THREE_CONST.TWEEN_PLANE_SCALE,
             y: THREE_CONST.TWEEN_PLANE_SCALE,
             z: 1
-          }, THREE_CONST.TWEEN_PLANE_IN)
+          }, duration)
           .easing(TWEEN.Easing.Linear.None)
           .onComplete(() => {
             TWEEN.remove(this._tweenActivate);
@@ -156,9 +158,11 @@ export default class BasePlane {
   }
 
   protected _animateIconActivate() {
+    const duration = this.get_activate_duration(THREE_CONST.TWEEN_ICON_OUT);
+
     return new Promise((resolve) => {
       this._tweenIconActivate = new TWEEN.Tween(this.iconMesh.material)
-        .to({opacity: 0}, THREE_CONST.TWEEN_ICON_OUT)
+        .to({opacity: 0}, duration)
         .easing(TWEEN.Easing.Linear.None)
         .onComplete(() => {
           TWEEN.remove(this._tweenIconActivate);
@@ -169,6 +173,10 @@ export default class BasePlane {
         })
         .start();
     });
+  }
+
+  protected get_activate_duration(defaultDuration): number {
+    return defaultDuration;
   }
 
   protected _animateIconDeactivate() {

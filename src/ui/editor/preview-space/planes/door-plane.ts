@@ -8,6 +8,10 @@ export default class DoorPlane extends BasePlane {
 
   protected _hasPlaneMesh: boolean = false;
 
+  protected get_activate_duration(defaultDuration): number {
+    return (<Door>this.prop).getAutoTime() * 1000 || defaultDuration;
+  }
+
   public init(position, goToRoom) {
     this.position = position;
     this.goToRoom = goToRoom;
