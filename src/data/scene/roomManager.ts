@@ -115,9 +115,9 @@ export class RoomManager {
     if (fileName === undefined || fileName === null) {
       this.soundtrack.setFileName('');
     } else {
-    this.soundtrack.setFileName(fileName);
-    this.soundtrack.setBinaryFileData(dataUrl);
-    this.setSoundtrackVolume(volume);
+      this.soundtrack.setFileName(fileName);
+      this.soundtrack.setBinaryFileData(dataUrl);
+      this.setSoundtrackVolume(volume);
     }
   }
 
@@ -137,6 +137,4 @@ export class RoomManager {
   getSoundtrackVolume(): number {
     return this.soundtrackVolume;
   }
-
-
 }

@@ -67,9 +67,11 @@ export class SerializationService {
         // Narrator intro audio
         const introAudio = room.getNarrator().getIntroAudio();
         const returnAudio = room.getNarrator().getReturnAudio();
+
         if (introAudio.hasAsset()) {
           mediaFiles.push(introAudio);
         }
+
         if (returnAudio.hasAsset()) {
           mediaFiles.push(returnAudio);
         }
@@ -173,6 +175,7 @@ export class SerializationService {
 
           zip.folder(directoryName).file(fileName, dataUrlString, {base64: true});
         }
+
         if (returnAudio.hasAsset()) {
           const fileName = encodeURIComponent(returnAudio.getFileName());
           const dataUrlString = getBase64FromDataUrl(returnAudio.getBinaryFileData());
@@ -209,22 +212,27 @@ export class SerializationService {
   private buildJsonStoryFile() {
     const projectJson = JSON.stringify(this.buildProjectJson());
     const projectFileBlobJson = new Blob([projectJson], {type: MIME_TYPE_UTF8});
+
     return projectFileBlobJson
   }
 
   private buildYamlStoryFile() {
     const projectYaml = JsYaml.dump(this.buildProjectJson());
     const projectFileBlobYaml = new Blob([projectYaml], {type: MIME_TYPE_UTF8});
+
     return projectFileBlobYaml;
   }
 
   private getHomeRoomImage(): Promise<string> {
     const homeRoomId = this.roomManager.getHomeRoomId();
     const homeRoom = this.roomManager.getRoomById(homeRoomId);
+
     if (homeRoom.getThumbnailImage()) {
       return Promise.resolve(getBase64FromDataUrl(homeRoom.getThumbnailImage()));
     }
+
     const binaryFile: string = this.roomManager.getRoomById(homeRoomId).getBinaryFileData();
+
     return resizeImage(binaryFile, 'projectThumbnail')
       .then(resizedImage => getBase64FromDataUrl(resizedImage));
   }
@@ -232,6 +240,7 @@ export class SerializationService {
   private getProjectSoundtrack(): Promise<any> {
     return new Promise((resolve, reject) => {
       if (this.roomManager.getSoundtrack().hasAsset()) {
+        console.log('this.roomManager.getSoundtrack() ', this.roomManager.getSoundtrack());
         resolve(this.roomManager.getSoundtrack())
       } else {
         reject('no Soundtrack');
