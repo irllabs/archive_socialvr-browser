@@ -5,7 +5,7 @@ const build = require('build');
 const environment = {
   LOCAL: 'http://127.0.0.1:8000',
   DEV: 'https://staging-api.socialvrlab.com',
-  PROD: 'https://api.socialvrlab.com'
+  PROD: 'https://socialvr.irl.studio'
 };
 const baseUrl = environment[build] || environment.DEV;
 
