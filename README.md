@@ -33,7 +33,7 @@ scp -r ./dist/* irlab@irl.studio:/home/irlab/socialvr.irl.studio;
 ```
 Note that `npm run deploy` and `npm build:prod` build the project in different ways.
 * `npm run deploy` points to the staging API server
-* `npm run buil:prod` points to the production API server. Also, it minifies all the JavaScript so the project can move to the browser quicker.
+* `npm run build:prod` points to the production API server. Also, it minifies all the JavaScript so the project can move to the browser quicker.
 
 ##### Extra safe prod deployment (deploy what is currently in master)
 ```sh
