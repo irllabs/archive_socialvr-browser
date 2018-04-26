@@ -41,6 +41,9 @@ var serviceWorkerOption = {
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -68,7 +71,7 @@ var serviceWorkerOption = {
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -79,7 +82,22 @@ var serviceWorkerOption = {
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var cache_list_1 = __webpack_require__(1);
+var pathName = location.pathname;
+var defaultIndexPath = pathName.substring(0, pathName.lastIndexOf('sw.js'));
+var images = ['assets/icons/audio_filled.png', 'assets/icons/back_filled.png', 'assets/icons/door_filled.png', 'assets/icons/home_filled.png', 'assets/icons/home.png', 'assets/icons/icon-home.png', 'assets/icons/image_filled.png', 'assets/icons/link_filled.png', 'assets/icons/room-pink.png', 'assets/icons/room.png', 'assets/icons/text_filled.png', 'assets/icons/view-preview-accent.png', 'assets/icons/view-preview.png', 'assets/icons/view-toggle-2d-accent.png', 'assets/icons/view-toggle-2d.png', 'assets/icons/view-toggle-3d-accent.png', 'assets/icons/view-toggle-3d.png', 'assets/images/default-background.png', 'assets/images/color_ball.jpg'];
+var resources = [defaultIndexPath, 'index.html', 'manifest.json', 'favicon.ico', 'polyfills.bundle.js', 'vendor.bundle.js', 'main.bundle.js'];
+var cacheList = images.concat(resources);
+exports.default = cacheList;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var cache_list_1 = __webpack_require__(0);
 var swVersion = '001'; // TODO: generate dynamically
 var CACHE_NAME = "svr-sw-" + swVersion;
 var whitelist = ['localhost', 'localhost:3000', 'cmuartfab.github.io/social-vr'];
@@ -107,21 +125,6 @@ self.addEventListener('fetch', function ($event) {
         return console.log('fetch error', error);
     }));
 });
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var pathName = location.pathname;
-var defaultIndexPath = pathName.substring(0, pathName.lastIndexOf('sw.js'));
-var images = ['assets/icons/audio_filled.png', 'assets/icons/back_filled.png', 'assets/icons/door_filled.png', 'assets/icons/home_filled.png', 'assets/icons/home.png', 'assets/icons/icon-home.png', 'assets/icons/image_filled.png', 'assets/icons/link_filled.png', 'assets/icons/room-pink.png', 'assets/icons/room.png', 'assets/icons/text_filled.png', 'assets/icons/view-preview-accent.png', 'assets/icons/view-preview.png', 'assets/icons/view-toggle-2d-accent.png', 'assets/icons/view-toggle-2d.png', 'assets/icons/view-toggle-3d-accent.png', 'assets/icons/view-toggle-3d.png', 'assets/images/default-background.png', 'assets/images/color_ball.jpg'];
-var resources = [defaultIndexPath, 'index.html', 'manifest.json', 'favicon.ico', 'polyfills.bundle.js', 'vendor.bundle.js', 'main.bundle.js'];
-var cacheList = images.concat(resources);
-exports.default = cacheList;
 
 /***/ })
 /******/ ]);
