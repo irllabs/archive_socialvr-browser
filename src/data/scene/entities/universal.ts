@@ -60,10 +60,12 @@ export class Universal extends BaseElement {
 
   resetAudioContent() {
     this.setAudioContent(DEFAULT_FILE_NAME, null);
+    this._audioContent.setRemoteFileName(null);
   }
 
   resetImageContent() {
     this.setImageContent(DEFAULT_FILE_NAME, null);
+    this._imageContent.setRemoteFileName(null);
   }
 
   toJson() {
