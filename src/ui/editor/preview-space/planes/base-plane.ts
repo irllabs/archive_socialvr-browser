@@ -332,24 +332,16 @@ export default class BasePlane {
     });
   }
 
-  public resetAnimations() {
+  public resetActivateAnimation() {
     if (this._tweenActivate) {
       this._tweenActivate.stop();
     }
+  }
+
+  public resetDeactivateAnimation() {
     if (this._tweenDeactivate) {
       this._tweenDeactivate.stop();
     }
-    if (this._tweenIconActivate) {
-      this._tweenIconActivate.stop();
-    }
-    if (this._tweenIconDeactivate) {
-      this._tweenIconDeactivate.stop();
-    }
-
-    this.resetIconInAnimations();
-    this.resetIconOutAnimations();
-
-    this.iconMesh.scale.set(1, 1, 1);
   }
 
   public resetIconInAnimations() {

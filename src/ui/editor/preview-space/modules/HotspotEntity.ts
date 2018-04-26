@@ -4,6 +4,12 @@ import {THREE_CONST} from 'ui/common/constants';
 import BasePlane from "../planes/base-plane";
 
 
+const STATES = {
+  FAR: 1,
+  NEAR: 2,
+  ACTIVE: 3
+};
+
 export default class HotspotEntity {
   id: string; //THREE.js mesh id
   distanceToReticle: number;
@@ -13,7 +19,27 @@ export default class HotspotEntity {
   myWobble: number;
   scale: number;
 
-  private wasActivated: boolean = false;
+  private _prevState: number = STATES.FAR;
+  private _currentState: number = null;
+  private _activateAnimation: boolean = false;
+  private _deactivateAnimation: boolean = false;
+
+  private get _transitions() {
+    return {
+      [`${STATES.FAR}TO${STATES.NEAR}`]: this._animateDefaultToPreview.bind(this),
+      [`${STATES.FAR}TO${STATES.ACTIVE}`]: this._animateDefaultToActivate.bind(this),
+      [`${STATES.NEAR}TO${STATES.FAR}`]: this._animatePreviewToDefault.bind(this),
+      [`${STATES.NEAR}TO${STATES.ACTIVE}`]: this._animatePreviewToActivate.bind(this),
+      [`${STATES.ACTIVE}TO${STATES.FAR}`]: this._animateActivateToDefault.bind(this),
+      [`${STATES.ACTIVE}TO${STATES.NEAR}`]: this._animateActivateToPreview.bind(this),
+    };
+  }
+
+  private get _currentActivateArea(): number {
+    const activateArea =  THREE_CONST.HOTSPOT_ACTIVE;
+
+    return activateArea * (this._prevState === STATES.ACTIVE ? 2 : 1);
+  }
 
   constructor(plane: BasePlane) {
     this.id = plane.uuid;
@@ -24,83 +50,91 @@ export default class HotspotEntity {
     this.scale = this.plane.previewIconMesh.scale.x;
     this.plane.iconMesh.visible = true;
     this.plane.previewIconMesh.visible = true;
+
   }
 
-  update(reticlePos) {
+  private getActualState(reticlePos): number {
     const hotspotPosition: THREE.Vector3 = new THREE.Vector3();
 
     this.plane.iconMesh.getWorldPosition(hotspotPosition);
-    this.distanceToReticle = hotspotPosition.distanceTo(reticlePos);
 
-    // TODO: improve it using the Promises. It will solve some bugs.
-    if (this.distanceToReticle > THREE_CONST.HOTSPOT_NEAR) {
-      this.activeState = 0;
-    } else if ((this.distanceToReticle < THREE_CONST.HOTSPOT_NEAR)
-      && (this.distanceToReticle > THREE_CONST.HOTSPOT_ACTIVE)) {
-      this.activeState = 1;
-    } else if (this.distanceToReticle < THREE_CONST.HOTSPOT_ACTIVE) {
-      this.activeState = 2;
-    }
+    const distanceToReticle = hotspotPosition.distanceTo(reticlePos);
 
-    if (this.activeState !== this.activeStateLast) {
-      switch (this.activeState) {
-        case 0:
-          // far away
-          switch (this.activeStateLast) {
-            case 1:
-              // switch from preview to graphic
-              this.resetTweens();
-              if (this.wasActivated) {
-                this.deactivate().then(() => {
-                  this.wasActivated = false;
-                  this.graphic2preview();
-                });
-              } else {
-                this.graphic2preview();
-              }
-              break;
-            case 2:
-              // switch from graphic to preview + deactivate
-              this.resetTweens();
-              this.deactivate(this.wasActivated).then(() => {
-                this.wasActivated = false;
-              });
-              this.graphic2preview();
-              break;
-          }
-          break;
-        case 1:
-          switch (this.activeStateLast) {
-            case 0:
-              // switch from preview to graphic
-              this.resetTweens();
-              this.preview2graphic();
-              break;
-            case 2:
-              // switch from graphic to preview + deactivate
-              this.resetTweens();
-              this.deactivate().then(() => {
-                this.wasActivated = false;
-                this.preview2graphic();
-              });
-              break;
-          }
-          break;
-        case 2:
-          // activate
-          this.wasActivated = true;
-          this.activate();
-          break;
-      }
-
-      this.activeStateLast = this.activeState;
+    if (distanceToReticle < this._currentActivateArea) {
+      return STATES.ACTIVE;
+    } else if (distanceToReticle < THREE_CONST.HOTSPOT_NEAR) {
+      return STATES.NEAR;
     } else {
-      this.plane.update();
+      return STATES.FAR;
+    }
+  }
+
+  private _animateDefaultToPreview(): void {
+    this.plane.hoverIn();
+  }
+
+  private _animateDefaultToActivate(): void {
+    if (this._deactivateAnimation) {
+      this.plane.resetDeactivateAnimation();
     }
 
-    //animations
-    if (this.activeState == 0) {
-      if (this.plane.type == 'door') {
+    this._activateAnimation = true;
+    this.plane.activate().then(() => this._activateAnimation = false);
+  }
+
+  private _animatePreviewToDefault(): void {
+    this.plane.hoverOut();
+  }
+
+  private _animatePreviewToActivate(): void {
+    if (this._deactivateAnimation) {
+      this.plane.resetDeactivateAnimation();
+    }
+
+    this._activateAnimation = true;
+    this.plane.activate().then(() => this._activateAnimation = false);
+  }
+
+  private _animateActivateToDefault(): void {
+    if (this._activateAnimation) {
+      this.plane.resetActivateAnimation();
+    }
+
+    this._deactivateAnimation = true;
+    this.plane.deactivate(true).then(() => this._deactivateAnimation = false);
+  }
+
+  private _animateActivateToPreview(): void {
+    if (this._activateAnimation) {
+      this.plane.resetActivateAnimation();
+    }
+
+    this._deactivateAnimation = true;
+    this.plane.deactivate(false).then(() => this._deactivateAnimation = false);;
+  }
+
+  public update(reticlePos): void {
+    const newState = this.getActualState(reticlePos);
+
+    if (this._currentState === null) {
+      this._currentState = newState;
+    }
+
+    const prevState = this._prevState;
+
+    if (newState === prevState) {
+      this.plane.update();
+    } else {
+      const transition = this._transitions[`${prevState}TO${newState}`];
+
+      this._prevState = newState;
+      this._currentState = newState;
+      transition.call(this);
+    }
+
+
+    if (newState === STATES.FAR) {
+      if (this.plane.type === 'door') {
         const previewIconScale = (1. - (performance.now() % THREE_CONST.HOTSPOT_DOOR_FREQ) / THREE_CONST.HOTSPOT_DOOR_FREQ) + 0.01;
 
         this.plane.previewIconMesh.scale.set(
@@ -118,25 +152,5 @@ export default class HotspotEntity {
         );
       }
     }
-  }
-
-  resetTweens() {
-    this.plane.resetAnimations();
-  }
-
-  activate() {
-    return this.plane.activate();
-  }
-
-  deactivate(onlyPlaneAnimation: boolean = false) {
-    return this.plane.deactivate(onlyPlaneAnimation);
-  }
-
-  graphic2preview() {
-    return this.plane.hoverOut();
-  }
-
-  preview2graphic() {
-    return this.plane.hoverIn();
   }
 }
