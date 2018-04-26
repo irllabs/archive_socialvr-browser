@@ -4348,22 +4348,15 @@ var BasePlane = /** @class */function () {
             }).start();
         });
     };
-    BasePlane.prototype.resetAnimations = function () {
+    BasePlane.prototype.resetActivateAnimation = function () {
         if (this._tweenActivate) {
             this._tweenActivate.stop();
         }
+    };
+    BasePlane.prototype.resetDeactivateAnimation = function () {
         if (this._tweenDeactivate) {
             this._tweenDeactivate.stop();
         }
-        if (this._tweenIconActivate) {
-            this._tweenIconActivate.stop();
-        }
-        if (this._tweenIconDeactivate) {
-            this._tweenIconDeactivate.stop();
-        }
-        this.resetIconInAnimations();
-        this.resetIconOutAnimations();
-        this.iconMesh.scale.set(1, 1, 1);
     };
     BasePlane.prototype.resetIconInAnimations = function () {
         if (this._tweenPreviewIconOut) {
@@ -40060,9 +40053,17 @@ exports.Upload = Upload;
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(15);
 var constants_1 = __webpack_require__(8);
+var STATES = {
+    FAR: 1,
+    NEAR: 2,
+    ACTIVE: 3
+};
 var HotspotEntity = /** @class */function () {
     function HotspotEntity(plane) {
-        this.wasActivated = false;
+        this._prevState = STATES.FAR;
+        this._currentState = null;
+        this._activateAnimation = false;
+        this._deactivateAnimation = false;
         this.id = plane.uuid;
         this.plane = plane;
         this.myWobble = Math.random() / 1000; //to make each hotspot have a uniquye throbbing freq
@@ -40072,76 +40073,97 @@ var HotspotEntity = /** @class */function () {
         this.plane.iconMesh.visible = true;
         this.plane.previewIconMesh.visible = true;
     }
-    HotspotEntity.prototype.update = function (reticlePos) {
-        var _this = this;
+    Object.defineProperty(HotspotEntity.prototype, "_transitions", {
+        get: function () {
+            return _a = {}, _a[STATES.FAR + "TO" + STATES.NEAR] = this._animateDefaultToPreview.bind(this), _a[STATES.FAR + "TO" + STATES.ACTIVE] = this._animateDefaultToActivate.bind(this), _a[STATES.NEAR + "TO" + STATES.FAR] = this._animatePreviewToDefault.bind(this), _a[STATES.NEAR + "TO" + STATES.ACTIVE] = this._animatePreviewToActivate.bind(this), _a[STATES.ACTIVE + "TO" + STATES.FAR] = this._animateActivateToDefault.bind(this), _a[STATES.ACTIVE + "TO" + STATES.NEAR] = this._animateActivateToPreview.bind(this), _a;
+            var _a;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HotspotEntity.prototype, "_currentActivateArea", {
+        get: function () {
+            var activateArea = constants_1.THREE_CONST.HOTSPOT_ACTIVE;
+            return activateArea * (this._prevState === STATES.ACTIVE ? 2 : 1);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    HotspotEntity.prototype.getActualState = function (reticlePos) {
         var hotspotPosition = new THREE.Vector3();
         this.plane.iconMesh.getWorldPosition(hotspotPosition);
-        this.distanceToReticle = hotspotPosition.distanceTo(reticlePos);
-        // TODO: improve it using the Promises. It will solve some bugs.
-        if (this.distanceToReticle > constants_1.THREE_CONST.HOTSPOT_NEAR) {
-            this.activeState = 0;
-        } else if (this.distanceToReticle < constants_1.THREE_CONST.HOTSPOT_NEAR && this.distanceToReticle > constants_1.THREE_CONST.HOTSPOT_ACTIVE) {
-            this.activeState = 1;
-        } else if (this.distanceToReticle < constants_1.THREE_CONST.HOTSPOT_ACTIVE) {
-            this.activeState = 2;
-        }
-        if (this.activeState !== this.activeStateLast) {
-            switch (this.activeState) {
-                case 0:
-                    // far away
-                    switch (this.activeStateLast) {
-                        case 1:
-                            // switch from preview to graphic
-                            this.resetTweens();
-                            if (this.wasActivated) {
-                                this.deactivate().then(function () {
-                                    _this.wasActivated = false;
-                                    _this.graphic2preview();
-                                });
-                            } else {
-                                this.graphic2preview();
-                            }
-                            break;
-                        case 2:
-                            // switch from graphic to preview + deactivate
-                            this.resetTweens();
-                            this.deactivate(this.wasActivated).then(function () {
-                                _this.wasActivated = false;
-                            });
-                            this.graphic2preview();
-                            break;
-                    }
-                    break;
-                case 1:
-                    switch (this.activeStateLast) {
-                        case 0:
-                            // switch from preview to graphic
-                            this.resetTweens();
-                            this.preview2graphic();
-                            break;
-                        case 2:
-                            // switch from graphic to preview + deactivate
-                            this.resetTweens();
-                            this.deactivate().then(function () {
-                                _this.wasActivated = false;
-                                _this.preview2graphic();
-                            });
-                            break;
-                    }
-                    break;
-                case 2:
-                    // activate
-                    this.wasActivated = true;
-                    this.activate();
-                    break;
-            }
-            this.activeStateLast = this.activeState;
+        var distanceToReticle = hotspotPosition.distanceTo(reticlePos);
+        if (distanceToReticle < this._currentActivateArea) {
+            return STATES.ACTIVE;
+        } else if (distanceToReticle < constants_1.THREE_CONST.HOTSPOT_NEAR) {
+            return STATES.NEAR;
         } else {
-            this.plane.update();
+            return STATES.FAR;
         }
-        //animations
-        if (this.activeState == 0) {
-            if (this.plane.type == 'door') {
+    };
+    HotspotEntity.prototype._animateDefaultToPreview = function () {
+        this.plane.hoverIn();
+    };
+    HotspotEntity.prototype._animateDefaultToActivate = function () {
+        var _this = this;
+        if (this._deactivateAnimation) {
+            this.plane.resetDeactivateAnimation();
+        }
+        this._activateAnimation = true;
+        this.plane.activate().then(function () {
+            return _this._activateAnimation = false;
+        });
+    };
+    HotspotEntity.prototype._animatePreviewToDefault = function () {
+        this.plane.hoverOut();
+    };
+    HotspotEntity.prototype._animatePreviewToActivate = function () {
+        var _this = this;
+        if (this._deactivateAnimation) {
+            this.plane.resetDeactivateAnimation();
+        }
+        this._activateAnimation = true;
+        this.plane.activate().then(function () {
+            return _this._activateAnimation = false;
+        });
+    };
+    HotspotEntity.prototype._animateActivateToDefault = function () {
+        var _this = this;
+        if (this._activateAnimation) {
+            this.plane.resetActivateAnimation();
+        }
+        this._deactivateAnimation = true;
+        this.plane.deactivate(true).then(function () {
+            return _this._deactivateAnimation = false;
+        });
+    };
+    HotspotEntity.prototype._animateActivateToPreview = function () {
+        var _this = this;
+        if (this._activateAnimation) {
+            this.plane.resetActivateAnimation();
+        }
+        this._deactivateAnimation = true;
+        this.plane.deactivate(false).then(function () {
+            return _this._deactivateAnimation = false;
+        });
+        ;
+    };
+    HotspotEntity.prototype.update = function (reticlePos) {
+        var newState = this.getActualState(reticlePos);
+        if (this._currentState === null) {
+            this._currentState = newState;
+        }
+        var prevState = this._prevState;
+        if (newState === prevState) {
+            this.plane.update();
+        } else {
+            var transition = this._transitions[prevState + "TO" + newState];
+            this._prevState = newState;
+            this._currentState = newState;
+            transition.call(this);
+        }
+        if (newState === STATES.FAR) {
+            if (this.plane.type === 'door') {
                 var previewIconScale = 1. - performance.now() % constants_1.THREE_CONST.HOTSPOT_DOOR_FREQ / constants_1.THREE_CONST.HOTSPOT_DOOR_FREQ + 0.01;
                 this.plane.previewIconMesh.scale.set(this.scale * previewIconScale, this.scale * previewIconScale, 1);
             } else {
@@ -40149,24 +40171,6 @@ var HotspotEntity = /** @class */function () {
                 this.plane.previewIconMesh.scale.set(this.plane.previewIconMesh.scale.x + previewIconScale, this.plane.previewIconMesh.scale.y + previewIconScale, 1);
             }
         }
-    };
-    HotspotEntity.prototype.resetTweens = function () {
-        this.plane.resetAnimations();
-    };
-    HotspotEntity.prototype.activate = function () {
-        return this.plane.activate();
-    };
-    HotspotEntity.prototype.deactivate = function (onlyPlaneAnimation) {
-        if (onlyPlaneAnimation === void 0) {
-            onlyPlaneAnimation = false;
-        }
-        return this.plane.deactivate(onlyPlaneAnimation);
-    };
-    HotspotEntity.prototype.graphic2preview = function () {
-        return this.plane.hoverOut();
-    };
-    HotspotEntity.prototype.preview2graphic = function () {
-        return this.plane.hoverIn();
     };
     return HotspotEntity;
 }();
