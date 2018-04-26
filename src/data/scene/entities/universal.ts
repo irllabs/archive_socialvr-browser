@@ -1,6 +1,7 @@
 import {BaseElement} from 'data/scene/entities/baseElement';
 import {MediaFile} from "./mediaFile";
 import {DEFAULT_VOLUME} from 'ui/common/constants';
+import {DEFAULT_FILE_NAME} from "../../../ui/common/constants";
 
 
 export class Universal extends BaseElement {
@@ -55,6 +56,14 @@ export class Universal extends BaseElement {
   setImageContent(fileName: string, binaryFileData: string) {
     this._imageContent.setFileName(fileName);
     this._imageContent.setBinaryFileData(binaryFileData);
+  }
+
+  resetAudioContent() {
+    this.setAudioContent(DEFAULT_FILE_NAME, null);
+  }
+
+  resetImageContent() {
+    this.setImageContent(DEFAULT_FILE_NAME, null);
   }
 
   toJson() {

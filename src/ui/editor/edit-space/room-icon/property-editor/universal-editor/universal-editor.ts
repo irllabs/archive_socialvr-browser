@@ -39,6 +39,20 @@ export class UniversalEditor {
     return this._activeTab;
   }
 
+  public get activeTabName(): string {
+    switch(this.activeTab) {
+      case this.TABS.IMAGE: {
+        return 'Image';
+      }
+      case this.TABS.TEXT: {
+        return 'Text';
+      }
+      default: {
+        return 'Audio';
+      }
+    }
+  }
+
   constructor(private eventBus: EventBus) {
   }
 
@@ -88,5 +102,21 @@ export class UniversalEditor {
 
   public showAudioRecorder(): boolean {
     return browserCanRecordAudio();
+  }
+
+  public onDeleteTabData(): void {
+    switch(this.activeTab) {
+      case this.TABS.IMAGE: {
+        this.universalProperty.resetImageContent();
+        break;
+      }
+      case this.TABS.TEXT: {
+        this.universalProperty.textContent = '';
+        break;
+      }
+      default: {
+        this.universalProperty.resetAudioContent();
+      }
+    }
   }
 }

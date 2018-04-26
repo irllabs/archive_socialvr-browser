@@ -86,6 +86,18 @@
     }
   }
 
+  .property-editor__delete-button {
+    margin-top: 8px;
+    width: 100%;
+    font-size: 0.8em;
+    background-color: #FF3571;
+    color: #FAFAFA;
+    text-align: center;
+    padding: 10px 0;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
   .universal-editor__text-area {
     border-color: $color-grey-light;
 

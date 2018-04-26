@@ -1,7 +1,5 @@
 <div class="modal-window property-editor">
-
   <div class="modal-window__fields">
-
     <text-editor
       *ngIf="propertyIs('text')"
       [textProperty]="roomProperty">
@@ -38,11 +36,10 @@
     </link-editor>
 
     <div
+      *ngIf="!propertyIs('universal')"
       class="property-editor__delete-button"
       (click)="deleteProperty()">
       Delete {{ getPropertyName() }}
     </div>
-
   </div>
-
 </div>
