@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-const fontSize = 46;
+const fontSize = 26;
 
 class TextLine {
   x: number;
@@ -39,19 +39,20 @@ function printWrappedText(context, text, x, y, maxWidth, lineHeight): TextLine[]
 }
 
 export function getTextureSizeFromText(textContext: string) {
-  const width = 600;
+  const width = 2 * 600;
   const drawCanvas = document.createElement('canvas');
   const g2d = drawCanvas.getContext('2d');
+  const fixedFontSize = fontSize * 2;
 
   drawCanvas.width = width;
-  drawCanvas.height = 800;
-  g2d.font = `${fontSize}pt Nunito`;
+  drawCanvas.height = 2 * 800;
+  g2d.font = `${fixedFontSize}pt Nunito`;
   g2d.fillStyle = 'rgba(0, 0, 0, 0.7)';
   g2d.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
   g2d.fillStyle = 'white';
 
-  const textLines = printWrappedText(g2d, textContext, 10, fontSize + 10, width, fontSize + 8);
-  const height = textLines[textLines.length - 1].y + fontSize;
+  const textLines = printWrappedText(g2d, textContext, 10, fixedFontSize + 10, width, fixedFontSize + 8);
+  const height = textLines[textLines.length - 1].y + fixedFontSize;
 
   // Print text onto canvas
   textLines.forEach(textLine => g2d.fillText(textLine.text, textLine.x, textLine.y));
@@ -73,7 +74,7 @@ export function buildMaterialFromText(textContext: string) {
 
   texture.needsUpdate = true;
 
-  const material = new THREE.MeshBasicMaterial({map: texture, transparent: true, side:THREE.FrontSide});
+  const material = new THREE.MeshBasicMaterial({map: texture, transparent: true, side: THREE.FrontSide});
 
   return {
     width: width,
