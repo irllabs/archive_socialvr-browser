@@ -1,6 +1,15 @@
 @import '../../../../../_styles/variables';
 
 .universal-editor {
+  width: 50vw;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+
+  .hotspot-inspector__label {
+    flex-wrap: wrap;
+  }
+
   .invalid-message {
     color: $color-red;
   }
@@ -19,72 +28,61 @@
     }
   }
 
-  .tab-icons {
-    display: flex;
-    flex-wrap: nowrap;
-  }
-
-  .tab-contents {
-    height: 100px;
-  }
   .tab-container {
-    min-width: 320px;
-    max-width: 600px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 
-    section {
-      display: none;
-      padding: 20px 0 0;
-      border-top: 1px solid #ddd;
-    }
-
-    label.tab {
-      display: inline-block;
-      margin: 0 0 -1px;
-      padding: 10px 20px;
-      font-weight: 600;
-      text-align: center;
-      color: #bbb;
-      border: 1px solid transparent;
-
-      &:hover {
-        color: #888;
-        cursor: pointer;
-      }
-
-      .ico {
-        width: 28px;
-        vertical-align: middle;
+    > .tabs {
+      label.tab {
         display: inline-block;
-        filter: $icon-drop-shadow;
+        margin: 0 0 -1px;
+        padding: 10px 20px;
+        font-weight: 600;
+        text-align: center;
+        color: #bbb;
+        border: 1px solid transparent;
+
+        &:hover {
+          color: #888;
+          cursor: pointer;
+        }
+
+        @media (max-width: 767px) {
+          padding: 4px 8px;
+          font-size: 14px;
+
+          .universal-editor__tab-icon {
+            height: $room-icon-size*2/4;
+            width: $room-icon-size*2/4;
+          }
+        }
       }
 
+      input[name="tabs"] {
+        display: none;
 
-
-      @media (max-width: 767px) {
-        padding: 4px 8px;
-        font-size: 14px;
-
-        .ico {
-          width: 24px;
+        &:checked + label {
+          color: #555;
+          border: 1px solid #ddd;
+          border-top: 2px solid orange;
+          border-bottom: 1px solid #fff;
         }
       }
     }
 
-    input[name="tabs"] {
+    > section {
       display: none;
-
-      &:checked + label {
-        color: #555;
-        border: 1px solid #ddd;
-        border-top: 2px solid orange;
-        border-bottom: 1px solid #fff;
-      }
+      padding: 20px 0 0;
+      border-top: 1px solid #ddd;
+      flex-grow: 1;
     }
 
-    #tab-universal-image:checked ~ #content-universal-image,
-    #tab-universal-text:checked ~ #content-universal-text,
-    #tab-universal-audio:checked ~ #content-universal-audio {
-      display: block;
+    #content-universal-image.active,
+    #content-universal-text.active,
+    #content-universal-audio.active {
+      display: flex;
+      flex-direction: column;
     }
   }
 
@@ -94,7 +92,7 @@
     resize: none;
     font-size: 1.1em;
     width: 100%;
-    height: 10vh;
+    flex-grow: 1;
   }
 
   .universal-editor__record-button {
@@ -116,16 +114,18 @@
     margin-top: 5px;
   }
 
-  .universal-editor__image-display {
-    display: block;
-
-    max-width: 100%;
+  .universal-editor__image-wrapper {
+    flex-grow: 1;
     position: relative;
-    max-height: 300px;
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: center;
-    overflow:hidden;
+
+    .universal-editor__image-display {
+      display: block;
+      position: absolute;
+      max-width: 100%;
+      max-height: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 
   .universal-editor__texticon {
@@ -137,8 +137,6 @@
   .universal-editor__imageicon {
     background-image: $icon-hotspot-image;
   }
-
-
 
 }
 
@@ -158,9 +156,11 @@
 .list-icon__text {
   background-image: $icon-hotspot-text;
 }
+
 .list-icon__audio {
   background-image: $icon-hotspot-audio;
 }
+
 .list-icon__image {
   background-image: $icon-hotspot-image;
 }

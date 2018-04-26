@@ -4,40 +4,45 @@
   </h2>
 
   <div class="tab-container">
+    <div class="tabs">
+      <input id="tab-universal-image" type="radio" name="tabs" (change)="onChangeActiveTab($event, TABS.IMAGE)"
+             [checked]="activeTab === TABS.IMAGE">
+      <label for="tab-universal-image" class="tab">
+        <div class="universal-editor__tab-icon list-icon__image"></div>
+        Image
+      </label>
 
-    <input id="tab-universal-image" type="radio" name="tabs" (change)="onChangeActiveTab($event, TABS.IMAGE)" [checked]="activeTab === TABS.IMAGE">
-    <label for="tab-universal-image" class="tab">
-      <div class="universal-editor__tab-icon list-icon__image"></div>
-      Image
-    </label>
+      <input id="tab-universal-text" type="radio" name="tabs" (change)="onChangeActiveTab($event, TABS.TEXT)"
+             [checked]="activeTab === TABS.TEXT">
+      <label for="tab-universal-text" class="tab">
+        <div class="universal-editor__tab-icon list-icon__text"></div>
+        Text
+      </label>
 
-    <input id="tab-universal-text" type="radio" name="tabs" (change)="onChangeActiveTab($event, TABS.TEXT)" [checked]="activeTab === TABS.TEXT">
-    <label for="tab-universal-text" class="tab">
-      <div class="universal-editor__tab-icon list-icon__text"></div>
-      Text
-    </label>
+      <input id="tab-universal-audio" type="radio" name="tabs" (change)="onChangeActiveTab($event, TABS.AUDIO)"
+             [checked]="activeTab === TABS.AUDIO">
+      <label for="tab-universal-audio" class="tab">
+        <div class="universal-editor__tab-icon list-icon__audio"></div>
+        Audio
+      </label>
+    </div>
 
-    <input id="tab-universal-audio" type="radio" name="tabs" (change)="onChangeActiveTab($event, TABS.AUDIO)" [checked]="activeTab === TABS.AUDIO">
-    <label for="tab-universal-audio" class="tab">
-      <div class="universal-editor__tab-icon list-icon__audio"></div>
-      Audio
-    </label>
-
-
-
-    <section id="content-universal-image" droppable (onFileLoad)="onImageFileLoad($event)" [acceptedFileType]="'image'">
+    <section id="content-universal-image" [ngClass]="{'active': activeTab === TABS.IMAGE}" droppable
+             (onFileLoad)="onImageFileLoad($event)" [acceptedFileType]="'image'">
       <file-loader
         (onFileLoad)="onImageFileLoad($event)"
         [acceptedFileType]="'image'"
         class="universal-editor__file-loader">
       </file-loader>
 
-      <img *ngIf="hasImageContent()"
-        [attr.src]="universalProperty.imageContent.getBinaryFileData()"
-        class="universal-editor__image-display">
+      <div class="universal-editor__image-wrapper">
+        <img *ngIf="hasImageContent()"
+             [attr.src]="universalProperty.imageContent.getBinaryFileData()"
+             class="universal-editor__image-display">
+      </div>
     </section>
 
-    <section id="content-universal-text">
+    <section id="content-universal-text" [ngClass]="{'active': activeTab === TABS.TEXT}">
       <p class="hotspot-inspector__label">
         Enter Text:
       </p>
@@ -49,43 +54,44 @@
       </textarea>
     </section>
 
-    <section id="content-universal-audio" droppable (onFileLoad)="onAudioFileLoad($event)" [acceptedFileType]="'audio'">
-    <p class="hotspot-inspector__label play-loop-label">
-      Play loop
-    </p>
+    <section id="content-universal-audio" [ngClass]="{'active': activeTab === TABS.AUDIO}" droppable
+             (onFileLoad)="onAudioFileLoad($event)" [acceptedFileType]="'audio'">
+      <div>
+        <p class="hotspot-inspector__label play-loop-label">
+          Play loop
+        </p>
 
-    <checkbox
-      [initialValue]="getLoopState()"
-      (changeEmitter)="onLoopChange($event)">
-    </checkbox>
+        <checkbox
+          [initialValue]="getLoopState()"
+          (changeEmitter)="onLoopChange($event)">
+        </checkbox>
+      </div>
 
-    <br/>
+      <div class="hotspot-inspector_row">
+        <file-loader
+          (onFileLoad)="onAudioFileLoad($event)"
+          [acceptedFileType]="'audio'"
+          class="universal-editor__file-loader">
+        </file-loader>
 
-    <div class="hotspot-inspector_row">
-      <file-loader
-        (onFileLoad)="onAudioFileLoad($event)"
-        [acceptedFileType]="'audio'"
-        class="universal-editor__file-loader">
-      </file-loader>
+        <audio-recorder
+          *ngIf="showAudioRecorder()"
+          (onRecorded)="onAudioRecorded($event)"
+          class="universal-editor__record-button">
+        </audio-recorder>
+      </div>
 
-      <audio-recorder
-        *ngIf="showAudioRecorder()"
-        (onRecorded)="onAudioRecorded($event)"
-        class="universal-editor__record-button">
-      </audio-recorder>
-    </div>
-
-    <audio
-      *ngIf="hasAudioContent()"
-      [attr.src]="universalProperty.audioContent.getBinaryFileData()"
-      type="audio/mp3"
-      controls="controls"
-      [loop]="getLoopState()"
-      [volume]="universalProperty.volume"
-      (volumechange)="onVolumeChange($event)"
-      class="universal-editor__audio-player">
-    </audio>
-  </section>
+      <audio
+        *ngIf="hasAudioContent()"
+        [attr.src]="universalProperty.audioContent.getBinaryFileData()"
+        type="audio/mp3"
+        controls="controls"
+        [loop]="getLoopState()"
+        [volume]="universalProperty.volume"
+        (volumechange)="onVolumeChange($event)"
+        class="universal-editor__audio-player">
+      </audio>
+    </section>
 
   </div>
 </div>
