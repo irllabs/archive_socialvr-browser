@@ -102,6 +102,120 @@ exports.stringToByteArray = utf8_1.stringToByteArray;
 
 "use strict";
 
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var build = __webpack_require__(294);
+// api.socialvrlab.com => socialvr-production.cirjmyp4dr.us-east-1.elasticbeanstalk.com
+// staging-api.socialvrlab.com => socialvr-staging.cirjmyp4dr.us-east-1.elasticbeanstalk.com
+var environment = {
+    LOCAL: 'http://127.0.0.1:8000',
+    DEV: 'https://staging-api.socialvrlab.com',
+    PROD: 'https://api.socialvrlab.com'
+};
+var baseUrl = environment[build] || environment.DEV;
+exports.BASE_URL = baseUrl;
+exports.POST_PROJECT_URL_PATH = '/socialVR/projects/';
+exports.GET_PROJECT_URL_PATH = '/socialVR/projects/';
+exports.GOOGLE_BASE_URL = 'https://www.googleapis.com/';
+exports.GOOGLE_API_KEY = 'AIzaSyBygUBKGYvURdnucih-SsvVrS3bDIG_yso';
+exports.ICON_PATH = 'assets/icons/';
+exports.IMAGE_PATH = 'assets/images/';
+exports.DEFAULT_FILE_NAME = '';
+exports.DEFAULT_IMAGE_PATH = exports.IMAGE_PATH + "default-background.png";
+exports.DEFAULT_PROJECT_NAME = 'New Project';
+exports.DEFAULT_PROJECT_DESCRIPTION = 'A short description of the project';
+exports.DEFAULT_DOOR_NAME = 'Select ...';
+exports.BACKGROUND_THUMBNAIL = 'background_thumbnail.jpg';
+exports.DEFAULT_VOLUME = 0.5;
+exports.ROOM_ICON_BUFFER_WIDTH = 40; //half of room-icon-container-width in variables.scss
+exports.ROOM_ICON_BUFFER_HEIGHT = 24; //half of room-icon-size-large in variables.scss
+exports.MIME_TYPE_TEXT = 'text/plain';
+exports.MIME_TYPE_UTF8 = 'text/plain;charset=utf-8';
+exports.MIME_TYPE_MP3 = 'audio/mp3';
+exports.MIME_TYPE_WAV = 'audio/wav';
+exports.MIME_TYPE_AAC = 'audio/aac';
+exports.MIME_TYPE_XM4A = 'audio/x-m4a';
+exports.MIME_TYPE_MPEG = 'audio/mpeg';
+exports.MIME_TYPE_XWAV = 'audio/x-wav';
+exports.MIME_TYPE_PNG = 'image/png';
+exports.MIME_TYPE_JPG = 'image/jpg';
+exports.MIME_TYPE_JPEG = 'image/jpeg';
+exports.MIME_TYPE_ZIP = 'application/zip';
+exports.MIME_TYPE_X_ZIP = 'application/x-zip';
+exports.MIME_TYPE_OCTET_STREAM = 'application/octet-stream';
+exports.MIME_TYPE_X_ZIP_COMPRESSED = 'application/x-zip-compressed';
+exports.MIME_TYPE_MP4 = 'video/mp4';
+exports.UINT8ARRAY = 'uint8array';
+exports.STORY_FILE_YAML = 'story.yml';
+exports.STORY_FILE_JSON = 'story.json';
+exports.GROUP_TYPE = {
+    FEATURED: 'FEATURED',
+    EXTERNAL: 'EXTERNAL'
+};
+// Copy
+exports.ERROR_OPENING_PROJECT = 'Error opening project';
+exports.FORMAT_ERROR = 'We had an issue trying to find that project. The link you tried may have been corrupted. Try using the original link again.';
+exports.SERVER_ERROR = 'We had an issue trying to open the project. It might not be available anymore.';
+//THREE.js related
+exports.THREE_CONST = {
+    //Geometries
+    SPHERE_RADIUS: 512,
+    SPHERE_SLICES: 128,
+    RADIAL_DISTANCE: 10,
+    CAMERA_RETICLE: 148,
+    CAMERA_HOTSPOT: 150,
+    CAMERA_NAVPANEL: 200,
+    NAVPANEL_THETA: 130,
+    NAVPANEL_PHI: -90,
+    NAVPANEL_OPACITY: 0.3,
+    NAVEPANEL_NEAR: 50,
+    NAVEBUTT_ACTIVE: 40,
+    HOTSPOT_DIM: 20,
+    DASHCIRCLE_SEG: 50,
+    HOME_BACK_DIM: 50,
+    HOTSPOT_NEAR: 30,
+    HOTSPOT_ACTIVE: 10,
+    NAVPANEL_W: 140,
+    NAVPANEL_H: 80,
+    POINTLIGHT_Z: 400,
+    RETICLE_INNER: 1,
+    RETICLE_OUTER: 2,
+    RETICLE_SEGS: 12,
+    RETICLE_BACK_RADIUS: 2,
+    FOV_NORM: 65,
+    FOV_IN: 20,
+    FOV_OUT: 110,
+    FONT_URL: 'https://fonts.googleapis.com/css?family=Nunito',
+    FONT_HOTSPOT_SIZE: 12,
+    FONT_HOTSPOT_HEIGHT: 3,
+    TEXTPLANE_WIDTH: 600,
+    TEXTPLANE_HEIGHT: 800,
+    TEXTPLANE_FONTSIZE: 26,
+    //Animations
+    HOTSPOT_MOD_FREQ: 0.005,
+    HOTSPOT_ROT_FREQ: 0.0005,
+    HOTSPOT_DOOR_FREQ: 2000,
+    HOTSPOT_MOD_MAG: 0.005,
+    TWEEN_PLANE_IN: 1500,
+    TWEEN_PLANE_OUT: 500,
+    TWEEN_ICON_IN: 500,
+    TWEEN_ICON_OUT: 500,
+    TWEEN_PLANE_SCALE: 2,
+    TWEEN_ROOM_MOVE: 250,
+    TWEEN_ROOM_MOVEIN: 400,
+    TWEEN_ROOM_MOVETIMEOUT: 1500,
+    TWEEN_ROOM_MOVETIMEIN: 1500,
+    //Interaction
+    HOTSPOT_AUDIO_DELAY: 1000,
+    HOTSPOT_DOOR_DELAY: 1500
+};
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 /**
  * Copyright 2017 Google Inc.
  *
@@ -715,120 +829,6 @@ exports.setTimeoutNonBlocking = function (fn, time) {
 
 
 /***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var build = __webpack_require__(294);
-// api.socialvrlab.com => socialvr-production.cirjmyp4dr.us-east-1.elasticbeanstalk.com
-// staging-api.socialvrlab.com => socialvr-staging.cirjmyp4dr.us-east-1.elasticbeanstalk.com
-var environment = {
-    LOCAL: 'http://127.0.0.1:8000',
-    DEV: 'https://staging-api.socialvrlab.com',
-    PROD: 'https://api.socialvrlab.com'
-};
-var baseUrl = environment[build] || environment.DEV;
-exports.BASE_URL = baseUrl;
-exports.POST_PROJECT_URL_PATH = '/socialVR/projects/';
-exports.GET_PROJECT_URL_PATH = '/socialVR/projects/';
-exports.GOOGLE_BASE_URL = 'https://www.googleapis.com/';
-exports.GOOGLE_API_KEY = 'AIzaSyBygUBKGYvURdnucih-SsvVrS3bDIG_yso';
-exports.ICON_PATH = 'assets/icons/';
-exports.IMAGE_PATH = 'assets/images/';
-exports.DEFAULT_FILE_NAME = '';
-exports.DEFAULT_IMAGE_PATH = exports.IMAGE_PATH + "default-background.png";
-exports.DEFAULT_PROJECT_NAME = 'New Project';
-exports.DEFAULT_PROJECT_DESCRIPTION = 'A short description of the project';
-exports.DEFAULT_DOOR_NAME = 'Select ...';
-exports.BACKGROUND_THUMBNAIL = 'background_thumbnail.jpg';
-exports.DEFAULT_VOLUME = 0.5;
-exports.ROOM_ICON_BUFFER_WIDTH = 40; //half of room-icon-container-width in variables.scss
-exports.ROOM_ICON_BUFFER_HEIGHT = 24; //half of room-icon-size-large in variables.scss
-exports.MIME_TYPE_TEXT = 'text/plain';
-exports.MIME_TYPE_UTF8 = 'text/plain;charset=utf-8';
-exports.MIME_TYPE_MP3 = 'audio/mp3';
-exports.MIME_TYPE_WAV = 'audio/wav';
-exports.MIME_TYPE_AAC = 'audio/aac';
-exports.MIME_TYPE_XM4A = 'audio/x-m4a';
-exports.MIME_TYPE_MPEG = 'audio/mpeg';
-exports.MIME_TYPE_XWAV = 'audio/x-wav';
-exports.MIME_TYPE_PNG = 'image/png';
-exports.MIME_TYPE_JPG = 'image/jpg';
-exports.MIME_TYPE_JPEG = 'image/jpeg';
-exports.MIME_TYPE_ZIP = 'application/zip';
-exports.MIME_TYPE_X_ZIP = 'application/x-zip';
-exports.MIME_TYPE_OCTET_STREAM = 'application/octet-stream';
-exports.MIME_TYPE_X_ZIP_COMPRESSED = 'application/x-zip-compressed';
-exports.MIME_TYPE_MP4 = 'video/mp4';
-exports.UINT8ARRAY = 'uint8array';
-exports.STORY_FILE_YAML = 'story.yml';
-exports.STORY_FILE_JSON = 'story.json';
-exports.GROUP_TYPE = {
-    FEATURED: 'FEATURED',
-    EXTERNAL: 'EXTERNAL'
-};
-// Copy
-exports.ERROR_OPENING_PROJECT = 'Error opening project';
-exports.FORMAT_ERROR = 'We had an issue trying to find that project. The link you tried may have been corrupted. Try using the original link again.';
-exports.SERVER_ERROR = 'We had an issue trying to open the project. It might not be available anymore.';
-//THREE.js related
-exports.THREE_CONST = {
-    //Geometries
-    SPHERE_RADIUS: 512,
-    SPHERE_SLICES: 128,
-    RADIAL_DISTANCE: 10,
-    CAMERA_RETICLE: 148,
-    CAMERA_HOTSPOT: 150,
-    CAMERA_NAVPANEL: 200,
-    NAVPANEL_THETA: 130,
-    NAVPANEL_PHI: -90,
-    NAVPANEL_OPACITY: 0.3,
-    NAVEPANEL_NEAR: 50,
-    NAVEBUTT_ACTIVE: 40,
-    HOTSPOT_DIM: 20,
-    DASHCIRCLE_SEG: 50,
-    HOME_BACK_DIM: 50,
-    HOTSPOT_NEAR: 30,
-    HOTSPOT_ACTIVE: 10,
-    NAVPANEL_W: 140,
-    NAVPANEL_H: 80,
-    POINTLIGHT_Z: 400,
-    RETICLE_INNER: 1,
-    RETICLE_OUTER: 2,
-    RETICLE_SEGS: 12,
-    RETICLE_BACK_RADIUS: 2,
-    FOV_NORM: 65,
-    FOV_IN: 20,
-    FOV_OUT: 110,
-    FONT_URL: 'https://fonts.googleapis.com/css?family=Nunito',
-    FONT_HOTSPOT_SIZE: 12,
-    FONT_HOTSPOT_HEIGHT: 3,
-    TEXTPLANE_WIDTH: 600,
-    TEXTPLANE_HEIGHT: 800,
-    TEXTPLANE_FONTSIZE: 26,
-    //Animations
-    HOTSPOT_MOD_FREQ: 0.005,
-    HOTSPOT_ROT_FREQ: 0.0005,
-    HOTSPOT_DOOR_FREQ: 2000,
-    HOTSPOT_MOD_MAG: 0.005,
-    TWEEN_PLANE_IN: 1500,
-    TWEEN_PLANE_OUT: 500,
-    TWEEN_ICON_IN: 500,
-    TWEEN_ICON_OUT: 500,
-    TWEEN_PLANE_SCALE: 2,
-    TWEEN_ROOM_MOVE: 250,
-    TWEEN_ROOM_MOVEIN: 400,
-    TWEEN_ROOM_MOVETIMEOUT: 1500,
-    TWEEN_ROOM_MOVETIMEIN: 1500,
-    //Interaction
-    HOTSPOT_AUDIO_DELAY: 1000,
-    HOTSPOT_DOOR_DELAY: 1500
-};
-
-/***/ }),
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1153,7 +1153,7 @@ exports.SceneInteractor = SceneInteractor;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 var util_2 = __webpack_require__(3);
 /**
  * An immutable object representing a parsed path.  It's immutable so that you
@@ -1481,7 +1481,7 @@ exports.ValidationPath = ValidationPath;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector2_1 = __webpack_require__(70);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var MAX_SIZE_HOTSPOT = 1024;
 function getNearestPowerOfTwo(x) {
     return new Array(14).fill(null).map(function (_, index) {
@@ -1593,7 +1593,7 @@ exports.resizeImage = resizeImage;
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = __webpack_require__(17);
 var Index_1 = __webpack_require__(151);
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 var Node_1 = __webpack_require__(40);
 var LeafNode_1 = __webpack_require__(150);
 var nodeFromJSON;
@@ -1701,7 +1701,7 @@ exports.PRIORITY_INDEX = new PriorityIndex();
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = __webpack_require__(17);
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var SortedMap_1 = __webpack_require__(153);
 var Node_1 = __webpack_require__(40);
 var snap_1 = __webpack_require__(309);
@@ -2685,7 +2685,7 @@ var core_1 = __webpack_require__(2);
 var http_1 = __webpack_require__(148);
 var Observable_1 = __webpack_require__(0);
 var authenticationService_1 = __webpack_require__(160);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 // import * as firebase from 'firebase/app';
 // import 'firebase/auth';
 // import 'firebase/storage';
@@ -3257,7 +3257,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var platform_browser_1 = __webpack_require__(39);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 exports.mimeTypeMap = {
     video: [constants_1.MIME_TYPE_MP4],
     audio: [constants_1.MIME_TYPE_MP3, constants_1.MIME_TYPE_WAV, constants_1.MIME_TYPE_MPEG, constants_1.MIME_TYPE_XWAV, constants_1.MIME_TYPE_AAC, constants_1.MIME_TYPE_XM4A],
@@ -3496,7 +3496,7 @@ exports.OperationSource = OperationSource;
 Object.defineProperty(exports, "__esModule", { value: true });
 var Path_1 = __webpack_require__(21);
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var util_3 = __webpack_require__(3);
 var util_4 = __webpack_require__(3);
 /**
@@ -4109,7 +4109,7 @@ exports.BaseElement = BaseElement;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(15);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var iconPositionUtil_1 = __webpack_require__(57);
 var roomPropertyTypeService_1 = __webpack_require__(83);
 var fontHelper_1 = __webpack_require__(346);
@@ -4851,7 +4851,7 @@ var __extends = this && this.__extends || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var baseElement_1 = __webpack_require__(81);
 var mediaFile_1 = __webpack_require__(162);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var Audio = /** @class */function (_super) {
     __extends(Audio, _super);
     function Audio() {
@@ -4930,7 +4930,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var audio_1 = __webpack_require__(101);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var RoomManager = /** @class */function () {
     function RoomManager() {
         this.isReadOnly = false;
@@ -5693,7 +5693,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = __webpack_require__(17);
 var Index_1 = __webpack_require__(151);
 var Node_1 = __webpack_require__(40);
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 var util_2 = __webpack_require__(3);
 var __EMPTY_NODE;
 var KeyIndex = /** @class */ (function (_super) {
@@ -6354,7 +6354,7 @@ var AudioData = /** @class */function () {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(15);
-var fontSize = 46;
+var fontSize = 26;
 var TextLine = /** @class */function () {
     function TextLine(x, y, text) {
         this.x = x;
@@ -6382,17 +6382,18 @@ function printWrappedText(context, text, x, y, maxWidth, lineHeight) {
     return lines;
 }
 function getTextureSizeFromText(textContext) {
-    var width = 600;
+    var width = 2 * 600;
     var drawCanvas = document.createElement('canvas');
     var g2d = drawCanvas.getContext('2d');
+    var fixedFontSize = fontSize * 2;
     drawCanvas.width = width;
-    drawCanvas.height = 800;
-    g2d.font = fontSize + "pt Nunito";
+    drawCanvas.height = 2 * 800;
+    g2d.font = fixedFontSize + "pt Nunito";
     g2d.fillStyle = 'rgba(0, 0, 0, 0.7)';
     g2d.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
     g2d.fillStyle = 'white';
-    var textLines = printWrappedText(g2d, textContext, 10, fontSize + 10, width, fontSize + 8);
-    var height = textLines[textLines.length - 1].y + fontSize;
+    var textLines = printWrappedText(g2d, textContext, 10, fixedFontSize + 10, width, fixedFontSize + 8);
+    var height = textLines[textLines.length - 1].y + fixedFontSize;
     // Print text onto canvas
     textLines.forEach(function (textLine) {
         return g2d.fillText(textLine.text, textLine.x, textLine.y);
@@ -6708,7 +6709,7 @@ var SparseSnapshotTree_1 = __webpack_require__(301);
 var SyncTree_1 = __webpack_require__(560);
 var SnapshotHolder_1 = __webpack_require__(559);
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var util_3 = __webpack_require__(3);
 var AuthTokenProvider_1 = __webpack_require__(555);
 var StatsManager_1 = __webpack_require__(205);
@@ -7237,7 +7238,7 @@ exports.Repo = Repo;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var snap_1 = __webpack_require__(309);
 var __childrenNodeConstructor;
 /**
@@ -7511,7 +7512,7 @@ exports.LeafNode = LeafNode;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var Node_1 = __webpack_require__(40);
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 /**
  *
  * @constructor
@@ -8870,7 +8871,8 @@ var __extends = this && this.__extends || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var baseElement_1 = __webpack_require__(81);
 var mediaFile_1 = __webpack_require__(162);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
+var constants_2 = __webpack_require__(8);
 var Universal = /** @class */function (_super) {
     __extends(Universal, _super);
     function Universal() {
@@ -8937,6 +8939,14 @@ var Universal = /** @class */function (_super) {
         this._imageContent.setFileName(fileName);
         this._imageContent.setBinaryFileData(binaryFileData);
     };
+    Universal.prototype.resetAudioContent = function () {
+        this.setAudioContent(constants_2.DEFAULT_FILE_NAME, null);
+        this._audioContent.setRemoteFileName(null);
+    };
+    Universal.prototype.resetImageContent = function () {
+        this.setImageContent(constants_2.DEFAULT_FILE_NAME, null);
+        this._imageContent.setRemoteFileName(null);
+    };
     Universal.prototype.toJson = function () {
         return Object.assign(_super.prototype.toJson.call(this), {
             imageFile: encodeURIComponent(this._imageContent.getFileName()),
@@ -8981,7 +8991,7 @@ var narrator_1 = __webpack_require__(221);
 var vector2_1 = __webpack_require__(70);
 var imageResizeService_1 = __webpack_require__(30);
 var reverbList_1 = __webpack_require__(224);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var PropertyBuilder = /** @class */function () {
     function PropertyBuilder() {}
     PropertyBuilder.prototype.setBaseProperties = function (jsonData, roomProperty) {
@@ -9325,7 +9335,7 @@ var sceneInteractor_1 = __webpack_require__(14);
 var projectInteractor_1 = __webpack_require__(50);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
 var userInteractor_1 = __webpack_require__(37);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var ShareableLoader = /** @class */function () {
     function ShareableLoader(userInteractor, eventBus, projectInteractor, metaDataInteractor, sceneInteractor, router) {
         this.userInteractor = userInteractor;
@@ -9682,7 +9692,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = __webpack_require__(17);
 var onDisconnect_1 = __webpack_require__(297);
 var TransactionResult_1 = __webpack_require__(552);
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 var NextPushId_1 = __webpack_require__(569);
 var Query_1 = __webpack_require__(296);
 var Repo_1 = __webpack_require__(149);
@@ -9987,7 +9997,7 @@ SyncPoint_1.SyncPoint.__referenceConstructor = Reference;
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var Repo_1 = __webpack_require__(149);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var parser_1 = __webpack_require__(314);
 var validation_1 = __webpack_require__(78);
 __webpack_require__(558);
@@ -10176,7 +10186,7 @@ exports.StatsManager = StatsManager;
 Object.defineProperty(exports, "__esModule", { value: true });
 var SortedMap_1 = __webpack_require__(153);
 var Path_1 = __webpack_require__(21);
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 var util_2 = __webpack_require__(3);
 var emptyChildrenSingleton;
 /**
@@ -12357,7 +12367,7 @@ var __extends = this && this.__extends || function () {
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
 var baseElement_1 = __webpack_require__(81);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var Door = /** @class */function (_super) {
     __extends(Door, _super);
     function Door() {
@@ -12462,7 +12472,7 @@ exports.Link = Link;
 Object.defineProperty(exports, "__esModule", { value: true });
 // import {BaseElement} from 'data/scene/entities/baseElement';
 var audio_1 = __webpack_require__(101);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var Narrator = /** @class */function () {
     function Narrator() {
         this.introAudio = new audio_1.Audio();
@@ -12789,9 +12799,9 @@ var apiService_1 = __webpack_require__(56);
 var fileLoaderUtil_1 = __webpack_require__(65);
 __webpack_require__(266);
 __webpack_require__(921);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var universal_1 = __webpack_require__(163);
-var constants_2 = __webpack_require__(9);
+var constants_2 = __webpack_require__(8);
 var JSZip = __webpack_require__(200);
 var JsYaml = __webpack_require__(199);
 var DeserializationService = /** @class */function () {
@@ -13173,7 +13183,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var Observable_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var assetInteractor_1 = __webpack_require__(55);
 var roomManager_1 = __webpack_require__(102);
 var http_1 = __webpack_require__(148);
@@ -13745,7 +13755,7 @@ module.exports = "DEV";
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = __webpack_require__(17);
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 var parser_1 = __webpack_require__(314);
 var Path_1 = __webpack_require__(21);
 var Reference_1 = __webpack_require__(203);
@@ -13892,7 +13902,7 @@ var KeyIndex_1 = __webpack_require__(116);
 var PriorityIndex_1 = __webpack_require__(34);
 var ValueIndex_1 = __webpack_require__(308);
 var PathIndex_1 = __webpack_require__(307);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var Path_1 = __webpack_require__(21);
 var validation_1 = __webpack_require__(78);
 var util_3 = __webpack_require__(3);
@@ -14402,7 +14412,7 @@ exports.Query = Query;
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
 var validation_1 = __webpack_require__(78);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var util_3 = __webpack_require__(3);
 /**
  * @constructor
@@ -14526,7 +14536,7 @@ var app_1 = __webpack_require__(69);
 var util_1 = __webpack_require__(3);
 var util_2 = __webpack_require__(3);
 var util_3 = __webpack_require__(3);
-var util_4 = __webpack_require__(8);
+var util_4 = __webpack_require__(9);
 var Path_1 = __webpack_require__(21);
 var VisibilityMonitor_1 = __webpack_require__(572);
 var OnlineMonitor_1 = __webpack_require__(570);
@@ -16343,7 +16353,7 @@ exports.buildChildSet = function (childList, cmp, keyFn, mapSortFn) {
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 function NAME_ONLY_COMPARATOR(left, right) {
     return util_1.nameCompare(left.name, right.name);
 }
@@ -16380,7 +16390,7 @@ exports.NAME_COMPARATOR = NAME_COMPARATOR;
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = __webpack_require__(17);
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var Index_1 = __webpack_require__(151);
 var ChildrenNode_1 = __webpack_require__(35);
 var Node_1 = __webpack_require__(40);
@@ -16479,7 +16489,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = __webpack_require__(17);
 var Index_1 = __webpack_require__(151);
 var Node_1 = __webpack_require__(40);
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 var nodeFromJSON_1 = __webpack_require__(117);
 /**
  * @constructor
@@ -16573,7 +16583,7 @@ exports.VALUE_INDEX = new ValueIndex();
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var util_3 = __webpack_require__(3);
 var MAX_NODE;
 function setMaxNode(val) {
@@ -16987,7 +16997,7 @@ exports.resolveDeferredValueSnapshot = function (node, serverValues) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Path_1 = __webpack_require__(21);
 var RepoInfo_1 = __webpack_require__(299);
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 /**
  * @param {!string} pathString
  * @return {string}
@@ -17405,7 +17415,7 @@ exports.RangedFilter = RangedFilter;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 var CountedSet_1 = __webpack_require__(311);
 var StatsManager_1 = __webpack_require__(205);
 var PacketReceiver_1 = __webpack_require__(584);
@@ -18041,7 +18051,7 @@ exports.FirebaseIFrameScriptHolder = FirebaseIFrameScriptHolder;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 var storage_1 = __webpack_require__(152);
 var Constants_1 = __webpack_require__(155);
 var TransportManager_1 = __webpack_require__(583);
@@ -18543,7 +18553,7 @@ exports.Connection = Connection;
 Object.defineProperty(exports, "__esModule", { value: true });
 var app_1 = __webpack_require__(69);
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var StatsManager_1 = __webpack_require__(205);
 var Constants_1 = __webpack_require__(155);
 var util_3 = __webpack_require__(3);
@@ -21518,9 +21528,9 @@ var vector2_1 = __webpack_require__(70);
 var mediaFile_1 = __webpack_require__(162);
 var narrator_1 = __webpack_require__(221);
 var uuid_1 = __webpack_require__(103);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var reverbList_1 = __webpack_require__(224);
-var constants_2 = __webpack_require__(9);
+var constants_2 = __webpack_require__(8);
 var Room = /** @class */function () {
     function Room() {
         this.id = uuid_1.generateUniqueId();
@@ -22393,7 +22403,7 @@ var core_1 = __webpack_require__(2);
 var THREE = __webpack_require__(15);
 var assetInteractor_1 = __webpack_require__(55);
 var iconPositionUtil_1 = __webpack_require__(57);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var TWEEN = __webpack_require__(215);
 var MenuManager = /** @class */function () {
     function MenuManager(assetInteractor) {
@@ -22608,7 +22618,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var THREE = __webpack_require__(15);
 var Reticle = /** @class */function () {
     function Reticle() {
@@ -22697,7 +22707,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(14);
 var assetInteractor_1 = __webpack_require__(55);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var iconPaths = [new assetInteractor_1.AssetModel('door', 'door', constants_1.ICON_PATH + "door_filled.png"), new assetInteractor_1.AssetModel('image', 'image', constants_1.ICON_PATH + "image_filled.png"), new assetInteractor_1.AssetModel('text', 'text', constants_1.ICON_PATH + "text_filled.png"), new assetInteractor_1.AssetModel('audio', 'audio', constants_1.ICON_PATH + "audio_filled.png"), new assetInteractor_1.AssetModel('video', 'video', constants_1.ICON_PATH + "video_filled.png"), new assetInteractor_1.AssetModel('universal', 'universal', constants_1.ICON_PATH + "universal_filled.png"), new assetInteractor_1.AssetModel('link', 'link', constants_1.ICON_PATH + "link_filled.png"), new assetInteractor_1.AssetModel('back', 'back', constants_1.ICON_PATH + "back_filled.png"), new assetInteractor_1.AssetModel('home', 'home', constants_1.ICON_PATH + "home_filled.png"), new assetInteractor_1.AssetModel('colorBall', 'colorBall', constants_1.IMAGE_PATH + "color_ball.jpg"), new assetInteractor_1.AssetModel('imageMask', 'imageMask', constants_1.IMAGE_PATH + "image-mask_1920.jpg")];
 var TextureLoader = /** @class */function () {
     function TextureLoader(sceneInteractor, assetInteractor) {
@@ -22993,7 +23003,7 @@ exports.ResponsiveUtil = ResponsiveUtil;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var THREE = __webpack_require__(15);
 // This file contains common 3D logic for edit-space-sphere and preview-space
 var SPHERE_RADIUS = constants_1.THREE_CONST.SPHERE_RADIUS;
@@ -24742,7 +24752,7 @@ var Query_1 = __webpack_require__(296);
 exports.Query = Query_1.Query;
 var Reference_1 = __webpack_require__(203);
 exports.Reference = Reference_1.Reference;
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 exports.enableLogging = util_1.enableLogging;
 var RepoManager_1 = __webpack_require__(204);
 var INTERNAL = __webpack_require__(553);
@@ -24997,7 +25007,7 @@ exports.forceRestClient = function (forceRestClient) {
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 /**
  * Abstraction around FirebaseApp's token fetching capabilities.
  */
@@ -25315,7 +25325,7 @@ exports.CompoundWrite = CompoundWrite;
 Object.defineProperty(exports, "__esModule", { value: true });
 var tslib_1 = __webpack_require__(17);
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var util_3 = __webpack_require__(3);
 var util_4 = __webpack_require__(3);
 var util_5 = __webpack_require__(3);
@@ -25507,7 +25517,7 @@ var DataSnapshot_1 = __webpack_require__(202);
 var Path_1 = __webpack_require__(21);
 var Tree_1 = __webpack_require__(571);
 var PriorityIndex_1 = __webpack_require__(34);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var ServerValues_1 = __webpack_require__(313);
 var validation_1 = __webpack_require__(78);
 var util_3 = __webpack_require__(3);
@@ -26119,7 +26129,7 @@ exports.SnapshotHolder = SnapshotHolder;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var AckUserWrite_1 = __webpack_require__(562);
 var ChildrenNode_1 = __webpack_require__(35);
 var util_3 = __webpack_require__(3);
@@ -27734,7 +27744,7 @@ exports.StatsCollection = StatsCollection;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var StatsListener_1 = __webpack_require__(310);
 // Assuming some apps may have a short amount of time on page, and a bulk of firebase operations probably
 // happen on page load, we try to report our first set of stats pretty quickly, but we wait at least 10
@@ -28903,7 +28913,7 @@ exports.EventGenerator = EventGenerator;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 /**
  * The event queue serves a few purposes:
  * 1. It ensures we maintain event order in the face of event callbacks doing operations that result in more
@@ -29305,7 +29315,7 @@ exports.ChildEventRegistration = ChildEventRegistration;
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = __webpack_require__(3);
-var util_2 = __webpack_require__(8);
+var util_2 = __webpack_require__(9);
 var KeyIndex_1 = __webpack_require__(116);
 var PriorityIndex_1 = __webpack_require__(34);
 var ValueIndex_1 = __webpack_require__(308);
@@ -30802,7 +30812,7 @@ exports.LimitedFilter = LimitedFilter;
 Object.defineProperty(exports, "__esModule", { value: true });
 var BrowserPollConnection_1 = __webpack_require__(317);
 var WebSocketConnection_1 = __webpack_require__(319);
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 /**
  * Currently simplistic, this class manages what transport a Connection should use at various stages of its
  * lifecycle.
@@ -30906,7 +30916,7 @@ exports.TransportManager = TransportManager;
  * limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var util_1 = __webpack_require__(8);
+var util_1 = __webpack_require__(9);
 /**
  * This class ensures the packets from the server arrive in order
  * This class takes data from the server and ensures it gets passed into the callbacks in order.
@@ -35999,7 +36009,7 @@ var searchInteractor_1 = __webpack_require__(218);
 var shareable_loader_1 = __webpack_require__(167);
 var userInteractor_1 = __webpack_require__(37);
 var adminInteractor_1 = __webpack_require__(120);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var AdminSearchExplore = /** @class */function () {
     function AdminSearchExplore(projectInteractor, searchInteractor, shareableLoader, userInteractor, adminInteractor) {
         this.projectInteractor = projectInteractor;
@@ -36104,7 +36114,7 @@ var adminInteractor_1 = __webpack_require__(120);
 var projectInteractor_1 = __webpack_require__(50);
 var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var AdminUserGroups = /** @class */function () {
     function AdminUserGroups(userInteractor, adminInteractor, projectInteractor, sceneInteractor, metaDataInteractor, router, eventBus) {
         this.userInteractor = userInteractor;
@@ -37664,7 +37674,7 @@ var sceneInteractor_1 = __webpack_require__(14);
 var event_bus_1 = __webpack_require__(10);
 var reverbList_1 = __webpack_require__(224);
 var audioRecorderService_1 = __webpack_require__(123);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var RoomEditor = /** @class */function () {
     function RoomEditor(sceneInteractor, element, eventBus, metaDataInteractor) {
         this.sceneInteractor = sceneInteractor;
@@ -38296,7 +38306,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var audio_1 = __webpack_require__(101);
 var audioRecorderService_1 = __webpack_require__(123);
 var AudioEditor = /** @class */function () {
@@ -38348,7 +38358,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var door_1 = __webpack_require__(219);
 var sceneInteractor_1 = __webpack_require__(14);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var event_bus_1 = __webpack_require__(10);
 var DoorEditor = /** @class */function () {
     function DoorEditor(sceneInteractor, eventBus) {
@@ -38653,7 +38663,7 @@ var core_1 = __webpack_require__(2);
 var universal_1 = __webpack_require__(163);
 var event_bus_1 = __webpack_require__(10);
 var imageResizeService_1 = __webpack_require__(30);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var audioRecorderService_1 = __webpack_require__(123);
 var UniversalEditor = /** @class */function () {
     function UniversalEditor(eventBus) {
@@ -38679,6 +38689,26 @@ var UniversalEditor = /** @class */function () {
                 }
             }
             return this._activeTab;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(UniversalEditor.prototype, "activeTabName", {
+        get: function () {
+            switch (this.activeTab) {
+                case this.TABS.IMAGE:
+                    {
+                        return 'Image';
+                    }
+                case this.TABS.TEXT:
+                    {
+                        return 'Text';
+                    }
+                default:
+                    {
+                        return 'Audio';
+                    }
+            }
         },
         enumerable: true,
         configurable: true
@@ -38722,6 +38752,24 @@ var UniversalEditor = /** @class */function () {
     };
     UniversalEditor.prototype.showAudioRecorder = function () {
         return audioRecorderService_1.browserCanRecordAudio();
+    };
+    UniversalEditor.prototype.onDeleteTabData = function () {
+        switch (this.activeTab) {
+            case this.TABS.IMAGE:
+                {
+                    this.universalProperty.resetImageContent();
+                    break;
+                }
+            case this.TABS.TEXT:
+                {
+                    this.universalProperty.textContent = '';
+                    break;
+                }
+            default:
+                {
+                    this.universalProperty.resetAudioContent();
+                }
+        }
     };
     __decorate([core_1.Input(), __metadata("design:type", universal_1.Universal)], UniversalEditor.prototype, "universalProperty", void 0);
     UniversalEditor = __decorate([core_1.Component({
@@ -38800,7 +38848,7 @@ var roomPropertyTypeService_1 = __webpack_require__(83);
 var propertyRemovalService_1 = __webpack_require__(124);
 var combinedHotspotUtil_1 = __webpack_require__(168);
 var iconPositionUtil_1 = __webpack_require__(57);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var ICON_MAP = {
     text: 'text_filled.png',
     image: 'image_filled.png',
@@ -39117,7 +39165,7 @@ var projectInteractor_1 = __webpack_require__(50);
 var sceneInteractor_1 = __webpack_require__(14);
 var adminInteractor_1 = __webpack_require__(120);
 var event_bus_1 = __webpack_require__(10);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var FileSaver = __webpack_require__(394);
 var AuthUserTab = /** @class */function () {
     function AuthUserTab(userInteractor, projectInteractor, sceneInteractor, eventBus, storageInteractor, metaDataInteractor, adminInteractor, router) {
@@ -39602,7 +39650,7 @@ var projectMetaDataInteractor_1 = __webpack_require__(36);
 var event_bus_1 = __webpack_require__(10);
 var userInteractor_1 = __webpack_require__(37);
 var SlideshowBuilder_1 = __webpack_require__(104);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var FileSaver = __webpack_require__(394);
 var Story = /** @class */function () {
     function Story(router, sceneInteractor, storageInteractor, metaDataInteractor, userInteractor, projectInteractor, eventBus, slideshowBuilder, element) {
@@ -40011,7 +40059,7 @@ exports.Upload = Upload;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(15);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var HotspotEntity = /** @class */function () {
     function HotspotEntity(plane) {
         this.wasActivated = false;
@@ -40885,7 +40933,7 @@ var reticle_1 = __webpack_require__(349);
 var video3D_1 = __webpack_require__(344);
 var threeUtil_1 = __webpack_require__(353);
 var SvrControls_1 = __webpack_require__(351);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var fontHelper_1 = __webpack_require__(346);
 var Stats = __webpack_require__(1378);
 var stats = new Stats();
@@ -41484,7 +41532,7 @@ function linearInterpolateValue(u, v, value, inverseValue) {
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var COPY = 'copy';
 // https://gist.github.com/lgarron/d1dee380f4ed9d825ca7
 function copyToClipboard(stringToCopy) {
@@ -42167,7 +42215,7 @@ var groupInteractor_1 = __webpack_require__(335);
 var projectInteractor_1 = __webpack_require__(50);
 var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(36);
-var constants_1 = __webpack_require__(9);
+var constants_1 = __webpack_require__(8);
 var UserGroups = /** @class */function () {
     function UserGroups(userInteractor, groupInteractor, projectInteractor, sceneInteractor, metaDataInteractor, router, eventBus) {
         this.userInteractor = userInteractor;
@@ -45174,7 +45222,7 @@ module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserr
 /* 1016 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.universal-editor .invalid-message {\n  color: #FF4000; }\n\n.universal-editor .play-loop-label {\n  padding-bottom: 5px;\n  display: inline-block;\n  width: auto;\n  line-height: 26px;\n  vertical-align: middle; }\n  .universal-editor .play-loop-label + checkbox {\n    display: inline-block;\n    vertical-align: middle;\n    padding-bottom: 5px; }\n\n.universal-editor .tab-icons {\n  display: flex;\n  flex-wrap: nowrap; }\n\n.universal-editor .tab-contents {\n  height: 100px; }\n\n.universal-editor .tab-container {\n  min-width: 320px;\n  max-width: 600px; }\n  .universal-editor .tab-container section {\n    display: none;\n    padding: 20px 0 0;\n    border-top: 1px solid #ddd; }\n  .universal-editor .tab-container label.tab {\n    display: inline-block;\n    margin: 0 0 -1px;\n    padding: 10px 20px;\n    font-weight: 600;\n    text-align: center;\n    color: #bbb;\n    border: 1px solid transparent; }\n    .universal-editor .tab-container label.tab:hover {\n      color: #888;\n      cursor: pointer; }\n    .universal-editor .tab-container label.tab .ico {\n      width: 28px;\n      vertical-align: middle;\n      display: inline-block;\n      filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5)); }\n    @media (max-width: 767px) {\n      .universal-editor .tab-container label.tab {\n        padding: 4px 8px;\n        font-size: 14px; }\n        .universal-editor .tab-container label.tab .ico {\n          width: 24px; } }\n  .universal-editor .tab-container input[name=\"tabs\"] {\n    display: none; }\n    .universal-editor .tab-container input[name=\"tabs\"]:checked + label {\n      color: #555;\n      border: 1px solid #ddd;\n      border-top: 2px solid orange;\n      border-bottom: 1px solid #fff; }\n  .universal-editor .tab-container #tab-universal-image:checked ~ #content-universal-image,\n  .universal-editor .tab-container #tab-universal-text:checked ~ #content-universal-text,\n  .universal-editor .tab-container #tab-universal-audio:checked ~ #content-universal-audio {\n    display: block; }\n\n.universal-editor .universal-editor__text-area {\n  border-color: #EEEEEE;\n  resize: none;\n  font-size: 1.1em;\n  width: 100%;\n  height: 10vh; }\n\n.universal-editor .universal-editor__record-button {\n  display: inline-block;\n  position: relative;\n  margin-left: 5px;\n  margin-bottom: 10px; }\n\n.universal-editor .universal-editor__file-loader {\n  position: relative;\n  margin-bottom: 10px;\n  width: 100%; }\n\n.universal-editor .universal-editor__audio-player {\n  width: 100%;\n  position: relative;\n  margin-top: 5px; }\n\n.universal-editor .universal-editor__image-display {\n  display: block;\n  max-width: 100%;\n  position: relative;\n  max-height: 300px;\n  margin-left: auto;\n  margin-right: auto;\n  justify-content: center;\n  overflow: hidden; }\n\n.universal-editor .universal-editor__texticon {\n  background-image: url(\"assets/icons/text_filled.png\"); }\n\n.universal-editor .universal-editor__audioicon {\n  background-image: url(\"assets/icons/audio_filled.png\"); }\n\n.universal-editor .universal-editor__imageicon {\n  background-image: url(\"assets/icons/image_filled.png\"); }\n\n.universal-editor__tab-icon {\n  height: 26.66667px;\n  width: 26.66667px;\n  display: block;\n  margin: 0 auto;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: 100%;\n  background-color: transparent;\n  opacity: 0.8;\n  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5)); }\n\n.list-icon__text {\n  background-image: url(\"assets/icons/text_filled.png\"); }\n\n.list-icon__audio {\n  background-image: url(\"assets/icons/audio_filled.png\"); }\n\n.list-icon__image {\n  background-image: url(\"assets/icons/image_filled.png\"); }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.universal-editor {\n  width: 50vw;\n  height: 60vh;\n  display: flex;\n  flex-direction: column; }\n  .universal-editor .hotspot-inspector__label {\n    flex-wrap: wrap; }\n  .universal-editor .invalid-message {\n    color: #FF4000; }\n  .universal-editor .play-loop-label {\n    padding-bottom: 5px;\n    display: inline-block;\n    width: auto;\n    line-height: 26px;\n    vertical-align: middle; }\n    .universal-editor .play-loop-label + checkbox {\n      display: inline-block;\n      vertical-align: middle;\n      padding-bottom: 5px; }\n  .universal-editor .tab-container {\n    flex: 1;\n    display: flex;\n    flex-direction: column; }\n    .universal-editor .tab-container > .tabs label.tab {\n      display: inline-block;\n      margin: 0 0 -1px;\n      padding: 10px 20px;\n      font-weight: 600;\n      text-align: center;\n      color: #bbb;\n      border: 1px solid transparent; }\n      .universal-editor .tab-container > .tabs label.tab:hover {\n        color: #888;\n        cursor: pointer; }\n      @media (max-width: 767px) {\n        .universal-editor .tab-container > .tabs label.tab {\n          padding: 4px 8px;\n          font-size: 14px; }\n          .universal-editor .tab-container > .tabs label.tab .universal-editor__tab-icon {\n            height: 20px;\n            width: 20px; } }\n    .universal-editor .tab-container > .tabs input[name=\"tabs\"] {\n      display: none; }\n      .universal-editor .tab-container > .tabs input[name=\"tabs\"]:checked + label {\n        color: #555;\n        border: 1px solid #ddd;\n        border-top: 2px solid orange;\n        border-bottom: 1px solid #fff; }\n    .universal-editor .tab-container > section {\n      display: none;\n      padding: 20px 0 0;\n      border-top: 1px solid #ddd;\n      flex-grow: 1; }\n    .universal-editor .tab-container #content-universal-image.active,\n    .universal-editor .tab-container #content-universal-text.active,\n    .universal-editor .tab-container #content-universal-audio.active {\n      display: flex;\n      flex-direction: column; }\n  .universal-editor .property-editor__delete-button {\n    margin-top: 8px;\n    width: 100%;\n    font-size: 0.8em;\n    background-color: #FF3571;\n    color: #FAFAFA;\n    text-align: center;\n    padding: 10px 0;\n    border-radius: 4px;\n    cursor: pointer; }\n  .universal-editor .universal-editor__text-area {\n    border-color: #EEEEEE;\n    resize: none;\n    font-size: 1.1em;\n    width: 100%;\n    flex-grow: 1; }\n  .universal-editor .universal-editor__record-button {\n    display: inline-block;\n    position: relative;\n    margin-left: 5px;\n    margin-bottom: 10px; }\n  .universal-editor .universal-editor__file-loader {\n    position: relative;\n    margin-bottom: 10px;\n    width: 100%; }\n  .universal-editor .universal-editor__audio-player {\n    width: 100%;\n    position: relative;\n    margin-top: 5px; }\n  .universal-editor .universal-editor__image-wrapper {\n    flex-grow: 1;\n    position: relative; }\n    .universal-editor .universal-editor__image-wrapper .universal-editor__image-display {\n      display: block;\n      position: absolute;\n      max-width: 100%;\n      max-height: 100%;\n      left: 50%;\n      transform: translateX(-50%); }\n  .universal-editor .universal-editor__texticon {\n    background-image: url(\"assets/icons/text_filled.png\"); }\n  .universal-editor .universal-editor__audioicon {\n    background-image: url(\"assets/icons/audio_filled.png\"); }\n  .universal-editor .universal-editor__imageicon {\n    background-image: url(\"assets/icons/image_filled.png\"); }\n\n.universal-editor__tab-icon {\n  height: 26.66667px;\n  width: 26.66667px;\n  display: block;\n  margin: 0 auto;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: 100%;\n  background-color: transparent;\n  opacity: 0.8;\n  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5)); }\n\n.list-icon__text {\n  background-image: url(\"assets/icons/text_filled.png\"); }\n\n.list-icon__audio {\n  background-image: url(\"assets/icons/audio_filled.png\"); }\n\n.list-icon__image {\n  background-image: url(\"assets/icons/image_filled.png\"); }\n"
 
 /***/ }),
 /* 1017 */
@@ -45498,7 +45546,7 @@ module.exports = "<div class=\"link-editor\">\n\n  <textarea\n    name=\"textare
 /* 1070 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-window property-editor\">\n\n  <div class=\"modal-window__fields\">\n\n    <text-editor\n      *ngIf=\"propertyIs('text')\"\n      [textProperty]=\"roomProperty\">\n    </text-editor>\n\n    <image-editor\n      *ngIf=\"propertyIs('image')\"\n      [imageProperty]=\"roomProperty\">\n    </image-editor>\n\n    <video-editor\n      *ngIf=\"propertyIs('video')\"\n      [videoProperty]=\"roomProperty\">\n    </video-editor>\n\n    <universal-editor\n      *ngIf=\"propertyIs('universal')\"\n      [universalProperty]=\"roomProperty\">\n    </universal-editor>\n\n    <door-editor\n      *ngIf=\"propertyIs('door')\"\n      [doorProperty]=\"roomProperty\">\n    </door-editor>\n\n    <audio-editor\n      *ngIf=\"propertyIs('audio')\"\n      [audioProperty]=\"roomProperty\">\n    </audio-editor>\n\n    <link-editor\n      *ngIf=\"propertyIs('link')\"\n      [linkProperty]=\"roomProperty\">\n    </link-editor>\n\n    <div\n      class=\"property-editor__delete-button\"\n      (click)=\"deleteProperty()\">\n      Delete {{ getPropertyName() }}\n    </div>\n\n  </div>\n\n</div>\n"
+module.exports = "<div class=\"modal-window property-editor\">\n  <div class=\"modal-window__fields\">\n    <text-editor\n      *ngIf=\"propertyIs('text')\"\n      [textProperty]=\"roomProperty\">\n    </text-editor>\n\n    <image-editor\n      *ngIf=\"propertyIs('image')\"\n      [imageProperty]=\"roomProperty\">\n    </image-editor>\n\n    <video-editor\n      *ngIf=\"propertyIs('video')\"\n      [videoProperty]=\"roomProperty\">\n    </video-editor>\n\n    <universal-editor\n      *ngIf=\"propertyIs('universal')\"\n      [universalProperty]=\"roomProperty\">\n    </universal-editor>\n\n    <door-editor\n      *ngIf=\"propertyIs('door')\"\n      [doorProperty]=\"roomProperty\">\n    </door-editor>\n\n    <audio-editor\n      *ngIf=\"propertyIs('audio')\"\n      [audioProperty]=\"roomProperty\">\n    </audio-editor>\n\n    <link-editor\n      *ngIf=\"propertyIs('link')\"\n      [linkProperty]=\"roomProperty\">\n    </link-editor>\n\n    <div\n      *ngIf=\"!propertyIs('universal')\"\n      class=\"property-editor__delete-button\"\n      (click)=\"deleteProperty()\">\n      Delete {{ getPropertyName() }}\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 /* 1071 */
@@ -45510,7 +45558,7 @@ module.exports = "<div class=\"text-editor\">\n  <p class=\"hotspot-inspector__l
 /* 1072 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"universal-editor\">\n  <h2 class=\"hotspot-inspector__label\">\n    Hotspot Tool\n  </h2>\n\n  <div class=\"tab-container\">\n\n    <input id=\"tab-universal-image\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.IMAGE)\" [checked]=\"activeTab === TABS.IMAGE\">\n    <label for=\"tab-universal-image\" class=\"tab\">\n      <div class=\"universal-editor__tab-icon list-icon__image\"></div>\n      Image\n    </label>\n\n    <input id=\"tab-universal-text\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.TEXT)\" [checked]=\"activeTab === TABS.TEXT\">\n    <label for=\"tab-universal-text\" class=\"tab\">\n      <div class=\"universal-editor__tab-icon list-icon__text\"></div>\n      Text\n    </label>\n\n    <input id=\"tab-universal-audio\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.AUDIO)\" [checked]=\"activeTab === TABS.AUDIO\">\n    <label for=\"tab-universal-audio\" class=\"tab\">\n      <div class=\"universal-editor__tab-icon list-icon__audio\"></div>\n      Audio\n    </label>\n\n\n\n    <section id=\"content-universal-image\" droppable (onFileLoad)=\"onImageFileLoad($event)\" [acceptedFileType]=\"'image'\">\n      <file-loader\n        (onFileLoad)=\"onImageFileLoad($event)\"\n        [acceptedFileType]=\"'image'\"\n        class=\"universal-editor__file-loader\">\n      </file-loader>\n\n      <img *ngIf=\"hasImageContent()\"\n        [attr.src]=\"universalProperty.imageContent.getBinaryFileData()\"\n        class=\"universal-editor__image-display\">\n    </section>\n\n    <section id=\"content-universal-text\">\n      <p class=\"hotspot-inspector__label\">\n        Enter Text:\n      </p>\n      <textarea\n        maxlength=\"245\"\n        name=\"textarea\"\n        class=\"universal-editor__text-area\"\n        [(ngModel)]=\"universalProperty.textContent\">\n      </textarea>\n    </section>\n\n    <section id=\"content-universal-audio\" droppable (onFileLoad)=\"onAudioFileLoad($event)\" [acceptedFileType]=\"'audio'\">\n    <p class=\"hotspot-inspector__label play-loop-label\">\n      Play loop\n    </p>\n\n    <checkbox\n      [initialValue]=\"getLoopState()\"\n      (changeEmitter)=\"onLoopChange($event)\">\n    </checkbox>\n\n    <br/>\n\n    <div class=\"hotspot-inspector_row\">\n      <file-loader\n        (onFileLoad)=\"onAudioFileLoad($event)\"\n        [acceptedFileType]=\"'audio'\"\n        class=\"universal-editor__file-loader\">\n      </file-loader>\n\n      <audio-recorder\n        *ngIf=\"showAudioRecorder()\"\n        (onRecorded)=\"onAudioRecorded($event)\"\n        class=\"universal-editor__record-button\">\n      </audio-recorder>\n    </div>\n\n    <audio\n      *ngIf=\"hasAudioContent()\"\n      [attr.src]=\"universalProperty.audioContent.getBinaryFileData()\"\n      type=\"audio/mp3\"\n      controls=\"controls\"\n      [loop]=\"getLoopState()\"\n      [volume]=\"universalProperty.volume\"\n      (volumechange)=\"onVolumeChange($event)\"\n      class=\"universal-editor__audio-player\">\n    </audio>\n  </section>\n\n  </div>\n</div>\n"
+module.exports = "<div class=\"universal-editor\">\n  <h2 class=\"hotspot-inspector__label\">\n    Hotspot Tool\n  </h2>\n\n  <div class=\"tab-container\">\n    <div class=\"tabs\">\n      <input id=\"tab-universal-image\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.IMAGE)\"\n             [checked]=\"activeTab === TABS.IMAGE\">\n      <label for=\"tab-universal-image\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__image\"></div>\n        Image\n      </label>\n\n      <input id=\"tab-universal-text\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.TEXT)\"\n             [checked]=\"activeTab === TABS.TEXT\">\n      <label for=\"tab-universal-text\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__text\"></div>\n        Text\n      </label>\n\n      <input id=\"tab-universal-audio\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.AUDIO)\"\n             [checked]=\"activeTab === TABS.AUDIO\">\n      <label for=\"tab-universal-audio\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__audio\"></div>\n        Audio\n      </label>\n    </div>\n\n    <section id=\"content-universal-image\" [ngClass]=\"{'active': activeTab === TABS.IMAGE}\" droppable\n             (onFileLoad)=\"onImageFileLoad($event)\" [acceptedFileType]=\"'image'\">\n      <file-loader\n        (onFileLoad)=\"onImageFileLoad($event)\"\n        [acceptedFileType]=\"'image'\"\n        class=\"universal-editor__file-loader\">\n      </file-loader>\n\n      <div class=\"universal-editor__image-wrapper\">\n        <img *ngIf=\"hasImageContent()\"\n             [attr.src]=\"universalProperty.imageContent.getBinaryFileData()\"\n             class=\"universal-editor__image-display\">\n      </div>\n    </section>\n\n    <section id=\"content-universal-text\" [ngClass]=\"{'active': activeTab === TABS.TEXT}\">\n      <p class=\"hotspot-inspector__label\">\n        Enter Text:\n      </p>\n      <textarea\n        maxlength=\"245\"\n        name=\"textarea\"\n        class=\"universal-editor__text-area\"\n        [(ngModel)]=\"universalProperty.textContent\">\n      </textarea>\n    </section>\n\n    <section id=\"content-universal-audio\" [ngClass]=\"{'active': activeTab === TABS.AUDIO}\" droppable\n             (onFileLoad)=\"onAudioFileLoad($event)\" [acceptedFileType]=\"'audio'\">\n      <div>\n        <p class=\"hotspot-inspector__label play-loop-label\">\n          Play loop\n        </p>\n\n        <checkbox\n          [initialValue]=\"getLoopState()\"\n          (changeEmitter)=\"onLoopChange($event)\">\n        </checkbox>\n      </div>\n\n      <div class=\"hotspot-inspector_row\">\n        <file-loader\n          (onFileLoad)=\"onAudioFileLoad($event)\"\n          [acceptedFileType]=\"'audio'\"\n          class=\"universal-editor__file-loader\">\n        </file-loader>\n\n        <audio-recorder\n          *ngIf=\"showAudioRecorder()\"\n          (onRecorded)=\"onAudioRecorded($event)\"\n          class=\"universal-editor__record-button\">\n        </audio-recorder>\n      </div>\n\n      <audio\n        *ngIf=\"hasAudioContent()\"\n        [attr.src]=\"universalProperty.audioContent.getBinaryFileData()\"\n        type=\"audio/mp3\"\n        controls=\"controls\"\n        [loop]=\"getLoopState()\"\n        [volume]=\"universalProperty.volume\"\n        (volumechange)=\"onVolumeChange($event)\"\n        class=\"universal-editor__audio-player\">\n      </audio>\n    </section>\n  </div>\n\n  <div\n    class=\"property-editor__delete-button\"\n    (click)=\"onDeleteTabData()\">\n    Delete {{ activeTabName }}\n  </div>\n</div>\n"
 
 /***/ }),
 /* 1073 */
