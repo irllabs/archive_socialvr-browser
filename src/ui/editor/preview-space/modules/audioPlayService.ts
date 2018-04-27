@@ -40,12 +40,13 @@ export class AudioPlayService {
     }
   }
 
-  playHotspotAudio(audioAssetId: string, loop: boolean = false): AudioBufferSourceNode {
+  playHotspotAudio(audioAssetId: string, volume: number = 0.5, loop: boolean = false): AudioBufferSourceNode {
     this.stopPlaying(this.hotspot);
 
     const audioSource = this.getAudioSource(audioAssetId);
 
     if (audioSource) {
+      this.gainNode.gain.value = volume;
       audioSource.start(0);
       audioSource.loop = loop;
 

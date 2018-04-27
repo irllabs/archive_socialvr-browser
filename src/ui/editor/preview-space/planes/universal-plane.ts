@@ -101,6 +101,7 @@ export default class UniversalPlane extends BasePlane {
 
     this.audioBufferSourceNode = this.audioPlayService.playHotspotAudio(
       universalProperty.getId(),
+      universalProperty.volume,
       universalProperty.loop
     );
   }
