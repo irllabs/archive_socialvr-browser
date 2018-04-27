@@ -1,113 +1,116 @@
 <div class="room-editor">
 
-	<!-- Title -->
+  <!-- Title -->
   <text-input-material
     [inputLabel]="'Room Name'"
     [textModel]="getRoomName()"
     (onTextChange)="setRoomName($event)">
   </text-input-material>
   <br/>
-	<file-loader
-    	(onFileLoad)="onBackgroundImageLoad($event)"
-      [displayText]="'Add Background Image'"
-	    [acceptedFileType]="'image'">
-	</file-loader>
+  <file-loader
+    (onFileLoad)="onBackgroundImageLoad($event)"
+    [displayText]="'Add Background Image'"
+    [acceptedFileType]="'image'">
+  </file-loader>
 
-	<file-loader
-		*ngIf="!getBackgroundAudio().hasAsset()"
+  <file-loader
+    *ngIf="!getBackgroundAudio().hasAsset()"
     [displayText]="'Add Room Background Audio'"
 
-    	(onFileLoad)="onBackgroundAudioLoad($event)"
-	    [acceptedFileType]="'audio'">
-	</file-loader>
+    (onFileLoad)="onBackgroundAudioLoad($event)"
+    [acceptedFileType]="'audio'">
+  </file-loader>
 
-	<div
-		*ngIf="getBackgroundAudio().hasAsset()"
-		class="room-editor__delete-button"
-		(click)="removeBackgroundAudio()">
-		Remove Background Audio
-	</div>
+  <div
+    *ngIf="getBackgroundAudio().hasAsset()"
+    class="room-editor__delete-button"
+    (click)="removeBackgroundAudio()">
+    Remove Background Audio
+  </div>
 
-	<audio
-		*ngIf="getBackgroundAudio().hasAsset()"
-		[attr.src]="getBackgroundAudio().getBinaryFileData()"
-		type="audio/mp3"
-		controls="controls"
-		[volume]="getBackgroundAudioVolume()"
-    	(volumechange)="onBGAVolumeChange($event)"
-		class="room-editor__audio-player">
-	</audio>
+  <audio
+    *ngIf="getBackgroundAudio().hasAsset()"
+    [attr.src]="getBackgroundAudio().getBinaryFileData()"
+    type="audio/mp3"
+    controls="controls"
+    [volume]="getBackgroundAudioVolume()"
+    (volumechange)="onBGAVolumeChange($event)"
+    class="room-editor__audio-player">
+  </audio>
 
-	<!-- <div>
-		<p class="hotspot-inspector__label">Reverb</p>
+  <!-- <div>
+    <p class="hotspot-inspector__label">Reverb</p>
 
-		<select
-			(change)="onReverbChange($event)"
-			class="hotspot-inspector__select room-editor__reverb-select">
-			<option
-				*ngFor="let reverb of reverbOptions"
-				[selected]="reverb === getActiveReverb()">
-					{{reverb}}
-			</option>
-		</select>
+    <select
+      (change)="onReverbChange($event)"
+      class="hotspot-inspector__select room-editor__reverb-select">
+      <option
+        *ngFor="let reverb of reverbOptions"
+        [selected]="reverb === getActiveReverb()">
+          {{reverb}}
+      </option>
+    </select>
 
-	</div> -->
+  </div> -->
 
-  	<div class="hotspot-inspector_row">
-		<div class="hotspot-inspector_row">
-			<file-loader
-				*ngIf="!getNarratorIntroAudioFile().hasAsset()"
-		    	(onFileLoad)="onIntroAudioLoad($event)"
-			    [acceptedFileType]="'audio'"
-          [displayText]="'Select a Room Narration Audio'"
+  <div class="hotspot-inspector_row">
+    <div class="hotspot-inspector_row">
+      <file-loader
+        *ngIf="!getNarratorIntroAudioFile().hasAsset()"
+        (onFileLoad)="onIntroAudioLoad($event)"
+        [acceptedFileType]="'audio'"
+        [displayText]="'Select a Room Narration Audio'"
 
-					class="room-editor__audio-file-loader">
-			</file-loader>
-			<div
-				*ngIf="getNarratorIntroAudioFile().hasAsset()"
-				class="room-editor__delete-button"
-				(click)="removeNarratorIntroAudio()">
-				Remove Narration
-			</div>
-		</div>
-		<audio-recorder
-			*ngIf="showAudioRecorder()"
-      		(onRecorded)="onNarratorIntroRecorded($event)"
-      		class="audio-editor__record-button room-editor__audio-record-button">
-    	</audio-recorder>
-  	</div>
-	<audio
-		*ngIf="getNarratorIntroAudioFile().hasAsset()"
-		[attr.src]="getNarratorIntroAudioFile().getBinaryFileData()"
-		type="audio/mp3"
-		controls="controls"
-		[volume]="getNarratorIntroAudio().getVolume()"
-    	(volumechange)="onNarrationVolumeChange($event)"
-		class="room-editor__audio-player">
-	</audio>
+        class="room-editor__audio-file-loader">
+      </file-loader>
+      <div
+        *ngIf="getNarratorIntroAudioFile().hasAsset()"
+        class="room-editor__delete-button"
+        (click)="removeNarratorIntroAudio()">
+        Remove Narration
+      </div>
+    </div>
+    <audio-recorder
+      *ngIf="showAudioRecorder()"
+      (onRecorded)="onNarratorIntroRecorded($event)"
+      class="audio-editor__record-button room-editor__audio-record-button">
+    </audio-recorder>
+  </div>
 
-		<!--  disabled by ali, at aparna's request
-		<div class="hotspot-inspector_row">
-			<div>
-				<p class="hotspot-inspector__label room-editor__audio-file-loader">Narration: Return</p>
-				<file-loader
-			    	(onFileLoad)="onReturnAudioLoad($event)"
-				    [acceptedFileType]="'audio'"
-						class="room-editor__audio-file-loader">
-				</file-loader>
-			</div>
-			<audio-recorder
-				(onRecorded)="onNarratorReturnRecorded($event)"
-				class="audio-editor__record-button room-editor__audio-record-button">
-			</audio-recorder>
-		</div>
-		<audio
-			*ngIf="getNarratorReturnAudio().hasAsset()"
-			[attr.src]="getNarratorReturnAudio().getBinaryFileData()"
-			type="audio/mp3"
-			controls="controls"
-			class="room-editor__audio-player room-editor__audio-record-button">
-		</audio>
-		-->
+  <p class="error-message" *ngIf="largeIntroAudioFile">File size is too large (64MB is maximum).</p>
+
+  <audio
+    *ngIf="getNarratorIntroAudioFile().hasAsset()"
+    [attr.src]="getNarratorIntroAudioFile().getBinaryFileData()"
+    type="audio/mp3"
+    controls="controls"
+    [volume]="getNarratorIntroAudio().getVolume()"
+    (volumechange)="onNarrationVolumeChange($event)"
+    class="room-editor__audio-player">
+  </audio>
+
+  <!--  disabled by ali, at aparna's request
+  <div class="hotspot-inspector_row">
+    <div>
+      <p class="hotspot-inspector__label room-editor__audio-file-loader">Narration: Return</p>
+      <file-loader
+          (onFileLoad)="onReturnAudioLoad($event)"
+          [acceptedFileType]="'audio'"
+          class="room-editor__audio-file-loader">
+      </file-loader>
+    </div>
+    <audio-recorder
+      (onRecorded)="onNarratorReturnRecorded($event)"
+      class="audio-editor__record-button room-editor__audio-record-button">
+    </audio-recorder>
+  </div>
+  <audio
+    *ngIf="getNarratorReturnAudio().hasAsset()"
+    [attr.src]="getNarratorReturnAudio().getBinaryFileData()"
+    type="audio/mp3"
+    controls="controls"
+    class="room-editor__audio-player room-editor__audio-record-button">
+  </audio>
+  -->
 
 </div>

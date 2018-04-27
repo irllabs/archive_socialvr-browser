@@ -22,6 +22,8 @@ export class RoomEditor {
   @Output() onOffClick = new EventEmitter();
   private reverbOptions = reverbList;
 
+  public largeIntroAudioFile: boolean = false;
+
   constructor(
     private sceneInteractor: SceneInteractor,
     private element: ElementRef,
@@ -40,12 +42,16 @@ export class RoomEditor {
   private onBackgroundImageLoad($event) {
     const fileName: string = $event.file.name;
     const binaryFileData: any = $event.binaryFileData;
+
     this.eventBus.onStartLoading();
+
     resizeImage(binaryFileData, 'backgroundImage')
       .then(resized => {
-        const room = this.getActiveRoom()
+        const room = this.getActiveRoom();
+
         room.setFileData(fileName, resized.backgroundImage);
         room.setThumbnail(fileName, resized.thumbnail);
+
         this.eventBus.onSelectRoom(null, false);
         this.eventBus.onStopLoading();
       })
@@ -57,7 +63,13 @@ export class RoomEditor {
   }
 
   private onIntroAudioLoad($event) {
-    this.getNarratorIntroAudio().setIntroAudio($event.file.name, DEFAULT_VOLUME, $event.binaryFileData);
+    this.largeIntroAudioFile = false;
+
+    if ($event.file.size / 1024 / 1024 > 64) {
+      this.largeIntroAudioFile = true;
+    } else {
+      this.getNarratorIntroAudio().setIntroAudio($event.file.name, DEFAULT_VOLUME, $event.binaryFileData);
+    }
   }
 
   private onReturnAudioLoad($event) {
