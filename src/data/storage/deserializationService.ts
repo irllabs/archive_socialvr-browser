@@ -217,11 +217,11 @@ export class DeserializationService {
 
       if (imageJson.hasOwnProperty('file')) imageFileName = decodeURIComponent(imageJson.file);
       if (imageJson.hasOwnProperty('remoteFile')) {
-        universal.audioContent.setRemoteFileName(imageJson.remoteFile);
+        universal.imageContent.setRemoteFileName(imageJson.remoteFile);
       }
 
       universal.setImageContent(imageFileName, binaryFileData);
-      universal.setImageContent(DEFAULT_FILE_NAME, null);
+      universal.setAudioContent(DEFAULT_FILE_NAME, null);
 
       universals.push(universal);
     });
