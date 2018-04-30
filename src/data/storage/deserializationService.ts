@@ -13,7 +13,7 @@ import 'isomorphic-fetch';
 
 import {
   STORY_FILE_YAML, STORY_FILE_JSON, UINT8ARRAY,
-  MIME_TYPE_MP3, MIME_TYPE_PNG, MIME_TYPE_UTF8,
+  MIME_TYPE_MP3, MIME_TYPE_PNG,
   MIME_TYPE_JPG, MIME_TYPE_JPEG, MIME_TYPE_WAV, MIME_TYPE_AAC, MIME_TYPE_XM4A,
   BACKGROUND_THUMBNAIL
 } from 'ui/common/constants';
@@ -71,7 +71,7 @@ export class DeserializationService {
           const soundtrack = binaryFileMap.find(mediaFile => mediaFile.name === storyJson.soundtrack.file);
           const soundtrackData = soundtrack ? soundtrack.fileData : null;
 
-          this.roomManager.setSoundtrack(storyJson.soundtrack, storyJson.soundtrackVolume, soundtrackData);
+          this.roomManager.setSoundtrack(storyJson.soundtrack.file, storyJson.soundtrackVolume, soundtrackData);
         } else {
           this.roomManager.removeSoundtrack();
         }

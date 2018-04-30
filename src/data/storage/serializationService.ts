@@ -209,18 +209,16 @@ export class SerializationService {
     return new Promise((resolve, reject) => resolve(zip));
   }
 
-  private buildJsonStoryFile() {
-    const projectJson = JSON.stringify(this.buildProjectJson());
-    const projectFileBlobJson = new Blob([projectJson], {type: MIME_TYPE_UTF8});
+  private buildJsonStoryFile(projectJson) {
+    const projectSerialized = JSON.stringify(projectJson);
 
-    return projectFileBlobJson
+    return new Blob([projectSerialized], {type: MIME_TYPE_UTF8})
   }
 
-  private buildYamlStoryFile() {
-    const projectYaml = JsYaml.dump(this.buildProjectJson());
-    const projectFileBlobYaml = new Blob([projectYaml], {type: MIME_TYPE_UTF8});
+  private buildYamlStoryFile(projectJson) {
+    const projectSerialized = JsYaml.dump(projectJson);
 
-    return projectFileBlobYaml;
+    return new Blob([projectSerialized], {type: MIME_TYPE_UTF8});
   }
 
   private getHomeRoomImage(): Promise<string> {
@@ -264,17 +262,26 @@ export class SerializationService {
       // Prepare assets, then build story files
       assetPromise
         .then(built => {
-          zip.file(STORY_FILE_JSON, this.buildJsonStoryFile());
-          zip.file(STORY_FILE_YAML, this.buildYamlStoryFile());
+          const projectJson = this.buildProjectJson();
+
+          zip.file(STORY_FILE_JSON, this.buildJsonStoryFile(projectJson));
+          zip.file(STORY_FILE_YAML, this.buildYamlStoryFile(projectJson));
         }),
+
       // Add homeroom image to ZIP
-      this.getHomeRoomImage()
-        .then(homeRoomImage => zip.file('thumbnail.jpg', homeRoomImage, {base64: true})),
+      this.getHomeRoomImage().then(homeRoomImage => zip.file('thumbnail.jpg', homeRoomImage, {base64: true})),
+
       // Add project soundtrack to ZIP
       this.getProjectSoundtrack()
-        .then(Soundtrack => zip.file(Soundtrack.getFileName(), getBase64FromDataUrl(Soundtrack.getBinaryFileData()), {base64: true}))
+        .then((soundtrack) => {
+          return zip.file(
+            soundtrack.getFileName(),
+            getBase64FromDataUrl(soundtrack.getBinaryFileData()), {base64: true}
+          );
+        })
         .catch(error => console.log(error)),
     ];
+
     // Build ZIP
     const zipBuilder = Promise.all(promises).then(resolve => zip.generateAsync({type: 'blob'}));
     return Observable.fromPromise(zipBuilder);
