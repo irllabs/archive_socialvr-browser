@@ -12835,7 +12835,7 @@ var DeserializationService = /** @class */function () {
                     return mediaFile.name === storyJson.soundtrack.file;
                 });
                 var soundtrackData = soundtrack ? soundtrack.fileData : null;
-                _this.roomManager.setSoundtrack(storyJson.soundtrack, storyJson.soundtrackVolume, soundtrackData);
+                _this.roomManager.setSoundtrack(storyJson.soundtrack.file, storyJson.soundtrackVolume, soundtrackData);
             } else {
                 _this.roomManager.removeSoundtrack();
             }
@@ -12963,10 +12963,10 @@ var DeserializationService = /** @class */function () {
             var imageFileName = constants_2.DEFAULT_FILE_NAME;
             if (imageJson.hasOwnProperty('file')) imageFileName = decodeURIComponent(imageJson.file);
             if (imageJson.hasOwnProperty('remoteFile')) {
-                universal.audioContent.setRemoteFileName(imageJson.remoteFile);
+                universal.imageContent.setRemoteFileName(imageJson.remoteFile);
             }
             universal.setImageContent(imageFileName, binaryFileData);
-            universal.setImageContent(constants_2.DEFAULT_FILE_NAME, null);
+            universal.setAudioContent(constants_2.DEFAULT_FILE_NAME, null);
             universals.push(universal);
         });
         universals.forEach(function (universal) {
@@ -13335,15 +13335,13 @@ var SerializationService = /** @class */function () {
             return resolve(zip);
         });
     };
-    SerializationService.prototype.buildJsonStoryFile = function () {
-        var projectJson = JSON.stringify(this.buildProjectJson());
-        var projectFileBlobJson = new Blob([projectJson], { type: constants_1.MIME_TYPE_UTF8 });
-        return projectFileBlobJson;
+    SerializationService.prototype.buildJsonStoryFile = function (projectJson) {
+        var projectSerialized = JSON.stringify(projectJson);
+        return new Blob([projectSerialized], { type: constants_1.MIME_TYPE_UTF8 });
     };
-    SerializationService.prototype.buildYamlStoryFile = function () {
-        var projectYaml = JsYaml.dump(this.buildProjectJson());
-        var projectFileBlobYaml = new Blob([projectYaml], { type: constants_1.MIME_TYPE_UTF8 });
-        return projectFileBlobYaml;
+    SerializationService.prototype.buildYamlStoryFile = function (projectJson) {
+        var projectSerialized = JsYaml.dump(projectJson);
+        return new Blob([projectSerialized], { type: constants_1.MIME_TYPE_UTF8 });
     };
     SerializationService.prototype.getHomeRoomImage = function () {
         var homeRoomId = this.roomManager.getHomeRoomId();
@@ -13384,16 +13382,17 @@ var SerializationService = /** @class */function () {
         var promises = [
         // Prepare assets, then build story files
         assetPromise.then(function (built) {
-            zip.file(constants_1.STORY_FILE_JSON, _this.buildJsonStoryFile());
-            zip.file(constants_1.STORY_FILE_YAML, _this.buildYamlStoryFile());
+            var projectJson = _this.buildProjectJson();
+            zip.file(constants_1.STORY_FILE_JSON, _this.buildJsonStoryFile(projectJson));
+            zip.file(constants_1.STORY_FILE_YAML, _this.buildYamlStoryFile(projectJson));
         }),
         // Add homeroom image to ZIP
         this.getHomeRoomImage().then(function (homeRoomImage) {
             return zip.file('thumbnail.jpg', homeRoomImage, { base64: true });
         }),
         // Add project soundtrack to ZIP
-        this.getProjectSoundtrack().then(function (Soundtrack) {
-            return zip.file(Soundtrack.getFileName(), getBase64FromDataUrl(Soundtrack.getBinaryFileData()), { base64: true });
+        this.getProjectSoundtrack().then(function (soundtrack) {
+            return zip.file(soundtrack.getFileName(), getBase64FromDataUrl(soundtrack.getBinaryFileData()), { base64: true });
         }).catch(function (error) {
             return console.log(error);
         })];
@@ -13491,13 +13490,17 @@ var AudioPlayService = /** @class */function () {
             this.background = audioSource;
         }
     };
-    AudioPlayService.prototype.playHotspotAudio = function (audioAssetId, loop) {
+    AudioPlayService.prototype.playHotspotAudio = function (audioAssetId, volume, loop) {
+        if (volume === void 0) {
+            volume = 0.5;
+        }
         if (loop === void 0) {
             loop = false;
         }
         this.stopPlaying(this.hotspot);
         var audioSource = this.getAudioSource(audioAssetId);
         if (audioSource) {
+            this.gainNode.gain.value = volume;
             audioSource.start(0);
             audioSource.loop = loop;
             this.hotspot = audioSource;
@@ -37676,6 +37679,7 @@ var RoomEditor = /** @class */function () {
         this.metaDataInteractor = metaDataInteractor;
         this.onOffClick = new core_1.EventEmitter();
         this.reverbOptions = reverbList_1.reverbList;
+        this.largeIntroAudioFile = false;
     }
     RoomEditor.prototype.onDocumentClick = function ($event) {
         var isClicked = this.element.nativeElement.contains($event.target);
@@ -37702,7 +37706,12 @@ var RoomEditor = /** @class */function () {
         this.getActiveRoom().setBackgroundAudio($event.file.name, constants_1.DEFAULT_VOLUME, $event.binaryFileData);
     };
     RoomEditor.prototype.onIntroAudioLoad = function ($event) {
-        this.getNarratorIntroAudio().setIntroAudio($event.file.name, constants_1.DEFAULT_VOLUME, $event.binaryFileData);
+        this.largeIntroAudioFile = false;
+        if ($event.file.size / 1024 / 1024 > 64) {
+            this.largeIntroAudioFile = true;
+        } else {
+            this.getNarratorIntroAudio().setIntroAudio($event.file.name, constants_1.DEFAULT_VOLUME, $event.binaryFileData);
+        }
     };
     RoomEditor.prototype.onReturnAudioLoad = function ($event) {
         this.getActiveRoom().getNarrator().setReturnAudio($event.file.name, $event.binaryFileData);
@@ -40783,7 +40792,7 @@ var UniversalPlane = /** @class */function (_super) {
     };
     UniversalPlane.prototype.onActivated = function () {
         var universalProperty = this.prop;
-        this.audioBufferSourceNode = this.audioPlayService.playHotspotAudio(universalProperty.getId(), universalProperty.loop);
+        this.audioBufferSourceNode = this.audioPlayService.playHotspotAudio(universalProperty.getId(), universalProperty.volume, universalProperty.loop);
     };
     UniversalPlane.prototype.onDeactivated = function () {
         if (this.audioBufferSourceNode) {
@@ -45148,7 +45157,7 @@ module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserr
 /* 1003 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.room-editor {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  padding: 16px;\n  background: #FAFAFA;\n  border-radius: 4px;\n  backdrop-filter: blur(4px);\n  box-shadow: 0 50px 100px rgba(50, 50, 93, 0.1), 0 15px 35px rgba(50, 50, 93, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); }\n\n.room-editor__audio-player {\n  width: 100%;\n  margin-top: 5px; }\n\n.room-editor__audio-file-loader {\n  width: 220px; }\n\n.room-editor__audio-record-button {\n  margin-left: 8px; }\n\n.room-editor__delete-button {\n  font-size: 0.8em;\n  background-color: #FF3571;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  border-radius: 4px;\n  cursor: pointer;\n  width: 230px; }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.room-editor {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  padding: 16px;\n  background: #FAFAFA;\n  border-radius: 4px;\n  backdrop-filter: blur(4px);\n  box-shadow: 0 50px 100px rgba(50, 50, 93, 0.1), 0 15px 35px rgba(50, 50, 93, 0.15), 0 5px 15px rgba(0, 0, 0, 0.1); }\n  .room-editor .error-message {\n    color: #FF4000;\n    font-size: 14px; }\n\n.room-editor__audio-player {\n  width: 100%;\n  margin-top: 5px; }\n\n.room-editor__audio-file-loader {\n  width: 220px; }\n\n.room-editor__audio-record-button {\n  margin-left: 8px; }\n\n.room-editor__delete-button {\n  font-size: 0.8em;\n  background-color: #FF3571;\n  color: #FAFAFA;\n  text-align: center;\n  padding: 10px 0;\n  border-radius: 4px;\n  cursor: pointer;\n  width: 230px; }\n"
 
 /***/ }),
 /* 1004 */
@@ -45484,7 +45493,7 @@ module.exports = "<div\n  id=\"icon-element\"\n  class=\"room-editor-icon\">\n\n
 /* 1059 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"room-editor\">\n\n\t<!-- Title -->\n  <text-input-material\n    [inputLabel]=\"'Room Name'\"\n    [textModel]=\"getRoomName()\"\n    (onTextChange)=\"setRoomName($event)\">\n  </text-input-material>\n  <br/>\n\t<file-loader\n    \t(onFileLoad)=\"onBackgroundImageLoad($event)\"\n      [displayText]=\"'Add Background Image'\"\n\t    [acceptedFileType]=\"'image'\">\n\t</file-loader>\n\n\t<file-loader\n\t\t*ngIf=\"!getBackgroundAudio().hasAsset()\"\n    [displayText]=\"'Add Room Background Audio'\"\n\n    \t(onFileLoad)=\"onBackgroundAudioLoad($event)\"\n\t    [acceptedFileType]=\"'audio'\">\n\t</file-loader>\n\n\t<div\n\t\t*ngIf=\"getBackgroundAudio().hasAsset()\"\n\t\tclass=\"room-editor__delete-button\"\n\t\t(click)=\"removeBackgroundAudio()\">\n\t\tRemove Background Audio\n\t</div>\n\n\t<audio\n\t\t*ngIf=\"getBackgroundAudio().hasAsset()\"\n\t\t[attr.src]=\"getBackgroundAudio().getBinaryFileData()\"\n\t\ttype=\"audio/mp3\"\n\t\tcontrols=\"controls\"\n\t\t[volume]=\"getBackgroundAudioVolume()\"\n    \t(volumechange)=\"onBGAVolumeChange($event)\"\n\t\tclass=\"room-editor__audio-player\">\n\t</audio>\n\n\t<!-- <div>\n\t\t<p class=\"hotspot-inspector__label\">Reverb</p>\n\n\t\t<select\n\t\t\t(change)=\"onReverbChange($event)\"\n\t\t\tclass=\"hotspot-inspector__select room-editor__reverb-select\">\n\t\t\t<option\n\t\t\t\t*ngFor=\"let reverb of reverbOptions\"\n\t\t\t\t[selected]=\"reverb === getActiveReverb()\">\n\t\t\t\t\t{{reverb}}\n\t\t\t</option>\n\t\t</select>\n\n\t</div> -->\n\n  \t<div class=\"hotspot-inspector_row\">\n\t\t<div class=\"hotspot-inspector_row\">\n\t\t\t<file-loader\n\t\t\t\t*ngIf=\"!getNarratorIntroAudioFile().hasAsset()\"\n\t\t    \t(onFileLoad)=\"onIntroAudioLoad($event)\"\n\t\t\t    [acceptedFileType]=\"'audio'\"\n          [displayText]=\"'Select a Room Narration Audio'\"\n\n\t\t\t\t\tclass=\"room-editor__audio-file-loader\">\n\t\t\t</file-loader>\n\t\t\t<div\n\t\t\t\t*ngIf=\"getNarratorIntroAudioFile().hasAsset()\"\n\t\t\t\tclass=\"room-editor__delete-button\"\n\t\t\t\t(click)=\"removeNarratorIntroAudio()\">\n\t\t\t\tRemove Narration\n\t\t\t</div>\n\t\t</div>\n\t\t<audio-recorder\n\t\t\t*ngIf=\"showAudioRecorder()\"\n      \t\t(onRecorded)=\"onNarratorIntroRecorded($event)\"\n      \t\tclass=\"audio-editor__record-button room-editor__audio-record-button\">\n    \t</audio-recorder>\n  \t</div>\n\t<audio\n\t\t*ngIf=\"getNarratorIntroAudioFile().hasAsset()\"\n\t\t[attr.src]=\"getNarratorIntroAudioFile().getBinaryFileData()\"\n\t\ttype=\"audio/mp3\"\n\t\tcontrols=\"controls\"\n\t\t[volume]=\"getNarratorIntroAudio().getVolume()\"\n    \t(volumechange)=\"onNarrationVolumeChange($event)\"\n\t\tclass=\"room-editor__audio-player\">\n\t</audio>\n\n\t\t<!--  disabled by ali, at aparna's request\n\t\t<div class=\"hotspot-inspector_row\">\n\t\t\t<div>\n\t\t\t\t<p class=\"hotspot-inspector__label room-editor__audio-file-loader\">Narration: Return</p>\n\t\t\t\t<file-loader\n\t\t\t    \t(onFileLoad)=\"onReturnAudioLoad($event)\"\n\t\t\t\t    [acceptedFileType]=\"'audio'\"\n\t\t\t\t\t\tclass=\"room-editor__audio-file-loader\">\n\t\t\t\t</file-loader>\n\t\t\t</div>\n\t\t\t<audio-recorder\n\t\t\t\t(onRecorded)=\"onNarratorReturnRecorded($event)\"\n\t\t\t\tclass=\"audio-editor__record-button room-editor__audio-record-button\">\n\t\t\t</audio-recorder>\n\t\t</div>\n\t\t<audio\n\t\t\t*ngIf=\"getNarratorReturnAudio().hasAsset()\"\n\t\t\t[attr.src]=\"getNarratorReturnAudio().getBinaryFileData()\"\n\t\t\ttype=\"audio/mp3\"\n\t\t\tcontrols=\"controls\"\n\t\t\tclass=\"room-editor__audio-player room-editor__audio-record-button\">\n\t\t</audio>\n\t\t-->\n\n</div>\n"
+module.exports = "<div class=\"room-editor\">\n\n  <!-- Title -->\n  <text-input-material\n    [inputLabel]=\"'Room Name'\"\n    [textModel]=\"getRoomName()\"\n    (onTextChange)=\"setRoomName($event)\">\n  </text-input-material>\n  <br/>\n  <file-loader\n    (onFileLoad)=\"onBackgroundImageLoad($event)\"\n    [displayText]=\"'Add Background Image'\"\n    [acceptedFileType]=\"'image'\">\n  </file-loader>\n\n  <file-loader\n    *ngIf=\"!getBackgroundAudio().hasAsset()\"\n    [displayText]=\"'Add Room Background Audio'\"\n\n    (onFileLoad)=\"onBackgroundAudioLoad($event)\"\n    [acceptedFileType]=\"'audio'\">\n  </file-loader>\n\n  <div\n    *ngIf=\"getBackgroundAudio().hasAsset()\"\n    class=\"room-editor__delete-button\"\n    (click)=\"removeBackgroundAudio()\">\n    Remove Background Audio\n  </div>\n\n  <audio\n    *ngIf=\"getBackgroundAudio().hasAsset()\"\n    [attr.src]=\"getBackgroundAudio().getBinaryFileData()\"\n    type=\"audio/mp3\"\n    controls=\"controls\"\n    [volume]=\"getBackgroundAudioVolume()\"\n    (volumechange)=\"onBGAVolumeChange($event)\"\n    class=\"room-editor__audio-player\">\n  </audio>\n\n  <!-- <div>\n    <p class=\"hotspot-inspector__label\">Reverb</p>\n\n    <select\n      (change)=\"onReverbChange($event)\"\n      class=\"hotspot-inspector__select room-editor__reverb-select\">\n      <option\n        *ngFor=\"let reverb of reverbOptions\"\n        [selected]=\"reverb === getActiveReverb()\">\n          {{reverb}}\n      </option>\n    </select>\n\n  </div> -->\n\n  <div class=\"hotspot-inspector_row\">\n    <div class=\"hotspot-inspector_row\">\n      <file-loader\n        *ngIf=\"!getNarratorIntroAudioFile().hasAsset()\"\n        (onFileLoad)=\"onIntroAudioLoad($event)\"\n        [acceptedFileType]=\"'audio'\"\n        [displayText]=\"'Select a Room Narration Audio'\"\n\n        class=\"room-editor__audio-file-loader\">\n      </file-loader>\n      <div\n        *ngIf=\"getNarratorIntroAudioFile().hasAsset()\"\n        class=\"room-editor__delete-button\"\n        (click)=\"removeNarratorIntroAudio()\">\n        Remove Narration\n      </div>\n    </div>\n    <audio-recorder\n      *ngIf=\"showAudioRecorder()\"\n      (onRecorded)=\"onNarratorIntroRecorded($event)\"\n      class=\"audio-editor__record-button room-editor__audio-record-button\">\n    </audio-recorder>\n  </div>\n\n  <p class=\"error-message\" *ngIf=\"largeIntroAudioFile\">File size is too large (64MB is maximum).</p>\n\n  <audio\n    *ngIf=\"getNarratorIntroAudioFile().hasAsset()\"\n    [attr.src]=\"getNarratorIntroAudioFile().getBinaryFileData()\"\n    type=\"audio/mp3\"\n    controls=\"controls\"\n    [volume]=\"getNarratorIntroAudio().getVolume()\"\n    (volumechange)=\"onNarrationVolumeChange($event)\"\n    class=\"room-editor__audio-player\">\n  </audio>\n\n  <!--  disabled by ali, at aparna's request\n  <div class=\"hotspot-inspector_row\">\n    <div>\n      <p class=\"hotspot-inspector__label room-editor__audio-file-loader\">Narration: Return</p>\n      <file-loader\n          (onFileLoad)=\"onReturnAudioLoad($event)\"\n          [acceptedFileType]=\"'audio'\"\n          class=\"room-editor__audio-file-loader\">\n      </file-loader>\n    </div>\n    <audio-recorder\n      (onRecorded)=\"onNarratorReturnRecorded($event)\"\n      class=\"audio-editor__record-button room-editor__audio-record-button\">\n    </audio-recorder>\n  </div>\n  <audio\n    *ngIf=\"getNarratorReturnAudio().hasAsset()\"\n    [attr.src]=\"getNarratorReturnAudio().getBinaryFileData()\"\n    type=\"audio/mp3\"\n    controls=\"controls\"\n    class=\"room-editor__audio-player room-editor__audio-record-button\">\n  </audio>\n  -->\n\n</div>\n"
 
 /***/ }),
 /* 1060 */
