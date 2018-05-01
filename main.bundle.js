@@ -5003,21 +5003,20 @@ var RoomManager = /** @class */function () {
         } else {
             this.soundtrack.setFileName(fileName);
             this.soundtrack.setBinaryFileData(dataUrl);
-            this.setSoundtrackVolume(volume);
+            this.soundtrack.setVolume(volume);
         }
     };
     RoomManager.prototype.setSoundtrackVolume = function (v) {
         if (v === undefined || v === null) {
-            this.soundtrackVolume = constants_1.DEFAULT_VOLUME;
-        } else {
-            this.soundtrackVolume = v;
+            v = constants_1.DEFAULT_VOLUME;
         }
+        this.soundtrack.setVolume(v);
     };
     RoomManager.prototype.removeSoundtrack = function () {
         this.soundtrack = new audio_1.Audio();
     };
     RoomManager.prototype.getSoundtrackVolume = function () {
-        return this.soundtrackVolume;
+        return this.soundtrack.getVolume();
     };
     RoomManager = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [])], RoomManager);
     return RoomManager;
@@ -12843,11 +12842,12 @@ var DeserializationService = /** @class */function () {
                 _this.roomManager.setHomeRoomId(storyJson.homeRoomId);
             }
             if (storyJson.soundtrack) {
+                var soundtrackFileName_1 = decodeURIComponent(storyJson.soundtrack.file);
                 var soundtrack = binaryFileMap.find(function (mediaFile) {
-                    return mediaFile.name === storyJson.soundtrack.file;
+                    return mediaFile.name === soundtrackFileName_1;
                 });
                 var soundtrackData = soundtrack ? soundtrack.fileData : null;
-                _this.roomManager.setSoundtrack(storyJson.soundtrack.file, storyJson.soundtrackVolume, soundtrackData);
+                _this.roomManager.setSoundtrack(soundtrackFileName_1, storyJson.soundtrackVolume, soundtrackData);
             } else {
                 _this.roomManager.removeSoundtrack();
             }
@@ -13486,12 +13486,18 @@ var AudioPlayService = /** @class */function () {
         this.gainNode.connect(audioContext.destination);
     }
     //for project soundtrack which cannot be stopped by others
-    AudioPlayService.prototype.playSoundtrack = function (audioAssetId) {
-        var audioSource = this.getAudioSource(audioAssetId);
-        if (audioSource) {
-            audioSource.loop = true;
-            audioSource.start(0);
-            this.soundtrack = audioSource;
+    AudioPlayService.prototype.playSoundtrack = function (audioAssetId, volume) {
+        if (volume === void 0) {
+            volume = 0.5;
+        }
+        if (!this.soundtrack) {
+            var audioSource = this.getAudioSource(audioAssetId);
+            if (audioSource) {
+                this.gainNode.gain.value = volume;
+                audioSource.loop = true;
+                audioSource.start(0);
+                this.soundtrack = audioSource;
+            }
         }
     };
     AudioPlayService.prototype.playBgAudio = function (audioAssetId) {
@@ -13519,10 +13525,15 @@ var AudioPlayService = /** @class */function () {
             return audioSource;
         }
     };
-    AudioPlayService.prototype.stopAll = function () {
-        this.stopPlaying(this.soundtrack);
+    AudioPlayService.prototype.stopAll = function (includeSoundtrack) {
+        if (includeSoundtrack) {
+            this.stopPlaying(this.soundtrack);
+            this.soundtrack = null;
+        }
         this.stopPlaying(this.background);
         this.stopPlaying(this.hotspot);
+        this.background = null;
+        this.hotspot = null;
     };
     AudioPlayService.prototype.stopPlaying = function (audioBuffer) {
         // Because of webkit not supporting the modern implementation of .stop() and
@@ -22254,13 +22265,13 @@ var AudioManager = /** @class */function () {
         var audioList = soundtrackAudio.concat(backgroundAudios).concat(narrationAudios).concat(hotspotAudios);
         return this.assetInteractor.loadAudioBuffers(audioList);
     };
-    AudioManager.prototype.stopAllAudio = function () {
-        this.audioPlayService.stopAll();
+    AudioManager.prototype.stopAllAudio = function (includeSoundtrack) {
+        this.audioPlayService.stopAll(includeSoundtrack);
     };
     AudioManager.prototype.playSoundtrack = function () {
         var soundtrack = this.metaDataInteractor.getSoundtrack();
-        if (soundtrack.getBinaryFileData()) {
-            this.audioPlayService.playSoundtrack('soundtrack');
+        if (soundtrack.hasAsset()) {
+            this.audioPlayService.playSoundtrack('soundtrack', soundtrack.getVolume());
         }
     };
     AudioManager.prototype.playBackgroundAudio = function () {
@@ -41042,7 +41053,7 @@ var PreviewSpace = /** @class */function () {
         this.subscriptions.forEach(function (subscription) {
             return subscription.unsubscribe();
         });
-        this.audioManager.stopAllAudio();
+        this.audioManager.stopAllAudio(true);
         if (!!this.video3D) {
             this.video3D.destroy();
         }
@@ -41078,12 +41089,15 @@ var PreviewSpace = /** @class */function () {
             _this.vrEffect.setSize(window.innerWidth, window.innerHeight);
         });
     };
-    PreviewSpace.prototype.initRoom = function () {
+    PreviewSpace.prototype.initRoom = function (isTransition) {
+        if (isTransition === void 0) {
+            isTransition = false;
+        }
         var roomId = this.sceneInteractor.getActiveRoomId();
         var room = this.sceneInteractor.getRoomById(roomId);
         this.sphereMesh.position.set(0, 0, 0);
         room.getBackgroundIsVideo() ? this.init3dRoom(room) : this.init2dRoom(roomId);
-        this.audioManager.stopAllAudio();
+        this.audioManager.stopAllAudio(!isTransition);
         this.audioManager.playBackgroundAudio();
         this.audioManager.playNarration();
         this.audioManager.playSoundtrack();
@@ -41233,13 +41247,13 @@ var PreviewSpace = /** @class */function () {
         this.isInRenderLoop = false;
         setTimeout(function () {
             _this.sceneInteractor.setActiveRoomId(lastRoom);
-            _this.initRoom();
+            _this.initRoom(true);
         });
     };
     PreviewSpace.prototype.goToHomeRoom = function () {
         var homeRoom = this.sceneInteractor.getHomeRoomId();
         this.sceneInteractor.setActiveRoomId(homeRoom);
-        this.initRoom();
+        this.initRoom(true);
     };
     PreviewSpace.prototype.goToRoom = function (outgoingRoomId) {
         var _this = this;
@@ -41256,11 +41270,11 @@ var PreviewSpace = /** @class */function () {
             x: -1 * this.lookAtVector.x * constants_1.THREE_CONST.TWEEN_ROOM_MOVE,
             y: -1 * this.lookAtVector.y * constants_1.THREE_CONST.TWEEN_ROOM_MOVE,
             z: -1 * this.lookAtVector.z * constants_1.THREE_CONST.TWEEN_ROOM_MOVE
-        }, constants_1.THREE_CONST.TWEEN_ROOM_MOVETIMEIN).easing(TWEEN.Easing.Linear.None).onUpdate(function () {}).onComplete(function () {
+        }, constants_1.THREE_CONST.TWEEN_ROOM_MOVETIMEIN).easing(TWEEN.Easing.Linear.None).onComplete(function () {
             _this.isInRenderLoop = false;
             _this.inRoomTween = false;
             _this.sceneInteractor.setActiveRoomId(outgoingRoomId);
-            _this.initRoom();
+            _this.initRoom(true);
         }).start();
     };
     //////////////////////////////////////////////
@@ -41295,7 +41309,7 @@ var PreviewSpace = /** @class */function () {
         setTimeout(function () {
             threeUtil_1.onResize(_this.camera, _this.renderer).then(function () {
                 cancelAnimationFrame(_this.animationRequest);
-                var isInVrMode = !!_this.vrDisplay && !!_this.vrDisplay.isPresenting;
+                var isInVrMode = !!_this.vrDisplay && _this.vrDisplay.isPresenting;
                 _this.isInRenderLoop = false;
                 _this.vrEffect.setSize(window.innerWidth, window.innerHeight);
                 // better image quality but worse performance
