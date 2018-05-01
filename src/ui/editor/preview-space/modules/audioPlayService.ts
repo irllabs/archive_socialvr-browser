@@ -19,13 +19,16 @@ export class AudioPlayService {
   }
 
   //for project soundtrack which cannot be stopped by others
-  playSoundtrack(audioAssetId: string) {
-    const audioSource = this.getAudioSource(audioAssetId);
+  playSoundtrack(audioAssetId: string, volume: number = 0.5) {
+    if (!this.soundtrack) {
+      const audioSource = this.getAudioSource(audioAssetId);
 
-    if (audioSource) {
-      audioSource.loop = true;
-      audioSource.start(0);
-      this.soundtrack = audioSource;
+      if (audioSource) {
+        this.gainNode.gain.value = volume;
+        audioSource.loop = true;
+        audioSource.start(0);
+        this.soundtrack = audioSource;
+      }
     }
   }
 
@@ -56,10 +59,17 @@ export class AudioPlayService {
     }
   }
 
-  stopAll() {
-    this.stopPlaying(this.soundtrack);
+  stopAll(includeSoundtrack: boolean) {
+    if(includeSoundtrack) {
+      this.stopPlaying(this.soundtrack);
+      this.soundtrack = null;
+    }
+
     this.stopPlaying(this.background);
     this.stopPlaying(this.hotspot);
+
+    this.background = null;
+    this.hotspot = null;
   }
 
   stopPlaying(audioBuffer: AudioBufferSourceNode) {

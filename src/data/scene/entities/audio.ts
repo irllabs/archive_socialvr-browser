@@ -3,7 +3,6 @@ import {MediaFile} from 'data/scene/entities/mediaFile';
 import {DEFAULT_VOLUME} from 'ui/common/constants';
 
 export class Audio extends BaseElement {
-
   private mediaFile: MediaFile = new MediaFile();
   private volume: number = DEFAULT_VOLUME;
 

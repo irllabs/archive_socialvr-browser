@@ -106,14 +106,15 @@ export class AudioManager {
     return this.assetInteractor.loadAudioBuffers(audioList);
   }
 
-  stopAllAudio() {
-    this.audioPlayService.stopAll();
+  stopAllAudio(includeSoundtrack: boolean) {
+    this.audioPlayService.stopAll(includeSoundtrack);
   }
 
   playSoundtrack() {
     const soundtrack = this.metaDataInteractor.getSoundtrack();
-    if (soundtrack.getBinaryFileData()) {
-      this.audioPlayService.playSoundtrack('soundtrack');
+
+    if (soundtrack.hasAsset()) {
+      this.audioPlayService.playSoundtrack('soundtrack', soundtrack.getVolume());
     }
   }
 
@@ -130,5 +131,4 @@ export class AudioManager {
       this.audioPlayService.playHotspotAudio(NarrationId);
     }
   }
-
 }

@@ -132,7 +132,7 @@ export class PreviewSpace implements AfterViewInit {
 
     this.isInRenderLoop = false;
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    this.audioManager.stopAllAudio();
+    this.audioManager.stopAllAudio(true);
 
     if (!!this.video3D) {
       this.video3D.destroy();
@@ -179,7 +179,7 @@ export class PreviewSpace implements AfterViewInit {
     });
   }
 
-  initRoom() {
+  initRoom(isTransition = false) {
     const roomId = this.sceneInteractor.getActiveRoomId();
     const room = this.sceneInteractor.getRoomById(roomId);
 
@@ -187,7 +187,7 @@ export class PreviewSpace implements AfterViewInit {
 
     room.getBackgroundIsVideo() ? this.init3dRoom(room) : this.init2dRoom(roomId);
 
-    this.audioManager.stopAllAudio();
+    this.audioManager.stopAllAudio(!isTransition);
     this.audioManager.playBackgroundAudio();
     this.audioManager.playNarration();
     this.audioManager.playSoundtrack();
@@ -250,7 +250,7 @@ export class PreviewSpace implements AfterViewInit {
     //   side: THREE.FrontSide
     // });
 
-    if(this.sphereMesh.material) {
+    if (this.sphereMesh.material) {
       if (this.sphereMesh.material['map']) {
         this.sphereMesh.material['map'].dispose();
       }
@@ -363,7 +363,7 @@ export class PreviewSpace implements AfterViewInit {
 
     setTimeout(() => {
       this.sceneInteractor.setActiveRoomId(lastRoom);
-      this.initRoom();
+      this.initRoom(true);
     });
   }
 
@@ -371,12 +371,13 @@ export class PreviewSpace implements AfterViewInit {
     const homeRoom = this.sceneInteractor.getHomeRoomId();
 
     this.sceneInteractor.setActiveRoomId(homeRoom);
-    this.initRoom();
+    this.initRoom(true);
   }
 
   goToRoom(outgoingRoomId) {
     this.inRoomTween = true;
     this.lookAtVector = new THREE.Vector3(0, 0, 0);
+
     //get the direciton we should move in
     if (this.vrDisplay && this.vrDisplay.isPresenting) {
       this.vrCamera.getWorldDirection(this.lookAtVector);
@@ -385,18 +386,20 @@ export class PreviewSpace implements AfterViewInit {
     }
 
     //tween with sphere position
-    var tweenRoomOut = new TWEEN.Tween(this.sphereMesh.position).to({
-      x: -1 * this.lookAtVector.x * THREE_CONST.TWEEN_ROOM_MOVE,
-      y: -1 * this.lookAtVector.y * THREE_CONST.TWEEN_ROOM_MOVE,
-      z: -1 * this.lookAtVector.z * THREE_CONST.TWEEN_ROOM_MOVE
-    }, THREE_CONST.TWEEN_ROOM_MOVETIMEIN).easing(TWEEN.Easing.Linear.None).onUpdate(() => {
-
-    }).onComplete(() => {
-      this.isInRenderLoop = false;
-      this.inRoomTween = false;
-      this.sceneInteractor.setActiveRoomId(outgoingRoomId);
-      this.initRoom();
-    }).start();
+    const tweenRoomOut = new TWEEN.Tween(this.sphereMesh.position)
+      .to({
+        x: -1 * this.lookAtVector.x * THREE_CONST.TWEEN_ROOM_MOVE,
+        y: -1 * this.lookAtVector.y * THREE_CONST.TWEEN_ROOM_MOVE,
+        z: -1 * this.lookAtVector.z * THREE_CONST.TWEEN_ROOM_MOVE
+      }, THREE_CONST.TWEEN_ROOM_MOVETIMEIN)
+      .easing(TWEEN.Easing.Linear.None)
+      .onComplete(() => {
+        this.isInRenderLoop = false;
+        this.inRoomTween = false;
+        this.sceneInteractor.setActiveRoomId(outgoingRoomId);
+        this.initRoom(true);
+      })
+      .start();
   }
 
   //////////////////////////////////////////////
@@ -435,7 +438,7 @@ export class PreviewSpace implements AfterViewInit {
       onResize(this.camera, this.renderer)
         .then(() => {
           cancelAnimationFrame(this.animationRequest);
-          const isInVrMode = !!this.vrDisplay && !!this.vrDisplay.isPresenting;
+          const isInVrMode = !!this.vrDisplay && this.vrDisplay.isPresenting;
           this.isInRenderLoop = false;
           this.vrEffect.setSize(window.innerWidth, window.innerHeight);
 

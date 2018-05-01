@@ -68,10 +68,11 @@ export class DeserializationService {
         }
 
         if (storyJson.soundtrack) {
-          const soundtrack = binaryFileMap.find(mediaFile => mediaFile.name === storyJson.soundtrack.file);
+          const soundtrackFileName = decodeURIComponent(storyJson.soundtrack.file);
+          const soundtrack = binaryFileMap.find(mediaFile => mediaFile.name === soundtrackFileName);
           const soundtrackData = soundtrack ? soundtrack.fileData : null;
 
-          this.roomManager.setSoundtrack(storyJson.soundtrack.file, storyJson.soundtrackVolume, soundtrackData);
+          this.roomManager.setSoundtrack(soundtrackFileName, storyJson.soundtrackVolume, soundtrackData);
         } else {
           this.roomManager.removeSoundtrack();
         }
