@@ -68,6 +68,24 @@ export class Universal extends BaseElement {
     this._imageContent.setRemoteFileName(null);
   }
 
+  getIcon(): string {
+    const parts = [];
+
+    if (this.imageContent.hasAsset()) {
+      parts.push('image');
+    }
+
+    if (this.textContent) {
+      parts.push('text');
+    }
+
+    if (this.audioContent.hasAsset()) {
+      parts.push('audio');
+    }
+
+    return `icon-${parts.length > 0 ? parts.join('-') : 'add'}.png`;
+  }
+
   toJson() {
     return Object.assign(super.toJson(), {
       imageFile: encodeURIComponent(this._imageContent.getFileName()),

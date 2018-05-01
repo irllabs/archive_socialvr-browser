@@ -249,11 +249,15 @@ export class PreviewSpace implements AfterViewInit {
     //   fragmentShader: roomSphereFragShader,
     //   side: THREE.FrontSide
     // });
-    if (this.sphereMesh.material['map']) {
-      this.sphereMesh.material['map'].dispose();
+
+    if(this.sphereMesh.material) {
+      if (this.sphereMesh.material['map']) {
+        this.sphereMesh.material['map'].dispose();
+      }
+
+      this.sphereMesh.material['map'] = sphereTexture;
     }
 
-    this.sphereMesh.material['map'] = sphereTexture;
     this.hotspotManager.load(this.scene, this.camera, this.goToRoom.bind(this));
 
     if (!this.menuManager.exists()) {

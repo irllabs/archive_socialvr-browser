@@ -64,12 +64,17 @@ $text-color-dark: $color-grey-dark;
 $text-color-light: $color-grey-light;
 
 // ICONS: hotspots //
-$icon-hotspot-door: url('assets/icons/door_filled.png');
-$icon-hotspot-image: url('assets/icons/image_filled.png');
-$icon-hotspot-video: url('assets/icons/video_filled.png');
-$icon-hotspot-universal: url('assets/icons/universal_filled.png');
-$icon-hotspot-text: url('assets/icons/text_filled.png');
-$icon-hotspot-audio: url('assets/icons/audio_filled.png');
+$icon-hotspot-door: url('assets/icons/icon-doorhotspot.png'); // door_filled.png
+$icon-hotspot-image: url('assets/icons/icon-image.png'); // image_filled.png
+$icon-hotspot-image-text: url('assets/icons/icon-image-text.png');
+$icon-hotspot-image-audio: url('assets/icons/icon-image-audio.png');
+$icon-hotspot-image-text-audio: url('assets/icons/icon-image-text-audio.png');
+$icon-hotspot-video: url('assets/icons/icon-video.png');  // video_filled.png
+$icon-hotspot-video-text: url('assets/icons/icon-video-text.png');
+$icon-hotspot-universal: url('assets/icons/icon-add.png'); // universal_filled.png
+$icon-hotspot-text: url('assets/icons/icon-text.png'); // text_filled.png
+$icon-hotspot-text-audio: url('assets/icons/icon-text-audio.png');
+$icon-hotspot-audio: url('assets/icons/icon-audio.png'); // audio_filled.png
 $icon-hotspot-room: url('assets/icons/room.png');
 $icon-hotspot-link: url('assets/icons/link_filled.png');
 

@@ -32,12 +32,19 @@ import {
 } from 'ui/common/constants';
 
 const ICON_MAP = {
-  text: 'text_filled.png',
-  image: 'image_filled.png',
-  video: 'video_filled.png',
-  universal: 'universal_filled.png',
-  audio: 'audio_filled.png',
-  door: 'door_filled.png',
+  universal: 'icon-add.png',
+
+  text: 'icon-text.png',
+  textAudio: 'icon-text-audio.png',
+
+  image: 'icon-image.png',
+  imageText: 'icon-image-text.png',
+  imageAudio: 'icon-image-audio.png',
+  imageTextAudio: 'icon-image-text-audio.png',
+  audio: 'icon-audio.png',
+
+  video: 'icon-video.png',
+  door: 'icon-doorhotspot.png',
   link: 'link_filled.png'
 };
 
@@ -50,7 +57,7 @@ const iconSizes = {
 const instanceSet: Set<RoomIcon> = new Set<RoomIcon>();
 
 window.addEventListener('resize', $event =>
-  instanceSet.forEach((instance: RoomIcon)  => instance.onResize())
+  instanceSet.forEach((instance: RoomIcon) => instance.onResize())
 );
 
 const ROUND_UNIT: number = 0.5;
@@ -95,31 +102,34 @@ export class RoomIcon implements Hotspot {
     private combinedHotspotUtil: CombinedHotspotUtil,
     protected ngZone: NgZone,
     private element: ElementRef,
-  ) {}
+  ) {
+  }
 
   @HostListener('document:click', ['$event'])
   private onDocumentClick($event) {
     const isClicked: boolean = this.element.nativeElement.contains($event.target);
+
     if (!isClicked) {
       this.setPropertyEditorVisibility(false);
     }
   }
 
   ngOnInit() {
+
     this.propertyType = RoomPropertyTypeService.getTypeString(this.roomProperty);
-    this.iconPath = `${ICON_PATH}${ICON_MAP[this.propertyType]}`;
+
 
     this.subscriptions.add(
       this.eventBus.getObservable(EventType.SELECT_PROPERTY)
         .subscribe(
           event => {
             // if a door is added and there are more than 2 rooms, then open the property editor
-            if (event.shouldOpenEditor &&  event.propertyId === this.roomProperty.getId()) {
+            if (event.shouldOpenEditor && event.propertyId === this.roomProperty.getId()) {
               this.setPropertyEditorVisibility(true);
             }
           },
           error => console.log('error', error)
-      )
+        )
     );
 
     this.updatePosition();
@@ -130,6 +140,12 @@ export class RoomIcon implements Hotspot {
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     instanceSet.delete(this);
+  }
+
+  getIconPath() {
+    const propertyIcon = this.roomProperty.getIcon();
+
+    return `${ICON_PATH}${propertyIcon !== null ? propertyIcon : ICON_MAP[this.propertyType]}`;
   }
 
   setPosition(location: Vector2) {
@@ -180,8 +196,7 @@ export class RoomIcon implements Hotspot {
           x: x,
           y: y
         });
-      }
-      else {
+      } else {
         // snap to grid in 2D view
         const normalizedLocation: Vector2 = normalizeAbsolutePosition(x, y);
         const snappedLocation: Vector2 = snapToGrid(normalizedLocation);
@@ -192,8 +207,7 @@ export class RoomIcon implements Hotspot {
           denormalizedPosition.getY() - ROOM_ICON_BUFFER_HEIGHT
         );
       }
-    }
-    else {
+    } else {
       // don't snap to grid
       this.setScreenPosition(x, y);
       this.setPixelLocation($event.x, $event.y);
@@ -204,7 +218,9 @@ export class RoomIcon implements Hotspot {
 
   onMoveEnd($event) {
     if (!$event.didMove) {
-      setTimeout(() => {this.setPropertyEditorVisibility(true);}, 200);      //this.setPropertyEditorVisibility(true);
+      setTimeout(() => {
+        this.setPropertyEditorVisibility(true);
+      }, 200);      //this.setPropertyEditorVisibility(true);
       return;
     }
 

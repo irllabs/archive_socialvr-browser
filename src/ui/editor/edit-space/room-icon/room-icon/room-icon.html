@@ -5,6 +5,7 @@
   hotspot-icon
   (onMove)="onMove($event)"
   (onMoveEnd)="onMoveEnd($event)">
+
   <div
     (click)="onDeleteClick($event)"
     class="icon__delete">
@@ -13,7 +14,7 @@
   <img
     id="draggableIcon"
     class="icon__image"
-    [attr.src]="iconPath"
+    [attr.src]="getIconPath()"
     [ngClass]="{
       'icon__image--small': hotspotIconSize === 'SMALL',
       'icon__image--medium': hotspotIconSize === 'MEDIUM'
@@ -25,15 +26,10 @@
     (onTextChange)="onNameChange($event)">
   </text-input>
 
-
-
-
   <property-editor
     *ngIf="propertyEditorIsVisible"
     [roomProperty]="roomProperty"
     (onDeselect)="onDeselect($event)"
     class="icon__property-editor">
   </property-editor>
-
-
 </div>

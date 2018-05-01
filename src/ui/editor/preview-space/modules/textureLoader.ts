@@ -5,13 +5,9 @@ import {AssetInteractor, AssetModel} from 'core/asset/assetInteractor';
 import {ICON_PATH, IMAGE_PATH} from 'ui/common/constants';
 
 const iconPaths: AssetModel[] = [
-  new AssetModel('door',  'door',  `${ICON_PATH}door_filled.png`),
-  new AssetModel('image', 'image', `${ICON_PATH}image_filled.png`),
-  new AssetModel('text',  'text',  `${ICON_PATH}text_filled.png`),
-  new AssetModel('audio', 'audio', `${ICON_PATH}audio_filled.png`),
-  new AssetModel('video', 'video', `${ICON_PATH}video_filled.png`),
-  new AssetModel('universal', 'universal', `${ICON_PATH}universal_filled.png`),
-  new AssetModel('link', 'link', `${ICON_PATH}link_filled.png`),
+  new AssetModel('hotspot-default', 'hotspot-default', `${ICON_PATH}icon-hotspot-default.png`),
+  new AssetModel('hotspot-hover', 'hotspot-hover', `${ICON_PATH}icon-hotspot-hover.png`),
+
   new AssetModel('back', 'back', `${ICON_PATH}back_filled.png`),
   new AssetModel('home', 'home', `${ICON_PATH}home_filled.png`),
   new AssetModel('colorBall', 'colorBall', `${IMAGE_PATH}color_ball.jpg`),

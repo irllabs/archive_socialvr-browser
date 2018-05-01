@@ -268,6 +268,10 @@ export class Room implements RoomProperty {
     return this.backgroundIsVideo;
   }
 
+  getIcon() {
+    return null;
+  }
+
   //unused RoomProperty methods
   getPossibleCombinedHotspot(): boolean {return false;}
   setPossibleCombinedHotspot(isPossibleCombinedHotspot: boolean) {}

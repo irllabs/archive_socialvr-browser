@@ -1,15 +1,5 @@
-
 .hotspot-menu {
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
-}
-
-.hotspot-menu__fab {
-  transition: margin-bottom .15s ease-in-out;
-  margin-left: 16px;
-}
-
-.hotspot-menu__fab-open {
-  margin-left: 16px;
 }

@@ -57,8 +57,8 @@ export default class BasePlane {
     const posCar = pol2car(THREE_CONST.CAMERA_HOTSPOT, polPol.y, polPol.z);
 
     // Render iconMesh
-    const iconGeometry = new THREE.PlaneGeometry(THREE_CONST.HOTSPOT_DIM, THREE_CONST.HOTSPOT_DIM);
-    const iconTexture = this.assetInteractor.getTextureById(this.type);
+    const iconGeometry = new THREE.CircleGeometry(THREE_CONST.HOTSPOT_DIM, THREE_CONST.DASHCIRCLE_SEG);
+    const iconTexture = this.assetInteractor.getTextureById('hotspot-hover');
     const iconMaterial = new THREE.MeshBasicMaterial({
       map: iconTexture,
       transparent: true,
@@ -71,22 +71,15 @@ export default class BasePlane {
     this.iconMesh.material['opacity'] = 0;
 
     // render previewIconMesh
-    const previewIconGeometry = new THREE.CircleGeometry(THREE_CONST.HOTSPOT_DIM, THREE_CONST.DASHCIRCLE_SEG);
-    const previewIconMaterial = new THREE.LineDashedMaterial({
-      color: 0xFFFFFF,
-      dashSize: 2,
-      gapSize: 2,
-      linewidth: 1
+    const previewIconGeometry = new THREE.CircleGeometry(2 * THREE_CONST.HOTSPOT_DIM, THREE_CONST.DASHCIRCLE_SEG);
+    const iconPreviewTexture = this.assetInteractor.getTextureById('hotspot-default');
+    const iconPreviewMaterial = new THREE.MeshBasicMaterial({
+      map: iconPreviewTexture,
+      transparent: true,
+      side: THREE.FrontSide
     });
 
-    previewIconGeometry.vertices.shift();
-
-    const line = new THREE.Line(previewIconGeometry, previewIconMaterial);
-
-    this.previewIconMesh = new THREE.Group();
-
-    line['computeLineDistances']();
-    this.previewIconMesh.add(line);
+    this.previewIconMesh = new THREE.Mesh(previewIconGeometry, iconPreviewMaterial);
     this.previewIconMesh.position.set(position.x, position.y, position.z);
     this.previewIconMesh.lookAt(this.camera.position);
     this.previewIconMesh.visible = true;

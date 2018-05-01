@@ -59,6 +59,10 @@ export class BaseElement implements RoomProperty {
     this.isPossibleCombinedHotspot = isPossibleCombinedHotspot;
   }
 
+  getIcon(): string {
+    return null;
+  }
+
   toJson(): any {
     return {
       uuid: this.id,

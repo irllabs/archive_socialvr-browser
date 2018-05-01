@@ -16,6 +16,8 @@ export interface RoomProperty {
 
   getTimestamp(): number;
 
+  getIcon(): string;
+
   setTimestamp(timestamp: number): RoomProperty;
 
   getPossibleCombinedHotspot();

@@ -22,10 +22,7 @@ const typeMap = {
 };
 
 export class RoomPropertyTypeService {
-
   static getTypeString(roomProperty: RoomProperty): string {
-    return Object.keys(typeMap)
-      .find(key => roomProperty instanceof typeMap[key]);
+    return Object.keys(typeMap).find(key => roomProperty instanceof typeMap[key]);
   }
-
 }

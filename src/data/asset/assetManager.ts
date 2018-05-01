@@ -7,7 +7,6 @@ import {getAudioContext} from 'ui/editor/util/audioContextProvider';
 
 @Injectable()
 export class AssetManager {
-
     private textureMap: Map<string, TextureData> = new Map();
     private audioBufferMap: Map<string, AudioData> = new Map();
 
