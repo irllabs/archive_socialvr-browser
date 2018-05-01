@@ -4088,6 +4088,9 @@ var BaseElement = /** @class */function () {
     BaseElement.prototype.setPossibleCombinedHotspot = function (isPossibleCombinedHotspot) {
         this.isPossibleCombinedHotspot = isPossibleCombinedHotspot;
     };
+    BaseElement.prototype.getIcon = function () {
+        return null;
+    };
     BaseElement.prototype.toJson = function () {
         return {
             uuid: this.id,
@@ -4137,8 +4140,8 @@ var BasePlane = /** @class */function () {
         var polPol = iconPositionUtil_1.car2pol(position.x, position.y, position.z);
         var posCar = iconPositionUtil_1.pol2car(constants_1.THREE_CONST.CAMERA_HOTSPOT, polPol.y, polPol.z);
         // Render iconMesh
-        var iconGeometry = new THREE.PlaneGeometry(constants_1.THREE_CONST.HOTSPOT_DIM, constants_1.THREE_CONST.HOTSPOT_DIM);
-        var iconTexture = this.assetInteractor.getTextureById(this.type);
+        var iconGeometry = new THREE.CircleGeometry(constants_1.THREE_CONST.HOTSPOT_DIM, constants_1.THREE_CONST.DASHCIRCLE_SEG);
+        var iconTexture = this.assetInteractor.getTextureById('hotspot-hover');
         var iconMaterial = new THREE.MeshBasicMaterial({
             map: iconTexture,
             transparent: true,
@@ -4149,18 +4152,14 @@ var BasePlane = /** @class */function () {
         this.iconMesh.lookAt(this.camera.position);
         this.iconMesh.material['opacity'] = 0;
         // render previewIconMesh
-        var previewIconGeometry = new THREE.CircleGeometry(constants_1.THREE_CONST.HOTSPOT_DIM, constants_1.THREE_CONST.DASHCIRCLE_SEG);
-        var previewIconMaterial = new THREE.LineDashedMaterial({
-            color: 0xFFFFFF,
-            dashSize: 2,
-            gapSize: 2,
-            linewidth: 1
+        var previewIconGeometry = new THREE.CircleGeometry(2 * constants_1.THREE_CONST.HOTSPOT_DIM, constants_1.THREE_CONST.DASHCIRCLE_SEG);
+        var iconPreviewTexture = this.assetInteractor.getTextureById('hotspot-default');
+        var iconPreviewMaterial = new THREE.MeshBasicMaterial({
+            map: iconPreviewTexture,
+            transparent: true,
+            side: THREE.FrontSide
         });
-        previewIconGeometry.vertices.shift();
-        var line = new THREE.Line(previewIconGeometry, previewIconMaterial);
-        this.previewIconMesh = new THREE.Group();
-        line['computeLineDistances']();
-        this.previewIconMesh.add(line);
+        this.previewIconMesh = new THREE.Mesh(previewIconGeometry, iconPreviewMaterial);
         this.previewIconMesh.position.set(position.x, position.y, position.z);
         this.previewIconMesh.lookAt(this.camera.position);
         this.previewIconMesh.visible = true;
@@ -8939,6 +8938,19 @@ var Universal = /** @class */function (_super) {
     Universal.prototype.resetImageContent = function () {
         this.setImageContent(constants_2.DEFAULT_FILE_NAME, null);
         this._imageContent.setRemoteFileName(null);
+    };
+    Universal.prototype.getIcon = function () {
+        var parts = [];
+        if (this.imageContent.hasAsset()) {
+            parts.push('image');
+        }
+        if (this.textContent) {
+            parts.push('text');
+        }
+        if (this.audioContent.hasAsset()) {
+            parts.push('audio');
+        }
+        return "icon-" + (parts.length > 0 ? parts.join('-') : 'add') + ".png";
     };
     Universal.prototype.toJson = function () {
         return Object.assign(_super.prototype.toJson.call(this), {
@@ -21734,6 +21746,9 @@ var Room = /** @class */function () {
     Room.prototype.getBackgroundIsVideo = function () {
         return this.backgroundIsVideo;
     };
+    Room.prototype.getIcon = function () {
+        return null;
+    };
     //unused RoomProperty methods
     Room.prototype.getPossibleCombinedHotspot = function () {
         return false;
@@ -22704,7 +22719,7 @@ var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(14);
 var assetInteractor_1 = __webpack_require__(55);
 var constants_1 = __webpack_require__(8);
-var iconPaths = [new assetInteractor_1.AssetModel('door', 'door', constants_1.ICON_PATH + "door_filled.png"), new assetInteractor_1.AssetModel('image', 'image', constants_1.ICON_PATH + "image_filled.png"), new assetInteractor_1.AssetModel('text', 'text', constants_1.ICON_PATH + "text_filled.png"), new assetInteractor_1.AssetModel('audio', 'audio', constants_1.ICON_PATH + "audio_filled.png"), new assetInteractor_1.AssetModel('video', 'video', constants_1.ICON_PATH + "video_filled.png"), new assetInteractor_1.AssetModel('universal', 'universal', constants_1.ICON_PATH + "universal_filled.png"), new assetInteractor_1.AssetModel('link', 'link', constants_1.ICON_PATH + "link_filled.png"), new assetInteractor_1.AssetModel('back', 'back', constants_1.ICON_PATH + "back_filled.png"), new assetInteractor_1.AssetModel('home', 'home', constants_1.ICON_PATH + "home_filled.png"), new assetInteractor_1.AssetModel('colorBall', 'colorBall', constants_1.IMAGE_PATH + "color_ball.jpg"), new assetInteractor_1.AssetModel('imageMask', 'imageMask', constants_1.IMAGE_PATH + "image-mask_1920.jpg")];
+var iconPaths = [new assetInteractor_1.AssetModel('hotspot-default', 'hotspot-default', constants_1.ICON_PATH + "icon-hotspot-default.png"), new assetInteractor_1.AssetModel('hotspot-hover', 'hotspot-hover', constants_1.ICON_PATH + "icon-hotspot-hover.png"), new assetInteractor_1.AssetModel('back', 'back', constants_1.ICON_PATH + "back_filled.png"), new assetInteractor_1.AssetModel('home', 'home', constants_1.ICON_PATH + "home_filled.png"), new assetInteractor_1.AssetModel('colorBall', 'colorBall', constants_1.IMAGE_PATH + "color_ball.jpg"), new assetInteractor_1.AssetModel('imageMask', 'imageMask', constants_1.IMAGE_PATH + "image-mask_1920.jpg")];
 var TextureLoader = /** @class */function () {
     function TextureLoader(sceneInteractor, assetInteractor) {
         this.sceneInteractor = sceneInteractor;
@@ -38852,12 +38867,16 @@ var combinedHotspotUtil_1 = __webpack_require__(168);
 var iconPositionUtil_1 = __webpack_require__(57);
 var constants_1 = __webpack_require__(8);
 var ICON_MAP = {
-    text: 'text_filled.png',
-    image: 'image_filled.png',
-    video: 'video_filled.png',
-    universal: 'universal_filled.png',
-    audio: 'audio_filled.png',
-    door: 'door_filled.png',
+    universal: 'icon-add.png',
+    text: 'icon-text.png',
+    textAudio: 'icon-text-audio.png',
+    image: 'icon-image.png',
+    imageText: 'icon-image-text.png',
+    imageAudio: 'icon-image-audio.png',
+    imageTextAudio: 'icon-image-text-audio.png',
+    audio: 'icon-audio.png',
+    video: 'icon-video.png',
+    door: 'icon-doorhotspot.png',
     link: 'link_filled.png'
 };
 var iconSizes = {
@@ -38904,7 +38923,6 @@ var RoomIcon = /** @class */function () {
     RoomIcon.prototype.ngOnInit = function () {
         var _this = this;
         this.propertyType = roomPropertyTypeService_1.RoomPropertyTypeService.getTypeString(this.roomProperty);
-        this.iconPath = "" + constants_1.ICON_PATH + ICON_MAP[this.propertyType];
         this.subscriptions.add(this.eventBus.getObservable(event_bus_1.EventType.SELECT_PROPERTY).subscribe(function (event) {
             // if a door is added and there are more than 2 rooms, then open the property editor
             if (event.shouldOpenEditor && event.propertyId === _this.roomProperty.getId()) {
@@ -38922,6 +38940,10 @@ var RoomIcon = /** @class */function () {
             return subscription.unsubscribe();
         });
         instanceSet.delete(this);
+    };
+    RoomIcon.prototype.getIconPath = function () {
+        var propertyIcon = this.roomProperty.getIcon();
+        return "" + constants_1.ICON_PATH + (propertyIcon !== null ? propertyIcon : ICON_MAP[this.propertyType]);
     };
     RoomIcon.prototype.setPosition = function (location) {
         var absolutePosition = iconPositionUtil_1.denormalizePosition(location.getX(), location.getY());
@@ -41117,10 +41139,12 @@ var PreviewSpace = /** @class */function () {
         //   fragmentShader: roomSphereFragShader,
         //   side: THREE.FrontSide
         // });
-        if (this.sphereMesh.material['map']) {
-            this.sphereMesh.material['map'].dispose();
+        if (this.sphereMesh.material) {
+            if (this.sphereMesh.material['map']) {
+                this.sphereMesh.material['map'].dispose();
+            }
+            this.sphereMesh.material['map'] = sphereTexture;
         }
-        this.sphereMesh.material['map'] = sphereTexture;
         this.hotspotManager.load(this.scene, this.camera, this.goToRoom.bind(this));
         if (!this.menuManager.exists()) {
             this.menuManager.load(this.scene, this.camera.position, this.goToLastRoom.bind(this), this.goToHomeRoom.bind(this));
@@ -45133,7 +45157,7 @@ module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserr
 /* 999 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.action-menu__list {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  margin-left: -40px;\n  width: 0;\n  transition: width 0.15s ease-out, margin-left 0.15s ease-out;\n  overflow: hidden; }\n\n.action-menu__list--open {\n  width: 64px;\n  margin-left: 16px; }\n\n.action-menu__list-item {\n  cursor: pointer;\n  height: 65px; }\n  .action-menu__list-item:hover {\n    font-size: 1.05em; }\n\n.action-menu__list-icon {\n  height: 40px;\n  width: 40px;\n  display: block;\n  margin: 0 auto;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: 100%;\n  background-color: transparent;\n  opacity: 0.8;\n  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5)); }\n\n.action-menu__list-label {\n  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);\n  transition: font-size .15s ease-out;\n  text-align: center;\n  font-size: 0.8em; }\n\n.list-icon__text {\n  background-image: url(\"assets/icons/text_filled.png\"); }\n\n.list-icon__audio {\n  background-image: url(\"assets/icons/audio_filled.png\"); }\n\n.list-icon__image {\n  background-image: url(\"assets/icons/image_filled.png\"); }\n\n.list-icon__video {\n  background-image: url(\"assets/icons/video_filled.png\"); }\n\n.list-icon__universal {\n  background-image: url(\"assets/icons/universal_filled.png\"); }\n\n.list-icon__door {\n  background-image: url(\"assets/icons/door_filled.png\"); }\n\n.list-icon__room {\n  background-image: url(\"assets/icons/room.png\"); }\n\n.list-icon__link {\n  background-image: url(\"assets/icons/link_filled.png\"); }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.action-menu__list {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  margin-left: -40px;\n  width: 0;\n  transition: width 0.15s ease-out, margin-left 0.15s ease-out;\n  overflow: hidden; }\n\n.action-menu__list--open {\n  width: 64px;\n  margin-left: 16px; }\n\n.action-menu__list-item {\n  cursor: pointer;\n  height: 65px; }\n  .action-menu__list-item:hover {\n    font-size: 1.05em; }\n\n.action-menu__list-icon {\n  height: 40px;\n  width: 40px;\n  display: block;\n  margin: 0 auto;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: 100%;\n  background-color: transparent;\n  opacity: 0.8;\n  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5)); }\n\n.action-menu__list-label {\n  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);\n  transition: font-size .15s ease-out;\n  text-align: center;\n  font-size: 0.8em; }\n\n.list-icon__text {\n  background-image: url(\"assets/icons/icon-text.png\"); }\n\n.list-icon__audio {\n  background-image: url(\"assets/icons/icon-audio.png\"); }\n\n.list-icon__image {\n  background-image: url(\"assets/icons/icon-image.png\"); }\n\n.list-icon__video {\n  background-image: url(\"assets/icons/icon-video.png\"); }\n\n.list-icon__universal {\n  background-image: url(\"assets/icons/icon-add.png\"); }\n\n.list-icon__door {\n  background-image: url(\"assets/icons/icon-doorhotspot.png\"); }\n\n.list-icon__room {\n  background-image: url(\"assets/icons/room.png\"); }\n\n.list-icon__link {\n  background-image: url(\"assets/icons/link_filled.png\"); }\n"
 
 /***/ }),
 /* 1000 */
@@ -45145,7 +45169,7 @@ module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserr
 /* 1001 */
 /***/ (function(module, exports) {
 
-module.exports = ".hotspot-menu {\n  display: flex;\n  flex-direction: column-reverse;\n  align-items: center; }\n\n.hotspot-menu__fab {\n  transition: margin-bottom .15s ease-in-out;\n  margin-left: 16px; }\n\n.hotspot-menu__fab-open {\n  margin-left: 16px; }\n"
+module.exports = ".hotspot-menu {\n  display: flex;\n  flex-direction: column-reverse;\n  align-items: center; }\n"
 
 /***/ }),
 /* 1002 */
@@ -45235,7 +45259,7 @@ module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserr
 /* 1016 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.universal-editor {\n  width: 50vw;\n  height: 60vh;\n  display: flex;\n  flex-direction: column; }\n  .universal-editor .hotspot-inspector__label {\n    flex-wrap: wrap; }\n  .universal-editor .invalid-message {\n    color: #FF4000; }\n  .universal-editor .play-loop-label {\n    padding-bottom: 5px;\n    display: inline-block;\n    width: auto;\n    line-height: 26px;\n    vertical-align: middle; }\n    .universal-editor .play-loop-label + checkbox {\n      display: inline-block;\n      vertical-align: middle;\n      padding-bottom: 5px; }\n  .universal-editor .tab-container {\n    flex: 1;\n    display: flex;\n    flex-direction: column; }\n    .universal-editor .tab-container > .tabs label.tab {\n      display: inline-block;\n      margin: 0 0 -1px;\n      padding: 10px 20px;\n      font-weight: 600;\n      text-align: center;\n      color: #bbb;\n      border: 1px solid transparent; }\n      .universal-editor .tab-container > .tabs label.tab:hover {\n        color: #888;\n        cursor: pointer; }\n      @media (max-width: 767px) {\n        .universal-editor .tab-container > .tabs label.tab {\n          padding: 4px 8px;\n          font-size: 14px; }\n          .universal-editor .tab-container > .tabs label.tab .universal-editor__tab-icon {\n            height: 20px;\n            width: 20px; } }\n    .universal-editor .tab-container > .tabs input[name=\"tabs\"] {\n      display: none; }\n      .universal-editor .tab-container > .tabs input[name=\"tabs\"]:checked + label {\n        color: #555;\n        border: 1px solid #ddd;\n        border-top: 2px solid orange;\n        border-bottom: 1px solid #fff; }\n    .universal-editor .tab-container > section {\n      display: none;\n      padding: 20px 0 0;\n      border-top: 1px solid #ddd;\n      flex-grow: 1; }\n    .universal-editor .tab-container #content-universal-image.active,\n    .universal-editor .tab-container #content-universal-text.active,\n    .universal-editor .tab-container #content-universal-audio.active {\n      display: flex;\n      flex-direction: column; }\n  .universal-editor .property-editor__delete-button {\n    margin-top: 8px;\n    width: 100%;\n    font-size: 0.8em;\n    background-color: #FF3571;\n    color: #FAFAFA;\n    text-align: center;\n    padding: 10px 0;\n    border-radius: 4px;\n    cursor: pointer; }\n  .universal-editor .universal-editor__text-area {\n    border-color: #EEEEEE;\n    resize: none;\n    font-size: 1.1em;\n    width: 100%;\n    flex-grow: 1; }\n  .universal-editor .universal-editor__record-button {\n    display: inline-block;\n    position: relative;\n    margin-left: 5px;\n    margin-bottom: 10px; }\n  .universal-editor .universal-editor__file-loader {\n    position: relative;\n    margin-bottom: 10px;\n    width: 100%; }\n  .universal-editor .universal-editor__audio-player {\n    width: 100%;\n    position: relative;\n    margin-top: 5px; }\n  .universal-editor .universal-editor__image-wrapper {\n    flex-grow: 1;\n    position: relative; }\n    .universal-editor .universal-editor__image-wrapper .universal-editor__image-display {\n      display: block;\n      position: absolute;\n      max-width: 100%;\n      max-height: 100%;\n      left: 50%;\n      transform: translateX(-50%); }\n  .universal-editor .universal-editor__texticon {\n    background-image: url(\"assets/icons/text_filled.png\"); }\n  .universal-editor .universal-editor__audioicon {\n    background-image: url(\"assets/icons/audio_filled.png\"); }\n  .universal-editor .universal-editor__imageicon {\n    background-image: url(\"assets/icons/image_filled.png\"); }\n\n.universal-editor__tab-icon {\n  height: 26.66667px;\n  width: 26.66667px;\n  display: block;\n  margin: 0 auto;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: 100%;\n  background-color: transparent;\n  opacity: 0.8;\n  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5)); }\n\n.list-icon__text {\n  background-image: url(\"assets/icons/text_filled.png\"); }\n\n.list-icon__audio {\n  background-image: url(\"assets/icons/audio_filled.png\"); }\n\n.list-icon__image {\n  background-image: url(\"assets/icons/image_filled.png\"); }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.universal-editor {\n  width: 50vw;\n  height: 60vh;\n  display: flex;\n  flex-direction: column; }\n  .universal-editor .hotspot-inspector__label {\n    flex-wrap: wrap; }\n  .universal-editor .invalid-message {\n    color: #FF4000; }\n  .universal-editor .play-loop-label {\n    padding-bottom: 5px;\n    display: inline-block;\n    width: auto;\n    line-height: 26px;\n    vertical-align: middle; }\n    .universal-editor .play-loop-label + checkbox {\n      display: inline-block;\n      vertical-align: middle;\n      padding-bottom: 5px; }\n  .universal-editor .tab-container {\n    flex: 1;\n    display: flex;\n    flex-direction: column; }\n    .universal-editor .tab-container > .tabs label.tab {\n      display: inline-block;\n      margin: 0 0 -1px;\n      padding: 10px 20px;\n      font-weight: 600;\n      text-align: center;\n      color: #bbb;\n      border: 1px solid transparent; }\n      .universal-editor .tab-container > .tabs label.tab:hover {\n        color: #888;\n        cursor: pointer; }\n      @media (max-width: 767px) {\n        .universal-editor .tab-container > .tabs label.tab {\n          padding: 4px 8px;\n          font-size: 14px; }\n          .universal-editor .tab-container > .tabs label.tab .universal-editor__tab-icon {\n            height: 20px;\n            width: 20px; } }\n    .universal-editor .tab-container > .tabs input[name=\"tabs\"] {\n      display: none; }\n      .universal-editor .tab-container > .tabs input[name=\"tabs\"]:checked + label {\n        color: #555;\n        border: 1px solid #ddd;\n        border-top: 2px solid orange;\n        border-bottom: 1px solid #fff; }\n    .universal-editor .tab-container > section {\n      display: none;\n      padding: 20px 0 0;\n      border-top: 1px solid #ddd;\n      flex-grow: 1; }\n    .universal-editor .tab-container #content-universal-image.active,\n    .universal-editor .tab-container #content-universal-text.active,\n    .universal-editor .tab-container #content-universal-audio.active {\n      display: flex;\n      flex-direction: column; }\n  .universal-editor .property-editor__delete-button {\n    margin-top: 8px;\n    width: 100%;\n    font-size: 0.8em;\n    background-color: #FF3571;\n    color: #FAFAFA;\n    text-align: center;\n    padding: 10px 0;\n    border-radius: 4px;\n    cursor: pointer; }\n  .universal-editor .universal-editor__text-area {\n    border-color: #EEEEEE;\n    resize: none;\n    font-size: 1.1em;\n    width: 100%;\n    flex-grow: 1; }\n  .universal-editor .universal-editor__record-button {\n    display: inline-block;\n    position: relative;\n    margin-left: 5px;\n    margin-bottom: 10px; }\n  .universal-editor .universal-editor__file-loader {\n    position: relative;\n    margin-bottom: 10px;\n    width: 100%; }\n  .universal-editor .universal-editor__audio-player {\n    width: 100%;\n    position: relative;\n    margin-top: 5px; }\n  .universal-editor .universal-editor__image-wrapper {\n    flex-grow: 1;\n    position: relative; }\n    .universal-editor .universal-editor__image-wrapper .universal-editor__image-display {\n      display: block;\n      position: absolute;\n      max-width: 100%;\n      max-height: 100%;\n      left: 50%;\n      transform: translateX(-50%); }\n  .universal-editor .universal-editor__texticon {\n    background-image: url(\"assets/icons/icon-text.png\"); }\n  .universal-editor .universal-editor__audioicon {\n    background-image: url(\"assets/icons/icon-audio.png\"); }\n  .universal-editor .universal-editor__imageicon {\n    background-image: url(\"assets/icons/icon-image.png\"); }\n\n.universal-editor__tab-icon {\n  height: 26.66667px;\n  width: 26.66667px;\n  display: block;\n  margin: 0 auto;\n  background-repeat: no-repeat;\n  background-position: center center;\n  background-size: 100%;\n  background-color: transparent;\n  opacity: 0.8;\n  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5)); }\n\n.list-icon__text {\n  background-image: url(\"assets/icons/icon-text.png\"); }\n\n.list-icon__audio {\n  background-image: url(\"assets/icons/icon-audio.png\"); }\n\n.list-icon__image {\n  background-image: url(\"assets/icons/icon-image.png\"); }\n"
 
 /***/ }),
 /* 1017 */
@@ -45313,7 +45337,7 @@ module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserr
 /* 1029 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.topbar {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  margin-top: 16px; }\n\n.topbar__row {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between; }\n\n.topbar__row-label {\n  color: #888888;\n  font-weight: 600;\n  background-color: #FAFAFA;\n  border-radius: 4px;\n  padding: 16px 24px;\n  overflow: hidden;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n  cursor: pointer; }\n  .topbar__row-label:hover {\n    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.12); }\n  .topbar__row-label:active {\n    background-color: #FAFAFA;\n    color: #FF3571;\n    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); }\n  .topbar__row-label:focus {\n    outline: 0; }\n  @media (max-width: 420px) {\n    .topbar__row-label {\n      padding: 8px 16px;\n      font-size: 14px; } }\n  @media (max-width: 767px) {\n    .topbar__row-label {\n      padding: 8px 16px;\n      font-size: 14px; } }\n\n.topbar__row-label-active {\n  color: #FF3571;\n  opacity: 1;\n  overflow: hidden; }\n\n.topbar__row-menus {\n  flex-grow: 2; }\n\n.topbar__marginright {\n  margin-right: 16px; }\n\n.topbar__marginleft {\n  margin-left: 16px; }\n\n.topbar__row-story {\n  justify-content: center; }\n\n.topbar__position-absolute {\n  position: absolute; }\n\n.topbar__story-tab {\n  position: fixed;\n  transform: translateX(-110%);\n  left: 0;\n  transition: transform 0.2s ease-out; }\n  @media (max-width: 767px) {\n    .topbar__story-tab {\n      width: 98%; } }\n\n.topbar__story-tab--active {\n  transform: translateX(0); }\n\n.topbar__user-tab {\n  position: fixed;\n  transform: translateX(110%);\n  right: 0;\n  transition: transform 0.2s ease-out; }\n  @media (max-width: 767px) {\n    .topbar__user-tab {\n      width: 98%; } }\n\n.topbar__user-tab--active {\n  transform: translateX(0); }\n\n.topbar__about-tab {\n  margin-left: -62.5px; }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.topbar {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between;\n  margin-top: 16px; }\n\n.topbar__row {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-between; }\n\n.topbar__row-label {\n  color: #888888;\n  font-weight: 600;\n  background-color: #FAFAFA;\n  border-radius: 4px;\n  padding: 16px 24px;\n  overflow: hidden;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n  cursor: pointer; }\n  .topbar__row-label:hover {\n    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.12); }\n  .topbar__row-label:active {\n    background-color: #FAFAFA;\n    color: #FF3571;\n    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08); }\n  .topbar__row-label:focus {\n    outline: 0; }\n  @media (max-width: 420px) {\n    .topbar__row-label {\n      padding: 8px 16px;\n      font-size: 14px; } }\n  @media (max-width: 767px) {\n    .topbar__row-label {\n      padding: 8px 16px;\n      font-size: 14px; } }\n\n.topbar__row-label-active {\n  color: #FF3571;\n  opacity: 1;\n  overflow: hidden; }\n\n.topbar__row-menus {\n  flex-grow: 2; }\n\n.topbar__marginright {\n  margin-right: 16px; }\n\n.topbar__marginleft {\n  margin-left: 16px; }\n\n.topbar__row-story {\n  justify-content: center; }\n\n.topbar__story-tab {\n  position: fixed;\n  transform: translateX(-110%);\n  left: 0;\n  transition: transform 0.2s ease-out; }\n  @media (max-width: 767px) {\n    .topbar__story-tab {\n      width: 98%; } }\n\n.topbar__story-tab--active {\n  transform: translateX(0); }\n\n.topbar__user-tab {\n  position: fixed;\n  transform: translateX(110%);\n  right: 0;\n  transition: transform 0.2s ease-out; }\n  @media (max-width: 767px) {\n    .topbar__user-tab {\n      width: 98%; } }\n\n.topbar__user-tab--active {\n  transform: translateX(0); }\n\n.topbar__about-tab {\n  margin-left: -62.5px; }\n"
 
 /***/ }),
 /* 1030 */
@@ -45469,7 +45493,7 @@ module.exports = "<div class=\"fullscreen\"\n  (click)=\"onFullscreenClick($even
 /* 1055 */
 /***/ (function(module, exports) {
 
-module.exports = "<div\n  class=\"action-menu__list\"\n  [ngClass]=\"{'action-menu__list--open': isOpen}\">\n\n<!--\n  <div (click)=\"addText($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__text\"></div>\n    <p class=\"action-menu__list-label\">Text<p>\n  </div>\n\n  <div (click)=\"addAudio($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__audio\"></div>\n    <p class=\"action-menu__list-label\">Audio<p>\n  </div>\n\n  <div (click)=\"addImage($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__image\"></div>\n    <p class=\"action-menu__list-label\">Image<p>\n  </div>\n-->\n\n<!--\n  <div (click)=\"addVideo($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__video\"></div>\n    <p class=\"action-menu__list-label\">Video<p>\n  </div>\n-->\n\n  <div (click)=\"addUniversal($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__universal\"></div>\n    <p class=\"action-menu__list-label\">Universal<p>\n  </div>\n\n  <div (click)=\"addDoor($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__door\"></div>\n    <p class=\"action-menu__list-label\">Doorway<p>\n  </div>\n\n<!--\n  //Link Hotspot\n  <div (click)=\"addLink($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__link\"></div>\n    <p class=\"action-menu__list-label\">Link<p>\n  </div>\n -->\n</div>\n"
+module.exports = "<div class=\"action-menu__list action-menu__list--open\">\n  <div (click)=\"addUniversal($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__universal\"></div>\n    <p class=\"action-menu__list-label\">Universal<p>\n  </div>\n\n  <div (click)=\"addDoor($event)\" class=\"action-menu__list-item\">\n    <div class=\"action-menu__list-icon list-icon__door\"></div>\n    <p class=\"action-menu__list-label\">Doorway<p>\n  </div>\n</div>\n"
 
 /***/ }),
 /* 1056 */
@@ -45481,7 +45505,7 @@ module.exports = "<div\n  class=\"fab\"\n  [ngClass]=\"{'fab--open': isOpen}\">\
 /* 1057 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"hotspot-menu\">\n\n\n  <fab\n    class=\"hotspot-menu__fab\"\n    (click)=\"onFabClick($event)\"\n    [isOpen]=\"isOpen\"\n    [ngClass]=\"{'hotspot-menu__fab-open': isOpen}\">\n  </fab>\n\n  <action-menu\n    class=\"hotspot-menu__action-menu\"\n    [isOpen]=\"isOpen\"\n    class=\"topbar__position-absolute\">\n  </action-menu>\n\n\n\n</div>\n"
+module.exports = "<div class=\"hotspot-menu\">\n  <action-menu class=\"topbar__position-absolute\"></action-menu>\n</div>\n"
 
 /***/ }),
 /* 1058 */
@@ -45583,7 +45607,7 @@ module.exports = "<div class=\"video-editor\">\n  <p class=\"hotspot-inspector__
 /* 1074 */
 /***/ (function(module, exports) {
 
-module.exports = "<div\n  #iconElement\n  id=\"icon-element\"\n  class=\"icon\"\n  hotspot-icon\n  (onMove)=\"onMove($event)\"\n  (onMoveEnd)=\"onMoveEnd($event)\">\n  <div\n    (click)=\"onDeleteClick($event)\"\n    class=\"icon__delete\">\n  </div>\n\n  <img\n    id=\"draggableIcon\"\n    class=\"icon__image\"\n    [attr.src]=\"iconPath\"\n    [ngClass]=\"{\n      'icon__image--small': hotspotIconSize === 'SMALL',\n      'icon__image--medium': hotspotIconSize === 'MEDIUM'\n    }\">\n\n  <text-input\n    [textModel]=\"getName()\"\n    [isHotspot]=\"true\"\n    (onTextChange)=\"onNameChange($event)\">\n  </text-input>\n\n\n\n\n  <property-editor\n    *ngIf=\"propertyEditorIsVisible\"\n    [roomProperty]=\"roomProperty\"\n    (onDeselect)=\"onDeselect($event)\"\n    class=\"icon__property-editor\">\n  </property-editor>\n\n\n</div>\n"
+module.exports = "<div\n  #iconElement\n  id=\"icon-element\"\n  class=\"icon\"\n  hotspot-icon\n  (onMove)=\"onMove($event)\"\n  (onMoveEnd)=\"onMoveEnd($event)\">\n\n  <div\n    (click)=\"onDeleteClick($event)\"\n    class=\"icon__delete\">\n  </div>\n\n  <img\n    id=\"draggableIcon\"\n    class=\"icon__image\"\n    [attr.src]=\"getIconPath()\"\n    [ngClass]=\"{\n      'icon__image--small': hotspotIconSize === 'SMALL',\n      'icon__image--medium': hotspotIconSize === 'MEDIUM'\n    }\">\n\n  <text-input\n    [textModel]=\"getName()\"\n    [isHotspot]=\"true\"\n    (onTextChange)=\"onNameChange($event)\">\n  </text-input>\n\n  <property-editor\n    *ngIf=\"propertyEditorIsVisible\"\n    [roomProperty]=\"roomProperty\"\n    (onDeselect)=\"onDeselect($event)\"\n    class=\"icon__property-editor\">\n  </property-editor>\n</div>\n"
 
 /***/ }),
 /* 1075 */
