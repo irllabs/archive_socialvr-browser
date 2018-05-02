@@ -52,6 +52,8 @@
         class="universal-editor__text-area"
         [(ngModel)]="universalProperty.textContent">
       </textarea>
+
+      <p class="universal-editor__text-chars-counter">{{245 - (universalProperty.textContent.length || 0)}} characters left</p>
     </section>
 
     <section id="content-universal-audio" [ngClass]="{'active': activeTab === TABS.AUDIO}" droppable

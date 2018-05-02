@@ -107,6 +107,14 @@
     flex-grow: 1;
   }
 
+  .universal-editor__text-chars-counter {
+    font-style: italic;
+    text-align: right;
+    font-size: 12px;
+    margin: 4px;
+    color: #555;
+  }
+
   .universal-editor__record-button {
     display: inline-block;;
     position: relative;

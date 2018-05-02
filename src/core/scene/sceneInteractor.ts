@@ -160,7 +160,7 @@ export class SceneInteractor {
 
   addUniversal(roomId: string): Universal {
     const numberOfUniversals: number = this.getRoomById(roomId).getUniversal().size + 1;
-    const hotSpotName: string = `Universal ${numberOfUniversals}`;
+    const hotSpotName: string = `Hotspot ${numberOfUniversals}`;
     const universal: Universal = this.propertyBuilder.universal(hotSpotName, '');
 
     this.getRoomById(roomId).addUniversal(universal);
