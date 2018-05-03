@@ -174,7 +174,7 @@ export class DeserializationService {
       });
   }
 
-  convertToUniversal(room, baseFilePath, filePrefix, binaryFileMap, texts, clips, images){
+  convertToUniversal(room, baseFilePath, filePrefix, binaryFileMap, texts, clips, images) {
     const universals = [];
 
     // Text to Universal
@@ -265,22 +265,24 @@ export class DeserializationService {
     }
 
     return this.apiService.downloadMedia(remoteFileUrl).toPromise()
-      .then(fileData => {
+      .then((fileData) => {
         const fileType = this.getFileType(mediaFile.file);
 
         return new Blob([fileData], {type: fileType});
       })
-      .then(blob => {
-        return getBinaryFileData(blob);
+      .then((blob) => {
+        return blob.size <= 9 ? null : getBinaryFileData(blob);
       })
-      .then(binaryDataFile => {
+      .then((binaryDataFile) => {
         return {
           name: mediaFile.filePath,
           fileData: binaryDataFile,
           remoteFile: remoteFileUrl,
         };
       })
-      .catch(error => console.log('error', mediaFile.file, error));
+      .catch((error) => {
+        console.log('error', mediaFile.file, error)
+      });
   }
 
   // Given a json object of jszip files, return a list of
@@ -346,12 +348,14 @@ export class DeserializationService {
     await getRemoteFiles.then(async (remoteFiles: any) => {
       for (let i = 0; i < remoteFiles.length; i++) {
         const file = remoteFiles[i];
+
         await this.loadRemoteMediaFile(file, getBinaryFileData).then(mediaFile => mediaFiles.push(mediaFile));
       }
     });
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
+
       await this.loadMediaFile(file, getBinaryFileData).then(mediaFile => mediaFiles.push(mediaFile));
     }
 
@@ -377,7 +381,13 @@ export class DeserializationService {
     const getBinaryFileData = this.fileLoaderUtil.getBinaryFileData.bind(this.fileLoaderUtil);
     const mediaFilePromises = this.loadMediaFiles(fileMap, storyFilePath, getBinaryFileData);
 
-    return mediaFilePromises.then(binaryFileMap => this.deserializeRooms(storyFile, binaryFileMap, baseFilePath));
+    return mediaFilePromises.then((binaryFileMap) => {
+      return this.deserializeRooms(
+        storyFile,
+        binaryFileMap.filter(f => !!f), // get rid of undefined
+        baseFilePath
+      );
+    });
   }
 
   private getFileType(fileName) {
@@ -391,6 +401,7 @@ export class DeserializationService {
       '.jpg': MIME_TYPE_JPG,
       '.jpeg': MIME_TYPE_JPEG
     };
+
     return fileMap[fileType] || MIME_TYPE_PNG;
   }
 }

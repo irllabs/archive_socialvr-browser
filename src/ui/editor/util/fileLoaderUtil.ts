@@ -37,19 +37,27 @@ export class FileLoaderUtil {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const fileReader = new FileReader();
+
         fileReader.onloadend = () => {
-          const result = this.sanitizer.bypassSecurityTrustUrl(fileReader.result);
+          const result = this.getFileData(fileReader.result);
+
           console.log('fileLoader.onloadEnd', result);
           resolve(result);
-        }
+        };
+
         fileReader.onerror = () => {
           const error = fileReader.error;
+
           console.log('fileLoader.onerror', error);
           reject(error);
-        }
+        };
+
         fileReader.readAsDataURL(file);
       });
     });
   }
 
+  getFileData(base64Date) {
+    return this.sanitizer.bypassSecurityTrustUrl(base64Date);
+  }
 }
