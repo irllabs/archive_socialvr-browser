@@ -4,8 +4,6 @@ export default interface ApiService {
 
   logIn(userName: string, password: string): Observable<string>;
 
-  logOut(): Observable<any>;
-
   getUploadPolicy(): Observable<any>;
 
   getUser(): Observable<any>;

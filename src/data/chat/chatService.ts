@@ -4,15 +4,16 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 
-import {AuthenticationService} from 'data/authentication/authenticationService';
+import {AuthService} from 'data/authentication/authService';
 
 
 @Injectable()
 export class ChatService {
 
   constructor(
-    private authenticationService: AuthenticationService // remove
-  ) {}
+    private authService: AuthService // remove
+  ) {
+  }
 
   // TODO: remove
   createRoom(roomName: string, userName: string, userId: string): Observable<any> {

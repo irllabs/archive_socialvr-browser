@@ -25,7 +25,8 @@ export class Topbar {
     private userInteractor: UserInteractor,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-  ) {}
+  ) {
+  }
 
 
   ngAfterViewInit() {
@@ -50,7 +51,8 @@ export class Topbar {
             //console.log('something else');
             this.profileIsOpen = false;
             this.storyIsOpen = false;
-            this.ngZone.run( () => {});  //manually run angular digest cycle
+            this.ngZone.run(() => {
+            });  //manually run angular digest cycle
           }
         },
         error => console.log('error', error)
@@ -59,12 +61,14 @@ export class Topbar {
 
   private onMenuItemClick(key) {
     if (this.menuState[key] === undefined) return;
+
     this.menuState[key] = !this.menuState[key];
     this.eventBus.onHotspotVisibility(this.menuState[key]);
   }
 
   private onOffMenuItemClick($event, key) {
     if (!$event.isOffClick || this.menuState[key] === undefined || !this.menuState[key]) return;
+
     this.ngZone.run(() => {
       this.menuState[key] = false;
       this.eventBus.onHotspotVisibility(this.menuState[key]);
@@ -78,9 +82,4 @@ export class Topbar {
   private setEditPlaySliderIsVisible(): boolean {
     return false;
   }
-
-
-
-
-
 }

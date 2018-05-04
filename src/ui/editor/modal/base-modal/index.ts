@@ -1,14 +1,10 @@
-import {
-  Component,
-  EventEmitter,
-  NgZone} from '@angular/core';
 import {Router} from '@angular/router';
 
 export class BaseModal {
-
   constructor(
     private router: Router
-  ) {}
+  ) {
+  }
 
   private close() {
     this.router.navigate(['/editor', {outlets: {'modal': ''}}]);

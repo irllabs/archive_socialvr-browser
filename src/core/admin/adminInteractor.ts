@@ -3,8 +3,6 @@ import {Injectable} from '@angular/core';
 import {UserService} from 'data/user/userService';
 import {ApiService} from 'data/api/apiService';
 
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
 
 @Injectable()
 export class AdminInteractor {

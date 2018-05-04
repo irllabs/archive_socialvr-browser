@@ -6,9 +6,8 @@ import {RoomManager} from 'data/scene/roomManager';
 import {PropertyBuilder} from 'data/scene/roomPropertyBuilder';
 import {CameraService} from 'data/scene/cameraService';
 import {ApiService} from 'data/api/apiService';
-// import {ApiService} from 'data/api/stubApiService';
 import {UserService} from 'data/user/userService';
-import {AuthenticationService} from 'data/authentication/authenticationService';
+import {AuthService} from 'data/authentication/authService';
 import {SocialAuthenticationService} from 'data/authentication/socialAuthenticationService';
 import {DeserializationService} from 'data/storage/deserializationService';
 import {SerializationService} from 'data/storage/serializationService';
@@ -26,7 +25,7 @@ import {ChatService} from 'data/chat/chatService';
     RoomManager,
     ApiService,
     UserService,
-    AuthenticationService,
+    AuthService,
     SocialAuthenticationService,
     DeserializationService,
     SerializationService,

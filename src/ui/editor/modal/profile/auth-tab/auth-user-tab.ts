@@ -1,16 +1,14 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
 
 import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
-import {DEFAULT_PROJECT_NAME} from 'ui/common/constants';
 import {StorageInteractor} from 'core/storage/storageInteractor';
 import {UserInteractor} from 'core/user/userInteractor';
 import {ProjectInteractor} from 'core/project/projectInteractor';
 import {SceneInteractor} from 'core/scene/sceneInteractor';
 import {AdminInteractor} from 'core/admin/adminInteractor';
-import {EventBus, EventType} from 'ui/common/event-bus';
+import {EventBus} from 'ui/common/event-bus';
 import {MIME_TYPE_ZIP} from 'ui/common/constants';
 
 const FileSaver = require('file-saver');
@@ -20,8 +18,7 @@ const FileSaver = require('file-saver');
   styleUrls: ['./auth-user-tab.scss'],
   templateUrl: './auth-user-tab.html'
 })
-export class AuthUserTab {
-
+export class AuthUserTab implements OnInit {
   private projectList = <any>[]; //TODO: move to repo / cache
 
   constructor(
@@ -32,29 +29,19 @@ export class AuthUserTab {
     private storageInteractor: StorageInteractor,
     private metaDataInteractor: MetaDataInteractor,
     private adminInteractor: AdminInteractor,
-    private router: Router
-  ) {}
+    private router: Router,
+  ) {
+  }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.userInteractor.getUser()
-        .switchMap(user => this.projectInteractor.getProjects(user.id))
-        .subscribe(
-          projects => {
-            this.projectList = projects.sort((a, b) => {
-              if (!a.name) { return -1; }
-              if (!b.name) { return 1; }
-              const projectNameA = a.name.toUpperCase();
-              const projectNameB = b.name.toUpperCase();
-              if (projectNameA < projectNameB) { return -1; }
-              if (projectNameA > projectNameB) { return 1; }
-              return 0;
-            });
-          },
-          error => console.error('GET /users', error)
-        );
-    });
+    const user = this.userInteractor.getUser();
 
+    this.projectInteractor.getProjects(user.uid).subscribe(
+      (projects) => {
+        this.projectList = projects;
+      },
+      error => console.error('GET /projects', error)
+    );
   }
 
   private getUserName(): string {
@@ -64,7 +51,8 @@ export class AuthUserTab {
   private onLogOutClick() {
     this.userInteractor.logOut()
       .subscribe(
-        response => {},
+        response => {
+        },
         error => console.log('error', error)
       );
   }
@@ -89,6 +77,7 @@ export class AuthUserTab {
 
   private createProject($event) {
     const userId: string = this.userInteractor.getUserId();
+
     this.eventBus.onStartLoading();
     this.projectInteractor.createProject(userId)
       .subscribe(
@@ -101,10 +90,12 @@ export class AuthUserTab {
   private updateProject() {
     const userId: string = this.userInteractor.getUserId();
     const projectId: string = this.projectInteractor.getProjectId();
+
     this.eventBus.onStartLoading();
     this.projectInteractor.updateProject(userId, projectId)
       .subscribe(
-        response => {},
+        response => {
+        },
         error => console.error('error', error),
         () => this.eventBus.onStopLoading()
       );
@@ -115,13 +106,15 @@ export class AuthUserTab {
       'Are you sure?',
       'There is no way to undo this action.',
       true,
-      () => {}, // modal dismissed callback
+      () => {
+      }, // modal dismissed callback
       () => this.deleteProject(projectId) // modal accepted callback
     );
   }
 
   private deleteProject(projectId: string) {
     const userId: string = this.userInteractor.getUserId();
+
     this.eventBus.onStartLoading();
     this.projectInteractor.deleteProject(userId, projectId)
       .subscribe(
@@ -138,6 +131,7 @@ export class AuthUserTab {
 
   private downloadProject(projectId: number, projectName: string) {
     const userId: string = this.userInteractor.getUserId();
+
     this.eventBus.onStartLoading();
     this.projectInteractor.getProjectAsBlob(userId, `${projectId}`)
       .subscribe(
@@ -164,7 +158,7 @@ export class AuthUserTab {
     const queryParams = {
       multiview: `${userId}-${projectId}`
     };
-    this.router.navigate(['editor', 'preview'], { queryParams });
+    this.router.navigate(['editor', 'preview'], {queryParams});
   }
 
   private isWorkingOnSavedProject(): boolean {
@@ -197,9 +191,4 @@ export class AuthUserTab {
   private onAdminClick($event) {
     this.router.navigateByUrl('/admin');
   }
-
-
-
-
-
 }

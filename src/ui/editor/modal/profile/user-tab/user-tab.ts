@@ -1,5 +1,4 @@
-import {Component, ViewEncapsulation, ElementRef, HostListener} from '@angular/core';
-import {BaseModal} from 'ui/editor/modal/base-modal';
+import {Component, ViewEncapsulation, ElementRef, HostListener, OnInit} from '@angular/core';
 import {UserInteractor} from 'core/user/userInteractor';
 import {Router} from '@angular/router';
 
@@ -9,14 +8,13 @@ import {Router} from '@angular/router';
   templateUrl: './user-tab.html',
   encapsulation: ViewEncapsulation.None
 })
-export class UserTab {
-
+export class UserTab implements OnInit  {
   private isBeingInstantiated: boolean = false;
 
   constructor(
     private userInteractor: UserInteractor,
     private router: Router,
-    private element: ElementRef
+    private element: ElementRef,
   ) {}
 
   ngOnInit() {
@@ -37,7 +35,7 @@ export class UserTab {
     }
   }
 
-  private userIsLoggedIn(): boolean {
+  public userIsLoggedIn(): boolean {
     return this.userInteractor.isLoggedIn();
   }
 }

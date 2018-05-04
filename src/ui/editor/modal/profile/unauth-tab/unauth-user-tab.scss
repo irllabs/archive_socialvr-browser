@@ -9,4 +9,11 @@
   left: 50%;
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
+
+  .button.sign-in-with-google-button {
+    width: 100%;
+    background-color: #DD4B39;
+    color: #fff;
+    border-color: #C44333;
+  }
 }
