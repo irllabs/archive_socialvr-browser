@@ -49,12 +49,7 @@ export class AuthUserTab implements OnInit {
   }
 
   private onLogOutClick() {
-    this.userInteractor.logOut()
-      .subscribe(
-        response => {
-        },
-        error => console.log('error', error)
-      );
+    this.userInteractor.logOut();
   }
 
   private openProject(projectId: string) {
