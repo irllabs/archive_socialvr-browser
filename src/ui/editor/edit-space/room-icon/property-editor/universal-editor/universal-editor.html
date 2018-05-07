@@ -40,6 +40,10 @@
              [attr.src]="universalProperty.imageContent.getBinaryFileData()"
              class="universal-editor__image-display">
       </div>
+
+      <div *ngIf="hasImageContent()" class="universal-editor__image-rotate">
+        <button type="button" (click)="onRotateImage()">Rotate</button>
+      </div>
     </section>
 
     <section id="content-universal-text" [ngClass]="{'active': activeTab === TABS.TEXT}">
