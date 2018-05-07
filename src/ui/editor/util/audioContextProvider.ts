@@ -1,6 +1,9 @@
-
-const audioContext = new AudioContext();
+let audioContext = null;
 
 export function getAudioContext() {
-	return audioContext;
-}
+  if (audioContext === null) {
+    audioContext = new AudioContext();
+  }
+
+  return audioContext;
+};

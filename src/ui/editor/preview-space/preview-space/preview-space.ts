@@ -438,7 +438,9 @@ export class PreviewSpace implements AfterViewInit {
       onResize(this.camera, this.renderer)
         .then(() => {
           cancelAnimationFrame(this.animationRequest);
+
           const isInVrMode = !!this.vrDisplay && this.vrDisplay.isPresenting;
+
           this.isInRenderLoop = false;
           this.vrEffect.setSize(window.innerWidth, window.innerHeight);
 

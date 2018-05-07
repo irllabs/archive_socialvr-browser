@@ -4,25 +4,19 @@ const path = require('path');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const WebpackMd5Hash = require('webpack-md5-hash');
 
-const stagingOriginTrialToken = 'Aj82eb9Pzed5zpECw31/pjc2dHGqY3OJewMogIa7cgXACC3MJgKj1MQQBmAM3R8nxqYx6idmRRHc9vWZdmHeJgUAAABYeyJvcmlnaW4iOiJodHRwczovL2NtdWFydGZhYi5naXRodWIuaW86NDQzIiwiZmVhdHVyZSI6IldlYlZSMS4xTTYyIiwiZXhwaXJ5IjoxNTI1MDIwMjExfQ==';
-const productionOriginTrialToken = 'Am27cG+0dzKwrnAZkYUsfnfS7T9dGo9xrBNQPnrMcRQqn0INEw29KppbuvdnjPjkELvJlFwTPb+9CCyGxctTXQkAAABYeyJvcmlnaW4iOiJodHRwczovL3NvY2lhbHZyLmlybC5zdHVkaW86NDQzIiwiZmVhdHVyZSI6IldlYlZSMS4xTTYyIiwiZXhwaXJ5IjoxNTI1MDIwMjExfQ==';
 
 const environment = {
   local: '"LOCAL"',
   dev: '"DEV"',
   prod: '"PROD"'
 };
-let buildVariable = environment.dev;
 const isProduction = process.argv.indexOf('-p') > -1;
 const isLocal = process.argv.indexOf('-d') > -1;
+const buildVariable = isLocal ? environment.local : isProduction ? environment.prod: environment.dev;
 
-if (isLocal) {
-  buildVariable = environment.local;
-}
-else if (isProduction) {
-  buildVariable = environment.prod;
-}
 
 const webpackConfig = {
   entry: {
@@ -33,17 +27,10 @@ const webpackConfig = {
   output: {
     publicPath: '',
     path: path.resolve(__dirname, './dist'),
+    filename: '[name].[chunkhash].js',
+    chunkFilename: '[name].[chunkhash].js'
   },
   plugins: [
-    // new HtmlWebpackPlugin({
-    //   title: 'SocialVR',
-    //   inject: true,
-    //   // filename: './index.html',
-    //
-    //   // filename: path.resolve(__dirname, './dist/index.html'),
-    //   template: './src/index.html',
-    //   originTrialToken: isProduction ? productionOriginTrialToken : stagingOriginTrialToken
-    // }),
     new webpack.optimize.CommonsChunkPlugin({
       name: ['main', 'vendor', 'polyfills']
     }),
@@ -66,7 +53,16 @@ const webpackConfig = {
     }),
     new webpack.ProvidePlugin({
       'THREE': 'three'
-    })
+    }),
+
+    new WebpackMd5Hash(),
+    new ManifestPlugin(),
+
+    new HtmlWebpackPlugin({
+      filename: path.resolve(__dirname, './dist/index.html'),
+      inject: true,
+      template: './src/index.html'
+    }),
   ],
   externals: {
     build: buildVariable
@@ -84,9 +80,9 @@ const webpackConfig = {
         test: /\.scss$/,
         exclude: /node_modules/,
         use: [
-          {loader: 'raw-loader'},
-          {loader: 'postcss-loader'},
-          {loader: 'sass-loader'}
+          { loader: 'raw-loader' },
+          { loader: 'postcss-loader' },
+          { loader: 'sass-loader' }
         ]
       },
       {
@@ -117,15 +113,15 @@ const defaultConfig = {
   },
 
   resolve: {
-    extensions: [ '.ts', '.js' ],
-    modules: [ path.resolve(__dirname, 'node_modules') ],
+    extensions: ['.ts', '.js'],
+    modules: [path.resolve(__dirname, 'node_modules')],
     alias: {
-        ui: path.resolve(__dirname, 'src/ui/'),
-        core: path.resolve(__dirname, 'src/core/'),
-        data: path.resolve(__dirname, 'src/data/'),
-        assets: path.resolve(__dirname, 'src/assets/'),
-        'three/VRControls': path.join(__dirname, 'node_modules/three/examples/js/controls/VRControls.js'),
-        'three/VREffect': path.join(__dirname, 'node_modules/three/examples/js/effects/VREffect.js'),
+      ui: path.resolve(__dirname, 'src/ui/'),
+      core: path.resolve(__dirname, 'src/core/'),
+      data: path.resolve(__dirname, 'src/data/'),
+      assets: path.resolve(__dirname, 'src/assets/'),
+      'three/VRControls': path.join(__dirname, 'node_modules/three/examples/js/controls/VRControls.js'),
+      'three/VREffect': path.join(__dirname, 'node_modules/three/examples/js/effects/VREffect.js'),
     }
   },
 
@@ -139,7 +135,7 @@ const defaultConfig = {
     },
     port: 3000
     // To access dev server from other devices on the network uncomment the following line
-    ,host: '0.0.0.0', disableHostCheck: true
+    , host: '0.0.0.0', disableHostCheck: true
   },
 
   node: {
