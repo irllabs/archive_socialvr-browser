@@ -13,9 +13,14 @@ export class AudioPlayService {
 
   constructor(private assetInteractor: AssetInteractor) {
     const audioContext = getAudioContext();
+
     this.gainNode = audioContext.createGain();
     this.gainNode.gain.setTargetAtTime(2, 0, 0);
     this.gainNode.connect(audioContext.destination);
+
+    if (audioContext.state === 'suspended') {
+      audioContext.resume();
+    }
   }
 
   //for project soundtrack which cannot be stopped by others
@@ -50,8 +55,8 @@ export class AudioPlayService {
 
     if (audioSource) {
       this.gainNode.gain.value = volume;
-      audioSource.start(0);
       audioSource.loop = loop;
+      audioSource.start(0);
 
       this.hotspot = audioSource;
 
@@ -60,14 +65,13 @@ export class AudioPlayService {
   }
 
   stopAll(includeSoundtrack: boolean) {
-    if(includeSoundtrack) {
+    if (includeSoundtrack) {
       this.stopPlaying(this.soundtrack);
       this.soundtrack = null;
     }
 
     this.stopPlaying(this.background);
     this.stopPlaying(this.hotspot);
-
     this.background = null;
     this.hotspot = null;
   }
@@ -80,7 +84,7 @@ export class AudioPlayService {
       return; // return if empty
     }
     // call .stop() if not on webkit implementation
-    if (audioBuffer['playbackState'] === undefined) {
+    if (typeof audioBuffer['playbackState'] === 'undefined') {
       audioBuffer.stop();
       return;
     }

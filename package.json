@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "description": "Social VR Editor Application",
   "scripts": {
-    "build:copy": "cp src/index.html dist/index.html; cp src/favicon.ico dist/favicon.ico; cp src/manifest.json dist/manifest.json; cp src/socialVr.png dist/socialVR.png; cp -r src/assets dist/assets; cp -r src/__stubs__ dist/__stubs__",
+    "build:copy": "cp src/favicon.ico dist/favicon.ico; cp src/manifest.json dist/manifest.json; cp src/socialVr.png dist/socialVR.png; cp -r src/assets dist/assets; cp -r src/__stubs__ dist/__stubs__",
     "build:webpack": "webpack --colors --progress",
     "build:webpack-prod": "webpack --colors --progress -p",
     "build": "npm run clean && npm run build:webpack && npm run build:copy",
@@ -64,6 +64,8 @@
     "serviceworker-webpack-plugin": "^0.2.3",
     "stats.js": "^0.17.0",
     "three": "^0.91.0",
+    "webpack-manifest-plugin": "^2.0.2",
+    "webpack-md5-hash": "0.0.6",
     "webvr-polyfill": "^0.10.4",
     "zone.js": "^0.8.16"
   },

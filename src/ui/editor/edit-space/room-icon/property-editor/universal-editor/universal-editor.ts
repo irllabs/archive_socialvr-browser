@@ -15,13 +15,15 @@ export class UniversalEditor {
 
   @Input() universalProperty: Universal;
 
+  private _activeTab: number = null;
+  private _originImage: any = null;
+  private _rotateImageAngle: number = 0;
+
   public TABS = {
     IMAGE: 1,
     TEXT: 2,
     AUDIO: 3,
   };
-
-  private _activeTab: number = null;
 
   public get activeTab(): number {
     if (this._activeTab === null) {
@@ -29,7 +31,7 @@ export class UniversalEditor {
         this._activeTab = this.TABS.IMAGE;
       } else if (this.hasTextContent()) {
         this._activeTab = this.TABS.TEXT;
-      } else if(this.hasAudioContent()) {
+      } else if (this.hasAudioContent()) {
         this._activeTab = this.TABS.AUDIO;
       } else {
         this._activeTab = this.TABS.IMAGE;
@@ -40,7 +42,7 @@ export class UniversalEditor {
   }
 
   public get activeTabName(): string {
-    switch(this.activeTab) {
+    switch (this.activeTab) {
       case this.TABS.IMAGE: {
         return 'Image';
       }
@@ -64,8 +66,39 @@ export class UniversalEditor {
 
   public onImageFileLoad($event) {
     resizeImage($event.binaryFileData, 'hotspotImage')
-      .then(resizedImageData => this.universalProperty.setImageContent($event.file.name, resizedImageData))
+      .then((resizedImageData) => {
+        this._originImage = null;
+
+        return this.universalProperty.setImageContent($event.file.name, resizedImageData);
+      })
       .catch(error => this.eventBus.onModalMessage('Image loading error', error));
+  }
+
+  public onRotateImage() {
+    const image = document.createElement('img');
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
+    if (this._originImage === null) {
+      this._originImage = this.universalProperty.imageContent.getBinaryFileData();
+    }
+
+    this._rotateImageAngle += 90;
+
+    image.onload = () => {
+      canvas.width = image.width;
+      canvas.height = image.height;
+      context.drawImage(image, 0, 0);
+      context.clearRect(0,0,canvas.width,canvas.height);
+      context.save();
+      context.translate(image.width / 2, image.height / 2);
+      context.rotate(this._rotateImageAngle * Math.PI / 180);
+      context.drawImage(image, -image.width / 2, -image.height / 2);
+      context.restore();
+      this.universalProperty.imageContent.setBinaryFileData(canvas.toDataURL());
+    };
+
+    image.src = this._originImage;
   }
 
   public onAudioFileLoad($event) {
@@ -105,7 +138,7 @@ export class UniversalEditor {
   }
 
   public onDeleteTabData(): void {
-    switch(this.activeTab) {
+    switch (this.activeTab) {
       case this.TABS.IMAGE: {
         this.universalProperty.resetImageContent();
         break;
