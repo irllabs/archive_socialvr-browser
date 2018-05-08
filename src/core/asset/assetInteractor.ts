@@ -57,13 +57,15 @@ export class AssetInteractor {
 }
 
 export class AssetModel {
-  id: string;
-  fileName: string;
-  filePath: string;
+  public id: string;
+  public fileName: string;
+  public filePath: string;
+  public force: boolean; // if force is true this asset will be reloaded by textureLoader
 
-  constructor(id: string, fileName: string, filePath: string) {
+  constructor(id: string, fileName: string, filePath: string, force: boolean = false) {
     this.id = id;
     this.fileName = fileName;
     this.filePath = filePath;
+    this.force = force;
   }
 }

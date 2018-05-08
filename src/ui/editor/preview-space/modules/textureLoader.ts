@@ -26,11 +26,13 @@ export class TextureLoader {
     const backgroundImages = this.sceneInteractor.getRoomIds()
       .map(roomId => this.sceneInteractor.getRoomById(roomId))
       .filter(room => room.hasBackgroundImage())
-      .map(room => {
+      .map((room) => {
         let imagePath = room.getBinaryFileData();
+
         if (imagePath.changingThisBreaksApplicationSecurity) {
           imagePath = imagePath.changingThisBreaksApplicationSecurity;
         }
+
         return new AssetModel(room.getId(), room.getFileName(), imagePath);
       });
 
@@ -40,24 +42,26 @@ export class TextureLoader {
       .reduce((accumulator, room) => {
         const imagePropertyList = Array.from(room.getImages())
           .filter(image => image.getBinaryFileData())
-          .map(image => {
-            const imageDataUri = image.getBinaryFileData().changingThisBreaksApplicationSecurity ?
-              image.getBinaryFileData().changingThisBreaksApplicationSecurity : image.getBinaryFileData();
+          .map((image) => {
+            let imageDataUri = image.getBinaryFileData();
+
+            if (imageDataUri.changingThisBreaksApplicationSecurity) {
+              imageDataUri = imageDataUri.changingThisBreaksApplicationSecurity;
+            }
+
             return new AssetModel(image.getId(), image.getFileName(), imageDataUri);
           });
 
         const universalImagePropertyList = Array.from(room.getUniversal())
           .filter(universal => universal.imageContent.hasAsset())
           .map((universal) => {
-            let imageDataUri;
+            let imageDataUri = universal.imageContent.getBinaryFileData();
 
-            if (universal.imageContent.getBinaryFileData().changingThisBreaksApplicationSecurity) {
-              imageDataUri = universal.imageContent.getBinaryFileData().changingThisBreaksApplicationSecurity;
-            } else {
-              imageDataUri = universal.imageContent.getBinaryFileData();
+            if (imageDataUri.changingThisBreaksApplicationSecurity) {
+              imageDataUri = imageDataUri.changingThisBreaksApplicationSecurity;
             }
 
-            return new AssetModel(universal.getId(), universal.imageContent.getFileName(), imageDataUri);
+            return new AssetModel(universal.getId(), universal.imageContent.getFileName(), imageDataUri, universal.imageContent.needToRedraw);
           });
 
         accumulator = accumulator.concat(imagePropertyList);
