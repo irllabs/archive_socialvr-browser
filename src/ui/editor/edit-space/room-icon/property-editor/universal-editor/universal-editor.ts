@@ -81,6 +81,7 @@ export class UniversalEditor {
 
     if (this._originImage === null) {
       this._originImage = this.universalProperty.imageContent.getBinaryFileData();
+      this._originImage = this._originImage && this._originImage.changingThisBreaksApplicationSecurity ? this._originImage.changingThisBreaksApplicationSecurity : this._originImage;
     }
 
     this._rotateImageAngle += 90;
