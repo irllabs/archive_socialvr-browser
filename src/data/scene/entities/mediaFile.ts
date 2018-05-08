@@ -1,4 +1,5 @@
 export class MediaFile {
+  public needToRedraw: boolean = true;
 
   private fileName: string;
   private remoteFileName: string;
@@ -22,6 +23,7 @@ export class MediaFile {
 
   setBinaryFileData(binaryFileData: any) {
     this.binaryFileData = binaryFileData;
+    this.needToRedraw = true;
   }
 
   getRemoteFileName(): string {

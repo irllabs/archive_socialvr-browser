@@ -42,7 +42,10 @@
       </div>
 
       <div *ngIf="hasImageContent()" class="universal-editor__image-rotate">
-        <button type="button" (click)="onRotateImage()">Rotate</button>
+        <button type="button" (click)="onRotateImage()">
+          <img src="assets/icons/rotate-icon-default.png" alt="Rotate" class="default">
+          <img src="assets/icons/rotate-icon-hover-active.png" alt="Rotate" class="active">
+        </button>
       </div>
     </section>
 
