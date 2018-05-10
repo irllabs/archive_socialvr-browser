@@ -74,11 +74,14 @@ export class UnauthUserTab implements OnInit, OnDestroy {
   }
 
   public onOpenClick() {
-    //console.log('onNewStoryClick 1');\
+    if (!this.userInteractor.isLoggedIn()) {
+      this.eventBus.onModalMessage('Error', 'You must be logged in to download as .zip');
+      return;
+    }
+
     this.eventBus.onOpenFileLoader('zip');
     this.router.navigate(['/editor', {outlets: {'view': 'flat', modal: null}}]);
 
     return;
   }
-
 }

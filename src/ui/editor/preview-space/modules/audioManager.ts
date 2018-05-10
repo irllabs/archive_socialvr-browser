@@ -60,6 +60,7 @@ export class AudioManager {
       })
       .map(room => {
         let nAudioPath = room.getNarrationIntroBinaryFileData();
+
         if (nAudioPath.changingThisBreaksApplicationSecurity) {
           nAudioPath = nAudioPath.changingThisBreaksApplicationSecurity;
         }
@@ -127,8 +128,9 @@ export class AudioManager {
 
   playNarration() {
     if (this.roomNarrationMap.get(this.sceneInteractor.getActiveRoomId())) {
-      const NarrationId: string = this.sceneInteractor.getActiveRoomId() + 'n';
-      this.audioPlayService.playHotspotAudio(NarrationId);
+      const narrationId: string = this.sceneInteractor.getActiveRoomId() + 'n';
+
+      this.audioPlayService.playNarrationAudio(narrationId);
     }
   }
 }
