@@ -302,7 +302,8 @@ module.exports = function (it) {
 /***/ }),
 /* 33 */,
 /* 34 */,
-/* 35 */
+/* 35 */,
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(1);
@@ -327,7 +328,6 @@ module.exports = function (NAME, exec) {
 
 
 /***/ }),
-/* 36 */,
 /* 37 */,
 /* 38 */,
 /* 39 */
@@ -5867,7 +5867,7 @@ $export($export.P + $export.F * __webpack_require__(214)(STARTS_WITH), 'String',
 "use strict";
 
 // B.2.3.2 String.prototype.anchor(name)
-__webpack_require__(35)('anchor', function (createHTML) {
+__webpack_require__(36)('anchor', function (createHTML) {
   return function anchor(name) {
     return createHTML(this, 'a', 'name', name);
   };
@@ -5881,7 +5881,7 @@ __webpack_require__(35)('anchor', function (createHTML) {
 "use strict";
 
 // B.2.3.3 String.prototype.big()
-__webpack_require__(35)('big', function (createHTML) {
+__webpack_require__(36)('big', function (createHTML) {
   return function big() {
     return createHTML(this, 'big', '', '');
   };
@@ -5895,7 +5895,7 @@ __webpack_require__(35)('big', function (createHTML) {
 "use strict";
 
 // B.2.3.4 String.prototype.blink()
-__webpack_require__(35)('blink', function (createHTML) {
+__webpack_require__(36)('blink', function (createHTML) {
   return function blink() {
     return createHTML(this, 'blink', '', '');
   };
@@ -5909,7 +5909,7 @@ __webpack_require__(35)('blink', function (createHTML) {
 "use strict";
 
 // B.2.3.5 String.prototype.bold()
-__webpack_require__(35)('bold', function (createHTML) {
+__webpack_require__(36)('bold', function (createHTML) {
   return function bold() {
     return createHTML(this, 'b', '', '');
   };
@@ -5923,7 +5923,7 @@ __webpack_require__(35)('bold', function (createHTML) {
 "use strict";
 
 // B.2.3.6 String.prototype.fixed()
-__webpack_require__(35)('fixed', function (createHTML) {
+__webpack_require__(36)('fixed', function (createHTML) {
   return function fixed() {
     return createHTML(this, 'tt', '', '');
   };
@@ -5937,7 +5937,7 @@ __webpack_require__(35)('fixed', function (createHTML) {
 "use strict";
 
 // B.2.3.7 String.prototype.fontcolor(color)
-__webpack_require__(35)('fontcolor', function (createHTML) {
+__webpack_require__(36)('fontcolor', function (createHTML) {
   return function fontcolor(color) {
     return createHTML(this, 'font', 'color', color);
   };
@@ -5951,7 +5951,7 @@ __webpack_require__(35)('fontcolor', function (createHTML) {
 "use strict";
 
 // B.2.3.8 String.prototype.fontsize(size)
-__webpack_require__(35)('fontsize', function (createHTML) {
+__webpack_require__(36)('fontsize', function (createHTML) {
   return function fontsize(size) {
     return createHTML(this, 'font', 'size', size);
   };
@@ -5965,7 +5965,7 @@ __webpack_require__(35)('fontsize', function (createHTML) {
 "use strict";
 
 // B.2.3.9 String.prototype.italics()
-__webpack_require__(35)('italics', function (createHTML) {
+__webpack_require__(36)('italics', function (createHTML) {
   return function italics() {
     return createHTML(this, 'i', '', '');
   };
@@ -5979,7 +5979,7 @@ __webpack_require__(35)('italics', function (createHTML) {
 "use strict";
 
 // B.2.3.10 String.prototype.link(url)
-__webpack_require__(35)('link', function (createHTML) {
+__webpack_require__(36)('link', function (createHTML) {
   return function link(url) {
     return createHTML(this, 'a', 'href', url);
   };
@@ -5993,7 +5993,7 @@ __webpack_require__(35)('link', function (createHTML) {
 "use strict";
 
 // B.2.3.11 String.prototype.small()
-__webpack_require__(35)('small', function (createHTML) {
+__webpack_require__(36)('small', function (createHTML) {
   return function small() {
     return createHTML(this, 'small', '', '');
   };
@@ -6007,7 +6007,7 @@ __webpack_require__(35)('small', function (createHTML) {
 "use strict";
 
 // B.2.3.12 String.prototype.strike()
-__webpack_require__(35)('strike', function (createHTML) {
+__webpack_require__(36)('strike', function (createHTML) {
   return function strike() {
     return createHTML(this, 'strike', '', '');
   };
@@ -6021,7 +6021,7 @@ __webpack_require__(35)('strike', function (createHTML) {
 "use strict";
 
 // B.2.3.13 String.prototype.sub()
-__webpack_require__(35)('sub', function (createHTML) {
+__webpack_require__(36)('sub', function (createHTML) {
   return function sub() {
     return createHTML(this, 'sub', '', '');
   };
@@ -6035,7 +6035,7 @@ __webpack_require__(35)('sub', function (createHTML) {
 "use strict";
 
 // B.2.3.14 String.prototype.sup()
-__webpack_require__(35)('sup', function (createHTML) {
+__webpack_require__(36)('sup', function (createHTML) {
   return function sup() {
     return createHTML(this, 'sup', '', '');
   };
