@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { THREE_CONST } from '../../../common/constants';
+import { THREE_CONST } from 'ui/common/constants';
 import BasePlane from "./base-plane";
 import {Door} from "data/scene/entities/door";
 
