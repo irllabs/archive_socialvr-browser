@@ -97,7 +97,6 @@ export class AudioPlayService {
     const audioSource = this.narration;
 
     if (audioSource) {
-      console.log('pause', audioSource);
       this.narrationPosition += Date.now() - this.narrationStart;
       this.stopPlaying(audioSource);
       this.narration = null;
@@ -108,7 +107,6 @@ export class AudioPlayService {
     const narrationId = this.narrationId;
 
     if (narrationId) {
-      console.log('this.narrationPosition', this.narrationPosition / 1000);
       this.playNarrationAudio(narrationId, this.narrationPosition / 1000);
     }
   }
