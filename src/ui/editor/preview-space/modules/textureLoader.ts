@@ -7,6 +7,7 @@ import {ICON_PATH, IMAGE_PATH} from 'ui/common/constants';
 const iconPaths: AssetModel[] = [
   new AssetModel('hotspot-default', 'hotspot-default', `${ICON_PATH}icon-hotspot-default.png`),
   new AssetModel('hotspot-hover', 'hotspot-hover', `${ICON_PATH}icon-hotspot-hover.png`),
+  new AssetModel('door',  'door',  `${ICON_PATH}door_filled.png`),
 
   new AssetModel('back', 'back', `${ICON_PATH}back_filled.png`),
   new AssetModel('home', 'home', `${ICON_PATH}home_filled.png`),

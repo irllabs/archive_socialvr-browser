@@ -9,6 +9,8 @@ import {buildMaterialFromText} from "../modules/textMaterialBuilder";
 export default class ImagePlane extends BasePlane {
   protected _hasPlaneMesh: boolean = true;
 
+  public type: string = 'door';
+
   static buildMesh(texture, textureMask, position, camera): THREE.Mesh {
     const geometryDimensions = fitToMax(texture.image.width, texture.image.height, 140);
     const imageGeometry = new THREE.PlaneGeometry(geometryDimensions.getX(), geometryDimensions.getY());

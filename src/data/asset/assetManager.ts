@@ -77,13 +77,11 @@ export class AssetManager {
   }
 
   getTextureById(id: string): Texture {
-    if (!this.textureMap.has(id)) return null;
-    return this.textureMap.get(id).texture;
+    return this.textureMap.has(id) ? this.textureMap.get(id).texture : null;
   }
 
   getAudioBufferById(id: string): AudioBuffer {
-    if (!this.audioBufferMap.has(id)) return null;
-    return this.audioBufferMap.get(id).audioBuffer;
+    return this.audioBufferMap.has(id) ? this.audioBufferMap.get(id).audioBuffer : null;
   }
 
   clearAssets() {

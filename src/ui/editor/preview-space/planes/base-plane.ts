@@ -1,10 +1,10 @@
-import {BaseElement} from "data/scene/entities/baseElement";
-import * as THREE from "three";
-import {THREE_CONST} from "../../../common/constants";
-import {car2pol, getCoordinatePosition, pol2car} from "../../util/iconPositionUtil";
-import {AssetInteractor} from "core/asset/assetInteractor";
-import {RoomPropertyTypeService} from "../../util/roomPropertyTypeService";
-import fontHelper from "../modules/fontHelper";
+import { AssetInteractor } from 'core/asset/assetInteractor';
+import { BaseElement } from 'data/scene/entities/baseElement';
+import * as THREE from 'three';
+import { THREE_CONST } from '../../../common/constants';
+import { car2pol, getCoordinatePosition, pol2car } from '../../util/iconPositionUtil';
+import { RoomPropertyTypeService } from '../../util/roomPropertyTypeService';
+import fontHelper from '../modules/fontHelper';
 
 const TWEEN = require('@tweenjs/tween.js');
 
@@ -14,8 +14,10 @@ export default class BasePlane {
 
   private _tweenActivate;
   private _tweenDeactivate;
+  private _activating: boolean = false;
 
   protected _hasPlaneMesh: boolean = false;
+  protected _delayBeforeRunActivation = 0;
 
   protected _tweenIconActivate;
   protected _tweenIconDeactivate;
@@ -28,6 +30,14 @@ export default class BasePlane {
   protected prop: BaseElement;
   protected camera: THREE.PerspectiveCamera;
   protected assetInteractor: AssetInteractor;
+
+  protected get hoverIconGeometry(): any {
+    return new THREE.CircleGeometry(THREE_CONST.HOTSPOT_DIM, THREE_CONST.DASHCIRCLE_SEG);
+  }
+
+  protected get hoverIconTexture() {
+    return this.assetInteractor.getTextureById('hotspot-hover');
+  }
 
   public uuid: string;
   public type: string;
@@ -57,8 +67,8 @@ export default class BasePlane {
     const posCar = pol2car(THREE_CONST.CAMERA_HOTSPOT, polPol.y, polPol.z);
 
     // Render iconMesh
-    const iconGeometry = new THREE.CircleGeometry(THREE_CONST.HOTSPOT_DIM, THREE_CONST.DASHCIRCLE_SEG);
-    const iconTexture = this.assetInteractor.getTextureById('hotspot-hover');
+    const iconGeometry = this.hoverIconGeometry;
+    const iconTexture = this.hoverIconTexture;
     const iconMaterial = new THREE.MeshBasicMaterial({
       map: iconTexture,
       transparent: true,
@@ -246,13 +256,30 @@ export default class BasePlane {
   }
 
   public activate() {
-    return Promise.all([this._animateActivate(), this._animateIconActivate()]).then(() => {
-      this.onActivated();
+    this._activating = true;
+
+    return new Promise((resolve) => {
+      setTimeout(resolve, this._delayBeforeRunActivation);
+    }).then(() => {
+      if (this._activating) {
+        return Promise.all([this._animateActivate(), this._animateIconActivate()]).then(() => {
+
+          if (this._activating) {
+            this.onActivated();
+          }
+
+          return this._activating;
+        });
+      }
+
+      return this._activating;
     });
   }
 
   public deactivate(onlyPlaneAnimation: boolean = false) {
     const promises = [this._animateDeactivate()];
+
+    this._activating = false;
 
     if (!onlyPlaneAnimation) {
       promises.push(this._animateIconDeactivate());
