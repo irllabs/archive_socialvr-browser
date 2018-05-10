@@ -21,7 +21,7 @@
 
     <!-- Soundtrack -->
 
-<div class="button_row">
+    <div class="button_row">
       <div
         class="button"
         title="Click to create new story"
@@ -29,15 +29,15 @@
         New Story
       </div>
       <div class="button" title="Click to save current story to server"
-       (click)="onSaveStoryClick($event)">
+           (click)="onSaveStoryClick($event)">
         Save Story
       </div>
 
-</div>
+    </div>
 
-<div class="button_row">
+    <div class="button_row">
       <div class="button" title="Click to download story as zip file"
-       (click)="onSaveStroyLocallyClick($event)">
+           (click)="onSaveStroyLocallyClick($event)">
         Download as .zip
       </div>
       <div
@@ -47,15 +47,15 @@
         Upload from .zip
       </div>
 
-      </div>
+    </div>
 
-      <div class="dropdown-input-row">
+    <div class="dropdown-input-row">
       <file-loader
         *ngIf="!getSoundtrack().hasAsset()"
-          (onFileLoad)="onSoundtrackLoad($event)"
-          [acceptedFileType]="'audio'"
-          [displayText]="'Add Soundtrack'"
-          class="story__soundtrack__upload-button">
+        (onFileLoad)="onSoundtrackLoad($event)"
+        [acceptedFileType]="'audio'"
+        [displayText]="'Add Soundtrack'"
+        class="story__soundtrack__upload-button">
       </file-loader>
 
       <div
@@ -75,7 +75,7 @@
         class="story__soundtrack__audio-player">
       </audio>
 
-</div>
+    </div>
 
   </div>
 

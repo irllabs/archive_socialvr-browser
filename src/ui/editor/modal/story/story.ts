@@ -131,6 +131,10 @@ export class Story {
   }
 
   private onOpenStoryLocallyClick(event) {
+    if (!this.userInteractor.isLoggedIn()) {
+      this.eventBus.onModalMessage('Error', 'You must be logged in to upload from .zip');
+      return;
+    }
     // this.router.navigate(['/editor', {outlets: {'modal': 'upload'}}]);
     // if (!$event.shiftKey) {
     this.eventBus.onOpenFileLoader('zip');
@@ -168,6 +172,10 @@ export class Story {
     }
     if (this.metaDataInteractor.getIsReadOnly()) {
       this.eventBus.onModalMessage('Permissions Error', 'It looks like you are working on a different user\'s project. You cannot save this to your account but you can save it locally by shift-clicking the save button.');
+      return;
+    }
+    if (!this.userInteractor.isLoggedIn()) {
+      this.eventBus.onModalMessage('Error', 'You must be logged in to download as .zip');
       return;
     }
 
