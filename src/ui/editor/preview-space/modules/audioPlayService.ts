@@ -1,13 +1,17 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {AssetInteractor} from 'core/asset/assetInteractor';
-import {getAudioContext} from 'ui/editor/util/audioContextProvider';
+import { AssetInteractor } from 'core/asset/assetInteractor';
+import { getAudioContext } from 'ui/editor/util/audioContextProvider';
 
 
 @Injectable()
 export class AudioPlayService {
   private gainNode: GainNode;
   private soundtrack: AudioBufferSourceNode;
+  private narrationId: string;
+  private narration: AudioBufferSourceNode;
+  private narrationStart: number;
+  private narrationPosition: number = 0;
   private hotspot: AudioBufferSourceNode;
   private background: AudioBufferSourceNode;
 
@@ -50,6 +54,7 @@ export class AudioPlayService {
 
   playHotspotAudio(audioAssetId: string, volume: number = 0.5, loop: boolean = false): AudioBufferSourceNode {
     this.stopPlaying(this.hotspot);
+    this.pauseCurrentNarrationAudio();
 
     const audioSource = this.getAudioSource(audioAssetId);
 
@@ -64,6 +69,50 @@ export class AudioPlayService {
     }
   }
 
+  stopHotspotAudio(audioBuffer: AudioBufferSourceNode){
+    this.stopPlaying(audioBuffer);
+    this.resumeCurrentNarrationAudio();
+  }
+
+  playNarrationAudio(narrationId: string, position: number = 0): AudioBufferSourceNode {
+    this.stopPlaying(this.narration);
+    this.narrationId = null;
+
+    const audioSource = this.getAudioSource(narrationId);
+
+    if (audioSource) {
+      this.gainNode.gain.value = 0.5;
+      audioSource.loop = false;
+      audioSource.start(0, position);
+      this.narrationStart = Date.now();
+
+      this.narration = audioSource;
+      this.narrationId = narrationId;
+
+      return audioSource;
+    }
+  }
+
+  pauseCurrentNarrationAudio() {
+    const audioSource = this.narration;
+
+    if (audioSource) {
+      console.log('pause', audioSource);
+      this.narrationPosition += Date.now() - this.narrationStart;
+      this.stopPlaying(audioSource);
+      this.narration = null;
+    }
+  }
+
+  resumeCurrentNarrationAudio() {
+    const narrationId = this.narrationId;
+
+    if (narrationId) {
+      console.log('this.narrationPosition', this.narrationPosition / 1000);
+      this.playNarrationAudio(narrationId, this.narrationPosition / 1000);
+    }
+  }
+
   stopAll(includeSoundtrack: boolean) {
     if (includeSoundtrack) {
       this.stopPlaying(this.soundtrack);
@@ -72,8 +121,12 @@ export class AudioPlayService {
 
     this.stopPlaying(this.background);
     this.stopPlaying(this.hotspot);
+    this.stopPlaying(this.narration);
     this.background = null;
     this.hotspot = null;
+    this.narration = null;
+    this.narrationPosition = 0;
+    this.narrationId = null;
   }
 
   stopPlaying(audioBuffer: AudioBufferSourceNode) {
@@ -101,7 +154,7 @@ export class AudioPlayService {
     if (!audioBuffer) {
       console.log(
         'audioPlayService.playSample error',
-        `audio buffer not found for audio ID: ${audioAssetId}`
+        `audio buffer not found for audio ID: ${audioAssetId}`,
       );
       return;
     }

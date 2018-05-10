@@ -99,16 +99,18 @@ export default class UniversalPlane extends BasePlane {
   public onActivated() {
     const universalProperty = this.prop as Universal;
 
-    this.audioBufferSourceNode = this.audioPlayService.playHotspotAudio(
-      universalProperty.getId(),
-      universalProperty.volume,
-      universalProperty.loop
-    );
+    if (universalProperty.audioContent.hasAsset()) {
+      this.audioBufferSourceNode = this.audioPlayService.playHotspotAudio(
+        universalProperty.getId(),
+        universalProperty.volume,
+        universalProperty.loop
+      );
+    }
   }
 
   public onDeactivated() {
     if(this.audioBufferSourceNode) {
-      this.audioPlayService.stopPlaying(this.audioBufferSourceNode);
+      this.audioPlayService.stopHotspotAudio(this.audioBufferSourceNode);
     }
   }
 }
