@@ -1,3 +1,4 @@
+import { THREE_CONST } from 'ui/common/constants';
 import { Universal } from 'data/scene/entities/universal';
 import { fitToMax } from 'data/util/imageResizeService';
 import * as THREE from 'three';
@@ -17,6 +18,31 @@ export default class UniversalPlane extends BasePlane {
     const hasTextContent: boolean = !!universalProperty.textContent;
 
     return hasImageContent || hasTextContent;
+  }
+
+  protected get isAudioOnly() {
+    const universalProperty = this.prop as Universal;
+    const hasImageContent: boolean = universalProperty.imageContent.hasAsset();
+    const hasTextContent: boolean = !!universalProperty.textContent;
+    const hasAudioContent: boolean = universalProperty.audioContent.hasAsset();
+
+    return hasAudioContent && !hasImageContent && !hasTextContent;
+  }
+
+  protected hoverIconGeometry(): any {
+    if (this.isAudioOnly) {
+      return new THREE.PlaneGeometry(THREE_CONST.HOTSPOT_DIM, THREE_CONST.HOTSPOT_DIM);
+    } else {
+      return super.hoverIconGeometry();
+    }
+  }
+
+  protected hoverIconTexture() {
+    if (this.isAudioOnly) {
+      return this.assetInteractor.getTextureById('audio');
+    } else {
+      return super.hoverIconTexture();
+    }
   }
 
   protected _render(): THREE.Mesh {
