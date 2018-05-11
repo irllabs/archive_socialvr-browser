@@ -15,12 +15,16 @@ $bar-margin: ($diameter - $bar-width) / 2;
   position: relative;
   cursor: pointer;
 	margin-left: 5px;
+  margin-bottom: 5px;
 	// transform: translate(0%, 20px)
+
+  &.has-swap-bottoms {
+    margin-bottom: 26px;
+  }
 }
 
 .add-room__rect {
 	position: absolute;
-	opacity: 50%;
 	width: 60px;
 	height: 80px;
 	background-color: $color-white;

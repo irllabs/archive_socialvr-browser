@@ -4,13 +4,13 @@
 
   <room-editor
     *ngIf="inspectorIsVisible"
-    (onOffClick)="onOffClick($event)"
+    (onOffClick)="onOffClick()"
     class="story-scroll__room-editor">
   </room-editor>
 
   <div *ngIf="!inspectorIsVisible">
     <div
-      (click)="toggleOpen($event)"
+      (click)="toggleOpen()"
       class="story-scroll__toggle-button">
       <span
         class="story-scroll__toggle-arrow story-scroll__toggle-arrow-left"
@@ -23,17 +23,16 @@
     </div>
   </div>
 
-
   <div
     droppable
     [acceptedFileType]="'image'"
     [acceptMultpleFiles]="true"
-    (onFileLoad)="addSlideshow($event)"
+    (onFileLoad)="addSlideShow($event)"
     class="story-scroll__scroll">
 
       <div class="story-scroll__room-group">
         <div
-          *ngFor="let roomId of getRoomIdList()"
+          *ngFor="let roomId of roomIds"
           class="story-scroll__room">
 
           <!-- Room Label -->
@@ -41,15 +40,21 @@
             [roomProperty]="getRoomById(roomId)"
             [isActive]="roomIsSelected(roomId)"
             (click)="onRoomSelect(roomId)"
-            (infoEvent)="onInfoClick($event)"
+            (infoEvent)="onInfoClick()"
             class="story-scroll__storymap-item">
           </storymap-item>
+
+          <div class="toggle-room-actions">
+            <button type="button"
+                    class="toggle-room-position"
+                    (click)="onSwapRoom(roomId, 1)"
+                    *ngIf="hasNextRoomFor(roomId)">
+              &#8596;
+            </button>
+          </div>
         </div>
       </div>
 
-
-      <add-room></add-room>
-
+      <add-room [hasSwapButtons]="roomIds.length > 1"></add-room>
   </div>
-
 </div>

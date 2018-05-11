@@ -12,7 +12,6 @@ import {
 
 @Injectable()
 export class RoomManager {
-
   private projectName: string;
   private projectTags: string;
   private projectDescription: string;
