@@ -95,9 +95,7 @@ exports.stringToByteArray = utf8_1.stringToByteArray;
 /***/ }),
 /* 4 */,
 /* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -211,6 +209,8 @@ exports.THREE_CONST = {
 };
 
 /***/ }),
+/* 7 */,
+/* 8 */,
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1482,7 +1482,7 @@ exports.ValidationPath = ValidationPath;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector2_1 = __webpack_require__(76);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var MAX_SIZE_HOTSPOT = 1024;
 function getNearestPowerOfTwo(x) {
     return new Array(14).fill(null).map(function (_, index) {
@@ -2695,7 +2695,7 @@ var core_1 = __webpack_require__(2);
 var http_1 = __webpack_require__(166);
 var Observable_1 = __webpack_require__(0);
 var authenticationService_1 = __webpack_require__(193);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 // import * as firebase from 'firebase/app';
 // import 'firebase/auth';
 // import 'firebase/storage';
@@ -3264,7 +3264,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var platform_browser_1 = __webpack_require__(46);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 exports.mimeTypeMap = {
     video: [constants_1.MIME_TYPE_MP4],
     audio: [constants_1.MIME_TYPE_MP3, constants_1.MIME_TYPE_WAV, constants_1.MIME_TYPE_MPEG, constants_1.MIME_TYPE_XWAV, constants_1.MIME_TYPE_AAC, constants_1.MIME_TYPE_XM4A],
@@ -4170,7 +4170,7 @@ exports.RoomPropertyTypeService = RoomPropertyTypeService;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(15);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var iconPositionUtil_1 = __webpack_require__(63);
 var roomPropertyTypeService_1 = __webpack_require__(94);
 var fontHelper_1 = __webpack_require__(529);
@@ -4187,20 +4187,12 @@ var BasePlane = /** @class */function () {
         this._renderIconsAndLabel();
         this.uuid = this.iconMesh.uuid;
     }
-    Object.defineProperty(BasePlane.prototype, "hoverIconGeometry", {
-        get: function () {
-            return new THREE.CircleGeometry(constants_1.THREE_CONST.HOTSPOT_DIM, constants_1.THREE_CONST.DASHCIRCLE_SEG);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(BasePlane.prototype, "hoverIconTexture", {
-        get: function () {
-            return this.assetInteractor.getTextureById('hotspot-hover');
-        },
-        enumerable: true,
-        configurable: true
-    });
+    BasePlane.prototype.hoverIconGeometry = function () {
+        return new THREE.CircleGeometry(constants_1.THREE_CONST.HOTSPOT_DIM, constants_1.THREE_CONST.DASHCIRCLE_SEG);
+    };
+    BasePlane.prototype.hoverIconTexture = function () {
+        return this.assetInteractor.getTextureById('hotspot-hover');
+    };
     Object.defineProperty(BasePlane.prototype, "hasPlaneMesh", {
         get: function () {
             return this._hasPlaneMesh;
@@ -4214,8 +4206,8 @@ var BasePlane = /** @class */function () {
         var polPol = iconPositionUtil_1.car2pol(position.x, position.y, position.z);
         var posCar = iconPositionUtil_1.pol2car(constants_1.THREE_CONST.CAMERA_HOTSPOT, polPol.y, polPol.z);
         // Render iconMesh
-        var iconGeometry = this.hoverIconGeometry;
-        var iconTexture = this.hoverIconTexture;
+        var iconGeometry = this.hoverIconGeometry();
+        var iconTexture = this.hoverIconTexture();
         var iconMaterial = new THREE.MeshBasicMaterial({
             map: iconTexture,
             transparent: true,
@@ -4883,7 +4875,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var audio_1 = __webpack_require__(111);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var RoomManager = /** @class */function () {
     function RoomManager() {
         this.isReadOnly = false;
@@ -5008,7 +5000,7 @@ var __extends = this && this.__extends || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var baseElement_1 = __webpack_require__(93);
 var mediaFile_1 = __webpack_require__(188);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var Audio = /** @class */function (_super) {
     __extends(Audio, _super);
     function Audio() {
@@ -8722,7 +8714,7 @@ var narrator_1 = __webpack_require__(273);
 var vector2_1 = __webpack_require__(76);
 var imageResizeService_1 = __webpack_require__(31);
 var reverbList_1 = __webpack_require__(274);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var PropertyBuilder = /** @class */function () {
     function PropertyBuilder() {}
     PropertyBuilder.prototype.setBaseProperties = function (jsonData, roomProperty) {
@@ -9020,8 +9012,8 @@ var __extends = this && this.__extends || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var baseElement_1 = __webpack_require__(93);
 var mediaFile_1 = __webpack_require__(188);
-var constants_1 = __webpack_require__(8);
-var constants_2 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
+var constants_2 = __webpack_require__(6);
 var Universal = /** @class */function (_super) {
     __extends(Universal, _super);
     function Universal() {
@@ -9328,7 +9320,7 @@ var sceneInteractor_1 = __webpack_require__(14);
 var projectInteractor_1 = __webpack_require__(54);
 var projectMetaDataInteractor_1 = __webpack_require__(38);
 var userInteractor_1 = __webpack_require__(35);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var ShareableLoader = /** @class */function () {
     function ShareableLoader(userInteractor, eventBus, projectInteractor, metaDataInteractor, sceneInteractor, router) {
         this.userInteractor = userInteractor;
@@ -11411,7 +11403,7 @@ function remove(array, elem) {
 Object.defineProperty(exports, "__esModule", { value: true });
 // import {BaseElement} from 'data/scene/entities/baseElement';
 var audio_1 = __webpack_require__(111);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var Narrator = /** @class */function () {
     function Narrator() {
         this.introAudio = new audio_1.Audio();
@@ -11656,7 +11648,7 @@ var __extends = this && this.__extends || function () {
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
 var baseElement_1 = __webpack_require__(93);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var Door = /** @class */function (_super) {
     __extends(Door, _super);
     function Door() {
@@ -11952,9 +11944,9 @@ var apiService_1 = __webpack_require__(62);
 var fileLoaderUtil_1 = __webpack_require__(68);
 __webpack_require__(250);
 __webpack_require__(1174);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var universal_1 = __webpack_require__(191);
-var constants_2 = __webpack_require__(8);
+var constants_2 = __webpack_require__(6);
 var JSZip = __webpack_require__(241);
 var JsYaml = __webpack_require__(239);
 var DeserializationService = /** @class */function () {
@@ -12340,7 +12332,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var Observable_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var assetInteractor_1 = __webpack_require__(61);
 var roomManager_1 = __webpack_require__(110);
 var http_1 = __webpack_require__(166);
@@ -21834,9 +21826,9 @@ var vector2_1 = __webpack_require__(76);
 var mediaFile_1 = __webpack_require__(188);
 var narrator_1 = __webpack_require__(273);
 var uuid_1 = __webpack_require__(112);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var reverbList_1 = __webpack_require__(274);
-var constants_2 = __webpack_require__(8);
+var constants_2 = __webpack_require__(6);
 var Room = /** @class */function () {
     function Room() {
         this.id = uuid_1.generateUniqueId();
@@ -22191,7 +22183,7 @@ exports.AssetService = AssetService;
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var THREE = __webpack_require__(15);
 // This file contains common 3D logic for edit-space-sphere and preview-space
 var SPHERE_RADIUS = constants_1.THREE_CONST.SPHERE_RADIUS;
@@ -22835,8 +22827,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(14);
 var assetInteractor_1 = __webpack_require__(61);
-var constants_1 = __webpack_require__(8);
-var iconPaths = [new assetInteractor_1.AssetModel('hotspot-default', 'hotspot-default', constants_1.ICON_PATH + "icon-hotspot-default.png"), new assetInteractor_1.AssetModel('hotspot-hover', 'hotspot-hover', constants_1.ICON_PATH + "icon-hotspot-hover.png"), new assetInteractor_1.AssetModel('door', 'door', constants_1.ICON_PATH + "door_filled.png"), new assetInteractor_1.AssetModel('back', 'back', constants_1.ICON_PATH + "back_filled.png"), new assetInteractor_1.AssetModel('home', 'home', constants_1.ICON_PATH + "home_filled.png"), new assetInteractor_1.AssetModel('colorBall', 'colorBall', constants_1.IMAGE_PATH + "color_ball.jpg"), new assetInteractor_1.AssetModel('imageMask', 'imageMask', constants_1.IMAGE_PATH + "image-mask_1920.jpg")];
+var constants_1 = __webpack_require__(6);
+var iconPaths = [new assetInteractor_1.AssetModel('hotspot-default', 'hotspot-default', constants_1.ICON_PATH + "icon-hotspot-default.png"), new assetInteractor_1.AssetModel('hotspot-hover', 'hotspot-hover', constants_1.ICON_PATH + "icon-hotspot-hover.png"), new assetInteractor_1.AssetModel('door', 'door', constants_1.ICON_PATH + "door_filled.png"), new assetInteractor_1.AssetModel('audio', 'audio', constants_1.ICON_PATH + "icon-audio.png"), new assetInteractor_1.AssetModel('back', 'back', constants_1.ICON_PATH + "back_filled.png"), new assetInteractor_1.AssetModel('home', 'home', constants_1.ICON_PATH + "home_filled.png"), new assetInteractor_1.AssetModel('colorBall', 'colorBall', constants_1.IMAGE_PATH + "color_ball.jpg"), new assetInteractor_1.AssetModel('imageMask', 'imageMask', constants_1.IMAGE_PATH + "image-mask_1920.jpg")];
 var TextureLoader = /** @class */function () {
     function TextureLoader(sceneInteractor, assetInteractor) {
         this.sceneInteractor = sceneInteractor;
@@ -23023,7 +23015,7 @@ var core_1 = __webpack_require__(2);
 var THREE = __webpack_require__(15);
 var assetInteractor_1 = __webpack_require__(61);
 var iconPositionUtil_1 = __webpack_require__(63);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var TWEEN = __webpack_require__(285);
 var MenuManager = /** @class */function () {
     function MenuManager(assetInteractor) {
@@ -23238,7 +23230,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var THREE = __webpack_require__(15);
 var Reticle = /** @class */function () {
     function Reticle() {
@@ -37993,7 +37985,7 @@ var roomPropertyTypeService_1 = __webpack_require__(94);
 var propertyRemovalService_1 = __webpack_require__(144);
 var combinedHotspotUtil_1 = __webpack_require__(192);
 var iconPositionUtil_1 = __webpack_require__(63);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var ICON_MAP = {
     universal: 'icon-add.png',
     text: 'icon-text.png',
@@ -38461,7 +38453,7 @@ var core_1 = __webpack_require__(2);
 var universal_1 = __webpack_require__(191);
 var event_bus_1 = __webpack_require__(10);
 var imageResizeService_1 = __webpack_require__(31);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var audioRecorderService_1 = __webpack_require__(145);
 var UniversalEditor = /** @class */function () {
     function UniversalEditor(eventBus) {
@@ -38695,7 +38687,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var door_1 = __webpack_require__(277);
 var sceneInteractor_1 = __webpack_require__(14);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var event_bus_1 = __webpack_require__(10);
 var DoorEditor = /** @class */function () {
     function DoorEditor(sceneInteractor, eventBus) {
@@ -38881,7 +38873,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var audio_1 = __webpack_require__(111);
 var audioRecorderService_1 = __webpack_require__(145);
 var AudioEditor = /** @class */function () {
@@ -39088,7 +39080,7 @@ var reticle_1 = __webpack_require__(531);
 var video3D_1 = __webpack_require__(521);
 var threeUtil_1 = __webpack_require__(519);
 var SvrControls_1 = __webpack_require__(520);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var fontHelper_1 = __webpack_require__(529);
 var Stats = __webpack_require__(1226);
 var stats = new Stats();
@@ -39498,7 +39490,7 @@ exports.cleanMeshMemory = cleanMeshMemory;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(15);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var STATES = {
     FAR: 1,
     NEAR: 2,
@@ -39939,6 +39931,7 @@ var __extends = this && this.__extends || function () {
     };
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
+var constants_1 = __webpack_require__(6);
 var base_plane_1 = __webpack_require__(95);
 var THREE = __webpack_require__(15);
 var iconPositionUtil_1 = __webpack_require__(63);
@@ -39959,6 +39952,31 @@ var UniversalPlane = /** @class */function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(UniversalPlane.prototype, "isAudioOnly", {
+        get: function () {
+            var universalProperty = this.prop;
+            var hasImageContent = universalProperty.imageContent.hasAsset();
+            var hasTextContent = !!universalProperty.textContent;
+            var hasAudioContent = universalProperty.audioContent.hasAsset();
+            return hasAudioContent && !hasImageContent && !hasTextContent;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    UniversalPlane.prototype.hoverIconGeometry = function () {
+        if (this.isAudioOnly) {
+            return new THREE.PlaneGeometry(constants_1.THREE_CONST.HOTSPOT_DIM, constants_1.THREE_CONST.HOTSPOT_DIM);
+        } else {
+            return _super.prototype.hoverIconGeometry.call(this);
+        }
+    };
+    UniversalPlane.prototype.hoverIconTexture = function () {
+        if (this.isAudioOnly) {
+            return this.assetInteractor.getTextureById('audio');
+        } else {
+            return _super.prototype.hoverIconTexture.call(this);
+        }
+    };
     UniversalPlane.prototype._render = function () {
         var universalProperty = this.prop;
         var hasImageContent = universalProperty.imageContent.hasAsset();
@@ -40150,7 +40168,7 @@ var __extends = this && this.__extends || function () {
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(15);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var base_plane_1 = __webpack_require__(95);
 var DoorPlane = /** @class */function (_super) {
     __extends(DoorPlane, _super);
@@ -40160,20 +40178,12 @@ var DoorPlane = /** @class */function (_super) {
         _this._delayBeforeRunActivation = 1000;
         return _this;
     }
-    Object.defineProperty(DoorPlane.prototype, "hoverIconGeometry", {
-        get: function () {
-            return new THREE.PlaneGeometry(constants_1.THREE_CONST.HOTSPOT_DIM, constants_1.THREE_CONST.HOTSPOT_DIM);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(DoorPlane.prototype, "hoverIconTexture", {
-        get: function () {
-            return this.assetInteractor.getTextureById(this.type);
-        },
-        enumerable: true,
-        configurable: true
-    });
+    DoorPlane.prototype.hoverIconGeometry = function () {
+        return new THREE.PlaneGeometry(constants_1.THREE_CONST.HOTSPOT_DIM, constants_1.THREE_CONST.HOTSPOT_DIM);
+    };
+    DoorPlane.prototype.hoverIconTexture = function () {
+        return this.assetInteractor.getTextureById(this.type);
+    };
     DoorPlane.prototype.get_activate_duration = function (defaultDuration) {
         return this.prop.getAutoTime() * 1000 || defaultDuration;
     };
@@ -40776,7 +40786,7 @@ var projectInteractor_1 = __webpack_require__(54);
 var sceneInteractor_1 = __webpack_require__(14);
 var adminInteractor_1 = __webpack_require__(147);
 var event_bus_1 = __webpack_require__(10);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var FileSaver = __webpack_require__(533);
 var AuthUserTab = /** @class */function () {
     function AuthUserTab(userInteractor, projectInteractor, sceneInteractor, eventBus, storageInteractor, metaDataInteractor, adminInteractor, router) {
@@ -41210,7 +41220,7 @@ var projectMetaDataInteractor_1 = __webpack_require__(38);
 var event_bus_1 = __webpack_require__(10);
 var userInteractor_1 = __webpack_require__(35);
 var SlideshowBuilder_1 = __webpack_require__(113);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var FileSaver = __webpack_require__(533);
 var Story = /** @class */function () {
     function Story(router, sceneInteractor, storageInteractor, metaDataInteractor, userInteractor, projectInteractor, eventBus, slideshowBuilder, element) {
@@ -41807,7 +41817,7 @@ var sceneInteractor_1 = __webpack_require__(14);
 var event_bus_1 = __webpack_require__(10);
 var reverbList_1 = __webpack_require__(274);
 var audioRecorderService_1 = __webpack_require__(145);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var RoomEditor = /** @class */function () {
     function RoomEditor(sceneInteractor, element, eventBus, metaDataInteractor) {
         this.sceneInteractor = sceneInteractor;
@@ -45847,7 +45857,7 @@ exports.render = function render (qrData, options, cb) {
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var COPY = 'copy';
 // https://gist.github.com/lgarron/d1dee380f4ed9d825ca7
 function copyToClipboard(stringToCopy) {
@@ -46042,7 +46052,7 @@ var adminInteractor_1 = __webpack_require__(147);
 var projectInteractor_1 = __webpack_require__(54);
 var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(38);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var AdminUserGroups = /** @class */function () {
     function AdminUserGroups(userInteractor, adminInteractor, projectInteractor, sceneInteractor, metaDataInteractor, router, eventBus) {
         this.userInteractor = userInteractor;
@@ -46170,7 +46180,7 @@ var searchInteractor_1 = __webpack_require__(288);
 var shareable_loader_1 = __webpack_require__(195);
 var userInteractor_1 = __webpack_require__(35);
 var adminInteractor_1 = __webpack_require__(147);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var AdminSearchExplore = /** @class */function () {
     function AdminSearchExplore(projectInteractor, searchInteractor, shareableLoader, userInteractor, adminInteractor) {
         this.projectInteractor = projectInteractor;
@@ -46462,7 +46472,7 @@ var groupInteractor_1 = __webpack_require__(538);
 var projectInteractor_1 = __webpack_require__(54);
 var sceneInteractor_1 = __webpack_require__(14);
 var projectMetaDataInteractor_1 = __webpack_require__(38);
-var constants_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(6);
 var UserGroups = /** @class */function () {
     function UserGroups(userInteractor, groupInteractor, projectInteractor, sceneInteractor, metaDataInteractor, router, eventBus) {
         this.userInteractor = userInteractor;
