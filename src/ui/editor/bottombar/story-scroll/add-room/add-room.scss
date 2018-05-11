@@ -8,28 +8,29 @@ $center-position: $diameter / 2 - $bar-height / 2;
 $bar-margin: ($diameter - $bar-width) / 2;
 
 .add-room {
-	//width: $diameter;
-	//height: $diameter;
+  //width: $diameter;
+  //height: $diameter;
   // border-radius: 50%;
   //background-color: white;
   position: relative;
   cursor: pointer;
-	margin-left: 5px;
-	// transform: translate(0%, 20px)
+  margin-left: 5px;
+  // transform: translate(0%, 20px)
 }
 
 .add-room__rect {
-	position: absolute;
-	opacity: 50%;
-	width: 60px;
-	height: 80px;
-	background-color: $color-white;
+  position: absolute;
+  opacity: 50%;
+  width: 60px;
+  height: 80px;
+  background-color: $color-white;
   top: -29px;
 }
 
 .add-room__plus {
-	transform: translate(10px,-8px);
+  transform: translate(10px, -8px);
 }
+
 .add-room__barh {
   display: block;
   position: absolute;
@@ -41,7 +42,7 @@ $bar-margin: ($diameter - $bar-width) / 2;
   top: $center-position;
   transition: .15s ease-in-out;
   transform: rotate(0deg);
-	//transform: translate(0%, 20px)
+  //transform: translate(0%, 20px)
 }
 
 .add-room__barv {
@@ -55,7 +56,7 @@ $bar-margin: ($diameter - $bar-width) / 2;
   top: $center-position;
   transition: .15s ease-in-out;
   transform: rotate(90deg);
-	//transform: translate(0%, 20px)
+  //transform: translate(0%, 20px)
 }
 
 .add-room__plus :nth-child(1) {

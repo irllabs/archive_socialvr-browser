@@ -1,16 +1,15 @@
-import {Component} from '@angular/core';
-import {ViewEncapsulation} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app',
   styleUrls: ['./ui.scss'],
   templateUrl: './ui.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class Ui {
   constructor(
-    private router: Router
+    private router: Router,
   ) {
   }
 
@@ -18,7 +17,7 @@ export class Ui {
     const isShared: boolean = location.hash.indexOf('sharedproject') >= 0;
 
     if (!isShared) {
-      this.router.navigate([{outlets: {modal: null}}]);
+      this.router.navigate([{ outlets: { modal: null } }]);
     }
   }
 };

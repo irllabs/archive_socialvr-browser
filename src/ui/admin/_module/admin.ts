@@ -1,13 +1,12 @@
-import {Component, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, ViewChild } from '@angular/core';
+import { AdminInteractor } from 'core/admin/adminInteractor';
 
-import {UserInteractor} from 'core/user/userInteractor';
-import {AdminInteractor} from 'core/admin/adminInteractor';
+import { UserInteractor } from 'core/user/userInteractor';
 
 @Component({
   selector: 'admin',
   styleUrls: ['./admin.scss'],
-  templateUrl: './admin.html'
+  templateUrl: './admin.html',
 })
 export class Admin {
 
@@ -15,8 +14,9 @@ export class Admin {
 
   constructor(
     private userInteractor: UserInteractor,
-    private adminInteractor: AdminInteractor
-  ) {}
+    private adminInteractor: AdminInteractor,
+  ) {
+  }
 
   private hasPermission(): boolean {
     return this.userInteractor.isLoggedIn() && this.adminInteractor.isAdmin();

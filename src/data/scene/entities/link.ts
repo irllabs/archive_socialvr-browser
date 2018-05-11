@@ -1,4 +1,4 @@
-import {BaseElement} from 'data/scene/entities/baseElement';
+import { BaseElement } from 'data/scene/entities/baseElement';
 
 export class Link extends BaseElement {
 
@@ -18,7 +18,7 @@ export class Link extends BaseElement {
 
   toJson() {
     return Object.assign(super.toJson(), {
-      file: this._body
+      file: this._body,
     });
   }
 

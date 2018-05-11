@@ -1,15 +1,15 @@
-import {Component, ViewChild} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import {Subscription} from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 
-import {EventBus, EventType} from 'ui/common/event-bus';
-import {ZipFileReader} from 'ui/editor/util/zipFileReader';
+import { EventBus, EventType } from 'ui/common/event-bus';
+import { ZipFileReader } from 'ui/editor/util/zipFileReader';
 
 
 @Component({
   selector: 'hidden-file-loader',
   styleUrls: ['./hidden-file-loader.scss'],
-  templateUrl: './hidden-file-loader.html'
+  templateUrl: './hidden-file-loader.html',
 })
 export class HiddenFileLoader {
 
@@ -19,14 +19,15 @@ export class HiddenFileLoader {
 
   constructor(
     private eventBus: EventBus,
-    private zipFileReader: ZipFileReader
-  ) {}
+    private zipFileReader: ZipFileReader,
+  ) {
+  }
 
   ngOnInit() {
     const onEvent: Subscription = this.eventBus.getObservable(EventType.OPEN_FILE_LOADER)
       .subscribe(
         event => this.hiddenLabel.nativeElement.click(),
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
 
     this.subscriptions.add(onEvent);

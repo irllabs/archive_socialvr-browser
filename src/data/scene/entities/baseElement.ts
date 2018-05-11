@@ -1,9 +1,8 @@
+import { Vector2 } from 'data/scene/entities/vector2';
 
-import {Vector2} from 'data/scene/entities/vector2';
+import { RoomProperty } from 'data/scene/interfaces/roomProperty';
 
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
-
-import {generateUniqueId} from 'data/util/uuid';
+import { generateUniqueId } from 'data/util/uuid';
 
 export class BaseElement implements RoomProperty {
 
@@ -13,7 +12,8 @@ export class BaseElement implements RoomProperty {
   private timestamp: number = Date.now();
   private isPossibleCombinedHotspot: boolean = false;
 
-  constructor() {}
+  constructor() {
+  }
 
   getId(): string {
     return this.id;
@@ -68,7 +68,7 @@ export class BaseElement implements RoomProperty {
       uuid: this.id,
       name: this.name,
       vect: this.location.toString(),
-      time: this.timestamp
+      time: this.timestamp,
     };
   }
 

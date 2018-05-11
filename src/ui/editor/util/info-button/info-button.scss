@@ -9,7 +9,7 @@ $bar-margin: ($diameter - $bar-width) / 2;
 
 .info-button {
   width: $diameter;
-	height: $diameter;
+  height: $diameter;
   border-radius: 50%;
   background-color: $color-grey-dark;
   position: relative;
@@ -19,7 +19,6 @@ $bar-margin: ($diameter - $bar-width) / 2;
 .info-button :nth-child(1) {
   transform: rotate(90deg);
 }
-
 
 .info-button__bar {
   display: block;

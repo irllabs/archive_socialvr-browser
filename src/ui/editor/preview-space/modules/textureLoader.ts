@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { AssetInteractor, AssetModel } from 'core/asset/assetInteractor';
 
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {AssetInteractor, AssetModel} from 'core/asset/assetInteractor';
-import {ICON_PATH, IMAGE_PATH} from 'ui/common/constants';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { ICON_PATH, IMAGE_PATH } from 'ui/common/constants';
 
 const iconPaths: AssetModel[] = [
   new AssetModel('hotspot-default', 'hotspot-default', `${ICON_PATH}icon-hotspot-default.png`),
@@ -12,7 +12,7 @@ const iconPaths: AssetModel[] = [
   new AssetModel('back', 'back', `${ICON_PATH}back_filled.png`),
   new AssetModel('home', 'home', `${ICON_PATH}home_filled.png`),
   new AssetModel('colorBall', 'colorBall', `${IMAGE_PATH}color_ball.jpg`),
-  new AssetModel('imageMask', 'imageMask', `${IMAGE_PATH}image-mask_1920.jpg`)
+  new AssetModel('imageMask', 'imageMask', `${IMAGE_PATH}image-mask_1920.jpg`),
 ];
 
 @Injectable()
@@ -20,8 +20,9 @@ export class TextureLoader {
 
   constructor(
     private sceneInteractor: SceneInteractor,
-    private assetInteractor: AssetInteractor
-  ) {}
+    private assetInteractor: AssetInteractor,
+  ) {
+  }
 
   load(): Promise<any> {
     const backgroundImages = this.sceneInteractor.getRoomIds()

@@ -1,9 +1,9 @@
-import BasePlane from "./base-plane";
-import * as THREE from "three";
-import {getCoordinatePosition} from "../../util/iconPositionUtil";
-import {fitToMax} from "data/util/imageResizeService";
-import {buildMaterialFromText} from "../modules/textMaterialBuilder";
-import {Text} from "data/scene/entities/text";
+import { Text } from 'data/scene/entities/text';
+import { fitToMax } from 'data/util/imageResizeService';
+import * as THREE from 'three';
+import { getCoordinatePosition } from '../../util/iconPositionUtil';
+import { buildMaterialFromText } from '../modules/textMaterialBuilder';
+import BasePlane from './base-plane';
 
 
 export default class TextPlane extends BasePlane {

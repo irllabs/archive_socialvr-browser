@@ -1,19 +1,19 @@
-import {Component, NgZone} from '@angular/core';
-import {UserInteractor} from 'core/user/userInteractor';
-import {EventBus} from 'ui/common/event-bus';
-import {Router, ActivatedRoute, NavigationEnd} from '@angular/router';
+import { Component, NgZone } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { UserInteractor } from 'core/user/userInteractor';
+import { EventBus } from 'ui/common/event-bus';
 
 @Component({
   selector: 'topbar',
   styleUrls: ['./topbar.scss'],
-  templateUrl: './topbar.html'
+  templateUrl: './topbar.html',
 })
 export class Topbar {
 
   private isInFlatMode: boolean = true;
 
   private menuState = {
-    about: false
+    about: false,
   };
 
   private profileIsOpen = false;
@@ -41,10 +41,10 @@ export class Topbar {
       .subscribe(
         currentUrl => {
           //console.log(currentUrl);
-          if (currentUrl.includes("modal:profile")) {
+          if (currentUrl.includes('modal:profile')) {
             this.profileIsOpen = true;
             this.storyIsOpen = false;
-          } else if (currentUrl.includes("modal:story")) {
+          } else if (currentUrl.includes('modal:story')) {
             this.profileIsOpen = false;
             this.storyIsOpen = true;
           } else {
@@ -55,7 +55,7 @@ export class Topbar {
             });  //manually run angular digest cycle
           }
         },
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
   }
 

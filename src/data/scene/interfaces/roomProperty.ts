@@ -1,4 +1,4 @@
-import {Vector2} from 'data/scene/entities/vector2';
+import { Vector2 } from 'data/scene/entities/vector2';
 
 export interface RoomProperty {
 

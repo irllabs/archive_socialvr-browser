@@ -1,25 +1,25 @@
 // external imports
-import {NgModule} from '@angular/core';
-import {HttpModule} from '@angular/http';
+import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
+import { ApiService } from 'data/api/apiService';
+import { AssetManager } from 'data/asset/assetManager';
+import { AssetService } from 'data/asset/assetService';
+import { AuthService } from 'data/authentication/authService';
+import { SocialAuthenticationService } from 'data/authentication/socialAuthenticationService';
+import { ChatService } from 'data/chat/chatService';
+import { ProjectService } from 'data/project/projectService';
+import { CameraService } from 'data/scene/cameraService';
 
-import {RoomManager} from 'data/scene/roomManager';
-import {PropertyBuilder} from 'data/scene/roomPropertyBuilder';
-import {CameraService} from 'data/scene/cameraService';
-import {ApiService} from 'data/api/apiService';
-import {UserService} from 'data/user/userService';
-import {AuthService} from 'data/authentication/authService';
-import {SocialAuthenticationService} from 'data/authentication/socialAuthenticationService';
-import {DeserializationService} from 'data/storage/deserializationService';
-import {SerializationService} from 'data/storage/serializationService';
-import {ProjectService} from 'data/project/projectService';
-import {AssetManager} from 'data/asset/assetManager';
-import {AssetService} from 'data/asset/assetService';
-import {ChatService} from 'data/chat/chatService';
+import { RoomManager } from 'data/scene/roomManager';
+import { PropertyBuilder } from 'data/scene/roomPropertyBuilder';
+import { DeserializationService } from 'data/storage/deserializationService';
+import { SerializationService } from 'data/storage/serializationService';
+import { UserService } from 'data/user/userService';
 
 @NgModule({
   declarations: [],
   imports: [
-    HttpModule
+    HttpModule,
   ],
   providers: [
     RoomManager,
@@ -34,7 +34,8 @@ import {ChatService} from 'data/chat/chatService';
     AssetManager,
     AssetService,
     ChatService,
-    CameraService
-  ]
+    CameraService,
+  ],
 })
-export class DataModule {}
+export class DataModule {
+}

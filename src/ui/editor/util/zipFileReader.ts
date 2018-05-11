@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { ProjectInteractor } from 'core/project/projectInteractor';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { StorageInteractor } from 'core/storage/storageInteractor';
 
-import {EventBus} from 'ui/common/event-bus';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {StorageInteractor} from 'core/storage/storageInteractor';
-import {ProjectInteractor} from 'core/project/projectInteractor';
+import { EventBus } from 'ui/common/event-bus';
 
 @Injectable()
 export class ZipFileReader {
@@ -12,8 +12,9 @@ export class ZipFileReader {
     private sceneInteractor: SceneInteractor,
     private storageInteractor: StorageInteractor,
     private projectInteractor: ProjectInteractor,
-    private eventBus: EventBus
-  ) {}
+    private eventBus: EventBus,
+  ) {
+  }
 
   loadFile(zipFile: any) {
     this.eventBus.onStartLoading();
@@ -29,7 +30,7 @@ export class ZipFileReader {
           const errorMessage: string = `The zip file does not seem to be a properly formatted story file. \n Error received: ${error}`;
           this.eventBus.onModalMessage('File Upload Error', errorMessage);
           this.eventBus.onStopLoading();
-        }
+        },
       );
   }
 

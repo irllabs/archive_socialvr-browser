@@ -1,18 +1,18 @@
-import {Component} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { Component } from '@angular/core';
+import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { Room } from 'data/scene/entities/room';
+import { RoomProperty } from 'data/scene/interfaces/roomProperty';
+import { resizeImage } from 'data/util/imageResizeService';
+import { Subscription } from 'rxjs/Subscription';
 
-import {EventBus, EventType} from 'ui/common/event-bus';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
-import {Room} from 'data/scene/entities/room';
-import {resizeImage} from 'data/util/imageResizeService';
-import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
+import { EventBus, EventType } from 'ui/common/event-bus';
+import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
 
 @Component({
   selector: 'story-scroll',
   styleUrls: ['./story-scroll.scss'],
-  templateUrl: './story-scroll.html'
+  templateUrl: './story-scroll.html',
 })
 export class StoryScroll {
 
@@ -27,8 +27,9 @@ export class StoryScroll {
     private sceneInteractor: SceneInteractor,
     private metaDataInteractor: MetaDataInteractor,
     private eventBus: EventBus,
-    private slideshowBuilder: SlideshowBuilder
-  ) {}
+    private slideshowBuilder: SlideshowBuilder,
+  ) {
+  }
 
   ngOnInit() {
     this.subscribeToEvents();
@@ -50,7 +51,7 @@ export class StoryScroll {
           this.projectIsSelected = false;
           this.activeRoomIsExpanded = true;
         },
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
 
     const roomSubscription: Subscription = this.eventBus.getObservable(EventType.SELECT_ROOM)
@@ -60,7 +61,7 @@ export class StoryScroll {
           this.activeProperty = this.sceneInteractor.getRoomById(activeRoomId);
           this.projectIsSelected = false;
         },
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
 
     this.subscriptions.add(roomPropertySubscription);
@@ -97,7 +98,7 @@ export class StoryScroll {
   }
 
   onPropertySelect(roomProperty: RoomProperty) {
-    const propertyId: string = roomProperty  && roomProperty.getId() || null;
+    const propertyId: string = roomProperty && roomProperty.getId() || null;
     this.eventBus.onSelectProperty(propertyId, false);
   }
 
@@ -115,8 +116,8 @@ export class StoryScroll {
 
   roomIsExpanded(roomId: string): boolean {
     return this.roomIsSelected(roomId)
-        && this.activeRoomIsExpanded
-        && !!this.sceneInteractor.getRoomProperties(roomId).length;
+      && this.activeRoomIsExpanded
+      && !!this.sceneInteractor.getRoomProperties(roomId).length;
   }
 
   getProjectName(): string {

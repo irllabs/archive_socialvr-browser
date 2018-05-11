@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { getAudioContext } from 'ui/editor/util/audioContextProvider';
 
-import {FileLoaderUtil} from 'ui/editor/util/fileLoaderUtil';
-import {getAudioContext} from 'ui/editor/util/audioContextProvider';
+import { FileLoaderUtil } from 'ui/editor/util/fileLoaderUtil';
 
 const Recorder = require('recorderjs');
 
@@ -12,7 +12,8 @@ export class AudioRecorderService {
   private audioNodes;
   private frequencyDataArray: Uint8Array;
 
-  constructor(private fileLoaderUtil: FileLoaderUtil) {}
+  constructor(private fileLoaderUtil: FileLoaderUtil) {
+  }
 
   startRecording() {
     const audioContext = getAudioContext();
@@ -32,11 +33,11 @@ export class AudioRecorderService {
         this.audioNodes.audioStream.getAudioTracks().forEach(audioTrack => audioTrack.stop());
         this.recorder.exportWAV(audioBlob => {
           resolve(
-            this.fileLoaderUtil.getBinaryFileData(audioBlob)
+            this.fileLoaderUtil.getBinaryFileData(audioBlob),
           );
         });
       }
-      catch(error) {
+      catch (error) {
         reject(error);
       }
     });
@@ -52,14 +53,14 @@ export class AudioRecorderService {
 
 function getMicAudioNode(audioContext): Promise<any> {
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    return (<any>window).navigator.mediaDevices.getUserMedia({audio: true, video: false})
+    return (<any>window).navigator.mediaDevices.getUserMedia({ audio: true, video: false })
       .then(audioStream => configureAudio(audioContext, audioStream));
   }
   else {
     return new Promise((resolve, reject) => {
-      navigator.getUserMedia({audio: true, video: false},
-            audioStream => resolve(configureAudio(audioContext, audioStream)),
-            error => reject(SyntaxError)
+      navigator.getUserMedia({ audio: true, video: false },
+        audioStream => resolve(configureAudio(audioContext, audioStream)),
+        error => reject(SyntaxError),
       );
     });
   }
@@ -82,7 +83,7 @@ function configureAudio(audioContext, audioStream) {
   return {
     audioStream: audioStream,
     micNode: micGain,
-    analyserNode: analyserNode
+    analyserNode: analyserNode,
   };
 }
 

@@ -1,26 +1,26 @@
-import {Component, NgZone, ViewChild, AfterViewInit} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import { AfterViewInit, Component, NgZone, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AssetInteractor } from 'core/asset/assetInteractor';
+import { CameraInteractor } from 'core/scene/cameraInteractor';
+
+import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { Room } from 'data/scene/entities/room';
+import { Subscription } from 'rxjs/Subscription';
 import * as THREE from 'three';
 import 'three/VRControls';
 import 'three/VREffect';
-
-import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {CameraInteractor} from 'core/scene/cameraInteractor';
-import {AssetInteractor} from 'core/asset/assetInteractor';
-import * as MeshUtil from 'ui/editor/preview-space/modules/meshUtil';
-import {AudioManager} from 'ui/editor/preview-space/modules/audioManager';
-import {TextureLoader} from 'ui/editor/preview-space/modules/textureLoader';
-import {HotspotManager} from 'ui/editor/preview-space/modules/hotspotManager';
-import {MenuManager} from 'ui/editor/preview-space/modules/menuManager';
-import {Reticle} from 'ui/editor/preview-space/modules/reticle';
-import {Room} from 'data/scene/entities/room';
-import {Video3D} from 'ui/editor/edit-space/video3D';
-import {buildScene, onResize} from 'ui/editor/util/threeUtil';
-import SvrControls from 'ui/editor/util/SvrControls';
-import {THREE_CONST} from 'ui/common/constants';
+import { THREE_CONST } from 'ui/common/constants';
+import { Video3D } from 'ui/editor/edit-space/video3D';
+import { AudioManager } from 'ui/editor/preview-space/modules/audioManager';
 import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
+import { HotspotManager } from 'ui/editor/preview-space/modules/hotspotManager';
+import { MenuManager } from 'ui/editor/preview-space/modules/menuManager';
+import * as MeshUtil from 'ui/editor/preview-space/modules/meshUtil';
+import { Reticle } from 'ui/editor/preview-space/modules/reticle';
+import { TextureLoader } from 'ui/editor/preview-space/modules/textureLoader';
+import SvrControls from 'ui/editor/util/SvrControls';
+import { buildScene, onResize } from 'ui/editor/util/threeUtil';
 
 const Stats = require('stats.js');
 const stats = new Stats();
@@ -62,10 +62,10 @@ export class PreviewSpace implements AfterViewInit {
   private shouldInit: boolean = false;
   private inRoomTween: boolean = false;
   private lookAtVector: THREE.Vector3;
-  private sphereMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: null, side: THREE.BackSide});
+  private sphereMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ map: null, side: THREE.BackSide });
   //private onResizeFn: Function = this.onResize.bind(this);
-  private onResizeFn: EventListenerObject = {handleEvent: this.onResize.bind(this)};
-  private onVrDisplayChangeFn: EventListenerObject = {handleEvent: this.onVrDisplayChange.bind(this)};
+  private onResizeFn: EventListenerObject = { handleEvent: this.onResize.bind(this) };
+  private onVrDisplayChangeFn: EventListenerObject = { handleEvent: this.onVrDisplayChange.bind(this) };
 
   // private onVrDisplayChangeFn: Function = this.onVrDisplayChange.bind(this);
 
@@ -81,7 +81,7 @@ export class PreviewSpace implements AfterViewInit {
     private textureLoader: TextureLoader,
     private hotspotManager: HotspotManager,
     private menuManager: MenuManager,
-    private reticle: Reticle
+    private reticle: Reticle,
   ) {
   }
 
@@ -95,7 +95,7 @@ export class PreviewSpace implements AfterViewInit {
     const isMultiView = this.router.url.includes('multiview=');
 
     if (projectIsEmpty && !isMultiView) {
-      this.router.navigate(['/editor', {outlets: {'view': 'flat'}}]);
+      this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
       return;
     }
 
@@ -163,13 +163,13 @@ export class PreviewSpace implements AfterViewInit {
     this.sphereMesh.material = this.sphereMaterial;
 
     this.reticle.init(this.camera, this.vrCamera);
-    this.renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: false});
+    this.renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: false });
 
     this.svrControls = new SvrControls({
       camera: this.camera,
       domElement: canvas,
       initialCameraAngles: this.cameraInteractor.getCameraAngles(),
-      executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone)
+      executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone),
     });
 
     this.ngZone.runOutsideAngular(() => {
@@ -272,7 +272,7 @@ export class PreviewSpace implements AfterViewInit {
     this.video3D = new Video3D();
     this.video3D.init(room.getBackgroundVideo())
       .then(texture => {
-        this.sphereMesh.material = new THREE.MeshBasicMaterial({map: texture, side: THREE.BackSide});
+        this.sphereMesh.material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide });
         this.hotspotManager.load(this.scene, this.camera, this.goToRoom.bind(this));
         this.menuManager.load(this.scene, this.camera.position, this.goToLastRoom.bind(this), this.goToHomeRoom.bind(this));
         this.onResize(null);
@@ -347,7 +347,7 @@ export class PreviewSpace implements AfterViewInit {
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
       if (callNow) func.apply(context, args);
-    }
+    };
   }
 
   //////////////////////////////////////////////
@@ -390,7 +390,7 @@ export class PreviewSpace implements AfterViewInit {
       .to({
         x: -1 * this.lookAtVector.x * THREE_CONST.TWEEN_ROOM_MOVE,
         y: -1 * this.lookAtVector.y * THREE_CONST.TWEEN_ROOM_MOVE,
-        z: -1 * this.lookAtVector.z * THREE_CONST.TWEEN_ROOM_MOVE
+        z: -1 * this.lookAtVector.z * THREE_CONST.TWEEN_ROOM_MOVE,
       }, THREE_CONST.TWEEN_ROOM_MOVETIMEIN)
       .easing(TWEEN.Easing.Linear.None)
       .onComplete(() => {
@@ -409,7 +409,7 @@ export class PreviewSpace implements AfterViewInit {
   private requestVrMode($event) {
     this.isInRenderLoop = false;
     this.vrDisplay.requestPresent([
-      {source: this.renderer.domElement},
+      { source: this.renderer.domElement },
     ]).catch(error => console.log('requestVRMode error', error));
   }
 

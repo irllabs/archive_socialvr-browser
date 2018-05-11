@@ -1,4 +1,4 @@
-import {BaseElement} from 'data/scene/entities/baseElement';
+import { BaseElement } from 'data/scene/entities/baseElement';
 
 
 export class Video extends BaseElement {
@@ -41,14 +41,14 @@ export class Video extends BaseElement {
   }
 
   validateYouTubeUrl(url, checkEmpty: boolean = false) {
-    if (!checkEmpty && url === "") {
+    if (!checkEmpty && url === '') {
       return true;
     }
 
     const match = url && url.match(this._validateRegexp);
     const isValid = match && match.length === 3;
 
-    if(isValid) {
+    if (isValid) {
       this._fileId = match[2];
     }
 
@@ -57,7 +57,7 @@ export class Video extends BaseElement {
 
   toJson() {
     return Object.assign(super.toJson(), {
-      file: this._body
+      file: this._body,
     });
   }
 }

@@ -1,15 +1,12 @@
 // Polyfills
 
-import 'ie-shim'; // Internet Explorer 9 support
-
 import 'core-js/es6';
 import 'core-js/es7';
-
-// import 'core-js/es7/reflect';
-import 'zone.js/dist/zone';
-import 'zone.js/dist/long-stack-trace-zone';
+import 'ie-shim'; // Internet Explorer 9 support
 
 import * as WebVRPolyfill from 'webvr-polyfill';
+import 'zone.js/dist/zone';
+import 'zone.js/dist/long-stack-trace-zone';
 
 //custom browser compatibility
 navigator.getUserMedia = navigator.getUserMedia || (<any>navigator).webkitGetUserMedia;

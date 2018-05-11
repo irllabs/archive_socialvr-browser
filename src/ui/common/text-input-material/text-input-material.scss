@@ -48,33 +48,35 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: $tiny-font-size;
 }
 
-.bar 	{
+.bar {
   position: absolute;
   bottom: 0;
   display: block;
   width: 100%;
 }
-.bar:before, .bar:after 	{
+
+.bar:before, .bar:after {
   content: '';
   height: 2px;
   width: 0;
   bottom: 1px;
   position: absolute;
   background: $color-grey-dark;
-  transition:0.2s ease all;
+  transition: 0.2s ease all;
 }
+
 .bar:before {
-  left:50%;
+  left: 50%;
 }
+
 .bar:after {
-  right:50%;
+  right: 50%;
 }
 
 /* active state */
 .input:focus ~ .bar:before, .input:focus ~ .bar:after {
-  width:50%;
+  width: 50%;
 }
-
 
 .highlight {
   position: absolute;
@@ -92,11 +94,11 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 @keyframes inputHighlighter {
-	from {
-    background:#5264AE;
+  from {
+    background: #5264AE;
   }
-  to 	{
-    width:0;
-    background:transparent;
+  to {
+    width: 0;
+    background: transparent;
   }
 }

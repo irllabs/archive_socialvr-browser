@@ -1,15 +1,15 @@
-import {Component, Input, SimpleChanges} from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
 
-import {Door} from 'data/scene/entities/door';
-import {Room} from 'data/scene/entities/room';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {DEFAULT_DOOR_NAME} from 'ui/common/constants';
-import {EventBus} from 'ui/common/event-bus';
+import { Door } from 'data/scene/entities/door';
+import { Room } from 'data/scene/entities/room';
+import { DEFAULT_DOOR_NAME } from 'ui/common/constants';
+import { EventBus } from 'ui/common/event-bus';
 
 @Component({
   selector: 'door-editor',
   styleUrls: ['./door-editor.scss'],
-  templateUrl: './door-editor.html'
+  templateUrl: './door-editor.html',
 })
 export class DoorEditor {
 
@@ -24,8 +24,9 @@ export class DoorEditor {
 
   constructor(
     private sceneInteractor: SceneInteractor,
-    private eventBus: EventBus
-  ) {}
+    private eventBus: EventBus,
+  ) {
+  }
 
   ngOnInit() {
     this.lastAutogoValue = this.doorProperty.getAutoTime() || 20;
@@ -47,9 +48,9 @@ export class DoorEditor {
       .filter(roomId => roomId !== this.sceneInteractor.getActiveRoomId())
       .map(roomId => {
         const room: Room = this.sceneInteractor.getRoomById(roomId);
-        return {id: room.getId(), name: room.getName(), disabled: false};
+        return { id: room.getId(), name: room.getName(), disabled: false };
       });
-    roomList.unshift({id: '', name: DEFAULT_DOOR_NAME, disabled: true});
+    roomList.unshift({ id: '', name: DEFAULT_DOOR_NAME, disabled: true });
     return roomList;
   }
 

@@ -3,7 +3,8 @@
 $underline: 2px solid $color-grey-light;
 $underline-off: 2px hidden $color-grey-light;
 
-.text-input {}
+.text-input {
+}
 
 .text-input__input {
   outline: none;
@@ -20,7 +21,7 @@ $underline-off: 2px hidden $color-grey-light;
     outline: none;
     border-bottom: $underline;
   }
-  background: rgba(0,0,0, 0);
+  background: rgba(0, 0, 0, 0);
 
 }
 
@@ -44,5 +45,5 @@ $underline-off: 2px hidden $color-grey-light;
   text-align: center;
   color: $color-white;
   width: 110px;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }

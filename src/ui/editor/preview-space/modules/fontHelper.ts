@@ -8,14 +8,15 @@ class FontHelper {
 
   load(): Promise<any> {
     return new Promise((resolve, reject) => {
-       new THREE.FontLoader()
+      new THREE.FontLoader()
         .load(fontPath,
           font => {
             this.font = <any>font;
             resolve(font);
           },
-          progress => {},
-          error => reject(error)
+          progress => {
+          },
+          error => reject(error),
         );
     });
 

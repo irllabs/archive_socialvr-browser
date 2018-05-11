@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { AssetManager } from 'data/asset/assetManager';
 
-import {DeserializationService} from 'data/storage/deserializationService';
-import {SerializationService} from 'data/storage/serializationService';
-import {AssetManager} from 'data/asset/assetManager';
+import { DeserializationService } from 'data/storage/deserializationService';
+import { SerializationService } from 'data/storage/serializationService';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class StorageInteractor {
@@ -11,11 +11,12 @@ export class StorageInteractor {
   constructor(
     private deserializationService: DeserializationService,
     private serializationService: SerializationService,
-    private assetManager: AssetManager
-  ) {}
+    private assetManager: AssetManager,
+  ) {
+  }
 
-  serializeProject(bundleAssets: boolean): Observable<any> {
-    return this.serializationService.zipStoryFile(bundleAssets=bundleAssets);
+  serializeProject(): Observable<any> {
+    return this.serializationService.zipStoryFile();
   }
 
   deserializeProject(file: any): Observable<any> {

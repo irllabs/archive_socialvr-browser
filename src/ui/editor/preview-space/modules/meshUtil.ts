@@ -31,4 +31,4 @@ function cleanMeshMemory(mesh) {
   }
 }
 
-export {clearScene, cleanMeshMemory};
+export { clearScene, cleanMeshMemory };

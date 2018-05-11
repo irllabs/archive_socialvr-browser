@@ -30,7 +30,7 @@ const images = [
   'assets/icons/view-toggle-3d-accent.png',
   'assets/icons/view-toggle-3d.png',
   'assets/images/default-background.png',
-  'assets/images/color_ball.jpg'
+  'assets/images/color_ball.jpg',
 ];
 
 const resources = [
@@ -40,7 +40,7 @@ const resources = [
   'favicon.ico',
   'polyfills.bundle.js',
   'vendor.bundle.js',
-  'main.bundle.js'
+  'main.bundle.js',
 ];
 
 const cacheList = images.concat(resources);

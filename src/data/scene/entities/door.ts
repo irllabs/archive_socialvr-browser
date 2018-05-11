@@ -1,8 +1,7 @@
-import {BaseElement} from 'data/scene/entities/baseElement';
-import {Room} from 'data/scene/entities/room';
-import {DEFAULT_DOOR_NAME} from 'ui/common/constants';
+import { BaseElement } from 'data/scene/entities/baseElement';
+import { DEFAULT_DOOR_NAME } from 'ui/common/constants';
 
-export class Door extends BaseElement{
+export class Door extends BaseElement {
 
   private roomId: string = '';
   private nameIsCustom: boolean = false;
@@ -51,7 +50,7 @@ export class Door extends BaseElement{
     return Object.assign(super.toJson(), {
       file: this.roomId,
       nameIsCustom: this.nameIsCustom,
-      autoTime: this.autoTime
+      autoTime: this.autoTime,
     });
   }
 

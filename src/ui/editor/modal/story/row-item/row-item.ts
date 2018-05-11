@@ -1,18 +1,17 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
 
-import {Room} from 'data/scene/entities/room';
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
-import {RoomPropertyTypeService} from 'ui/editor/util/roomPropertyTypeService';
-import {ICON_PATH} from 'ui/common/constants';
+import { Room } from 'data/scene/entities/room';
+import { RoomProperty } from 'data/scene/interfaces/roomProperty';
 
-import {PropertyRemovalService} from 'ui/editor/util/propertyRemovalService';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
+import { PropertyRemovalService } from 'ui/editor/util/propertyRemovalService';
+import { RoomPropertyTypeService } from 'ui/editor/util/roomPropertyTypeService';
 
 
 @Component({
   selector: 'row-item',
   styleUrls: ['./row-item.scss'],
-  templateUrl: './row-item.html'
+  templateUrl: './row-item.html',
 })
 export class RowItem {
 
@@ -24,8 +23,9 @@ export class RowItem {
 
   constructor(
     private propertyRemovalService: PropertyRemovalService,
-    private sceneInteractor: SceneInteractor
-  ) {}
+    private sceneInteractor: SceneInteractor,
+  ) {
+  }
 
   ngOnInit() {
     this.propertyIsRoom = RoomPropertyTypeService.getTypeString(this.roomProperty) === 'room';

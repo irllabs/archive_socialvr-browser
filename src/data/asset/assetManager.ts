@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import * as THREE from 'three';
+import { Injectable } from '@angular/core';
+import { AssetModel } from 'core/asset/assetInteractor';
 
-import {Texture} from 'three';
-import {AssetModel} from 'core/asset/assetInteractor';
-import {getAudioContext} from 'ui/editor/util/audioContextProvider';
+import * as THREE from 'three';
+import { Texture } from 'three';
+import { getAudioContext } from 'ui/editor/util/audioContextProvider';
 
 @Injectable()
 export class AssetManager {
@@ -26,8 +26,8 @@ export class AssetManager {
               texture => resolve(new TextureData(imageData.id, imageData.fileName, texture)),
               (error) => {
                 console.log('image texture loading error', imageData, error);
-                resolve(new TextureData(imageData.id, imageData.fileName, null))
-              }
+                resolve(new TextureData(imageData.id, imageData.fileName, null));
+              },
             );
           } catch (error) {
             reject(error);
@@ -62,7 +62,7 @@ export class AssetManager {
         }
         return {
           meta: audioData,
-          arrayBuffer: arrayBuffer
+          arrayBuffer: arrayBuffer,
         };
       })
       .map(bundle => {

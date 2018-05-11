@@ -1,16 +1,17 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {ApiService} from 'data/api/apiService';
+import { ProjectInteractor } from '../project/projectInteractor';
 
 @Injectable()
 export class SearchInteractor {
 
   constructor(
-    private apiService: ApiService
-  ) {}
+    private projectInteractor: ProjectInteractor,
+  ) {
+  }
 
   searchPublicProjects(query: string) {
-    return this.apiService.searchPublicProjects(query);
+    return this.projectInteractor.searchPublicProjects(query);
   }
 
 }

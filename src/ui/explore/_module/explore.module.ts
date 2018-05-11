@@ -1,25 +1,22 @@
 // Angular Modules
-import {NgModule} from '@angular/core';
-import {RouterModule} from '@angular/router';
-import {BrowserModule} from '@angular/platform-browser';
-import {FormsModule}   from '@angular/forms';
-
-
-// UI components
-import {Explore} from 'ui/explore/_module/explore';
-
-import {SearchExplore} from 'ui/explore/search-explore/search-explore';
-import {UserGroups} from 'ui/explore/user-groups/user-groups';
-
-// Common UI components
-import {CommonModule} from 'ui/common/_module/common.module';
-
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 // Expose core layer (interactors) to view layer
-import {CoreModule} from 'core/_module/core.module';
+import { CoreModule } from 'core/_module/core.module';
+// Common UI components
+import { CommonModule } from 'ui/common/_module/common.module';
+// UI components
+import { Explore } from 'ui/explore/_module/explore';
+
+import { SearchExplore } from 'ui/explore/search-explore/search-explore';
+import { UserGroups } from 'ui/explore/user-groups/user-groups';
+import { ProjectThumbnail } from '../project-thumbnail/project-thumbnail';
 
 // Module routes
 const route = RouterModule.forChild([
-  {path: 'explore', component: Explore}
+  { path: 'explore', component: Explore },
 ]);
 
 
@@ -27,14 +24,16 @@ const route = RouterModule.forChild([
   declarations: [
     Explore,
     SearchExplore,
-    UserGroups
+    UserGroups,
+    ProjectThumbnail,
   ],
   imports: [
     BrowserModule,
     CoreModule,
     CommonModule,
     FormsModule,
-    route
+    route,
   ],
 })
-export class ExploreModule {}
+export class ExploreModule {
+}

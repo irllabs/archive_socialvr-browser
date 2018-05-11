@@ -1,13 +1,14 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
+import { AngularFireStorage } from 'angularfire2/storage';
 
-import {ProjectInteractor} from 'core/project/projectInteractor';
-import {SearchInteractor} from 'core/search/searchInteractor';
-import {ShareableLoader} from 'ui/common/shareable-loader';
+import { ProjectInteractor } from 'core/project/projectInteractor';
+import { SearchInteractor } from 'core/search/searchInteractor';
+import { ShareableLoader } from 'ui/common/shareable-loader';
 
 @Component({
   selector: 'search-explore',
   styleUrls: ['./search-explore.scss'],
-  templateUrl: './search-explore.html'
+  templateUrl: './search-explore.html',
 })
 export class SearchExplore {
 
@@ -18,8 +19,10 @@ export class SearchExplore {
   constructor(
     private projectInteractor: ProjectInteractor,
     private searchInteractor: SearchInteractor,
-    private shareableLoader: ShareableLoader
-  ) {}
+    private shareableLoader: ShareableLoader,
+    public afStorage: AngularFireStorage,
+  ) {
+  }
 
   getSearchModelProperty(): string {
     return '';
@@ -33,10 +36,12 @@ export class SearchExplore {
     if (!this.searchTerm) {
       return;
     }
+
     const cleansedQuery = this.searchTerm
       .split(',')
       .map(item => item.trim())
       .join(',');
+
     this.searchPublicProjects(cleansedQuery);
     this.searchLabel = this.searchTerm;
   }
@@ -48,8 +53,8 @@ export class SearchExplore {
   searchPublicProjects(query: string) {
     this.searchInteractor.searchPublicProjects(query)
       .subscribe(
-        response => this.matchingResults = response.results,
-        error => console.log('error', error)
+        projects => this.matchingResults = projects,
+        error => console.log('error', error),
       );
   }
 
@@ -59,7 +64,8 @@ export class SearchExplore {
 
   getSearchResultTitle(): string {
     const numResults = this.matchingResults.length;
-    const pluralize = numResults === 1 ? '' : 's';
+    const pluralize = numResults > 1 ? 's' : '';
+
     return `${numResults} search result${pluralize} for`;
   }
 

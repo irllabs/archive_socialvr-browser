@@ -1,9 +1,9 @@
-import {Component, Output, EventEmitter} from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'close-button',
   styleUrls: ['./close-button.scss'],
-  templateUrl: './close-button.html'
+  templateUrl: './close-button.html',
 })
 export class CloseButton {
 

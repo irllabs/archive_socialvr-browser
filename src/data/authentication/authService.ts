@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { ApiService } from 'data/api/apiService';
 
-import {AuthenticationMethod} from 'data/authentication/authenticationMethod';
-import {AngularFireAuth} from "angularfire2/auth";
+import { AuthenticationMethod } from 'data/authentication/authenticationMethod';
+import { UserService } from 'data/user/userService';
 import * as firebase from 'firebase/app';
-import {ApiService} from "data/api/apiService";
-import {UserService} from "data/user/userService";
 
 const TOKEN_STORAGE: string = 'TOKEN_STORAGE';
 
@@ -28,8 +28,8 @@ export class AuthService {
         email: this._user.email,
         providerData: this._user.providerData,
         providerId: this._user.providerId,
-        idToken: this._idToken
-      }
+        idToken: this._idToken,
+      };
     } else {
       return {};
     }
@@ -38,7 +38,7 @@ export class AuthService {
   constructor(
     private apiService: ApiService,
     private userService: UserService,
-    private afAuth: AngularFireAuth
+    private afAuth: AngularFireAuth,
   ) {
     const subscription = this.afAuth.authState.subscribe((user) => {
       if (user !== null) {
@@ -60,7 +60,7 @@ export class AuthService {
         },
         () => {
           this.afAuth.auth.signOut();
-        }
+        },
       );
     });
   }
@@ -83,7 +83,7 @@ export class AuthService {
       });
   }
 
-  private _loginPasswordAuthenticate({username, password}) {
+  private _loginPasswordAuthenticate({ username, password }) {
     return this.apiService.logIn(username, password).toPromise().then((token) => {
       return this.afAuth.auth.signInWithCustomToken(token).then((user) => {
         return this._obtainIdToken(user).then(() => {

@@ -1,18 +1,18 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
+import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
 
-import {Subscription} from 'rxjs/Subscription';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { Room } from 'data/scene/entities/room';
+import { RoomProperty } from 'data/scene/interfaces/roomProperty';
 
-import {EventBus, EventType} from 'ui/common/event-bus';
+import { Subscription } from 'rxjs/Subscription';
 
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
-import {Room} from 'data/scene/entities/room';
+import { EventBus, EventType } from 'ui/common/event-bus';
 
 @Component({
   selector: 'tree-tab',
   styleUrls: ['./tree-tab.scss'],
-  templateUrl: './tree-tab.html'
+  templateUrl: './tree-tab.html',
 })
 export class TreeTab {
 
@@ -24,8 +24,9 @@ export class TreeTab {
   constructor(
     private sceneInteractor: SceneInteractor,
     private metaDataInteractor: MetaDataInteractor,
-    private eventBus: EventBus
-  ) {}
+    private eventBus: EventBus,
+  ) {
+  }
 
   ngOnInit() {
     this.subscribeToEvents();
@@ -47,7 +48,7 @@ export class TreeTab {
           this.projectIsSelected = false;
           this.activeRoomIsExpanded = true;
         },
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
 
     const roomSubscription: Subscription = this.eventBus.getObservable(EventType.SELECT_ROOM)
@@ -57,7 +58,7 @@ export class TreeTab {
           this.activeProperty = this.sceneInteractor.getRoomById(activeRoomId);
           this.projectIsSelected = false;
         },
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
 
     this.subscriptions.add(roomPropertySubscription);
@@ -94,7 +95,7 @@ export class TreeTab {
   }
 
   onPropertySelect(roomProperty: RoomProperty) {
-    const propertyId: string = roomProperty  && roomProperty.getId() || null;
+    const propertyId: string = roomProperty && roomProperty.getId() || null;
     this.eventBus.onSelectProperty(propertyId, false);
   }
 
@@ -112,8 +113,8 @@ export class TreeTab {
 
   roomIsExpanded(roomId: string): boolean {
     return this.roomIsSelected(roomId)
-        && this.activeRoomIsExpanded
-        && !!this.sceneInteractor.getRoomProperties(roomId).length;
+      && this.activeRoomIsExpanded
+      && !!this.sceneInteractor.getRoomProperties(roomId).length;
   }
 
   getProjectName(): string {

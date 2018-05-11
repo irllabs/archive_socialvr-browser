@@ -57,11 +57,11 @@ export function getTextureSizeFromText(textContext: string) {
   // Print text onto canvas
   textLines.forEach(textLine => g2d.fillText(textLine.text, textLine.x, textLine.y));
 
-  return {width, height, drawCanvas};
+  return { width, height, drawCanvas };
 }
 
 export function buildMaterialFromText(textContext: string) {
-  const {width, height, drawCanvas} = getTextureSizeFromText(textContext);
+  const { width, height, drawCanvas } = getTextureSizeFromText(textContext);
   const resizedCanvas = document.createElement('canvas');
   const resizedG2d = resizedCanvas.getContext('2d');
 
@@ -74,11 +74,11 @@ export function buildMaterialFromText(textContext: string) {
 
   texture.needsUpdate = true;
 
-  const material = new THREE.MeshBasicMaterial({map: texture, transparent: true, side: THREE.FrontSide});
+  const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, side: THREE.FrontSide });
 
   return {
     width: width,
     height: height,
-    material: material
+    material: material,
   };
 }

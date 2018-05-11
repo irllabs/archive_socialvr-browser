@@ -1,21 +1,21 @@
-import {Component, ElementRef, Output, EventEmitter, HostListener} from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
+import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { Audio } from 'data/scene/entities/audio';
 
-import {Narrator} from 'data/scene/entities/narrator';
-import {Audio} from 'data/scene/entities/audio';
-import {Room} from 'data/scene/entities/room';
-import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
-import {resizeImage} from 'data/util/imageResizeService';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {EventBus} from 'ui/common/event-bus';
-import {reverbList} from 'data/scene/values/reverbList';
-import {browserCanRecordAudio} from 'ui/editor/util/audioRecorderService';
+import { Narrator } from 'data/scene/entities/narrator';
+import { Room } from 'data/scene/entities/room';
+import { reverbList } from 'data/scene/values/reverbList';
+import { resizeImage } from 'data/util/imageResizeService';
 
-import {DEFAULT_VOLUME, DEFAULT_PROJECT_NAME} from 'ui/common/constants';
+import { DEFAULT_VOLUME } from 'ui/common/constants';
+import { EventBus } from 'ui/common/event-bus';
+import { browserCanRecordAudio } from 'ui/editor/util/audioRecorderService';
 
 @Component({
   selector: 'room-editor',
   styleUrls: ['./room-editor.scss'],
-  templateUrl: './room-editor.html'
+  templateUrl: './room-editor.html',
 })
 export class RoomEditor {
 
@@ -28,8 +28,9 @@ export class RoomEditor {
     private sceneInteractor: SceneInteractor,
     private element: ElementRef,
     private eventBus: EventBus,
-    private metaDataInteractor: MetaDataInteractor
-  ) {}
+    private metaDataInteractor: MetaDataInteractor,
+  ) {
+  }
 
   @HostListener('document:click', ['$event'])
   private onDocumentClick($event) {
@@ -142,16 +143,15 @@ export class RoomEditor {
 
   private getRoomName(): string {
     const roomId = this.sceneInteractor.getActiveRoomId();
-    const room =  this.sceneInteractor.getRoomById(roomId);
+    const room = this.sceneInteractor.getRoomById(roomId);
     return room.getName();
   }
 
   private setRoomName($event) {
     const roomId = this.sceneInteractor.getActiveRoomId();
-    const room =  this.sceneInteractor.getRoomById(roomId);
+    const room = this.sceneInteractor.getRoomById(roomId);
     room.setName($event.text);
   }
-
 
 
 }

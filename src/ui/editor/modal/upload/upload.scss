@@ -1,10 +1,9 @@
 @import '../../../_styles/variables';
 @import '../../../_module/ui';
 
-
-.upload__fields{
-	width: 50%;
-	position: fixed;
+.upload__fields {
+  width: 50%;
+  position: fixed;
   top: 50%;
   left: 50%;
   /* bring your own prefixes */
@@ -16,20 +15,20 @@
 }
 
 .upload__box {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-image: url('assets/images/white-semi-transparent.png');
-	color: $color-grey-dark;
-	font-size: 3vw;
-	text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('assets/images/white-semi-transparent.png');
+  color: $color-grey-dark;
+  font-size: 3vw;
+  text-align: center;
   border: 2px dashed $color-grey-dark;
   border-radius: 20px;
-	width: 50%;
-	height: 50%;
-	position: fixed;
-	top: 50%;
-	left: 50%;
+  width: 50%;
+  height: 50%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
 }

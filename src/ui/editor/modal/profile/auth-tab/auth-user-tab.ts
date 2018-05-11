@@ -1,22 +1,22 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import 'rxjs/add/operator/switchMap';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AdminInteractor } from 'core/admin/adminInteractor';
+import { ProjectInteractor } from 'core/project/projectInteractor';
 
-import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
-import {StorageInteractor} from 'core/storage/storageInteractor';
-import {UserInteractor} from 'core/user/userInteractor';
-import {ProjectInteractor} from 'core/project/projectInteractor';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {AdminInteractor} from 'core/admin/adminInteractor';
-import {EventBus} from 'ui/common/event-bus';
-import {MIME_TYPE_ZIP} from 'ui/common/constants';
+import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { StorageInteractor } from 'core/storage/storageInteractor';
+import { UserInteractor } from 'core/user/userInteractor';
+import 'rxjs/add/operator/switchMap';
+import { MIME_TYPE_ZIP } from 'ui/common/constants';
+import { EventBus } from 'ui/common/event-bus';
 
 const FileSaver = require('file-saver');
 
 @Component({
   selector: 'auth-user-tab',
   styleUrls: ['./auth-user-tab.scss'],
-  templateUrl: './auth-user-tab.html'
+  templateUrl: './auth-user-tab.html',
 })
 export class AuthUserTab implements OnInit {
   private projectList = <any>[]; //TODO: move to repo / cache
@@ -34,84 +34,78 @@ export class AuthUserTab implements OnInit {
   }
 
   ngOnInit() {
-    const user = this.userInteractor.getUser();
-
-    this.projectInteractor.getProjects(user.uid).subscribe(
+    this.projectInteractor.getProjects().subscribe(
       (projects) => {
         this.projectList = projects;
       },
-      error => console.error('GET /projects', error)
+      error => console.error('GET /projects', error),
     );
   }
 
-  private getUserName(): string {
+  public getUserName(): string {
     return this.userInteractor.getUserName();
   }
 
-  private onLogOutClick() {
+  public onLogOutClick() {
     this.userInteractor.logOut();
   }
 
-  private openProject(projectId: string) {
-    const userId: string = this.userInteractor.getUserId();
-
+  public openProject(projectId: string) {
     this.eventBus.onStartLoading();
-    this.projectInteractor.openProject(userId, projectId)
+    this.projectInteractor.openProject(projectId)
       .subscribe(
-        response => {
+        () => {
           //reset the current scene
           this.sceneInteractor.setActiveRoomId(null);
           this.eventBus.onSelectRoom(null, false);
           this.metaDataInteractor.setIsReadOnly(false);
         },
         error => console.error('error', error),
-        () => this.eventBus.onStopLoading()
+        () => {
+          this.eventBus.onStopLoading();
+        }
       );
     this.router.navigateByUrl('/editor');
   }
 
-  private createProject($event) {
-    const userId: string = this.userInteractor.getUserId();
-
+  public createProject($event) {
     this.eventBus.onStartLoading();
-    this.projectInteractor.createProject(userId)
+
+    this.projectInteractor.createProject()
       .subscribe(
         projectData => this.projectList.push(projectData),
         error => console.error('error', error),
-        () => this.eventBus.onStopLoading()
+        () => this.eventBus.onStopLoading(),
       );
   }
 
-  private updateProject() {
+  public updateProject() {
     const userId: string = this.userInteractor.getUserId();
     const projectId: string = this.projectInteractor.getProjectId();
 
     this.eventBus.onStartLoading();
-    this.projectInteractor.updateProject(userId, projectId)
+    this.projectInteractor.updateProject(projectId)
       .subscribe(
-        response => {
-        },
+        () => null,
         error => console.error('error', error),
-        () => this.eventBus.onStopLoading()
+        () => this.eventBus.onStopLoading(),
       );
   }
 
-  private requestDeleteProject(projectId: string) {
+  public requestDeleteProject(projectId: string) {
     this.eventBus.onModalMessage(
       'Are you sure?',
       'There is no way to undo this action.',
       true,
       () => {
       }, // modal dismissed callback
-      () => this.deleteProject(projectId) // modal accepted callback
+      () => this.deleteProject(projectId), // modal accepted callback
     );
   }
 
   private deleteProject(projectId: string) {
-    const userId: string = this.userInteractor.getUserId();
-
     this.eventBus.onStartLoading();
-    this.projectInteractor.deleteProject(userId, projectId)
+    this.projectInteractor.deleteProject(projectId)
       .subscribe(
         success => {
           this.eventBus.onStopLoading();
@@ -120,40 +114,38 @@ export class AuthUserTab implements OnInit {
         error => {
           this.eventBus.onStopLoading();
           this.eventBus.onModalMessage('error', error.message);
-        }
+        },
       );
   }
 
-  private downloadProject(projectId: number, projectName: string) {
-    const userId: string = this.userInteractor.getUserId();
-
+  public downloadProject(projectId: string, projectName: string) {
     this.eventBus.onStartLoading();
-    this.projectInteractor.getProjectAsBlob(userId, `${projectId}`)
+    this.projectInteractor.getProjectAsBlob(projectId)
       .subscribe(
-        projectBlob => {
-          const blob = new Blob([projectBlob], {type: MIME_TYPE_ZIP});
+        (projectBlob) => {
+          const blob = new Blob([projectBlob], { type: MIME_TYPE_ZIP });
           FileSaver.saveAs(blob, `${projectName}.zip`);
           this.eventBus.onStopLoading();
         },
-        error => {
+        (error) => {
           this.eventBus.onStopLoading();
           this.eventBus.onModalMessage('error', error.message);
-        }
+        },
       );
   }
 
-  private shareProject(projectId: number) {
+  public shareProject(projectId: number) {
     const userId: string = this.userInteractor.getUserId();
     this.eventBus.onShareableModal(userId, projectId + '');
   }
 
-  private openMultiView(projectId: number) {
+  public openMultiView(projectId: number) {
     console.log('onOpenMultiView');
     const userId = this.userInteractor.getUserId();
     const queryParams = {
-      multiview: `${userId}-${projectId}`
+      multiview: `${userId}-${projectId}`,
     };
-    this.router.navigate(['editor', 'preview'], {queryParams});
+    this.router.navigate(['editor', 'preview'], { queryParams });
   }
 
   private isWorkingOnSavedProject(): boolean {

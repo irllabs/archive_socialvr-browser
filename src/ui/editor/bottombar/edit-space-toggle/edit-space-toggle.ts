@@ -1,16 +1,15 @@
-import {Component, Input} from '@angular/core';
-import {Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { Room } from 'data/scene/entities/room';
+import { resizeImage } from 'data/util/imageResizeService';
 
-import {EventBus, EventType} from 'ui/common/event-bus';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {Room} from 'data/scene/entities/room';
-import {resizeImage} from 'data/util/imageResizeService';
+import { EventBus } from 'ui/common/event-bus';
 
 @Component({
   selector: 'edit-space-toggle',
   styleUrls: ['./edit-space-toggle.scss'],
-  templateUrl: './edit-space-toggle.html'
+  templateUrl: './edit-space-toggle.html',
 })
 export class EditSpaceToggle {
 
@@ -22,8 +21,9 @@ export class EditSpaceToggle {
   constructor(
     private sceneInteractor: SceneInteractor,
     private eventBus: EventBus,
-    private router: Router
-  ) {}
+    private router: Router,
+  ) {
+  }
 
   private editorIsFlat(): boolean {
     return this.router.url.includes('view:flat');
@@ -56,12 +56,12 @@ export class EditSpaceToggle {
 
   private onEditPlayChange($event) {
     if ($event.value == 1) {
-      this.router.navigate(['editor', {outlets: {'view': 'preview'}}]);
+      this.router.navigate(['editor', { outlets: { 'view': 'preview' } }]);
     } else {
-      if (this.isInFlatMode){
-        this.router.navigate(['/editor', {outlets: {'view': 'flat'}}]);
+      if (this.isInFlatMode) {
+        this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
       } else {
-        this.router.navigate(['/editor', {outlets: {'view': 'sphere'}}]);
+        this.router.navigate(['/editor', { outlets: { 'view': 'sphere' } }]);
       }
     }
   }
@@ -72,10 +72,10 @@ export class EditSpaceToggle {
 
   private on2d3dChange($event) {
     if ($event.value == 1) {
-      this.router.navigate(['editor', {outlets: {'view': 'sphere'}}]);
+      this.router.navigate(['editor', { outlets: { 'view': 'sphere' } }]);
       this.isInFlatMode = true;
     } else {
-      this.router.navigate(['/editor', {outlets: {'view': 'flat'}}]);
+      this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
       this.isInFlatMode = false;
     }
   }
@@ -87,9 +87,9 @@ export class EditSpaceToggle {
   private onFullscreenClick($event) {
     if (!this.isInFullscreen) {
       if (this.docElm.requestFullscreen) {
-          this.docElm.requestFullscreen();
+        this.docElm.requestFullscreen();
       } else if (this.docElm.webkitRequestFullScreen) {
-          this.docElm.webkitRequestFullScreen();
+        this.docElm.webkitRequestFullScreen();
       }
 
       // else if (this.docElm.mozRequestFullScreen) {
@@ -98,22 +98,22 @@ export class EditSpaceToggle {
       //     this.docElm.msRequestFullscreen();
       // }
 
-          this.isInFullscreen = true;
-      } else {
-          if (document.exitFullscreen) {
-              document.exitFullscreen();
-          } else if (document.webkitExitFullscreen) {
-              document.webkitExitFullscreen();
-          }
-
-          // else if (document.mozCancelFullScreen) {
-          //     document.mozCancelFullScreen();
-          // } else if (document.msExitFullscreen) {
-          //     document.msExitFullscreen();
-          // }
-
-          this.isInFullscreen = false;
+      this.isInFullscreen = true;
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
       }
+
+      // else if (document.mozCancelFullScreen) {
+      //     document.mozCancelFullScreen();
+      // } else if (document.msExitFullscreen) {
+      //     document.msExitFullscreen();
+      // }
+
+      this.isInFullscreen = false;
+    }
   }
 
   private isFullscreen(): boolean {

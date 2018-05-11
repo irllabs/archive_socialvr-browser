@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Http, ResponseContentType} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { Http, ResponseContentType } from '@angular/http';
 
 import Api from 'data/api/api';
-import {AuthService} from 'data/authentication/authService';
+import { AuthService } from 'data/authentication/authService';
+import { Observable } from 'rxjs/Observable';
 
 const getUser = require('../../__stubs__/user.json');
 const getProjects = require('../../__stubs__/projects.json');
@@ -13,7 +13,7 @@ export class ApiService implements Api {
 
   constructor(
     private http: Http,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
   }
 
@@ -62,7 +62,7 @@ export class ApiService implements Api {
   }
 
   getProject(signedProjectUrl: string): Observable<any> {
-    return this.http.get(signedProjectUrl, {responseType: ResponseContentType.ArrayBuffer})
+    return this.http.get(signedProjectUrl, { responseType: ResponseContentType.ArrayBuffer })
       .map(response => response.arrayBuffer());
   }
 

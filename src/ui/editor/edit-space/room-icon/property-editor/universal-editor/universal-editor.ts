@@ -1,15 +1,15 @@
-import {Component, Input} from '@angular/core';
-import {Universal} from 'data/scene/entities/universal';
-import {EventBus} from 'ui/common/event-bus';
-import {resizeImage} from 'data/util/imageResizeService';
-import {DEFAULT_VOLUME} from 'ui/common/constants';
-import {browserCanRecordAudio} from 'ui/editor/util/audioRecorderService';
+import { Component, Input } from '@angular/core';
+import { Universal } from 'data/scene/entities/universal';
+import { resizeImage } from 'data/util/imageResizeService';
+import { DEFAULT_VOLUME } from 'ui/common/constants';
+import { EventBus } from 'ui/common/event-bus';
+import { browserCanRecordAudio } from 'ui/editor/util/audioRecorderService';
 
 
 @Component({
   selector: 'universal-editor',
   styleUrls: ['./universal-editor.scss'],
-  templateUrl: './universal-editor.html'
+  templateUrl: './universal-editor.html',
 })
 export class UniversalEditor {
 
@@ -90,7 +90,7 @@ export class UniversalEditor {
       canvas.width = image.width;
       canvas.height = image.height;
       context.drawImage(image, 0, 0);
-      context.clearRect(0,0,canvas.width,canvas.height);
+      context.clearRect(0, 0, canvas.width, canvas.height);
       context.save();
       context.translate(image.width / 2, image.height / 2);
       context.rotate(this._rotateImageAngle * Math.PI / 180);

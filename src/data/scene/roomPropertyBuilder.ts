@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
+import { Audio } from 'data/scene/entities/audio';
+import { Door } from 'data/scene/entities/door';
+import { Image } from 'data/scene/entities/image';
+import { Link } from 'data/scene/entities/link';
+import { Narrator } from 'data/scene/entities/narrator';
 
-import {Room} from 'data/scene/entities/room';
-import {Text} from 'data/scene/entities/text';
-import {Video} from 'data/scene/entities/video';
-import {Universal} from 'data/scene/entities/universal';
-import {Image} from 'data/scene/entities/image';
-import {Audio} from 'data/scene/entities/audio';
-import {Door} from 'data/scene/entities/door';
-import {Link} from 'data/scene/entities/link';
-import {Narrator} from 'data/scene/entities/narrator';
-import {Vector2} from 'data/scene/entities/vector2';
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
-import {resizeImage} from 'data/util/imageResizeService';
-import {reverbList} from 'data/scene/values/reverbList';
+import { Room } from 'data/scene/entities/room';
+import { Text } from 'data/scene/entities/text';
+import { Universal } from 'data/scene/entities/universal';
+import { Vector2 } from 'data/scene/entities/vector2';
+import { Video } from 'data/scene/entities/video';
+import { RoomProperty } from 'data/scene/interfaces/roomProperty';
+import { reverbList } from 'data/scene/values/reverbList';
+import { resizeImage } from 'data/util/imageResizeService';
 
-import {DEFAULT_FILE_NAME, DEFAULT_IMAGE_PATH, BACKGROUND_THUMBNAIL, DEFAULT_VOLUME} from 'ui/common/constants';
+import { BACKGROUND_THUMBNAIL, DEFAULT_FILE_NAME, DEFAULT_IMAGE_PATH, DEFAULT_VOLUME } from 'ui/common/constants';
 
 @Injectable()
 export class PropertyBuilder {
@@ -78,7 +78,7 @@ export class PropertyBuilder {
     // image
     let imageFileName = DEFAULT_FILE_NAME;
 
-    if (universalJson.hasOwnProperty('imageFile')) imageFileName =  decodeURIComponent(universalJson.imageFile);
+    if (universalJson.hasOwnProperty('imageFile')) imageFileName = decodeURIComponent(universalJson.imageFile);
     if (universalJson.hasOwnProperty('remoteImageFile')) {
       universal.imageContent.setRemoteFileName(universalJson.remoteFile);
     }
@@ -88,7 +88,7 @@ export class PropertyBuilder {
     // audio
     let audioFileName = DEFAULT_FILE_NAME;
 
-    if (universalJson.hasOwnProperty('audioFile')) audioFileName =  decodeURIComponent(universalJson.audioFile);
+    if (universalJson.hasOwnProperty('audioFile')) audioFileName = decodeURIComponent(universalJson.audioFile);
     if (universalJson.hasOwnProperty('remoteAudioFile')) {
       universal.audioContent.setRemoteFileName(universalJson.remoteAudioFile);
     }
@@ -199,7 +199,7 @@ export class PropertyBuilder {
         room.setThumbnail(BACKGROUND_THUMBNAIL, thumbnail);
       }
     }
-    else if (!thumbnail && binaryFileData){
+    else if (!thumbnail && binaryFileData) {
       resizeImage(binaryFileData, 'projectThumbnail')
         .then(resizedImageData => {
           room.setThumbnail(BACKGROUND_THUMBNAIL, resizedImageData);
@@ -210,7 +210,7 @@ export class PropertyBuilder {
     if (backgroundAudioUrl) {
       let fileName = roomJson.ambient;
       let remoteFileName = '';
-      if (roomJson.ambient.hasOwnProperty('file')) fileName = roomJson.ambient.file
+      if (roomJson.ambient.hasOwnProperty('file')) fileName = roomJson.ambient.file;
       if (roomJson.ambient.hasOwnProperty('remoteFile')) {
         remoteFileName = roomJson.ambient.remoteFile;
       }

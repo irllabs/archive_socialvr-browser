@@ -8,8 +8,6 @@
 
 }
 
-
-
 .topbar__row {
   display: flex;
   flex-direction: row;
@@ -23,29 +21,29 @@
   border-radius: 4px;
   padding: 16px 24px;
   overflow: hidden;
-box-shadow: 0 4px 6px rgba(0,0,0,.11), 0 1px 3px rgba(0,0,0,.08);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, .11), 0 1px 3px rgba(0, 0, 0, .08);
   cursor: pointer;
-  &:hover{
-box-shadow: 0 7px 14px rgba(0,0,0,.15), 0 3px 6px rgba(0,0,0,.12);
+  &:hover {
+    box-shadow: 0 7px 14px rgba(0, 0, 0, .15), 0 3px 6px rgba(0, 0, 0, .12);
   }
-  &:active{
+  &:active {
     background-color: $color-white;
     color: $color-action;
-    box-shadow: 0 4px 6px rgba(0,0,0,.11), 0 1px 3px rgba(0,0,0,.08);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, .11), 0 1px 3px rgba(0, 0, 0, .08);
   }
 
-  &:focus{
-outline:0;
+  &:focus {
+    outline: 0;
 
   }
   @include breakpoint(xxs) {
     padding: 8px 16px;
-    font-size:14px;
+    font-size: 14px;
   }
 
   @include breakpoint(xs) {
     padding: 8px 16px;
-    font-size:14px;
+    font-size: 14px;
   }
 
 }
@@ -56,18 +54,19 @@ outline:0;
   overflow: hidden;
 }
 
-.topbar__row-menus{
+.topbar__row-menus {
   flex-grow: 2;
 }
-.topbar__marginright{
+
+.topbar__marginright {
   margin-right: 16px;
 }
 
-.topbar__marginleft{
+.topbar__marginleft {
   margin-left: 16px;
 }
 
-.topbar__row-story{
+.topbar__row-story {
   justify-content: center;
 }
 

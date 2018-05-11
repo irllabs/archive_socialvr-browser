@@ -1,4 +1,4 @@
-import {MIME_TYPE_TEXT} from 'ui/common/constants';
+import { MIME_TYPE_TEXT } from 'ui/common/constants';
 
 const COPY = 'copy';
 
@@ -11,7 +11,7 @@ function copyToClipboard(stringToCopy: string) {
         event.preventDefault();
         resolve(stringToCopy);
       }
-      catch(error) {
+      catch (error) {
         reject(error);
       }
     });
@@ -20,5 +20,5 @@ function copyToClipboard(stringToCopy: string) {
 }
 
 export {
-  copyToClipboard
+  copyToClipboard,
 };

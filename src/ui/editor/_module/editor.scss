@@ -27,17 +27,18 @@ $half-icon-size: $room-icon-size / 2;
   position: absolute;
   top: calc(50% - #{$room-icon-size});
   right: 0;
-  overflow-x:hidden;
-  overflow-y:hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
+
 .editor_center {
-  background-color: rgba(136,136,136,.60);
+  background-color: rgba(136, 136, 136, .60);
   padding: 8px 8px;
-      border-radius: 0px 0px 4px 4px;
+  border-radius: 0px 0px 4px 4px;
   position: absolute;
   top: 0%;
   left: 50%;
-  display:flex;
+  display: flex;
   flex-direction: row;
   align-items: space-between;
   transform: translate(-50%, 0%);
@@ -49,9 +50,9 @@ $half-icon-size: $room-icon-size / 2;
   }
   @include breakpoint(xxs) {
     padding: 1px 4px;
-        border-radius: 0px 0px 4px 4px;
-        margin-top: -2px;
-        left: 49%;
+    border-radius: 0px 0px 4px 4px;
+    margin-top: -2px;
+    left: 49%;
   }
 
 }
@@ -60,39 +61,38 @@ $half-icon-size: $room-icon-size / 2;
   display: none;
 }
 
-.editor_center > div
-{
-  margin:8px 16px 8px 16px;  /* and that, will result in a 10px gap */
+.editor_center > div {
+  margin: 8px 16px 8px 16px; /* and that, will result in a 10px gap */
 }
 
 .editor__editPlayToggle {
-/*
-top:0;
-position: absolute;
-left:50%;
-*/
-width: 100%;
+  /*
+  top:0;
+  position: absolute;
+  left:50%;
+  */
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  &:hover{
+  &:hover {
     opacity: 1;
 
   }
 }
 
 .editor__edit2D3DToggle {
-/*
-  top:0;
-  position: absolute;
-  left: 60%;
-  */
+  /*
+    top:0;
+    position: absolute;
+    left: 60%;
+    */
   width: 100%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  &:hover{
+  &:hover {
     opacity: 1;
 
   }
@@ -114,7 +114,7 @@ width: 100%;
 .editor__2d3d {
   margin-left: 3px;
   margin-right: 3px;
-  opacity:0.5;
+  opacity: 0.5;
 }
 
 .editor__2d3d--active {

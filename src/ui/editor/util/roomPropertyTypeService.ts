@@ -1,13 +1,13 @@
-import {Audio} from 'data/scene/entities/audio';
-import {Video} from 'data/scene/entities/video';
-import {Universal} from 'data/scene/entities/universal';
-import {Image} from 'data/scene/entities/image';
-import {Text} from 'data/scene/entities/text';
-import {Door} from 'data/scene/entities/door';
-import {Room} from 'data/scene/entities/room';
-import {Link} from 'data/scene/entities/link';
-import {Narrator} from 'data/scene/entities/narrator';
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
+import { Audio } from 'data/scene/entities/audio';
+import { Door } from 'data/scene/entities/door';
+import { Image } from 'data/scene/entities/image';
+import { Link } from 'data/scene/entities/link';
+import { Narrator } from 'data/scene/entities/narrator';
+import { Room } from 'data/scene/entities/room';
+import { Text } from 'data/scene/entities/text';
+import { Universal } from 'data/scene/entities/universal';
+import { Video } from 'data/scene/entities/video';
+import { RoomProperty } from 'data/scene/interfaces/roomProperty';
 
 const typeMap = {
   audio: Audio,
@@ -18,7 +18,7 @@ const typeMap = {
   link: Link,
   video: Video,
   universal: Universal,
-  narrator: Narrator
+  narrator: Narrator,
 };
 
 export class RoomPropertyTypeService {

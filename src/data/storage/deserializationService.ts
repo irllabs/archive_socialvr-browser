@@ -1,24 +1,31 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
 
-import {RoomManager} from 'data/scene/roomManager';
-import {PropertyBuilder} from 'data/scene/roomPropertyBuilder';
-import {Room} from 'data/scene/entities/room';
+import { ApiService } from 'data/api/apiService';
+import { Room } from 'data/scene/entities/room';
 
-import {ApiService} from 'data/api/apiService';
-import {FileLoaderUtil} from 'ui/editor/util/fileLoaderUtil';
-
-import 'rxjs/add/observable/fromPromise';
+import { RoomManager } from 'data/scene/roomManager';
+import { PropertyBuilder } from 'data/scene/roomPropertyBuilder';
 import 'isomorphic-fetch';
 
+import 'rxjs/add/observable/fromPromise';
+import { Observable } from 'rxjs/Observable';
+
 import {
-  STORY_FILE_YAML, STORY_FILE_JSON, UINT8ARRAY,
-  MIME_TYPE_MP3, MIME_TYPE_PNG,
-  MIME_TYPE_JPG, MIME_TYPE_JPEG, MIME_TYPE_WAV, MIME_TYPE_AAC, MIME_TYPE_XM4A,
-  BACKGROUND_THUMBNAIL
+  BACKGROUND_THUMBNAIL,
+  MIME_TYPE_AAC,
+  MIME_TYPE_JPEG,
+  MIME_TYPE_JPG,
+  MIME_TYPE_MP3,
+  MIME_TYPE_PNG,
+  MIME_TYPE_WAV,
+  MIME_TYPE_XM4A,
+  STORY_FILE_JSON,
+  STORY_FILE_YAML,
+  UINT8ARRAY,
 } from 'ui/common/constants';
-import {Universal} from "../scene/entities/universal";
-import {DEFAULT_FILE_NAME, DEFAULT_VOLUME} from "../../ui/common/constants";
+import { FileLoaderUtil } from 'ui/editor/util/fileLoaderUtil';
+import { DEFAULT_FILE_NAME, DEFAULT_VOLUME } from '../../ui/common/constants';
+import { Universal } from '../scene/entities/universal';
 
 const JSZip = require('jszip');
 const JsYaml = require('js-yaml');
@@ -144,7 +151,7 @@ export class DeserializationService {
             binaryFileMap,
             roomData.texts,
             roomData.clips,
-            roomData.images
+            roomData.images,
           );
 
           (roomData.universal || [])
@@ -232,9 +239,8 @@ export class DeserializationService {
 
   unzipStoryFile(file: any): Observable<any> {
     return Observable.fromPromise(
-      this.zip.loadAsync(file).then(file => this.deserializeProject(file))
+      this.zip.loadAsync(file).then(file => this.deserializeProject(file)),
     );
-    // .catch(error => console.log('error', mediaFile.name, error));
   }
 
   // Given a jszip file containing an image or audio
@@ -244,7 +250,7 @@ export class DeserializationService {
     return mediaFile.async(UINT8ARRAY)
       .then(fileData => {
         const fileType = this.getFileType(mediaFile.name);
-        return new Blob([fileData], {type: fileType});
+        return new Blob([fileData], { type: fileType });
       })
       .then(blob => {
         return getBinaryFileData(blob);
@@ -252,7 +258,7 @@ export class DeserializationService {
       .then(binaryDataFile => {
         return {
           name: mediaFile.name,
-          fileData: binaryDataFile
+          fileData: binaryDataFile,
         };
       });
   }
@@ -268,7 +274,7 @@ export class DeserializationService {
       .then((fileData) => {
         const fileType = this.getFileType(mediaFile.file);
 
-        return new Blob([fileData], {type: fileType});
+        return new Blob([fileData], { type: fileType });
       })
       .then((blob) => {
         return blob.size <= 9 ? null : getBinaryFileData(blob);
@@ -281,7 +287,7 @@ export class DeserializationService {
         };
       })
       .catch((error) => {
-        console.log('error', mediaFile.file, error)
+        console.log('error', mediaFile.file, error);
       });
   }
 
@@ -308,11 +314,11 @@ export class DeserializationService {
               return acc.concat([
                 {
                   file: universal.imageFile,
-                  remoteFile: universal.remoteImageFile
+                  remoteFile: universal.remoteImageFile,
                 },
                 {
                   file: universal.audioFile,
-                  remoteFile: universal.remoteAudioFile
+                  remoteFile: universal.remoteAudioFile,
                 },
               ]);
             }, []);
@@ -374,7 +380,7 @@ export class DeserializationService {
     // If a story.json file is present, assume assets have been uploaded to S3
     if (Object.keys(fileMap).indexOf(STORY_FILE_JSON) > -1) {
       baseFilePath = storyFilePath.substring(0, storyFilePath.indexOf(STORY_FILE_JSON));
-      storyFilePath = `${baseFilePath}${STORY_FILE_JSON}`
+      storyFilePath = `${baseFilePath}${STORY_FILE_JSON}`;
     }
 
     const storyFile = fileMap[storyFilePath];
@@ -385,7 +391,7 @@ export class DeserializationService {
       return this.deserializeRooms(
         storyFile,
         binaryFileMap.filter(f => !!f), // get rid of undefined
-        baseFilePath
+        baseFilePath,
       );
     });
   }
@@ -399,7 +405,7 @@ export class DeserializationService {
       '.m4a': MIME_TYPE_XM4A,
       '.png': MIME_TYPE_PNG,
       '.jpg': MIME_TYPE_JPG,
-      '.jpeg': MIME_TYPE_JPEG
+      '.jpeg': MIME_TYPE_JPEG,
     };
 
     return fileMap[fileType] || MIME_TYPE_PNG;

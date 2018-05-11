@@ -1,10 +1,9 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { PropertyBuilder } from 'data/scene/roomPropertyBuilder';
+import { resizeImage } from 'data/util/imageResizeService';
 
-import {FileLoaderUtil, mimeTypeMap} from 'ui/editor/util/fileLoaderUtil';
-import {PropertyBuilder} from 'data/scene/roomPropertyBuilder';
-import {resizeImage} from 'data/util/imageResizeService';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {Door} from 'data/scene/entities/door';
+import { FileLoaderUtil, mimeTypeMap } from 'ui/editor/util/fileLoaderUtil';
 
 
 @Injectable()
@@ -13,8 +12,9 @@ export class SlideshowBuilder {
   constructor(
     private sceneInteractor: SceneInteractor,
     private fileLoaderUtil: FileLoaderUtil,
-    private propertyBuilder: PropertyBuilder
-  ) {}
+    private propertyBuilder: PropertyBuilder,
+  ) {
+  }
 
   build(files): Promise<any> {
     const fileList = Object.keys(files)
@@ -31,17 +31,17 @@ export class SlideshowBuilder {
 
     return Promise.all(backgroundFiles)
       .then(resizedList => resizedList.map((resized: any, index) => {
-        let roomId = this.sceneInteractor.getActiveRoomId();
-        let room = this.sceneInteractor.getRoomById(roomId);
-        if (room.hasBackgroundImage()) {
-          roomId = this.sceneInteractor.addRoom();
-          room = this.sceneInteractor.getRoomById(roomId);
-        }
-        const fileName = fileList[index].name;
-        room.setFileData(fileName, resized.backgroundImage);
-        room.setThumbnail(fileName, resized.thumbnail);
-        return room;
-        })
+          let roomId = this.sceneInteractor.getActiveRoomId();
+          let room = this.sceneInteractor.getRoomById(roomId);
+          if (room.hasBackgroundImage()) {
+            roomId = this.sceneInteractor.addRoom();
+            room = this.sceneInteractor.getRoomById(roomId);
+          }
+          const fileName = fileList[index].name;
+          room.setFileData(fileName, resized.backgroundImage);
+          room.setThumbnail(fileName, resized.thumbnail);
+          return room;
+        }),
       )
       .then(roomList => roomList.forEach((room, index) => {
         // disabled by Ali based on Aparna's request

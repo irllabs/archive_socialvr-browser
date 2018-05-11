@@ -1,7 +1,6 @@
 @import '../../../../_styles/variables';
 @import '../../../../_module/ui';
 
-
 .user-view__project-list-header {
   font-weight: bold;
   color: $color-grey-dark;
@@ -13,7 +12,7 @@
   max-height: 120px;
   font-size: $tiny-font-size;
   margin-bottom: 16px;
-box-shadow: inset 0px 8px 9px -6px #eee, inset 0px -8px 9px -6px #eee;
+  box-shadow: inset 0px 8px 9px -6px #eee, inset 0px -8px 9px -6px #eee;
 }
 
 .user-view__project {
@@ -26,12 +25,10 @@ box-shadow: inset 0px 8px 9px -6px #eee, inset 0px -8px 9px -6px #eee;
   padding-bottom: 8px;
 }
 
-
-
 .user-view__project-title {
   white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
   cursor: pointer;
   font-size: $med-font-size;
 }

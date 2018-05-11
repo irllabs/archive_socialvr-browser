@@ -1,25 +1,26 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { generateUniqueId } from 'data/util/uuid';
 
-import {EventBus} from 'ui/common/event-bus';
-import {FileLoaderUtil} from 'ui/editor/util/fileLoaderUtil';
-import {generateUniqueId} from 'data/util/uuid';
+import { EventBus } from 'ui/common/event-bus';
+import { FileLoaderUtil } from 'ui/editor/util/fileLoaderUtil';
 
 @Component({
   selector: 'file-loader',
   styleUrls: ['./file-loader.scss'],
-  templateUrl: './file-loader.html'
+  templateUrl: './file-loader.html',
 })
 export class FileLoader {
 
   @Output() onFileLoad: EventEmitter<any> = new EventEmitter();
   @Input() acceptedFileType: string;
-  @Input() displayText: string = 'Drag File...'
+  @Input() displayText: string = 'Drag File...';
   private inputId = generateUniqueId();
 
   constructor(
     private eventBus: EventBus,
-    private fileLoaderUtil: FileLoaderUtil
-  ) {}
+    private fileLoaderUtil: FileLoaderUtil,
+  ) {
+  }
 
   private onFileChange($event) {
     const file = $event.target.files && $event.target.files[0];
@@ -37,7 +38,7 @@ export class FileLoader {
       .then(fileData => {
         this.onFileLoad.emit({
           binaryFileData: fileData,
-          file: file
+          file: file,
         });
       })
       .catch(error => this.eventBus.onModalMessage('Error', error));

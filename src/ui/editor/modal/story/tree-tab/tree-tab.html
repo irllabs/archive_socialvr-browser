@@ -1,34 +1,34 @@
 <div class="tree-view">
 
-    <div
-      *ngFor="let roomId of getRoomIdList()"
-      class="tree-view__room">
+  <div
+    *ngFor="let roomId of getRoomIdList()"
+    class="tree-view__room">
 
-      <!-- Room Label -->
+    <!-- Room Label -->
+    <row-item
+      [roomProperty]="getRoomById(roomId)"
+      [caretIsExpanded]="roomIsExpanded(roomId)"
+      [isActive]="roomIsSelected(roomId)"
+      (click)="onRoomSelect(roomId)"
+      class="tree-view__row-item">
+    </row-item>
+
+    <!-- Room Properties -->
+    <div
+      class="tree-view__room-property-container"
+      [ngClass]="{'tree-view__room-property-container--expanded': roomIsExpanded(roomId)}">
+
+      <!-- Room Property Label -->
       <row-item
-        [roomProperty]="getRoomById(roomId)"
-        [caretIsExpanded]="roomIsExpanded(roomId)"
-        [isActive]="roomIsSelected(roomId)"
-        (click)="onRoomSelect(roomId)"
-        class="tree-view__row-item">
+        *ngFor="let roomProperty of getPropertyList()"
+        (click)="onPropertySelect(roomProperty)"
+        [roomProperty]="roomProperty"
+        [isActive]="propertyIsSelected(roomProperty)"
+        class="tree-view__row-item tree-view__row-item--margin-left">
       </row-item>
 
-      <!-- Room Properties -->
-      <div
-        class="tree-view__room-property-container"
-        [ngClass]="{'tree-view__room-property-container--expanded': roomIsExpanded(roomId)}">
-
-        <!-- Room Property Label -->
-        <row-item
-          *ngFor="let roomProperty of getPropertyList()"
-          (click)="onPropertySelect(roomProperty)"
-          [roomProperty]="roomProperty"
-          [isActive]="propertyIsSelected(roomProperty)"
-          class="tree-view__row-item tree-view__row-item--margin-left">
-        </row-item>
-
-      </div>
-
     </div>
+
+  </div>
 
 </div>

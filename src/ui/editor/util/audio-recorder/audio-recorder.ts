@@ -1,18 +1,17 @@
-import {Component, Output, EventEmitter, ViewChild, NgZone} from '@angular/core';
+import { Component, EventEmitter, NgZone, Output, ViewChild } from '@angular/core';
+import { generateUniqueId } from 'data/util/uuid';
 
-import {AudioRecorderService} from 'ui/editor/util/audioRecorderService';
-import {Audio} from 'data/scene/entities/audio';
-import {generateUniqueId} from 'data/util/uuid';
+import { AudioRecorderService } from 'ui/editor/util/audioRecorderService';
 
 //this should really refer to colors inn our variables.scss file
 const backgroundColorOff = new Uint8Array([173, 0, 52]);   //i.e. $color-red-dark
 const backgroundColorOn = new Uint8Array([255, 53, 113]);  //i.e. $color-pink
-const MAX_RECORDING_TIME  = 20000; //20 seconds
+const MAX_RECORDING_TIME = 20000; //20 seconds
 
 @Component({
   selector: 'audio-recorder',
   styleUrls: ['./audio-recorder.scss'],
-  templateUrl: './audio-recorder.html'
+  templateUrl: './audio-recorder.html',
 })
 export class AudioRecorder {
 
@@ -21,19 +20,22 @@ export class AudioRecorder {
 
   private isRecording: boolean = false;
   private timeoutId: any;
+
   //private isAnimating: boolean = false;
 
   constructor(
     private audioRecorderService: AudioRecorderService,
-    private ngZone: NgZone
-  ) {}
+    private ngZone: NgZone,
+  ) {
+  }
 
   ngOnDestroy() {
     // cancel current recording
     //this.isAnimating = false;
     if (this.isRecording) {
       this.audioRecorderService.stopRecording()
-        .then(dataUrl => {})
+        .then(dataUrl => {
+        })
         .catch(error => console.error(error));
     }
     clearTimeout(this.timeoutId);
@@ -68,8 +70,8 @@ export class AudioRecorder {
         const uniqueId: string = generateUniqueId();
         const audioFileName: string = `${uniqueId}.wav`;
         this.onRecorded.emit({
-        	fileName: `${uniqueId}.wav`,
-        	dataUrl: dataUrl
+          fileName: `${uniqueId}.wav`,
+          dataUrl: dataUrl,
         });
       })
       .catch(error => console.error(error));
@@ -101,7 +103,7 @@ function linearInterpolate(u, v, value) {
   return {
     r: linearInterpolateValue(u[0], v[0], value, inverseValue),
     g: linearInterpolateValue(u[1], v[1], value, inverseValue),
-    b: linearInterpolateValue(u[2], v[2], value, inverseValue)
+    b: linearInterpolateValue(u[2], v[2], value, inverseValue),
   };
 }
 

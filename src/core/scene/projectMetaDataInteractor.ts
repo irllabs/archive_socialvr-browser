@@ -1,11 +1,12 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {RoomManager} from 'data/scene/roomManager';
+import { RoomManager } from 'data/scene/roomManager';
 
 @Injectable()
 export class MetaDataInteractor {
 
-  constructor(private roomManager: RoomManager) {}
+  constructor(private roomManager: RoomManager) {
+  }
 
   getProjectName(): string {
     return this.roomManager.getProjectName();
@@ -20,7 +21,7 @@ export class MetaDataInteractor {
   }
 
   setProjectDescription(projectDescription: string) {
-    this.roomManager.setProjectDescription(projectDescription)
+    this.roomManager.setProjectDescription(projectDescription);
   }
 
   projectIsEmpty(): boolean {

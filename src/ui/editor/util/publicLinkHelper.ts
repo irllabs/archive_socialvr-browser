@@ -2,6 +2,7 @@ const SHARED_KEY = 'sharedproject';
 
 function encodeParam(publicProjectUrl: string) {
   const base64Params = btoa(publicProjectUrl);
+
   return encodeURIComponent(base64Params);
 }
 
@@ -9,15 +10,15 @@ function decodeParam(encodedParam: string) {
   try {
     const base64Param = decodeURIComponent(encodedParam);
     const decodedParam = atob(base64Param);
+
     return {
       message: 'OK',
-      data: decodedParam
+      data: decodedParam,
     };
-  }
-  catch(error) {
+  } catch (error) {
     return {
       message: 'ERROR',
-      data: error
+      data: error,
     };
   }
 }
@@ -25,17 +26,14 @@ function decodeParam(encodedParam: string) {
 function getShareableLink(publicProjectUrl: string) {
   const baseUrl = `${location.protocol}//${location.host}`;
   const pathName = location.pathname;
-  const queryIndex = location.hash.indexOf('?') < 0 ? location.hash.length : location.hash.indexOf('?');
-  //const hash = location.hash.substring(0, queryIndex);
-  const hash = `#/editor/(view:flat)`;
-  const queryParams= `${SHARED_KEY}=${encodeParam(publicProjectUrl)}`;
-  console.log('pathName:',pathName);
-  console.log('hash:',hash);
+  const hash = '#/editor/(view:flat)';
+  const queryParams = `${SHARED_KEY}=${encodeParam(publicProjectUrl)}`;
+
   return `${baseUrl}${pathName}${hash}?${queryParams}`;
 }
 
 export {
   SHARED_KEY,
   getShareableLink,
-  decodeParam
+  decodeParam,
 };

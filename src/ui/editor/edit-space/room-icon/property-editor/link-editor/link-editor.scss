@@ -2,17 +2,18 @@
 @import '../../../../../_module/ui';
 @import '../property-editor/property-editor';
 
-.link-editor {}
+.link-editor {
+}
 
 .link-editor__text-area {
   resize: none;
   font-size: 1.1em;
   width: $sidebar-width - 6px;
   height: 96px;
-  background: rgba(0,0,0, 0);
+  background: rgba(0, 0, 0, 0);
 
 }
 
-.link-editor__go-button{
+.link-editor__go-button {
   width: $sidebar-width - 2px;
 }

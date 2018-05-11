@@ -1,28 +1,24 @@
-import {Component, ElementRef, HostListener} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, ElementRef, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
+import { ProjectInteractor } from 'core/project/projectInteractor';
+import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
 
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {StorageInteractor} from 'core/storage/storageInteractor';
-import {ProjectInteractor} from 'core/project/projectInteractor';
-import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
-import {EventBus} from 'ui/common/event-bus';
-import {UserInteractor} from 'core/user/userInteractor';
-import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { StorageInteractor } from 'core/storage/storageInteractor';
+import { UserInteractor } from 'core/user/userInteractor';
 
-import {Audio} from 'data/scene/entities/audio';
-import {Image} from 'data/scene/entities/image';
-import {Text} from 'data/scene/entities/text';
-import {Door} from 'data/scene/entities/door';
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
+import { Audio } from 'data/scene/entities/audio';
 
-import {DEFAULT_PROJECT_NAME, DEFAULT_VOLUME} from 'ui/common/constants';
+import { DEFAULT_PROJECT_NAME, DEFAULT_VOLUME } from 'ui/common/constants';
+import { EventBus } from 'ui/common/event-bus';
+import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
 
 const FileSaver = require('file-saver');
 
 @Component({
   selector: 'story',
   styleUrls: ['./story.scss'],
-  templateUrl: './story.html'
+  templateUrl: './story.html',
 })
 export class Story {
 
@@ -37,8 +33,9 @@ export class Story {
     private projectInteractor: ProjectInteractor,
     private eventBus: EventBus,
     private slideshowBuilder: SlideshowBuilder,
-    private element: ElementRef
-  ) {}
+    private element: ElementRef,
+  ) {
+  }
 
   @HostListener('document:click', ['$event'])
   private onDocumentClick($event) {
@@ -48,13 +45,13 @@ export class Story {
       return;
     }
     if (!isClicked) {
-      this.router.navigate(['/editor', {outlets: {'modal': null}}]);
+      this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
     }
   }
 
   addRoom($event) {
     this.sceneInteractor.addRoom();
-    this.router.navigate(['/editor', {outlets: {'view': 'flat'}}]);
+    this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
     this.eventBus.onSelectRoom(null, true);
   }
 
@@ -94,27 +91,28 @@ export class Story {
     return this.metaDataInteractor.getSoundtrackVolume();
   }
 
-  private onSoundtrackLoad($event) {
+  public onSoundtrackLoad($event) {
     this.metaDataInteractor.setSoundtrack($event.file.name, DEFAULT_VOLUME, $event.binaryFileData);
   }
 
-  private onVolumeChange($event) {
+  public onVolumeChange($event) {
     const volume = $event.currentTarget.volume;
     this.metaDataInteractor.setSoundtrackVolume(volume);
   }
 
-  private onNewStoryClick($event) {
+  public onNewStoryClick($event) {
     //console.log('onNewStoryClick 1');
     this.eventBus.onModalMessage(
       '',
       'If you do not save your changes before opening a new story file, those changes will be lost.',
       true,
       // modal dismissed callback
-      () => {},
+      () => {
+      },
       // modal accepted callback
       () => {
         //console.log('onNewStoryClick 2');
-        this.router.navigate(['/editor', {outlets: {'modal': 'upload'}}]);
+        this.router.navigate(['/editor', { outlets: { 'modal': 'upload' } }]);
         if ($event.shiftKey) {
           this.eventBus.onOpenFileLoader('zip');
           return;
@@ -125,25 +123,22 @@ export class Story {
         this.projectInteractor.setProjectId(null);
         this.eventBus.onSelectRoom(null, false);
         this.metaDataInteractor.setIsReadOnly(false);
-      }
+      },
     );
 
   }
 
-  private onOpenStoryLocallyClick(event) {
+  public onOpenStoryLocallyClick(event) {
     if (!this.userInteractor.isLoggedIn()) {
       this.eventBus.onModalMessage('Error', 'You must be logged in to upload from .zip');
       return;
     }
-    // this.router.navigate(['/editor', {outlets: {'modal': 'upload'}}]);
-    // if (!$event.shiftKey) {
+
     this.eventBus.onOpenFileLoader('zip');
-    //   return;
-    // }
-    this.router.navigate(['/editor', {outlets: {'modal': null}}]);
+    this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
   }
 
-  private onSaveStoryClick(event) {
+  public onSaveStoryClick(event) {
     if (this.metaDataInteractor.projectIsEmpty()) {
       this.eventBus.onModalMessage('Error', 'Cannot save an empty project');
       return;
@@ -158,18 +153,15 @@ export class Story {
     }
     // if (this.userInteractor.isLoggedIn()) {
 
-      this.saveStoryFileToServer();
-    // }
-    // else {
-    //   this.saveStoryFileLocally()
-    // }
+    this.saveStoryFileToServer();
   }
 
-  private onSaveStroyLocallyClick(event) {
+  public onSaveStoryLocallyClick(event) {
     if (this.metaDataInteractor.projectIsEmpty()) {
       this.eventBus.onModalMessage('Error', 'Cannot save an empty project');
       return;
     }
+
     if (this.metaDataInteractor.getIsReadOnly()) {
       this.eventBus.onModalMessage('Permissions Error', 'It looks like you are working on a different user\'s project. You cannot save this to your account but you can save it locally by shift-clicking the save button.');
       return;
@@ -181,45 +173,41 @@ export class Story {
 
     const projectName = this.metaDataInteractor.getProjectName() || 'StoryFile';
     const zipFileName = `${projectName}.zip`;
-    const bundleAssets = true;
+
     this.eventBus.onStartLoading();
-    this.storageInteractor.serializeProject(bundleAssets)
+    this.storageInteractor.serializeProject()
       .subscribe(
-        zipFile => {
+        (zipFile) => {
           this.eventBus.onStopLoading();
           FileSaver.saveAs(zipFile, zipFileName);
         },
-        error => {
+        (error) => {
           this.eventBus.onStopLoading();
           this.eventBus.onModalMessage('File Download Error', error);
-        }
+        },
       );
   }
 
   private saveStoryFileToServer() {
-    const userId: string = this.userInteractor.getUserId();
     const projectId: string = this.projectInteractor.getProjectId();
     const isWorkingOnSavedProject: boolean = this.projectInteractor.isWorkingOnSavedProject();
 
-    const onSuccess = response => {
+    const onSuccess = () => {
       this.eventBus.onStopLoading();
       this.eventBus.onModalMessage('', 'Your project has been saved.');
     };
 
-    const onError = error => {
+    const onError = (error) => {
       this.eventBus.onStopLoading();
       this.eventBus.onModalMessage('Save error', error);
     };
 
     this.eventBus.onStartLoading();
+
     if (isWorkingOnSavedProject) {
-      this.projectInteractor.updateProject(userId, projectId)
-        .subscribe(onSuccess, onError);
-    }
-    else {
-      this.projectInteractor.createProject(userId)
-        .subscribe(onSuccess, onError);
+      this.projectInteractor.updateProject(projectId).subscribe(onSuccess, onError);
+    } else {
+      this.projectInteractor.createProject().subscribe(onSuccess, onError);
     }
   }
-
 }

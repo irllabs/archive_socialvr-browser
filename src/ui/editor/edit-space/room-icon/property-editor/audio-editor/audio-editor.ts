@@ -1,14 +1,14 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Audio } from 'data/scene/entities/audio';
 
-import {DEFAULT_FILE_NAME, DEFAULT_VOLUME} from 'ui/common/constants';
-import {Audio} from 'data/scene/entities/audio';
-import {browserCanRecordAudio} from 'ui/editor/util/audioRecorderService';
+import { DEFAULT_FILE_NAME, DEFAULT_VOLUME } from 'ui/common/constants';
+import { browserCanRecordAudio } from 'ui/editor/util/audioRecorderService';
 
 
 @Component({
   selector: 'audio-editor',
   styleUrls: ['./audio-editor.scss'],
-  templateUrl: './audio-editor.html'
+  templateUrl: './audio-editor.html',
 })
 export class AudioEditor {
 

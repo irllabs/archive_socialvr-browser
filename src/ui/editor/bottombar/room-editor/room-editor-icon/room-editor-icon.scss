@@ -2,17 +2,17 @@
 //@import '../../../edit-space/room-icon/property-editor/property-editor/property-editor';
 
 .room-editor-icon {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .room-editor-icon__image {
-	width: $room-icon-size;
-	height: $room-icon-size;
-	margin-bottom: 10px;
+  width: $room-icon-size;
+  height: $room-icon-size;
+  margin-bottom: 10px;
 }
 
 .room-editor-icon__editor {
-	margin-left: -$sidebar-width / 2 + $room-icon-size / 2;
-	margin-bottom: 15px;
+  margin-left: -$sidebar-width / 2 + $room-icon-size / 2;
+  margin-bottom: 15px;
 }

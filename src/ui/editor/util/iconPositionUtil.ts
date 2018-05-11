@@ -1,12 +1,10 @@
-import {Vector3} from 'three';
-
-import {Vector2} from 'data/scene/entities/vector2';
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
+import { Vector2 } from 'data/scene/entities/vector2';
+import { Vector3 } from 'three';
 
 // xy screen position to normalized position: [0, 360], [-90, 90]
 function normalizeAbsolutePosition(x: number, y: number): Vector2 {
   const bodyRect = document.body.getBoundingClientRect();
-  const xRelative: number =  360 * x / bodyRect.width;
+  const xRelative: number = 360 * x / bodyRect.width;
   const yRelative: number = -180 * y / bodyRect.height + 90;
   return new Vector2(xRelative, yRelative);
 }
@@ -21,18 +19,19 @@ function denormalizePosition(x: number, y: number): Vector2 {
 
 //added by ali to have coordinate system changes
 //these use angles in Degrees (NOT Radians)
-function car2pol(x,y,z): Vector3 {
-  var rho = Math.sqrt((x*x) + (y*y) + (z*z));
-  var phi = Math.atan2(z, x) * 180/Math.PI;
-  var theta = Math.acos(y / rho)* 180/Math.PI;
-  return new Vector3(rho,theta,phi);
+function car2pol(x, y, z): Vector3 {
+  var rho = Math.sqrt((x * x) + (y * y) + (z * z));
+  var phi = Math.atan2(z, x) * 180 / Math.PI;
+  var theta = Math.acos(y / rho) * 180 / Math.PI;
+  return new Vector3(rho, theta, phi);
 }
+
 //these use angles in Degrees (NOT Radians)
-function pol2car(rho,theta,phi): Vector3 {
-  var x = rho * Math.sin(theta*Math.PI/180) * Math.cos(phi*Math.PI/180);
-  var z = rho * Math.sin(theta*Math.PI/180) * Math.sin(phi*Math.PI/180);
-  var y = rho * Math.cos(theta*Math.PI/180);
-  return new Vector3(x,y,z);
+function pol2car(rho, theta, phi): Vector3 {
+  var x = rho * Math.sin(theta * Math.PI / 180) * Math.cos(phi * Math.PI / 180);
+  var z = rho * Math.sin(theta * Math.PI / 180) * Math.sin(phi * Math.PI / 180);
+  var y = rho * Math.cos(theta * Math.PI / 180);
+  return new Vector3(x, y, z);
 }
 
 //these angles are in radians (NOT degrees)
@@ -45,7 +44,7 @@ function coordinateToSpherical(x: number, y: number, z: number): any {
   return {
     rho: rho,      // distance from origin
     theta: theta,  // polar angle (x)
-    phi: phi       // azimuth angle (y)
+    phi: phi,       // azimuth angle (y)
   };
 }
 
@@ -79,5 +78,5 @@ export {
   getCoordinatePosition,
   clamp,
   car2pol,
-  pol2car
+  pol2car,
 };

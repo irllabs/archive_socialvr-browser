@@ -1,23 +1,19 @@
-import {
-  Component,
-  EventEmitter,
-  NgZone
-} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { Component, NgZone } from '@angular/core';
 
 
 @Component({
   selector: 'room-editor-icon',
   styleUrls: ['./room-editor-icon.scss'],
-  templateUrl: './room-editor-icon.html'
+  templateUrl: './room-editor-icon.html',
 })
 export class RoomEditorIcon {
 
   private inspectorIsVisible = false;
 
   constructor(
-    protected ngZone: NgZone
-  ) {}
+    protected ngZone: NgZone,
+  ) {
+  }
 
   onSelect($event) {
     this.inspectorIsVisible = true;

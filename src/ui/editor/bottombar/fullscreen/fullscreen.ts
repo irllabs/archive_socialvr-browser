@@ -1,16 +1,13 @@
-import {Component, Input} from '@angular/core';
-import {Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
 
-import {EventBus, EventType} from 'ui/common/event-bus';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {Room} from 'data/scene/entities/room';
-import {resizeImage} from 'data/util/imageResizeService';
+import { EventBus } from 'ui/common/event-bus';
 
 @Component({
   selector: 'fullscreen',
   styleUrls: ['./fullscreen.scss'],
-  templateUrl: './fullscreen.html'
+  templateUrl: './fullscreen.html',
 })
 export class Fullscreen {
 
@@ -22,8 +19,9 @@ export class Fullscreen {
   constructor(
     private sceneInteractor: SceneInteractor,
     private eventBus: EventBus,
-    private router: Router
-  ) {}
+    private router: Router,
+  ) {
+  }
 
   private editorIsFlat(): boolean {
     return this.router.url.includes('view:flat');
@@ -40,9 +38,9 @@ export class Fullscreen {
   private onFullscreenClick($event) {
     if (!this.isInFullscreen) {
       if (this.docElm.requestFullscreen) {
-          this.docElm.requestFullscreen();
+        this.docElm.requestFullscreen();
       } else if (this.docElm.webkitRequestFullScreen) {
-          this.docElm.webkitRequestFullScreen();
+        this.docElm.webkitRequestFullScreen();
       }
       /*
       else if (this.docElm.mozRequestFullScreen) {
@@ -51,22 +49,22 @@ export class Fullscreen {
           this.docElm.msRequestFullscreen();
       }
       */
-          this.isInFullscreen = true;
-      } else {
-          if (document.exitFullscreen) {
-              document.exitFullscreen();
-          } else if (document.webkitExitFullscreen) {
-              document.webkitExitFullscreen();
-          }
-          /*
-          else if (document.mozCancelFullScreen) {
-              document.mozCancelFullScreen();
-          } else if (document.msExitFullscreen) {
-              document.msExitFullscreen();
-          }
-          */
-          this.isInFullscreen = false;
+      this.isInFullscreen = true;
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
       }
+      /*
+      else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+      } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+      }
+      */
+      this.isInFullscreen = false;
+    }
   }
 
   private isFullscreen(): boolean {

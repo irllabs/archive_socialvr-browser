@@ -15,7 +15,5 @@ import 'rxjs';
 import 'three';
 import 'three/VRControls';
 import 'three/VREffect';
-
-
- //social media authentication initialization scripts
+//social media authentication initialization scripts
 import './social.ts';

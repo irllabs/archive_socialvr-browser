@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { AssetInteractor } from 'core/asset/assetInteractor';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
 import * as THREE from 'three';
+import { AudioPlayService } from 'ui/editor/preview-space/modules/audioPlayService';
 
 import HotspotEntity from 'ui/editor/preview-space/modules/HotspotEntity';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {AssetInteractor} from 'core/asset/assetInteractor';
-import {AudioPlayService} from 'ui/editor/preview-space/modules/audioPlayService';
-import PlaneResolver from "../planes/plane-resolver";
+import PlaneResolver from '../planes/plane-resolver';
 
 
 @Injectable()
@@ -33,7 +33,7 @@ export class HotspotManager {
       //add to hotspotEntity map
       const plane = PlaneResolver.resolve(roomProperty, camera, this.assetInteractor, {
         audioPlayService: this.audioPlayService,
-        goToRoom: onRoomChange
+        goToRoom: onRoomChange,
       });
       const hotspotEntity = new HotspotEntity(plane);
 

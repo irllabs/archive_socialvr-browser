@@ -20,16 +20,19 @@ $animation-unit: 0.16s;
   transform: translateZ(0);
   animation-delay: -$animation-unit;
 }
+
 .modal__content__loader:before,
 .modal__content__loader:after {
   content: '';
   position: absolute;
   top: 0;
 }
+
 .modal__content__loader:before {
   left: -$loader-dot-buffer;
   animation-delay: -($animation-unit * 2);
 }
+
 .modal__content__loader:after {
   left: $loader-dot-buffer;
 }

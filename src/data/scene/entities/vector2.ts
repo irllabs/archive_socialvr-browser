@@ -1,4 +1,3 @@
-
 const LOCATION_JITTER: number = 10;
 const ROUNDING_BASE: number = 1;
 

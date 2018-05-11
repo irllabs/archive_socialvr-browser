@@ -1,38 +1,28 @@
-import {
-  Component,
-  Input,
-  Output,
-  HostListener,
-  ElementRef,
-  EventEmitter
-} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import { Component, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { VideoInteractor } from 'core/video/VideoInteractor';
+import { Room } from 'data/scene/entities/room';
+import { Universal } from 'data/scene/entities/universal';
+import { Vector2 } from 'data/scene/entities/vector2';
+import { resizeImage } from 'data/util/imageResizeService';
+import { Subscription } from 'rxjs/Subscription';
+import { EventBus, EventType } from 'ui/common/event-bus';
+import { ShareableLoader } from 'ui/common/shareable-loader';
 
-import {EditSpaceSphere} from 'ui/editor/edit-space/edit-space-sphere/edit-space-sphere';
-import {FileLoaderUtil, mimeTypeMap} from 'ui/editor/util/fileLoaderUtil';
-import {EventBus, EventType} from 'ui/common/event-bus';
-import {normalizeAbsolutePosition} from 'ui/editor/util/iconPositionUtil';
-import {SHARED_KEY} from 'ui/editor/util/publicLinkHelper';
-import {ZipFileReader} from 'ui/editor/util/zipFileReader';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {VideoInteractor} from 'core/video/VideoInteractor';
-import {RoomProperty} from 'data/scene/interfaces/RoomProperty';
-import {Audio} from 'data/scene/entities/audio';
-import {Image} from 'data/scene/entities/image';
-import {Universal} from 'data/scene/entities/universal';
-import {Room} from 'data/scene/entities/room';
-import {Vector2} from 'data/scene/entities/vector2';
-import {resizeImage} from 'data/util/imageResizeService';
-import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
-import {ShareableLoader} from 'ui/common/shareable-loader';
-import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
-import {ResponsiveUtil} from 'ui/editor/util/responsiveUtil';
+import { EditSpaceSphere } from 'ui/editor/edit-space/edit-space-sphere/edit-space-sphere';
+import { FileLoaderUtil, mimeTypeMap } from 'ui/editor/util/fileLoaderUtil';
+import { normalizeAbsolutePosition } from 'ui/editor/util/iconPositionUtil';
+import { SHARED_KEY } from 'ui/editor/util/publicLinkHelper';
+import { ResponsiveUtil } from 'ui/editor/util/responsiveUtil';
+import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
+import { ZipFileReader } from 'ui/editor/util/zipFileReader';
 
 @Component({
   selector: 'editor',
   styleUrls: ['./editor.scss'],
-  templateUrl: './editor.html'
+  templateUrl: './editor.html',
 })
 export class Editor {
 
@@ -57,7 +47,7 @@ export class Editor {
     private shareableLoader: ShareableLoader,
     private metaDataInteractor: MetaDataInteractor,
     private element: ElementRef,
-    private responsiveUtil: ResponsiveUtil
+    private responsiveUtil: ResponsiveUtil,
   ) {
   }
 
@@ -67,9 +57,9 @@ export class Editor {
       .filter(value => !!value)
       .subscribe(
         sharableValue => {
-          setTimeout(() => this.shareableLoader.openProject(sharableValue))
+          setTimeout(() => this.shareableLoader.openProject(sharableValue));
         },
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
     this.subscribeToEvents();
   }
@@ -132,7 +122,7 @@ export class Editor {
     const subscription = this.eventBus.getObservable(EventType.HOTSPOT_EDITOR_VISIBILITY)
       .subscribe(
         event => this.hotspotEditorIsOpen = event.isVisible,
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
     this.subscriptions.add(subscription);
   }
@@ -144,7 +134,7 @@ export class Editor {
   private showPreviewCheckbox(): boolean {
     return ((this.roomEditorIsVisible() ||
       this.isPreview()) &&
-      !this.isReadOnly())
+      !this.isReadOnly());
   }
 
   private isFlat(): boolean {
@@ -199,12 +189,12 @@ export class Editor {
   }
 
   private topCenterButtonsClass(): string {
-    console.log("what to do");
+    console.log('what to do');
     if (this.roomEditorIsVisible()
       && this.hasBackgroundImage()) {
-      return "editor_center1";
+      return 'editor_center1';
     } else {
-      return "editor_center";
+      return 'editor_center';
     }
   }
 
@@ -266,7 +256,7 @@ export class Editor {
         this.eventBus.onStopLoading();
         this.eventBus.onModalMessage('error', error);
         console.log(error);
-      })
+      });
   }
 
   private getFileTypeStrategy(fileType: string) {
@@ -331,9 +321,9 @@ export class Editor {
 
               room.setBackgroundVideo('', data.downloadUrl);
             },
-            error => console.log('damn', error)
+            error => console.log('damn', error),
           );
-      }
+      },
 
     };
     return fileTypeStrategy[fileType];
@@ -369,12 +359,12 @@ export class Editor {
   }
 
   private on2dViewClick($event) {
-    this.router.navigate(['/editor', {outlets: {'view': 'flat'}}]);
+    this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
     this.isInFlatMode = true;
   }
 
   private on3dViewClick($event) {
-    this.router.navigate(['editor', {outlets: {'view': 'sphere'}}]);
+    this.router.navigate(['editor', { outlets: { 'view': 'sphere' } }]);
     this.isInFlatMode = false;
   }
 
@@ -383,15 +373,15 @@ export class Editor {
     //this.eventBus.onStartLoading();
     if ($event.value == 1) {
       //console.log('switch to preview');
-      this.router.navigate(['editor', {outlets: {'view': 'preview'}}]);
+      this.router.navigate(['editor', { outlets: { 'view': 'preview' } }]);
     } else {
       if (this.isInFlatMode) {
-        this.router.navigate(['/editor', {outlets: {'view': 'flat'}}]);
+        this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
       } else {
-        this.router.navigate(['/editor', {outlets: {'view': 'sphere'}}]);
+        this.router.navigate(['/editor', { outlets: { 'view': 'sphere' } }]);
       }
     }
-    this.changeEmitter.emit({value: $event.value});
+    this.changeEmitter.emit({ value: $event.value });
   }
 
 }

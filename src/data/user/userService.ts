@@ -1,11 +1,12 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 
 @Injectable()
 export class UserService {
   private user: any = null;
 
-  constructor() {}
+  constructor() {
+  }
 
   authorize(block) {
     const idToken = this.user && this.user.idToken;
@@ -28,11 +29,11 @@ export class UserService {
   }
 
   getUserId(): string {
-    return this.user ? this.user.uid: null;
+    return this.user ? this.user.uid : null;
   }
 
   getUserName(): string {
-    return this.user ? this.user.displayName: null;
+    return this.user ? this.user.displayName : null;
   }
 
   getUserGroups(): string[] {

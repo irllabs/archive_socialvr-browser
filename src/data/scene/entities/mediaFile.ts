@@ -17,7 +17,11 @@ export class MediaFile {
     this.fileName = fileName;
   }
 
-  getBinaryFileData(): any {
+  getBinaryFileData(unsafe: boolean = false): any {
+    if (unsafe && this.binaryFileData && this.binaryFileData.changingThisBreaksApplicationSecurity) {
+      return this.binaryFileData.changingThisBreaksApplicationSecurity;
+    }
+
     return this.binaryFileData;
   }
 

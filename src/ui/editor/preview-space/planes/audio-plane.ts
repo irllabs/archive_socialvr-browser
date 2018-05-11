@@ -1,5 +1,5 @@
-import BasePlane from "./base-plane";
-import {AudioPlayService} from "../modules/audioPlayService";
+import { AudioPlayService } from '../modules/audioPlayService';
+import BasePlane from './base-plane';
 
 
 export default class AudioPlane extends BasePlane {
@@ -17,7 +17,7 @@ export default class AudioPlane extends BasePlane {
   }
 
   public onDeactivated() {
-    if(this.audioBufferSourceNode) {
+    if (this.audioBufferSourceNode) {
       this.audioPlayService.stopPlaying(this.audioBufferSourceNode);
     }
   }

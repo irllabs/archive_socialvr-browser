@@ -1,10 +1,10 @@
-import BasePlane from "./base-plane";
-import * as THREE from "three";
-import {Universal} from "data/scene/entities/universal";
-import {getCoordinatePosition} from "../../util/iconPositionUtil";
-import { getTextureSizeFromText} from "../modules/textMaterialBuilder";
-import {fitToMax} from "data/util/imageResizeService";
-import {AudioPlayService} from "../modules/audioPlayService";
+import { Universal } from 'data/scene/entities/universal';
+import { fitToMax } from 'data/util/imageResizeService';
+import * as THREE from 'three';
+import { getCoordinatePosition } from '../../util/iconPositionUtil';
+import { AudioPlayService } from '../modules/audioPlayService';
+import { getTextureSizeFromText } from '../modules/textMaterialBuilder';
+import BasePlane from './base-plane';
 
 
 export default class UniversalPlane extends BasePlane {
@@ -77,7 +77,7 @@ export default class UniversalPlane extends BasePlane {
 
     texture.needsUpdate = true;
 
-    const material = new THREE.MeshBasicMaterial({map: texture, transparent: true, side:THREE.FrontSide});
+    const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, side: THREE.FrontSide });
 
     // Create Plane Mesh
     const geometryDimensions = fitToMax(width, height, 140);

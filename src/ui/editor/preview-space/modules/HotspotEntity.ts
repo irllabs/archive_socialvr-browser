@@ -1,13 +1,13 @@
 import * as THREE from 'three';
 
-import {THREE_CONST} from 'ui/common/constants';
-import BasePlane from "../planes/base-plane";
+import { THREE_CONST } from 'ui/common/constants';
+import BasePlane from '../planes/base-plane';
 
 
 const STATES = {
   FAR: 1,
   NEAR: 2,
-  ACTIVE: 3
+  ACTIVE: 3,
 };
 
 export default class HotspotEntity {
@@ -36,7 +36,7 @@ export default class HotspotEntity {
   }
 
   private get _currentActivateArea(): number {
-    const activateArea =  THREE_CONST.HOTSPOT_ACTIVE;
+    const activateArea = THREE_CONST.HOTSPOT_ACTIVE;
 
     return activateArea * (this._prevState === STATES.ACTIVE ? 2 : 1);
   }
@@ -110,7 +110,8 @@ export default class HotspotEntity {
     }
 
     this._deactivateAnimation = true;
-    this.plane.deactivate(false).then(() => this._deactivateAnimation = false);;
+    this.plane.deactivate(false).then(() => this._deactivateAnimation = false);
+    ;
   }
 
   public update(reticlePos): void {
@@ -140,7 +141,7 @@ export default class HotspotEntity {
         this.plane.previewIconMesh.scale.set(
           this.scale * previewIconScale,
           this.scale * previewIconScale,
-          1
+          1,
         );
       } else {
         const previewIconScale = (Math.sin(performance.now() * (THREE_CONST.HOTSPOT_MOD_FREQ + this.myWobble)) * THREE_CONST.HOTSPOT_MOD_MAG);
@@ -148,7 +149,7 @@ export default class HotspotEntity {
         this.plane.previewIconMesh.scale.set(
           this.plane.previewIconMesh.scale.x + previewIconScale,
           this.plane.previewIconMesh.scale.y + previewIconScale,
-          1
+          1,
         );
       }
     }

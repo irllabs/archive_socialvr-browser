@@ -1,0 +1,11 @@
+<img
+  *ngIf="project.thumbnailUrl"
+  [attr.src]="url"
+  (click)="openProject(project.storyFileUrl)"
+  class="story-collection__thumbnail"/>
+
+<div
+  *ngIf="project.thumbnailUrl"
+  (click)="openProject(project.storyFileUrl)"
+  class="story-collection__thumbnail search-image-empty">
+</div>

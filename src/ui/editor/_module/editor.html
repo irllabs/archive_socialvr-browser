@@ -1,4 +1,3 @@
-
 <div class="editor">
 
   <!-- Router outlet for edit-space-flat, edit-space-sphere, and preview-space components -->
@@ -12,37 +11,37 @@
     class="editor__topbar">
   </topbar>
 
-<div
-      class="editor_center"
-      [ngClass]="{'editor_center1': !hasBackgroundImage()}">
   <div
-  *ngIf="roomEditorIsVisible()"
-    class="editor__edit2D3DToggle">
-    <p
+    class="editor_center"
+    [ngClass]="{'editor_center1': !hasBackgroundImage()}">
+    <div
       *ngIf="roomEditorIsVisible()"
-      class='topbar__row-label center-panel'>Edit 3D</p>
-    <checkbox
-      *ngIf="roomEditorIsVisible()"
-      [initialValue]="!isInFlatMode"
-      (changeEmitter)="on2d3dViewClick($event)"
-      class="editor__edit2d3dToggleButton">
-    </checkbox>
-  </div>
+      class="editor__edit2D3DToggle">
+      <p
+        *ngIf="roomEditorIsVisible()"
+        class='topbar__row-label center-panel'>Edit 3D</p>
+      <checkbox
+        *ngIf="roomEditorIsVisible()"
+        [initialValue]="!isInFlatMode"
+        (changeEmitter)="on2d3dViewClick($event)"
+        class="editor__edit2d3dToggleButton">
+      </checkbox>
+    </div>
 
-  <div
-    class="editor__editPlayToggle">
-    <p
-      *ngIf="showPreviewCheckbox()"
-      class='topbar__row-label center-panel'>Preview</p>
-    <checkbox
-      *ngIf="showPreviewCheckbox()"
-      [initialValue]="isPreview()"
-      (changeEmitter)="onEditPlayChange($event)"
-      class="editor__editPlayToggleButton">
-    </checkbox>
+    <div
+      class="editor__editPlayToggle">
+      <p
+        *ngIf="showPreviewCheckbox()"
+        class='topbar__row-label center-panel'>Preview</p>
+      <checkbox
+        *ngIf="showPreviewCheckbox()"
+        [initialValue]="isPreview()"
+        (changeEmitter)="onEditPlayChange($event)"
+        class="editor__editPlayToggleButton">
+      </checkbox>
 
+    </div>
   </div>
-</div>
   <hotspot-menu
     *ngIf="hotspotMenuIsVisible()"
     (onMenuChange)="onHotspotMenuChange($event)"
@@ -58,14 +57,14 @@
 
   <!-- Story Map -->
   <story-scroll
-      *ngIf="roomEditorIsVisible()"
-      class="editor__story-scroll">
+    *ngIf="roomEditorIsVisible()"
+    class="editor__story-scroll">
   </story-scroll>
 
   <!-- Fullscreen -->
   <fullscreen
-      *ngIf="roomEditorIsVisible()"
-      class="editor__fullscreen">
+    *ngIf="roomEditorIsVisible()"
+    class="editor__fullscreen">
   </fullscreen>
 
   <modal></modal>

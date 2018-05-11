@@ -1,15 +1,10 @@
-import {Injectable, NgZone, ChangeDetectorRef} from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { Vector2 } from 'data/scene/entities/vector2';
+import { RoomProperty } from 'data/scene/interfaces/roomProperty';
 
-import {Subject} from 'rxjs/Subject';
-import {Subscription} from 'rxjs/Subscription';
-
-import {EventBus, EventType} from 'ui/common/event-bus';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {Room} from 'data/scene/entities/room';
-import {RoomIcon} from 'ui/editor/edit-space/room-icon/room-icon/room-icon';
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
-import {denormalizePosition} from 'ui/editor/util/iconPositionUtil';
-import {Vector2} from 'data/scene/entities/vector2';
+import { EventBus, EventType } from 'ui/common/event-bus';
+import { RoomIcon } from 'ui/editor/edit-space/room-icon/room-icon/room-icon';
 
 const HOTSPOT_DISTANCE_THESH = 80;
 
@@ -22,7 +17,7 @@ export class CombinedHotspotUtil {
   constructor(
     private sceneInteractor: SceneInteractor,
     private ngZone: NgZone,
-    private eventBus: EventBus
+    private eventBus: EventBus,
   ) {
 
     this.eventBus.getObservable(EventType.SELECT_PROPERTY)
@@ -30,7 +25,7 @@ export class CombinedHotspotUtil {
         event => {
           this.activeNeighborId = '';
         },
-        error => console.log('CombinedHotspotUtil.init', error)
+        error => console.log('CombinedHotspotUtil.init', error),
       );
   }
 
@@ -47,7 +42,7 @@ export class CombinedHotspotUtil {
         const screenPosition = roomIcon.getScreenPosition();
         return {
           distance: getDistance(new Vector2(x, y), screenPosition),
-          roomIcon: roomIcon
+          roomIcon: roomIcon,
         };
       })
       .sort((a, b) => a.distance - b.distance)[0];

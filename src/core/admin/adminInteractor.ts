@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { ApiService } from 'data/api/apiService';
 
-import {UserService} from 'data/user/userService';
-import {ApiService} from 'data/api/apiService';
+import { UserService } from 'data/user/userService';
 
 
 @Injectable()
@@ -9,8 +9,9 @@ export class AdminInteractor {
 
   constructor(
     private userService: UserService,
-    private apiService: ApiService
-  ) {}
+    private apiService: ApiService,
+  ) {
+  }
 
   isAdmin(): boolean {
     return !!this.userService.getAdminGroups().length;

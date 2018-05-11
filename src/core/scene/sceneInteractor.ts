@@ -1,18 +1,18 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { AssetManager } from 'data/asset/assetManager';
 
-import {Audio} from 'data/scene/entities/audio';
-import {Video} from 'data/scene/entities/video';
-import {Universal} from 'data/scene/entities/universal';
-import {Image} from 'data/scene/entities/image';
-import {Text} from 'data/scene/entities/text';
-import {Door} from 'data/scene/entities/door';
-import {Room} from 'data/scene/entities/room';
-import {Link} from 'data/scene/entities/link';
+import { Audio } from 'data/scene/entities/audio';
+import { Door } from 'data/scene/entities/door';
+import { Image } from 'data/scene/entities/image';
+import { Link } from 'data/scene/entities/link';
+import { Room } from 'data/scene/entities/room';
+import { Text } from 'data/scene/entities/text';
+import { Universal } from 'data/scene/entities/universal';
+import { Video } from 'data/scene/entities/video';
+import { RoomProperty } from 'data/scene/interfaces/roomProperty';
 
-import {RoomManager} from 'data/scene/roomManager';
-import {PropertyBuilder} from 'data/scene/roomPropertyBuilder';
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
-import {AssetManager} from 'data/asset/assetManager';
+import { RoomManager } from 'data/scene/roomManager';
+import { PropertyBuilder } from 'data/scene/roomPropertyBuilder';
 
 @Injectable()
 export class SceneInteractor {
@@ -22,7 +22,7 @@ export class SceneInteractor {
   constructor(
     private roomManager: RoomManager,
     private propertyBuilder: PropertyBuilder,
-    private assetManager: AssetManager
+    private assetManager: AssetManager,
   ) {
     if (!this.getRoomIds().length) {
       this.addRoom();
@@ -60,7 +60,7 @@ export class SceneInteractor {
       .map(room => room.getDoors())
       .reduce((aggregateList, doorSet) => {
         return aggregateList.concat(
-          Array.from(doorSet).filter(door => door.getRoomId() === roomId)
+          Array.from(doorSet).filter(door => door.getRoomId() === roomId),
         );
       }, new Array<Door>())
       .forEach(door => door.reset());
@@ -92,7 +92,7 @@ export class SceneInteractor {
       ...Array.from(room.getUniversal()),
       ...Array.from(room.getImages()),
       ...Array.from(room.getDoors()),
-      ...Array.from(room.getLink())
+      ...Array.from(room.getLink()),
     ]
       .sort((a, b) => a.getTimestamp() - b.getTimestamp());
   }

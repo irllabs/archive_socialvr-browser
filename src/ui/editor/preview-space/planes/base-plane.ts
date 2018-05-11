@@ -72,7 +72,7 @@ export default class BasePlane {
     const iconMaterial = new THREE.MeshBasicMaterial({
       map: iconTexture,
       transparent: true,
-      side: THREE.FrontSide
+      side: THREE.FrontSide,
     });
 
     this.iconMesh = new THREE.Mesh(iconGeometry, iconMaterial);
@@ -86,7 +86,7 @@ export default class BasePlane {
     const iconPreviewMaterial = new THREE.MeshBasicMaterial({
       map: iconPreviewTexture,
       transparent: true,
-      side: THREE.FrontSide
+      side: THREE.FrontSide,
     });
 
     this.previewIconMesh = new THREE.Mesh(previewIconGeometry, iconPreviewMaterial);
@@ -103,9 +103,9 @@ export default class BasePlane {
       bevelEnabled: false,
       bevelThickness: 4,
       bevelSize: 8,
-      bevelSegments: 5
+      bevelSegments: 5,
     };
-    const labelMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
+    const labelMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
     const labelGeometry = new THREE.TextGeometry(this.prop.getName(), fontProperties);
 
     labelGeometry.computeBoundingBox();
@@ -128,7 +128,7 @@ export default class BasePlane {
           .to({
             x: THREE_CONST.TWEEN_PLANE_SCALE,
             y: THREE_CONST.TWEEN_PLANE_SCALE,
-            z: 1
+            z: 1,
           }, duration)
           .easing(TWEEN.Easing.Linear.None)
           .onComplete(() => {
@@ -146,7 +146,7 @@ export default class BasePlane {
     return new Promise((resolve) => {
       if (this.hasPlaneMesh) {
         this._tweenDeactivate = new TWEEN.Tween(this.planeMesh.scale)
-          .to({x: .001, y: .001, z: 1}, THREE_CONST.TWEEN_PLANE_OUT)
+          .to({ x: .001, y: .001, z: 1 }, THREE_CONST.TWEEN_PLANE_OUT)
           .easing(TWEEN.Easing.Linear.None)
           .onComplete(() => {
             TWEEN.remove(this._tweenDeactivate);
@@ -165,7 +165,7 @@ export default class BasePlane {
 
     return new Promise((resolve) => {
       this._tweenIconActivate = new TWEEN.Tween(this.iconMesh.material)
-        .to({opacity: 0}, duration)
+        .to({ opacity: 0 }, duration)
         .easing(TWEEN.Easing.Linear.None)
         .onComplete(() => {
           TWEEN.remove(this._tweenIconActivate);
@@ -185,7 +185,7 @@ export default class BasePlane {
   protected _animateIconDeactivate() {
     return new Promise((resolve) => {
       this._tweenIconDeactivate = new TWEEN.Tween(this.iconMesh.material)
-        .to({opacity: 1}, THREE_CONST.TWEEN_ICON_IN)
+        .to({ opacity: 1 }, THREE_CONST.TWEEN_ICON_IN)
         .easing(TWEEN.Easing.Linear.None)
         .onComplete(() => {
           TWEEN.remove(this._tweenIconDeactivate);
@@ -299,7 +299,7 @@ export default class BasePlane {
         .to({
           x: 1,
           y: 1,
-          z: 1
+          z: 1,
         }, THREE_CONST.TWEEN_ICON_IN)
         .easing(TWEEN.Easing.Linear.None)
         .onComplete(() => {
@@ -309,7 +309,7 @@ export default class BasePlane {
 
       this._tweenIconOut = new TWEEN.Tween(this.iconMesh.material)
         .to({
-          opacity: 0
+          opacity: 0,
         }, THREE_CONST.TWEEN_ICON_OUT)
         .easing(TWEEN.Easing.Linear.None)
         .onComplete(() => {
@@ -328,7 +328,7 @@ export default class BasePlane {
         .to({
           x: 0.001,
           y: 0.001,
-          z: 0.001
+          z: 0.001,
         }, THREE_CONST.TWEEN_ICON_OUT)
         .easing(TWEEN.Easing.Linear.None)
         .onComplete(() => {
@@ -340,7 +340,7 @@ export default class BasePlane {
       this.iconMesh.visible = true;
       this._tweenIconIn = new TWEEN.Tween(this.iconMesh.material)
         .to({
-          opacity: 1
+          opacity: 1,
         }, THREE_CONST.TWEEN_ICON_IN)
         .easing(TWEEN.Easing.Linear.None)
         .onComplete(() => {

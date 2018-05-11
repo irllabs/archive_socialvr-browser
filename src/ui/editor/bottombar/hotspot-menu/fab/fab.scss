@@ -8,8 +8,8 @@ $center-position: $diameter / 2 - $bar-height / 2;
 $bar-margin: ($diameter - $bar-width) / 2;
 
 .fab {
-	width: $diameter;
-	height: $diameter;
+  width: $diameter;
+  height: $diameter;
   border-radius: 50%;
   background-color: $color-white;
   position: relative;
@@ -47,8 +47,6 @@ $bar-margin: ($diameter - $bar-width) / 2;
 .fab :nth-child(2) {
   transform: rotate(90deg);
 }
-
-
 
 .fab--open :nth-child(1) {
   transform: rotate(45deg);

@@ -1,23 +1,17 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import * as QRCode from 'qrcode';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ProjectInteractor } from 'core/project/projectInteractor';
+import { UserInteractor } from 'core/user/userInteractor';
 
-import {ApiService} from 'data/api/apiService';
-import {getShareableLink} from 'ui/editor/util/publicLinkHelper';
-import {copyToClipboard} from 'ui/editor/util/clipboard';
-import {ProjectInteractor} from 'core/project/projectInteractor';
-import {UserInteractor} from 'core/user/userInteractor';
+import { ApiService } from 'data/api/apiService';
+import * as QRCode from 'qrcode';
+import { Observable } from 'rxjs/Observable';
+import { copyToClipboard } from 'ui/editor/util/clipboard';
+import { getShareableLink } from 'ui/editor/util/publicLinkHelper';
 
 @Component({
   selector: 'shareable-modal',
   styleUrls: ['./shareable-modal.scss'],
-  templateUrl: './shareable-modal.html'
+  templateUrl: './shareable-modal.html',
 })
 export class ShareableModal {
 
@@ -33,60 +27,64 @@ export class ShareableModal {
     private projectInteractor: ProjectInteractor,
     private userInteractor: UserInteractor,
     private apiService: ApiService,
-  ) {}
+  ) {
+  }
 
 
   ngOnInit() {
-    const userId = this.shareableData.userId;
     const projectId = this.shareableData.projectId;
-    this.projectInteractor.getProjectData(userId, projectId)
-      // Update fields from response
+
+    this.projectInteractor.getProjectData(projectId)
       .map(
-        response => {
-          const publicLink = getShareableLink(response.public_url);
-          this.isPublic = response.is_public;
+        (response) => {
+          const publicLink = getShareableLink(response.storyFileUrl);
+
+          this.isPublic = response.isPublic;
           this.projectName = response.name;
-          return this.isPublic ? publicLink : null
-        }
+
+          return this.isPublic ? publicLink : null;
+        },
       )
       // Pipe to Google API to shorten
       .flatMap(
-        publicLink => publicLink ? this.apiService.getShortenedUrl(publicLink) : Observable.empty()
+        publicLink => publicLink ? this.apiService.getShortenedUrl(publicLink) : Observable.empty(),
       )
       .subscribe(
-        shortenedUrl => {
+        (shortenedUrl) => {
           this.publicLink = shortenedUrl;
           this.setQRCode(this.publicLink);
         },
         error => console.error('getShortUrl error', error),
-      )
+      );
   }
 
-  private closeModal($event, isAccepted: boolean) {
-    this.onClose.emit({isAccepted});
+  public closeModal($event, isAccepted: boolean) {
+    this.onClose.emit({ isAccepted });
   }
 
-  private projectIsPublic(): boolean {
+  public projectIsPublic(): boolean {
     return this.isPublic;
   }
 
-  private onCheckboxChange() {
-    const userId = this.shareableData.userId;
+  public onCheckboxChange() {
     const projectId = this.shareableData.projectId;
+
     this.isPublic = !this.isPublic;
-    this.projectInteractor.updateSharableStatus(userId, projectId, this.isPublic)
-      // Update fields from response
-      .map(response => {
-        const publicLink = getShareableLink(response.public_url);
-        this.isPublic = response.is_public
-        return this.isPublic ? publicLink : null
+
+    this.projectInteractor.updateSharableStatus(projectId, this.isPublic)
+      .map((response) => {
+        const publicLink = getShareableLink(response.storyFileUrl);
+
+        this.isPublic = response.isPublic;
+
+        return this.isPublic ? publicLink : null;
       })
       // Pipe to Google API to shorten
       .flatMap(
-        publicLink => publicLink ? this.apiService.getShortenedUrl(publicLink) : Observable.empty()
+        publicLink => publicLink ? this.apiService.getShortenedUrl(publicLink) : Observable.empty(),
       )
       .subscribe(
-        shortenedUrl => {
+        (shortenedUrl) => {
           this.publicLink = shortenedUrl;
           this.setQRCode(this.publicLink);
         },
@@ -98,15 +96,13 @@ export class ShareableModal {
     QRCode.toCanvas(
       this.qrCodeElem.nativeElement,
       link,
-      (error) => error ? console.error(error) : console.log('generated QR')
+      (error) => error ? console.error(error) : console.log('generated QR'),
     );
   }
 
-  onPublicLinkClick($event) {
-    copyToClipboard(this.publicLink);
-
+  onPublicLinkClick() {
     copyToClipboard(this.publicLink)
-      .then(copiedText => {
+      .then(() => {
         this.notificationIsVisible = true;
         setTimeout(() => this.notificationIsVisible = false, 2000);
       })

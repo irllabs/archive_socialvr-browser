@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import * as THREE from 'three';
+import { Injectable } from '@angular/core';
+import { ChatInteractor } from 'core/chat/chatInteractor';
 
-import {ProjectInteractor} from 'core/project/projectInteractor';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {ChatInteractor} from 'core/chat/chatInteractor';
-import {EventBus} from 'ui/common/event-bus';
+import { ProjectInteractor } from 'core/project/projectInteractor';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { Observable } from 'rxjs/Observable';
+import * as THREE from 'three';
+import { EventBus } from 'ui/common/event-bus';
 
 @Injectable()
 export class MultiViewService {
@@ -19,8 +19,9 @@ export class MultiViewService {
     private eventBus: EventBus,
     private projectInteractor: ProjectInteractor,
     private chatInteractor: ChatInteractor,
-    private sceneInteractor: SceneInteractor
-  ) {}
+    private sceneInteractor: SceneInteractor,
+  ) {
+  }
 
   initBeachBalls(scene: THREE.Scene, colorBallTexture: THREE.Texture) {
     const cbGeometry = new THREE.SphereGeometry(5, 32, 32);
@@ -29,7 +30,7 @@ export class MultiViewService {
     colorBallTexture.wrapT = THREE.RepeatWrapping;
     colorBallTexture.offset.set(0, 0);
     colorBallTexture.repeat.set(2, 1);
-    const cbMaterial = new THREE.MeshBasicMaterial({map: colorBallTexture, side: THREE.FrontSide});
+    const cbMaterial = new THREE.MeshBasicMaterial({ map: colorBallTexture, side: THREE.FrontSide });
     const cbMesh = new THREE.Mesh(cbGeometry, cbMaterial);
     // this.colorBallMesh = cbMesh;
 
@@ -60,7 +61,7 @@ export class MultiViewService {
     const userHasData = user.lookingAt.x && user.lookingAt.y && user.lookingAt.z;
     if (this.testMultiViewPosition.has(index) && userHasData) {
       this.testMultiViewPosition.get(index).position.set(
-        user.lookingAt.x, user.lookingAt.y, user.lookingAt.z
+        user.lookingAt.x, user.lookingAt.y, user.lookingAt.z,
       );
     }
   }
@@ -81,10 +82,10 @@ export class MultiViewService {
     // if current project !== multiview project, open project and join chatroom
 
     this.joinMultiView();
-      // .switchMap(chatRoomId => this.joinMultiView(chatRoomId));
+    // .switchMap(chatRoomId => this.joinMultiView(chatRoomId));
     // const chatAddress = `/chatrooms/${this.chatRoomId}/`;
-    return this.openProject(userId, projectId);
-      // .then(() => this.chatInteractor.observeRoom(chatAddress));
+    return this.openProject(projectId);
+    // .then(() => this.chatInteractor.observeRoom(chatAddress));
   }
 
   setLookAt(x: number, y: number, z: number) {
@@ -100,12 +101,12 @@ export class MultiViewService {
   }
 
   // TODO: refactor into different service
-  private openProject(userId: string, projectId: string): Promise<any> {
+  private openProject(projectId: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.eventBus.onStartLoading();
-      this.projectInteractor.openProject(userId, projectId)
+      this.projectInteractor.openProject(projectId)
         .subscribe(
-          response => {
+          () => {
             //reset the current scene
             this.sceneInteractor.setActiveRoomId(null);
             this.eventBus.onSelectRoom(null, false);
@@ -113,7 +114,7 @@ export class MultiViewService {
             resolve();
           },
           error => reject(error),
-          () => this.eventBus.onStopLoading()
+          () => this.eventBus.onStopLoading(),
         );
     });
   }
@@ -122,7 +123,7 @@ export class MultiViewService {
     this.chatInteractor.joinRoom(this.chatRoomId)
       .subscribe(
         success => console.log('joined Room', success),
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
   }
 

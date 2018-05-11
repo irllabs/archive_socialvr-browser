@@ -1,7 +1,7 @@
-import {BaseElement} from 'data/scene/entities/baseElement';
-import {MediaFile} from "./mediaFile";
-import {DEFAULT_VOLUME} from 'ui/common/constants';
-import {DEFAULT_FILE_NAME} from "../../../ui/common/constants";
+import { BaseElement } from 'data/scene/entities/baseElement';
+import { DEFAULT_VOLUME } from 'ui/common/constants';
+import { DEFAULT_FILE_NAME } from '../../../ui/common/constants';
+import { MediaFile } from './mediaFile';
 
 
 export class Universal extends BaseElement {
@@ -16,7 +16,7 @@ export class Universal extends BaseElement {
   }
 
   get textContent(): string {
-    return this._textContent
+    return this._textContent;
   }
 
   set textContent(content: string) {
@@ -95,7 +95,7 @@ export class Universal extends BaseElement {
       text: this._textContent,
       loop: this._loop,
       volume: this._volume,
-      size: '<2,1>' //TODO: get requirements for size vector
+      size: '<2,1>', //TODO: get requirements for size vector
     });
   }
 }

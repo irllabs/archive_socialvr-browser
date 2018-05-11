@@ -1,18 +1,18 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AdminInteractor } from 'core/admin/adminInteractor';
+import { ProjectInteractor } from 'core/project/projectInteractor';
+import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { UserInteractor } from 'core/user/userInteractor';
+import { ERROR_OPENING_PROJECT, GROUP_TYPE, SERVER_ERROR } from 'ui/common/constants';
 
-import {EventBus} from 'ui/common/event-bus';
-import {UserInteractor} from 'core/user/userInteractor';
-import {AdminInteractor} from 'core/admin/adminInteractor';
-import {ProjectInteractor} from 'core/project/projectInteractor';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
-import {ERROR_OPENING_PROJECT, FORMAT_ERROR, SERVER_ERROR, GROUP_TYPE} from 'ui/common/constants';
+import { EventBus } from 'ui/common/event-bus';
 
 @Component({
   selector: 'admin-user-groups',
   styleUrls: ['./admin-user-groups.scss'],
-  templateUrl: './admin-user-groups.html'
+  templateUrl: './admin-user-groups.html',
 })
 export class AdminUserGroups {
 
@@ -25,8 +25,9 @@ export class AdminUserGroups {
     private sceneInteractor: SceneInteractor,
     private metaDataInteractor: MetaDataInteractor,
     private router: Router,
-    private eventBus: EventBus
-  ) {}
+    private eventBus: EventBus,
+  ) {
+  }
 
   ngAfterViewInit() {
     if (!this.hasPermission()) {
@@ -46,23 +47,22 @@ export class AdminUserGroups {
   }
 
   private openProject(project) {
-    const userId = project.userId;
     const projectId = project.projectId;
 
     this.eventBus.onStartLoading();
-    this.projectInteractor.openProject(userId, projectId)
+    this.projectInteractor.openProject(projectId)
       .subscribe(
-        response => {
+        () => {
           this.sceneInteractor.setActiveRoomId(null);
           this.eventBus.onSelectRoom(null, false);
           this.eventBus.onStopLoading();
           this.metaDataInteractor.setIsReadOnly(true);
           this.router.navigateByUrl('/editor');
         },
-        error => {
+        () => {
           this.eventBus.onStopLoading();
           this.eventBus.onModalMessage(ERROR_OPENING_PROJECT, SERVER_ERROR);
-        }
+        },
       );
   }
 
@@ -70,7 +70,7 @@ export class AdminUserGroups {
     return this.adminInteractor.getAllProjectsInGroup(groupId)
       .subscribe(
         projectList => this.projects[groupId] = projectList.results,
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
   }
 
@@ -88,7 +88,7 @@ export class AdminUserGroups {
     this.adminInteractor.setProjectInGroup(groupId, projectId, $event.value, GROUP_TYPE.FEATURED)
       .subscribe(
         response => project.isFeatured = $event.value,
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
   }
 
@@ -97,9 +97,9 @@ export class AdminUserGroups {
       .subscribe(
         response => {
           this.projects[groupId].external_projects = this.projects[groupId].external_projects
-            .filter(project => project.projectId !== projectId)
+            .filter(project => project.projectId !== projectId);
         },
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
   }
 

@@ -1,22 +1,21 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import {EventBus} from 'ui/common/event-bus';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
 
-import {SceneInteractor} from 'core/scene/sceneInteractor';
+import { Audio } from 'data/scene/entities/audio';
+import { Door } from 'data/scene/entities/door';
+import { Image } from 'data/scene/entities/image';
+import { Link } from 'data/scene/entities/link';
+import { Text } from 'data/scene/entities/text';
+import { Universal } from 'data/scene/entities/universal';
+import { Video } from 'data/scene/entities/video';
 
-import {Audio} from 'data/scene/entities/audio';
-import {Video} from 'data/scene/entities/video';
-import {Universal} from 'data/scene/entities/universal';
-import {Image} from 'data/scene/entities/image';
-import {Text} from 'data/scene/entities/text';
-import {Door} from 'data/scene/entities/door';
-import {Link} from 'data/scene/entities/link';
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
+import { EventBus } from 'ui/common/event-bus';
 
 @Component({
   selector: 'action-menu',
   styleUrls: ['./action-menu.scss'],
-  templateUrl: './action-menu.html'
+  templateUrl: './action-menu.html',
 })
 export class ActionMenu {
 
@@ -24,8 +23,9 @@ export class ActionMenu {
 
   constructor(
     private sceneInteractor: SceneInteractor,
-    private eventBus: EventBus
-  ) {}
+    private eventBus: EventBus,
+  ) {
+  }
 
   addText($event) {
     const activeRoomId: string = this.sceneInteractor.getActiveRoomId();

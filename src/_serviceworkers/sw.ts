@@ -1,5 +1,4 @@
 import cacheList from './cache-list';
-import {ICON_PATH} from 'ui/common/constants';
 
 const swVersion = '001'; // TODO: generate dynamically
 const CACHE_NAME = `svr-sw-${swVersion}`;
@@ -14,7 +13,7 @@ self.addEventListener('install', $event => {
   (<any>$event).waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(cacheList))
-      .catch(error => console.log('error', error))
+      .catch(error => console.log('error', error)),
   );
 });
 
@@ -26,6 +25,6 @@ self.addEventListener('fetch', $event => {
   (<any>$event).respondWith(
     caches.match((<any>$event).request)
       .then(response => response ? response : fetch(request))
-      .catch(error => console.log('fetch error', error))
+      .catch(error => console.log('fetch error', error)),
   );
 });

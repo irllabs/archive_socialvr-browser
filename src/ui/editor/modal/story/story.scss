@@ -1,10 +1,9 @@
 @import '../../../_styles/variables';
 @import '../../../_module/ui';
 
-
 .story__soundtrack__upload-button {
-	width:100%;
-	box-sizing: border-box;
+  width: 100%;
+  box-sizing: border-box;
 
 }
 
@@ -14,7 +13,7 @@
   text-align: center;
   padding: 10px 0;
   cursor: pointer;
-	width: 100%;
+  width: 100%;
 }
 
 .story__soundtrack__audio-player {

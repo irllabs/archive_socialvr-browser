@@ -1,11 +1,11 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import {Link} from 'data/scene/entities/link';
+import { Link } from 'data/scene/entities/link';
 
 @Component({
   selector: 'link-editor',
   styleUrls: ['./link-editor.scss'],
-  templateUrl: './link-editor.html'
+  templateUrl: './link-editor.html',
 })
 export class LinkEditor {
 
@@ -16,11 +16,11 @@ export class LinkEditor {
   }
 
   private onLinkClick() {
-  	let url: string = this.linkProperty.body;
-	if (!/^http[s]?:\/\//.test(url)) {
-	    url = 'http://' + url;
-	}
-	window.open(url, '_blank');
+    let url: string = this.linkProperty.body;
+    if (!/^http[s]?:\/\//.test(url)) {
+      url = 'http://' + url;
+    }
+    window.open(url, '_blank');
   }
 
 }

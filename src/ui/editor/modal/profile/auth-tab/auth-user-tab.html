@@ -1,6 +1,6 @@
 <div class="modal-window__fields">
   <div class="dropdown-title">
-      <p>Hello {{getUserName()}}!</p>
+    <p>Hello {{getUserName()}}!</p>
   </div>
 
   <div
@@ -74,26 +74,27 @@
   </div>
   <!-- Logout and Explore buttons -->
 
-<div class="button_row">
-  <div
-    (click)="onExploreClick($event)"
-    title="Click to explore other Social VR projects"
-    class="button">
-    Explore</div>
+  <div class="button_row">
+    <div
+      (click)="onExploreClick($event)"
+      title="Click to explore other Social VR projects"
+      class="button">
+      Explore
+    </div>
 
-  <div
-    class="button"
-    title="Click to add a room to current story"
-    (click)="onLogOutClick($event)">
-    Sign Out
-  </div>
+    <div
+      class="button"
+      title="Click to add a room to current story"
+      (click)="onLogOutClick($event)">
+      Sign Out
+    </div>
 
-  <div
-    *ngIf="userIsAdmin()"
-    (click)="onAdminClick($event)"
-    title="Click to administer your groups"
-    class="button">
-    Admin
-  </div>
+    <div
+      *ngIf="userIsAdmin()"
+      (click)="onAdminClick($event)"
+      title="Click to administer your groups"
+      class="button">
+      Admin
+    </div>
   </div>
 </div>

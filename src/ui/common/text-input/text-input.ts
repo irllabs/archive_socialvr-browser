@@ -1,10 +1,10 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 
 @Component({
   selector: 'text-input',
   styleUrls: ['./text-input.scss'],
-  templateUrl: './text-input.html'
+  templateUrl: './text-input.html',
 })
 export class TextInput {
 
@@ -17,7 +17,7 @@ export class TextInput {
 
   private onModelChange($event) {
     this.onTextChange.emit({
-      text: $event
+      text: $event,
     });
   }
 

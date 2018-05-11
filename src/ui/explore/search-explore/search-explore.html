@@ -45,19 +45,10 @@
       </p>
       <p>
         <span class="text-bold">Tags: </span>
-        <span>{{ project.tags }}</span>
+        <span>{{ project.tagsString }}</span>
       </p>
 
-      <img
-        *ngIf="project.thumbnailUrl"
-        [attr.src]="project.thumbnailUrl"
-        (click)="openProject(project.projectUrl)"
-        class="story-collection__thumbnail" />
-      <div
-        *ngIf="!project.thumbnailUrl"
-        (click)="openProject(project.projectUrl)"
-        class="story-collection__thumbnail search-image-empty">
-      </div>
+      <project-thumbnail [project]="project"></project-thumbnail>
     </div>
   </div>
 

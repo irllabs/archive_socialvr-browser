@@ -4,7 +4,7 @@
 
 // FONTS //
 $font-family-header: "Montserrat", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-$font-family:  'Nunito Sans', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family: 'Nunito Sans', "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $base-font-size: 16px;
 $header-font-size: 20px;
 $tiny-font-size: 0.8em;
@@ -46,7 +46,7 @@ $color-grey-light-R: 238;
 $color-grey-light-G: 238;
 $color-grey-light-B: 238;
 $color-pink: #FF3571; // 255, 53, 113
-$color-pink-dark: #AD0034;  //173, 0, 52
+$color-pink-dark: #AD0034; //173, 0, 52
 $color-pink-light: #FF87AA; //255, 135, 170
 
 $color-primary: $color-grey-light;
@@ -69,7 +69,7 @@ $icon-hotspot-image: url('assets/icons/icon-image.png'); // image_filled.png
 $icon-hotspot-image-text: url('assets/icons/icon-image-text.png');
 $icon-hotspot-image-audio: url('assets/icons/icon-image-audio.png');
 $icon-hotspot-image-text-audio: url('assets/icons/icon-image-text-audio.png');
-$icon-hotspot-video: url('assets/icons/icon-video.png');  // video_filled.png
+$icon-hotspot-video: url('assets/icons/icon-video.png'); // video_filled.png
 $icon-hotspot-video-text: url('assets/icons/icon-video-text.png');
 $icon-hotspot-universal: url('assets/icons/icon-add.png'); // universal_filled.png
 $icon-hotspot-text: url('assets/icons/icon-text.png'); // text_filled.png
@@ -115,7 +115,6 @@ $story-scroll-width: 600px;
 $story-scroll-height: 100px;
 $room-icon-thumbnail-width: 120px;
 $room-icon-thumbnail-height: 80px;
-
 
 // BREAKPOINTS //
 $breakpoint-small: 446px;

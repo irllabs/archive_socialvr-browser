@@ -1,25 +1,26 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {RoomPropertyTypeService} from 'ui/editor/util/roomPropertyTypeService';
-import {EventBus} from 'ui/common/event-bus';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { Audio } from 'data/scene/entities/audio';
+import { Door } from 'data/scene/entities/door';
+import { Image } from 'data/scene/entities/image';
+import { Link } from 'data/scene/entities/link';
 
-import {Text} from 'data/scene/entities/text';
-import {Video} from 'data/scene/entities/video';
-import {Audio} from 'data/scene/entities/audio';
-import {Image} from 'data/scene/entities/image';
-import {Door} from 'data/scene/entities/door';
-import {Link} from 'data/scene/entities/link';
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
-import {Universal} from "data/scene/entities/universal";
+import { Text } from 'data/scene/entities/text';
+import { Universal } from 'data/scene/entities/universal';
+import { Video } from 'data/scene/entities/video';
+import { RoomProperty } from 'data/scene/interfaces/roomProperty';
+import { EventBus } from 'ui/common/event-bus';
+import { RoomPropertyTypeService } from 'ui/editor/util/roomPropertyTypeService';
 
 @Injectable()
 export class PropertyRemovalService {
 
   constructor(
     private sceneInteractor: SceneInteractor,
-    private eventBus: EventBus
-  ) {}
+    private eventBus: EventBus,
+  ) {
+  }
 
   removeProperty(roomProperty: RoomProperty) {
     const propertyType: string = RoomPropertyTypeService.getTypeString(roomProperty);

@@ -1,17 +1,10 @@
-import {
-  Directive,
-  EventEmitter,
-  ElementRef,
-  HostListener,
-  Output,
-  Input
-} from '@angular/core';
+import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
-import {EventBus} from 'ui/common/event-bus';
-import {FileLoaderUtil} from 'ui/editor/util/fileLoaderUtil';
+import { EventBus } from 'ui/common/event-bus';
+import { FileLoaderUtil } from 'ui/editor/util/fileLoaderUtil';
 
 @Directive({
-  selector: '[droppable]'
+  selector: '[droppable]',
 })
 export class Droppable {
 
@@ -27,8 +20,9 @@ export class Droppable {
 
   constructor(
     private eventBus: EventBus,
-    private fileLoaderUtil: FileLoaderUtil
-  ) {}
+    private fileLoaderUtil: FileLoaderUtil,
+  ) {
+  }
 
   @HostListener('dragover', ['$event'])
   onDragOver(event) {
@@ -43,7 +37,7 @@ export class Droppable {
 
     if (this.acceptMultpleFiles) {
       this.onFileLoad.emit({
-        files: event.dataTransfer.files
+        files: event.dataTransfer.files,
       });
       return;
     }
@@ -63,7 +57,7 @@ export class Droppable {
       .then(fileData => {
         this.onFileLoad.emit({
           binaryFileData: fileData,
-          file: file
+          file: file,
         });
       })
       .catch(error => this.eventBus.onModalMessage('Error', error));

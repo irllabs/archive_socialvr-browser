@@ -1,6 +1,5 @@
 @import '../../../../_styles/variables';
 
-
 .user-view__project-list-header {
   font-weight: bold;
   color: $color-grey-dark;
@@ -20,7 +19,7 @@
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
-margin-top: 8px;
+  margin-top: 8px;
   border-bottom: 1px solid $color-grey-dark;
   padding-bottom: 8px;
 }

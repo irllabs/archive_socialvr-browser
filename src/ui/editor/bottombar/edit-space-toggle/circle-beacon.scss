@@ -11,17 +11,17 @@
   left: -2px;
   border-radius: 50%;
   border: 2px solid $color-action;
- }
+}
 
 .circle-beacon:before {
   animation: ripple 1.5s linear infinite;
 }
+
 .circle-beacon:after {
   animation: ripple 1.5s linear 1s infinite;
 }
 
-
-@keyframes ripple{
+@keyframes ripple {
   0% {
     transform: scale(1);
     opacity: 0;

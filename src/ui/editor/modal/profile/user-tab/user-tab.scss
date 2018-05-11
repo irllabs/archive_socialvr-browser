@@ -2,15 +2,15 @@
 
 // TODO: mixin or variable
 .profile {
-	width: 95%;
-	height: 95%;
-	position: fixed;
+  width: 95%;
+  height: 95%;
+  position: fixed;
   top: 50%;
   left: 50%;
   border-radius: $window-border-radius;
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
-	background-color: rgba(255, 255, 255, $color-modal-transparecy);
+  background-color: rgba(255, 255, 255, $color-modal-transparecy);
 }
 
 .user-view {

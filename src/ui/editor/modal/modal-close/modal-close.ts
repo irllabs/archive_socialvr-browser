@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'modal-close',
@@ -8,10 +8,11 @@ import {Router} from '@angular/router';
 })
 export class ModalClose {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   private onClose($event) {
-    this.router.navigate(['/editor', {outlets: {'modal': ''}}]);
+    this.router.navigate(['/editor', { outlets: { 'modal': '' } }]);
   }
 
 }

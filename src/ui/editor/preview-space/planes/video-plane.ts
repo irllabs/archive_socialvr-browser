@@ -1,9 +1,9 @@
-import BasePlane from "./base-plane";
-import * as THREE from "three";
-import {Video} from "data/scene/entities/video";
-import {getCoordinatePosition} from "../../util/iconPositionUtil";
-import {fitToMax} from "data/util/imageResizeService";
-import {buildMaterialFromText} from "../modules/textMaterialBuilder";
+import { Video } from 'data/scene/entities/video';
+import { fitToMax } from 'data/util/imageResizeService';
+import * as THREE from 'three';
+import { getCoordinatePosition } from '../../util/iconPositionUtil';
+import { buildMaterialFromText } from '../modules/textMaterialBuilder';
+import BasePlane from './base-plane';
 
 export default class VideoPlane extends BasePlane {
   private _texture: THREE.CanvasTexture;
@@ -38,7 +38,7 @@ export default class VideoPlane extends BasePlane {
       const geometryDimensions = fitToMax(480, 360, 140);
       const imageGeometry = new THREE.PlaneGeometry(geometryDimensions.getX(), geometryDimensions.getY());
       const imageMaterial = new THREE.MeshBasicMaterial({
-        map: videoTexture
+        map: videoTexture,
       });
       const imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
 
@@ -64,7 +64,7 @@ export default class VideoPlane extends BasePlane {
     textMesh.material['opacity'] = 1;
     textMesh.scale.set(VideoPlane.SCALE, VideoPlane.SCALE, VideoPlane.SCALE);
 
-    return textMesh
+    return textMesh;
   }
 
   private getVideoElement(videoUrl: string): HTMLVideoElement {

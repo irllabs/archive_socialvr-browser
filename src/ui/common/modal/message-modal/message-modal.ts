@@ -1,9 +1,9 @@
-import {Component, EventEmitter, Output, Input} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'message-modal',
   styleUrls: ['./message-modal.scss'],
-  templateUrl: './message-modal.html'
+  templateUrl: './message-modal.html',
 })
 export class MessageModal {
 
@@ -11,7 +11,7 @@ export class MessageModal {
   @Input() messageData;
 
   private closeModal($event, isAccepted: boolean) {
-    this.onClose.emit({isAccepted});
+    this.onClose.emit({ isAccepted });
   }
 
 }

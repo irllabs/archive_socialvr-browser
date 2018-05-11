@@ -1,16 +1,17 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
 
-import {ChatService} from 'data/chat/chatService';
-import {UserService} from 'data/user/userService';
+import { ChatService } from 'data/chat/chatService';
+import { UserService } from 'data/user/userService';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ChatInteractor {
 
   constructor(
     private chatService: ChatService,
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+  ) {
+  }
 
   createRoom(roomName: string, userName: string, userId: string): Observable<any> {
     return this.chatService.createRoom(roomName, userName, userId);

@@ -1,20 +1,18 @@
-import {Audio} from 'data/scene/entities/audio';
-import {Video} from 'data/scene/entities/video';
-import {Universal} from 'data/scene/entities/universal';
-import {Image} from 'data/scene/entities/image';
-import {Text} from 'data/scene/entities/text';
-import {Door} from 'data/scene/entities/door';
-import {Link} from 'data/scene/entities/link';
-import {Vector2} from 'data/scene/entities/vector2';
-import {MediaFile} from 'data/scene/entities/mediaFile';
-import {Narrator} from 'data/scene/entities/narrator';
+import { Audio } from 'data/scene/entities/audio';
+import { Door } from 'data/scene/entities/door';
+import { Image } from 'data/scene/entities/image';
+import { Link } from 'data/scene/entities/link';
+import { MediaFile } from 'data/scene/entities/mediaFile';
+import { Narrator } from 'data/scene/entities/narrator';
+import { Text } from 'data/scene/entities/text';
+import { Universal } from 'data/scene/entities/universal';
+import { Vector2 } from 'data/scene/entities/vector2';
+import { Video } from 'data/scene/entities/video';
 
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
-import {generateUniqueId} from 'data/util/uuid';
-import {DEFAULT_FILE_NAME, DEFAULT_VOLUME} from 'ui/common/constants';
-import {reverbList} from 'data/scene/values/reverbList';
-
-import { BACKGROUND_THUMBNAIL } from 'ui/common/constants';
+import { RoomProperty } from 'data/scene/interfaces/roomProperty';
+import { reverbList } from 'data/scene/values/reverbList';
+import { generateUniqueId } from 'data/util/uuid';
+import { BACKGROUND_THUMBNAIL, DEFAULT_FILE_NAME, DEFAULT_VOLUME } from 'ui/common/constants';
 
 export class Room implements RoomProperty {
 
@@ -194,8 +192,8 @@ export class Room implements RoomProperty {
     return this.thumbnail;
   }
 
-  getThumbnailImage() {
-    return this.thumbnail.getBinaryFileData();
+  getThumbnailImage(unsafe: boolean = false) {
+    return this.thumbnail.getBinaryFileData(unsafe);
   }
 
   getThumbnailName(): string {
@@ -273,8 +271,12 @@ export class Room implements RoomProperty {
   }
 
   //unused RoomProperty methods
-  getPossibleCombinedHotspot(): boolean {return false;}
-  setPossibleCombinedHotspot(isPossibleCombinedHotspot: boolean) {}
+  getPossibleCombinedHotspot(): boolean {
+    return false;
+  }
+
+  setPossibleCombinedHotspot(isPossibleCombinedHotspot: boolean) {
+  }
 
   toJson() {
     const image = this.getBackgroundImage().getMediaFile().hasAsset() ? this.backgroundImage.toJson() : {};
@@ -304,7 +306,7 @@ export class Room implements RoomProperty {
       universal: Array.from(this.getUniversal()).map(universal => universal.toJson()),
       doors: Array.from(this.getDoors()).filter(door => door.getAutoTime() <= 0).map(door => door.toJson()),
       autoDoors: Array.from(this.getDoors()).filter(door => door.getAutoTime() > 0).map(door => door.toJson()),
-      narrator: this.narrator.toJson()
+      narrator: this.narrator.toJson(),
     };
     if (this.backgroundIsVideo) {
       (<any>roomJson).video = this.backgroundVideo.getBinaryFileData();

@@ -1,5 +1,5 @@
-import {THREE_CONST} from 'ui/common/constants';
 import * as THREE from 'three';
+import { THREE_CONST } from 'ui/common/constants';
 // This file contains common 3D logic for edit-space-sphere and preview-space
 
 const SPHERE_RADIUS: number = THREE_CONST.SPHERE_RADIUS;

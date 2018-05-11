@@ -1,17 +1,17 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+
+import { AuthService } from 'data/authentication/authService';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
-
-import {AuthService} from 'data/authentication/authService';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
 export class ChatService {
 
   constructor(
-    private authService: AuthService // remove
+    private authService: AuthService, // remove
   ) {
   }
 
@@ -22,16 +22,16 @@ export class ChatService {
       creatorId: userId,
       users: {
         id: {
-          name: userName
-        }
+          name: userName,
+        },
       },
       project: {
         userId: '', // TODO
         projectId: '', // TODO
-      }
+      },
     };
     const chatRoomKey = firebase.database().ref().child('/chatrooms/').push().key;
-    const updateDB = firebase.database().ref(`/chatrooms/${chatRoomKey}`).update(room)
+    const updateDB = firebase.database().ref(`/chatrooms/${chatRoomKey}`).update(room);
     return Observable.fromPromise(updateDB);
   }
 
@@ -51,7 +51,7 @@ export class ChatService {
     const roomAddress = `/chatrooms/${chatRoomId}/`;
     const userAddress = `${roomAddress}${userId}`;
     const userData = {
-      name: userName
+      name: userName,
     };
     const updateDB = firebase.database().ref(userAddress).update(userData);
     return Observable.fromPromise(updateDB);
@@ -68,7 +68,7 @@ export class ChatService {
 
   setLookAt(roomAddress: string, userId: string, x: number, y: number, z: number): Observable<any> {
     const userAddress = `/chatrooms/${roomAddress}/${userId}/lookingAt`;
-    const lookingAt = {x, y, z};
+    const lookingAt = { x, y, z };
     const updateDB = firebase.database().ref(userAddress).update(lookingAt);
     return Observable.fromPromise(updateDB);
   }

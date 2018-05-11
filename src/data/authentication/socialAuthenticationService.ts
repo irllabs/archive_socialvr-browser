@@ -1,10 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class SocialAuthenticationService {
 
-  constructor() {}
+  constructor() {
+  }
 
   facebookLogin(): Observable<any> {
     const FB = (<any>window).FB;
@@ -25,7 +26,7 @@ export class SocialAuthenticationService {
   googleLogin(): Observable<any> {
     const gapi = (<any>window).gapi;
     return Observable.fromPromise(
-      gapi.auth2.getAuthInstance().signIn()
+      gapi.auth2.getAuthInstance().signIn(),
     );
   }
 

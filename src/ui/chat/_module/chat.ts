@@ -1,13 +1,12 @@
-import {Component} from '@angular/core';
-import {Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import { Component } from '@angular/core';
 
-import {ChatInteractor} from 'core/chat/chatInteractor';
+import { ChatInteractor } from 'core/chat/chatInteractor';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'chat',
   styleUrls: ['./chat.scss'],
-  templateUrl: './chat.html'
+  templateUrl: './chat.html',
 })
 export class Chat {
 
@@ -17,8 +16,9 @@ export class Chat {
   private subscriptions: Set<Subscription> = new Set<Subscription>();
 
   constructor(
-    private chatInteractor: ChatInteractor
-  ) {}
+    private chatInteractor: ChatInteractor,
+  ) {
+  }
 
   ngOnInit() {
     this.subscribeToEvents();
@@ -35,11 +35,11 @@ export class Chat {
           const roomListViewModel = Object.keys(chatRooms)
             .map(key => ({
               id: key,
-              name: chatRooms[key].name
+              name: chatRooms[key].name,
             }));
           this.roomList = roomListViewModel;
         },
-        error => console.log('onRoomChangeError', error)
+        error => console.log('onRoomChangeError', error),
       );
     this.subscriptions.add(getRooms);
   }
@@ -49,7 +49,7 @@ export class Chat {
     this.chatInteractor.createRoom(roomName, this.userName, Math.random() + '')
       .subscribe(
         roomId => console.log(`roomCreated: ${roomId}`),
-        error => console.log('create room error', error)
+        error => console.log('create room error', error),
       );
   }
 

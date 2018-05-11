@@ -7,50 +7,53 @@ html, body {
   overflow: hidden;
 }
 
-
 /* Let's get this party started */
 ::-webkit-scrollbar {
-    width: 8px;
-    padding-bottom: 4px;
+  width: 8px;
+  padding-bottom: 4px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track:horizontal {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.4);
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb:horizontal {
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.4);
-    background: rgba(255,255,255,0.4);
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+  background: rgba(255, 255, 255, 0.4);
 }
+
 ::-webkit-scrollbar-thumb:window-inactive {
-	background: rgba(255,255,255,0.4);
+  background: rgba(255, 255, 255, 0.4);
 }
 
 p {
   margin: 0;
 }
 
-a:link{
-  color:inherit;
+a:link {
+  color: inherit;
   text-decoration: none;
   border-bottom: 1px solid $color-white;
 }
-a:active{
-  color:inherit;
+
+a:active {
+  color: inherit;
   text-decoration: none;
 }
-a:visited{
-  color:inherit;
+
+a:visited {
+  color: inherit;
   text-decoration: none;
 }
-a:hover{
-  color:inherit;
+
+a:hover {
+  color: inherit;
   text-decoration: none;
 }
 
@@ -92,7 +95,7 @@ a:hover{
 
 }
 
-.button_row{
+.button_row {
   width: auto;
   display: flex;
   flex-direction: row;
@@ -110,9 +113,10 @@ a:hover{
   border-style: solid;
 
 }
+
 .button:active {
-  background-color: transparent ;
-  color: $color-action ;
+  background-color: transparent;
+  color: $color-action;
   text-align: center;
   //width: 100%;
   cursor: pointer;
@@ -121,8 +125,9 @@ a:hover{
   border-style: solid;
 
 }
+
 .button:focus {
-  outline:0;
+  outline: 0;
 }
 
 .button-drag-drop {
@@ -205,7 +210,7 @@ a:hover{
 
 .horiz-line {
   border-bottom: 1px dotted $color-divider;
-width: 100%;
+  width: 100%;
   margin-top: 5px;
   margin-bottom: 10px;
 }
@@ -216,6 +221,7 @@ width: 100%;
   margin-top: 16px;
   margin-bottom: 16px;
 }
+
 .dropdown {
   background-color: $topbar-dropdown-background-color;
   margin: $topbar-dropdown-margin;
@@ -230,12 +236,12 @@ width: 100%;
 
 .dropdown-title {
   font-size: 1.2em;
-    margin-top:8px;
+  margin-top: 8px;
   margin-bottom: 16px;
   color: $color-grey-dark;
 }
 
-.dropdown-heading{
+.dropdown-heading {
   font-size: 1.0em;
 
   margin-bottom: 10px;
@@ -268,8 +274,9 @@ width: 100%;
 }
 
 .dropdown-button-margin {
-    margin-right: 8px;
+  margin-right: 8px;
 }
+
 .dropdown-input-row {
   display: flex;
   flex-direction: column;
@@ -296,12 +303,12 @@ width: 100%;
   flex-grow: 1;
 }
 
-.dropdown-select-box{
+.dropdown-select-box {
   font-size: 1.1em;
   flex-grow: 2;
 }
 
-.hotspot-inspector_row{
+.hotspot-inspector_row {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -337,7 +344,6 @@ width: 100%;
   width: auto;
 }
 
-
 // admin, explore, search styles
 .story-collection {
   display: flex;
@@ -367,7 +373,7 @@ width: 100%;
 
 // modal-window related
 .modal-window {
-  display:  inline-block;
+  display: inline-block;
   //width: 80%;
   //height: 80%;
   overflow: hidden;
@@ -382,9 +388,9 @@ width: 100%;
 }
 
 .modal-window__fields {
-	min-width:  296px;
-	position: fixed;
-  background-color:white;
+  min-width: 296px;
+  position: fixed;
+  background-color: white;
   border-radius: 8px;
   padding: 8px 16px;
   top: 50%;
@@ -392,5 +398,5 @@ width: 100%;
   z-index: $z-index-5;
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
-  box-shadow: 0 50px 100px rgba(0,0,0,.1), 0 15px 35px rgba(0,0,0,.15), 0 5px 15px rgba(0,0,0,.1);
+  box-shadow: 0 50px 100px rgba(0, 0, 0, .1), 0 15px 35px rgba(0, 0, 0, .15), 0 5px 15px rgba(0, 0, 0, .1);
 }

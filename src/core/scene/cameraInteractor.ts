@@ -1,11 +1,12 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {CameraService} from 'data/scene/cameraService';
+import { CameraService } from 'data/scene/cameraService';
 
 @Injectable()
 export class CameraInteractor {
 
-  constructor(private cameraService: CameraService) {}
+  constructor(private cameraService: CameraService) {
+  }
 
   getCameraAngles() {
     return this.cameraService.getCameraAngles();

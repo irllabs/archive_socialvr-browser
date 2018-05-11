@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import {Audio} from 'data/scene/entities/audio';
-import {Room} from 'data/scene/entities/room';
-import {Door} from 'data/scene/entities/door';
+import { Audio } from 'data/scene/entities/audio';
+import { Room } from 'data/scene/entities/room';
 
-import {
-  DEFAULT_PROJECT_NAME,
-  DEFAULT_PROJECT_DESCRIPTION,
-  DEFAULT_VOLUME
-} from 'ui/common/constants';
+import { DEFAULT_PROJECT_DESCRIPTION, DEFAULT_PROJECT_NAME, DEFAULT_VOLUME } from 'ui/common/constants';
 
 @Injectable()
 export class RoomManager {
@@ -123,7 +118,7 @@ export class RoomManager {
 
   setSoundtrackVolume(v: number) {
     if (v === undefined || v === null) {
-      v = DEFAULT_VOLUME
+      v = DEFAULT_VOLUME;
     }
 
     this.soundtrack.setVolume(v);

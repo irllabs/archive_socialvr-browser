@@ -1,9 +1,9 @@
-import BasePlane from "./base-plane";
-import * as THREE from "three";
-import {getCoordinatePosition} from "../../util/iconPositionUtil";
-import {fitToMax} from "data/util/imageResizeService";
-import {Image} from "data/scene/entities/image";
-import {buildMaterialFromText} from "../modules/textMaterialBuilder";
+import { Image } from 'data/scene/entities/image';
+import { fitToMax } from 'data/util/imageResizeService';
+import * as THREE from 'three';
+import { getCoordinatePosition } from '../../util/iconPositionUtil';
+import { buildMaterialFromText } from '../modules/textMaterialBuilder';
+import BasePlane from './base-plane';
 
 
 export default class ImagePlane extends BasePlane {
@@ -16,7 +16,7 @@ export default class ImagePlane extends BasePlane {
       map: texture,
       transparent: true,
       side: THREE.FrontSide,
-      alphaMap: textureMask
+      alphaMap: textureMask,
     });
     const imageMesh = new THREE.Mesh(imageGeometry, imageMaterial);
 
@@ -39,7 +39,7 @@ export default class ImagePlane extends BasePlane {
         imageTexture,
         this.assetInteractor.getTextureById('imageMask'),
         position,
-        this.camera
+        this.camera,
       );
     }
 

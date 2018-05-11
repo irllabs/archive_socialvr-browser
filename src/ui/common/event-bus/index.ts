@@ -1,9 +1,9 @@
-import {Injectable, HostListener} from '@angular/core';
-
-import {Subject} from 'rxjs/Subject';
-import {Observable} from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
+
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class EventBus {
@@ -17,19 +17,19 @@ export class EventBus {
   }
 
   onSelectProperty(propertyId: string, isNewProperty: boolean, shouldOpenEditor?: boolean) {
-    const eventPayload = {propertyId: propertyId, isNewProperty: isNewProperty, shouldOpenEditor: shouldOpenEditor};
+    const eventPayload = { propertyId: propertyId, isNewProperty: isNewProperty, shouldOpenEditor: shouldOpenEditor };
     const event: Event = new Event(EventType.SELECT_PROPERTY, eventPayload);
     EventBus.subject.next(event);
   }
 
   onSelectRoom(roomId: string, isNewProperty: boolean) {
-    const eventPayload = {roomId: roomId, isNewProperty: isNewProperty};
+    const eventPayload = { roomId: roomId, isNewProperty: isNewProperty };
     const event: Event = new Event(EventType.SELECT_ROOM, eventPayload);
     EventBus.subject.next(event);
   }
 
   onModalMessage(header: string, body: string, isMessage?: boolean, onDismiss?: Function, onAccept?: Function) {
-    const eventPayload = {header, body, isMessage, onDismiss, onAccept};
+    const eventPayload = { header, body, isMessage, onDismiss, onAccept };
     const event: Event = new Event(EventType.MODAL_MESSAGE, eventPayload);
     EventBus.subject.next(event);
   }
@@ -43,7 +43,7 @@ export class EventBus {
   }
 
   onShareableModal(userId: string, projectId: string) {
-    const eventPayload = {userId, projectId};
+    const eventPayload = { userId, projectId };
     EventBus.subject.next(new Event(EventType.SHAREABLE_MODAL, eventPayload));
   }
 
@@ -52,12 +52,12 @@ export class EventBus {
   }
 
   onOpenFileLoader(acceptedFileType: string) {
-    const eventPayload = {acceptedFileType: acceptedFileType};
+    const eventPayload = { acceptedFileType: acceptedFileType };
     EventBus.subject.next(new Event(EventType.OPEN_FILE_LOADER, eventPayload));
   }
 
   onHotspotVisibility(isVisible: boolean) {
-    const eventPayload = {isVisible};
+    const eventPayload = { isVisible };
     const event: Event = new Event(EventType.HOTSPOT_EDITOR_VISIBILITY, eventPayload);
     EventBus.subject.next(event);
   }

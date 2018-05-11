@@ -1,18 +1,17 @@
-import {Component, Output, EventEmitter} from '@angular/core';
-import {EventBus} from 'ui/common/event-bus';
-import {FileLoaderUtil, mimeTypeMap} from 'ui/editor/util/fileLoaderUtil';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {Room} from 'data/scene/entities/room';
-import {resizeImage} from 'data/util/imageResizeService';
-import {ZipFileReader} from 'ui/editor/util/zipFileReader';
-import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
-import {FileLoaderMulti} from 'ui/editor/util/file-loader-multi/file-loader-multi';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { Room } from 'data/scene/entities/room';
+import { resizeImage } from 'data/util/imageResizeService';
+import { EventBus } from 'ui/common/event-bus';
+import { FileLoaderUtil, mimeTypeMap } from 'ui/editor/util/fileLoaderUtil';
+import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
+import { ZipFileReader } from 'ui/editor/util/zipFileReader';
 
 
 @Component({
   selector: 'default-overlay',
   styleUrls: ['./default-overlay.scss'],
-  templateUrl: './default-overlay.html'
+  templateUrl: './default-overlay.html',
 })
 export class DefaultOverlay {
 
@@ -23,8 +22,9 @@ export class DefaultOverlay {
     private fileLoaderUtil: FileLoaderUtil,
     private zipFileReader: ZipFileReader,
     private sceneInteractor: SceneInteractor,
-    private slideshowBuilder: SlideshowBuilder
-  ) {}
+    private slideshowBuilder: SlideshowBuilder,
+  ) {
+  }
 
   /*
   private selectBackground () {
@@ -50,9 +50,9 @@ export class DefaultOverlay {
       return;
     }
     const file = event.files[0];
-    if (mimeTypeMap.image.indexOf(file.type)>-1) {
+    if (mimeTypeMap.image.indexOf(file.type) > -1) {
       this.loadImageFile(file);
-    } else if (mimeTypeMap.zip.indexOf(file.type)>-1) {
+    } else if (mimeTypeMap.zip.indexOf(file.type) > -1) {
       this.loadZipFile(file);
     }
   }
@@ -65,16 +65,16 @@ export class DefaultOverlay {
       return;
     }
 
-    if ($event.target.files.length > 1 ) {
+    if ($event.target.files.length > 1) {
       this.addSlideshow(files);
-    } else if (mimeTypeMap.image.indexOf(file.type)>-1) {
+    } else if (mimeTypeMap.image.indexOf(file.type) > -1) {
       this.loadImageFile(file);
-    } else if (mimeTypeMap.zip.indexOf(file.type)>-1) {
+    } else if (mimeTypeMap.zip.indexOf(file.type) > -1) {
       this.loadZipFile(file);
     }
   }
 
-  private loadImageFile(file ) {
+  private loadImageFile(file) {
     this.eventBus.onStartLoading();
     this.fileLoaderUtil.validateFileLoadEvent(file, 'image')
       .then(this.fileLoaderUtil.getBinaryFileData.bind(this.fileLoaderUtil))
@@ -99,7 +99,7 @@ export class DefaultOverlay {
       .catch(error => this.eventBus.onModalMessage('error', error));
   }
 
-  private loadZipFile (file) {
+  private loadZipFile(file) {
     this.zipFileReader.loadFile(file);
   }
 

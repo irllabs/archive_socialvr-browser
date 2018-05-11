@@ -1,10 +1,10 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 
 @Component({
   selector: 'text-input-material',
   styleUrls: ['./text-input-material.scss'],
-  templateUrl: './text-input-material.html'
+  templateUrl: './text-input-material.html',
 })
 export class TextInputMaterial {
 

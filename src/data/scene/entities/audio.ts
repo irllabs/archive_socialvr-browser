@@ -1,6 +1,6 @@
-import {BaseElement} from 'data/scene/entities/baseElement';
-import {MediaFile} from 'data/scene/entities/mediaFile';
-import {DEFAULT_VOLUME} from 'ui/common/constants';
+import { BaseElement } from 'data/scene/entities/baseElement';
+import { MediaFile } from 'data/scene/entities/mediaFile';
+import { DEFAULT_VOLUME } from 'ui/common/constants';
 
 export class Audio extends BaseElement {
   private mediaFile: MediaFile = new MediaFile();
@@ -34,8 +34,8 @@ export class Audio extends BaseElement {
     this.mediaFile.setFileName(fileName);
   }
 
-  getBinaryFileData(): any {
-    return this.mediaFile.getBinaryFileData();
+  getBinaryFileData(unsafe: boolean = false): any {
+    return this.mediaFile.getBinaryFileData(unsafe);
   }
 
   setBinaryFileData(binaryFileData: any) {
@@ -49,13 +49,13 @@ export class Audio extends BaseElement {
   }
 
   setVolume(volume: number) {
-      if (volume === undefined || volume === null) {
-        this.volume = DEFAULT_VOLUME
-      }
-      else {
-        this.volume = volume
-      }
+    if (volume === undefined || volume === null) {
+      this.volume = DEFAULT_VOLUME;
     }
+    else {
+      this.volume = volume;
+    }
+  }
 
   getVolume(): number {
     return this.volume;
@@ -65,7 +65,7 @@ export class Audio extends BaseElement {
     return Object.assign(super.toJson(), {
       file: encodeURIComponent(this.mediaFile.getFileName()),
       remoteFile: this.mediaFile.getRemoteFileName(),
-      volume: this.getVolume()
+      volume: this.getVolume(),
     });
   }
 

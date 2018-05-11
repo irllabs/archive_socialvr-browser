@@ -1,10 +1,9 @@
-import {Injectable} from '@angular/core';
-import * as THREE from 'three';
+import { Injectable } from '@angular/core';
 
-import {AssetInteractor} from 'core/asset/assetInteractor';
-import {getCoordinatePosition} from 'ui/editor/util/iconPositionUtil';
-import {sphericalToCoordinate, coordinateToSpherical, car2pol, pol2car} from 'ui/editor/util/iconPositionUtil';
-import {THREE_CONST} from 'ui/common/constants';
+import { AssetInteractor } from 'core/asset/assetInteractor';
+import * as THREE from 'three';
+import { THREE_CONST } from 'ui/common/constants';
+import { pol2car } from 'ui/editor/util/iconPositionUtil';
 
 const TWEEN = require('@tweenjs/tween.js');
 
@@ -31,10 +30,11 @@ export class MenuManager {
   private reitlceRay: THREE.Vector2 = new THREE.Vector2();
 
   constructor(
-    private assetInteractor: AssetInteractor
-  ) {}
+    private assetInteractor: AssetInteractor,
+  ) {
+  }
 
-  exists():boolean {
+  exists(): boolean {
     //!! cast the existence of this.menu as a boolean
     return !!this.menu;
   }
@@ -54,16 +54,20 @@ export class MenuManager {
     //creat group
     this.menu = new THREE.Group();
     var menuPos = pol2car(THREE_CONST.CAMERA_NAVPANEL,
-                          THREE_CONST.NAVPANEL_THETA,
-                          THREE_CONST.NAVPANEL_PHI);
+      THREE_CONST.NAVPANEL_THETA,
+      THREE_CONST.NAVPANEL_PHI);
     this.menu.position.set(menuPos.x, menuPos.y, menuPos.z);
     this.menu.name = 'menu';
 
     //transparent panel
     const panelGeometry = new THREE.PlaneGeometry(THREE_CONST.NAVPANEL_W, THREE_CONST.NAVPANEL_H);
-    const panelMaterial = new THREE.MeshBasicMaterial({opacity: THREE_CONST.NAVPANEL_OPACITY, transparent: true, side:THREE.FrontSide});
+    const panelMaterial = new THREE.MeshBasicMaterial({
+      opacity: THREE_CONST.NAVPANEL_OPACITY,
+      transparent: true,
+      side: THREE.FrontSide,
+    });
     const panelMesh = new THREE.Mesh(panelGeometry, panelMaterial);
-    panelMesh.position.set(menuPos.x,menuPos.y,menuPos.z);
+    panelMesh.position.set(menuPos.x, menuPos.y, menuPos.z);
     this.panelMesh = panelMesh;
 
     // /// try a sprite
@@ -75,9 +79,13 @@ export class MenuManager {
     //back button
     const backBtnGeometry = new THREE.PlaneGeometry(THREE_CONST.HOME_BACK_DIM, THREE_CONST.HOME_BACK_DIM); //need THREE global
     const backBtnTexture = this.assetInteractor.getTextureById('back');
-    const backBtnMaterial = new THREE.MeshBasicMaterial({map: backBtnTexture, transparent: true, side:THREE.DoubleSide});
+    const backBtnMaterial = new THREE.MeshBasicMaterial({
+      map: backBtnTexture,
+      transparent: true,
+      side: THREE.DoubleSide,
+    });
     const backBtnMesh = new THREE.Mesh(backBtnGeometry, backBtnMaterial);
-    backBtnMesh.position.set(menuPos.x-40,menuPos.y-30,menuPos.z-100);
+    backBtnMesh.position.set(menuPos.x - 40, menuPos.y - 30, menuPos.z - 100);
     backBtnMesh.name = 'backButtonIcon';
     backBtnMesh.frustumCulled = false;
     //backBtnMesh.lookAt(cameraPosition);
@@ -86,9 +94,13 @@ export class MenuManager {
     //back button ghost, used for raycaster
     const backBtnGeometryG = new THREE.PlaneGeometry(THREE_CONST.HOME_BACK_DIM, THREE_CONST.HOME_BACK_DIM); //need THREE global
     const backBtnTextureG = this.assetInteractor.getTextureById('back');
-    const backBtnMaterialG = new THREE.MeshBasicMaterial({map: backBtnTexture, transparent: true, side:THREE.FrontSide});
+    const backBtnMaterialG = new THREE.MeshBasicMaterial({
+      map: backBtnTexture,
+      transparent: true,
+      side: THREE.FrontSide,
+    });
     const backBtnMeshG = new THREE.Mesh(backBtnGeometryG, backBtnMaterialG);
-    backBtnMeshG.position.set(menuPos.x-40,menuPos.y-30,menuPos.z-98);
+    backBtnMeshG.position.set(menuPos.x - 40, menuPos.y - 30, menuPos.z - 98);
     backBtnMeshG.name = 'backButton';
     backBtnMeshG.material['opacity'] = 0;
     //backBtnMesh.lookAt(cameraPosition);
@@ -113,22 +125,29 @@ export class MenuManager {
     // this.backButtonSpriteG = backBtnSpriteG;
 
 
-
     //home button
     const homeBtnGeometry = new THREE.PlaneGeometry(THREE_CONST.HOME_BACK_DIM, THREE_CONST.HOME_BACK_DIM);
     const homeBtnTexture = this.assetInteractor.getTextureById('home');
-    const homeBtnMaterial = new THREE.MeshBasicMaterial({map: homeBtnTexture, transparent: true, side:THREE.FrontSide});
+    const homeBtnMaterial = new THREE.MeshBasicMaterial({
+      map: homeBtnTexture,
+      transparent: true,
+      side: THREE.FrontSide,
+    });
     const homeBtnMesh = new THREE.Mesh(homeBtnGeometry, homeBtnMaterial);
-    homeBtnMesh.position.set(menuPos.x+40,menuPos.y-30,menuPos.z-100);
+    homeBtnMesh.position.set(menuPos.x + 40, menuPos.y - 30, menuPos.z - 100);
     homeBtnMesh.name = 'homeButtonIcon';
     //homeBtnMesh.lookAt(cameraPosition);
     this.homeButtonMesh = homeBtnMesh;
 
     const homeBtnGeometryG = new THREE.PlaneGeometry(THREE_CONST.HOME_BACK_DIM, THREE_CONST.HOME_BACK_DIM);
     const homeBtnTextureG = this.assetInteractor.getTextureById('home');
-    const homeBtnMaterialG = new THREE.MeshBasicMaterial({map: homeBtnTexture, transparent: true, side:THREE.FrontSide});
+    const homeBtnMaterialG = new THREE.MeshBasicMaterial({
+      map: homeBtnTexture,
+      transparent: true,
+      side: THREE.FrontSide,
+    });
     const homeBtnMeshG = new THREE.Mesh(homeBtnGeometryG, homeBtnMaterialG);
-    homeBtnMeshG.position.set(menuPos.x+40,menuPos.y-30,menuPos.z-98);
+    homeBtnMeshG.position.set(menuPos.x + 40, menuPos.y - 30, menuPos.z - 98);
     homeBtnMeshG.name = 'homeButton';
     homeBtnMeshG.material['opacity'] = 0;
     //homeBtnMesh.lookAt(cameraPosition);
@@ -149,18 +168,18 @@ export class MenuManager {
   }
 
   update(reticle, camera: THREE.PerspectiveCamera) {
-    this.reticleRaycast.setFromCamera( this.reitlceRay, camera );
+    this.reticleRaycast.setFromCamera(this.reitlceRay, camera);
     const intersects = this.reticleRaycast.intersectObjects(this.menu.children);
     //if (Math.random()>.8){console.log(intersects);}
 
-    if (intersects.length<=1) { //1 or less, because back and home buttons are on the 'panel'
+    if (intersects.length <= 1) { //1 or less, because back and home buttons are on the 'panel'
       this.bButState = 0;
       this.hButState = 0;
       this.resetTweens();
     } else {
       intersects
       //.filter(intersectFilter => intersectFilter.object.name)
-      .forEach((intersectedButton) => {
+        .forEach((intersectedButton) => {
           //if (Math.random()>.8){console.log(intersectedButton,intersectedButton.object.name);}
           switch (intersectedButton.object.name) {
             case 'backButton':
@@ -182,16 +201,16 @@ export class MenuManager {
               }
               break;
           }
-      })
+        });
     }
   }
 
 
-  triggerBackRoom () {
+  triggerBackRoom() {
     this.tweenBackActivate = new TWEEN.Tween(this.backButtonMesh.scale).to({
-        x: 0.001, y: 0.001, z: 0.001
-    },THREE_CONST.HOTSPOT_DOOR_DELAY).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
-    }).onComplete( () => {
+      x: 0.001, y: 0.001, z: 0.001,
+    }, THREE_CONST.HOTSPOT_DOOR_DELAY).easing(TWEEN.Easing.Linear.None).onUpdate(() => {
+    }).onComplete(() => {
       //console.log("Go Back:",this.goToBackRoom);
       TWEEN.remove(this.tweenBackActivate);
       this.goToBackRoom();
@@ -199,11 +218,11 @@ export class MenuManager {
     }).start();
   }
 
-  triggerHomeRoom () {
+  triggerHomeRoom() {
     this.tweenHomeActivate = new TWEEN.Tween(this.homeButtonMesh.scale).to({
-        x: 0.001, y: 0.001, z: 0.001
-    },THREE_CONST.HOTSPOT_DOOR_DELAY).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
-    }).onComplete( () => {
+      x: 0.001, y: 0.001, z: 0.001,
+    }, THREE_CONST.HOTSPOT_DOOR_DELAY).easing(TWEEN.Easing.Linear.None).onUpdate(() => {
+    }).onComplete(() => {
       //console.log("Done scaling UP dash circle");
       TWEEN.remove(this.tweenHomeActivate);
       this.goToHomeRoom();
@@ -213,11 +232,11 @@ export class MenuManager {
 
 
   resetTweens() {
-    if(this.tweenBackActivate) this.tweenBackActivate.stop();
-    this.backButtonMesh.scale.set(1,1,1);
+    if (this.tweenBackActivate) this.tweenBackActivate.stop();
+    this.backButtonMesh.scale.set(1, 1, 1);
     //this.backButtonSprite.scale.set(1,1,1);
-    if(this.tweenHomeActivate) this.tweenHomeActivate.stop();
-    this.homeButtonMesh.scale.set(1,1,1);
+    if (this.tweenHomeActivate) this.tweenHomeActivate.stop();
+    this.homeButtonMesh.scale.set(1, 1, 1);
   }
 
   getMeshList(): THREE.Mesh[] {

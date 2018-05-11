@@ -1,68 +1,68 @@
 <div>
-    <div>
-      <p class="hotspot-inspector__label">
-        Door to:
-      </p>
-      <select
-        [(ngModel)]="selectedRoom"
-        (change)="onRoomChange($event)"
-        class="hotspot-inspector__select door-editor__select">
-        <option
-          *ngFor="let room of roomList"
-          [selected]="room.id === selectedRoom"
-          [disabled]="room.disabled"
-          [ngValue]="room">
-            {{room.name}}
-        </option>
-      </select>
-    </div>
+  <div>
+    <p class="hotspot-inspector__label">
+      Door to:
+    </p>
+    <select
+      [(ngModel)]="selectedRoom"
+      (change)="onRoomChange($event)"
+      class="hotspot-inspector__select door-editor__select">
+      <option
+        *ngFor="let room of roomList"
+        [selected]="room.id === selectedRoom"
+        [disabled]="room.disabled"
+        [ngValue]="room">
+        {{room.name}}
+      </option>
+    </select>
+  </div>
 
-    <div class="button door-editor__go-button"
-      *ngIf="showTransportButton()">
-      <p
-        (click)="onTransportClick($event)">
-        Go!
-      </p>
-    </div>
+  <div class="button door-editor__go-button"
+       *ngIf="showTransportButton()">
+    <p
+      (click)="onTransportClick($event)">
+      Go!
+    </p>
+  </div>
 
 
-    <div class="auto-go">
+  <div class="auto-go">
 
       <span class="hotspot-inspector__label width-auto">
         Auto
       </span>
 
-      <checkbox
-        [initialValue]="sliderIsVisible()"
-        (changeEmitter)="onCheckboxChange($event)">
-      </checkbox>
+    <checkbox
+      [initialValue]="sliderIsVisible()"
+      (changeEmitter)="onCheckboxChange($event)">
+    </checkbox>
 
-      <!-- This will become a slider when we have finish the slider component -->
-      <text-input-material
-        [inputType]="'number'"
-        [inputLabel]="'Seconds (between 1 and 60)'"
-        [textModel]="getAutoTimeViewModel()"
-        (onTextChange)="onSecondsChange($event)"
-        (onBlurEvent)="onSecondsBlur($event)"
-        class="auto-go__input-box"
-        [ngClass]="{'auto-go__input-box--visible': sliderIsVisible()}">
-      </text-input-material>
+    <!-- This will become a slider when we have finish the slider component -->
+    <text-input-material
+      [inputType]="'number'"
+      [inputLabel]="'Seconds (between 1 and 60)'"
+      [textModel]="getAutoTimeViewModel()"
+      (onTextChange)="onSecondsChange($event)"
+      (onBlurEvent)="onSecondsBlur($event)"
+      class="auto-go__input-box"
+      [ngClass]="{'auto-go__input-box--visible': sliderIsVisible()}">
+    </text-input-material>
 
-    </div>
   </div>
+</div>
 
-  <!-- <div *ngIf="sliderIsVisible()">
-    <input
-      id="rangeSlider"
-      type="range"
-      min="1"
-      max="60"
-      step="1"
-      [value]="getDoorAutotime()"
-      (change)="setDoorAutotime($event)"/>
-    <span class="hotspot-inspector__label">
-      {{getDoorAutotime()}} Seconds
-    </span>
-  </div> -->
+<!-- <div *ngIf="sliderIsVisible()">
+  <input
+    id="rangeSlider"
+    type="range"
+    min="1"
+    max="60"
+    step="1"
+    [value]="getDoorAutotime()"
+    (change)="setDoorAutotime($event)"/>
+  <span class="hotspot-inspector__label">
+    {{getDoorAutotime()}} Seconds
+  </span>
+</div> -->
 
-  <!-- <slider></slider> -->
+<!-- <slider></slider> -->

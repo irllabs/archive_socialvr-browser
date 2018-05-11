@@ -1,21 +1,22 @@
-import {Component, ViewEncapsulation, ElementRef, HostListener, OnInit} from '@angular/core';
-import {UserInteractor} from 'core/user/userInteractor';
-import {Router} from '@angular/router';
+import { Component, ElementRef, HostListener, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserInteractor } from 'core/user/userInteractor';
 
 @Component({
   selector: 'user-tab',
   styleUrls: ['./user-tab.scss'],
   templateUrl: './user-tab.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
-export class UserTab implements OnInit  {
+export class UserTab implements OnInit {
   private isBeingInstantiated: boolean = false;
 
   constructor(
     private userInteractor: UserInteractor,
     private router: Router,
     private element: ElementRef,
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.isBeingInstantiated = true;
@@ -31,7 +32,7 @@ export class UserTab implements OnInit  {
     }
     if (!isClicked) {
       // close user modal
-      this.router.navigate(['/editor', {outlets: {'modal': null}}]);
+      this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
     }
   }
 

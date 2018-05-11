@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { AssetInteractor, AssetModel } from 'core/asset/assetInteractor';
 
-import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {AssetInteractor, AssetModel} from 'core/asset/assetInteractor';
-import {AudioPlayService} from 'ui/editor/preview-space/modules/audioPlayService';
+import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { AudioPlayService } from 'ui/editor/preview-space/modules/audioPlayService';
 
 @Injectable()
 export class AudioManager {
@@ -15,15 +15,16 @@ export class AudioManager {
     private metaDataInteractor: MetaDataInteractor,
     private sceneInteractor: SceneInteractor,
     private assetInteractor: AssetInteractor,
-    private audioPlayService: AudioPlayService
-  ) {}
+    private audioPlayService: AudioPlayService,
+  ) {
+  }
 
   loadBuffers(): Promise<any> {
     const soundtrackAudio = [];
     const soundtrack = this.metaDataInteractor.getSoundtrack();
     if (soundtrack.getBinaryFileData()) {
       const soundtrackPath = soundtrack.getBinaryFileData().changingThisBreaksApplicationSecurity ?
-            soundtrack.getBinaryFileData().changingThisBreaksApplicationSecurity : soundtrack.getBinaryFileData();
+        soundtrack.getBinaryFileData().changingThisBreaksApplicationSecurity : soundtrack.getBinaryFileData();
       soundtrackAudio.push(new AssetModel('soundtrack', soundtrack.getFileName(), soundtrackPath));
     }
 
@@ -43,11 +44,11 @@ export class AudioManager {
         if (bAudioPath.changingThisBreaksApplicationSecurity) {
           bAudioPath = bAudioPath.changingThisBreaksApplicationSecurity;
         }
-        return new AssetModel(room.getId()+'b', room.getBackgroundAudioFileName(), bAudioPath);
+        return new AssetModel(room.getId() + 'b', room.getBackgroundAudioFileName(), bAudioPath);
 
       });
 
-      const narrationAudios = this.sceneInteractor.getRoomIds()
+    const narrationAudios = this.sceneInteractor.getRoomIds()
       .map(roomId => this.sceneInteractor.getRoomById(roomId))
       .filter(room => {
         if (room.getNarrationIntroBinaryFileData()) {
@@ -64,7 +65,7 @@ export class AudioManager {
         if (nAudioPath.changingThisBreaksApplicationSecurity) {
           nAudioPath = nAudioPath.changingThisBreaksApplicationSecurity;
         }
-        return new AssetModel(room.getId()+'n', room.getNarrationIntroFileName(), nAudioPath);
+        return new AssetModel(room.getId() + 'n', room.getNarrationIntroFileName(), nAudioPath);
       });
 
     const hotspotAudios = this.sceneInteractor.getRoomIds()
@@ -84,7 +85,7 @@ export class AudioManager {
             const binaryFileData = universal.audioContent.getBinaryFileData();
             let audioDataUri;
 
-            if(binaryFileData.changingThisBreaksApplicationSecurity) {
+            if (binaryFileData.changingThisBreaksApplicationSecurity) {
               audioDataUri = binaryFileData.changingThisBreaksApplicationSecurity;
             } else {
               audioDataUri = binaryFileData;

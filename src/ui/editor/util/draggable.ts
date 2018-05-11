@@ -1,24 +1,24 @@
-import {Directive, EventEmitter, ElementRef, HostListener, Output} from '@angular/core';
-import {EventBus, EventType} from 'ui/common/event-bus';
+import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
+import { EventBus } from 'ui/common/event-bus';
 
 const instanceSet: Set<DraggableIcon> = new Set<DraggableIcon>();
 
 // TODO: add touch
 document.addEventListener('mousemove', $event =>
-  instanceSet.forEach(instance => instance.onMouseMove($event))
+  instanceSet.forEach(instance => instance.onMouseMove($event)),
 );
-document.addEventListener('mouseup',  $event =>
-  instanceSet.forEach(instance => instance.onMouseUp($event))
+document.addEventListener('mouseup', $event =>
+  instanceSet.forEach(instance => instance.onMouseUp($event)),
 );
 document.addEventListener('touchmove', $event => {
   instanceSet.forEach((instance: DraggableIcon) => instance.onTouchMove($event));
 }, { passive: false });
 document.addEventListener('touchend', $event => {
-  instanceSet.forEach((instance: DraggableIcon) => instance.onTouchEnd($event))
+  instanceSet.forEach((instance: DraggableIcon) => instance.onTouchEnd($event));
 }, false);
 
 @Directive({
-  selector: '[hotspot-icon]'
+  selector: '[hotspot-icon]',
 })
 export class DraggableIcon {
 
@@ -30,12 +30,13 @@ export class DraggableIcon {
   private startY: number;
   private absoluteStartX: number;
   private absoluteStartY: number;
-  private touchLocation = {x: 0, y: 0};
+  private touchLocation = { x: 0, y: 0 };
 
   constructor(
     private element: ElementRef,
-    private eventBus: EventBus
-  ) {}
+    private eventBus: EventBus,
+  ) {
+  }
 
   ngOnInit() {
     instanceSet.add(this);
@@ -62,7 +63,9 @@ export class DraggableIcon {
 
   @HostListener('touchstart', ['$event'])
   private onTouchStart($event) {
-    if ($event.touches.length > 1) { return; }
+    if ($event.touches.length > 1) {
+      return;
+    }
     const x = $event.touches[0].clientX;
     const y = $event.touches[0].clientY;
     this.touchLocation.x = x;
@@ -73,14 +76,16 @@ export class DraggableIcon {
   }
 
   onMouseMove(event) {
-    if (!this.isActive) { return; }
+    if (!this.isActive) {
+      return;
+    }
     event.preventDefault();
     const x: number = event.clientX - this.startX;
     const y: number = event.clientY - this.startY;
     this.onMove.emit({
       x: x,
       y: y,
-      shiftKey: event.shiftKey
+      shiftKey: event.shiftKey,
     });
   }
 
@@ -90,7 +95,7 @@ export class DraggableIcon {
     }
     const totalDistance: number = getTotalDistance(
       event.clientX, this.absoluteStartX,
-      event.clientY, this.absoluteStartY
+      event.clientY, this.absoluteStartY,
     );
     const didMove: boolean = totalDistance > 0;
 
@@ -98,7 +103,7 @@ export class DraggableIcon {
       x: event.clientX - this.startX,
       y: event.clientY - this.startY,
       shiftKey: event.shiftKey,
-      didMove: didMove
+      didMove: didMove,
     });
     this.isActive = false;
   }
@@ -114,7 +119,9 @@ export class DraggableIcon {
   }
 
   onTouchEnd($event) {
-    if ($event.touches.length > 0) { return; }
+    if ($event.touches.length > 0) {
+      return;
+    }
     $event.clientX = this.touchLocation.x;
     $event.clientY = this.touchLocation.y;
     this.onMouseUp($event);
@@ -125,6 +132,6 @@ export class DraggableIcon {
 function getTotalDistance(x1, x2, y1, y2): number {
   return Math.sqrt(
     Math.pow(x1 - x2, 2) +
-    Math.pow(y1 - y2, 2)
+    Math.pow(y1 - y2, 2),
   );
 }

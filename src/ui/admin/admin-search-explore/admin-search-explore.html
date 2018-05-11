@@ -52,7 +52,7 @@
         *ngIf="project.thumbnailUrl"
         [attr.src]="project.thumbnailUrl"
         (click)="openProject(project)"
-        class="story-collection__thumbnail" />
+        class="story-collection__thumbnail"/>
       <div
         *ngIf="!project.thumbnailUrl"
         (click)="openProject(project)"
@@ -62,7 +62,7 @@
       <p>Add story to group</p>
       <div
         *ngFor="let group of getUserGroups()">
-         <p (click)="toggleProjectInGroup(project, group)">
+        <p (click)="toggleProjectInGroup(project, group)">
           Group: {{ group.name }}
         </p>
       </div>

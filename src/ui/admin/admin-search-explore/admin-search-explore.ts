@@ -1,16 +1,16 @@
-import {Component, Output, EventEmitter} from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { AdminInteractor } from 'core/admin/adminInteractor';
 
-import {ProjectInteractor} from 'core/project/projectInteractor';
-import {SearchInteractor} from 'core/search/searchInteractor';
-import {ShareableLoader} from 'ui/common/shareable-loader';
-import {UserInteractor} from 'core/user/userInteractor';
-import {AdminInteractor} from 'core/admin/adminInteractor';
-import {GROUP_TYPE} from 'ui/common/constants';
+import { ProjectInteractor } from 'core/project/projectInteractor';
+import { SearchInteractor } from 'core/search/searchInteractor';
+import { UserInteractor } from 'core/user/userInteractor';
+import { GROUP_TYPE } from 'ui/common/constants';
+import { ShareableLoader } from 'ui/common/shareable-loader';
 
 @Component({
   selector: 'admin-search-explore',
   styleUrls: ['./admin-search-explore.scss'],
-  templateUrl: './admin-search-explore.html'
+  templateUrl: './admin-search-explore.html',
 })
 export class AdminSearchExplore {
 
@@ -26,7 +26,8 @@ export class AdminSearchExplore {
     private shareableLoader: ShareableLoader,
     private userInteractor: UserInteractor,
     private adminInteractor: AdminInteractor,
-  ) {}
+  ) {
+  }
 
   ngAfterViewInit() {
     if (!this.hasPermission()) {
@@ -70,7 +71,7 @@ export class AdminSearchExplore {
     this.searchInteractor.searchPublicProjects(query)
       .subscribe(
         response => this.matchingResults = response.results,
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
   }
 
@@ -89,8 +90,8 @@ export class AdminSearchExplore {
     const groupId = group.id;
     this.adminInteractor.setProjectInGroup(groupId, projectId, true, GROUP_TYPE.EXTERNAL)
       .subscribe(
-        response => this.onAddProject.emit({groupId, project}),
-        error => console.log('error', error)
+        response => this.onAddProject.emit({ groupId, project }),
+        error => console.log('error', error),
       );
   }
 

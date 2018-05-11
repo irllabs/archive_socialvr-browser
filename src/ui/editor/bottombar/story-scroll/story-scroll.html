@@ -17,8 +17,8 @@
         [ngClass]="{'story-scroll__toggle-arrow-left--open': isOpen}">
       </span>
       <span
-      class="story-scroll__toggle-arrow story-scroll__toggle-arrow-right"
-      [ngClass]="{'story-scroll__toggle-arrow-right--open': isOpen}">
+        class="story-scroll__toggle-arrow story-scroll__toggle-arrow-right"
+        [ngClass]="{'story-scroll__toggle-arrow-right--open': isOpen}">
       </span>
     </div>
   </div>
@@ -31,24 +31,24 @@
     (onFileLoad)="addSlideshow($event)"
     class="story-scroll__scroll">
 
-      <div class="story-scroll__room-group">
-        <div
-          *ngFor="let roomId of getRoomIdList()"
-          class="story-scroll__room">
+    <div class="story-scroll__room-group">
+      <div
+        *ngFor="let roomId of getRoomIdList()"
+        class="story-scroll__room">
 
-          <!-- Room Label -->
-          <storymap-item
-            [roomProperty]="getRoomById(roomId)"
-            [isActive]="roomIsSelected(roomId)"
-            (click)="onRoomSelect(roomId)"
-            (infoEvent)="onInfoClick($event)"
-            class="story-scroll__storymap-item">
-          </storymap-item>
-        </div>
+        <!-- Room Label -->
+        <storymap-item
+          [roomProperty]="getRoomById(roomId)"
+          [isActive]="roomIsSelected(roomId)"
+          (click)="onRoomSelect(roomId)"
+          (infoEvent)="onInfoClick($event)"
+          class="story-scroll__storymap-item">
+        </storymap-item>
       </div>
+    </div>
 
 
-      <add-room></add-room>
+    <add-room></add-room>
 
   </div>
 

@@ -1,9 +1,9 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'fab',
   styleUrls: ['./fab.scss'],
-  templateUrl: './fab.html'
+  templateUrl: './fab.html',
 })
 export class Fab {
 

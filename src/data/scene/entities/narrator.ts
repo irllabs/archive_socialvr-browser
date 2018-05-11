@@ -1,69 +1,68 @@
 // import {BaseElement} from 'data/scene/entities/baseElement';
-import {Audio} from 'data/scene/entities/audio';
-import {MediaFile} from 'data/scene/entities/mediaFile';
-import {Vector2} from 'data/scene/entities/vector2';
-import {DEFAULT_VOLUME} from 'ui/common/constants';
+import { Audio } from 'data/scene/entities/audio';
+import { DEFAULT_VOLUME } from 'ui/common/constants';
 
 export class Narrator {
 
-	private introAudio = new Audio();
-	private returnAudio = new Audio();
-	private volume: number = DEFAULT_VOLUME;
-	//private outgoingRoomId = '';
+  private introAudio = new Audio();
+  private returnAudio = new Audio();
+  private volume: number = DEFAULT_VOLUME;
 
-	getIntroAudio(): Audio {
-		return this.introAudio;
-	}
+  //private outgoingRoomId = '';
 
-	setIntroAudio(fileName, volume, dataUri, remoteFileName = '') {
-		this.introAudio.setFileName(fileName);
-		this.introAudio.setBinaryFileData(dataUri);
-		this.setVolume(volume);
-	        this.introAudio.setRemoteFileName(remoteFileName);
-	}
+  getIntroAudio(): Audio {
+    return this.introAudio;
+  }
 
-	getReturnAudio(): Audio {
-		return this.returnAudio;
-	}
+  setIntroAudio(fileName, volume, dataUri, remoteFileName = '') {
+    this.introAudio.setFileName(fileName);
+    this.introAudio.setBinaryFileData(dataUri);
+    this.setVolume(volume);
+    this.introAudio.setRemoteFileName(remoteFileName);
+  }
 
-	setReturnAudio(fileName, dataUri, remoteFileName = '') {
-		this.returnAudio.setFileName(fileName);
-		this.returnAudio.setBinaryFileData(dataUri);
-	        this.returnAudio.setRemoteFileName(remoteFileName);
-	}
+  getReturnAudio(): Audio {
+    return this.returnAudio;
+  }
 
-	removeIntroAudio() {
-		this.introAudio = new Audio();
-	}
+  setReturnAudio(fileName, dataUri, remoteFileName = '') {
+    this.returnAudio.setFileName(fileName);
+    this.returnAudio.setBinaryFileData(dataUri);
+    this.returnAudio.setRemoteFileName(remoteFileName);
+  }
 
-	// setOutgoingRoomId(outgoingRoomId: string) {
-	// 	this.outgoingRoomId = outgoingRoomId;
-	// }
+  removeIntroAudio() {
+    this.introAudio = new Audio();
+  }
 
-	// getOutgoingRoomId(): string {
-	// 	return this.outgoingRoomId;
-	// }
+  // setOutgoingRoomId(outgoingRoomId: string) {
+  // 	this.outgoingRoomId = outgoingRoomId;
+  // }
 
-	setVolume(volume: number) {
-		if (volume === undefined || volume === null) {
-			this.volume = DEFAULT_VOLUME
-		}
-		else {
-			this.volume = volume
-		}
-	}
+  // getOutgoingRoomId(): string {
+  // 	return this.outgoingRoomId;
+  // }
 
-	getVolume(): number {
-		return this.volume;
-	}
+  setVolume(volume: number) {
+    if (volume === undefined || volume === null) {
+      this.volume = DEFAULT_VOLUME;
+    }
+    else {
+      this.volume = volume;
+    }
+  }
 
-	toJson() {
-		return {
-			intro: this.introAudio.hasAsset() ? this.introAudio.toJson() : {},
-			reprise: this.returnAudio.hasAsset() ? this.returnAudio.toJson() : {},
-  			volume: this.getVolume()
-      		// outgoingRoomId: this.outgoingRoomId
-		};
-	}
+  getVolume(): number {
+    return this.volume;
+  }
+
+  toJson() {
+    return {
+      intro: this.introAudio.hasAsset() ? this.introAudio.toJson() : {},
+      reprise: this.returnAudio.hasAsset() ? this.returnAudio.toJson() : {},
+      volume: this.getVolume(),
+      // outgoingRoomId: this.outgoingRoomId
+    };
+  }
 
 }

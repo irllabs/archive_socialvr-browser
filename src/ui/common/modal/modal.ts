@@ -1,21 +1,20 @@
-import {Component} from '@angular/core';
-import {ViewEncapsulation} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
-import {EventBus, EventType} from 'ui/common/event-bus';
+import { EventBus, EventType } from 'ui/common/event-bus';
 
 const MODAL_TYPE = {
   MESSAGE: 'MESSAGE',
   LOADER: 'LOADER',
   SHARABLE: 'SHARABLE',
-  EXPLORE: 'EXPLORE'
+  EXPLORE: 'EXPLORE',
 };
 
 @Component({
   selector: 'modal',
   styleUrls: ['./modal.scss'],
   templateUrl: './modal.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class Modal {
 
@@ -23,7 +22,7 @@ export class Modal {
   private messageData = {
     headerText: '',
     bodyText: '',
-    isMessage: false
+    isMessage: false,
   };
   private shareableData;
 
@@ -33,7 +32,8 @@ export class Modal {
   private onAccept: Function;
   private subscriptions: Set<Subscription> = new Set<Subscription>();
 
-  constructor(private eventBus: EventBus) {}
+  constructor(private eventBus: EventBus) {
+  }
 
   ngOnInit() {
     this.clearValues();
@@ -66,7 +66,7 @@ export class Modal {
           this.onDismiss = event.onDismiss;
           this.onAccept = event.onAccept;
         },
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
 
     const onStartLoading: Subscription = this.eventBus.getObservable(EventType.START_LOADING)
@@ -78,7 +78,7 @@ export class Modal {
         error => {
           console.log('error', error);
           this.isOpen = false;
-        }
+        },
       );
 
     const onStopLoading: Subscription = this.eventBus.getObservable(EventType.STOP_LOADING)
@@ -87,7 +87,7 @@ export class Modal {
         error => {
           console.log('error', error);
           this.isOpen = false;
-        }
+        },
       );
 
     const onSharable: Subscription = this.eventBus.getObservable(EventType.SHAREABLE_MODAL)
@@ -100,7 +100,7 @@ export class Modal {
         error => {
           console.log('error', error);
           this.isOpen = false;
-        }
+        },
       );
 
     const onExploreModal: Subscription = this.eventBus.getObservable(EventType.OPEN_EXPLORE_MODAL)
@@ -112,7 +112,7 @@ export class Modal {
         error => {
           console.log('error', error);
           this.isOpen = false;
-        }
+        },
       );
 
     this.subscriptions.add(onSharable);
@@ -129,7 +129,7 @@ export class Modal {
     this.messageData = {
       headerText: '',
       bodyText: '',
-      isMessage: false
+      isMessage: false,
     };
     this.shareableData = null;
   }

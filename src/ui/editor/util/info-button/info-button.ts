@@ -1,9 +1,9 @@
-import {Component, Output, EventEmitter} from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'info-button',
   styleUrls: ['./info-button.scss'],
-  templateUrl: './info-button.html'
+  templateUrl: './info-button.html',
 })
 export class InfoButton {
 

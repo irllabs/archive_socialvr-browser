@@ -1,11 +1,11 @@
-import {Component, Input, Output, EventEmitter, ViewChild} from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
-import {generateUniqueId} from 'data/util/uuid';
+import { generateUniqueId } from 'data/util/uuid';
 
 @Component({
   selector: 'checkbox',
   styleUrls: ['./checkbox.scss'],
-  templateUrl: './checkbox.html'
+  templateUrl: './checkbox.html',
 })
 export class Checkbox {
 
@@ -15,7 +15,7 @@ export class Checkbox {
   private uniqueId = generateUniqueId();
 
   private onChange(isChecked) {
-    this.changeEmitter.emit({value: isChecked});
+    this.changeEmitter.emit({ value: isChecked });
   }
 
 }

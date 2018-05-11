@@ -1,19 +1,20 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import {Image} from 'data/scene/entities/image';
-import {EventBus} from 'ui/common/event-bus';
-import {resizeImage} from 'data/util/imageResizeService';
+import { Image } from 'data/scene/entities/image';
+import { resizeImage } from 'data/util/imageResizeService';
+import { EventBus } from 'ui/common/event-bus';
 
 @Component({
   selector: 'image-editor',
   styleUrls: ['./image-editor.scss'],
-  templateUrl: './image-editor.html'
+  templateUrl: './image-editor.html',
 })
 export class ImageEditor {
 
   @Input() imageProperty: Image;
 
-  constructor(private eventBus: EventBus) {}
+  constructor(private eventBus: EventBus) {
+  }
 
   private onFileLoad($event) {
     resizeImage($event.binaryFileData, 'hotspotImage')

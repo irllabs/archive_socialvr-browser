@@ -1,21 +1,13 @@
-import {
-  Component,
-  Input,
-  Output,
-  OnChanges,
-  EventEmitter
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { RoomProperty } from 'data/scene/interfaces/roomProperty';
+import { PropertyRemovalService } from 'ui/editor/util/propertyRemovalService';
 
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
-
-import {RoomPropertyTypeService} from 'ui/editor/util/roomPropertyTypeService';
-import {PropertyRemovalService} from 'ui/editor/util/propertyRemovalService';
+import { RoomPropertyTypeService } from 'ui/editor/util/roomPropertyTypeService';
 
 @Component({
   selector: 'property-editor',
   styleUrls: ['./property-editor.scss'],
-  templateUrl: './property-editor.html'
+  templateUrl: './property-editor.html',
 })
 export class PropertyEditor {
 
@@ -25,8 +17,9 @@ export class PropertyEditor {
   private propertyType: string;
 
   constructor(
-    private propertyRemovalService: PropertyRemovalService
-  ) {}
+    private propertyRemovalService: PropertyRemovalService,
+  ) {
+  }
 
   getName(): string {
     return this.roomProperty.getName();

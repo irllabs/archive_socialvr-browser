@@ -1,34 +1,33 @@
-import {Component, Input, Output, ViewChildren, ViewChild, NgZone, EventEmitter} from '@angular/core';
-import {Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import { Component, NgZone, ViewChild, ViewChildren } from '@angular/core';
+import { Router } from '@angular/router';
+import { AssetInteractor, AssetModel } from 'core/asset/assetInteractor';
+import { CameraInteractor } from 'core/scene/cameraInteractor';
+import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { Vector2 } from 'data/scene/entities/vector2';
+import { RoomProperty } from 'data/scene/interfaces/roomProperty';
+import { Subscription } from 'rxjs/Subscription';
 import * as THREE from 'three';
+import { EventBus, EventType } from 'ui/common/event-bus';
+import { RoomIcon } from 'ui/editor/edit-space/room-icon/room-icon/room-icon';
+import { Video3D } from 'ui/editor/edit-space/video3D';
 
-import {Hotspot} from 'ui/editor/interfaces/hotspot';
-import {EventBus, EventType} from 'ui/common/event-bus';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {CameraInteractor} from 'core/scene/cameraInteractor';
-import {Room} from 'data/scene/entities/room';
-import {Vector2} from 'data/scene/entities/vector2';
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
-import {RoomIcon} from 'ui/editor/edit-space/room-icon/room-icon/room-icon';
-import {CombinedHotspotUtil} from 'ui/editor/util/combinedHotspotUtil';
-import {AssetInteractor, AssetModel} from 'core/asset/assetInteractor';
-import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
+import { Hotspot } from 'ui/editor/interfaces/hotspot';
+import { CombinedHotspotUtil } from 'ui/editor/util/combinedHotspotUtil';
 import {
-  denormalizePosition,
-  sphericalToCoordinate,
+  clamp,
   coordinateToSpherical,
-  getCoordinatePosition, clamp
+  denormalizePosition,
+  getCoordinatePosition,
 } from 'ui/editor/util/iconPositionUtil';
-import {buildScene, onResize} from 'ui/editor/util/threeUtil';
 import SvrControls from 'ui/editor/util/SvrControls';
-import {Video3D} from 'ui/editor/edit-space/video3D';
+import { buildScene, onResize } from 'ui/editor/util/threeUtil';
 
 
 @Component({
   selector: 'edit-space-sphere',
   styleUrls: ['./edit-space-sphere.scss'],
-  templateUrl: './edit-space-sphere.html'
+  templateUrl: './edit-space-sphere.html',
 })
 export class EditSpaceSphere {
 
@@ -56,12 +55,13 @@ export class EditSpaceSphere {
     private combinedHotspotUtil: CombinedHotspotUtil,
     private assetInteractor: AssetInteractor,
     private metaDataInteractor: MetaDataInteractor,
-    private router: Router
-  ) {}
+    private router: Router,
+  ) {
+  }
 
   ngOnInit() {
     if (this.metaDataInteractor.projectIsEmpty()) {
-      this.router.navigate(['/editor', {outlets: {'view': 'flat'}}]);
+      this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
     }
     this.windowWidth = window.innerWidth;
     this.windowHeight = window.innerHeight;
@@ -94,13 +94,13 @@ export class EditSpaceSphere {
     this.sphereMesh = sceneComponents.sphereMesh;
     this.camera = sceneComponents.camera;
     this.scene = sceneComponents.scene;
-    this.renderer = new THREE.WebGLRenderer({canvas: canvas, alpha: true, antialias: false});
+    this.renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
     this.svrControls = new SvrControls({
       camera: this.camera,
       domElement: canvas,
       initialCameraAngles: this.cameraInteractor.getCameraAngles(),
       onMouseDownCallback: this.onMouseDown.bind(this),
-      executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone)
+      executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone),
     });
   }
 
@@ -112,14 +112,14 @@ export class EditSpaceSphere {
       this.video3D = new Video3D();
       this.video3D.init(room.getBackgroundVideo())
         .then(texture => {
-          this.sphereMesh.material = new THREE.MeshBasicMaterial({map: texture, side: THREE.BackSide});
+          this.sphereMesh.material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide });
           this.onResize(null);
         })
         .catch(error => console.log('EditSpaceSphere.initVideo', error));
     }
     else {
       const sphereTexture = this.assetInteractor.getTextureById(roomId);
-      this.sphereMesh.material = new THREE.MeshBasicMaterial({map: sphereTexture, side: THREE.BackSide});
+      this.sphereMesh.material = new THREE.MeshBasicMaterial({ map: sphereTexture, side: THREE.BackSide });
       this.onResize(null);
     }
 
@@ -153,7 +153,7 @@ export class EditSpaceSphere {
           }
           this.combinedHotspotUtil.setRoomPropertyList(roomIconList);
         },
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
 
     const onRoomSelect: Subscription = this.eventBus.getObservable(EventType.SELECT_ROOM)
@@ -167,7 +167,7 @@ export class EditSpaceSphere {
             .then(this.initRoom.bind(this))
             .catch(error => console.log('onRoomSelect', error));
         },
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
 
     this.subscriptions.add(onRoomSelect);
@@ -237,12 +237,12 @@ export class EditSpaceSphere {
   }
 
   getItems(): RoomProperty[] {
-    const roomId: string  = this.sceneInteractor.getActiveRoomId();
+    const roomId: string = this.sceneInteractor.getActiveRoomId();
     return this.sceneInteractor.getRoomProperties(roomId);
   }
 
   roomHasBackgroundImage(): boolean {
-    const roomId: string  = this.sceneInteractor.getActiveRoomId();
+    const roomId: string = this.sceneInteractor.getActiveRoomId();
     return this.sceneInteractor.roomHasBackgroundImage(roomId);
   }
 
@@ -255,7 +255,7 @@ export class EditSpaceSphere {
 }
 
 // get xyz position from absolute screen position
-function getWorldPosition(screenPositionX: number, screenPositionY: number, camera: THREE.PerspectiveCamera, context: any){
+function getWorldPosition(screenPositionX: number, screenPositionY: number, camera: THREE.PerspectiveCamera, context: any) {
   const width: number = context.canvas.width;
   const height: number = context.canvas.height;
   const x: number = (screenPositionX / width) * 2 - 1;
@@ -278,7 +278,7 @@ function getScreenProjection(position: THREE.Vector3, camera: THREE.PerspectiveC
 
   return {
     x: vector.x * halfWidth + halfWidth,
-    y: -(vector.y * halfHeight) + halfHeight
+    y: -(vector.y * halfHeight) + halfHeight,
   };
 }
 

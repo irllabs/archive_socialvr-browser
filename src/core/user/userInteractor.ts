@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {ApiService} from 'data/api/apiService';
-import {UserService} from 'data/user/userService';
-import {AuthService} from 'data/authentication/authService';
-import {AuthenticationMethod} from 'data/authentication/authenticationMethod';
+import { ApiService } from 'data/api/apiService';
+import { AuthenticationMethod } from 'data/authentication/authenticationMethod';
+import { AuthService } from 'data/authentication/authService';
+import { UserService } from 'data/user/userService';
 
 
 @Injectable()
@@ -13,10 +13,11 @@ export class UserInteractor {
     private apiService: ApiService,
     private userService: UserService,
     private authService: AuthService,
-  ) {}
+  ) {
+  }
 
   login(username: string, password: string) {
-    return this.authService.authenticate(AuthenticationMethod.SOCIAL_VR, {username, password});
+    return this.authService.authenticate(AuthenticationMethod.SOCIAL_VR, { username, password });
   }
 
   loginWithGoogle() {
