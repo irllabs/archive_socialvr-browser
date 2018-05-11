@@ -11,11 +11,11 @@ export default class DoorPlane extends BasePlane {
   protected _hasPlaneMesh: boolean = false;
   protected _delayBeforeRunActivation = 1000;
 
-  protected get hoverIconGeometry(): any {
+  protected hoverIconGeometry(): any {
     return new THREE.PlaneGeometry(THREE_CONST.HOTSPOT_DIM, THREE_CONST.HOTSPOT_DIM);
   }
 
-  protected get hoverIconTexture() {
+  protected hoverIconTexture() {
     return this.assetInteractor.getTextureById(this.type);
   }
 

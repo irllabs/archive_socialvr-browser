@@ -31,11 +31,11 @@ export default class BasePlane {
   protected camera: THREE.PerspectiveCamera;
   protected assetInteractor: AssetInteractor;
 
-  protected get hoverIconGeometry(): any {
+  protected hoverIconGeometry(): any {
     return new THREE.CircleGeometry(THREE_CONST.HOTSPOT_DIM, THREE_CONST.DASHCIRCLE_SEG);
   }
 
-  protected get hoverIconTexture() {
+  protected hoverIconTexture() {
     return this.assetInteractor.getTextureById('hotspot-hover');
   }
 
@@ -67,8 +67,8 @@ export default class BasePlane {
     const posCar = pol2car(THREE_CONST.CAMERA_HOTSPOT, polPol.y, polPol.z);
 
     // Render iconMesh
-    const iconGeometry = this.hoverIconGeometry;
-    const iconTexture = this.hoverIconTexture;
+    const iconGeometry = this.hoverIconGeometry();
+    const iconTexture = this.hoverIconTexture();
     const iconMaterial = new THREE.MeshBasicMaterial({
       map: iconTexture,
       transparent: true,
