@@ -943,9 +943,9 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
+var assetManager_1 = __webpack_require__(142);
 var roomManager_1 = __webpack_require__(110);
 var roomPropertyBuilder_1 = __webpack_require__(189);
-var assetManager_1 = __webpack_require__(142);
 var SceneInteractor = /** @class */function () {
     function SceneInteractor(roomManager, propertyBuilder, assetManager) {
         this.roomManager = roomManager;
@@ -955,6 +955,19 @@ var SceneInteractor = /** @class */function () {
             this.addRoom();
         }
     }
+    SceneInteractor.prototype.changeRoomPosition = function (room, position) {
+        var _this = this;
+        console.log('changeRoomPosition', room, position);
+        var rooms = this.roomManager.getRooms();
+        this.roomManager.clearRooms();
+        rooms.delete(room);
+        var roomsArray = Array.from(rooms);
+        rooms.clear();
+        roomsArray.splice(position, 0, room);
+        roomsArray.forEach(function (room) {
+            return _this.roomManager.addRoom(room);
+        });
+    };
     SceneInteractor.prototype.getRoomIds = function () {
         return Array.from(this.roomManager.getRooms()).map(function (room) {
             return room.getId();
@@ -985,7 +998,7 @@ var SceneInteractor = /** @class */function () {
             return aggregateList.concat(Array.from(doorSet).filter(function (door) {
                 return door.getRoomId() === roomId;
             }));
-        }, new Array()).forEach(function (door) {
+        }, []).forEach(function (door) {
             return door.reset();
         });
     };
@@ -4131,14 +4144,14 @@ exports.BaseElement = BaseElement;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var audio_1 = __webpack_require__(111);
-var video_1 = __webpack_require__(276);
+var video_1 = __webpack_require__(277);
 var universal_1 = __webpack_require__(191);
 var image_1 = __webpack_require__(190);
-var text_1 = __webpack_require__(275);
-var door_1 = __webpack_require__(277);
+var text_1 = __webpack_require__(276);
+var door_1 = __webpack_require__(278);
 var room_1 = __webpack_require__(516);
-var link_1 = __webpack_require__(278);
-var narrator_1 = __webpack_require__(273);
+var link_1 = __webpack_require__(279);
+var narrator_1 = __webpack_require__(274);
 var typeMap = {
     audio: audio_1.Audio,
     door: door_1.Door,
@@ -6220,7 +6233,7 @@ var __decorate = this && this.__decorate || function (decorators, target, key, d
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var THREE = __webpack_require__(15);
-var audioContextProvider_1 = __webpack_require__(279);
+var audioContextProvider_1 = __webpack_require__(273);
 var AssetManager = /** @class */function () {
     function AssetManager() {
         this.textureMap = new Map();
@@ -6496,7 +6509,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var fileLoaderUtil_1 = __webpack_require__(68);
-var audioContextProvider_1 = __webpack_require__(279);
+var audioContextProvider_1 = __webpack_require__(273);
 var Recorder = __webpack_require__(382);
 var AudioRecorderService = /** @class */function () {
     function AudioRecorderService(fileLoaderUtil) {
@@ -8703,17 +8716,17 @@ var __decorate = this && this.__decorate || function (decorators, target, key, d
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var room_1 = __webpack_require__(516);
-var text_1 = __webpack_require__(275);
-var video_1 = __webpack_require__(276);
+var text_1 = __webpack_require__(276);
+var video_1 = __webpack_require__(277);
 var universal_1 = __webpack_require__(191);
 var image_1 = __webpack_require__(190);
 var audio_1 = __webpack_require__(111);
-var door_1 = __webpack_require__(277);
-var link_1 = __webpack_require__(278);
-var narrator_1 = __webpack_require__(273);
+var door_1 = __webpack_require__(278);
+var link_1 = __webpack_require__(279);
+var narrator_1 = __webpack_require__(274);
 var vector2_1 = __webpack_require__(76);
 var imageResizeService_1 = __webpack_require__(31);
-var reverbList_1 = __webpack_require__(274);
+var reverbList_1 = __webpack_require__(275);
 var constants_1 = __webpack_require__(6);
 var PropertyBuilder = /** @class */function () {
     function PropertyBuilder() {}
@@ -11401,6 +11414,24 @@ function remove(array, elem) {
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
+var audioContext = null;
+function getAudioContext() {
+    if (audioContext === null) {
+        audioContext = new AudioContext();
+    }
+    return audioContext;
+}
+exports.getAudioContext = getAudioContext;
+;
+
+/***/ }),
+/* 274 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", { value: true });
 // import {BaseElement} from 'data/scene/entities/baseElement';
 var audio_1 = __webpack_require__(111);
 var constants_1 = __webpack_require__(6);
@@ -11466,7 +11497,7 @@ var Narrator = /** @class */function () {
 exports.Narrator = Narrator;
 
 /***/ }),
-/* 274 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11477,7 +11508,7 @@ var reverbList = ["Off", "Generic", "PaddedCell", "Room", "Bathroom", "Livingroo
 exports.reverbList = reverbList;
 
 /***/ }),
-/* 275 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11524,7 +11555,7 @@ var Text = /** @class */function (_super) {
 exports.Text = Text;
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11626,7 +11657,7 @@ var Video = /** @class */function (_super) {
 exports.Video = Video;
 
 /***/ }),
-/* 277 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11697,7 +11728,7 @@ var Door = /** @class */function (_super) {
 exports.Door = Door;
 
 /***/ }),
-/* 278 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11742,24 +11773,6 @@ var Link = /** @class */function (_super) {
     return Link;
 }(baseElement_1.BaseElement);
 exports.Link = Link;
-
-/***/ }),
-/* 279 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var audioContext = null;
-function getAudioContext() {
-    if (audioContext === null) {
-        audioContext = new AudioContext();
-    }
-    return audioContext;
-}
-exports.getAudioContext = getAudioContext;
-;
 
 /***/ }),
 /* 280 */
@@ -12620,7 +12633,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var assetInteractor_1 = __webpack_require__(61);
-var audioContextProvider_1 = __webpack_require__(279);
+var audioContextProvider_1 = __webpack_require__(273);
 var AudioPlayService = /** @class */function () {
     function AudioPlayService(assetInteractor) {
         this.assetInteractor = assetInteractor;
@@ -21824,10 +21837,10 @@ var audio_1 = __webpack_require__(111);
 var image_1 = __webpack_require__(190);
 var vector2_1 = __webpack_require__(76);
 var mediaFile_1 = __webpack_require__(188);
-var narrator_1 = __webpack_require__(273);
+var narrator_1 = __webpack_require__(274);
 var uuid_1 = __webpack_require__(112);
 var constants_1 = __webpack_require__(6);
-var reverbList_1 = __webpack_require__(274);
+var reverbList_1 = __webpack_require__(275);
 var constants_2 = __webpack_require__(6);
 var Room = /** @class */function () {
     function Room() {
@@ -38352,7 +38365,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var text_1 = __webpack_require__(275);
+var text_1 = __webpack_require__(276);
 var TextEditor = /** @class */function () {
     function TextEditor() {}
     __decorate([core_1.Input(), __metadata("design:type", text_1.Text)], TextEditor.prototype, "textProperty", void 0);
@@ -38396,7 +38409,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var video_1 = __webpack_require__(276);
+var video_1 = __webpack_require__(277);
 var platform_browser_1 = __webpack_require__(46);
 var VideoEditor = /** @class */function () {
     function VideoEditor(sanitizer) {
@@ -38685,7 +38698,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var door_1 = __webpack_require__(277);
+var door_1 = __webpack_require__(278);
 var sceneInteractor_1 = __webpack_require__(14);
 var constants_1 = __webpack_require__(6);
 var event_bus_1 = __webpack_require__(10);
@@ -38819,7 +38832,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var link_1 = __webpack_require__(278);
+var link_1 = __webpack_require__(279);
 var LinkEditor = /** @class */function () {
     function LinkEditor() {}
     LinkEditor.prototype.showLinkButton = function () {
@@ -41815,7 +41828,7 @@ var projectMetaDataInteractor_1 = __webpack_require__(38);
 var imageResizeService_1 = __webpack_require__(31);
 var sceneInteractor_1 = __webpack_require__(14);
 var event_bus_1 = __webpack_require__(10);
-var reverbList_1 = __webpack_require__(274);
+var reverbList_1 = __webpack_require__(275);
 var audioRecorderService_1 = __webpack_require__(145);
 var constants_1 = __webpack_require__(6);
 var RoomEditor = /** @class */function () {
@@ -42164,12 +42177,37 @@ var StoryScroll = /** @class */function () {
         this.metaDataInteractor = metaDataInteractor;
         this.eventBus = eventBus;
         this.slideshowBuilder = slideshowBuilder;
-        this.projectIsSelected = true;
         this.subscriptions = new Set();
         this.activeRoomIsExpanded = true;
         this.inspectorIsVisible = false;
         this.isOpen = false;
     }
+    Object.defineProperty(StoryScroll.prototype, "roomIds", {
+        get: function () {
+            return this.sceneInteractor.getRoomIds();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    StoryScroll.prototype.subscribeToEvents = function () {
+        var _this = this;
+        var roomPropertySubscription = this.eventBus.getObservable(event_bus_1.EventType.SELECT_PROPERTY).subscribe(function (observedData) {
+            var propertyId = observedData.propertyId;
+            var activeRoomId = _this.sceneInteractor.getActiveRoomId();
+            _this.activeProperty = _this.sceneInteractor.getPropertyById(activeRoomId, propertyId) || _this.sceneInteractor.getRoomById(activeRoomId);
+            _this.activeRoomIsExpanded = true;
+        }, function (error) {
+            return console.log('error', error);
+        });
+        var roomSubscription = this.eventBus.getObservable(event_bus_1.EventType.SELECT_ROOM).subscribe(function () {
+            var activeRoomId = _this.sceneInteractor.getActiveRoomId();
+            _this.activeProperty = _this.sceneInteractor.getRoomById(activeRoomId);
+        }, function (error) {
+            return console.log('error', error);
+        });
+        this.subscriptions.add(roomPropertySubscription);
+        this.subscriptions.add(roomSubscription);
+    };
     StoryScroll.prototype.ngOnInit = function () {
         this.subscribeToEvents();
     };
@@ -42178,36 +42216,8 @@ var StoryScroll = /** @class */function () {
             return subscription.unsubscribe();
         });
     };
-    StoryScroll.prototype.subscribeToEvents = function () {
-        var _this = this;
-        var roomPropertySubscription = this.eventBus.getObservable(event_bus_1.EventType.SELECT_PROPERTY).subscribe(function (observedData) {
-            var propertyId = observedData.propertyId;
-            var activeRoomId = _this.sceneInteractor.getActiveRoomId();
-            _this.activeProperty = _this.sceneInteractor.getPropertyById(activeRoomId, propertyId) || _this.sceneInteractor.getRoomById(activeRoomId);
-            _this.projectIsSelected = false;
-            _this.activeRoomIsExpanded = true;
-        }, function (error) {
-            return console.log('error', error);
-        });
-        var roomSubscription = this.eventBus.getObservable(event_bus_1.EventType.SELECT_ROOM).subscribe(function (observedData) {
-            var activeRoomId = _this.sceneInteractor.getActiveRoomId();
-            _this.activeProperty = _this.sceneInteractor.getRoomById(activeRoomId);
-            _this.projectIsSelected = false;
-        }, function (error) {
-            return console.log('error', error);
-        });
-        this.subscriptions.add(roomPropertySubscription);
-        this.subscriptions.add(roomSubscription);
-    };
-    StoryScroll.prototype.onProjectSelect = function () {
-        this.projectIsSelected = true;
-    };
-    StoryScroll.prototype.getPropertyList = function () {
-        var activeRoomId = this.sceneInteractor.getActiveRoomId();
-        return this.sceneInteractor.getRoomProperties(activeRoomId);
-    };
-    StoryScroll.prototype.getRoomIdList = function () {
-        return this.sceneInteractor.getRoomIds();
+    StoryScroll.prototype.hasNextRoomFor = function (roomId) {
+        return this.roomIds.indexOf(roomId) < this.roomIds.length - 1;
     };
     StoryScroll.prototype.getRoomById = function (roomId) {
         return this.sceneInteractor.getRoomById(roomId);
@@ -42222,42 +42232,30 @@ var StoryScroll = /** @class */function () {
         this.sceneInteractor.setActiveRoomId(roomId);
         this.eventBus.onSelectRoom(roomId, false);
     };
-    StoryScroll.prototype.onPropertySelect = function (roomProperty) {
-        var propertyId = roomProperty && roomProperty.getId() || null;
-        this.eventBus.onSelectProperty(propertyId, false);
-    };
-    StoryScroll.prototype.propertyIsSelected = function (item) {
-        return item === this.activeProperty;
-    };
     StoryScroll.prototype.roomIsSelected = function (roomId) {
-        var numberOfRooms = this.sceneInteractor.getRoomIds().length;
+        var numberOfRooms = this.roomIds.length;
         if (numberOfRooms === 0) {
             return false;
         }
         return roomId === this.sceneInteractor.getActiveRoomId();
     };
-    StoryScroll.prototype.roomIsExpanded = function (roomId) {
-        return this.roomIsSelected(roomId) && this.activeRoomIsExpanded && !!this.sceneInteractor.getRoomProperties(roomId).length;
-    };
-    StoryScroll.prototype.getProjectName = function () {
-        return this.metaDataInteractor.getProjectName();
-    };
-    StoryScroll.prototype.onInfoClick = function ($event) {
+    StoryScroll.prototype.onInfoClick = function () {
         var _this = this;
         setTimeout(function () {
             return _this.inspectorIsVisible = true;
         });
     };
-    StoryScroll.prototype.onOffClick = function ($event) {
+    StoryScroll.prototype.onOffClick = function () {
         if (this.inspectorIsVisible) {
             this.inspectorIsVisible = false;
         }
     };
-    StoryScroll.prototype.toggleOpen = function ($event) {
+    StoryScroll.prototype.toggleOpen = function () {
         this.isOpen = !this.isOpen;
     };
     StoryScroll.prototype.onFileLoad = function ($event) {
         var _this = this;
+        debugger;
         var fileName = $event.file.name;
         var binaryFileData = $event.binaryFileData;
         //const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
@@ -42275,7 +42273,15 @@ var StoryScroll = /** @class */function () {
             return _this.eventBus.onModalMessage('Image loading error', error);
         });
     };
-    StoryScroll.prototype.addSlideshow = function ($event) {
+    StoryScroll.prototype.onSwapRoom = function (roomId, direction) {
+        if (direction === void 0) {
+            direction = 1;
+        }
+        var room = this.sceneInteractor.getRoomById(roomId);
+        var currentIndex = this.roomIds.indexOf(roomId);
+        this.sceneInteractor.changeRoomPosition(room, currentIndex + direction);
+    };
+    StoryScroll.prototype.addSlideShow = function ($event) {
         var _this = this;
         this.eventBus.onStartLoading();
         this.slideshowBuilder.build($event.files).then(function (resolve) {
@@ -42297,13 +42303,13 @@ exports.StoryScroll = StoryScroll;
 /* 1283 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.story-scroll {\n  position: absolute;\n  bottom: 0;\n  width: 70%;\n  left: 15%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-content: center;\n  transform: translateY(85px);\n  transition: transform 0.25s ease-in-out; }\n\n.stroy-scroll--open {\n  transform: translateY(0); }\n\n.story-scroll__toggle-button {\n  position: relative;\n  width: 100px;\n  height: 30px;\n  margin: auto auto -30px auto;\n  cursor: pointer; }\n\n.story-scroll__toggle-arrow {\n  display: block;\n  position: absolute;\n  height: 5px;\n  width: 30px;\n  margin: 1px;\n  background: #FAFAFA;\n  border-radius: 10px;\n  transition: transform 0.25s ease; }\n\n.story-scroll__toggle-arrow-left {\n  transform: rotate(-45deg);\n  left: 27%; }\n\n.story-scroll__toggle-arrow-left--open {\n  transform: rotate(45deg); }\n\n.story-scroll__toggle-arrow-right {\n  transform: rotate(45deg);\n  left: 45%; }\n\n.story-scroll__toggle-arrow-right--open {\n  transform: rotate(-45deg); }\n\n.story-scroll__room-editor {\n  justify-content: center;\n  align-content: center;\n  margin: auto; }\n\n.story-scroll__scroll {\n  background-color: #EEEEEE;\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  background: transparent;\n  max-width: 100%;\n  align-items: center; }\n\n.story-scroll__room-group {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  overflow-x: scroll;\n  overflow-y: hidden;\n  padding-left: 80px; }\n\n.story-scroll__room {\n  flex-direction: row;\n  margin-left: 0px; }\n\n.story-scroll__storymap-item {\n  color: #888888;\n  font-size: 0.8em; }\n  .story-scroll__storymap-item:hover {\n    color: #000; }\n\n.story-scroll__room-property-container {\n  max-height: 0;\n  overflow: hidden;\n  transition: max-height 0.1s;\n  margin-left: 10px; }\n\n.story-scroll__room-property-container--expanded {\n  max-height: 500px; }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.story-scroll {\n  position: absolute;\n  bottom: 0;\n  width: 70%;\n  left: 15%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-content: center;\n  transform: translateY(85px);\n  transition: transform 0.25s ease-in-out; }\n\n.stroy-scroll--open {\n  transform: translateY(0); }\n\n.story-scroll__toggle-button {\n  position: relative;\n  width: 100px;\n  height: 30px;\n  margin: auto auto -30px auto;\n  cursor: pointer; }\n\n.story-scroll__toggle-arrow {\n  display: block;\n  position: absolute;\n  height: 5px;\n  width: 30px;\n  margin: 1px;\n  background: #FAFAFA;\n  border-radius: 10px;\n  transition: transform 0.25s ease; }\n\n.story-scroll__toggle-arrow-left {\n  transform: rotate(-45deg);\n  left: 27%; }\n\n.story-scroll__toggle-arrow-left--open {\n  transform: rotate(45deg); }\n\n.story-scroll__toggle-arrow-right {\n  transform: rotate(45deg);\n  left: 45%; }\n\n.story-scroll__toggle-arrow-right--open {\n  transform: rotate(-45deg); }\n\n.story-scroll__room-editor {\n  justify-content: center;\n  align-content: center;\n  margin: auto; }\n\n.story-scroll__scroll {\n  background-color: #EEEEEE;\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  background: transparent;\n  max-width: 100%;\n  align-items: center; }\n\n.story-scroll__room-group {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  overflow-x: scroll;\n  overflow-y: hidden;\n  padding-left: 80px; }\n\n.story-scroll__room {\n  flex-direction: row;\n  margin-left: 0px; }\n\n.story-scroll__storymap-item {\n  color: #888888;\n  font-size: 0.8em; }\n  .story-scroll__storymap-item:hover {\n    color: #000; }\n\n.story-scroll__room-property-container {\n  max-height: 0;\n  overflow: hidden;\n  transition: max-height 0.1s;\n  margin-left: 10px; }\n\n.story-scroll__room-property-container--expanded {\n  max-height: 500px; }\n\n.toggle-room-actions {\n  padding: 2px 5px;\n  text-align: right; }\n  .toggle-room-actions .toggle-room-position {\n    position: relative;\n    left: 18px;\n    padding: 2px 10px;\n    line-height: 14px; }\n"
 
 /***/ }),
 /* 1284 */
 /***/ (function(module, exports) {
 
-module.exports = "<div\n  class=\"story-scroll\"\n  [ngClass]=\"{'stroy-scroll--open': isOpen}\">\n\n  <room-editor\n    *ngIf=\"inspectorIsVisible\"\n    (onOffClick)=\"onOffClick($event)\"\n    class=\"story-scroll__room-editor\">\n  </room-editor>\n\n  <div *ngIf=\"!inspectorIsVisible\">\n    <div\n      (click)=\"toggleOpen($event)\"\n      class=\"story-scroll__toggle-button\">\n      <span\n        class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-left\"\n        [ngClass]=\"{'story-scroll__toggle-arrow-left--open': isOpen}\">\n      </span>\n      <span\n      class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-right\"\n      [ngClass]=\"{'story-scroll__toggle-arrow-right--open': isOpen}\">\n      </span>\n    </div>\n  </div>\n\n\n  <div\n    droppable\n    [acceptedFileType]=\"'image'\"\n    [acceptMultpleFiles]=\"true\"\n    (onFileLoad)=\"addSlideshow($event)\"\n    class=\"story-scroll__scroll\">\n\n      <div class=\"story-scroll__room-group\">\n        <div\n          *ngFor=\"let roomId of getRoomIdList()\"\n          class=\"story-scroll__room\">\n\n          <!-- Room Label -->\n          <storymap-item\n            [roomProperty]=\"getRoomById(roomId)\"\n            [isActive]=\"roomIsSelected(roomId)\"\n            (click)=\"onRoomSelect(roomId)\"\n            (infoEvent)=\"onInfoClick($event)\"\n            class=\"story-scroll__storymap-item\">\n          </storymap-item>\n        </div>\n      </div>\n\n\n      <add-room></add-room>\n\n  </div>\n\n</div>\n"
+module.exports = "<div\n  class=\"story-scroll\"\n  [ngClass]=\"{'stroy-scroll--open': isOpen}\">\n\n  <room-editor\n    *ngIf=\"inspectorIsVisible\"\n    (onOffClick)=\"onOffClick()\"\n    class=\"story-scroll__room-editor\">\n  </room-editor>\n\n  <div *ngIf=\"!inspectorIsVisible\">\n    <div\n      (click)=\"toggleOpen()\"\n      class=\"story-scroll__toggle-button\">\n      <span\n        class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-left\"\n        [ngClass]=\"{'story-scroll__toggle-arrow-left--open': isOpen}\">\n      </span>\n      <span\n      class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-right\"\n      [ngClass]=\"{'story-scroll__toggle-arrow-right--open': isOpen}\">\n      </span>\n    </div>\n  </div>\n\n  <div\n    droppable\n    [acceptedFileType]=\"'image'\"\n    [acceptMultpleFiles]=\"true\"\n    (onFileLoad)=\"addSlideShow($event)\"\n    class=\"story-scroll__scroll\">\n\n      <div class=\"story-scroll__room-group\">\n        <div\n          *ngFor=\"let roomId of roomIds\"\n          class=\"story-scroll__room\">\n\n          <!-- Room Label -->\n          <storymap-item\n            [roomProperty]=\"getRoomById(roomId)\"\n            [isActive]=\"roomIsSelected(roomId)\"\n            (click)=\"onRoomSelect(roomId)\"\n            (infoEvent)=\"onInfoClick()\"\n            class=\"story-scroll__storymap-item\">\n          </storymap-item>\n\n          <div class=\"toggle-room-actions\">\n            <button type=\"button\"\n                    class=\"toggle-room-position\"\n                    (click)=\"onSwapRoom(roomId, 1)\"\n                    *ngIf=\"hasNextRoomFor(roomId)\">\n              &#8596;\n            </button>\n          </div>\n        </div>\n      </div>\n\n      <add-room [hasSwapButtons]=\"roomIds.length > 1\"></add-room>\n  </div>\n</div>\n"
 
 /***/ }),
 /* 1285 */
@@ -42440,8 +42446,9 @@ var AddRoomButton = /** @class */function () {
         this.router = router;
         this.eventBus = eventBus;
         this.userInteractor = userInteractor;
+        this.hasSwapButtons = false;
     }
-    AddRoomButton.prototype.addRoom = function ($event) {
+    AddRoomButton.prototype.addRoom = function () {
         if (!this.userInteractor.isLoggedIn()) {
             this.eventBus.onModalMessage('Error', 'You must be logged in to create more rooms');
             return;
@@ -42451,7 +42458,8 @@ var AddRoomButton = /** @class */function () {
     AddRoomButton = __decorate([core_1.Component({
         selector: 'add-room',
         styles: [__webpack_require__(1289)],
-        template: __webpack_require__(1290)
+        template: __webpack_require__(1290),
+        inputs: ['hasSwapButtons']
     }), __metadata("design:paramtypes", [router_1.Router, event_bus_1.EventBus, userInteractor_1.UserInteractor])], AddRoomButton);
     return AddRoomButton;
 }();
@@ -42461,13 +42469,13 @@ exports.AddRoomButton = AddRoomButton;
 /* 1289 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.add-room {\n  position: relative;\n  cursor: pointer;\n  margin-left: 5px; }\n\n.add-room__rect {\n  position: absolute;\n  opacity: 50%;\n  width: 60px;\n  height: 80px;\n  background-color: #FAFAFA;\n  top: -29px; }\n\n.add-room__plus {\n  transform: translate(10px, -8px); }\n\n.add-room__barh {\n  display: block;\n  position: absolute;\n  height: 4px;\n  width: 32px;\n  border-radius: 2px;\n  background-color: #888888;\n  left: 4px;\n  top: 18px;\n  transition: .15s ease-in-out;\n  transform: rotate(0deg); }\n\n.add-room__barv {\n  display: block;\n  position: absolute;\n  height: 4px;\n  width: 32px;\n  border-radius: 2px;\n  background-color: #888888;\n  left: 4px;\n  top: 18px;\n  transition: .15s ease-in-out;\n  transform: rotate(90deg); }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.add-room {\n  position: relative;\n  cursor: pointer;\n  margin-left: 5px;\n  margin-bottom: 5px; }\n  .add-room.has-swap-bottoms {\n    margin-bottom: 26px; }\n\n.add-room__rect {\n  position: absolute;\n  width: 60px;\n  height: 80px;\n  background-color: #FAFAFA;\n  top: -29px; }\n\n.add-room__plus {\n  transform: translate(10px, -8px); }\n\n.add-room__barh {\n  display: block;\n  position: absolute;\n  height: 4px;\n  width: 32px;\n  border-radius: 2px;\n  background-color: #888888;\n  left: 4px;\n  top: 18px;\n  transition: .15s ease-in-out;\n  transform: rotate(0deg); }\n\n.add-room__barv {\n  display: block;\n  position: absolute;\n  height: 4px;\n  width: 32px;\n  border-radius: 2px;\n  background-color: #888888;\n  left: 4px;\n  top: 18px;\n  transition: .15s ease-in-out;\n  transform: rotate(90deg); }\n"
 
 /***/ }),
 /* 1290 */
 /***/ (function(module, exports) {
 
-module.exports = "<div\n  class=\"add-room\"\n  (click)=\"addRoom($event)\">\n  <span class=\"add-room__rect\"></span>\n  <div class=\"add-room__plus\">\n    <span class=\"add-room__barh\"></span>\n    <span class=\"add-room__barv\"></span>\n  </div>\n</div>\n"
+module.exports = "<div\n  class=\"add-room\"\n  [ngClass]=\"{'has-swap-bottoms': hasSwapButtons}\"\n  (click)=\"addRoom($event)\">\n  <span class=\"add-room__rect\"></span>\n  <div class=\"add-room__plus\">\n    <span class=\"add-room__barh\"></span>\n    <span class=\"add-room__barv\"></span>\n  </div>\n</div>\n"
 
 /***/ }),
 /* 1291 */
