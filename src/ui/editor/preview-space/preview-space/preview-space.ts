@@ -67,6 +67,7 @@ export class PreviewSpace implements AfterViewInit {
   //private onResizeFn: Function = this.onResize.bind(this);
   private onResizeFn: EventListenerObject = {handleEvent: this.onResize.bind(this)};
   private onVrDisplayChangeFn: EventListenerObject = {handleEvent: this.onVrDisplayChange.bind(this)};
+  private onCheckAudioContext: EventListenerObject = {handleEvent: this.checkAudioContextState.bind(this)};
 
   // private onVrDisplayChangeFn: Function = this.onVrDisplayChange.bind(this);
 
@@ -102,7 +103,7 @@ export class PreviewSpace implements AfterViewInit {
 
     this.shouldInit = true;
     this.ngZone.runOutsideAngular(() => {
-      document.addEventListener('click', this.checkAudioContextState, false);
+      document.addEventListener('click', this.onCheckAudioContext, false);
       window.addEventListener('resize', this.onResizeFn, false);
       window.addEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);
     });
