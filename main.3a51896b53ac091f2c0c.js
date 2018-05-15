@@ -3293,9 +3293,7 @@ var FileLoaderUtil = /** @class */function () {
             setTimeout(function () {
                 var fileReader = new FileReader();
                 fileReader.onloadend = function () {
-                    var result = _this.getFileData(fileReader.result);
-                    console.log('fileLoader.onloadEnd', result);
-                    resolve(result);
+                    resolve(_this.getFileData(fileReader.result));
                 };
                 fileReader.onerror = function () {
                     var error = fileReader.error;
@@ -11956,24 +11954,42 @@ var DeserializationService = /** @class */function () {
         this.fileLoaderUtil = fileLoaderUtil;
         this.apiService = apiService;
         this.zip = new JSZip();
+        this._cachedStoryFile = {};
     }
-    DeserializationService.prototype.deserializeRooms = function (storyFile, binaryFileMap, baseFilePath) {
-        var _this = this;
-        return storyFile.async('string').then(function (storyString) {
-            var storyJson;
-            if (storyFile.name.indexOf(constants_1.STORY_FILE_JSON) >= 0) {
-                storyJson = JSON.parse(storyString);
+    DeserializationService.prototype.getFile = function (fileMap, fileName, baseFilePath) {
+        return fileMap.find(function (mediaFile) {
+            return (mediaFile.name || '').replace(baseFilePath, '') === fileName.replace(baseFilePath, '');
+        });
+    };
+    DeserializationService.prototype.parseStoryFile = function (storyFile) {
+        var cache = this._cachedStoryFile[storyFile.name];
+        if (cache) {
+            return cache;
+        }
+        cache = storyFile.async('string').then(function (storyFileString) {
+            if (storyFile.name.endsWith('.json')) {
+                return JSON.parse(storyFileString);
             } else {
                 try {
                     //remove room property descriptions from yaml file (ex: - !image, - !door)
                     var bangDescriptionRegex = /!\w+\n/g;
-                    var newLineStoryYaml = storyString.replace(/\r\n/g, '\n');
+                    var newLineStoryYaml = storyFileString.replace(/\r\n/g, '\n');
                     var cleanedStoryYaml = newLineStoryYaml.replace(bangDescriptionRegex, '\n');
-                    storyJson = JsYaml.load(cleanedStoryYaml);
+                    return JsYaml.load(cleanedStoryYaml);
                 } catch (error) {
                     console.error(error);
                     return;
                 }
+            }
+        });
+        this._cachedStoryFile[storyFile.name] = cache;
+        return cache;
+    };
+    DeserializationService.prototype.deserializeRooms = function (storyFile, binaryFileMap, baseFilePath) {
+        var _this = this;
+        return this.parseStoryFile(storyFile).then(function (storyJson) {
+            if (!storyJson) {
+                return;
             }
             _this.roomManager.clearRooms();
             _this.roomManager.setProjectName(storyJson.name);
@@ -11999,46 +12015,22 @@ var DeserializationService = /** @class */function () {
                 if (roomData.image.hasOwnProperty('file')) {
                     filename = roomData.image.file;
                 }
-                var roomImagePath = "" + baseFilePath + filePrefix + "/" + filename;
-                var roomImage = binaryFileMap.find(function (mediaFile) {
-                    return mediaFile.name === roomImagePath;
-                });
+                var roomImage = _this.getFile(binaryFileMap, filePrefix + "/" + filename, baseFilePath);
                 var roomImageData = roomImage ? roomImage.fileData : null;
                 // Background thumbnail
-                var roomThumbPath = "" + baseFilePath + filePrefix + "/" + constants_1.BACKGROUND_THUMBNAIL;
-                var roomThumbnail = binaryFileMap.find(function (mediaFile) {
-                    return mediaFile.name === roomThumbPath;
-                });
+                var roomThumbnail = _this.getFile(binaryFileMap, filePrefix + "/" + constants_1.BACKGROUND_THUMBNAIL, baseFilePath);
                 var thumbnailImageData = roomThumbnail ? roomThumbnail.fileData : null;
-                filename = roomData.ambient;
-                if (roomData.ambient.hasOwnProperty('file')) {
-                    filename = roomData.ambient.file;
-                }
+                filename = roomData.ambient.hasOwnProperty('file') ? roomData.ambient.file : roomData.ambient;
                 // Background audio
-                var backgroundAudioPath = "" + baseFilePath + filePrefix + "/" + filename;
-                var backgroundAudio = binaryFileMap.find(function (mediaFile) {
-                    return mediaFile.name === backgroundAudioPath;
-                });
+                var backgroundAudio = _this.getFile(binaryFileMap, filePrefix + "/" + filename, baseFilePath);
                 var backgroundAudioData = backgroundAudio ? backgroundAudio.fileData : null;
-                filename = roomData.narrator.intro;
-                if (roomData.narrator.intro.hasOwnProperty('file')) {
-                    filename = roomData.narrator.intro.file;
-                }
+                filename = roomData.narrator.intro.hasOwnProperty('file') ? roomData.narrator.intro.file : roomData.narrator.intro;
                 // Narrator intro audio
-                var introAudioPath = roomData.narrator ? "" + baseFilePath + filePrefix + "/" + filename : '';
-                var introAudio = binaryFileMap.find(function (mediaFile) {
-                    return mediaFile.name === introAudioPath;
-                });
+                var introAudio = roomData.narrator ? _this.getFile(binaryFileMap, filePrefix + "/" + filename, baseFilePath) : '';
                 var introAudioData = introAudio ? introAudio.fileData : null;
-                filename = roomData.narrator.reprise;
-                if (roomData.narrator.reprise.hasOwnProperty('file')) {
-                    filename = roomData.narrator.reprise.file;
-                }
+                filename = roomData.narrator.reprise.hasOwnProperty('file') ? roomData.narrator.reprise.file : roomData.narrator.reprise;
                 // Narrator return audio
-                var returnAudioPath = roomData.narrator ? "" + baseFilePath + filePrefix + "/" + filename : '';
-                var returnAudio = binaryFileMap.find(function (mediaFile) {
-                    return mediaFile.name === returnAudioPath;
-                });
+                var returnAudio = roomData.narrator ? _this.getFile(binaryFileMap, filePrefix + "/" + filename, baseFilePath) : '';
                 var returnAudioData = returnAudio ? returnAudio.fileData : null;
                 var room = _this.propertyBuilder.roomFromJson(roomData, roomImageData, thumbnailImageData, backgroundAudioData);
                 var doors = roomData.doors || [];
@@ -12051,15 +12043,11 @@ var DeserializationService = /** @class */function () {
                 // Convert old project's hotspots to new Universal one
                 _this.convertToUniversal(room, baseFilePath, filePrefix, binaryFileMap, roomData.texts, roomData.clips, roomData.images);
                 (roomData.universal || []).map(function (universalJson) {
-                    var imageFileName = "" + baseFilePath + filePrefix + "/" + universalJson.imageFile;
-                    var imageBinaryFile = binaryFileMap.find(function (mediaFile) {
-                        return mediaFile.name === imageFileName;
-                    });
+                    var imageFileName = filePrefix + "/" + universalJson.imageFile;
+                    var imageBinaryFile = _this.getFile(binaryFileMap, imageFileName, baseFilePath);
                     var imageBinaryFileData = imageBinaryFile ? imageBinaryFile.fileData : null;
-                    var audioFileName = "" + baseFilePath + filePrefix + "/" + universalJson.audioFile;
-                    var audioBinaryFile = binaryFileMap.find(function (mediaFile) {
-                        return mediaFile.name === audioFileName;
-                    });
+                    var audioFileName = filePrefix + "/" + universalJson.audioFile;
+                    var audioBinaryFile = _this.getFile(binaryFileMap, audioFileName, baseFilePath);
                     var audioBinaryFileData = audioBinaryFile ? audioBinaryFile.fileData : null;
                     return _this.propertyBuilder.universalFromJson(universalJson, imageBinaryFileData, audioBinaryFileData);
                 }).forEach(function (universal) {
@@ -12176,51 +12164,49 @@ var DeserializationService = /** @class */function () {
     DeserializationService.prototype.loadMediaFiles = function (fileMap, storyFilePath, getBinaryFileData) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var files, remoteFiles, getRemoteFiles, mediaFiles, i, file;
+            var files, getRemoteFiles, mediaFiles, i, file;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         files = Object.keys(fileMap).filter(function (fileKey) {
-                            return fileKey.indexOf(constants_1.STORY_FILE_YAML) < 0;
+                            return !fileKey.endsWith('.yml');
                         }).filter(function (fileKey) {
-                            return fileKey.indexOf(constants_1.STORY_FILE_JSON) < 0;
+                            return !fileKey.endsWith('.json');
                         }).map(function (fileKey) {
                             return fileMap[fileKey];
                         }).filter(function (file) {
                             return !file.dir;
                         });
-                        remoteFiles = [];
-                        getRemoteFiles = Promise.resolve(remoteFiles);
-                        // Only check for remote files if storyFile is JSON
-                        if (storyFilePath.indexOf(constants_1.STORY_FILE_JSON) >= 0) {
-                            getRemoteFiles = fileMap[storyFilePath].async('string').then(function (storyString) {
-                                var storyJson = JSON.parse(storyString);
-                                storyJson.rooms.map(function (room) {
-                                    var universalMediaFiles = (room.universal || []).reduce(function (acc, universal) {
-                                        return acc.concat([{
-                                            file: universal.imageFile,
-                                            remoteFile: universal.remoteImageFile
-                                        }, {
-                                            file: universal.audioFile,
-                                            remoteFile: universal.remoteAudioFile
-                                        }]);
-                                    }, []);
-                                    var assets = room.clips.concat(room.images, universalMediaFiles, [room.ambient, room.image, room.thumbnail || {}, room.narrator.intro, room.narrator.reprise]);
-                                    assets.map(function (asset) {
-                                        if (asset.hasOwnProperty('remoteFile') && asset.remoteFile) {
-                                            // Add to remoteFiles if not present locally
-                                            asset.filePath = room.uuid + "/" + asset.file;
-                                            if (files.map(function (file) {
-                                                return file.name;
-                                            }).indexOf(asset.filePath) < 0) {
-                                                remoteFiles.push(asset);
-                                            }
-                                        }
-                                    });
-                                });
+                        getRemoteFiles = this.parseStoryFile(fileMap[storyFilePath]).then(function (storyJson) {
+                            var remoteFiles = [];
+                            if (!storyJson) {
                                 return remoteFiles;
+                            }
+                            storyJson.rooms.forEach(function (room) {
+                                var universalMediaFiles = (room.universal || []).reduce(function (acc, universal) {
+                                    return acc.concat([{
+                                        file: universal.imageFile,
+                                        remoteFile: universal.remoteImageFile
+                                    }, {
+                                        file: universal.audioFile,
+                                        remoteFile: universal.remoteAudioFile
+                                    }]);
+                                }, []);
+                                var assets = room.clips.concat(room.images, universalMediaFiles, [room.ambient, room.image, room.thumbnail || {}, room.narrator.intro, room.narrator.reprise]);
+                                assets.forEach(function (asset) {
+                                    if (asset.hasOwnProperty('remoteFile') && asset.remoteFile) {
+                                        // Add to remoteFiles if not present locally
+                                        asset.filePath = room.uuid + "/" + asset.file;
+                                        if (!files.find(function (file) {
+                                            return file.name.indexOf(asset.filePath) !== -1;
+                                        })) {
+                                            remoteFiles.push(asset);
+                                        }
+                                    }
+                                });
                             });
-                        }
+                            return remoteFiles;
+                        });
                         mediaFiles = [];
                         return [4 /*yield*/, getRemoteFiles.then(function (remoteFiles) {
                             return __awaiter(_this, void 0, void 0, function () {
@@ -12275,18 +12261,17 @@ var DeserializationService = /** @class */function () {
     DeserializationService.prototype.deserializeProject = function (jsZipData) {
         var _this = this;
         var fileMap = jsZipData.files;
-        var storyFilePath = Object.keys(fileMap).filter(function (fileKey) {
-            return fileKey.indexOf(constants_1.STORY_FILE_YAML) > -1;
-        })[0] || constants_1.STORY_FILE_YAML;
-        var baseFilePath = storyFilePath.substring(0, storyFilePath.indexOf(constants_1.STORY_FILE_YAML));
-        // If a story.json file is present, assume assets have been uploaded to S3
-        if (Object.keys(fileMap).indexOf(constants_1.STORY_FILE_JSON) > -1) {
-            baseFilePath = storyFilePath.substring(0, storyFilePath.indexOf(constants_1.STORY_FILE_JSON));
-            storyFilePath = "" + baseFilePath + constants_1.STORY_FILE_JSON;
-        }
-        var storyFile = fileMap[storyFilePath];
+        var jsonStoryFilePath = Object.keys(fileMap).find(function (path) {
+            return path.endsWith('.json');
+        });
+        var yamlStoryFilePath = Object.keys(fileMap).find(function (path) {
+            return path.endsWith('.yml');
+        }) || constants_1.STORY_FILE_YAML;
+        var storyFilePath = jsonStoryFilePath || yamlStoryFilePath;
+        var baseFilePath = storyFilePath.split('/').slice(0, -1).join('/') + "/";
+        var storyFile = fileMap[jsonStoryFilePath || yamlStoryFilePath];
         var getBinaryFileData = this.fileLoaderUtil.getBinaryFileData.bind(this.fileLoaderUtil);
-        var mediaFilePromises = this.loadMediaFiles(fileMap, storyFilePath, getBinaryFileData);
+        var mediaFilePromises = this.loadMediaFiles(fileMap, jsonStoryFilePath || yamlStoryFilePath, getBinaryFileData);
         return mediaFilePromises.then(function (binaryFileMap) {
             return _this.deserializeRooms(storyFile, binaryFileMap.filter(function (f) {
                 return !!f;
@@ -12626,13 +12611,19 @@ var AudioPlayService = /** @class */function () {
         this.assetInteractor = assetInteractor;
         this.narrationPosition = 0;
         var audioContext = audioContextProvider_1.getAudioContext();
+        this.audioContext = audioContext;
         this.gainNode = audioContext.createGain();
         this.gainNode.gain.setTargetAtTime(2, 0, 0);
         this.gainNode.connect(audioContext.destination);
-        if (audioContext.state === 'suspended') {
-            audioContext.resume();
-        }
     }
+    AudioPlayService.prototype.checkAudioContextState = function () {
+        if (this.isAudioContextSuspended()) {
+            this.audioContext.resume();
+        }
+    };
+    AudioPlayService.prototype.isAudioContextSuspended = function () {
+        return this.audioContext.state === 'suspended';
+    };
     //for project soundtrack which cannot be stopped by others
     AudioPlayService.prototype.playSoundtrack = function (audioAssetId, volume) {
         if (volume === void 0) {
@@ -12645,6 +12636,7 @@ var AudioPlayService = /** @class */function () {
                 audioSource.loop = true;
                 audioSource.start(0);
                 this.soundtrack = audioSource;
+                this.checkAudioContextState();
             }
         }
     };
@@ -12654,6 +12646,7 @@ var AudioPlayService = /** @class */function () {
         if (audioSource) {
             audioSource.start(0);
             this.background = audioSource;
+            this.checkAudioContextState();
         }
     };
     AudioPlayService.prototype.playHotspotAudio = function (audioAssetId, volume, loop) {
@@ -12671,6 +12664,7 @@ var AudioPlayService = /** @class */function () {
             audioSource.loop = loop;
             audioSource.start(0);
             this.hotspot = audioSource;
+            this.checkAudioContextState();
             return audioSource;
         }
     };
@@ -12692,6 +12686,7 @@ var AudioPlayService = /** @class */function () {
             this.narrationStart = Date.now();
             this.narration = audioSource;
             this.narrationId = narrationId;
+            this.checkAudioContextState();
             return audioSource;
         }
     };
@@ -22710,6 +22705,26 @@ var AudioManager = /** @class */function () {
         this.roomBgAudioMap = new Map();
         this.roomNarrationMap = new Map();
     }
+    AudioManager.prototype.checkAudioContextState = function () {
+        this.audioPlayService.checkAudioContextState();
+    };
+    AudioManager.prototype.isAudioContextSuspended = function () {
+        return this.audioPlayService.isAudioContextSuspended();
+    };
+    AudioManager.prototype.hasAutoplayAudio = function (roomId) {
+        var room = this.sceneInteractor.getRoomById(roomId);
+        var soundtrack = this.metaDataInteractor.getSoundtrack();
+        if (soundtrack.hasAsset()) {
+            return true;
+        }
+        if (room.getBackgroundAudioBinaryFileData()) {
+            return true;
+        }
+        if (room.getNarrationIntroBinaryFileData()) {
+            return true;
+        }
+        return false;
+    };
     AudioManager.prototype.loadBuffers = function () {
         var _this = this;
         var soundtrackAudio = [];
@@ -39107,6 +39122,7 @@ var PreviewSpace = /** @class */function () {
         this.subscriptions = new Set();
         this.isInRenderLoop = false;
         this.showVrModeButton = false;
+        this.showUnmuteButton = false;
         this.lastRenderTime = performance.now();
         this.meshList = [];
         this.roomHistory = [];
@@ -39116,6 +39132,7 @@ var PreviewSpace = /** @class */function () {
         //private onResizeFn: Function = this.onResize.bind(this);
         this.onResizeFn = { handleEvent: this.onResize.bind(this) };
         this.onVrDisplayChangeFn = { handleEvent: this.onVrDisplayChange.bind(this) };
+        this.onCheckAudioContext = { handleEvent: this.checkAudioContextState.bind(this) };
     }
     //////////////////////////////////////////////
     ///////////    HOUSE KEEPING    //////////////
@@ -39130,6 +39147,7 @@ var PreviewSpace = /** @class */function () {
         }
         this.shouldInit = true;
         this.ngZone.runOutsideAngular(function () {
+            document.addEventListener('click', _this.onCheckAudioContext, false);
             window.addEventListener('resize', _this.onResizeFn, false);
             window.addEventListener('vrdisplaypresentchange', _this.onVrDisplayChangeFn, false);
         });
@@ -39138,6 +39156,8 @@ var PreviewSpace = /** @class */function () {
         var _this = this;
         if (!this.shouldInit) return;
         this.initScene();
+        var roomId = this.sceneInteractor.getActiveRoomId();
+        this.showUnmuteButton = this.audioManager.hasAutoplayAudio(roomId) && this.audioManager.isAudioContextSuspended();
         Promise.all([this.audioManager.loadBuffers(), this.textureLoader.load(), this.initVrDisplay(), fontHelper_1.default.load()]).then(function () {
             return _this.initRoom();
         }).catch(function (error) {
@@ -39146,9 +39166,11 @@ var PreviewSpace = /** @class */function () {
     };
     PreviewSpace.prototype.ngOnDestroy = function () {
         // this.svrControls.dispose();
+        window.removeEventListener('click', this.checkAudioContextState, false);
         window.removeEventListener('resize', this.onResizeFn, false);
         window.removeEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);
         this.cameraInteractor.setCameraAngles(this.svrControls.getCameraAngles());
+        this.showUnmuteButton = false;
         cancelAnimationFrame(this.animationRequest);
         this.isInRenderLoop = false;
         this.subscriptions.forEach(function (subscription) {
@@ -39167,6 +39189,9 @@ var PreviewSpace = /** @class */function () {
     //////////////////////////////////////////////
     ///////////  INITIALIZATION     //////////////
     //////////////////////////////////////////////
+    PreviewSpace.prototype.checkAudioContextState = function () {
+        this.audioManager.checkAudioContextState();
+    };
     PreviewSpace.prototype.initScene = function () {
         var _this = this;
         var canvas = this.globeCanvas.nativeElement;
@@ -39383,6 +39408,7 @@ var PreviewSpace = /** @class */function () {
     //////////////////////////////////////////////
     PreviewSpace.prototype.requestVrMode = function ($event) {
         this.isInRenderLoop = false;
+        this.audioManager.checkAudioContextState();
         this.vrDisplay.requestPresent([{ source: this.renderer.domElement }]).catch(function (error) {
             return console.log('requestVRMode error', error);
         });
@@ -40033,6 +40059,25 @@ var UniversalPlane = /** @class */function (_super) {
     UniversalPlane.prototype.init = function (audioPlayService) {
         this.audioPlayService = audioPlayService;
     };
+    UniversalPlane.prototype.activate = function () {
+        if (this.isAudioOnly) {
+            this.onActivated();
+            return Promise.resolve(true);
+        } else {
+            return _super.prototype.activate.call(this);
+        }
+    };
+    UniversalPlane.prototype.deactivate = function (onlyPlaneAnimation) {
+        if (onlyPlaneAnimation === void 0) {
+            onlyPlaneAnimation = false;
+        }
+        if (this.isAudioOnly) {
+            this.onDeactivated();
+            return Promise.resolve();
+        } else {
+            return _super.prototype.deactivate.call(this, onlyPlaneAnimation);
+        }
+    };
     UniversalPlane.prototype.onActivated = function () {
         var universalProperty = this.prop;
         if (universalProperty.audioContent.hasAsset()) {
@@ -40227,13 +40272,13 @@ module.exports = "uniform sampler2D texture;\nuniform float time; // 0 to 1, sec
 /* 1229 */
 /***/ (function(module, exports) {
 
-module.exports = ".preview-space {\n  width: 100%;\n  height: 100%;\n  cursor: default; }\n\n.preview-space__vr-mode-button {\n  color: #888;\n  font-size: 14px;\n  background-color: white;\n  padding: 8px 16px;\n  border-radius: 4px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n  position: absolute;\n  top: 0;\n  left: 70%;\n  margin-top: 24px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  transform: translate(-50%, 0%); }\n"
+module.exports = ".preview-space {\n  width: 100%;\n  height: 100%;\n  cursor: default; }\n\n.preview-space__vr-mode-button {\n  color: #888;\n  font-size: 14px;\n  background-color: white;\n  padding: 8px 16px;\n  border-radius: 4px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n  position: absolute;\n  top: 0;\n  left: 70%;\n  margin-top: 24px;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  transform: translate(-50%, 0%);\n  user-select: none; }\n\n.preview-space__unmute-button {\n  color: #888;\n  font-size: 14px;\n  background-color: white;\n  padding: 0;\n  width: 24px;\n  height: 24px;\n  border-radius: 4px;\n  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);\n  position: absolute;\n  bottom: 20px;\n  right: 20px;\n  margin-top: 24px;\n  user-select: none; }\n  .preview-space__unmute-button img {\n    width: 100%;\n    height: 100%; }\n"
 
 /***/ }),
 /* 1230 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"preview-space\">\n  <canvas #globeCanvas>\n  </canvas>\n\n  <div\n    *ngIf=\"showVrModeButton\"\n    class=\"preview-space__vr-mode-button\"\n    (click)=\"requestVrMode($event)\">\n    VR Mode\n  </div>\n\n</div>\n"
+module.exports = "<div class=\"preview-space\">\n  <canvas #globeCanvas>\n  </canvas>\n\n  <div\n    *ngIf=\"showVrModeButton\"\n    class=\"preview-space__vr-mode-button\"\n    (click)=\"requestVrMode($event)\">\n    VR Mode\n  </div>\n\n  <div\n    *ngIf=\"showUnmuteButton\"\n    class=\"preview-space__unmute-button\"\n    (click)=\"checkAudioContextState()\">\n    <img src=\"assets/icons/audio_muted.png\" alt=\"\">\n  </div>\n\n</div>\n"
 
 /***/ }),
 /* 1231 */
