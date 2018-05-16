@@ -8,7 +8,8 @@ const MODAL_TYPE = {
   MESSAGE: 'MESSAGE',
   LOADER: 'LOADER',
   SHARABLE: 'SHARABLE',
-  EXPLORE: 'EXPLORE'
+  EXPLORE: 'EXPLORE',
+  PLAY_STORY: 'PLAY_STORY',
 };
 
 @Component({
@@ -26,6 +27,7 @@ export class Modal {
     isMessage: false
   };
   private shareableData;
+  private playStoryCallback;
 
   private isOpen: boolean;
   private sharableId: string = '';
@@ -47,9 +49,10 @@ export class Modal {
   closeModal($event) {
     if (!$event.isAccepted && this.onDismiss) {
       this.onDismiss();
-    }
-    else if ($event.isAccepted && this.onAccept) {
+    } else if ($event.isAccepted && this.onAccept) {
       this.onAccept();
+    } else if (this.isPlayStoryModal() && this.playStoryCallback) {
+      this.playStoryCallback();
     }
     this.clearValues();
   }
@@ -103,6 +106,19 @@ export class Modal {
         }
       );
 
+    const onPlayStory: Subscription = this.eventBus.getObservable(EventType.PLAY_STORY_MODAL)
+      .subscribe(
+        event => {
+          this.isOpen = true;
+          this.activeModalType = MODAL_TYPE.PLAY_STORY;
+          this.playStoryCallback = event.callback;
+        },
+        error => {
+          console.log('error', error);
+          this.isOpen = false;
+        }
+      );
+
     const onExploreModal: Subscription = this.eventBus.getObservable(EventType.OPEN_EXPLORE_MODAL)
       .subscribe(
         event => {
@@ -116,6 +132,7 @@ export class Modal {
       );
 
     this.subscriptions.add(onSharable);
+    this.subscriptions.add(onPlayStory);
     this.subscriptions.add(onStartLoading);
     this.subscriptions.add(onStopLoading);
     this.subscriptions.add(onMessage);
@@ -144,6 +161,10 @@ export class Modal {
 
   private isLoaderModal() {
     return this.activeModalType === MODAL_TYPE.LOADER;
+  }
+
+  private isPlayStoryModal() {
+    return this.activeModalType === MODAL_TYPE.PLAY_STORY;
   }
 
 }

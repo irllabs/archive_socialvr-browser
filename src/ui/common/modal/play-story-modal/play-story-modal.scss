@@ -1,0 +1,31 @@
+.play-story-modal {
+  .modal__content-body {
+    padding: 40px;
+    text-align: center;
+
+    p {
+      margin: 10px 0;
+    }
+
+    .play-btn {
+      margin-top: 10px;
+      width: 45px;
+      height: 45px;
+      cursor: pointer;
+      padding: 0;
+      border: none;
+      background: transparent;
+      opacity: 1;
+      transition: opacity .25s;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+
+      &:hover {
+        opacity: .7;
+      }
+    }
+  }
+}
