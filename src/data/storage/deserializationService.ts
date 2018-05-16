@@ -375,6 +375,8 @@ export class DeserializationService {
   // Given a JSON object representing story file,
   // return a promise that resolves when the story file is deserialized
   private deserializeProject(jsZipData) {
+    this._cachedStoryFile = {};
+
     const fileMap = jsZipData.files;
     const jsonStoryFilePath: string = Object.keys(fileMap).find(path => path.endsWith('.json'));
     const yamlStoryFilePath: string = Object.keys(fileMap).find(path => path.endsWith('.yml')) || STORY_FILE_YAML;
