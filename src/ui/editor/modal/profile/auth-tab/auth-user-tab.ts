@@ -7,6 +7,7 @@ import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
 import { SceneInteractor } from 'core/scene/sceneInteractor';
 import { StorageInteractor } from 'core/storage/storageInteractor';
 import { UserInteractor } from 'core/user/userInteractor';
+import { Project } from 'data/project/projectModel';
 import 'rxjs/add/operator/switchMap';
 import { MIME_TYPE_ZIP } from 'ui/common/constants';
 import { EventBus } from 'ui/common/event-bus';
@@ -36,7 +37,32 @@ export class AuthUserTab implements OnInit {
   ngOnInit() {
     this.projectInteractor.getProjects().subscribe(
       (projects) => {
-        this.projectList = projects;
+        this.projectList = projects.map((p) => {
+          const project = new Project(p);
+
+          project.id = p.id['_binaryString'] ? p.id['_binaryString'] : p.id;
+          return project;
+        }).sort((a, b) => {
+          if (!a.name) {
+            return -1;
+          }
+          if (!b.name) {
+            return 1;
+          }
+
+          const projectNameA = a.name.toUpperCase();
+          const projectNameB = b.name.toUpperCase();
+
+          if (projectNameA < projectNameB) {
+            return -1;
+          }
+
+          if (projectNameA > projectNameB) {
+            return 1;
+          }
+          
+          return 0;
+        });
       },
       error => console.error('GET /projects', error),
     );
@@ -63,7 +89,7 @@ export class AuthUserTab implements OnInit {
         error => console.error('error', error),
         () => {
           this.eventBus.onStopLoading();
-        }
+        },
       );
     this.router.navigateByUrl('/editor');
   }

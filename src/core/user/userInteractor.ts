@@ -16,8 +16,8 @@ export class UserInteractor {
   ) {
   }
 
-  login(username: string, password: string) {
-    return this.authService.authenticate(AuthenticationMethod.SOCIAL_VR, { username, password });
+  login(email: string, password: string) {
+    return this.authService.authenticate(AuthenticationMethod.FIREBASE, { email, password });
   }
 
   loginWithGoogle() {

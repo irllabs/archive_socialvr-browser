@@ -22,7 +22,7 @@ export class UnauthUserTab implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.user = {
-      username: '',
+      email: '',
       password: '',
     };
   }
@@ -33,21 +33,21 @@ export class UnauthUserTab implements OnInit, OnDestroy {
 
   private _onError() {
     const errorHeader: string = 'Sign in error';
-    const errorBody: string = 'It looks like the username and password don\'t match.';
+    const errorBody: string = 'It looks like the email and password don\'t match.';
 
     this.eventBus.onModalMessage(errorHeader, errorBody);
   }
 
   public onLogin() {
-    if (!this.user.username || !this.user.password) {
-      const errorHeader: string = 'Username Password Error';
-      const errorBody: string = 'Make sure to fill out both username and password fields!';
+    if (!this.user.email || !this.user.password) {
+      const errorHeader: string = 'Email Password Error';
+      const errorBody: string = 'Make sure to fill out both email and password fields!';
 
       this.eventBus.onModalMessage(errorHeader, errorBody);
       return;
     }
 
-    this.userInteractor.login(this.user.username, this.user.password).catch(this._onError.bind(this));
+    this.userInteractor.login(this.user.email, this.user.password).catch(this._onError.bind(this));
   }
 
   public onLoginWithGoogle() {

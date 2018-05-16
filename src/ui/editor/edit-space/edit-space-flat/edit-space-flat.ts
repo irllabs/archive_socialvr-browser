@@ -86,5 +86,4 @@ export class EditSpaceFlat {
     const roomId: string = this.sceneInteractor.getActiveRoomId();
     return this.sceneInteractor.roomHasBackgroundImage(roomId);
   }
-
 }

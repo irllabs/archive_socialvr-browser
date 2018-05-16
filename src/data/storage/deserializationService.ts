@@ -19,7 +19,6 @@ import {
   MIME_TYPE_PNG,
   MIME_TYPE_WAV,
   MIME_TYPE_XM4A,
-  STORY_FILE_JSON,
   STORY_FILE_YAML,
   UINT8ARRAY,
 } from 'ui/common/constants';
@@ -84,12 +83,11 @@ export class DeserializationService {
   private deserializeRooms(storyFile: any, binaryFileMap: any, baseFilePath: string): Promise<any> {
     return this.parseStoryFile(storyFile)
       .then((storyJson) => {
-        if(!storyJson) {
+        if (!storyJson) {
           return;
         }
 
         this.roomManager.clearRooms();
-
         this.roomManager.setProjectName(storyJson.name);
         this.roomManager.setProjectTags(storyJson.tags || '');
         this.roomManager.setProjectDescription(storyJson.description);
@@ -108,8 +106,12 @@ export class DeserializationService {
           this.roomManager.removeSoundtrack();
         }
 
-        storyJson.rooms.map(roomData => {
+        storyJson.rooms.map((roomData) => {
           const filePrefix = roomData.uuid;
+
+          // Normalize room data
+          roomData.ambient = roomData.ambient ? roomData.ambient : {};
+          roomData.narrator = roomData.narrator ? roomData.narrator : { intro: {}, reprise: {} };
 
           // Background image
           let filename = roomData.image;
@@ -128,7 +130,7 @@ export class DeserializationService {
           filename = roomData.ambient.hasOwnProperty('file') ? roomData.ambient.file : roomData.ambient;
 
           // Background audio
-          const backgroundAudio = this.getFile(binaryFileMap, `${filePrefix}/${filename}`, baseFilePath);
+          const backgroundAudio = filename && this.getFile(binaryFileMap, `${filePrefix}/${filename}`, baseFilePath);
           const backgroundAudioData = backgroundAudio ? backgroundAudio.fileData : null;
 
           filename = roomData.narrator.intro.hasOwnProperty('file') ? roomData.narrator.intro.file : roomData.narrator.intro;
@@ -340,16 +342,16 @@ export class DeserializationService {
             room.ambient,
             room.image,
             room.thumbnail || {}, // new key that is not present in older story files
-            room.narrator.intro,
-            room.narrator.reprise,
-          ];
+            (room.narrator || {}).intro,
+            (room.narrator || {}).reprise,
+          ].filter(a => !!a);
 
           assets.forEach((asset) => {
             if (asset.hasOwnProperty('remoteFile') && asset.remoteFile) {
               // Add to remoteFiles if not present locally
               asset.filePath = `${room.uuid}/${asset.file}`;
 
-              if (!files.find(file => file.name.indexOf(asset.filePath) !== -1 )) {
+              if (!files.find(file => file.name.indexOf(asset.filePath) !== -1)) {
                 remoteFiles.push(asset);
               }
             }
@@ -381,6 +383,8 @@ export class DeserializationService {
   // Given a JSON object representing story file,
   // return a promise that resolves when the story file is deserialized
   private deserializeProject(jsZipData) {
+    this._cachedStoryFile = {};
+
     const fileMap = jsZipData.files;
     const jsonStoryFilePath: string = Object.keys(fileMap).find(path => path.endsWith('.json'));
     const yamlStoryFilePath: string = Object.keys(fileMap).find(path => path.endsWith('.yml')) || STORY_FILE_YAML;

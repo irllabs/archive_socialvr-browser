@@ -169,8 +169,6 @@ export class ProjectInteractor {
       thumbnail: null,
     };
 
-    console.log('user', user);
-
     const observers = [
       this.serializationService
         .zipStoryFile()

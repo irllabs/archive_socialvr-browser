@@ -70,7 +70,7 @@ export class AdminSearchExplore {
   searchPublicProjects(query: string) {
     this.searchInteractor.searchPublicProjects(query)
       .subscribe(
-        response => this.matchingResults = response.results,
+        projects => this.matchingResults = projects,
         error => console.log('error', error),
       );
   }

@@ -76,30 +76,26 @@ export class AuthService {
   private _googleAuthenticate() {
     return this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then((result) => {
-        console.log('google auth res:', result);
         const user = result.user;
 
         return this._restore(user);
       });
   }
 
-  private _loginPasswordAuthenticate({ username, password }) {
-    return this.apiService.logIn(username, password).toPromise().then((token) => {
-      return this.afAuth.auth.signInWithCustomToken(token).then((user) => {
-        return this._obtainIdToken(user).then(() => {
-          this._user = user;
-          this.userService.setUser(this.user);
-
-          return user;
-        });
+  private _loginPasswordAuthenticate({ email, password }) {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        return this._restore(user);
       });
-    });
   }
 
   public authenticate(provider, credentials = null) {
     switch (provider) {
       case AuthenticationMethod.GOOGLE: {
         return this._googleAuthenticate();
+      }
+      case AuthenticationMethod.FIREBASE: {
+        return this._loginPasswordAuthenticate(credentials);
       }
       default: {
         return this._loginPasswordAuthenticate(credentials);
