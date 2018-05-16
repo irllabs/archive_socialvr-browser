@@ -39,19 +39,14 @@
           <storymap-item
             [roomProperty]="getRoomById(roomId)"
             [isActive]="roomIsSelected(roomId)"
+            [hasPrevRoom]="hasPrevRoomFor(roomId)"
+            [hasNextRoom]="hasNextRoomFor(roomId)"
+            [roomId]="roomId"
             (click)="onRoomSelect(roomId)"
             (infoEvent)="onInfoClick()"
+            (moveRoom)="onSwapRoom($event)"
             class="story-scroll__storymap-item">
           </storymap-item>
-
-          <div class="toggle-room-actions">
-            <button type="button"
-                    class="toggle-room-position"
-                    (click)="onSwapRoom(roomId, 1)"
-                    *ngIf="hasNextRoomFor(roomId)">
-              &#8596;
-            </button>
-          </div>
         </div>
       </div>
 

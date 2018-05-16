@@ -1,18 +1,18 @@
-import {Component} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { Component } from '@angular/core';
+import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
+import { SceneInteractor } from 'core/scene/sceneInteractor';
+import { Room } from 'data/scene/entities/room';
+import { RoomProperty } from 'data/scene/interfaces/roomProperty';
+import { resizeImage } from 'data/util/imageResizeService';
+import { Subscription } from 'rxjs/Subscription';
 
-import {EventBus, EventType} from 'ui/common/event-bus';
-import {SceneInteractor} from 'core/scene/sceneInteractor';
-import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
-import {RoomProperty} from 'data/scene/interfaces/roomProperty';
-import {Room} from 'data/scene/entities/room';
-import {resizeImage} from 'data/util/imageResizeService';
-import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
+import { EventBus, EventType } from 'ui/common/event-bus';
+import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
 
 @Component({
   selector: 'story-scroll',
   styleUrls: ['./story-scroll.scss'],
-  templateUrl: './story-scroll.html'
+  templateUrl: './story-scroll.html',
 })
 export class StoryScroll {
 
@@ -30,8 +30,9 @@ export class StoryScroll {
     private sceneInteractor: SceneInteractor,
     private metaDataInteractor: MetaDataInteractor,
     private eventBus: EventBus,
-    private slideshowBuilder: SlideshowBuilder
-  ) {}
+    private slideshowBuilder: SlideshowBuilder,
+  ) {
+  }
 
   private subscribeToEvents() {
     const roomPropertySubscription: Subscription = this.eventBus.getObservable(EventType.SELECT_PROPERTY)
@@ -45,7 +46,7 @@ export class StoryScroll {
             this.sceneInteractor.getRoomById(activeRoomId);
           this.activeRoomIsExpanded = true;
         },
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
 
     const roomSubscription: Subscription = this.eventBus.getObservable(EventType.SELECT_ROOM)
@@ -54,7 +55,7 @@ export class StoryScroll {
           const activeRoomId = this.sceneInteractor.getActiveRoomId();
           this.activeProperty = this.sceneInteractor.getRoomById(activeRoomId);
         },
-        error => console.log('error', error)
+        error => console.log('error', error),
       );
 
     this.subscriptions.add(roomPropertySubscription);
@@ -67,6 +68,10 @@ export class StoryScroll {
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
+  public hasPrevRoomFor(roomId) {
+    return this.roomIds.indexOf(roomId) > 0;
   }
 
   public hasNextRoomFor(roomId) {
@@ -133,7 +138,7 @@ export class StoryScroll {
       .catch(error => this.eventBus.onModalMessage('Image loading error', error));
   }
 
-  public onSwapRoom(roomId, direction = 1){
+  public onSwapRoom({ roomId, direction }) {
     const room = this.sceneInteractor.getRoomById(roomId);
     const currentIndex = this.roomIds.indexOf(roomId);
 

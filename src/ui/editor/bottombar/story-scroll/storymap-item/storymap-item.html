@@ -7,8 +7,14 @@
       (onTextChange)="onNameChange($event)">
     </text-input>
   </div>
-  
+
   <div class="story-map-item__buttons">
+    <div
+      class="storymap-item__button storymap-item__move-left"
+      [ngClass]="{'disabled': !hasPrevRoom}"
+      (click)="onMoveRoom(roomId, -1, hasPrevRoom)">
+    </div>
+
     <div
       class="storymap-item__button storymap-item__delete"
       (click)="onDeleteClick($event)">
@@ -23,6 +29,12 @@
       (click)="setAsHomeRoom()"
       class="storymap-item__button storymap-item__home-icon"
       [ngClass]="{'storymap-item__home-icon--active': isHomeRoom()}">
+    </div>
+
+    <div
+      class="storymap-item__button storymap-item__move-right"
+      [ngClass]="{'disabled': !hasNextRoom}"
+      (click)="onMoveRoom(roomId, 1, hasNextRoom)">
     </div>
 
   </div>

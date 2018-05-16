@@ -34,7 +34,9 @@ export class RoomManager {
   }
 
   addRoom(room: Room) {
-    this.rooms.add(room);
+    if (room) {
+      this.rooms.add(room);
+    }
   }
 
   getRoomById(roomId: string): Room {
