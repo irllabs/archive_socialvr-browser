@@ -19,6 +19,33 @@ export class AudioManager {
   ) {
   }
 
+  public checkAudioContextState() {
+    this.audioPlayService.checkAudioContextState();
+  }
+
+  public isAudioContextSuspended() {
+    return this.audioPlayService.isAudioContextSuspended();
+  }
+
+  public hasAutoplayAudio(roomId) {
+    const room = this.sceneInteractor.getRoomById(roomId);
+    const soundtrack = this.metaDataInteractor.getSoundtrack();
+
+    if(soundtrack.hasAsset()) {
+      return true;
+    }
+
+    if (room.getBackgroundAudioBinaryFileData()) {
+      return true;
+    }
+
+    if (room.getNarrationIntroBinaryFileData()) {
+      return true;
+    }
+
+    return false;
+  }
+
   loadBuffers(): Promise<any> {
     const soundtrackAudio = [];
     const soundtrack = this.metaDataInteractor.getSoundtrack();

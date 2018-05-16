@@ -50,10 +50,7 @@ export class FileLoaderUtil {
         const fileReader = new FileReader();
 
         fileReader.onloadend = () => {
-          const result = this.getFileData(fileReader.result);
-
-          console.log('fileLoader.onloadEnd', result);
-          resolve(result);
+          resolve(this.getFileData(fileReader.result));
         };
 
         fileReader.onerror = () => {

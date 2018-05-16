@@ -15,16 +15,25 @@ export class AudioPlayService {
   private hotspot: AudioBufferSourceNode;
   private background: AudioBufferSourceNode;
 
+  public audioContext: any;
+
   constructor(private assetInteractor: AssetInteractor) {
     const audioContext = getAudioContext();
 
+    this.audioContext = audioContext;
     this.gainNode = audioContext.createGain();
     this.gainNode.gain.setTargetAtTime(2, 0, 0);
     this.gainNode.connect(audioContext.destination);
+  }
 
-    if (audioContext.state === 'suspended') {
-      audioContext.resume();
+  public checkAudioContextState() {
+    if (this.isAudioContextSuspended()) {
+      this.audioContext.resume();
     }
+  }
+
+  public isAudioContextSuspended() {
+    return this.audioContext.state === 'suspended';
   }
 
   //for project soundtrack which cannot be stopped by others
@@ -37,6 +46,7 @@ export class AudioPlayService {
         audioSource.loop = true;
         audioSource.start(0);
         this.soundtrack = audioSource;
+        this.checkAudioContextState();
       }
     }
   }
@@ -49,6 +59,7 @@ export class AudioPlayService {
     if (audioSource) {
       audioSource.start(0);
       this.background = audioSource;
+      this.checkAudioContextState();
     }
   }
 
@@ -64,6 +75,7 @@ export class AudioPlayService {
       audioSource.start(0);
 
       this.hotspot = audioSource;
+      this.checkAudioContextState();
 
       return audioSource;
     }
@@ -88,6 +100,7 @@ export class AudioPlayService {
 
       this.narration = audioSource;
       this.narrationId = narrationId;
+      this.checkAudioContextState();
 
       return audioSource;
     }

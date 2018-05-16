@@ -54,6 +54,7 @@ export class PreviewSpace implements AfterViewInit {
   private isInRenderLoop: boolean = false;
   private activateHotspotTimeout: number;
   private showVrModeButton: boolean = false;
+  private showUnmuteButton: boolean = false;
   private video3D: Video3D;
   private animationRequest: number;
   private lastRenderTime: number = performance.now();
@@ -66,6 +67,7 @@ export class PreviewSpace implements AfterViewInit {
   //private onResizeFn: Function = this.onResize.bind(this);
   private onResizeFn: EventListenerObject = { handleEvent: this.onResize.bind(this) };
   private onVrDisplayChangeFn: EventListenerObject = { handleEvent: this.onVrDisplayChange.bind(this) };
+  private onCheckAudioContext: EventListenerObject = { handleEvent: this.checkAudioContextState.bind(this) };
 
   // private onVrDisplayChangeFn: Function = this.onVrDisplayChange.bind(this);
 
@@ -101,6 +103,7 @@ export class PreviewSpace implements AfterViewInit {
 
     this.shouldInit = true;
     this.ngZone.runOutsideAngular(() => {
+      document.addEventListener('click', this.onCheckAudioContext, false);
       window.addEventListener('resize', this.onResizeFn, false);
       window.addEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);
     });
@@ -110,6 +113,10 @@ export class PreviewSpace implements AfterViewInit {
     if (!this.shouldInit) return;
 
     this.initScene();
+
+    const roomId = this.sceneInteractor.getActiveRoomId();
+
+    this.showUnmuteButton = this.audioManager.hasAutoplayAudio(roomId) && this.audioManager.isAudioContextSuspended();
 
     Promise.all([
       this.audioManager.loadBuffers(),
@@ -123,10 +130,12 @@ export class PreviewSpace implements AfterViewInit {
 
   ngOnDestroy() {
     // this.svrControls.dispose();
+    window.removeEventListener('click', this.checkAudioContextState, false);
     window.removeEventListener('resize', this.onResizeFn, false);
     window.removeEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);
 
     this.cameraInteractor.setCameraAngles(this.svrControls.getCameraAngles());
+    this.showUnmuteButton = false;
 
     cancelAnimationFrame(this.animationRequest);
 
@@ -151,6 +160,9 @@ export class PreviewSpace implements AfterViewInit {
   ///////////  INITIALIZATION     //////////////
   //////////////////////////////////////////////
 
+  private checkAudioContextState() {
+    this.audioManager.checkAudioContextState();
+  }
 
   private initScene() {
     const canvas = this.globeCanvas.nativeElement;
@@ -408,6 +420,7 @@ export class PreviewSpace implements AfterViewInit {
 
   private requestVrMode($event) {
     this.isInRenderLoop = false;
+    this.audioManager.checkAudioContextState();
     this.vrDisplay.requestPresent([
       { source: this.renderer.domElement },
     ]).catch(error => console.log('requestVRMode error', error));

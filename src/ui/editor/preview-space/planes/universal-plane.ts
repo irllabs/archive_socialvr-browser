@@ -122,6 +122,24 @@ export default class UniversalPlane extends BasePlane {
     this.audioPlayService = audioPlayService;
   }
 
+  public activate() {
+    if (this.isAudioOnly) {
+      this.onActivated();
+      return Promise.resolve(true);
+    } else {
+      return super.activate();
+    }
+  }
+
+  public deactivate(onlyPlaneAnimation: boolean = false) {
+    if (this.isAudioOnly) {
+      this.onDeactivated();
+      return Promise.resolve();
+    } else {
+      return super.deactivate(onlyPlaneAnimation);
+    }
+  }
+
   public onActivated() {
     const universalProperty = this.prop as Universal;
 
