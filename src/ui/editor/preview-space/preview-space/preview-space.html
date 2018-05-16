@@ -9,4 +9,11 @@
     VR Mode
   </div>
 
+  <div
+    *ngIf="showUnmuteButton"
+    class="preview-space__unmute-button"
+    (click)="checkAudioContextState()">
+    <img src="assets/icons/audio_muted.png" alt="">
+  </div>
+
 </div>

@@ -1,6 +1,5 @@
 import {
   Component,
-  Input,
   Output,
   HostListener,
   ElementRef,
@@ -17,9 +16,6 @@ import {SHARED_KEY} from 'ui/editor/util/publicLinkHelper';
 import {ZipFileReader} from 'ui/editor/util/zipFileReader';
 import {SceneInteractor} from 'core/scene/sceneInteractor';
 import {VideoInteractor} from 'core/video/VideoInteractor';
-import {RoomProperty} from 'data/scene/interfaces/RoomProperty';
-import {Audio} from 'data/scene/entities/audio';
-import {Image} from 'data/scene/entities/image';
 import {Universal} from 'data/scene/entities/universal';
 import {Room} from 'data/scene/entities/room';
 import {Vector2} from 'data/scene/entities/vector2';

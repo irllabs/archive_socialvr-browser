@@ -21,6 +21,7 @@ import {buildScene, onResize} from 'ui/editor/util/threeUtil';
 import SvrControls from 'ui/editor/util/SvrControls';
 import {THREE_CONST} from 'ui/common/constants';
 import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
+import { EventBus } from '../../../common/event-bus';
 
 const Stats = require('stats.js');
 const stats = new Stats();
@@ -54,6 +55,7 @@ export class PreviewSpace implements AfterViewInit {
   private isInRenderLoop: boolean = false;
   private activateHotspotTimeout: number;
   private showVrModeButton: boolean = false;
+  private showUnmuteButton: boolean = false;
   private video3D: Video3D;
   private animationRequest: number;
   private lastRenderTime: number = performance.now();
@@ -81,7 +83,8 @@ export class PreviewSpace implements AfterViewInit {
     private textureLoader: TextureLoader,
     private hotspotManager: HotspotManager,
     private menuManager: MenuManager,
-    private reticle: Reticle
+    private reticle: Reticle,
+    private eventBus: EventBus,
   ) {
   }
 
@@ -111,6 +114,8 @@ export class PreviewSpace implements AfterViewInit {
 
     this.initScene();
 
+    const roomId = this.sceneInteractor.getActiveRoomId();
+
     Promise.all([
       this.audioManager.loadBuffers(),
       this.textureLoader.load(),
@@ -127,6 +132,7 @@ export class PreviewSpace implements AfterViewInit {
     window.removeEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);
 
     this.cameraInteractor.setCameraAngles(this.svrControls.getCameraAngles());
+    this.showUnmuteButton = false;
 
     cancelAnimationFrame(this.animationRequest);
 
@@ -150,7 +156,6 @@ export class PreviewSpace implements AfterViewInit {
   //////////////////////////////////////////////
   ///////////  INITIALIZATION     //////////////
   //////////////////////////////////////////////
-
 
   private initScene() {
     const canvas = this.globeCanvas.nativeElement;
@@ -188,67 +193,31 @@ export class PreviewSpace implements AfterViewInit {
     room.getBackgroundIsVideo() ? this.init3dRoom(room) : this.init2dRoom(roomId);
 
     this.audioManager.stopAllAudio(!isTransition);
+
+    const isShare = this.router.url.indexOf('share=1') !== -1;
+
+    if (isShare) {
+      this.eventBus.onPlayStoryModal(() => {
+        this.startPlay();
+      });
+      return;
+    }
+    this.startPlay();
+
+    this.roomHistory.push(roomId);
+  }
+
+  private startPlay() {
     this.audioManager.playBackgroundAudio();
     this.audioManager.playNarration();
     this.audioManager.playSoundtrack();
     this.isInRenderLoop = true;
-
-    /*
-    if (!this.vrDisplay && this.vrDisplay.isPresenting)  {
-    // tween with fov
-    this.camera.fov = THREE_CONST.FOV_OUT;
-
-    var tweenRoomIn = new TWEEN.Tween(this.camera)
-    .to({
-        fov: THREE_CONST.FOV_NORM
-    },THREE_CONST.TWEEN_ROOM_MOVETIMEIN)
-    .easing(TWEEN.Easing.Linear.None).onUpdate( () => { })
-    .onComplete( () => {
-      //console.log("Init room: ",roomId);
-      this.roomHistory.push(roomId);
-    }).start();
-    } else {
-      this.roomHistory.push(roomId);
-    }
-    */
-
-    //tween with sphere position towards is
-    // this.sphereMesh.position.set(THREE_CONST.TWEEN_ROOM_MOVEIN,0,0);
-    // var tweenRoomOut = new TWEEN.Tween(this.sphereMesh.position).to({
-    //     x: 0,
-    //     y: 0,
-    //     z: 0
-    // },THREE_CONST.TWEEN_ROOM_MOVETIMEIN).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
-    //
-    // }).onComplete( () => {
-    //   //console.log("onCopmlete for tween");
-    //   this.roomHistory.push(roomId);
-    // }).start();
-
-    this.roomHistory.push(roomId);
+    this.audioManager.checkAudioContextState();
   }
 
   //for still image backgrounds
   private init2dRoom(roomId: string) {
     const sphereTexture = this.assetInteractor.getTextureById(roomId);
-
-    // console.log('shaders', roomSphereFragShader, roomSphereVertShader);
-    // this.sphereMesh.material = new THREE.ShaderMaterial({
-    //   wireframe: true,
-    //   uniforms: {
-    //     time: {
-    //       type: 'f',
-    //       value: 0
-    //     },
-    //     texture: {
-    //       type: 't',
-    //       value: sphereTexture
-    //     }
-    //   },
-    //   vertexShader: roomSphereVertShader,
-    //   fragmentShader: roomSphereFragShader,
-    //   side: THREE.FrontSide
-    // });
 
     if (this.sphereMesh.material) {
       if (this.sphereMesh.material['map']) {
@@ -408,6 +377,7 @@ export class PreviewSpace implements AfterViewInit {
 
   private requestVrMode($event) {
     this.isInRenderLoop = false;
+    this.audioManager.checkAudioContextState();
     this.vrDisplay.requestPresent([
       {source: this.renderer.domElement},
     ]).catch(error => console.log('requestVRMode error', error));

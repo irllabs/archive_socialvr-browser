@@ -26,14 +26,14 @@ export class ShareableLoader {
     this.eventBus.onStartLoading();
     this.projectInteractor.openPublicProject(projectUrl)
       .subscribe(
-        response => {
+        () => {
           const homeRoomID = this.sceneInteractor.getHomeRoomId();
           this.sceneInteractor.setActiveRoomId(homeRoomID);
           this.eventBus.onSelectRoom(null, false);
           this.eventBus.onStopLoading();
           this.metaDataInteractor.setIsReadOnly(true);
           //this.router.navigateByUrl('/editor');
-          this.router.navigate(['editor', {outlets: {'view': 'preview'}}]);
+          this.router.navigate(['editor', {outlets: {'view': 'preview'}}], {queryParams: { share: 1 }});
         },
         error => {
           this.eventBus.onStopLoading();
