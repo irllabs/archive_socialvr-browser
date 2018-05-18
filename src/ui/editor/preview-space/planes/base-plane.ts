@@ -72,7 +72,7 @@ export default class BasePlane {
     const iconMaterial = new THREE.MeshBasicMaterial({
       map: iconTexture,
       transparent: true,
-      side: THREE.FrontSide
+      side: THREE.FrontSide,
     });
 
     this.iconMesh = new THREE.Mesh(iconGeometry, iconMaterial);
@@ -86,7 +86,7 @@ export default class BasePlane {
     const iconPreviewMaterial = new THREE.MeshBasicMaterial({
       map: iconPreviewTexture,
       transparent: true,
-      side: THREE.FrontSide
+      side: THREE.FrontSide,
     });
 
     this.previewIconMesh = new THREE.Mesh(previewIconGeometry, iconPreviewMaterial);
@@ -103,9 +103,9 @@ export default class BasePlane {
       bevelEnabled: false,
       bevelThickness: 4,
       bevelSize: 8,
-      bevelSegments: 5
+      bevelSegments: 5,
     };
-    const labelMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
+    const labelMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
     const labelGeometry = new THREE.TextGeometry(this.prop.getName(), fontProperties);
 
     labelGeometry.computeBoundingBox();
@@ -128,7 +128,7 @@ export default class BasePlane {
           .to({
             x: THREE_CONST.TWEEN_PLANE_SCALE,
             y: THREE_CONST.TWEEN_PLANE_SCALE,
-            z: 1
+            z: 1,
           }, duration)
           .easing(TWEEN.Easing.Linear.None)
           .onComplete(() => {
@@ -142,11 +142,11 @@ export default class BasePlane {
     });
   }
 
-  private _animateDeactivate() {
+  private _animateDeactivate(duration = THREE_CONST.TWEEN_PLANE_OUT) {
     return new Promise((resolve) => {
       if (this.hasPlaneMesh) {
         this._tweenDeactivate = new TWEEN.Tween(this.planeMesh.scale)
-          .to({x: .001, y: .001, z: 1}, THREE_CONST.TWEEN_PLANE_OUT)
+          .to({ x: .001, y: .001, z: 1 }, duration)
           .easing(TWEEN.Easing.Linear.None)
           .onComplete(() => {
             TWEEN.remove(this._tweenDeactivate);
@@ -160,18 +160,16 @@ export default class BasePlane {
     });
   }
 
-  protected _animateIconActivate() {
-    const duration = this.get_activate_duration(THREE_CONST.TWEEN_ICON_OUT);
-
+  protected _animateIconActivate(duration = this.get_activate_duration(THREE_CONST.TWEEN_ICON_OUT)) {
     return new Promise((resolve) => {
+      this.labelMesh.visible = false;
       this._tweenIconActivate = new TWEEN.Tween(this.iconMesh.material)
-        .to({opacity: 0}, duration)
+        .to({ opacity: 0 }, duration)
         .easing(TWEEN.Easing.Linear.None)
         .onComplete(() => {
           TWEEN.remove(this._tweenIconActivate);
-
           this.iconMesh.visible = false;
-          this.labelMesh.visible = false;
+
           resolve();
         })
         .start();
@@ -182,16 +180,16 @@ export default class BasePlane {
     return defaultDuration;
   }
 
-  protected _animateIconDeactivate() {
+  protected _animateIconDeactivate(duration = THREE_CONST.TWEEN_ICON_IN) {
     return new Promise((resolve) => {
+      this.iconMesh.visible = true;
+      this.labelMesh.visible = true;
+
       this._tweenIconDeactivate = new TWEEN.Tween(this.iconMesh.material)
-        .to({opacity: 1}, THREE_CONST.TWEEN_ICON_IN)
+        .to({ opacity: 1 }, duration)
         .easing(TWEEN.Easing.Linear.None)
         .onComplete(() => {
           TWEEN.remove(this._tweenIconDeactivate);
-
-          this.iconMesh.visible = true;
-          this.labelMesh.visible = true;
           resolve();
         })
         .start();
@@ -276,13 +274,13 @@ export default class BasePlane {
     });
   }
 
-  public deactivate(onlyPlaneAnimation: boolean = false) {
-    const promises = [this._animateDeactivate()];
+  public deactivate(onlyPlaneAnimation: boolean = false, duration = THREE_CONST.TWEEN_PLANE_OUT, iconDuration = THREE_CONST.TWEEN_ICON_IN) {
+    const promises = [this._animateDeactivate(duration)];
 
     this._activating = false;
 
     if (!onlyPlaneAnimation) {
-      promises.push(this._animateIconDeactivate());
+      promises.push(this._animateIconDeactivate(iconDuration));
     }
 
     return Promise.all(promises).then(() => {
@@ -290,7 +288,7 @@ export default class BasePlane {
     });
   }
 
-  public hoverOut() {
+  public hoverOut(inDuration = THREE_CONST.TWEEN_ICON_IN, outDuration = THREE_CONST.TWEEN_ICON_OUT) {
     return new Promise((resolve) => {
       this.resetIconInAnimations();
       this.labelMesh.visible = false;
@@ -299,8 +297,8 @@ export default class BasePlane {
         .to({
           x: 1,
           y: 1,
-          z: 1
-        }, THREE_CONST.TWEEN_ICON_IN)
+          z: 1,
+        }, inDuration)
         .easing(TWEEN.Easing.Linear.None)
         .onComplete(() => {
           TWEEN.remove(this._tweenPreviewIconIn);
@@ -309,8 +307,8 @@ export default class BasePlane {
 
       this._tweenIconOut = new TWEEN.Tween(this.iconMesh.material)
         .to({
-          opacity: 0
-        }, THREE_CONST.TWEEN_ICON_OUT)
+          opacity: 0,
+        }, outDuration)
         .easing(TWEEN.Easing.Linear.None)
         .onComplete(() => {
           this.iconMesh.visible = false;
@@ -321,15 +319,15 @@ export default class BasePlane {
     });
   }
 
-  public hoverIn() {
+  public hoverIn(outDuration = THREE_CONST.TWEEN_ICON_OUT, inDuration = THREE_CONST.TWEEN_ICON_IN) {
     return new Promise((resolve) => {
       this.resetIconOutAnimations();
       this._tweenPreviewIconOut = new TWEEN.Tween(this.previewIconMesh.scale)
         .to({
           x: 0.001,
           y: 0.001,
-          z: 0.001
-        }, THREE_CONST.TWEEN_ICON_OUT)
+          z: 0.001,
+        }, outDuration)
         .easing(TWEEN.Easing.Linear.None)
         .onComplete(() => {
           this.previewIconMesh.visible = false;
@@ -338,18 +336,61 @@ export default class BasePlane {
         .start();
 
       this.iconMesh.visible = true;
+      this.labelMesh.visible = true;
       this._tweenIconIn = new TWEEN.Tween(this.iconMesh.material)
         .to({
-          opacity: 1
-        }, THREE_CONST.TWEEN_ICON_IN)
+          opacity: 1,
+        }, inDuration)
         .easing(TWEEN.Easing.Linear.None)
         .onComplete(() => {
-          this.labelMesh.visible = true;
           TWEEN.remove(this._tweenIconIn);
           resolve();
         })
         .start();
     });
+  }
+
+  public hideDefault() {
+    this.hoverOut(0, 0).then(() => {
+      this.previewIconMesh.visible = false;
+    });
+  }
+
+  public hidePreview() {
+    this.labelMesh.visible = false;
+    this.hoverIn(0, 0).then(() => {
+      this.previewIconMesh.visible = false;
+      this.iconMesh.visible = false;
+      this.labelMesh.visible = false;
+    });
+  }
+
+  public hideActivate() {
+    this.resetActivateAnimation();
+
+    this.deactivate(true, 0)
+      .then(() => {
+        this.previewIconMesh.visible = false;
+        this.iconMesh.visible = false;
+        this.labelMesh.visible = false;
+      });
+  }
+
+  public showDefault() {
+    this.hoverOut().then(() => {
+      this.previewIconMesh.visible = true;
+    });
+  }
+
+  public showPreview() {
+    this.hoverIn(0, 0);
+  }
+
+  public showActivate() {
+    this.hoverIn(0, 0)
+      .then(() => {
+        this.activate();
+      });
   }
 
   public resetActivateAnimation() {

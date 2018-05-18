@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import * as THREE from 'three';
 
-import HotspotEntity from 'ui/editor/preview-space/modules/HotspotEntity';
+import HotspotEntity, { HOTSPOT_ANIM_STATES } from 'ui/editor/preview-space/modules/HotspotEntity';
 import {SceneInteractor} from 'core/scene/sceneInteractor';
 import {AssetInteractor} from 'core/asset/assetInteractor';
 import {AudioPlayService} from 'ui/editor/preview-space/modules/audioPlayService';
@@ -69,11 +69,31 @@ export class HotspotManager {
 
   update(reticle, elapsedTime: number) {
     const reticlePosition: THREE.Vector3 = new THREE.Vector3();
+    const activatedHotspots = [];
+    let minDistance = null;
+    let activated = null;
 
     reticle.getWorldPosition(reticlePosition);
 
     this.hotspotMap.forEach((hotspotEntity) => {
-      hotspotEntity.update(reticlePosition);
+      hotspotEntity.preUpdate(reticlePosition);
+
+      if (hotspotEntity.state === HOTSPOT_ANIM_STATES.ACTIVE) {
+        activatedHotspots.push(hotspotEntity);
+
+        if (minDistance === null || hotspotEntity.distanceToReticle < minDistance) {
+          minDistance = hotspotEntity.distanceToReticle;
+          activated = hotspotEntity;
+        }
+      }
+    });
+
+    this.hotspotMap.forEach((h) => {
+      if (!!activated && h !== activated) {
+        h.state = HOTSPOT_ANIM_STATES.HIDE;
+      }
+
+      h.update();
     });
   }
 }
