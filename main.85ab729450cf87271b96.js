@@ -765,7 +765,7 @@ var ProjectInteractor = /** @class */function () {
         var _this = this;
         return this.apiService.getProject(projectUrl).switchMap(function (projectArrayBuffer) {
             return _this.deserializationService.unzipStoryFile(projectArrayBuffer);
-        }).do(function (projectData) {
+        }).do(function () {
             _this.assetManager.clearAssets();
             _this.projectService.setProjectId(null);
         });
@@ -775,7 +775,7 @@ var ProjectInteractor = /** @class */function () {
         var projectName = this.roomManager.getProjectName();
         var projectTags = this.roomManager.getProjectTags();
         var homeroomThumbnail = this.getHomeroomThumbnail();
-        return this.serializationService.zipStoryFile().switchMap(function (zipFile) {
+        return this.serializationService.zipStoryFile(true).switchMap(function (zipFile) {
             return _this.apiService.createProject(userId, projectName, projectTags, zipFile, homeroomThumbnail);
         }).do(function (projectData) {
             return _this.projectService.setProjectId(projectData.id);
@@ -786,7 +786,7 @@ var ProjectInteractor = /** @class */function () {
         var projectName = this.roomManager.getProjectName();
         var projectTags = this.roomManager.getProjectTags();
         var homeroomThumbnail = this.getHomeroomThumbnail();
-        return this.serializationService.zipStoryFile().switchMap(function (zipFile) {
+        return this.serializationService.zipStoryFile(true).switchMap(function (zipFile) {
             return _this.apiService.updateProject(userId, projectId, projectName, projectTags, zipFile, homeroomThumbnail);
         });
     };
@@ -1378,6 +1378,7 @@ var uuid_1 = __webpack_require__(97);
 var BaseElement = /** @class */function () {
     function BaseElement() {
         this.id = uuid_1.generateUniqueId();
+        this.name = '';
         this.location = vector2_1.Vector2.build();
         this.timestamp = Date.now();
         this.isPossibleCombinedHotspot = false;
@@ -36972,6 +36973,7 @@ var PreviewSpace = /** @class */function () {
         this.meshList = [];
         this.roomHistory = [];
         this.shouldInit = false;
+        this.isFirstInitialize = true;
         this.inRoomTween = false;
         this.sphereMaterial = new THREE.MeshBasicMaterial({ map: null, side: THREE.BackSide });
         //private onResizeFn: Function = this.onResize.bind(this);
@@ -37064,9 +37066,10 @@ var PreviewSpace = /** @class */function () {
         room.getBackgroundIsVideo() ? this.init3dRoom(room) : this.init2dRoom(roomId);
         this.audioManager.stopAllAudio(!isTransition);
         var isShare = this.router.url.indexOf('share=1') !== -1;
-        if (isShare) {
+        if (isShare && this.isFirstInitialize) {
             this.eventBus.onPlayStoryModal(function () {
                 _this.startPlay();
+                _this.isFirstInitialize = false;
             });
             return;
         }
@@ -37815,17 +37818,8 @@ var UniversalPlane = /** @class */function (_super) {
         var position = iconPositionUtil_1.getCoordinatePosition(location.getX(), location.getY(), 250);
         var width = 0;
         var height = 0;
-        var imageHeight = 0;
         var textSize = null;
-        var imageTexture = null;
-        if (hasImageContent) {
-            imageTexture = this.assetInteractor.getTextureById(universalProperty.getId());
-            if (imageTexture) {
-                width = imageTexture.image.width > width ? imageTexture.image.width : width;
-                imageHeight = imageTexture.image.height;
-                height += imageHeight;
-            }
-        }
+        var adjustedHeight = 0;
         if (hasTextContent) {
             textSize = textMaterialBuilder_1.getTextureSizeFromText(universalProperty.textContent);
             width = textSize.width > width ? textSize.width : width;
@@ -37836,8 +37830,17 @@ var UniversalPlane = /** @class */function (_super) {
         var canvasContext = canvas.getContext('2d');
         canvas.width = width;
         canvas.height = height;
-        if (imageTexture !== null) {
-            canvasContext.drawImage(imageTexture.image, 0, 0, width, imageHeight);
+        if (hasImageContent) {
+            var imageTexture = this.assetInteractor.getTextureById(universalProperty.getId());
+            var imgWidth = imageTexture.image.width;
+            var imgHeight = imageTexture.image.height;
+            var adjustedWidth = imgWidth >= imgHeight && width > 0 ? width : imgWidth;
+            adjustedHeight = imgHeight * (adjustedWidth / imgWidth);
+            width = imageTexture.image.width > width ? imageTexture.image.width : width;
+            height += adjustedHeight;
+            canvas.width = width;
+            canvas.height = height;
+            canvasContext.drawImage(imageTexture.image, width / 2 - adjustedWidth / 2, 0, adjustedWidth, adjustedHeight);
         }
         if (textSize !== null) {
             var textCanvas = document.createElement('canvas');
@@ -37845,7 +37848,7 @@ var UniversalPlane = /** @class */function (_super) {
             textCanvas.width = textSize.width;
             textCanvas.height = textSize.height;
             textCanvasContext.drawImage(textSize.drawCanvas, 0, 0, width, height, 0, 0, width, height);
-            canvasContext.drawImage(textCanvas, 0, imageHeight, width, textSize.height);
+            canvasContext.drawImage(textCanvas, 0, adjustedHeight, width, textSize.height);
         }
         var texture = new THREE.Texture(canvas);
         texture.needsUpdate = true;
