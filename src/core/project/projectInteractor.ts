@@ -49,7 +49,7 @@ export class ProjectInteractor {
   openPublicProject(projectUrl: string) {
     return this.apiService.getProject(projectUrl)
       .switchMap(projectArrayBuffer => this.deserializationService.unzipStoryFile(projectArrayBuffer))
-      .do(projectData => {
+      .do(() => {
         this.assetManager.clearAssets();
         this.projectService.setProjectId(null);
       });
@@ -60,7 +60,7 @@ export class ProjectInteractor {
     const projectTags: string = this.roomManager.getProjectTags();
     const homeroomThumbnail: string = this.getHomeroomThumbnail();
 
-    return this.serializationService.zipStoryFile()
+    return this.serializationService.zipStoryFile(true)
       .switchMap(zipFile => this.apiService.createProject(userId, projectName, projectTags, zipFile, homeroomThumbnail))
       .do(projectData => this.projectService.setProjectId(projectData.id));
   }
@@ -70,7 +70,7 @@ export class ProjectInteractor {
     const projectTags: string = this.roomManager.getProjectTags();
     const homeroomThumbnail: string = this.getHomeroomThumbnail();
 
-    return this.serializationService.zipStoryFile()
+    return this.serializationService.zipStoryFile(true)
       .switchMap(zipFile => this.apiService.updateProject(userId, projectId, projectName, projectTags, zipFile, homeroomThumbnail));
   }
 
