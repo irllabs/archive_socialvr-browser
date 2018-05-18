@@ -62,6 +62,7 @@ export class PreviewSpace implements AfterViewInit {
   private meshList: THREE.Mesh[] = [];
   private roomHistory: string[] = [];
   private shouldInit: boolean = false;
+  private isFirstInitialize: boolean = true;
   private inRoomTween: boolean = false;
   private lookAtVector: THREE.Vector3;
   private sphereMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({map: null, side: THREE.BackSide});
@@ -196,9 +197,10 @@ export class PreviewSpace implements AfterViewInit {
 
     const isShare = this.router.url.indexOf('share=1') !== -1;
 
-    if (isShare) {
+    if (isShare && this.isFirstInitialize) {
       this.eventBus.onPlayStoryModal(() => {
         this.startPlay();
+        this.isFirstInitialize = false;
       });
       return;
     }
