@@ -1,0 +1,7 @@
+[
+  {
+    "origin": ["https://cmuartfab.github.io", "http://localhost:3000"],
+    "method": ["GET", "POST", "PUT", "DELETE"],
+    "maxAgeSeconds": 3600
+  }
+]

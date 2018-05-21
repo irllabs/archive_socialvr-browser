@@ -1,0 +1,7 @@
+[
+  {
+    "origin": ["https://socialvr.irl.studio"],
+    "method": ["GET", "POST", "PUT", "DELETE"],
+    "maxAgeSeconds": 3600
+  }
+]
