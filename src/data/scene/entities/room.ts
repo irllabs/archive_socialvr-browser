@@ -311,7 +311,7 @@ export class Room implements RoomProperty {
     if (this.backgroundIsVideo) {
       (<any>roomJson).video = this.backgroundVideo.getBinaryFileData();
     }
+
     return roomJson;
   }
-
 }

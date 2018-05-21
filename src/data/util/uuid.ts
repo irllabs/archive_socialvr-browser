@@ -14,9 +14,12 @@ function offerUniqueId(id: string) {
 
 export function generateUniqueId(): string {
   let id: string = generateId();
+
   while (uuidSet.has(id)) {
     id = generateId();
   }
+
   uuidSet.add(id);
+
   return id;
 }

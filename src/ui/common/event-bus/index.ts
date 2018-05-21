@@ -47,6 +47,12 @@ export class EventBus {
     EventBus.subject.next(new Event(EventType.SHAREABLE_MODAL, eventPayload));
   }
 
+  onPlayStoryModal(callback: Function) {
+    const eventPayload = { callback };
+
+    EventBus.subject.next(new Event(EventType.PLAY_STORY_MODAL, eventPayload));
+  }
+
   onExploreModal() {
     EventBus.subject.next(new Event(EventType.OPEN_EXPLORE_MODAL, null));
   }
@@ -84,6 +90,7 @@ export enum EventType {
   STOP_LOADING,
   OPEN_FILE_LOADER,
   SHAREABLE_MODAL,
+  PLAY_STORY_MODAL,
   OPEN_EXPLORE_MODAL,
   HOTSPOT_EDITOR_VISIBILITY
 }

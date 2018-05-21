@@ -18,4 +18,8 @@
     [shareableData]="shareableData">
   </shareable-modal>
 
+  <play-story-modal
+    *ngIf="isPlayStoryModal()"
+    (onClose)="closeModal($event)">
+  </play-story-modal>
 </div>

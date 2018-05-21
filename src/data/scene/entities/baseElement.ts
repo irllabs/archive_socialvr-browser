@@ -5,9 +5,8 @@ import { RoomProperty } from 'data/scene/interfaces/roomProperty';
 import { generateUniqueId } from 'data/util/uuid';
 
 export class BaseElement implements RoomProperty {
-
   private id: string = generateUniqueId();
-  private name: string;
+  private name: string = '';
   private location: Vector2 = Vector2.build();
   private timestamp: number = Date.now();
   private isPossibleCombinedHotspot: boolean = false;

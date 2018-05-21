@@ -55,20 +55,8 @@ export default class UniversalPlane extends BasePlane {
 
     let width = 0;
     let height = 0;
-    let imageHeight = 0;
     let textSize = null;
-    let imageTexture = null;
-
-
-    if (hasImageContent) {
-      imageTexture = this.assetInteractor.getTextureById(universalProperty.getId());
-
-      if (imageTexture) {
-        width = imageTexture.image.width > width ? imageTexture.image.width : width;
-        imageHeight = imageTexture.image.height;
-        height += imageHeight;
-      }
-    }
+    let adjustedHeight = 0;
 
     if (hasTextContent) {
       textSize = getTextureSizeFromText(universalProperty.textContent);
@@ -84,8 +72,20 @@ export default class UniversalPlane extends BasePlane {
     canvas.width = width;
     canvas.height = height;
 
-    if (imageTexture !== null) {
-      canvasContext.drawImage(imageTexture.image, 0, 0, width, imageHeight);
+    if (hasImageContent) {
+      const imageTexture = this.assetInteractor.getTextureById(universalProperty.getId());
+      const imgWidth = imageTexture.image.width;
+      const imgHeight = imageTexture.image.height;
+      const adjustedWidth = imgWidth >= imgHeight && width > 0 ? width : imgWidth;
+
+      adjustedHeight = imgHeight * (adjustedWidth / imgWidth);
+      width = imageTexture.image.width > width ? imageTexture.image.width : width;
+
+      height += adjustedHeight;
+      canvas.width = width;
+      canvas.height = height;
+
+      canvasContext.drawImage(imageTexture.image, width / 2 - adjustedWidth / 2, 0, adjustedWidth, adjustedHeight);
     }
 
     if (textSize !== null) {
@@ -96,7 +96,7 @@ export default class UniversalPlane extends BasePlane {
       textCanvas.height = textSize.height;
 
       textCanvasContext.drawImage(textSize.drawCanvas, 0, 0, width, height, 0, 0, width, height);
-      canvasContext.drawImage(textCanvas, 0, imageHeight, width, textSize.height);
+      canvasContext.drawImage(textCanvas, 0, adjustedHeight, width, textSize.height);
     }
 
     const texture = new THREE.Texture(canvas);

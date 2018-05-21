@@ -69,11 +69,31 @@ export class HotspotManager {
 
   update(reticle, elapsedTime: number) {
     const reticlePosition: THREE.Vector3 = new THREE.Vector3();
+    const activatedHotspots = [];
+    let minDistance = null;
+    let activated = null;
 
     reticle.getWorldPosition(reticlePosition);
 
     this.hotspotMap.forEach((hotspotEntity) => {
-      hotspotEntity.update(reticlePosition);
+      hotspotEntity.preUpdate(reticlePosition);
+
+      if (hotspotEntity.state === HOTSPOT_ANIM_STATES.ACTIVE) {
+        activatedHotspots.push(hotspotEntity);
+
+        if (minDistance === null || hotspotEntity.distanceToReticle < minDistance) {
+          minDistance = hotspotEntity.distanceToReticle;
+          activated = hotspotEntity;
+        }
+      }
+    });
+
+    this.hotspotMap.forEach((h) => {
+      if (!!activated && h !== activated) {
+        h.state = HOTSPOT_ANIM_STATES.HIDE;
+      }
+
+      h.update();
     });
   }
 }

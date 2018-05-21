@@ -21,6 +21,7 @@ import { Reticle } from 'ui/editor/preview-space/modules/reticle';
 import { TextureLoader } from 'ui/editor/preview-space/modules/textureLoader';
 import SvrControls from 'ui/editor/util/SvrControls';
 import { buildScene, onResize } from 'ui/editor/util/threeUtil';
+import { EventBus } from '../../../common/event-bus';
 
 const Stats = require('stats.js');
 const stats = new Stats();
@@ -61,13 +62,14 @@ export class PreviewSpace implements AfterViewInit {
   private meshList: THREE.Mesh[] = [];
   private roomHistory: string[] = [];
   private shouldInit: boolean = false;
+  private isFirstInitialize: boolean = true;
   private inRoomTween: boolean = false;
   private lookAtVector: THREE.Vector3;
   private sphereMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ map: null, side: THREE.BackSide });
   //private onResizeFn: Function = this.onResize.bind(this);
-  private onResizeFn: EventListenerObject = { handleEvent: this.onResize.bind(this) };
-  private onVrDisplayChangeFn: EventListenerObject = { handleEvent: this.onVrDisplayChange.bind(this) };
-  private onCheckAudioContext: EventListenerObject = { handleEvent: this.checkAudioContextState.bind(this) };
+  private onResizeFn: EventListenerObject = {handleEvent: this.onResize.bind(this)};
+  private onVrDisplayChangeFn: EventListenerObject = {handleEvent: this.onVrDisplayChange.bind(this)};
+
 
   // private onVrDisplayChangeFn: Function = this.onVrDisplayChange.bind(this);
 
@@ -84,6 +86,7 @@ export class PreviewSpace implements AfterViewInit {
     private hotspotManager: HotspotManager,
     private menuManager: MenuManager,
     private reticle: Reticle,
+    private eventBus: EventBus,
   ) {
   }
 
@@ -103,7 +106,6 @@ export class PreviewSpace implements AfterViewInit {
 
     this.shouldInit = true;
     this.ngZone.runOutsideAngular(() => {
-      document.addEventListener('click', this.onCheckAudioContext, false);
       window.addEventListener('resize', this.onResizeFn, false);
       window.addEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);
     });
@@ -115,8 +117,6 @@ export class PreviewSpace implements AfterViewInit {
     this.initScene();
 
     const roomId = this.sceneInteractor.getActiveRoomId();
-
-    this.showUnmuteButton = this.audioManager.hasAutoplayAudio(roomId) && this.audioManager.isAudioContextSuspended();
 
     Promise.all([
       this.audioManager.loadBuffers(),
@@ -130,7 +130,6 @@ export class PreviewSpace implements AfterViewInit {
 
   ngOnDestroy() {
     // this.svrControls.dispose();
-    window.removeEventListener('click', this.checkAudioContextState, false);
     window.removeEventListener('resize', this.onResizeFn, false);
     window.removeEventListener('vrdisplaypresentchange', this.onVrDisplayChangeFn, false);
 
@@ -159,10 +158,6 @@ export class PreviewSpace implements AfterViewInit {
   //////////////////////////////////////////////
   ///////////  INITIALIZATION     //////////////
   //////////////////////////////////////////////
-
-  private checkAudioContextState() {
-    this.audioManager.checkAudioContextState();
-  }
 
   private initScene() {
     const canvas = this.globeCanvas.nativeElement;
@@ -200,67 +195,32 @@ export class PreviewSpace implements AfterViewInit {
     room.getBackgroundIsVideo() ? this.init3dRoom(room) : this.init2dRoom(roomId);
 
     this.audioManager.stopAllAudio(!isTransition);
+
+    const isShare = this.router.url.indexOf('share=1') !== -1;
+
+    if (isShare && this.isFirstInitialize) {
+      this.eventBus.onPlayStoryModal(() => {
+        this.startPlay();
+        this.isFirstInitialize = false;
+      });
+      return;
+    }
+    this.startPlay();
+
+    this.roomHistory.push(roomId);
+  }
+
+  private startPlay() {
     this.audioManager.playBackgroundAudio();
     this.audioManager.playNarration();
     this.audioManager.playSoundtrack();
     this.isInRenderLoop = true;
-
-    /*
-    if (!this.vrDisplay && this.vrDisplay.isPresenting)  {
-    // tween with fov
-    this.camera.fov = THREE_CONST.FOV_OUT;
-
-    var tweenRoomIn = new TWEEN.Tween(this.camera)
-    .to({
-        fov: THREE_CONST.FOV_NORM
-    },THREE_CONST.TWEEN_ROOM_MOVETIMEIN)
-    .easing(TWEEN.Easing.Linear.None).onUpdate( () => { })
-    .onComplete( () => {
-      //console.log("Init room: ",roomId);
-      this.roomHistory.push(roomId);
-    }).start();
-    } else {
-      this.roomHistory.push(roomId);
-    }
-    */
-
-    //tween with sphere position towards is
-    // this.sphereMesh.position.set(THREE_CONST.TWEEN_ROOM_MOVEIN,0,0);
-    // var tweenRoomOut = new TWEEN.Tween(this.sphereMesh.position).to({
-    //     x: 0,
-    //     y: 0,
-    //     z: 0
-    // },THREE_CONST.TWEEN_ROOM_MOVETIMEIN).easing(TWEEN.Easing.Linear.None).onUpdate( () => {
-    //
-    // }).onComplete( () => {
-    //   //console.log("onCopmlete for tween");
-    //   this.roomHistory.push(roomId);
-    // }).start();
-
-    this.roomHistory.push(roomId);
+    this.audioManager.checkAudioContextState();
   }
 
   //for still image backgrounds
   private init2dRoom(roomId: string) {
     const sphereTexture = this.assetInteractor.getTextureById(roomId);
-
-    // console.log('shaders', roomSphereFragShader, roomSphereVertShader);
-    // this.sphereMesh.material = new THREE.ShaderMaterial({
-    //   wireframe: true,
-    //   uniforms: {
-    //     time: {
-    //       type: 'f',
-    //       value: 0
-    //     },
-    //     texture: {
-    //       type: 't',
-    //       value: sphereTexture
-    //     }
-    //   },
-    //   vertexShader: roomSphereVertShader,
-    //   fragmentShader: roomSphereFragShader,
-    //   side: THREE.FrontSide
-    // });
 
     if (this.sphereMesh.material) {
       if (this.sphereMesh.material['map']) {
