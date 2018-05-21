@@ -4,7 +4,7 @@ import { SceneInteractor } from 'core/scene/sceneInteractor';
 import * as THREE from 'three';
 import { AudioPlayService } from 'ui/editor/preview-space/modules/audioPlayService';
 
-import HotspotEntity from 'ui/editor/preview-space/modules/HotspotEntity';
+import HotspotEntity, { HOTSPOT_ANIM_STATES } from 'ui/editor/preview-space/modules/HotspotEntity';
 import PlaneResolver from '../planes/plane-resolver';
 
 
