@@ -50,6 +50,7 @@ export class Universal extends BaseElement {
   setAudioContent(fileName: string, binaryFileData: string, volume: number = DEFAULT_VOLUME) {
     this._audioContent.setFileName(fileName);
     this._audioContent.setBinaryFileData(binaryFileData);
+    this._audioContent.setRemoteFileName(null);
     this.volume = volume;
   }
 
