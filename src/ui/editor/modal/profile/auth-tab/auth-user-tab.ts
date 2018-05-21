@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminInteractor } from 'core/admin/adminInteractor';
 import { ProjectInteractor } from 'core/project/projectInteractor';
@@ -19,8 +19,9 @@ const FileSaver = require('file-saver');
   styleUrls: ['./auth-user-tab.scss'],
   templateUrl: './auth-user-tab.html',
 })
-export class AuthUserTab implements OnInit {
+export class AuthUserTab implements OnInit, OnDestroy {
   private projectList = <any>[]; //TODO: move to repo / cache
+  private subscription;
 
   constructor(
     private userInteractor: UserInteractor,
@@ -35,7 +36,7 @@ export class AuthUserTab implements OnInit {
   }
 
   ngOnInit() {
-    this.projectInteractor.getProjects().subscribe(
+    this.subscription = this.projectInteractor.getProjects().subscribe(
       (projects) => {
         this.projectList = projects.map((p) => {
           const project = new Project(p);
@@ -60,12 +61,19 @@ export class AuthUserTab implements OnInit {
           if (projectNameA > projectNameB) {
             return 1;
           }
-          
+
           return 0;
         });
       },
       error => console.error('GET /projects', error),
     );
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+      this.subscription = null;
+    }
   }
 
   public getUserName(): string {

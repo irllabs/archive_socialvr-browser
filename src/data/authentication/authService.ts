@@ -42,34 +42,13 @@ export class AuthService {
   ) {
     const subscription = this.afAuth.authState.subscribe((user) => {
       if (user !== null) {
-        this._restore(user);
+        this._user = user;
+        this.userService.setUser(this.user);
+
+        return user;
       }
 
       subscription.unsubscribe();
-    });
-  }
-
-  private _restore(user) {
-    return this._obtainIdToken(user).then((idToken) => {
-      return this.apiService.logInWithFirebaseIdToken(idToken).toPromise().then(
-        () => {
-          this._user = user;
-          this.userService.setUser(this.user);
-
-          return user;
-        },
-        () => {
-          this.afAuth.auth.signOut();
-        },
-      );
-    });
-  }
-
-  private _obtainIdToken(user) {
-    return user.getIdToken(true).then((idToken) => {
-      this._idToken = idToken;
-
-      return idToken;
     });
   }
 
@@ -78,14 +57,20 @@ export class AuthService {
       .then((result) => {
         const user = result.user;
 
-        return this._restore(user);
+        this._user = user;
+        this.userService.setUser(this.user);
+
+        return user;
       });
   }
 
   private _loginPasswordAuthenticate({ email, password }) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((user) => {
-        return this._restore(user);
+        this._user = user;
+        this.userService.setUser(this.user);
+
+        return user;
       });
   }
 
