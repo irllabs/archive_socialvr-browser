@@ -66,7 +66,7 @@ export class AudioRecorder {
     this.audioRecorderService.stopRecording()
       .then(dataUrl => {
         const uniqueId: string = generateUniqueId();
-        const audioFileName: string = `${uniqueId}.wav`;
+
         this.onRecorded.emit({
         	fileName: `${uniqueId}.wav`,
         	dataUrl: dataUrl
@@ -79,13 +79,13 @@ export class AudioRecorder {
 
   private animateRecordButton() {
     if (!this.isRecording) return;
-
     const windowFrequencyData = this.audioRecorderService.getFrequencyData();
     const histogramSum = windowFrequencyData.reduce((sum, item) => sum + item, 0);
     const meanValue = histogramSum / windowFrequencyData.length;
     const normalValue = Math.min(meanValue, 100) / 100;
     const color = linearInterpolate(backgroundColorOff, backgroundColorOn, normalValue);
     const cssColor = `rgb(${color.r}, ${color.g}, ${color.b})`;
+
     this.setButtonColor(cssColor);
     requestAnimationFrame(this.animateRecordButton.bind(this));
   }
