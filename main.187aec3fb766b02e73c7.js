@@ -1579,11 +1579,14 @@ var BasePlane = /** @class */function () {
             }
         });
     };
-    BasePlane.prototype._animateDeactivate = function () {
+    BasePlane.prototype._animateDeactivate = function (duration) {
         var _this = this;
+        if (duration === void 0) {
+            duration = constants_1.THREE_CONST.TWEEN_PLANE_OUT;
+        }
         return new Promise(function (resolve) {
             if (_this.hasPlaneMesh) {
-                _this._tweenDeactivate = new TWEEN.Tween(_this.planeMesh.scale).to({ x: .001, y: .001, z: 1 }, constants_1.THREE_CONST.TWEEN_PLANE_OUT).easing(TWEEN.Easing.Linear.None).onComplete(function () {
+                _this._tweenDeactivate = new TWEEN.Tween(_this.planeMesh.scale).to({ x: .001, y: .001, z: 1 }, duration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
                     TWEEN.remove(_this._tweenDeactivate);
                     _this.planeMesh.visible = false;
                     resolve();
@@ -1593,14 +1596,16 @@ var BasePlane = /** @class */function () {
             }
         });
     };
-    BasePlane.prototype._animateIconActivate = function () {
+    BasePlane.prototype._animateIconActivate = function (duration) {
         var _this = this;
-        var duration = this.get_activate_duration(constants_1.THREE_CONST.TWEEN_ICON_OUT);
+        if (duration === void 0) {
+            duration = this.get_activate_duration(constants_1.THREE_CONST.TWEEN_ICON_OUT);
+        }
         return new Promise(function (resolve) {
+            _this.labelMesh.visible = false;
             _this._tweenIconActivate = new TWEEN.Tween(_this.iconMesh.material).to({ opacity: 0 }, duration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
                 TWEEN.remove(_this._tweenIconActivate);
                 _this.iconMesh.visible = false;
-                _this.labelMesh.visible = false;
                 resolve();
             }).start();
         });
@@ -1608,13 +1613,16 @@ var BasePlane = /** @class */function () {
     BasePlane.prototype.get_activate_duration = function (defaultDuration) {
         return defaultDuration;
     };
-    BasePlane.prototype._animateIconDeactivate = function () {
+    BasePlane.prototype._animateIconDeactivate = function (duration) {
         var _this = this;
+        if (duration === void 0) {
+            duration = constants_1.THREE_CONST.TWEEN_ICON_IN;
+        }
         return new Promise(function (resolve) {
-            _this._tweenIconDeactivate = new TWEEN.Tween(_this.iconMesh.material).to({ opacity: 1 }, constants_1.THREE_CONST.TWEEN_ICON_IN).easing(TWEEN.Easing.Linear.None).onComplete(function () {
+            _this.iconMesh.visible = true;
+            _this.labelMesh.visible = true;
+            _this._tweenIconDeactivate = new TWEEN.Tween(_this.iconMesh.material).to({ opacity: 1 }, duration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
                 TWEEN.remove(_this._tweenIconDeactivate);
-                _this.iconMesh.visible = true;
-                _this.labelMesh.visible = true;
                 resolve();
             }).start();
         });
@@ -1677,22 +1685,34 @@ var BasePlane = /** @class */function () {
             return _this._activating;
         });
     };
-    BasePlane.prototype.deactivate = function (onlyPlaneAnimation) {
+    BasePlane.prototype.deactivate = function (onlyPlaneAnimation, duration, iconDuration) {
         var _this = this;
         if (onlyPlaneAnimation === void 0) {
             onlyPlaneAnimation = false;
         }
-        var promises = [this._animateDeactivate()];
+        if (duration === void 0) {
+            duration = constants_1.THREE_CONST.TWEEN_PLANE_OUT;
+        }
+        if (iconDuration === void 0) {
+            iconDuration = constants_1.THREE_CONST.TWEEN_ICON_IN;
+        }
+        var promises = [this._animateDeactivate(duration)];
         this._activating = false;
         if (!onlyPlaneAnimation) {
-            promises.push(this._animateIconDeactivate());
+            promises.push(this._animateIconDeactivate(iconDuration));
         }
         return Promise.all(promises).then(function () {
             _this.onDeactivated();
         });
     };
-    BasePlane.prototype.hoverOut = function () {
+    BasePlane.prototype.hoverOut = function (inDuration, outDuration) {
         var _this = this;
+        if (inDuration === void 0) {
+            inDuration = constants_1.THREE_CONST.TWEEN_ICON_IN;
+        }
+        if (outDuration === void 0) {
+            outDuration = constants_1.THREE_CONST.TWEEN_ICON_OUT;
+        }
         return new Promise(function (resolve) {
             _this.resetIconInAnimations();
             _this.labelMesh.visible = false;
@@ -1701,38 +1721,83 @@ var BasePlane = /** @class */function () {
                 x: 1,
                 y: 1,
                 z: 1
-            }, constants_1.THREE_CONST.TWEEN_ICON_IN).easing(TWEEN.Easing.Linear.None).onComplete(function () {
+            }, inDuration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
                 TWEEN.remove(_this._tweenPreviewIconIn);
             }).start();
             _this._tweenIconOut = new TWEEN.Tween(_this.iconMesh.material).to({
                 opacity: 0
-            }, constants_1.THREE_CONST.TWEEN_ICON_OUT).easing(TWEEN.Easing.Linear.None).onComplete(function () {
+            }, outDuration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
                 _this.iconMesh.visible = false;
                 TWEEN.remove(_this._tweenIconOut);
                 resolve();
             }).start();
         });
     };
-    BasePlane.prototype.hoverIn = function () {
+    BasePlane.prototype.hoverIn = function (outDuration, inDuration) {
         var _this = this;
+        if (outDuration === void 0) {
+            outDuration = constants_1.THREE_CONST.TWEEN_ICON_OUT;
+        }
+        if (inDuration === void 0) {
+            inDuration = constants_1.THREE_CONST.TWEEN_ICON_IN;
+        }
         return new Promise(function (resolve) {
             _this.resetIconOutAnimations();
             _this._tweenPreviewIconOut = new TWEEN.Tween(_this.previewIconMesh.scale).to({
                 x: 0.001,
                 y: 0.001,
                 z: 0.001
-            }, constants_1.THREE_CONST.TWEEN_ICON_OUT).easing(TWEEN.Easing.Linear.None).onComplete(function () {
+            }, outDuration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
                 _this.previewIconMesh.visible = false;
                 TWEEN.remove(_this._tweenPreviewIconOut);
             }).start();
             _this.iconMesh.visible = true;
+            _this.labelMesh.visible = true;
             _this._tweenIconIn = new TWEEN.Tween(_this.iconMesh.material).to({
                 opacity: 1
-            }, constants_1.THREE_CONST.TWEEN_ICON_IN).easing(TWEEN.Easing.Linear.None).onComplete(function () {
-                _this.labelMesh.visible = true;
+            }, inDuration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
                 TWEEN.remove(_this._tweenIconIn);
                 resolve();
             }).start();
+        });
+    };
+    BasePlane.prototype.hideDefault = function () {
+        var _this = this;
+        this.hoverOut(0, 0).then(function () {
+            _this.previewIconMesh.visible = false;
+        });
+    };
+    BasePlane.prototype.hidePreview = function () {
+        var _this = this;
+        this.labelMesh.visible = false;
+        this.hoverIn(0, 0).then(function () {
+            _this.previewIconMesh.visible = false;
+            _this.iconMesh.visible = false;
+            _this.labelMesh.visible = false;
+        });
+    };
+    BasePlane.prototype.hideActivate = function () {
+        var _this = this;
+        this.resetActivateAnimation();
+        this.deactivate(true, 0).then(function () {
+            _this.previewIconMesh.visible = false;
+            _this.iconMesh.visible = false;
+            _this.labelMesh.visible = false;
+        });
+    };
+    BasePlane.prototype.showDefault = function () {
+        var _this = this;
+        this.hoverOut().then(function () {
+            _this.previewIconMesh.visible = true;
+        });
+    };
+    BasePlane.prototype.showPreview = function () {
+        this.hoverIn(0, 0);
+    };
+    BasePlane.prototype.showActivate = function () {
+        var _this = this;
+        this.hoverIn(0, 0).then(function () {
+            _this.activate();
         });
     };
     BasePlane.prototype.resetActivateAnimation = function () {
@@ -4236,6 +4301,7 @@ var Universal = /** @class */function (_super) {
         }
         this._audioContent.setFileName(fileName);
         this._audioContent.setBinaryFileData(binaryFileData);
+        this._audioContent.setRemoteFileName(null);
         this.volume = volume;
     };
     Universal.prototype.setImageContent = function (fileName, binaryFileData) {
@@ -11105,9 +11171,25 @@ var HotspotManager = /** @class */function () {
     };
     HotspotManager.prototype.update = function (reticle, elapsedTime) {
         var reticlePosition = new THREE.Vector3();
+        var activatedHotspots = [];
+        var minDistance = null;
+        var activated = null;
         reticle.getWorldPosition(reticlePosition);
         this.hotspotMap.forEach(function (hotspotEntity) {
-            hotspotEntity.update(reticlePosition);
+            hotspotEntity.preUpdate(reticlePosition);
+            if (hotspotEntity.state === HotspotEntity_1.HOTSPOT_ANIM_STATES.ACTIVE) {
+                activatedHotspots.push(hotspotEntity);
+                if (minDistance === null || hotspotEntity.distanceToReticle < minDistance) {
+                    minDistance = hotspotEntity.distanceToReticle;
+                    activated = hotspotEntity;
+                }
+            }
+        });
+        this.hotspotMap.forEach(function (h) {
+            if (!!activated && h !== activated) {
+                h.state = HotspotEntity_1.HOTSPOT_ANIM_STATES.HIDE;
+            }
+            h.update();
         });
     };
     HotspotManager = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, assetInteractor_1.AssetInteractor, audioPlayService_1.AudioPlayService])], HotspotManager);
@@ -36843,7 +36925,6 @@ var AudioRecorder = /** @class */function () {
         clearTimeout(this.timeoutId);
         this.audioRecorderService.stopRecording().then(function (dataUrl) {
             var uniqueId = uuid_1.generateUniqueId();
-            var audioFileName = uniqueId + ".wav";
             _this.onRecorded.emit({
                 fileName: uniqueId + ".wav",
                 dataUrl: dataUrl
@@ -37324,15 +37405,15 @@ exports.cleanMeshMemory = cleanMeshMemory;
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(13);
 var constants_1 = __webpack_require__(5);
-var STATES = {
+exports.HOTSPOT_ANIM_STATES = {
     FAR: 1,
     NEAR: 2,
-    ACTIVE: 3
+    ACTIVE: 3,
+    HIDE: 4
 };
 var HotspotEntity = /** @class */function () {
     function HotspotEntity(plane) {
-        this._prevState = STATES.FAR;
-        this._currentState = null;
+        this._prevState = exports.HOTSPOT_ANIM_STATES.FAR;
         this._activateAnimation = false;
         this._deactivateAnimation = false;
         this.id = plane.uuid;
@@ -37346,7 +37427,7 @@ var HotspotEntity = /** @class */function () {
     }
     Object.defineProperty(HotspotEntity.prototype, "_transitions", {
         get: function () {
-            return _a = {}, _a[STATES.FAR + "TO" + STATES.NEAR] = this._animateDefaultToPreview.bind(this), _a[STATES.FAR + "TO" + STATES.ACTIVE] = this._animateDefaultToActivate.bind(this), _a[STATES.NEAR + "TO" + STATES.FAR] = this._animatePreviewToDefault.bind(this), _a[STATES.NEAR + "TO" + STATES.ACTIVE] = this._animatePreviewToActivate.bind(this), _a[STATES.ACTIVE + "TO" + STATES.FAR] = this._animateActivateToDefault.bind(this), _a[STATES.ACTIVE + "TO" + STATES.NEAR] = this._animateActivateToPreview.bind(this), _a;
+            return _a = {}, _a[exports.HOTSPOT_ANIM_STATES.FAR + "TO" + exports.HOTSPOT_ANIM_STATES.NEAR] = this._animateDefaultToPreview.bind(this), _a[exports.HOTSPOT_ANIM_STATES.FAR + "TO" + exports.HOTSPOT_ANIM_STATES.ACTIVE] = this._animateDefaultToActivate.bind(this), _a[exports.HOTSPOT_ANIM_STATES.NEAR + "TO" + exports.HOTSPOT_ANIM_STATES.FAR] = this._animatePreviewToDefault.bind(this), _a[exports.HOTSPOT_ANIM_STATES.NEAR + "TO" + exports.HOTSPOT_ANIM_STATES.ACTIVE] = this._animatePreviewToActivate.bind(this), _a[exports.HOTSPOT_ANIM_STATES.ACTIVE + "TO" + exports.HOTSPOT_ANIM_STATES.FAR] = this._animateActivateToDefault.bind(this), _a[exports.HOTSPOT_ANIM_STATES.ACTIVE + "TO" + exports.HOTSPOT_ANIM_STATES.NEAR] = this._animateActivateToPreview.bind(this), _a[exports.HOTSPOT_ANIM_STATES.FAR + "TO" + exports.HOTSPOT_ANIM_STATES.HIDE] = this._animateDefaultToHide.bind(this), _a[exports.HOTSPOT_ANIM_STATES.NEAR + "TO" + exports.HOTSPOT_ANIM_STATES.HIDE] = this._animatePreviewToHide.bind(this), _a[exports.HOTSPOT_ANIM_STATES.ACTIVE + "TO" + exports.HOTSPOT_ANIM_STATES.HIDE] = this._animateActivateToHide.bind(this), _a[exports.HOTSPOT_ANIM_STATES.HIDE + "TO" + exports.HOTSPOT_ANIM_STATES.FAR] = this._animateHideToDefault.bind(this), _a[exports.HOTSPOT_ANIM_STATES.HIDE + "TO" + exports.HOTSPOT_ANIM_STATES.NEAR] = this._animateHideToPreview.bind(this), _a[exports.HOTSPOT_ANIM_STATES.HIDE + "TO" + exports.HOTSPOT_ANIM_STATES.ACTIVE] = this._animateHideToActivate.bind(this), _a;
             var _a;
         },
         enumerable: true,
@@ -37355,23 +37436,11 @@ var HotspotEntity = /** @class */function () {
     Object.defineProperty(HotspotEntity.prototype, "_currentActivateArea", {
         get: function () {
             var activateArea = constants_1.THREE_CONST.HOTSPOT_ACTIVE;
-            return activateArea * (this._prevState === STATES.ACTIVE ? 2 : 1);
+            return activateArea * (this._prevState === exports.HOTSPOT_ANIM_STATES.ACTIVE ? 2 : 1);
         },
         enumerable: true,
         configurable: true
     });
-    HotspotEntity.prototype.getActualState = function (reticlePos) {
-        var hotspotPosition = new THREE.Vector3();
-        this.plane.iconMesh.getWorldPosition(hotspotPosition);
-        var distanceToReticle = hotspotPosition.distanceTo(reticlePos);
-        if (distanceToReticle < this._currentActivateArea) {
-            return STATES.ACTIVE;
-        } else if (distanceToReticle < constants_1.THREE_CONST.HOTSPOT_NEAR) {
-            return STATES.NEAR;
-        } else {
-            return STATES.FAR;
-        }
-    };
     HotspotEntity.prototype._animateDefaultToPreview = function () {
         this.plane.hoverIn();
     };
@@ -37404,7 +37473,7 @@ var HotspotEntity = /** @class */function () {
             this.plane.resetActivateAnimation();
         }
         this._deactivateAnimation = true;
-        this.plane.deactivate(true).then(function () {
+        Promise.all([this.plane.hoverOut(), this.plane.deactivate(true)]).then(function () {
             return _this._deactivateAnimation = false;
         });
     };
@@ -37417,23 +37486,48 @@ var HotspotEntity = /** @class */function () {
         this.plane.deactivate(false).then(function () {
             return _this._deactivateAnimation = false;
         });
-        ;
     };
-    HotspotEntity.prototype.update = function (reticlePos) {
-        var newState = this.getActualState(reticlePos);
-        if (this._currentState === null) {
-            this._currentState = newState;
+    HotspotEntity.prototype._animateDefaultToHide = function () {
+        this.plane.hideDefault();
+    };
+    HotspotEntity.prototype._animatePreviewToHide = function () {
+        this.plane.hidePreview();
+    };
+    HotspotEntity.prototype._animateActivateToHide = function () {
+        this.plane.hideActivate();
+    };
+    HotspotEntity.prototype._animateHideToDefault = function () {
+        this.plane.showDefault();
+    };
+    HotspotEntity.prototype._animateHideToPreview = function () {
+        this.plane.showPreview();
+    };
+    HotspotEntity.prototype._animateHideToActivate = function () {
+        this.plane.showActivate();
+    };
+    HotspotEntity.prototype.preUpdate = function (reticlePos) {
+        var hotspotPosition = new THREE.Vector3();
+        this.plane.iconMesh.getWorldPosition(hotspotPosition);
+        this.distanceToReticle = hotspotPosition.distanceTo(reticlePos);
+        if (this.distanceToReticle < this._currentActivateArea) {
+            this.state = exports.HOTSPOT_ANIM_STATES.ACTIVE;
+        } else if (this.distanceToReticle < constants_1.THREE_CONST.HOTSPOT_NEAR) {
+            this.state = exports.HOTSPOT_ANIM_STATES.NEAR;
+        } else {
+            this.state = exports.HOTSPOT_ANIM_STATES.FAR;
         }
+    };
+    HotspotEntity.prototype.update = function () {
+        var newState = this.state;
         var prevState = this._prevState;
         if (newState === prevState) {
             this.plane.update();
         } else {
             var transition = this._transitions[prevState + "TO" + newState];
             this._prevState = newState;
-            this._currentState = newState;
             transition.call(this);
         }
-        if (newState === STATES.FAR) {
+        if (newState === exports.HOTSPOT_ANIM_STATES.FAR) {
             if (this.plane.type === 'door') {
                 var previewIconScale = 1. - performance.now() % constants_1.THREE_CONST.HOTSPOT_DOOR_FREQ / constants_1.THREE_CONST.HOTSPOT_DOOR_FREQ + 0.01;
                 this.plane.previewIconMesh.scale.set(this.scale * previewIconScale, this.scale * previewIconScale, 1);
