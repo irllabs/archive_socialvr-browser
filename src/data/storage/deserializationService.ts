@@ -285,8 +285,14 @@ export class DeserializationService {
         return blob.size <= 9 ? null : getBinaryFileData(blob);
       })
       .then((binaryDataFile) => {
+        let name = mediaFile.filePath;
+
+        if (name[0] === '/') {
+          name = name.slice(1);
+        }
+
         return {
-          name: mediaFile.filePath,
+          name,
           fileData: binaryDataFile,
           remoteFile: remoteFileUrl,
         };
@@ -381,7 +387,11 @@ export class DeserializationService {
     const jsonStoryFilePath: string = Object.keys(fileMap).find(path => path.endsWith('.json'));
     const yamlStoryFilePath: string = Object.keys(fileMap).find(path => path.endsWith('.yml')) || STORY_FILE_YAML;
     const storyFilePath = jsonStoryFilePath || yamlStoryFilePath;
-    const baseFilePath: string = `${storyFilePath.split('/').slice(0, -1).join('/')}/`;
+    let baseFilePath: string = `${storyFilePath.split('/').slice(0, -1).join('/')}/`;
+
+    if (baseFilePath[0] === '/') {
+      baseFilePath = baseFilePath.slice(1);
+    }
 
     const storyFile = fileMap[jsonStoryFilePath || yamlStoryFilePath];
     const getBinaryFileData = this.fileLoaderUtil.getBinaryFileData.bind(this.fileLoaderUtil);
