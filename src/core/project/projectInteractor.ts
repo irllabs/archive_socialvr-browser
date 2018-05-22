@@ -90,7 +90,7 @@ export class ProjectInteractor {
     const userId = this.userService.getUserId();
 
     return this.afStorage
-      .ref(`users/${userId}/projects/${projectId}/fileStory.zip`)
+      .ref(`projects/${projectId}/fileStory.zip`)
       .getDownloadURL()
       .switchMap((fileStoreUrl: string) => this.apiService.loadBinaryData(fileStoreUrl));
   }
@@ -179,7 +179,7 @@ export class ProjectInteractor {
 
     observers.push(
       this._getHomeRoomThumbnail().switchMap((blob) => {
-        fileRefs.thumbnail = `users/${userId}/projects/${projectId}/thumbnail.${blob.type.split('/')[1]}`;
+        fileRefs.thumbnail = `projects/${projectId}/thumbnail.${blob.type.split('/')[1]}`;
 
         return this.afStorage
           .upload(fileRefs.thumbnail, blob)

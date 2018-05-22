@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
-
 import { ApiService } from 'data/api/apiService';
-
-
 import { Observable } from 'rxjs/Observable';
 
-// import 'rxjs/add/operator/do';
 
 @Injectable()
 export class VideoInteractor {
@@ -18,5 +14,4 @@ export class VideoInteractor {
   uploadVideo(videoFile: File): Observable<any> {
     return null;
   }
-
 }
