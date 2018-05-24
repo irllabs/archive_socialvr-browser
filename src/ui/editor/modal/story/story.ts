@@ -118,6 +118,7 @@ export class Story {
           return;
         }
         //console.log('onNewStoryClick 4');
+        this.removeSoundtrack();
         this.sceneInteractor.setActiveRoomId(null);
         this.sceneInteractor.resetRoomManager();
         this.projectInteractor.setProjectId(null);
