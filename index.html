@@ -1,81 +1,90 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset=UTF-8>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="manifest" href="manifest.json">
-    <title>SocialVR</title>
+<head>
+  <meta charset=UTF-8>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="manifest" href="manifest.json">
+  <title>SocialVR</title>
 
-    <meta http-equiv="origin-trial" data-feature="WebVR (For Chrome M62+)" data-expires="2018-07-05" content="ApCZgSf5quc0J5c2BvXuxtDhXg4eBaFHQeuAzM8yirun5PkopqIGMRA150LsaBPaFnJhTZ8eBAu1ss8AU7kiewUAAABYeyJvcmlnaW4iOiJodHRwczovL2NtdWFydGZhYi5naXRodWIuaW86NDQzIiwiZmVhdHVyZSI6IldlYlZSMS4xTTYyIiwiZXhwaXJ5IjoxNTMwNzYyMjQwfQ==">
-    <meta http-equiv="origin-trial" data-feature="WebVR (For Chrome M62+)" data-expires="2018-07-05" content="AodZnK53H+uJDPMflBxabCh7/nhG5of5GBNwt7EJiW2uY/zf1+i+npH41Ome4Aams05tos0XqQyb4duuAd04EwIAAABYeyJvcmlnaW4iOiJodHRwczovL3NvY2lhbHZyLmlybC5zdHVkaW86NDQzIiwiZmVhdHVyZSI6IldlYlZSMS4xTTYyIiwiZXhwaXJ5IjoxNTMwNzYyMjQwfQ==">
+  <meta http-equiv="origin-trial" data-feature="WebVR (For Chrome M62+)" data-expires="2018-07-05" content="ApCZgSf5quc0J5c2BvXuxtDhXg4eBaFHQeuAzM8yirun5PkopqIGMRA150LsaBPaFnJhTZ8eBAu1ss8AU7kiewUAAABYeyJvcmlnaW4iOiJodHRwczovL2NtdWFydGZhYi5naXRodWIuaW86NDQzIiwiZmVhdHVyZSI6IldlYlZSMS4xTTYyIiwiZXhwaXJ5IjoxNTMwNzYyMjQwfQ==">
+  <meta http-equiv="origin-trial" data-feature="WebVR (For Chrome M62+)" data-expires="2018-07-05" content="AodZnK53H+uJDPMflBxabCh7/nhG5of5GBNwt7EJiW2uY/zf1+i+npH41Ome4Aams05tos0XqQyb4duuAd04EwIAAABYeyJvcmlnaW4iOiJodHRwczovL3NvY2lhbHZyLmlybC5zdHVkaW86NDQzIiwiZmVhdHVyZSI6IldlYlZSMS4xTTYyIiwiZXhwaXJ5IjoxNTMwNzYyMjQwfQ==">
 
-    <style>
-      html, body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 
-    <!-- Loader styles -->
-    <style>
-      .app-loader {
-        text-align: center;
+  <!-- Loader styles -->
+  <style>
+    .app-loader {
+      text-align: center;
+    }
+
+    .app-loader__logo {
+      margin: 180px auto 0 auto;
+      color: white;
+      text-stroke: 1px #979797;
+      -webkit-text-stroke: 1px #979797;
+      font-family: Helvetica, Arial, sans-serif;
+      font-size: 48px;
+      font-weight: bold;
+    }
+
+    .app-loader__spinner {
+      width: 30px;
+      height: 30px;
+      margin: 10px;
+      display: inline-block;
+      border-radius: 100%;
+      border: 2px solid #979797;
+      animation: app-loader__spinner--animate 1.8s infinite ease-out;
+      opacity: 0;
+    }
+
+    .app-loader__spinner-1 {
+      animation-delay: 0.3s;
+    }
+
+    .app-loader__spinner-2 {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes app-loader__spinner--animate {
+      0% {
+        transform: scale(0);
+        opacity: 1;
       }
-      .app-loader__logo {
-        margin: 180px auto 0 auto;
-        color: white;
-        text-stroke: 1px #979797;
-        -webkit-text-stroke: 1px #979797;
-        font-family: Helvetica, Arial, sans-serif;
-        font-size: 48px;
-        font-weight: bold;
-      }
-      .app-loader__spinner {
-        width: 30px;
-        height: 30px;
-        margin: 10px;
-        display: inline-block;
-        border-radius: 100%;
-        border: 2px solid #979797;
-        animation: app-loader__spinner--animate 1.8s infinite ease-out;
+      75% {
+        transform: scale(1.0);
         opacity: 0;
       }
-      .app-loader__spinner-1 { animation-delay: 0.3s; }
-      .app-loader__spinner-2 { animation-delay: 0.6s; }
-      @keyframes app-loader__spinner--animate {
-        0% {
-          transform: scale(0);
-          opacity: 1;
-        }
-        75% {
-          transform: scale(1.0);
-          opacity: 0;
-        }
-      }
-    </style>
+    }
+  </style>
 
-  </head>
-  <body>
+</head>
+<body>
 
-    <!-- Loading View -->
-    <app>
-      <div class="app-loader">
-        <p class="app-loader__logo">
-          <span class="app-loader___logo-social">Social</span>
-          <span class="app-loader__logo-vr">VR</span>
-        </p>
-        <div>
-          <div class="app-loader__spinner"></div>
-          <div class="app-loader__spinner app-loader__spinner-1"></div>
-          <div class="app-loader__spinner app-loader__spinner-2"></div>
-        </div>
-      </div>
-    </app>
+<!-- Loading View -->
+<app>
+  <div class="app-loader">
+    <p class="app-loader__logo">
+      <span class="app-loader___logo-social">Social</span>
+      <span class="app-loader__logo-vr">VR</span>
+    </p>
+    <div>
+      <div class="app-loader__spinner"></div>
+      <div class="app-loader__spinner app-loader__spinner-1"></div>
+      <div class="app-loader__spinner app-loader__spinner-2"></div>
+    </div>
+  </div>
+</app>
 
-    <!-- <script src="https://apis.google.com/js/platform.js?onload=gapiOnLoad" async defer></script> -->
-  <script type="text/javascript" src="polyfills.ea024a354cd87a5ffd90.js"></script><script type="text/javascript" src="vendor.5b2a6a6084e31b6ac325.js"></script><script type="text/javascript" src="main.bd3a6f1488e965cdfc3f.js"></script></body>
+<!-- <script src="https://apis.google.com/js/platform.js?onload=gapiOnLoad" async defer></script> -->
+<script type="text/javascript" src="polyfills.e56dca039c6c2723d020.js"></script><script type="text/javascript" src="vendor.ee478b762ac920bc332b.js"></script><script type="text/javascript" src="main.33263ca5c078f6b04c0a.js"></script></body>
 </html>
