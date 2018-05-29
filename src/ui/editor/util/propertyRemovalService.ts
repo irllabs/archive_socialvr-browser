@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import { SceneInteractor } from 'core/scene/sceneInteractor';
-import { Audio } from 'data/scene/entities/audio';
 import { Door } from 'data/scene/entities/door';
-import { Image } from 'data/scene/entities/image';
-import { Link } from 'data/scene/entities/link';
 
-import { Text } from 'data/scene/entities/text';
 import { Universal } from 'data/scene/entities/universal';
-import { Video } from 'data/scene/entities/video';
 import { RoomProperty } from 'data/scene/interfaces/roomProperty';
 import { EventBus } from 'ui/common/event-bus';
 import { RoomPropertyTypeService } from 'ui/editor/util/roomPropertyTypeService';
+
 
 @Injectable()
 export class PropertyRemovalService {
@@ -30,26 +26,6 @@ export class PropertyRemovalService {
   private removePropertyStrategy(propertyType: string, roomProperty: RoomProperty) {
     const roomId = this.sceneInteractor.getActiveRoomId();
     const removalStrategy = {
-      text: () => {
-        const text: Text = <Text> roomProperty;
-        this.sceneInteractor.removeText(roomId, text);
-        this.onDeselect();
-      },
-      video: () => {
-        const video: Video = <Video> roomProperty;
-        this.sceneInteractor.removeVideo(roomId, video);
-        this.onDeselect();
-      },
-      audio: () => {
-        const audio: Audio = <Audio> roomProperty;
-        this.sceneInteractor.removeAudio(roomId, audio);
-        this.onDeselect();
-      },
-      image: () => {
-        const image: Image = <Image> roomProperty;
-        this.sceneInteractor.removeImage(roomId, image);
-        this.onDeselect();
-      },
       door: () => {
         const door: Door = <Door> roomProperty;
         this.sceneInteractor.removeDoor(roomId, door);
@@ -61,11 +37,6 @@ export class PropertyRemovalService {
 
         const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
         this.eventBus.onSelectRoom(activeRoomId, false);
-      },
-      link: () => {
-        const link: Link = <Link> roomProperty;
-        this.sceneInteractor.removeLink(roomId, link);
-        this.onDeselect();
       },
       universal: () => {
         const universal: Universal = <Universal> roomProperty;
@@ -80,5 +51,4 @@ export class PropertyRemovalService {
     this.eventBus.onSelectProperty(null, false);
     this.eventBus.onHotspotVisibility(false);
   }
-
 }

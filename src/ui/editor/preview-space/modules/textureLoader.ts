@@ -30,7 +30,7 @@ export class TextureLoader {
       .map(roomId => this.sceneInteractor.getRoomById(roomId))
       .filter(room => room.hasBackgroundImage())
       .map((room) => {
-        let imagePath = room.getBinaryFileData();
+        let imagePath = room.getBackgroundImageBinaryData();
 
         if (imagePath.changingThisBreaksApplicationSecurity) {
           imagePath = imagePath.changingThisBreaksApplicationSecurity;
@@ -43,18 +43,6 @@ export class TextureLoader {
     const hotspotImages = this.sceneInteractor.getRoomIds()
       .map(roomId => this.sceneInteractor.getRoomById(roomId))
       .reduce((accumulator, room) => {
-        const imagePropertyList = Array.from(room.getImages())
-          .filter(image => image.getBinaryFileData())
-          .map((image) => {
-            let imageDataUri = image.getBinaryFileData();
-
-            if (imageDataUri.changingThisBreaksApplicationSecurity) {
-              imageDataUri = imageDataUri.changingThisBreaksApplicationSecurity;
-            }
-
-            return new AssetModel(image.getId(), image.getFileName(), imageDataUri);
-          });
-
         const universalImagePropertyList = Array.from(room.getUniversal())
           .filter(universal => universal.imageContent.hasAsset())
           .map((universal) => {
@@ -64,10 +52,16 @@ export class TextureLoader {
               imageDataUri = imageDataUri.changingThisBreaksApplicationSecurity;
             }
 
-            return new AssetModel(universal.getId(), universal.imageContent.getFileName(), imageDataUri, universal.imageContent.needToRedraw);
+            const asset = new AssetModel(universal.getId(), universal.imageContent.getFileName(), imageDataUri);
+
+            universal.imageContent.draw(() => {
+              asset.force = true
+            });
+
+            return asset;
+
           });
 
-        accumulator = accumulator.concat(imagePropertyList);
         accumulator = accumulator.concat(universalImagePropertyList);
 
         return accumulator;

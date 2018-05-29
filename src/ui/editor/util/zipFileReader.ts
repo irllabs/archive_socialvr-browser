@@ -22,7 +22,7 @@ export class ZipFileReader {
       .subscribe(
         val => {
           this.sceneInteractor.setActiveRoomId(null);
-          this.projectInteractor.setProjectId(null);
+          this.projectInteractor.setProject(null);
           this.eventBus.onSelectRoom(null, false);
           this.eventBus.onStopLoading();
         },

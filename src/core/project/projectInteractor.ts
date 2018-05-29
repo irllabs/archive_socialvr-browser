@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { AngularFireStorage } from 'angularfire2/storage';
 import { ApiService } from 'data/api/apiService';
 import { AssetManager } from 'data/asset/assetManager';
-import { Project } from 'data/project/projectModel';
+import { Project, PROJECT_STATES } from 'data/project/projectModel';
 import { ProjectService } from 'data/project/projectService';
 import { RoomManager } from 'data/scene/roomManager';
 
@@ -16,6 +16,7 @@ import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { fromPromise } from 'rxjs/observable/fromPromise';
+import { MediaFile } from '../../data/scene/entities/mediaFile';
 
 
 @Injectable()
@@ -24,7 +25,7 @@ export class ProjectInteractor {
     const userId = this.userService.getUserId();
 
     if (userId) {
-      return this.afStore.collection<Project>('projects', ref => ref.where('userId', '==', userId));
+      return this.afStore.collection<Project>('projects', ref => ref.where('userId', '==', userId).orderBy('name'));
     }
   };
 
@@ -59,33 +60,46 @@ export class ProjectInteractor {
     return this._projectsCollection.doc<Project>(projectId).valueChanges();
   }
 
-  public openProject(projectId: string) {
+  public openProject(project: Project) {
+    return this._openProject(project);
+  }
+
+  public openProjectById(projectId: string) {
     return this._projectsCollection
       .doc(projectId).valueChanges()
       .first()
-      .switchMap((project: Project) => this._openProject(projectId, project.storyFileUrl));
+      .switchMap((obj: any) => this._openProject(new Project(obj)));
   }
 
-  public openPublicProject(projectDocRef: string) {
-    return this._openProject(null, projectDocRef);
+  public openPublicProject(projectId: string) {
+    return this.getProjectData(projectId).toPromise().then((response) => {
+      const project = new Project(response);
+
+      return this._openProject(project);
+    });
   }
 
   public createProject() {
     const projectId = this.afStore.createId();
-
-    return this._saveProject(projectId).do(() => {
-      this.projectService.setProjectId(projectId);
+    const project = new Project({
+      id: projectId,
     });
+
+    return this._saveProject(project)
+      .then((project: Project) => {
+        this.projectService.setProject(project);
+      });
   }
 
-  public updateProject(projectId: string) {
-    return this._saveProject(projectId);
+  public updateProject(project: Project) {
+    return this._saveProject(project);
   }
 
   public deleteProject(projectId: string) {
     return fromPromise(this._projectsCollection.doc(projectId).delete());
   }
 
+  // TODO: fix it
   public getProjectAsBlob(projectId: string): Observable<ArrayBuffer> {
     const userId = this.userService.getUserId();
 
@@ -95,12 +109,12 @@ export class ProjectInteractor {
       .switchMap((fileStoreUrl: string) => this.apiService.loadBinaryData(fileStoreUrl));
   }
 
-  public getProjectId(): string {
-    return this.projectService.getProjectId();
+  public getProject(): Project {
+    return this.projectService.getProject();
   }
 
-  public setProjectId(projectId: string) {
-    this.projectService.setProjectId(projectId);
+  public setProject(project: Project) {
+    this.projectService.setProject(project);
   }
 
   public isWorkingOnSavedProject(): boolean {
@@ -149,85 +163,92 @@ export class ProjectInteractor {
       });
   }
 
-  private _openProject(projectId: string, storyFileUrl: string) {
-    return this.afStorage.ref(storyFileUrl).getDownloadURL()
-      .switchMap((fileStoreUrl: string) => this.apiService.loadBinaryData(fileStoreUrl))
-      .switchMap((projectArrayBuffer) => this.deserializationService.unzipStoryFile(projectArrayBuffer))
-      .do(() => {
+  private _openProject(project: Project) {
+    return this.deserializationService
+      .deserializeProject(project)
+      .then((downloadRestAssets) => {
         this.assetManager.clearAssets();
-        this.projectService.setProjectId(projectId);
+        this.projectService.setProject(project);
+
+        downloadRestAssets();
       });
   }
 
-  private _saveProject(projectId) {
+  private _saveProject(project: Project) {
     const projectName: string = this.roomManager.getProjectName();
     const projectTags: string = this.roomManager.getProjectTags();
-    const user = this.userService.getUser();
+    const userName = this.userService.getUserName();
     const userId = this.userService.getUserId();
-    const fileRefs = {
-      storyFile: `projects/${projectId}/fileStory.zip`,
-      thumbnail: null,
-    };
-
-    const observers = [
-      this.serializationService
-        .zipStoryFile()
-        .switchMap((zipFile) => {
-          return this.afStorage.upload(fileRefs.storyFile, zipFile).downloadURL();
-        }),
-    ];
-
-    observers.push(
-      this._getHomeRoomThumbnail().switchMap((blob) => {
-        fileRefs.thumbnail = `projects/${projectId}/thumbnail.${blob.type.split('/')[1]}`;
-
-        return this.afStorage
-          .upload(fileRefs.thumbnail, blob)
-          .downloadURL();
-      }),
-    );
-
-    return forkJoin(observers).switchMap(() => {
-      const project = new Project({
-        userId,
-        id: projectId,
-        user: user.displayName,
-        name: projectName,
-        storyFileUrl: fileRefs.storyFile,
-        thumbnailUrl: fileRefs.thumbnail,
-      });
-
-      project.setTags(projectTags);
-
-      console.log('save:', project.toJson());
-
-      return this._projectsCollection.doc(projectId).set(project.toJson());
-    });
-  }
-
-  // get base64 homeroom thumbnail
-  private _getHomeRoomThumbnail(): Observable<Blob> {
     const homeRoomId = this.roomManager.getHomeRoomId();
     const homeRoom = this.roomManager.getRoomById(homeRoomId);
-    const dataUrl = homeRoom.getThumbnailImage(true);
+    const thumbnailMediaFile: MediaFile = homeRoom.getThumbnail().getMediaFile();
+    const allMediaFiles = this.serializationService.extractAllMediaFiles();
+    const deleteMediaFiles = allMediaFiles.filter((mediaFile: MediaFile) => mediaFile.hasRemoteFileToDelete());
+    const uploadMediaFiles = allMediaFiles
+      .filter((mediaFile: MediaFile) => mediaFile.hasBinaryDataToUpload())
+      .map((mediaFile: MediaFile) => {
+        mediaFile.setRemoteFile(`projects/${project.id}/${mediaFile.getFileName()}`);
 
+        return mediaFile;
+      });
+    const story = this.serializationService.buildProjectJson();
 
-    return fromPromise(new Promise((resolve, reject) => {
-      const img = new Image();
+    if (!project.userId) {
+      project.userId = userId;
+      project.user = userName;
+    } else if (project.userId === userId) {
+      project.user = userName;
+    }
 
-      img.onerror = reject;
-      img.onload = function onload() {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
+    project.name = projectName;
+    project.setTags(projectTags);
+    project.story = story;
+    project.thumbnailUrl = `projects/${project.id}/${thumbnailMediaFile.getFileName()}`;
 
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    const projectRef = this._projectsCollection.doc(project.id);
 
-        canvas.toBlob(resolve);
-      };
+    return projectRef.set(project.toJson())
+      .then(() => this._deleteMediaFiles(deleteMediaFiles))
+      .then(() => this._uploadMediaFiles(uploadMediaFiles))
+      .then(() => {
+        return projectRef.update({
+          state: PROJECT_STATES.ASSETS_UPLOADED,
+        });
+      })
+      .then(() => {
+        return project;
+      });
+  }
 
-      img.src = dataUrl;
-    }));
+  private async _deleteMediaFiles(mediaFiles) {
+    for (let i = 0; i < mediaFiles.length; i++) {
+      const mediaFile = mediaFiles[i];
+
+      await this.afStorage.ref(mediaFile.storedRemoteFile)
+        .delete().toPromise()
+        .then(() => mediaFile.setStoredRemoteFile(null))
+        .catch((error) => {
+          console.log('Can\'t delete file from Storage:', mediaFile);
+          console.log(error);
+        });
+    }
+  }
+
+  private async _uploadMediaFiles(mediaFiles) {
+    for (let i = 0; i < mediaFiles.length; i++) {
+      const mediaFile: MediaFile = mediaFiles[i];
+      const task = this.afStorage.upload(mediaFile.getRemoteFile(), mediaFile.getBlob());
+
+      await task.downloadURL().toPromise()
+        .then(() => {
+          mediaFile.setStoredRemoteFile(mediaFile.getRemoteFile());
+
+          return mediaFile;
+        })
+        .catch((error) => {
+          console.log('Can\'t upload file to Storage:', mediaFile);
+          console.log(error);
+        });
+    }
   }
 }

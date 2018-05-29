@@ -1,21 +1,25 @@
-import { AngularFireStorage } from 'angularfire2/storage';
+export const PROJECT_STATES = {
+  ASSETS_NOT_UPLOADED: 1,
+  ASSETS_UPLOADED: 2,
+};
 
 export class Project {
   public id: string;
   public userId: string;
   public user: string;
   public name: string;
-  public storyFileUrl: string;
+  public story: any;
   public tags: any;
   public isPublic: boolean;
   public thumbnailUrl: string;
+  public state: number = PROJECT_STATES.ASSETS_NOT_UPLOADED;
 
   constructor(obj = {}) {
-    this.id = obj['id'];
+    this.id = obj['id']['_binaryString'] ? obj['id']['_binaryString'] : obj['id'];
     this.userId = obj['userId'];
     this.user = obj['user'];
     this.name = obj['name'];
-    this.storyFileUrl = obj['storyFileUrl'];
+    this.story = obj['story'];
     this.tags = obj['tags'];
     this.isPublic = obj['isPublic'];
     this.thumbnailUrl = obj['thumbnailUrl'];
@@ -37,13 +41,8 @@ export class Project {
     }
   }
 
-  public getThumbnailDownloadUrl(afStorage: AngularFireStorage) {
-    if (this.thumbnailUrl) {
-      return afStorage.ref(this.thumbnailUrl).getDownloadURL();
-    }
-  }
-
   public toJson() {
+    // TODO: replace it to explicit
     return JSON.parse(JSON.stringify(this));
   }
 }

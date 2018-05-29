@@ -57,17 +57,19 @@ function getResizedImage(imageUrl: any, sizeOption: string): Promise<string> {
     try {
       const canvas = document.createElement('canvas');
       const img = new Image();
+
       img.onload = () => {
         const resizeDimensions: Vector2 = SIZE_OPTIONS[sizeOption](img.width, img.height);
+
         canvas.width = resizeDimensions.getX();
         canvas.height = resizeDimensions.getY();
         canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height, 0, 0, resizeDimensions.getX(), resizeDimensions.getY());
+
         resolve(canvas.toDataURL(MIME_TYPE_JPEG, 1));
       };
-      img.src = imageUrl.changingThisBreaksApplicationSecurity ?
-        imageUrl.changingThisBreaksApplicationSecurity : imageUrl;
-    }
-    catch (error) {
+
+      img.src = imageUrl.changingThisBreaksApplicationSecurity || imageUrl;
+    } catch (error) {
       reject(error);
     }
   });
@@ -88,10 +90,7 @@ export function resizeImage(imageUrl: any, sizeOption: string): Promise<any> {
           thumbnail: resizeList[1],
         };
       });
-  }
-  else {
+  } else {
     return getResizedImage(imageUrl, sizeOption);
   }
-
-
 }

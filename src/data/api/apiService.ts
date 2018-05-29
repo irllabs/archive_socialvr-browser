@@ -17,29 +17,6 @@ export class ApiService implements Api {
   ) {
   }
 
-  public logIn(userName: string, password: string): Observable<string> {
-    const URL: string = `${BASE_URL}/auth/sign_in/`;
-    const payload = {
-      username: userName,
-      password: password,
-    };
-
-    return this.http
-      .post(URL, payload)
-      .map(response => response.json().token);
-  }
-
-  public logInWithFirebaseIdToken(idToken) {
-    const URL: string = `${BASE_URL}/auth/sign_in_with_id_token/`;
-    const payload = {
-      'id_token': idToken,
-    };
-
-    return this.http
-      .post(URL, payload)
-      .map(response => response.json());
-  }
-
   public loadBinaryData(url: string) {
     return this.http
       .get(url, { responseType: ResponseContentType.ArrayBuffer })
@@ -47,14 +24,14 @@ export class ApiService implements Api {
   }
 
   // GET /admin_groups/groupName
-  getAllProjectsInGroup(groupId: string): Observable<any> {
+  public getAllProjectsInGroup(groupId: string): Observable<any> {
     const URL: string = `${BASE_URL}/admin_groups/${groupId}/`;
 
     return this.http.get(URL, this.getRequestOptions())
       .map(response => response.json());
   }
 
-  setProjectInGroup(groupId: string, projectId: string, isIn: boolean, projectType: string): Observable<any> {
+  public setProjectInGroup(groupId: string, projectId: string, isIn: boolean, projectType: string): Observable<any> {
     const URL: string = `${BASE_URL}/user_groups/${groupId}/`;
     const payloadBody = { projectId, isIn, projectType };
 
@@ -62,14 +39,14 @@ export class ApiService implements Api {
       .map(response => response.json());
   }
 
-  getGroup(groupId: string): Observable<any> {
+  public getGroup(groupId: string): Observable<any> {
     const URL: string = `${BASE_URL}/user_groups/${groupId}/`;
 
     return this.http.get(URL, this.getRequestOptions())
       .map(response => response.json());
   }
 
-  getRequestOptions(headerData = {}): RequestOptions {
+  public getRequestOptions(headerData = {}): RequestOptions {
     this.userService.authorize((name, val) => {
       headerData[name] = val;
     });
@@ -80,13 +57,13 @@ export class ApiService implements Api {
     });
   }
 
-  downloadMedia(mediaUrl: string, responseType: any = ResponseContentType.Blob): Observable<any> {
+  public downloadMedia(mediaUrl: string, responseType: any = ResponseContentType.Blob): Observable<any> {
     return this.http
       .get(encodeURI(mediaUrl), { responseType })
       .map(response => response.blob());
   }
 
-  getShortenedUrl(url: string): Observable<any> {
+  public getShortenedUrl(url: string): Observable<any> {
     return this.http
       .post(`${URL_SHORTENER_URL}?key=${GOOGLE_API_KEY}`, { 'longUrl': url })
       .map(response => response.json())

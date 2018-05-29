@@ -8,18 +8,24 @@ export class Audio extends BaseElement {
 
   constructor() {
     super();
+
+    this.mediaFile = new MediaFile();
   }
 
   getRemoteFileName(): string {
-    return this.mediaFile.getRemoteFileName();
+    return this.mediaFile.getRemoteFile();
   }
 
   setRemoteFileName(remoteFileName: string) {
-    this.mediaFile.setRemoteFileName(remoteFileName);
+    this.mediaFile.setRemoteFile(remoteFileName);
   }
 
   getMediaFile(): MediaFile {
     return this.mediaFile;
+  }
+
+  setMediaFile(mediaFile) {
+    this.mediaFile = mediaFile;
   }
 
   hasAsset(): Boolean {
@@ -63,10 +69,9 @@ export class Audio extends BaseElement {
 
   toJson() {
     return Object.assign(super.toJson(), {
-      file: encodeURIComponent(this.mediaFile.getFileName()),
-      remoteFile: this.mediaFile.getRemoteFileName(),
+      file: this.mediaFile.getFileName(),
+      remoteFile: this.mediaFile.getRemoteFile(),
       volume: this.getVolume(),
     });
   }
-
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminInteractor } from 'core/admin/adminInteractor';
 import { ProjectInteractor } from 'core/project/projectInteractor';
@@ -38,32 +38,7 @@ export class AuthUserTab implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.projectInteractor.getProjects().subscribe(
       (projects) => {
-        this.projectList = projects.map((p) => {
-          const project = new Project(p);
-
-          project.id = p.id['_binaryString'] ? p.id['_binaryString'] : p.id;
-          return project;
-        }).sort((a, b) => {
-          if (!a.name) {
-            return -1;
-          }
-          if (!b.name) {
-            return 1;
-          }
-
-          const projectNameA = a.name.toUpperCase();
-          const projectNameB = b.name.toUpperCase();
-
-          if (projectNameA < projectNameB) {
-            return -1;
-          }
-
-          if (projectNameA > projectNameB) {
-            return 1;
-          }
-
-          return 0;
-        });
+        this.projectList = projects.map((p) => new Project(p));
       },
       error => console.error('GET /projects', error),
     );
@@ -84,76 +59,28 @@ export class AuthUserTab implements OnInit, OnDestroy {
     this.userInteractor.logOut();
   }
 
-  public openProject(projectId: string) {
+  public openProject(project: Project) {
     this.eventBus.onStartLoading();
-    this.projectInteractor.openProject(projectId)
-      .subscribe(
+    this.projectInteractor.openProject(project)
+      .then(
         () => {
           //reset the current scene
           this.sceneInteractor.setActiveRoomId(null);
           this.eventBus.onSelectRoom(null, false);
           this.metaDataInteractor.setIsReadOnly(false);
+          this.eventBus.onStopLoading();
         },
-        error => console.error('error', error),
-        () => {
+        (error) => {
+          console.error('error', error);
           this.eventBus.onStopLoading();
         },
       );
     this.router.navigateByUrl('/editor');
   }
 
-  public createProject($event) {
-    this.eventBus.onStartLoading();
-
-    this.projectInteractor.createProject()
-      .subscribe(
-        projectData => this.projectList.push(projectData),
-        error => console.error('error', error),
-        () => this.eventBus.onStopLoading(),
-      );
-  }
-
-  public updateProject() {
-    const userId: string = this.userInteractor.getUserId();
-    const projectId: string = this.projectInteractor.getProjectId();
-
-    this.eventBus.onStartLoading();
-    this.projectInteractor.updateProject(projectId)
-      .subscribe(
-        () => null,
-        error => console.error('error', error),
-        () => this.eventBus.onStopLoading(),
-      );
-  }
-
-  public requestDeleteProject(projectId: string) {
-    this.eventBus.onModalMessage(
-      'Are you sure?',
-      'There is no way to undo this action.',
-      true,
-      () => {
-      }, // modal dismissed callback
-      () => this.deleteProject(projectId), // modal accepted callback
-    );
-  }
-
-  private deleteProject(projectId: string) {
-    this.eventBus.onStartLoading();
-    this.projectInteractor.deleteProject(projectId)
-      .subscribe(
-        success => {
-          this.eventBus.onStopLoading();
-          this.eventBus.onModalMessage('', `Project has been deleted from the server.`);
-        },
-        error => {
-          this.eventBus.onStopLoading();
-          this.eventBus.onModalMessage('error', error.message);
-        },
-      );
-  }
-
   public downloadProject(projectId: string, projectName: string) {
     this.eventBus.onStartLoading();
+
     this.projectInteractor.getProjectAsBlob(projectId)
       .subscribe(
         (projectBlob) => {
@@ -191,13 +118,15 @@ export class AuthUserTab implements OnInit, OnDestroy {
   }
 
   private getActiveProjectName(): string {
-    const projectId: string = this.projectInteractor.getProjectId();
+    const projectId: string = this.projectInteractor.getProject().id;
     const activeProject = this.projectList.find(project => (project.id === projectId));
     return activeProject && activeProject.name;
   }
 
   private projectIsSelected(projectId: string): boolean {
-    return this.projectInteractor.getProjectId() === projectId;
+    const project: Project = this.projectInteractor.getProject();
+
+    return project && project.id === projectId;
   }
 
   private userIsAdmin(): boolean {

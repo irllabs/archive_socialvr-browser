@@ -58,11 +58,9 @@ export class Narrator {
 
   toJson() {
     return {
-      intro: this.introAudio.hasAsset() ? this.introAudio.toJson() : {},
-      reprise: this.returnAudio.hasAsset() ? this.returnAudio.toJson() : {},
+      intro: this.introAudio.toJson(),
+      reprise: this.returnAudio.toJson(),
       volume: this.getVolume(),
-      // outgoingRoomId: this.outgoingRoomId
     };
   }
-
 }

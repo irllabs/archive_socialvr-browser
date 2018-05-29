@@ -12,6 +12,7 @@ import { Audio } from 'data/scene/entities/audio';
 import { DEFAULT_PROJECT_NAME, DEFAULT_VOLUME } from 'ui/common/constants';
 import { EventBus } from 'ui/common/event-bus';
 import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
+import { Project } from '../../../../data/project/projectModel';
 
 const FileSaver = require('file-saver');
 
@@ -49,37 +50,25 @@ export class Story {
     }
   }
 
-  addRoom($event) {
-    this.sceneInteractor.addRoom();
-    this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
-    this.eventBus.onSelectRoom(null, true);
-  }
-
-  private addSlideshow($event) {
-    this.eventBus.onStartLoading();
-    this.slideshowBuilder.build($event.files)
-      .then(resolve => this.eventBus.onStopLoading())
-      .catch(error => this.eventBus.onModalMessage('error', error));
-  }
-
-  private getProjectName(): string {
+  public getProjectName(): string {
     const projectName: string = this.metaDataInteractor.getProjectName();
+
     return projectName === DEFAULT_PROJECT_NAME ? undefined : projectName;
   }
 
-  private setProjectName($event) {
+  public setProjectName($event) {
     this.metaDataInteractor.setProjectName($event.text);
   }
 
-  private getProjectTags(): string {
+  public getProjectTags(): string {
     return this.metaDataInteractor.getProjectTags();
   }
 
-  private setProjectTags($event) {
+  public setProjectTags($event) {
     this.metaDataInteractor.setProjectTags($event.text);
   }
 
-  private getSoundtrack(): Audio {
+  public getSoundtrack(): Audio {
     return this.metaDataInteractor.getSoundtrack();
   }
 
@@ -87,7 +76,7 @@ export class Story {
     this.metaDataInteractor.removeSoundtrack();
   }
 
-  private getSoundtrackVolume(): number {
+  public getSoundtrackVolume(): number {
     return this.metaDataInteractor.getSoundtrackVolume();
   }
 
@@ -101,7 +90,6 @@ export class Story {
   }
 
   public onNewStoryClick($event) {
-    //console.log('onNewStoryClick 1');
     this.eventBus.onModalMessage(
       '',
       'If you do not save your changes before opening a new story file, those changes will be lost.',
@@ -111,22 +99,19 @@ export class Story {
       },
       // modal accepted callback
       () => {
-        //console.log('onNewStoryClick 2');
         this.router.navigate(['/editor', { outlets: { 'modal': 'upload' } }]);
         if ($event.shiftKey) {
           this.eventBus.onOpenFileLoader('zip');
           return;
         }
-        //console.log('onNewStoryClick 4');
         this.removeSoundtrack();
         this.sceneInteractor.setActiveRoomId(null);
         this.sceneInteractor.resetRoomManager();
-        this.projectInteractor.setProjectId(null);
+        this.projectInteractor.setProject(null);
         this.eventBus.onSelectRoom(null, false);
         this.metaDataInteractor.setIsReadOnly(false);
       },
     );
-
   }
 
   public onOpenStoryLocallyClick(event) {
@@ -152,7 +137,6 @@ export class Story {
       this.eventBus.onModalMessage('Permissions Error', 'It looks like you are working on a different user\'s project. You cannot save this to your account but you can save it locally by shift-clicking the save button.');
       return;
     }
-    // if (this.userInteractor.isLoggedIn()) {
 
     this.saveStoryFileToServer();
   }
@@ -176,6 +160,7 @@ export class Story {
     const zipFileName = `${projectName}.zip`;
 
     this.eventBus.onStartLoading();
+
     this.storageInteractor.serializeProject()
       .subscribe(
         (zipFile) => {
@@ -190,7 +175,7 @@ export class Story {
   }
 
   private saveStoryFileToServer() {
-    const projectId: string = this.projectInteractor.getProjectId();
+    const project: Project = this.projectInteractor.getProject();
     const isWorkingOnSavedProject: boolean = this.projectInteractor.isWorkingOnSavedProject();
 
     const onSuccess = () => {
@@ -206,9 +191,9 @@ export class Story {
     this.eventBus.onStartLoading();
 
     if (isWorkingOnSavedProject) {
-      this.projectInteractor.updateProject(projectId).subscribe(onSuccess, onError);
+      this.projectInteractor.updateProject(project).then(onSuccess, onError);
     } else {
-      this.projectInteractor.createProject().subscribe(onSuccess, onError);
+      this.projectInteractor.createProject().then(onSuccess, onError);
     }
   }
 }

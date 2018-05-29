@@ -1,18 +1,15 @@
 import { Audio } from 'data/scene/entities/audio';
 import { Door } from 'data/scene/entities/door';
 import { Image } from 'data/scene/entities/image';
-import { Link } from 'data/scene/entities/link';
 import { MediaFile } from 'data/scene/entities/mediaFile';
 import { Narrator } from 'data/scene/entities/narrator';
-import { Text } from 'data/scene/entities/text';
 import { Universal } from 'data/scene/entities/universal';
 import { Vector2 } from 'data/scene/entities/vector2';
-import { Video } from 'data/scene/entities/video';
 
 import { RoomProperty } from 'data/scene/interfaces/roomProperty';
 import { reverbList } from 'data/scene/values/reverbList';
 import { generateUniqueId } from 'data/util/uuid';
-import { BACKGROUND_THUMBNAIL, DEFAULT_FILE_NAME, DEFAULT_VOLUME } from 'ui/common/constants';
+import { DEFAULT_FILE_NAME, DEFAULT_VOLUME } from 'ui/common/constants';
 
 export class Room implements RoomProperty {
 
@@ -25,16 +22,20 @@ export class Room implements RoomProperty {
   private backgroundAudio: Audio = new Audio();
   private bgAudioVolume: number = DEFAULT_VOLUME;
   private thumbnail: Image = new Image();
-  private audioSet: Set<Audio> = new Set<Audio>();
-  private imageSet: Set<Image> = new Set<Image>();
-  private textSet: Set<Text> = new Set<Text>();
-  private videoSet: Set<Video> = new Set<Video>();
   private universalSet: Set<Universal> = new Set<Universal>();
   private doorSet: Set<Door> = new Set<Door>();
-  private linkSet: Set<Link> = new Set<Link>();
   private narrator = new Narrator();
   private backgroundVideo: MediaFile = new MediaFile();
   private backgroundIsVideo = false;
+  private _isLoadedAssets: boolean = true;
+
+  public get isLoadedAssets(): boolean {
+    return this._isLoadedAssets;
+  }
+
+  public setAssetsLoadedState(isLoaded: boolean) {
+    this._isLoadedAssets = isLoaded;
+  }
 
   getId(): string {
     return this.id;
@@ -54,22 +55,6 @@ export class Room implements RoomProperty {
     return this;
   }
 
-  getAudio(): Set<Audio> {
-    return this.audioSet;
-  }
-
-  getVideo(): Set<Video> {
-    return this.videoSet;
-  }
-
-  addAudio(audio: Audio) {
-    this.audioSet.add(audio);
-  }
-
-  removeAudio(audio: Audio) {
-    this.audioSet.delete(audio);
-  }
-
   getUniversal(): Set<Universal> {
     return this.universalSet;
   }
@@ -82,38 +67,6 @@ export class Room implements RoomProperty {
     this.universalSet.delete(universal);
   }
 
-  getImages(): Set<Image> {
-    return this.imageSet;
-  }
-
-  addImage(image: Image) {
-    this.imageSet.add(image);
-  }
-
-  removeImage(image: Image) {
-    this.imageSet.delete(image);
-  }
-
-  getText(): Set<Text> {
-    return this.textSet;
-  }
-
-  addText(text: Text) {
-    this.textSet.add(text);
-  }
-
-  removeText(text: Text) {
-    this.textSet.delete(text);
-  }
-
-  addVideo(video: Video) {
-    this.videoSet.add(video);
-  }
-
-  removeVideo(video: Video) {
-    this.videoSet.delete(video);
-  }
-
   addDoor(door: Door) {
     this.doorSet.add(door);
   }
@@ -124,18 +77,6 @@ export class Room implements RoomProperty {
 
   getDoors() {
     return this.doorSet;
-  }
-
-  getLink(): Set<Link> {
-    return this.linkSet;
-  }
-
-  addLink(link: Link) {
-    this.linkSet.add(link);
-  }
-
-  removeLink(link: Link) {
-    this.linkSet.delete(link);
   }
 
   getTimestamp(): number {
@@ -159,19 +100,16 @@ export class Room implements RoomProperty {
     return this.getNarrator().getIntroAudio().getFileName();
   }
 
-  getBinaryFileData(): any {
-    return this.backgroundImage.getBinaryFileData();
+  getBackgroundImageBinaryData(unsafe: boolean = false): any {
+    return this.backgroundImage.getBinaryFileData(unsafe);
   }
 
   getBackgroundAudioBinaryFileData(): any {
     return this.backgroundAudio.getBinaryFileData();
   }
 
-  // TODO: Rename to setBackgroundImage
-  setFileData(fileName: string, binaryFileData: any, remoteFileName = '') {
-    this.backgroundImage.setFileName(fileName);
+  setBackgroundImageBinaryData(binaryFileData: any) {
     this.backgroundImage.setBinaryFileData(binaryFileData);
-    this.backgroundImage.setRemoteFileName(remoteFileName);
   }
 
   getBackgroundImage(): Image {
@@ -182,8 +120,7 @@ export class Room implements RoomProperty {
     return this.backgroundImage.getFileName() !== DEFAULT_FILE_NAME || this.backgroundIsVideo;
   }
 
-  setThumbnail(fileName: string, binaryFileData: any, remoteFileName = '') {
-    this.thumbnail.setFileName(BACKGROUND_THUMBNAIL);
+  setThumbnail(binaryFileData: any, remoteFileName = '') {
     this.thumbnail.setBinaryFileData(binaryFileData);
     this.thumbnail.setRemoteFileName(remoteFileName);
   }
@@ -229,8 +166,7 @@ export class Room implements RoomProperty {
     this.reverb = reverb;
   }
 
-  setBackgroundAudio(fileName: string, volume: number, dataUrl: any, remoteFileName = '') {
-    this.backgroundAudio.setFileName(fileName);
+  setBackgroundAudio(volume: number, dataUrl: any, remoteFileName = '') {
     this.backgroundAudio.setBinaryFileData(dataUrl);
     this.setBackgroundAudioVolume(volume);
     this.backgroundAudio.setRemoteFileName(remoteFileName);
@@ -252,10 +188,13 @@ export class Room implements RoomProperty {
     return this.bgAudioVolume;
   }
 
-  setBackgroundVideo(fileName: string, videoUrl: string) {
-    this.backgroundVideo.setFileName(fileName);
+  setBackgroundVideo(videoUrl: string) {
     this.backgroundVideo.setBinaryFileData(videoUrl);
     this.backgroundIsVideo = true;
+  }
+
+  getBackgroundVideoMediaFile(): MediaFile {
+    return this.backgroundVideo;
   }
 
   getBackgroundVideo(): string {
@@ -279,9 +218,9 @@ export class Room implements RoomProperty {
   }
 
   toJson() {
-    const image = this.getBackgroundImage().getMediaFile().hasAsset() ? this.backgroundImage.toJson() : {};
-    const thumbnail = this.getThumbnail().getMediaFile().hasAsset() ? this.thumbnail.toJson() : {};
-    const ambient = this.getBackgroundAudio().getMediaFile().hasAsset() ? this.backgroundAudio.toJson() : {};
+    const image = this.backgroundImage.toJson();
+    const thumbnail = this.thumbnail.toJson();
+    const ambient = this.backgroundAudio.toJson();
     const {
       id: uuid,
       id: file,
@@ -299,10 +238,6 @@ export class Room implements RoomProperty {
       reverb: this.reverb,
       front: this.location.toString(),
       bgVolume: this.bgAudioVolume,
-      texts: Array.from(this.getText()).map(text => text.toJson()),
-      clips: Array.from(this.getAudio()).map(audio => audio.toJson()),
-      images: Array.from(this.getImages()).map(image => image.toJson()),
-      video: Array.from(this.getVideo()).map(video => video.toJson()),
       universal: Array.from(this.getUniversal()).map(universal => universal.toJson()),
       doors: Array.from(this.getDoors()).filter(door => door.getAutoTime() <= 0).map(door => door.toJson()),
       autoDoors: Array.from(this.getDoors()).filter(door => door.getAutoTime() > 0).map(door => door.toJson()),

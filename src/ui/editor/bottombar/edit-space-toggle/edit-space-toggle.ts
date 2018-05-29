@@ -46,8 +46,9 @@ export class EditSpaceToggle {
     resizeImage(binaryFileData, 'backgroundImage')
       .then(resized => {
         const room: Room = this.sceneInteractor.getRoomById(activeRoomId);
-        room.setFileData(fileName, resized.backgroundImage);
-        room.setThumbnail(fileName, resized.thumbnail);
+
+        room.setBackgroundImageBinaryData(resized.backgroundImage);
+        room.setThumbnail(resized.thumbnail);
         this.eventBus.onSelectRoom(null, false);
         this.eventBus.onStopLoading();
       })

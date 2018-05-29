@@ -37,7 +37,7 @@ export class ShareableModal {
     this.projectInteractor.getProjectData(projectId)
       .map(
         (response) => {
-          const publicLink = getShareableLink(response.storyFileUrl);
+          const publicLink = getShareableLink(projectId);
 
           this.isPublic = response.isPublic;
           this.projectName = response.name;
@@ -73,7 +73,7 @@ export class ShareableModal {
 
     this.projectInteractor.updateSharableStatus(projectId, this.isPublic)
       .map((response) => {
-        const publicLink = getShareableLink(response.storyFileUrl);
+        const publicLink = getShareableLink(projectId);
 
         this.isPublic = response.isPublic;
 

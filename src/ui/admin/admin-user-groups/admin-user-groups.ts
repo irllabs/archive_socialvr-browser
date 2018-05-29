@@ -47,11 +47,9 @@ export class AdminUserGroups {
   }
 
   private openProject(project) {
-    const projectId = project.projectId;
-
     this.eventBus.onStartLoading();
-    this.projectInteractor.openProject(projectId)
-      .subscribe(
+    this.projectInteractor.openProject(project)
+      .then(
         () => {
           this.sceneInteractor.setActiveRoomId(null);
           this.eventBus.onSelectRoom(null, false);

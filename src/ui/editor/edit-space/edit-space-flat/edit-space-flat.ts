@@ -31,7 +31,7 @@ export class EditSpaceFlat {
   ngOnInit() {
     const selectProperty: Subscription = this.eventBus.getObservable(EventType.SELECT_PROPERTY)
       .subscribe(
-        event => {
+        (event) => {
           const selectedPropertyId = event.propertyId;
           const roomIconList: RoomIcon[] = this.roomIconComponentList
             .filter(roomIcon => roomIcon.roomProperty.getId() !== selectedPropertyId);
@@ -68,7 +68,7 @@ export class EditSpaceFlat {
   getBackgroundImage(): string {
     const roomId: string = this.sceneInteractor.getActiveRoomId();
     const room: Room = this.sceneInteractor.getRoomById(roomId);
-    return room.getBinaryFileData();
+    return room.getBackgroundImageBinaryData();
   }
 
   getBackgroundVideo(): string {
@@ -84,6 +84,7 @@ export class EditSpaceFlat {
 
   roomHasBackgroundImage(): boolean {
     const roomId: string = this.sceneInteractor.getActiveRoomId();
+
     return this.sceneInteractor.roomHasBackgroundImage(roomId);
   }
 }

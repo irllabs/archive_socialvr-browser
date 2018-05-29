@@ -39,7 +39,7 @@ export class DefaultOverlay {
 
   */
 
-  private onFileDrop(event) {
+  public onFileDrop(event) {
     if (event.files && event.files.length > 1) {
       this.eventBus.onStartLoading();
       this.slideshowBuilder.build(event.files)
@@ -57,9 +57,10 @@ export class DefaultOverlay {
     }
   }
 
-  private onFileChange($event) {
+  public onFileChange($event) {
     const file = $event.target.files && $event.target.files[0];
     const files = $event.target.files;
+
     if (!file) {
       this.eventBus.onModalMessage('Error', 'No valid file selected');
       return;
@@ -82,8 +83,10 @@ export class DefaultOverlay {
       .then(resized => {
         const roomId: string = this.sceneInteractor.getActiveRoomId();
         const room: Room = this.sceneInteractor.getRoomById(roomId);
-        room.setFileData(file.name, resized.backgroundImage);
-        room.setThumbnail(file.name, resized.thumbnail);
+
+        room.setBackgroundImageBinaryData(resized.backgroundImage);
+        room.setThumbnail(resized.thumbnail);
+
         if (this.onFileLoad) {
           this.onFileLoad.emit();
         }

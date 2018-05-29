@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { ApiService } from 'data/api/apiService';
 import { AssetManager } from 'data/asset/assetManager';
-import { AssetService } from 'data/asset/assetService';
-import { Observable } from 'rxjs';
 import { Texture } from 'three';
 
 @Injectable()
@@ -37,10 +35,9 @@ export class AssetModel {
   public filePath: string;
   public force: boolean; // if force is true this asset will be reloaded by textureLoader
 
-  constructor(id: string, fileName: string, filePath: string, force: boolean = false) {
+  constructor(id: string, fileName: string, filePath: string) {
     this.id = id;
     this.fileName = fileName;
     this.filePath = filePath;
-    this.force = force;
   }
 }

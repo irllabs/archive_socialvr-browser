@@ -130,7 +130,7 @@ export class EditSpaceSphere {
       .map(roomId => this.sceneInteractor.getRoomById(roomId))
       .filter(room => room.hasBackgroundImage() && !room.getBackgroundIsVideo())
       .map(room => {
-        let imagePath = room.getBinaryFileData();
+        let imagePath = room.getBackgroundImageBinaryData();
         if (imagePath.changingThisBreaksApplicationSecurity) {
           imagePath = imagePath.changingThisBreaksApplicationSecurity;
         }

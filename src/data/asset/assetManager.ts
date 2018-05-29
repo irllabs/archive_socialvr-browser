@@ -100,14 +100,12 @@ function decodeAudioDataOrEmpty(audioContext, audioArrayBuffer: ArrayBuffer) {
         const emptyBuffer = audioContext.createBuffer(2, audioContext.sampleRate, audioContext.sampleRate);
         return Promise.resolve(emptyBuffer);
       });
-  }
-  catch (error) {
+  } catch (error) {
     if (error.message === 'Not enough arguments') {
       return new Promise((resolve, reject) => {
         try {
           audioContext.decodeAudioData(audioArrayBuffer, audioBuffer => resolve(audioBuffer));
-        }
-        catch (err) {
+        } catch (err) {
           console.log('decode audio buffer error:', error);
           console.log('attempting to load empty buffer');
           // Load empty buffer

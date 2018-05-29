@@ -20,8 +20,8 @@ export class StorageInteractor {
   }
 
   deserializeProject(file: any): Observable<any> {
-    return this.deserializationService.unzipStoryFile(file)
-      .do(_ => this.assetManager.clearAssets());
+    return this.deserializationService
+      .unzipStoryFile(file)
+      .do(() => this.assetManager.clearAssets());
   }
-
 }

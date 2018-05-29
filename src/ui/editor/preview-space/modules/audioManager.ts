@@ -98,14 +98,6 @@ export class AudioManager {
     const hotspotAudios = this.sceneInteractor.getRoomIds()
       .map(roomId => this.sceneInteractor.getRoomById(roomId))
       .reduce((accumulator, room) => {
-        const audioPropertyList = Array.from(room.getAudio())
-          .filter(audio => audio.getBinaryFileData())
-          .map(audio => {
-            const audioDataUri = audio.getBinaryFileData().changingThisBreaksApplicationSecurity ?
-              audio.getBinaryFileData().changingThisBreaksApplicationSecurity : audio.getBinaryFileData();
-            return new AssetModel(audio.getId(), audio.getFileName(), audioDataUri);
-          });
-
         const audioUniversalPropertyList = Array.from(room.getUniversal())
           .filter(universal => universal.audioContent.hasAsset())
           .map(universal => {
@@ -121,7 +113,6 @@ export class AudioManager {
             return new AssetModel(universal.getId(), universal.audioContent.getFileName(), audioDataUri);
           });
 
-        accumulator = accumulator.concat(audioPropertyList);
         accumulator = accumulator.concat(audioUniversalPropertyList);
 
         return accumulator;

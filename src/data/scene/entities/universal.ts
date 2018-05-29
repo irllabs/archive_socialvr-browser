@@ -47,26 +47,35 @@ export class Universal extends BaseElement {
     this._loop = isLoop;
   }
 
-  setAudioContent(fileName: string, binaryFileData: string, volume: number = DEFAULT_VOLUME) {
+  setAudioMediaFile(mediaFile) {
+    this._audioContent = mediaFile;
+  }
+
+  setAudioContent(fileName: string, binaryFileData: string, volume: number = DEFAULT_VOLUME, remoteFile: string = '') {
     this._audioContent.setFileName(fileName);
     this._audioContent.setBinaryFileData(binaryFileData);
-    this._audioContent.setRemoteFileName(null);
+    this._audioContent.setRemoteFile(remoteFile);
     this.volume = volume;
   }
 
-  setImageContent(fileName: string, binaryFileData: string) {
+  setImageMediaFile(mediaFile) {
+    this._imageContent = mediaFile;
+  }
+
+  setImageContent(fileName: string, binaryFileData: string, remoteFile: string = '') {
     this._imageContent.setFileName(fileName);
     this._imageContent.setBinaryFileData(binaryFileData);
+    this._imageContent.setRemoteFile(remoteFile);
   }
 
   resetAudioContent() {
     this.setAudioContent(DEFAULT_FILE_NAME, null);
-    this._audioContent.setRemoteFileName(null);
+    this._audioContent.setRemoteFile(null);
   }
 
   resetImageContent() {
     this.setImageContent(DEFAULT_FILE_NAME, null);
-    this._imageContent.setRemoteFileName(null);
+    this._imageContent.setRemoteFile(null);
   }
 
   getIcon(): string {
@@ -89,10 +98,10 @@ export class Universal extends BaseElement {
 
   toJson() {
     return Object.assign(super.toJson(), {
-      imageFile: encodeURIComponent(this._imageContent.getFileName()),
-      audioFile: encodeURIComponent(this._audioContent.getFileName()),
-      remoteImageFile: this._imageContent.getRemoteFileName(),
-      remoteAudioFile: this._audioContent.getRemoteFileName(),
+      imageFile: this._imageContent.getFileName(),
+      audioFile: this._audioContent.getFileName(),
+      remoteImageFile: this._imageContent.getRemoteFile(),
+      remoteAudioFile: this._audioContent.getRemoteFile(),
       text: this._textContent,
       loop: this._loop,
       volume: this._volume,

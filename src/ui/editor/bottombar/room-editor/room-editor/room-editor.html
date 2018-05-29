@@ -106,7 +106,7 @@
   </div>
   <audio
     *ngIf="getNarratorReturnAudio().hasAsset()"
-    [attr.src]="getNarratorReturnAudio().getBinaryFileData()"
+    [attr.src]="getNarratorReturnAudio().getBackgroundImageBinaryData()"
     type="audio/mp3"
     controls="controls"
     class="room-editor__audio-player room-editor__audio-record-button">

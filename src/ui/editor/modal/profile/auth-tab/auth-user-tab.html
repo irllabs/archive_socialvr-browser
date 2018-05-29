@@ -32,7 +32,7 @@
         <p
           class="user-view__project-title"
           *ngIf="!projectIsSelected(project.id)"
-          (click)="openProject(project.id)"
+          (click)="openProject(project)"
           [ngClass]="{'user-view__project-title--selected': projectIsSelected(project.id)}">
           {{project.name}}
         </p>
@@ -60,13 +60,6 @@
             class="user-view__project-option user-view__project-option--margin">
             Download
           </span>
-          <!--
-          <span
-            (click)="requestDeleteProject(project.id)"
-            class="user-view__project-option user-view__project-option--margin">
-            Delete
-          </span>
-          -->
         </p>
 
       </div>

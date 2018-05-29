@@ -280,8 +280,8 @@ export class Editor {
             .then(resized => {
               const room: Room = this.sceneInteractor.getRoomById(activeRoomId);
 
-              room.setFileData(file.name, resized.backgroundImage);
-              room.setThumbnail(file.name, resized.thumbnail);
+              room.setBackgroundImageBinaryData(resized.backgroundImage);
+              room.setThumbnail(resized.thumbnail);
 
               this.requestRender();
               this.eventBus.onStopLoading();
@@ -319,7 +319,7 @@ export class Editor {
               const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
               const room: Room = this.sceneInteractor.getRoomById(activeRoomId);
 
-              room.setBackgroundVideo('', data.downloadUrl);
+              room.setBackgroundVideo(data.downloadUrl);
             },
             error => console.log('damn', error),
           );

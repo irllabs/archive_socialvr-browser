@@ -23,10 +23,10 @@ export class ShareableLoader {
   ) {
   }
 
-  openDecodedProject(projectUrl) {
+  openDecodedProject(projectId) {
     this.eventBus.onStartLoading();
-    this.projectInteractor.openPublicProject(projectUrl)
-      .subscribe(
+    this.projectInteractor.openPublicProject(projectId)
+      .then(
         () => {
           const homeRoomID = this.sceneInteractor.getHomeRoomId();
           this.sceneInteractor.setActiveRoomId(homeRoomID);

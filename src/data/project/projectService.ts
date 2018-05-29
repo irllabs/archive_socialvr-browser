@@ -1,26 +1,26 @@
 import { Injectable } from '@angular/core';
+import { Project } from './projectModel';
 
 @Injectable()
 export class ProjectService {
-
-  private projectId: string;
+  private _project: Project;
 
   constructor() {
   }
 
   public getProjectId(): string {
-    return this.projectId;
+    return this._project ? this._project.id : null;
   }
 
-  public setProjectId(projectId: string) {
-    this.projectId = projectId;
+  public getProject(): Project {
+    return this._project;
+  }
+
+  public setProject(project: Project) {
+    this._project = project;
   }
 
   public isWorkingOnSavedProject(): boolean {
-    return !!this.projectId;
-  }
-
-  public createProject(projectName: string, projectTags: string, storyFile: any, thumbnail: string) {
-
+    return !!this.getProjectId();
   }
 }

@@ -97,16 +97,16 @@ export class StoryScroll {
     this.eventBus.onSelectRoom(roomId, false);
   }
 
-  onPropertySelect(roomProperty: RoomProperty) {
+  public onPropertySelect(roomProperty: RoomProperty) {
     const propertyId: string = roomProperty && roomProperty.getId() || null;
     this.eventBus.onSelectProperty(propertyId, false);
   }
 
-  propertyIsSelected(item): boolean {
+  public propertyIsSelected(item): boolean {
     return item === this.activeProperty;
   }
 
-  roomIsSelected(roomId: string): boolean {
+  public roomIsSelected(roomId: string): boolean {
     const numberOfRooms: number = this.sceneInteractor.getRoomIds().length;
     if (numberOfRooms === 0) {
       return false;
@@ -114,31 +114,31 @@ export class StoryScroll {
     return roomId === this.sceneInteractor.getActiveRoomId();
   }
 
-  roomIsExpanded(roomId: string): boolean {
+  public roomIsExpanded(roomId: string): boolean {
     return this.roomIsSelected(roomId)
       && this.activeRoomIsExpanded
       && !!this.sceneInteractor.getRoomProperties(roomId).length;
   }
 
-  getProjectName(): string {
+  public getProjectName(): string {
     return this.metaDataInteractor.getProjectName();
   }
 
-  onInfoClick($event) {
+  public onInfoClick($event) {
     setTimeout(() => this.inspectorIsVisible = true);
   }
 
-  private onOffClick($event) {
+  public onOffClick($event) {
     if (this.inspectorIsVisible) {
       this.inspectorIsVisible = false;
     }
   }
 
-  toggleOpen($event) {
+  public toggleOpen($event) {
     this.isOpen = !this.isOpen;
   }
 
-  private onFileLoad($event) {
+  public onFileLoad($event) {
     const fileName: string = $event.file.name;
     const binaryFileData: any = $event.binaryFileData;
     //const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
@@ -149,15 +149,17 @@ export class StoryScroll {
       .then(resized => {
         const newRoomId = this.sceneInteractor.addRoom();
         const room: Room = this.sceneInteractor.getRoomById(newRoomId);
-        room.setFileData(fileName, resized.backgroundImage);
-        room.setThumbnail(fileName, resized.thumbnail);
+
+        room.setBackgroundImageBinaryData(resized.backgroundImage);
+        room.setThumbnail(resized.thumbnail);
+
         this.eventBus.onSelectRoom(null, false);
         this.eventBus.onStopLoading();
       })
       .catch(error => this.eventBus.onModalMessage('Image loading error', error));
   }
 
-  private addSlideshow($event) {
+  public addSlideshow($event) {
     this.eventBus.onStartLoading();
     this.slideshowBuilder.build($event.files)
       .then(resolve => this.eventBus.onStopLoading())

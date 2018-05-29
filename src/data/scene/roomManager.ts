@@ -7,7 +7,6 @@ import { DEFAULT_PROJECT_DESCRIPTION, DEFAULT_PROJECT_NAME, DEFAULT_VOLUME } fro
 
 @Injectable()
 export class RoomManager {
-
   private projectName: string;
   private projectTags: string;
   private projectDescription: string;
@@ -15,7 +14,6 @@ export class RoomManager {
   private homeRoomId: string;
   private isReadOnly: boolean = false;
   private soundtrack: Audio = new Audio();
-  private soundtrackVolume: number = DEFAULT_VOLUME;
 
   constructor() {
     this.initValues();
@@ -80,8 +78,7 @@ export class RoomManager {
   getProjectIsEmpty(): boolean {
     if (this.rooms.size === 1) {
       return !Array.from(this.rooms)[0].hasBackgroundImage();
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -114,6 +111,11 @@ export class RoomManager {
       this.soundtrack.setBinaryFileData(dataUrl);
       this.soundtrack.setVolume(volume);
     }
+  }
+
+  setSoundtrackMediaFile(mediaFile = null, volume: number = 0.5) {
+    this.soundtrack.setMediaFile(mediaFile);
+    this.setSoundtrackVolume(volume);
   }
 
   setSoundtrackVolume(v: number) {

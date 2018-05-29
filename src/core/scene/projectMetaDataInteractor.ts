@@ -63,5 +63,4 @@ export class MetaDataInteractor {
   getSoundtrackVolume(): number {
     return this.roomManager.getSoundtrackVolume();
   }
-
 }

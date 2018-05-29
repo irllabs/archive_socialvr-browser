@@ -104,7 +104,7 @@ export class MultiViewService {
   private openProject(projectId: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.eventBus.onStartLoading();
-      this.projectInteractor.openProject(projectId)
+      this.projectInteractor.openProjectById(projectId)
         .subscribe(
           () => {
             //reset the current scene

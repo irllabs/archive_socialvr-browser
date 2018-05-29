@@ -116,8 +116,6 @@ export class PreviewSpace implements AfterViewInit {
 
     this.initScene();
 
-    const roomId = this.sceneInteractor.getActiveRoomId();
-
     Promise.all([
       this.audioManager.loadBuffers(),
       this.textureLoader.load(),

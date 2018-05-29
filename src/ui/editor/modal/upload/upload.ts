@@ -84,11 +84,14 @@ export class Upload {
       .then(resized => {
         const roomId: string = this.sceneInteractor.addRoom();
         const room: Room = this.sceneInteractor.getRoomById(roomId);
-        room.setFileData(file.name, resized.backgroundImage);
-        room.setThumbnail(file.name, resized.thumbnail);
+
+        room.setBackgroundImageBinaryData(resized.backgroundImage);
+        room.setThumbnail(resized.thumbnail);
+
         if (this.onFileLoad) {
           this.onFileLoad.emit();
         }
+
         this.eventBus.onStopLoading();
       })
       .catch(error => this.eventBus.onModalMessage('Error', error));

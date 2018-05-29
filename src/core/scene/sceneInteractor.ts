@@ -86,13 +86,8 @@ export class SceneInteractor {
     }
 
     return [
-      ...Array.from(room.getText()),
-      ...Array.from(room.getAudio()),
-      ...Array.from(room.getVideo()),
       ...Array.from(room.getUniversal()),
-      ...Array.from(room.getImages()),
       ...Array.from(room.getDoors()),
-      ...Array.from(room.getLink()),
     ]
       .sort((a, b) => a.getTimestamp() - b.getTimestamp());
   }
@@ -100,62 +95,6 @@ export class SceneInteractor {
   getPropertyById(roomId: string, propertyId: string): RoomProperty {
     return this.getRoomProperties(roomId)
       .find(roomProperty => roomProperty.getId() === propertyId);
-  }
-
-  addText(roomId: string): Text {
-    const numberOfTexts: number = this.getRoomById(roomId).getText().size + 1;
-    const textName: string = `Text ${numberOfTexts}`;
-    const text: Text = this.propertyBuilder.text(textName, '');
-
-    this.getRoomById(roomId).addText(text);
-
-    return text;
-  }
-
-  removeText(roomId: string, text: Text) {
-    this.getRoomById(roomId).removeText(text);
-  }
-
-  addAudio(roomId: string): Audio {
-    const numberOfAudio: number = this.getRoomById(roomId).getAudio().size + 1;
-    const audioName: string = `Audio ${numberOfAudio}`;
-    const audio: Audio = this.propertyBuilder.audio(audioName);
-
-    this.getRoomById(roomId).addAudio(audio);
-
-    return audio;
-  }
-
-  removeAudio(roomId: string, audio: Audio) {
-    this.getRoomById(roomId).removeAudio(audio);
-  }
-
-  addImage(roomId: string): Image {
-    const numberOfImages: number = this.getRoomById(roomId).getImages().size + 1;
-    const imageName: string = `Image ${numberOfImages}`;
-    const image: Image = this.propertyBuilder.image(imageName);
-
-    this.getRoomById(roomId).addImage(image);
-
-    return image;
-  }
-
-  removeImage(roomId: string, image: Image) {
-    this.getRoomById(roomId).removeImage(image);
-  }
-
-  addVideo(roomId: string): Video {
-    const numberOfVideos: number = this.getRoomById(roomId).getVideo().size + 1;
-    const videoName: string = `Video ${numberOfVideos}`;
-    const video: Video = this.propertyBuilder.video(videoName, '');
-
-    this.getRoomById(roomId).addVideo(video);
-
-    return video;
-  }
-
-  removeVideo(roomId: string, video: Video) {
-    this.getRoomById(roomId).removeVideo(video);
   }
 
   addUniversal(roomId: string): Universal {
@@ -188,18 +127,6 @@ export class SceneInteractor {
 
   removeDoor(roomId: string, door: Door) {
     this.getRoomById(roomId).removeDoor(door);
-  }
-
-  addLink(roomId: string): Link {
-    const numberOfLinks: number = this.getRoomById(roomId).getLink().size + 1;
-    const linkName: string = `Link ${numberOfLinks}`;
-    const link: Link = this.propertyBuilder.link(linkName, '');
-    this.getRoomById(roomId).addLink(link);
-    return link;
-  }
-
-  removeLink(roomId: string, link: Link) {
-    this.getRoomById(roomId).removeLink(link);
   }
 
   roomHasBackgroundImage(roomId: string): boolean {
