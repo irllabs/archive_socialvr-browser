@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-
-import { AssetInteractor } from 'core/asset/assetInteractor';
 import { RoomManager } from 'data/scene/roomManager';
 import { resizeImage } from 'data/util/imageResizeService';
 
@@ -9,7 +6,13 @@ import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs/Observable';
 
-import { DEFAULT_FILE_NAME, MIME_TYPE_UTF8, STORY_FILE_JSON, STORY_FILE_YAML } from 'ui/common/constants';
+import {
+  DEFAULT_FILE_NAME,
+  MIME_TYPE_UTF8,
+  STORY_FILE_JSON,
+  STORY_FILE_YAML,
+  STORY_VERSION,
+} from 'ui/common/constants';
 import { Audio } from '../scene/entities/audio';
 import { Image } from '../scene/entities/image';
 import { Room } from '../scene/entities/room';
@@ -22,9 +25,7 @@ const JsYaml = require('js-yaml');
 export class SerializationService {
 
   constructor(
-    private roomManager: RoomManager,
-    private http: Http,
-    private assetInteractor: AssetInteractor,
+    private roomManager: RoomManager
   ) {
   }
 
@@ -36,6 +37,7 @@ export class SerializationService {
     const roomList = Array.from(this.roomManager.getRooms()).map(room => room.toJson());
 
     return {
+      version: STORY_VERSION,
       name: this.roomManager.getProjectName(),
       tags: this.roomManager.getProjectTags(),
       soundtrack: this.roomManager.getSoundtrack().toJson(),
@@ -212,7 +214,6 @@ export class SerializationService {
   private _zipProjectSoundtrack(zip): Promise<any> {
     return new Promise((resolve, reject) => {
       if (this.roomManager.getSoundtrack().hasAsset()) {
-        console.log('this.roomManager.getSoundtrack() ', this.roomManager.getSoundtrack());
         resolve(this.roomManager.getSoundtrack());
       } else {
         reject('no Soundtrack');

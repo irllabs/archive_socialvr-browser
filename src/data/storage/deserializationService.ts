@@ -19,6 +19,7 @@ import {
   MIME_TYPE_PNG,
   MIME_TYPE_WAV,
   MIME_TYPE_XM4A,
+  STORY_VERSION,
 } from 'ui/common/constants';
 import { FileLoaderUtil } from 'ui/editor/util/fileLoaderUtil';
 import { DEFAULT_IMAGE_PATH, STORY_FILE_YAML, UINT8ARRAY } from '../../ui/common/constants';
@@ -28,6 +29,7 @@ import { Universal } from '../scene/entities/universal';
 import { reverbList } from '../scene/values/reverbList';
 import { resizeImage } from '../util/imageResizeService';
 import { deserializeLocationVector } from '../util/vector';
+import deserializeOldStory from './legacy/deserializeOldStory';
 
 const JSZip = require('jszip');
 const JsYaml = require('js-yaml');
@@ -76,7 +78,8 @@ export class DeserializationService {
 
     for (let i = 0; i < remoteFiles.length; i++) {
       const remoteFile = remoteFiles[i];
-      const mimeType = this._getFileMimeType(remoteFile.file);
+      const fileName = remoteFile.file;
+      const mimeType = this.getFileMimeType(fileName);
 
       await this.afStorage
         .ref(remoteFile.remoteFile)
@@ -87,7 +90,7 @@ export class DeserializationService {
         .then((binaryData) => {
           return new MediaFile({
             mimeType,
-            fileName: remoteFile.file,
+            fileName,
             remoteFile: remoteFile.remoteFile,
             binaryFileData: binaryData,
           });
@@ -196,6 +199,8 @@ export class DeserializationService {
           const imageMediaFile = universalJson.imageFile && mediaFiles.find(mediaFile => mediaFile.getFileName() === universalJson.imageFile);
           const audioMediaFile = universalJson.audioFile && mediaFiles.find(mediaFile => mediaFile.getFileName() === universalJson.audioFile);
 
+          universal.textContent = universalJson.text;
+
           if (imageMediaFile) {
             universal.setImageMediaFile(imageMediaFile);
           }
@@ -214,6 +219,21 @@ export class DeserializationService {
     return rooms;
   }
 
+  public getFileMimeType(fileName) {
+    const fileType = fileName.substring(fileName.lastIndexOf('.'), fileName.length);
+    const fileMap = {
+      '.mp3': MIME_TYPE_MP3,
+      '.wav': MIME_TYPE_WAV,
+      '.aac': MIME_TYPE_AAC,
+      '.m4a': MIME_TYPE_XM4A,
+      '.png': MIME_TYPE_PNG,
+      '.jpg': MIME_TYPE_JPG,
+      '.jpeg': MIME_TYPE_JPEG,
+    };
+
+    return fileMap[fileType] || MIME_TYPE_PNG;
+  }
+
   private _deserializeProjectFromZipFile(jsZipData) {
     const fileMap = jsZipData.files;
     const jsonStoryFilePath: string = Object.keys(fileMap).find(path => path.endsWith('.json'));
@@ -222,8 +242,14 @@ export class DeserializationService {
 
     return this._parseStoryFile(storyFile)
       .then((storyJson) => {
-        return this._loadMediaFiles(storyJson, fileMap)
-          .then((mediaFiles) => this._deserializeProject(storyJson, mediaFiles, false));
+        switch(storyJson.version) {
+          case STORY_VERSION: {
+            return this._loadMediaFiles(storyJson, fileMap).then((mediaFiles) => this._deserializeProject(storyJson, mediaFiles, false));
+          }
+          default: {
+            return deserializeOldStory(this, storyJson, fileMap);
+          }
+        }
       });
   }
 
@@ -281,8 +307,8 @@ export class DeserializationService {
       // extract soundtrack
       if (story.soundtrack && story.soundtrack.remoteFile) {
         remoteFiles.push({
+          file: story.soundtrack.file,
           filePath: story.soundtrack.file,
-          fileName: story.soundtrack.file,
           remoteFile: story.soundtrack.remoteFile,
         });
       }
@@ -359,7 +385,7 @@ export class DeserializationService {
       const filePath = localFile.name;
       const pathParts = filePath.split('/');
       const fileName = pathParts[pathParts.length - 1];
-      const mimeType = this._getFileMimeType(fileName);
+      const mimeType = this.getFileMimeType(fileName);
 
       await localFile.async(UINT8ARRAY)
         .then((fileData) => {
@@ -382,7 +408,7 @@ export class DeserializationService {
   private _deserializeProject(story, mediaFiles, quick = true) {
     const homeRoom = story.rooms.find(room => room.uuid === story.homeRoomId) || story.rooms[0];
     const restMediaFiles = (quick ? this._extractRestRoomsRemoteFiles(story) : []).map((remoteFile) => {
-      const mimeType = this._getFileMimeType(remoteFile.file);
+      const mimeType = this.getFileMimeType(remoteFile.file);
 
       return new MediaFile({
         mimeType,
@@ -438,20 +464,5 @@ export class DeserializationService {
           console.log(error);
         });
     }
-  }
-
-  private _getFileMimeType(fileName) {
-    const fileType = fileName.substring(fileName.lastIndexOf('.'), fileName.length);
-    const fileMap = {
-      '.mp3': MIME_TYPE_MP3,
-      '.wav': MIME_TYPE_WAV,
-      '.aac': MIME_TYPE_AAC,
-      '.m4a': MIME_TYPE_XM4A,
-      '.png': MIME_TYPE_PNG,
-      '.jpg': MIME_TYPE_JPG,
-      '.jpeg': MIME_TYPE_JPEG,
-    };
-
-    return fileMap[fileType] || MIME_TYPE_PNG;
   }
 }
