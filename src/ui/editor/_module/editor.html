@@ -23,6 +23,7 @@
       <checkbox
         *ngIf="roomEditorIsVisible()"
         [initialValue]="!isInFlatMode"
+        [disabled]="!isLoadedAssets()"
         (changeEmitter)="on2d3dViewClick($event)"
         class="editor__edit2d3dToggleButton">
       </checkbox>
@@ -36,6 +37,7 @@
       <checkbox
         *ngIf="showPreviewCheckbox()"
         [initialValue]="isPreview()"
+        [disabled]="!isLoadedAssets()"
         (changeEmitter)="onEditPlayChange($event)"
         class="editor__editPlayToggleButton">
       </checkbox>

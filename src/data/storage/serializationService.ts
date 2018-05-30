@@ -35,10 +35,11 @@ export class SerializationService {
 
   public buildProjectJson() {
     const roomList = Array.from(this.roomManager.getRooms()).map(room => room.toJson());
+    const name = this.roomManager.getProjectName();
 
     return {
       version: STORY_VERSION,
-      name: this.roomManager.getProjectName(),
+      name: name,
       tags: this.roomManager.getProjectTags(),
       soundtrack: this.roomManager.getSoundtrack().toJson(),
       soundtrackVolume: this.roomManager.getSoundtrackVolume(),

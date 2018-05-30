@@ -49,7 +49,7 @@ export class DeserializationService {
     this._cachedStoryFile = {};
   }
 
-  public deserializeProject(project: Project) {
+  public deserializeProject(project: Project, quick: boolean = true) {
     const story = project.story;
     const rootRemoteFiles = this._extractRootRemoteFiles(story);
     const homeRoomRemoteFiles = this._extractHomeRoomRemoteFiles(story);
@@ -59,7 +59,7 @@ export class DeserializationService {
       this.loadRemoteFiles(homeRoomRemoteFiles),
     ])
       .then(([rootMediaFiles, homeRoomMediaFiles]) => {
-        return this._deserializeProject(story, rootMediaFiles.concat(homeRoomMediaFiles));
+        return this._deserializeProject(story, rootMediaFiles.concat(homeRoomMediaFiles), quick);
       });
   }
 
@@ -242,7 +242,7 @@ export class DeserializationService {
 
     return this._parseStoryFile(storyFile)
       .then((storyJson) => {
-        switch(storyJson.version) {
+        switch (storyJson.version) {
           case STORY_VERSION: {
             return this._loadMediaFiles(storyJson, fileMap).then((mediaFiles) => this._deserializeProject(storyJson, mediaFiles, false));
           }
@@ -330,17 +330,38 @@ export class DeserializationService {
     return [];
   }
 
-  private _extractRestRoomsRemoteFiles(story) {
+  private _extractRestRoomsMediaFiles(story, homeRoom) {
+    const mediaFilesByRoom = [];
+    const mediaFiles = [];
+
     const rooms = story.rooms;
 
     if (rooms && rooms.length > 0) {
-      const homeRoomId = story.homeRoomId;
-      const restRooms = rooms.filter(room => room.uuid !== homeRoomId);
+      rooms
+        .filter(room => room.uuid !== homeRoom.uuid)
+        .forEach((room) => {
+          const roomId = room.uuid;
+          const roomMediaFiles = this._extractRoomsRemoteFiles([room]).map((remoteFile) => {
+            const mimeType = this.getFileMimeType(remoteFile.file);
 
-      return this._extractRoomsRemoteFiles(restRooms);
+            return new MediaFile({
+              mimeType,
+              fileName: remoteFile.file,
+              remoteFile: remoteFile.remoteFile,
+              binaryFileData: null,
+            });
+          });
+
+          mediaFilesByRoom.push({
+            roomId,
+            roomMediaFiles,
+          });
+
+          roomMediaFiles.forEach((mediaFile) => mediaFiles.push(mediaFile));
+        });
     }
 
-    return [];
+    return { mediaFilesByRoom, mediaFiles };
   }
 
   private _extractRoomsRemoteFiles(rooms) {
@@ -402,22 +423,17 @@ export class DeserializationService {
         });
     }
 
-    return mediaFiles
+    return mediaFiles;
   }
 
   private _deserializeProject(story, mediaFiles, quick = true) {
     const homeRoom = story.rooms.find(room => room.uuid === story.homeRoomId) || story.rooms[0];
-    const restMediaFiles = (quick ? this._extractRestRoomsRemoteFiles(story) : []).map((remoteFile) => {
-      const mimeType = this.getFileMimeType(remoteFile.file);
-
-      return new MediaFile({
-        mimeType,
-        fileName: remoteFile.file,
-        remoteFile: remoteFile.remoteFile,
-        binaryFileData: null,
-      });
+    const restRoomsMediaFiles = (quick ? this._extractRestRoomsMediaFiles(story, homeRoom) : {
+      mediaFilesByRoom: [],
+      mediaFiles: [],
     });
-    const allMediaFiles = mediaFiles.concat(restMediaFiles);
+
+    const allMediaFiles = mediaFiles.concat(restRoomsMediaFiles.mediaFiles);
 
     this.roomManager.clearRooms();
     this.roomManager.setProjectName(story.name);
@@ -443,26 +459,33 @@ export class DeserializationService {
     this.deserializeRooms(story.rooms, homeRoom.uuid, allMediaFiles, quick)
       .forEach(room => this.roomManager.addRoom(room));
 
-    return this._callbackLoadRestMediaFiles.bind(this, restMediaFiles);
+    return this._callbackLoadRestMediaFiles.bind(this, restRoomsMediaFiles.mediaFilesByRoom);
   }
 
-  private async _callbackLoadRestMediaFiles(remoteMediaFiles: MediaFile[]) {
-    for (let i = 0; i < remoteMediaFiles.length; i++) {
-      const remoteFile: MediaFile = remoteMediaFiles[i];
+  private async _callbackLoadRestMediaFiles(remoteMediaFilesByRoom) {
+    for (let i = 0; i < remoteMediaFilesByRoom.length; i++) {
+      const { roomId, roomMediaFiles } = remoteMediaFilesByRoom[i];
+      const room: Room = this.roomManager.getRoomById(roomId);
 
-      await this.afStorage
-        .ref(remoteFile.getRemoteFile())
-        .getDownloadURL().toPromise()
-        .then((fileStoreUrl) => this.apiService.loadBinaryData(fileStoreUrl).toPromise())
-        .then((data: ArrayBuffer) => new Blob([data], { type: remoteFile.mimeType }))
-        .then((blob) => this.fileLoaderUtil.getBinaryFileData(blob))
-        .then((binaryData) => {
-          remoteFile.setBinaryFileData(binaryData);
-        })
-        .catch((error) => {
-          console.log('Error to load remote file:', remoteFile);
-          console.log(error);
-        });
+      for (let j = 0; j < roomMediaFiles.length; j++) {
+        const remoteFile: MediaFile = roomMediaFiles[j];
+
+        await this.afStorage
+          .ref(remoteFile.getRemoteFile())
+          .getDownloadURL().toPromise()
+          .then((fileStoreUrl) => this.apiService.loadBinaryData(fileStoreUrl).toPromise())
+          .then((data: ArrayBuffer) => new Blob([data], { type: remoteFile.mimeType }))
+          .then((blob) => this.fileLoaderUtil.getBinaryFileData(blob))
+          .then((binaryData) => {
+            remoteFile.setUploadedBinaryFileData(binaryData);
+          })
+          .catch((error) => {
+            console.log('Error to load remote file:', remoteFile);
+            console.log(error);
+          });
+      }
+
+      room.setAssetsLoadedState(true);
     }
   }
 }

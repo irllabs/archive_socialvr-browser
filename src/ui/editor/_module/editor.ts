@@ -107,16 +107,11 @@ export class Editor {
     }
   }
 
-  //added by alik to handle multiple hotspot making
-  // private buildHotspots(files): Promise<any> {
-  //
-  //     const fileList = Object.keys(files)
-  //       .map(key => files[key])
-  //       .sort((a, b) => a.lastModified - b.lastModified);
-  //
-  //     return this.processDroppedFile(fileList, event.clientX, event.clientY);
-  //
-  // }
+  public isLoadedAssets() {
+    const isLoaded = this.sceneInteractor.isLoadedAssets();
+
+    return isLoaded;
+  }
 
   private subscribeToEvents() {
     const subscription = this.eventBus.getObservable(EventType.HOTSPOT_EDITOR_VISIBILITY)

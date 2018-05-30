@@ -4,6 +4,7 @@
     type="checkbox"
     [attr.id]="uniqueId"
     [checked]="initialValue"
+    [disabled]="disabled"
     (change)="onChange($event.target.checked)"
     class="checkbox__input checkbox__input--hidden"/>
   <label [attr.for]="uniqueId" class="checkbox__label"></label>

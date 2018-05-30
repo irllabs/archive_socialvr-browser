@@ -34,6 +34,7 @@ export class Room implements RoomProperty {
   }
 
   public setAssetsLoadedState(isLoaded: boolean) {
+    console.log('setAssetsLoadedState', isLoaded);
     this._isLoadedAssets = isLoaded;
   }
 

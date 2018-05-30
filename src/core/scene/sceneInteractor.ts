@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AssetManager } from 'data/asset/assetManager';
 
-import { Audio } from 'data/scene/entities/audio';
 import { Door } from 'data/scene/entities/door';
-import { Image } from 'data/scene/entities/image';
-import { Link } from 'data/scene/entities/link';
 import { Room } from 'data/scene/entities/room';
-import { Text } from 'data/scene/entities/text';
 import { Universal } from 'data/scene/entities/universal';
-import { Video } from 'data/scene/entities/video';
 import { RoomProperty } from 'data/scene/interfaces/roomProperty';
 
 import { RoomManager } from 'data/scene/roomManager';
@@ -27,6 +22,13 @@ export class SceneInteractor {
     if (!this.getRoomIds().length) {
       this.addRoom();
     }
+  }
+
+  public isLoadedAssets() {
+    const rooms = Array.from(this.roomManager.getRooms());
+    const hasRoomWithoutAssets = rooms.find(room => !room.isLoadedAssets);
+
+    return !hasRoomWithoutAssets;
   }
 
   getRoomIds(): string[] {

@@ -29,7 +29,7 @@ export class ProjectInteractor {
     const userId = this.userService.getUserId();
 
     if (userId) {
-      return this.afStore.collection<Project>('projects', ref => ref.where('userId', '==', userId).orderBy('name'));
+      return this.afStore.collection<Project>('projects', ref => ref.where('userId', '==', userId).orderBy('nameLower'));
     }
   };
 
@@ -56,8 +56,8 @@ export class ProjectInteractor {
     return this._projects;
   }
 
-  public updateSharableStatus(projectId: string, isPublic: boolean): Observable<any> {
-    return fromPromise(this._projectsCollection.doc(projectId).update({ isPublic }));
+  public updateSharableStatus(projectId: string, isPublic: boolean): Promise<any> {
+    return this._projectsCollection.doc(projectId).update({ isPublic });
   }
 
   public getProjectData(projectId: string): Observable<Project> {
@@ -76,11 +76,14 @@ export class ProjectInteractor {
   }
 
   public openPublicProject(projectId: string) {
-    return this.getProjectData(projectId).toPromise().then((response) => {
-      const project = new Project(response);
+    const collectionRef = this.afStore.collection<Project>('projects');
 
-      return this._openProject(project);
-    });
+    return collectionRef.doc<Project>(projectId).valueChanges().first().toPromise()
+      .then((response) => {
+        const project = new Project(response);
+
+        return this._openProject(project, false);
+      });
   }
 
   public createProject() {
@@ -200,9 +203,9 @@ export class ProjectInteractor {
       });
   }
 
-  private _openProject(project: Project) {
+  private _openProject(project: Project, quick = true) {
     return this.deserializationService
-      .deserializeProject(project)
+      .deserializeProject(project, quick)
       .then((downloadRestAssets) => {
         this.assetManager.clearAssets();
         this.projectService.setProject(project);

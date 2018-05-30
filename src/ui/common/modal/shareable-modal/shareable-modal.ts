@@ -72,18 +72,13 @@ export class ShareableModal {
     this.isPublic = !this.isPublic;
 
     this.projectInteractor.updateSharableStatus(projectId, this.isPublic)
-      .map((response) => {
+      .then(() => {
         const publicLink = getShareableLink(projectId);
-
-        this.isPublic = response.isPublic;
 
         return this.isPublic ? publicLink : null;
       })
-      // Pipe to Google API to shorten
-      .flatMap(
-        publicLink => publicLink ? this.apiService.getShortenedUrl(publicLink) : Observable.empty(),
-      )
-      .subscribe(
+      .then(publicLink => publicLink ? this.apiService.getShortenedUrl(publicLink).toPromise() : null)
+      .then(
         (shortenedUrl) => {
           this.publicLink = shortenedUrl;
           this.setQRCode(this.publicLink);

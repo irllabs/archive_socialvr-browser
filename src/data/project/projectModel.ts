@@ -42,7 +42,17 @@ export class Project {
   }
 
   public toJson() {
-    // TODO: replace it to explicit
-    return JSON.parse(JSON.stringify(this));
+    return {
+      id: this.id,
+      userId: this.userId,
+      user: this.user,
+      name: this.name,
+      nameLower: (this.name || '').toLocaleLowerCase(),
+      story: this.story,
+      tags: this.tags,
+      isPublic: this.isPublic,
+      thumbnailUrl: this.thumbnailUrl,
+      state: this.state,
+    };
   }
 }

@@ -10,12 +10,12 @@ import { generateUniqueId } from 'data/util/uuid';
 export class Checkbox {
 
   @Input() initialValue: boolean = false;
+  @Input() disabled: boolean = false;
   @Output() changeEmitter = new EventEmitter();
   @ViewChild('input') inputElement;
-  private uniqueId = generateUniqueId();
+  public uniqueId = generateUniqueId();
 
-  private onChange(isChecked) {
+  public onChange(isChecked) {
     this.changeEmitter.emit({ value: isChecked });
   }
-
 }

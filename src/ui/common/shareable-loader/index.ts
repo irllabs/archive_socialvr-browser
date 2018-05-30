@@ -53,5 +53,4 @@ export class ShareableLoader {
 
     this.openDecodedProject(params.data);
   }
-
 }

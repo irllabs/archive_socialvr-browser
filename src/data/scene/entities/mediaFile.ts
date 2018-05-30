@@ -89,6 +89,13 @@ export class MediaFile {
     this._setNewName();
   }
 
+  public setUploadedBinaryFileData(binaryFileData: any) {
+    this._needToUpload = false;
+    this._needToDelete = false;
+    this._binaryFileData = binaryFileData;
+    this._needToDraw = true;
+  }
+
   public getRemoteFile(): string {
     return this._remoteFile || '';
   }
