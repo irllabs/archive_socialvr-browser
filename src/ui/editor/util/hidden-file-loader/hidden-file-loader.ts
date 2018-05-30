@@ -45,5 +45,4 @@ export class HiddenFileLoader {
     }
     this.zipFileReader.loadFile(file);
   }
-
 }

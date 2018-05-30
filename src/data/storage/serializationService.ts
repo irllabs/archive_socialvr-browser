@@ -10,6 +10,7 @@ import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs/Observable';
 
 import { DEFAULT_FILE_NAME, MIME_TYPE_UTF8, STORY_FILE_JSON, STORY_FILE_YAML } from 'ui/common/constants';
+import { Audio } from '../scene/entities/audio';
 import { Image } from '../scene/entities/image';
 import { Room } from '../scene/entities/room';
 import { Universal } from '../scene/entities/universal';
@@ -67,9 +68,10 @@ export class SerializationService {
     return mediaFiles;
   }
 
-  private _buildAssetDirectories(zip) {
-    Array.from(this.roomManager.getRooms())
-      .forEach(room => {
+  public buildAssetDirectories(zip, rooms: Room[]) {
+    Array
+      .from(rooms)
+      .forEach((room: Room) => {
         const directoryName: string = room.getId();
         const roomHasImage: boolean = room.getFileName() !== DEFAULT_FILE_NAME;
         const files = [];
@@ -141,7 +143,51 @@ export class SerializationService {
           zip.folder(directoryName).file(fileName, audioData, { base64: true });
         }
       });
+
     return new Promise((resolve, reject) => resolve(zip));
+  }
+
+  public zipStoryFiles(zip, story) {
+    return Promise.all([
+      zip.file(STORY_FILE_JSON, this._buildJsonStoryFile(story)),
+      zip.file(STORY_FILE_YAML, this._buildYamlStoryFile(story)),
+    ]);
+  }
+
+  public zipHomeRoomImage(zip, homeRoom: Room) {
+    const thumbnail = homeRoom.getThumbnail();
+    let promise;
+
+    if (thumbnail.hasAsset()) {
+      promise = Promise.resolve(thumbnail);
+    } else {
+      const binaryFile: string = homeRoom.getBackgroundImageBinaryData(true);
+
+      promise = resizeImage(binaryFile, 'projectThumbnail')
+        .then((binaryData) => {
+          thumbnail.setBinaryFileData(binaryData);
+
+          return thumbnail;
+        });
+    }
+
+    return promise.then((thumbnail: Image) => {
+      return zip.file(
+        thumbnail.getFileName(),
+        this._getBase64FromDataUrl(thumbnail.getBinaryFileData(true)), { base64: true },
+      );
+    });
+  }
+
+  public zipProjectSoundtrack(zip, soundtrack: Audio) {
+    if (soundtrack.hasAsset()) {
+      return zip.file(
+        soundtrack.getFileName(),
+        this._getBase64FromDataUrl(soundtrack.getBinaryFileData(true)), { base64: true },
+      );
+    }
+
+    return Promise.reject('No soundtrack');
   }
 
   private _buildJsonStoryFile(projectJson) {
@@ -156,26 +202,14 @@ export class SerializationService {
     return new Blob([projectSerialized], { type: MIME_TYPE_UTF8 });
   }
 
-  private _getHomeRoomImage(): Promise<any> {
+  private _zipHomeRoomImage(zip): Promise<any> {
     const homeRoomId = this.roomManager.getHomeRoomId();
     const homeRoom = this.roomManager.getRoomById(homeRoomId);
-    const thumbnail = homeRoom.getThumbnail();
 
-    if (thumbnail.hasAsset()) {
-      return Promise.resolve(thumbnail);
-    }
-
-    const binaryFile: string = this.roomManager.getRoomById(homeRoomId).getBackgroundImageBinaryData(true);
-
-    return resizeImage(binaryFile, 'projectThumbnail')
-      .then((binaryData) => {
-        thumbnail.setBinaryFileData(binaryData);
-
-        return thumbnail;
-      });
+    return this.zipHomeRoomImage(zip, homeRoom);
   }
 
-  private _getProjectSoundtrack(): Promise<any> {
+  private _zipProjectSoundtrack(zip): Promise<any> {
     return new Promise((resolve, reject) => {
       if (this.roomManager.getSoundtrack().hasAsset()) {
         console.log('this.roomManager.getSoundtrack() ', this.roomManager.getSoundtrack());
@@ -183,6 +217,8 @@ export class SerializationService {
       } else {
         reject('no Soundtrack');
       }
+    }).then((soundtrack: Audio) => {
+      return this.zipProjectSoundtrack(zip, soundtrack);
     });
   }
 
@@ -192,31 +228,18 @@ export class SerializationService {
     // Promises to be completed before ZIP file is created
     const promises = [
       // Prepare assets, then build story files
-      this._buildAssetDirectories(zip)
+      this.buildAssetDirectories(zip, Array.from(this.roomManager.getRooms()))
         .then(() => {
           const projectJson = this.buildProjectJson();
 
-          zip.file(STORY_FILE_JSON, this._buildJsonStoryFile(projectJson));
-          zip.file(STORY_FILE_YAML, this._buildYamlStoryFile(projectJson));
+          return this.zipStoryFiles(zip, projectJson);
         }),
 
       // Add homeroom image to ZIP
-      this._getHomeRoomImage().then((thumbnail: Image) => {
-        return zip.file(
-          thumbnail.getFileName(),
-          this._getBase64FromDataUrl(thumbnail.getBinaryFileData(true)), { base64: true },
-        );
-      }),
+      this._zipHomeRoomImage(zip),
 
       // Add project soundtrack to ZIP
-      this._getProjectSoundtrack()
-        .then((soundtrack) => {
-          return zip.file(
-            soundtrack.getFileName(),
-            this._getBase64FromDataUrl(soundtrack.getBinaryFileData(true)), { base64: true },
-          );
-        })
-        .catch(error => console.log(error)),
+      this._zipProjectSoundtrack(zip).catch(error => console.log(error)),
     ];
 
     // Build ZIP

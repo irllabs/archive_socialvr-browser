@@ -59,6 +59,7 @@ export class EventBus {
 
   onOpenFileLoader(acceptedFileType: string) {
     const eventPayload = { acceptedFileType: acceptedFileType };
+
     EventBus.subject.next(new Event(EventType.OPEN_FILE_LOADER, eventPayload));
   }
 

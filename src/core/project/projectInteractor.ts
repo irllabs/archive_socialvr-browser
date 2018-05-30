@@ -16,7 +16,11 @@ import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { fromPromise } from 'rxjs/observable/fromPromise';
+import { Audio } from '../../data/scene/entities/audio';
 import { MediaFile } from '../../data/scene/entities/mediaFile';
+import { Room } from '../../data/scene/entities/room';
+
+const JSZip = require('jszip');
 
 
 @Injectable()
@@ -99,14 +103,47 @@ export class ProjectInteractor {
     return fromPromise(this._projectsCollection.doc(projectId).delete());
   }
 
-  // TODO: fix it
-  public getProjectAsBlob(projectId: string): Observable<ArrayBuffer> {
-    const userId = this.userService.getUserId();
+  public getProjectAsBlob(project: Project): Promise<ArrayBuffer> {
+    const story = project.story;
+    const remoteFiles = this.deserializationService.extractAllRemoteFiles(story);
+    const homeRoomId = (story.rooms.find(room => room.uuid === story.homeRoomId) || story.rooms[0]).uuid;
+    const rooms: Room[] = [];
+    const zip = new JSZip();
+    const soundtrack: Audio = new Audio();
 
-    return this.afStorage
-      .ref(`projects/${projectId}/fileStory.zip`)
-      .getDownloadURL()
-      .switchMap((fileStoreUrl: string) => this.apiService.loadBinaryData(fileStoreUrl));
+    const promises = [
+      this.deserializationService
+        .loadRemoteFiles(remoteFiles)
+        .then((mediaFiles: MediaFile[]) => {
+          this.deserializationService
+            .deserializeRooms(story.rooms, homeRoomId, mediaFiles)
+            .forEach(room => rooms.push(room));
+
+          // get soundtrack
+          if (story.soundtrack) {
+            const soundtrackMediaFile = mediaFiles.find(mediaFile => mediaFile.getFileName() === story.soundtrack.file);
+
+            if (soundtrackMediaFile) {
+              soundtrack.setMediaFile(soundtrackMediaFile);
+            }
+          }
+
+          return this.serializationService.buildAssetDirectories(zip, rooms);
+        })
+        .then(() => {
+          const homeRoom = rooms.find(room => room.getId() === homeRoomId);
+
+          return Promise.all([
+            this.serializationService.zipHomeRoomImage(zip, homeRoom),
+            this.serializationService.zipProjectSoundtrack(zip, soundtrack).catch((e) => console.log(e)),
+          ]);
+        }),
+
+
+      this.serializationService.zipStoryFiles(zip, story),
+    ];
+
+    return Promise.all(promises).then(() => zip.generateAsync({ type: 'blob' }));
   }
 
   public getProject(): Project {

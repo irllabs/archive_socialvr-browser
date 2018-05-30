@@ -78,14 +78,16 @@ export class AuthUserTab implements OnInit, OnDestroy {
     this.router.navigateByUrl('/editor');
   }
 
-  public downloadProject(projectId: string, projectName: string) {
+  public downloadProject(project: Project) {
     this.eventBus.onStartLoading();
 
-    this.projectInteractor.getProjectAsBlob(projectId)
-      .subscribe(
+    this.projectInteractor.getProjectAsBlob(project)
+      .then(
         (projectBlob) => {
           const blob = new Blob([projectBlob], { type: MIME_TYPE_ZIP });
-          FileSaver.saveAs(blob, `${projectName}.zip`);
+
+          FileSaver.saveAs(blob, `${project.name}.zip`);
+
           this.eventBus.onStopLoading();
         },
         (error) => {
