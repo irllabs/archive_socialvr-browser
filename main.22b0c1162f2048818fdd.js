@@ -10401,6 +10401,14 @@ var Project = /** @class */function () {
         if (obj === void 0) {
             obj = {};
         }
+        this.id = null;
+        this.userId = null;
+        this.user = null;
+        this.name = null;
+        this.story = null;
+        this.tags = null;
+        this.isPublic = null;
+        this.thumbnailUrl = null;
         this.state = exports.PROJECT_STATES.ASSETS_NOT_UPLOADED;
         this.id = obj['id']['_binaryString'] ? obj['id']['_binaryString'] : obj['id'];
         this.userId = obj['userId'];
@@ -10443,7 +10451,7 @@ var Project = /** @class */function () {
             nameLower: (this.name || '').toLocaleLowerCase(),
             story: this.story,
             tags: this.tags,
-            isPublic: this.isPublic,
+            isPublic: !!this.isPublic,
             thumbnailUrl: this.thumbnailUrl,
             state: this.state
         };
