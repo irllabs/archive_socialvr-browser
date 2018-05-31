@@ -4,14 +4,14 @@ export const PROJECT_STATES = {
 };
 
 export class Project {
-  public id: string;
-  public userId: string;
-  public user: string;
-  public name: string;
-  public story: any;
-  public tags: any;
-  public isPublic: boolean;
-  public thumbnailUrl: string;
+  public id: string = null;
+  public userId: string = null;
+  public user: string = null;
+  public name: string = null;
+  public story: any = null;
+  public tags: any = null;
+  public isPublic: boolean = null;
+  public thumbnailUrl: string = null;
   public state: number = PROJECT_STATES.ASSETS_NOT_UPLOADED;
 
   constructor(obj = {}) {
@@ -50,7 +50,7 @@ export class Project {
       nameLower: (this.name || '').toLocaleLowerCase(),
       story: this.story,
       tags: this.tags,
-      isPublic: this.isPublic,
+      isPublic: !!this.isPublic,
       thumbnailUrl: this.thumbnailUrl,
       state: this.state,
     };
