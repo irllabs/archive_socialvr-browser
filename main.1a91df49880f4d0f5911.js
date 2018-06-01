@@ -4,7 +4,9 @@ webpackJsonp([1],[
 /* 2 */,
 /* 3 */,
 /* 4 */,
-/* 5 */
+/* 5 */,
+/* 6 */,
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -119,8 +121,6 @@ exports.THREE_CONST = {
 };
 
 /***/ }),
-/* 6 */,
-/* 7 */,
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -401,7 +401,7 @@ exports.SceneInteractor = SceneInteractor;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector2_1 = __webpack_require__(68);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var MAX_SIZE_HOTSPOT = 1024;
 function getNearestPowerOfTwo(x) {
     return new Array(14).fill(null).map(function (_, index) {
@@ -848,9 +848,7 @@ var ProjectInteractor = /** @class */function () {
             var homeRoom = rooms.find(function (room) {
                 return room.getId() === homeRoomId;
             });
-            return Promise.all([_this.serializationService.zipHomeRoomImage(zip, homeRoom), _this.serializationService.zipProjectSoundtrack(zip, soundtrack).catch(function (e) {
-                return console.log(e);
-            })]);
+            return Promise.all([_this.serializationService.zipHomeRoomImage(zip, homeRoom), _this.serializationService.zipProjectSoundtrack(zip, soundtrack)]);
         }), this.serializationService.zipStoryFiles(zip, story)];
         return Promise.all(promises).then(function () {
             return zip.generateAsync({ type: 'blob' });
@@ -1072,7 +1070,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var http_1 = __webpack_require__(212);
 var userService_1 = __webpack_require__(82);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var URL_SHORTENER_URL = constants_1.GOOGLE_BASE_URL + "urlshortener/v1/url";
 var ApiService = /** @class */function () {
     function ApiService(http, userService) {
@@ -1290,7 +1288,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var platform_browser_1 = __webpack_require__(40);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 exports.mimeTypeMap = {
     video: [constants_1.MIME_TYPE_MP4],
     audio: [constants_1.MIME_TYPE_MP3, constants_1.MIME_TYPE_WAV, constants_1.MIME_TYPE_MPEG, constants_1.MIME_TYPE_XWAV, constants_1.MIME_TYPE_AAC, constants_1.MIME_TYPE_XM4A],
@@ -1847,7 +1845,7 @@ exports.RoomPropertyTypeService = RoomPropertyTypeService;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(13);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var iconPositionUtil_1 = __webpack_require__(55);
 var roomPropertyTypeService_1 = __webpack_require__(86);
 var fontHelper_1 = __webpack_require__(481);
@@ -2228,7 +2226,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var audio_1 = __webpack_require__(99);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var RoomManager = /** @class */function () {
     function RoomManager() {
         this.isReadOnly = false;
@@ -2362,7 +2360,7 @@ var __extends = this && this.__extends || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var baseElement_1 = __webpack_require__(83);
 var mediaFile_1 = __webpack_require__(131);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var Audio = /** @class */function (_super) {
     __extends(Audio, _super);
     function Audio() {
@@ -3824,8 +3822,7 @@ var __extends = this && this.__extends || function () {
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
 var baseElement_1 = __webpack_require__(83);
-var constants_1 = __webpack_require__(5);
-var constants_2 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var mediaFile_1 = __webpack_require__(131);
 var Universal = /** @class */function (_super) {
     __extends(Universal, _super);
@@ -3884,35 +3881,25 @@ var Universal = /** @class */function (_super) {
     Universal.prototype.setAudioMediaFile = function (mediaFile) {
         this._audioContent = mediaFile;
     };
-    Universal.prototype.setAudioContent = function (fileName, binaryFileData, volume, remoteFile) {
+    Universal.prototype.setAudioContent = function (binaryFileData, volume) {
         if (volume === void 0) {
             volume = constants_1.DEFAULT_VOLUME;
         }
-        if (remoteFile === void 0) {
-            remoteFile = '';
-        }
-        this._audioContent.setFileName(fileName);
         this._audioContent.setBinaryFileData(binaryFileData);
-        this._audioContent.setRemoteFile(remoteFile);
         this.volume = volume;
     };
     Universal.prototype.setImageMediaFile = function (mediaFile) {
         this._imageContent = mediaFile;
     };
-    Universal.prototype.setImageContent = function (fileName, binaryFileData, remoteFile) {
-        if (remoteFile === void 0) {
-            remoteFile = '';
-        }
-        this._imageContent.setFileName(fileName);
+    Universal.prototype.setImageContent = function (binaryFileData) {
         this._imageContent.setBinaryFileData(binaryFileData);
-        this._imageContent.setRemoteFile(remoteFile);
     };
     Universal.prototype.resetAudioContent = function () {
-        this.setAudioContent(constants_2.DEFAULT_FILE_NAME, null);
+        this.setAudioContent(null);
         this._audioContent.setRemoteFile(null);
     };
     Universal.prototype.resetImageContent = function () {
-        this.setImageContent(constants_2.DEFAULT_FILE_NAME, null);
+        this.setImageContent(null);
         this._imageContent.setRemoteFile(null);
     };
     Universal.prototype.getIcon = function () {
@@ -4388,7 +4375,7 @@ var narrator_1 = __webpack_require__(251);
 var vector2_1 = __webpack_require__(68);
 var reverbList_1 = __webpack_require__(176);
 var uuid_1 = __webpack_require__(100);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var Room = /** @class */function () {
     function Room() {
         this.id = uuid_1.generateUniqueId();
@@ -4483,12 +4470,8 @@ var Room = /** @class */function () {
     Room.prototype.hasBackgroundImage = function () {
         return this.backgroundImage.getFileName() !== constants_1.DEFAULT_FILE_NAME || this.backgroundIsVideo;
     };
-    Room.prototype.setThumbnail = function (binaryFileData, remoteFileName) {
-        if (remoteFileName === void 0) {
-            remoteFileName = '';
-        }
+    Room.prototype.setThumbnail = function (binaryFileData) {
         this.thumbnail.setBinaryFileData(binaryFileData);
-        this.thumbnail.setRemoteFileName(remoteFileName);
     };
     Room.prototype.getThumbnail = function () {
         return this.thumbnail;
@@ -4524,13 +4507,9 @@ var Room = /** @class */function () {
     Room.prototype.setReverb = function (reverb) {
         this.reverb = reverb;
     };
-    Room.prototype.setBackgroundAudio = function (volume, dataUrl, remoteFileName) {
-        if (remoteFileName === void 0) {
-            remoteFileName = '';
-        }
+    Room.prototype.setBackgroundAudio = function (volume, dataUrl) {
         this.backgroundAudio.setBinaryFileData(dataUrl);
         this.setBackgroundAudioVolume(volume);
-        this.backgroundAudio.setRemoteFileName(remoteFileName);
     };
     Room.prototype.removeBackgroundAudio = function () {
         this.backgroundAudio = new audio_1.Audio();
@@ -4686,7 +4665,7 @@ var projectInteractor_1 = __webpack_require__(42);
 var projectMetaDataInteractor_1 = __webpack_require__(33);
 var sceneInteractor_1 = __webpack_require__(12);
 var userInteractor_1 = __webpack_require__(30);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var publicLinkHelper_1 = __webpack_require__(258);
 var ShareableLoader = /** @class */function () {
@@ -5427,9 +5406,9 @@ var roomManager_1 = __webpack_require__(98);
 var roomPropertyBuilder_1 = __webpack_require__(252);
 __webpack_require__(165);
 var Observable_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var fileLoaderUtil_1 = __webpack_require__(60);
-var constants_2 = __webpack_require__(5);
+var constants_2 = __webpack_require__(7);
 var mediaFile_1 = __webpack_require__(131);
 var universal_1 = __webpack_require__(132);
 var reverbList_1 = __webpack_require__(176);
@@ -5455,8 +5434,8 @@ var DeserializationService = /** @class */function () {
         }
         var story = project.story;
         var rootRemoteFiles = this._extractRootRemoteFiles(story);
-        var homeRoomRemoteFiles = this._extractHomeRoomRemoteFiles(story);
-        return Promise.all([this.loadRemoteFiles(rootRemoteFiles), this.loadRemoteFiles(homeRoomRemoteFiles)]).then(function (_a) {
+        var roomsRemoteFiles = quick ? this._extractHomeRoomRemoteFiles(story) : this._extractRoomsRemoteFiles(story.rooms);
+        return Promise.all([this.loadRemoteFiles(rootRemoteFiles), this.loadRemoteFiles(roomsRemoteFiles)]).then(function (_a) {
             var rootMediaFiles = _a[0],
                 homeRoomMediaFiles = _a[1];
             return _this._deserializeProject(story, rootMediaFiles.concat(homeRoomMediaFiles), quick);
@@ -5625,6 +5604,7 @@ var DeserializationService = /** @class */function () {
                     return mediaFile.getFileName() === universalJson.audioFile;
                 });
                 universal.textContent = universalJson.text;
+                universal.volume = universalJson.volume;
                 if (imageMediaFile) {
                     universal.setImageMediaFile(imageMediaFile);
                 }
@@ -6052,7 +6032,7 @@ exports.Image = Image;
 Object.defineProperty(exports, "__esModule", { value: true });
 // import {BaseElement} from 'data/scene/entities/baseElement';
 var audio_1 = __webpack_require__(99);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var Narrator = /** @class */function () {
     function Narrator() {
         this.introAudio = new audio_1.Audio();
@@ -6063,25 +6043,15 @@ var Narrator = /** @class */function () {
     Narrator.prototype.getIntroAudio = function () {
         return this.introAudio;
     };
-    Narrator.prototype.setIntroAudio = function (fileName, volume, dataUri, remoteFileName) {
-        if (remoteFileName === void 0) {
-            remoteFileName = '';
-        }
-        this.introAudio.setFileName(fileName);
+    Narrator.prototype.setIntroAudio = function (volume, dataUri) {
         this.introAudio.setBinaryFileData(dataUri);
         this.setVolume(volume);
-        this.introAudio.setRemoteFileName(remoteFileName);
     };
     Narrator.prototype.getReturnAudio = function () {
         return this.returnAudio;
     };
-    Narrator.prototype.setReturnAudio = function (fileName, dataUri, remoteFileName) {
-        if (remoteFileName === void 0) {
-            remoteFileName = '';
-        }
-        this.returnAudio.setFileName(fileName);
+    Narrator.prototype.setReturnAudio = function (dataUri) {
         this.returnAudio.setBinaryFileData(dataUri);
-        this.returnAudio.setRemoteFileName(remoteFileName);
     };
     Narrator.prototype.removeIntroAudio = function () {
         this.introAudio = new audio_1.Audio();
@@ -6132,7 +6102,7 @@ var core_1 = __webpack_require__(2);
 var door_1 = __webpack_require__(253);
 var room_1 = __webpack_require__(175);
 var universal_1 = __webpack_require__(132);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var vector_1 = __webpack_require__(254);
 var PropertyBuilder = /** @class */function () {
     function PropertyBuilder() {}
@@ -6148,8 +6118,8 @@ var PropertyBuilder = /** @class */function () {
         var universal = new universal_1.Universal();
         universal.setName(name);
         universal.textContent = textContent;
-        universal.setAudioContent(constants_1.DEFAULT_FILE_NAME, null, constants_1.DEFAULT_VOLUME);
-        universal.setImageContent(constants_1.DEFAULT_FILE_NAME, null);
+        universal.setAudioContent(null, constants_1.DEFAULT_VOLUME);
+        universal.setImageContent(null);
         return universal;
     };
     PropertyBuilder.prototype.door = function (roomId, name) {
@@ -6201,7 +6171,7 @@ var __extends = this && this.__extends || function () {
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
 var baseElement_1 = __webpack_require__(83);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var Door = /** @class */function (_super) {
     __extends(Door, _super);
     function Door() {
@@ -6294,7 +6264,7 @@ var imageResizeService_1 = __webpack_require__(26);
 __webpack_require__(165);
 __webpack_require__(430);
 var Observable_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var JSZip = __webpack_require__(158);
 var JsYaml = __webpack_require__(221);
 var SerializationService = /** @class */function () {
@@ -6423,7 +6393,6 @@ var SerializationService = /** @class */function () {
         if (soundtrack.hasAsset()) {
             return zip.file(soundtrack.getFileName(), this._getBase64FromDataUrl(soundtrack.getBinaryFileData(true)), { base64: true });
         }
-        return Promise.reject('No soundtrack');
     };
     SerializationService.prototype._buildJsonStoryFile = function (projectJson) {
         var projectSerialized = JSON.stringify(projectJson);
@@ -11633,7 +11602,7 @@ exports.default = SvrControls;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(13);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 // This file contains common 3D logic for edit-space-sphere and preview-space
 var SPHERE_RADIUS = constants_1.THREE_CONST.SPHERE_RADIUS;
 var NUM_SPHERE_SLICES = constants_1.THREE_CONST.SPHERE_SLICES;
@@ -12413,7 +12382,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var assetInteractor_1 = __webpack_require__(59);
 var THREE = __webpack_require__(13);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var iconPositionUtil_1 = __webpack_require__(55);
 var TWEEN = __webpack_require__(261);
 var MenuManager = /** @class */function () {
@@ -12650,7 +12619,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var THREE = __webpack_require__(13);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var Reticle = /** @class */function () {
     function Reticle() {
         this.reticleRaycaster = new THREE.Raycaster();
@@ -12748,7 +12717,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var assetInteractor_1 = __webpack_require__(59);
 var sceneInteractor_1 = __webpack_require__(12);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var iconPaths = [new assetInteractor_1.AssetModel('hotspot-default', 'hotspot-default', constants_1.ICON_PATH + "icon-hotspot-default.png"), new assetInteractor_1.AssetModel('hotspot-hover', 'hotspot-hover', constants_1.ICON_PATH + "icon-hotspot-hover.png"), new assetInteractor_1.AssetModel('door', 'door', constants_1.ICON_PATH + "door_filled.png"), new assetInteractor_1.AssetModel('audio', 'audio', constants_1.ICON_PATH + "icon-audio.png"), new assetInteractor_1.AssetModel('back', 'back', constants_1.ICON_PATH + "back_filled.png"), new assetInteractor_1.AssetModel('home', 'home', constants_1.ICON_PATH + "home_filled.png"), new assetInteractor_1.AssetModel('colorBall', 'colorBall', constants_1.IMAGE_PATH + "color_ball.jpg"), new assetInteractor_1.AssetModel('imageMask', 'imageMask', constants_1.IMAGE_PATH + "image-mask_1920.jpg")];
 var TextureLoader = /** @class */function () {
     function TextureLoader(sceneInteractor, assetInteractor) {
@@ -51046,7 +51015,7 @@ var __generator = this && this.__generator || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var narrator_1 = __webpack_require__(251);
 var room_1 = __webpack_require__(175);
 var universal_1 = __webpack_require__(132);
@@ -51281,8 +51250,8 @@ function convertToUniversal(room, baseFilePath, filePrefix, binaryFileMap, texts
     texts.forEach(function (textJson) {
         var universal = setBaseProperties(textJson, new universal_1.Universal());
         universal.textContent = textJson.file;
-        universal.setAudioContent(constants_1.DEFAULT_FILE_NAME, null, constants_1.DEFAULT_VOLUME);
-        universal.setImageContent(constants_1.DEFAULT_FILE_NAME, null);
+        universal.setAudioContent(null, constants_1.DEFAULT_VOLUME);
+        universal.setImageContent(null);
         universals.push(universal);
     });
     // Audio to Universal
@@ -51294,10 +51263,8 @@ function convertToUniversal(room, baseFilePath, filePrefix, binaryFileMap, texts
         });
         var binaryFileData = binaryFile ? binaryFile.fileData : null;
         var volume = audioJson.volume;
-        var audioFileName = constants_1.DEFAULT_FILE_NAME;
-        if (audioJson.hasOwnProperty('file')) audioFileName = decodeURIComponent(audioJson.file);
-        universal.setAudioContent(audioFileName, binaryFileData, volume);
-        universal.setImageContent(constants_1.DEFAULT_FILE_NAME, null);
+        universal.setAudioContent(binaryFileData, volume);
+        universal.setImageContent(null);
         universals.push(universal);
     });
     // Image to Universal
@@ -51308,10 +51275,8 @@ function convertToUniversal(room, baseFilePath, filePrefix, binaryFileMap, texts
             return mediaFile.name === fileName;
         });
         var binaryFileData = binaryFile ? binaryFile.fileData : null;
-        var imageFileName = constants_1.DEFAULT_FILE_NAME;
-        if (imageJson.hasOwnProperty('file')) imageFileName = decodeURIComponent(imageJson.file);
-        universal.setImageContent(imageFileName, binaryFileData);
-        universal.setAudioContent(constants_1.DEFAULT_FILE_NAME, null);
+        universal.setImageContent(binaryFileData);
+        universal.setAudioContent(null);
         universals.push(universal);
     });
     universals.forEach(function (universal) {
@@ -51331,13 +51296,9 @@ function universalFromJson(universalJson, imageBinaryFileData, audioBinaryFileDa
     // text
     universal.textContent = universalJson.text;
     // image
-    var imageFileName = constants_1.DEFAULT_FILE_NAME;
-    if (universalJson.hasOwnProperty('imageFile')) imageFileName = decodeURIComponent(universalJson.imageFile);
-    universal.setImageContent(imageFileName, imageBinaryFileData);
+    universal.setImageContent(imageBinaryFileData);
     // audio
-    var audioFileName = constants_1.DEFAULT_FILE_NAME;
-    if (universalJson.hasOwnProperty('audioFile')) audioFileName = decodeURIComponent(universalJson.audioFile);
-    universal.setAudioContent(audioFileName, audioBinaryFileData);
+    universal.setAudioContent(audioBinaryFileData);
     universal.loop = universalJson.loop;
     universal.volume = universalJson.volume;
     return universal;
@@ -51345,18 +51306,12 @@ function universalFromJson(universalJson, imageBinaryFileData, audioBinaryFileDa
 function narratorFromJson(narratorJson, introAudioFile, returnAudioFile) {
     var narrator = new narrator_1.Narrator();
     if (introAudioFile) {
-        var fileName = decodeURIComponent(narratorJson.intro);
-        var remoteFileName = '';
-        if (narratorJson.intro.hasOwnProperty('file')) fileName = narratorJson.intro.file;
         var volume = narratorJson.volume;
-        narrator.setIntroAudio(fileName, volume, introAudioFile, remoteFileName);
+        narrator.setIntroAudio(volume, introAudioFile);
     }
     if (returnAudioFile) {
-        var fileName = decodeURIComponent(narratorJson.reprise);
-        var remoteFileName = '';
-        if (narratorJson.reprise.hasOwnProperty('file')) fileName = narratorJson.reprise.file;
         //const volume = narratorJson.volume;
-        narrator.setReturnAudio(fileName, returnAudioFile, remoteFileName);
+        narrator.setReturnAudio(returnAudioFile);
     }
     return narrator;
 }
@@ -51607,7 +51562,7 @@ var adminInteractor_1 = __webpack_require__(129);
 var projectInteractor_1 = __webpack_require__(42);
 var searchInteractor_1 = __webpack_require__(257);
 var userInteractor_1 = __webpack_require__(30);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var shareable_loader_1 = __webpack_require__(178);
 var AdminSearchExplore = /** @class */function () {
     function AdminSearchExplore(projectInteractor, searchInteractor, shareableLoader, userInteractor, adminInteractor) {
@@ -51724,7 +51679,7 @@ var projectInteractor_1 = __webpack_require__(42);
 var projectMetaDataInteractor_1 = __webpack_require__(33);
 var sceneInteractor_1 = __webpack_require__(12);
 var userInteractor_1 = __webpack_require__(30);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var AdminUserGroups = /** @class */function () {
     function AdminUserGroups(userInteractor, adminInteractor, projectInteractor, sceneInteractor, metaDataInteractor, router, eventBus) {
@@ -54450,7 +54405,7 @@ exports.render = function render (qrData, options, cb) {
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var COPY = 'copy';
 // https://gist.github.com/lgarron/d1dee380f4ed9d825ca7
 function copyToClipboard(stringToCopy) {
@@ -55124,7 +55079,7 @@ var Editor = /** @class */function () {
             audio: function (file, binaryFileData, position) {
                 var activeRoomId = _this.sceneInteractor.getActiveRoomId();
                 var universal = _this.sceneInteractor.addUniversal(activeRoomId);
-                universal.setAudioContent(file.name, binaryFileData);
+                universal.setAudioContent(binaryFileData);
                 universal.setLocation(position);
                 _this.requestRender();
             },
@@ -55145,7 +55100,7 @@ var Editor = /** @class */function () {
                 }
                 imageResizeService_1.resizeImage(binaryFileData, 'hotspotImage').then(function (resizedImageData) {
                     var universal = _this.sceneInteractor.addUniversal(activeRoomId);
-                    universal.setImageContent(file.name, resizedImageData);
+                    universal.setImageContent(resizedImageData);
                     universal.setLocation(position);
                     _this.requestRender();
                 }).catch(function (error) {
@@ -55739,7 +55694,7 @@ var projectMetaDataInteractor_1 = __webpack_require__(33);
 var sceneInteractor_1 = __webpack_require__(12);
 var reverbList_1 = __webpack_require__(176);
 var imageResizeService_1 = __webpack_require__(26);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var audioRecorderService_1 = __webpack_require__(134);
 var RoomEditor = /** @class */function () {
@@ -55774,18 +55729,18 @@ var RoomEditor = /** @class */function () {
         });
     };
     RoomEditor.prototype.onBackgroundAudioLoad = function ($event) {
-        this.getActiveRoom().setBackgroundAudio($event.file.name, constants_1.DEFAULT_VOLUME, $event.binaryFileData);
+        this.getActiveRoom().setBackgroundAudio(constants_1.DEFAULT_VOLUME, $event.binaryFileData);
     };
     RoomEditor.prototype.onIntroAudioLoad = function ($event) {
         this.largeIntroAudioFile = false;
         if ($event.file.size / 1024 / 1024 > 64) {
             this.largeIntroAudioFile = true;
         } else {
-            this.getNarratorIntroAudio().setIntroAudio($event.file.name, constants_1.DEFAULT_VOLUME, $event.binaryFileData);
+            this.getNarratorIntroAudio().setIntroAudio(constants_1.DEFAULT_VOLUME, $event.binaryFileData);
         }
     };
     RoomEditor.prototype.onReturnAudioLoad = function ($event) {
-        this.getActiveRoom().getNarrator().setReturnAudio($event.file.name, $event.binaryFileData);
+        this.getActiveRoom().getNarrator().setReturnAudio($event.binaryFileData);
     };
     RoomEditor.prototype.getNarratorIntroAudio = function () {
         return this.getActiveRoom().getNarrator();
@@ -55807,10 +55762,10 @@ var RoomEditor = /** @class */function () {
         return this.sceneInteractor.getRoomById(activeRoomId);
     };
     RoomEditor.prototype.onNarratorIntroRecorded = function ($event) {
-        this.getActiveRoom().getNarrator().setIntroAudio($event.fileName, constants_1.DEFAULT_VOLUME, $event.dataUrl);
+        this.getActiveRoom().getNarrator().setIntroAudio(constants_1.DEFAULT_VOLUME, $event.dataUrl);
     };
     RoomEditor.prototype.onNarratorReturnRecorded = function ($event) {
-        this.getActiveRoom().getNarrator().setReturnAudio($event.fileName, $event.dataUrl);
+        this.getActiveRoom().getNarrator().setReturnAudio($event.dataUrl);
     };
     RoomEditor.prototype.onReverbChange = function ($event) {
         this.getActiveRoom().setReverb($event.target.value);
@@ -56460,7 +56415,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var audio_1 = __webpack_require__(99);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var audioRecorderService_1 = __webpack_require__(134);
 var AudioEditor = /** @class */function () {
     function AudioEditor() {}
@@ -56523,7 +56478,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(12);
 var door_1 = __webpack_require__(253);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var DoorEditor = /** @class */function () {
     function DoorEditor(sceneInteractor, eventBus) {
@@ -56887,7 +56842,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var universal_1 = __webpack_require__(132);
 var imageResizeService_1 = __webpack_require__(26);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var audioRecorderService_1 = __webpack_require__(134);
 var UniversalEditor = /** @class */function () {
@@ -56949,7 +56904,7 @@ var UniversalEditor = /** @class */function () {
         var _this = this;
         imageResizeService_1.resizeImage($event.binaryFileData, 'hotspotImage').then(function (resizedImageData) {
             _this._originImage = null;
-            return _this.universalProperty.setImageContent($event.file.name, resizedImageData);
+            return _this.universalProperty.setImageContent(resizedImageData);
         }).catch(function (error) {
             return _this.eventBus.onModalMessage('Image loading error', error);
         });
@@ -56979,13 +56934,13 @@ var UniversalEditor = /** @class */function () {
         image.src = this._originImage;
     };
     UniversalEditor.prototype.onAudioFileLoad = function ($event) {
-        this.universalProperty.setAudioContent($event.file.name, $event.binaryFileData, constants_1.DEFAULT_VOLUME);
+        this.universalProperty.setAudioContent($event.binaryFileData, constants_1.DEFAULT_VOLUME);
     };
     UniversalEditor.prototype.onVolumeChange = function ($event) {
         this.universalProperty.volume = $event.currentTarget.volume;
     };
     UniversalEditor.prototype.onAudioRecorded = function ($event) {
-        this.universalProperty.setAudioContent($event.fileName, $event.dataUrl, constants_1.DEFAULT_VOLUME);
+        this.universalProperty.setAudioContent($event.dataUrl, constants_1.DEFAULT_VOLUME);
     };
     UniversalEditor.prototype.onLoopChange = function ($event) {
         this.universalProperty.loop = $event.value;
@@ -57119,7 +57074,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var vector2_1 = __webpack_require__(68);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var combinedHotspotUtil_1 = __webpack_require__(180);
 var iconPositionUtil_1 = __webpack_require__(55);
@@ -57472,7 +57427,7 @@ var storageInteractor_1 = __webpack_require__(177);
 var userInteractor_1 = __webpack_require__(30);
 var projectModel_1 = __webpack_require__(460);
 __webpack_require__(170);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var FileSaver = __webpack_require__(478);
 var AuthUserTab = /** @class */function () {
@@ -57879,7 +57834,7 @@ var projectMetaDataInteractor_1 = __webpack_require__(33);
 var sceneInteractor_1 = __webpack_require__(12);
 var storageInteractor_1 = __webpack_require__(177);
 var userInteractor_1 = __webpack_require__(30);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var SlideshowBuilder_1 = __webpack_require__(102);
 var FileSaver = __webpack_require__(478);
@@ -58307,7 +58262,7 @@ module.exports = "<div class=\"modal-window\">\n  <input\n    id=\"hiddenBackgro
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(13);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 exports.HOTSPOT_ANIM_STATES = {
     FAR: 1,
     NEAR: 2,
@@ -58572,7 +58527,7 @@ var __extends = this && this.__extends || function () {
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(13);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var base_plane_1 = __webpack_require__(87);
 var DoorPlane = /** @class */function (_super) {
     __extends(DoorPlane, _super);
@@ -58806,7 +58761,7 @@ var __extends = this && this.__extends || function () {
     };
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var imageResizeService_1 = __webpack_require__(26);
 var THREE = __webpack_require__(13);
 var iconPositionUtil_1 = __webpack_require__(55);
@@ -59209,7 +59164,7 @@ var sceneInteractor_1 = __webpack_require__(12);
 var THREE = __webpack_require__(13);
 __webpack_require__(443);
 __webpack_require__(444);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var video3D_1 = __webpack_require__(471);
 var audioManager_1 = __webpack_require__(479);
 var fontHelper_1 = __webpack_require__(481);
@@ -60662,7 +60617,7 @@ var projectInteractor_1 = __webpack_require__(42);
 var projectMetaDataInteractor_1 = __webpack_require__(33);
 var sceneInteractor_1 = __webpack_require__(12);
 var userInteractor_1 = __webpack_require__(30);
-var constants_1 = __webpack_require__(5);
+var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var UserGroups = /** @class */function () {
     function UserGroups(userInteractor, groupInteractor, projectInteractor, sceneInteractor, metaDataInteractor, router, eventBus) {
