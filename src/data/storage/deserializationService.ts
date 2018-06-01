@@ -200,6 +200,7 @@ export class DeserializationService {
           const audioMediaFile = universalJson.audioFile && mediaFiles.find(mediaFile => mediaFile.getFileName() === universalJson.audioFile);
 
           universal.textContent = universalJson.text;
+          universal.volume = universalJson.volume;
 
           if (imageMediaFile) {
             universal.setImageMediaFile(imageMediaFile);

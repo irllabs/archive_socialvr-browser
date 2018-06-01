@@ -38,8 +38,8 @@ export class PropertyBuilder {
 
     universal.setName(name);
     universal.textContent = textContent;
-    universal.setAudioContent(DEFAULT_FILE_NAME, null, DEFAULT_VOLUME);
-    universal.setImageContent(DEFAULT_FILE_NAME, null);
+    universal.setAudioContent(null, DEFAULT_VOLUME);
+    universal.setImageContent(null);
 
     return universal;
   }

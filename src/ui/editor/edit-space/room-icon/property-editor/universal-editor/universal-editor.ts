@@ -69,7 +69,7 @@ export class UniversalEditor {
       .then((resizedImageData) => {
         this._originImage = null;
 
-        return this.universalProperty.setImageContent($event.file.name, resizedImageData);
+        return this.universalProperty.setImageContent(resizedImageData);
       })
       .catch(error => this.eventBus.onModalMessage('Image loading error', error));
   }
@@ -103,7 +103,7 @@ export class UniversalEditor {
   }
 
   public onAudioFileLoad($event) {
-    this.universalProperty.setAudioContent($event.file.name, $event.binaryFileData, DEFAULT_VOLUME);
+    this.universalProperty.setAudioContent($event.binaryFileData, DEFAULT_VOLUME);
   }
 
   public onVolumeChange($event) {
@@ -111,7 +111,7 @@ export class UniversalEditor {
   }
 
   public onAudioRecorded($event) {
-    this.universalProperty.setAudioContent($event.fileName, $event.dataUrl, DEFAULT_VOLUME);
+    this.universalProperty.setAudioContent($event.dataUrl, DEFAULT_VOLUME);
   }
 
   public onLoopChange($event) {

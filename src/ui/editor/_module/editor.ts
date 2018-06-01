@@ -261,7 +261,7 @@ export class Editor {
         const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
         const universal: Universal = this.sceneInteractor.addUniversal(activeRoomId);
 
-        universal.setAudioContent(file.name, binaryFileData);
+        universal.setAudioContent(binaryFileData);
         universal.setLocation(position);
 
         this.requestRender();
@@ -289,7 +289,7 @@ export class Editor {
           .then(resizedImageData => {
             const universal: Universal = this.sceneInteractor.addUniversal(activeRoomId);
 
-            universal.setImageContent(file.name, resizedImageData);
+            universal.setImageContent(resizedImageData);
             universal.setLocation(position);
 
             this.requestRender();

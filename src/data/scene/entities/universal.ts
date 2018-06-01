@@ -51,10 +51,8 @@ export class Universal extends BaseElement {
     this._audioContent = mediaFile;
   }
 
-  setAudioContent(fileName: string, binaryFileData: string, volume: number = DEFAULT_VOLUME, remoteFile: string = '') {
-    this._audioContent.setFileName(fileName);
+  setAudioContent(binaryFileData: string, volume: number = DEFAULT_VOLUME) {
     this._audioContent.setBinaryFileData(binaryFileData);
-    this._audioContent.setRemoteFile(remoteFile);
     this.volume = volume;
   }
 
@@ -62,19 +60,17 @@ export class Universal extends BaseElement {
     this._imageContent = mediaFile;
   }
 
-  setImageContent(fileName: string, binaryFileData: string, remoteFile: string = '') {
-    this._imageContent.setFileName(fileName);
+  setImageContent(binaryFileData: string) {
     this._imageContent.setBinaryFileData(binaryFileData);
-    this._imageContent.setRemoteFile(remoteFile);
   }
 
   resetAudioContent() {
-    this.setAudioContent(DEFAULT_FILE_NAME, null);
+    this.setAudioContent(null);
     this._audioContent.setRemoteFile(null);
   }
 
   resetImageContent() {
-    this.setImageContent(DEFAULT_FILE_NAME, null);
+    this.setImageContent(null);
     this._imageContent.setRemoteFile(null);
   }
 

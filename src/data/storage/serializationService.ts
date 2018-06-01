@@ -189,8 +189,6 @@ export class SerializationService {
         this._getBase64FromDataUrl(soundtrack.getBinaryFileData(true)), { base64: true },
       );
     }
-
-    return Promise.reject('No soundtrack');
   }
 
   private _buildJsonStoryFile(projectJson) {

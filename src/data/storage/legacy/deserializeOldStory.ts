@@ -280,8 +280,8 @@ function convertToUniversal(room, baseFilePath, filePrefix, binaryFileMap, texts
     const universal: Universal = <Universal> setBaseProperties(textJson, new Universal());
 
     universal.textContent = textJson.file;
-    universal.setAudioContent(DEFAULT_FILE_NAME, null, DEFAULT_VOLUME);
-    universal.setImageContent(DEFAULT_FILE_NAME, null);
+    universal.setAudioContent(null, DEFAULT_VOLUME);
+    universal.setImageContent(null);
 
     universals.push(universal);
   });
@@ -293,12 +293,9 @@ function convertToUniversal(room, baseFilePath, filePrefix, binaryFileMap, texts
     const binaryFile = binaryFileMap.find(mediaFile => mediaFile.name === fileName);
     const binaryFileData: string = binaryFile ? binaryFile.fileData : null;
     const volume = audioJson.volume;
-    let audioFileName = DEFAULT_FILE_NAME;
 
-    if (audioJson.hasOwnProperty('file')) audioFileName = decodeURIComponent(audioJson.file);
-
-    universal.setAudioContent(audioFileName, binaryFileData, volume);
-    universal.setImageContent(DEFAULT_FILE_NAME, null);
+    universal.setAudioContent(binaryFileData, volume);
+    universal.setImageContent(null);
 
     universals.push(universal);
   });
@@ -309,12 +306,9 @@ function convertToUniversal(room, baseFilePath, filePrefix, binaryFileMap, texts
     const fileName: string = `${baseFilePath}${filePrefix}/${imageJson.file}`;
     const binaryFile = binaryFileMap.find(mediaFile => mediaFile.name === fileName);
     const binaryFileData: string = binaryFile ? binaryFile.fileData : null;
-    let imageFileName = DEFAULT_FILE_NAME;
 
-    if (imageJson.hasOwnProperty('file')) imageFileName = decodeURIComponent(imageJson.file);
-
-    universal.setImageContent(imageFileName, binaryFileData);
-    universal.setAudioContent(DEFAULT_FILE_NAME, null);
+    universal.setImageContent(binaryFileData);
+    universal.setAudioContent(null);
 
     universals.push(universal);
   });
@@ -343,18 +337,10 @@ function universalFromJson(universalJson: any, imageBinaryFileData: string, audi
   universal.textContent = universalJson.text;
 
   // image
-  let imageFileName = DEFAULT_FILE_NAME;
-
-  if (universalJson.hasOwnProperty('imageFile')) imageFileName = decodeURIComponent(universalJson.imageFile);
-
-  universal.setImageContent(imageFileName, imageBinaryFileData);
+  universal.setImageContent(imageBinaryFileData);
 
   // audio
-  let audioFileName = DEFAULT_FILE_NAME;
-
-  if (universalJson.hasOwnProperty('audioFile')) audioFileName = decodeURIComponent(universalJson.audioFile);
-
-  universal.setAudioContent(audioFileName, audioBinaryFileData);
+  universal.setAudioContent(audioBinaryFileData);
   universal.loop = universalJson.loop;
   universal.volume = universalJson.volume;
 
@@ -365,23 +351,14 @@ function narratorFromJson(narratorJson, introAudioFile, returnAudioFile): Narrat
   const narrator = new Narrator();
 
   if (introAudioFile) {
-    let fileName = decodeURIComponent(narratorJson.intro);
-    let remoteFileName = '';
-    if (narratorJson.intro.hasOwnProperty('file')) fileName = narratorJson.intro.file;
-
     const volume = narratorJson.volume;
 
-    narrator.setIntroAudio(fileName, volume, introAudioFile, remoteFileName);
+    narrator.setIntroAudio(volume, introAudioFile);
   }
 
   if (returnAudioFile) {
-    let fileName = decodeURIComponent(narratorJson.reprise);
-    let remoteFileName = '';
-
-    if (narratorJson.reprise.hasOwnProperty('file')) fileName = narratorJson.reprise.file;
-
     //const volume = narratorJson.volume;
-    narrator.setReturnAudio(fileName, returnAudioFile, remoteFileName);
+    narrator.setReturnAudio(returnAudioFile);
   }
   return narrator;
 }

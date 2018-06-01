@@ -59,22 +59,22 @@ export class RoomEditor {
       .catch(error => this.eventBus.onModalMessage('Image loading error', error));
   }
 
-  private onBackgroundAudioLoad($event) {
-    this.getActiveRoom().setBackgroundAudio($event.file.name, DEFAULT_VOLUME, $event.binaryFileData);
+  public onBackgroundAudioLoad($event) {
+    this.getActiveRoom().setBackgroundAudio(DEFAULT_VOLUME, $event.binaryFileData);
   }
 
-  private onIntroAudioLoad($event) {
+  public onIntroAudioLoad($event) {
     this.largeIntroAudioFile = false;
 
     if ($event.file.size / 1024 / 1024 > 64) {
       this.largeIntroAudioFile = true;
     } else {
-      this.getNarratorIntroAudio().setIntroAudio($event.file.name, DEFAULT_VOLUME, $event.binaryFileData);
+      this.getNarratorIntroAudio().setIntroAudio(DEFAULT_VOLUME, $event.binaryFileData);
     }
   }
 
   private onReturnAudioLoad($event) {
-    this.getActiveRoom().getNarrator().setReturnAudio($event.file.name, $event.binaryFileData);
+    this.getActiveRoom().getNarrator().setReturnAudio($event.binaryFileData);
   }
 
   private getNarratorIntroAudio(): Narrator {
@@ -102,13 +102,13 @@ export class RoomEditor {
     return this.sceneInteractor.getRoomById(activeRoomId);
   }
 
-  private onNarratorIntroRecorded($event) {
-    this.getActiveRoom().getNarrator().setIntroAudio($event.fileName, DEFAULT_VOLUME, $event.dataUrl);
+  public onNarratorIntroRecorded($event) {
+    this.getActiveRoom().getNarrator().setIntroAudio(DEFAULT_VOLUME, $event.dataUrl);
 
   }
 
-  private onNarratorReturnRecorded($event) {
-    this.getActiveRoom().getNarrator().setReturnAudio($event.fileName, $event.dataUrl);
+  public onNarratorReturnRecorded($event) {
+    this.getActiveRoom().getNarrator().setReturnAudio($event.dataUrl);
   }
 
   private onReverbChange($event) {

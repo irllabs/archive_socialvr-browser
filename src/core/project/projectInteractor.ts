@@ -138,7 +138,7 @@ export class ProjectInteractor {
 
           return Promise.all([
             this.serializationService.zipHomeRoomImage(zip, homeRoom),
-            this.serializationService.zipProjectSoundtrack(zip, soundtrack).catch((e) => console.log(e)),
+            this.serializationService.zipProjectSoundtrack(zip, soundtrack),
           ]);
         }),
 

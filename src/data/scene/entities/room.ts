@@ -120,9 +120,8 @@ export class Room implements RoomProperty {
     return this.backgroundImage.getFileName() !== DEFAULT_FILE_NAME || this.backgroundIsVideo;
   }
 
-  setThumbnail(binaryFileData: any, remoteFileName = '') {
+  setThumbnail(binaryFileData: any) {
     this.thumbnail.setBinaryFileData(binaryFileData);
-    this.thumbnail.setRemoteFileName(remoteFileName);
   }
 
   getThumbnail(): Image {
@@ -166,10 +165,9 @@ export class Room implements RoomProperty {
     this.reverb = reverb;
   }
 
-  setBackgroundAudio(volume: number, dataUrl: any, remoteFileName = '') {
+  setBackgroundAudio(volume: number, dataUrl: any) {
     this.backgroundAudio.setBinaryFileData(dataUrl);
     this.setBackgroundAudioVolume(volume);
-    this.backgroundAudio.setRemoteFileName(remoteFileName);
   }
 
   removeBackgroundAudio() {
