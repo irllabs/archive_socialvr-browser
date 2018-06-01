@@ -52,11 +52,11 @@ export class DeserializationService {
   public deserializeProject(project: Project, quick: boolean = true) {
     const story = project.story;
     const rootRemoteFiles = this._extractRootRemoteFiles(story);
-    const homeRoomRemoteFiles = this._extractHomeRoomRemoteFiles(story);
+    const roomsRemoteFiles = quick ?  this._extractHomeRoomRemoteFiles(story) : this._extractRoomsRemoteFiles(story.rooms);
 
     return Promise.all([
       this.loadRemoteFiles(rootRemoteFiles),
-      this.loadRemoteFiles(homeRoomRemoteFiles),
+      this.loadRemoteFiles(roomsRemoteFiles),
     ])
       .then(([rootMediaFiles, homeRoomMediaFiles]) => {
         return this._deserializeProject(story, rootMediaFiles.concat(homeRoomMediaFiles), quick);
