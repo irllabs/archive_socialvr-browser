@@ -201,6 +201,7 @@ export class DeserializationService {
 
           universal.textContent = universalJson.text;
           universal.volume = universalJson.volume;
+          universal.loop = universalJson.loop;
 
           if (imageMediaFile) {
             universal.setImageMediaFile(imageMediaFile);
