@@ -1859,6 +1859,7 @@ var BasePlane = /** @class */function () {
         this.type = roomPropertyTypeService_1.RoomPropertyTypeService.getTypeString(this.prop);
         this.camera = camera;
         this.assetInteractor = assetInteractor;
+        this.cancelAnimation = function () {};
         this._renderIconsAndLabel();
         this.uuid = this.iconMesh.uuid;
     }
@@ -2040,7 +2041,12 @@ var BasePlane = /** @class */function () {
             setTimeout(resolve, _this._delayBeforeRunActivation);
         }).then(function () {
             if (_this._activating) {
-                return Promise.all([_this._animateActivate(), _this._animateIconActivate()]).then(function () {
+                return Promise.all([_this._animateActivate(), _this._animateIconActivate(), _this.setCancelAnimation(function () {
+                    _this._tweenActivate && _this._tweenActivate.stop();
+                    _this._tweenActivate = null;
+                    _this._tweenIconActivate && _this._tweenIconActivate.stop();
+                    _this._tweenIconActivate = null;
+                })]).then(function () {
                     if (_this._activating) {
                         _this.onActivated();
                     }
@@ -2066,6 +2072,12 @@ var BasePlane = /** @class */function () {
         if (!onlyPlaneAnimation) {
             promises.push(this._animateIconDeactivate(iconDuration));
         }
+        this.setCancelAnimation(function () {
+            if (!onlyPlaneAnimation) {
+                _this._tweenIconDeactivate && _this._tweenIconDeactivate.stop();
+                _this._tweenIconDeactivate = null;
+            }
+        });
         return Promise.all(promises).then(function () {
             _this.onDeactivated();
         });
@@ -2079,23 +2091,40 @@ var BasePlane = /** @class */function () {
             outDuration = constants_1.THREE_CONST.TWEEN_ICON_OUT;
         }
         return new Promise(function (resolve) {
-            _this.resetIconInAnimations();
+            _this.cancelAnimation();
             _this.labelMesh.visible = false;
             _this.previewIconMesh.visible = true;
-            _this._tweenPreviewIconIn = new TWEEN.Tween(_this.previewIconMesh.scale).to({
-                x: 1,
-                y: 1,
-                z: 1
-            }, inDuration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
-                TWEEN.remove(_this._tweenPreviewIconIn);
-            }).start();
-            _this._tweenIconOut = new TWEEN.Tween(_this.iconMesh.material).to({
-                opacity: 0
-            }, outDuration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
-                _this.iconMesh.visible = false;
-                TWEEN.remove(_this._tweenIconOut);
-                resolve();
-            }).start();
+            _this._tweenPreviewIconIn = new TWEEN.Tween(_this.previewIconMesh.scale);
+            _this._tweenIconOut = new TWEEN.Tween(_this.iconMesh.material);
+            _this.setCancelAnimation(function () {
+                _this._tweenPreviewIconIn && _this._tweenPreviewIconIn.stop();
+                _this._tweenPreviewIconIn = null;
+                _this._tweenIconOut && _this._tweenIconOut.stop();
+                _this._tweenIconOut = null;
+            });
+            var previewPromise = new Promise(function (resolve) {
+                _this._tweenPreviewIconIn.to({
+                    x: 1,
+                    y: 1,
+                    z: 1
+                }, inDuration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
+                    TWEEN.remove(_this._tweenPreviewIconIn);
+                    resolve();
+                }).start();
+            });
+            var iconPromise = new Promise(function (resolve) {
+                _this._tweenIconOut.to({
+                    opacity: 0
+                }, outDuration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
+                    _this.iconMesh.visible = false;
+                    TWEEN.remove(_this._tweenIconOut);
+                    resolve();
+                }).start();
+            });
+            return Promise.all([previewPromise, iconPromise]).then(function () {
+                _this.setCancelAnimation(function () {});
+                return resolve();
+            });
         });
     };
     BasePlane.prototype.hoverIn = function (outDuration, inDuration) {
@@ -2107,35 +2136,49 @@ var BasePlane = /** @class */function () {
             inDuration = constants_1.THREE_CONST.TWEEN_ICON_IN;
         }
         return new Promise(function (resolve) {
-            _this.resetIconOutAnimations();
-            _this._tweenPreviewIconOut = new TWEEN.Tween(_this.previewIconMesh.scale).to({
-                x: 0.001,
-                y: 0.001,
-                z: 0.001
-            }, outDuration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
-                _this.previewIconMesh.visible = false;
-                TWEEN.remove(_this._tweenPreviewIconOut);
-            }).start();
+            _this.cancelAnimation();
+            _this._tweenPreviewIconOut = new TWEEN.Tween(_this.previewIconMesh.scale);
+            _this._tweenIconIn = new TWEEN.Tween(_this.iconMesh.material);
+            _this.setCancelAnimation(function () {
+                _this._tweenPreviewIconOut && _this._tweenPreviewIconOut.stop();
+                _this._tweenPreviewIconOut = null;
+                _this._tweenIconIn && _this._tweenIconIn.stop();
+                _this._tweenIconIn = null;
+            });
+            var previewPromise = new Promise(function (resolve) {
+                _this._tweenPreviewIconOut.to({
+                    x: 0.001,
+                    y: 0.001,
+                    z: 0.001
+                }, outDuration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
+                    _this.previewIconMesh.visible = false;
+                    TWEEN.remove(_this._tweenPreviewIconOut);
+                    resolve();
+                }).start();
+            });
             _this.iconMesh.visible = true;
             _this.labelMesh.visible = true;
-            _this._tweenIconIn = new TWEEN.Tween(_this.iconMesh.material).to({
-                opacity: 1
-            }, inDuration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
-                TWEEN.remove(_this._tweenIconIn);
-                resolve();
-            }).start();
+            var iconPromise = new Promise(function (resolve) {
+                _this._tweenIconIn.to({
+                    opacity: 1
+                }, inDuration).easing(TWEEN.Easing.Linear.None).onComplete(function () {
+                    TWEEN.remove(_this._tweenIconIn);
+                    resolve();
+                }).start();
+            });
+            Promise.all([previewPromise, iconPromise]).then(resolve);
         });
     };
     BasePlane.prototype.hideDefault = function () {
         var _this = this;
-        this.hoverOut(0, 0).then(function () {
+        return this.hoverOut(0, 0).then(function () {
             _this.previewIconMesh.visible = false;
         });
     };
     BasePlane.prototype.hidePreview = function () {
         var _this = this;
         this.labelMesh.visible = false;
-        this.hoverIn(0, 0).then(function () {
+        return this.hoverIn(0, 0).then(function () {
             _this.previewIconMesh.visible = false;
             _this.iconMesh.visible = false;
             _this.labelMesh.visible = false;
@@ -2143,8 +2186,8 @@ var BasePlane = /** @class */function () {
     };
     BasePlane.prototype.hideActivate = function () {
         var _this = this;
-        this.resetActivateAnimation();
-        this.deactivate(true, 0).then(function () {
+        this.cancelAnimation();
+        return this.deactivate(true, 0).then(function () {
             _this.previewIconMesh.visible = false;
             _this.iconMesh.visible = false;
             _this.labelMesh.visible = false;
@@ -2152,43 +2195,52 @@ var BasePlane = /** @class */function () {
     };
     BasePlane.prototype.showDefault = function () {
         var _this = this;
-        this.hoverOut().then(function () {
+        return this.hoverOut().then(function () {
             _this.previewIconMesh.visible = true;
         });
     };
     BasePlane.prototype.showPreview = function () {
-        this.hoverIn(0, 0);
+        return this.hoverIn(0, 0);
     };
     BasePlane.prototype.showActivate = function () {
         var _this = this;
-        this.hoverIn(0, 0).then(function () {
+        return this.hoverIn(0, 0).then(function () {
             _this.activate();
         });
+    };
+    BasePlane.prototype.setCancelAnimation = function (handler) {
+        this.cancelAnimation = handler;
     };
     BasePlane.prototype.resetActivateAnimation = function () {
         if (this._tweenActivate) {
             this._tweenActivate.stop();
+            this._tweenActivate = null;
         }
     };
     BasePlane.prototype.resetDeactivateAnimation = function () {
         if (this._tweenDeactivate) {
             this._tweenDeactivate.stop();
+            this._tweenDeactivate = null;
         }
     };
     BasePlane.prototype.resetIconInAnimations = function () {
         if (this._tweenPreviewIconOut) {
             this._tweenPreviewIconOut.stop();
+            this._tweenPreviewIconOut = null;
         }
         if (this._tweenIconIn) {
             this._tweenIconIn.stop();
+            this._tweenIconIn = null;
         }
     };
     BasePlane.prototype.resetIconOutAnimations = function () {
         if (this._tweenPreviewIconIn) {
             this._tweenPreviewIconIn.stop();
+            this._tweenPreviewIconIn = null;
         }
         if (this._tweenIconOut) {
             this._tweenIconOut.stop();
+            this._tweenIconOut = null;
         }
     };
     BasePlane.SCALE = 0.001;
@@ -5605,6 +5657,7 @@ var DeserializationService = /** @class */function () {
                 });
                 universal.textContent = universalJson.text;
                 universal.volume = universalJson.volume;
+                universal.loop = universalJson.loop;
                 if (imageMediaFile) {
                     universal.setImageMediaFile(imageMediaFile);
                 }
@@ -58300,7 +58353,7 @@ var HotspotEntity = /** @class */function () {
         configurable: true
     });
     HotspotEntity.prototype._animateDefaultToPreview = function () {
-        this.plane.hoverIn();
+        return this.plane.hoverIn();
     };
     HotspotEntity.prototype._animateDefaultToActivate = function () {
         var _this = this;
@@ -58308,12 +58361,12 @@ var HotspotEntity = /** @class */function () {
             this.plane.resetDeactivateAnimation();
         }
         this._activateAnimation = true;
-        this.plane.activate().then(function () {
+        return this.plane.activate().then(function () {
             return _this._activateAnimation = false;
         });
     };
     HotspotEntity.prototype._animatePreviewToDefault = function () {
-        this.plane.hoverOut();
+        return this.plane.hoverOut();
     };
     HotspotEntity.prototype._animatePreviewToActivate = function () {
         var _this = this;
@@ -58321,7 +58374,7 @@ var HotspotEntity = /** @class */function () {
             this.plane.resetDeactivateAnimation();
         }
         this._activateAnimation = true;
-        this.plane.activate().then(function () {
+        return this.plane.activate().then(function () {
             return _this._activateAnimation = false;
         });
     };
@@ -58331,7 +58384,7 @@ var HotspotEntity = /** @class */function () {
             this.plane.resetActivateAnimation();
         }
         this._deactivateAnimation = true;
-        Promise.all([this.plane.hoverOut(), this.plane.deactivate(true)]).then(function () {
+        return Promise.all([this.plane.hoverOut(), this.plane.deactivate(true)]).then(function () {
             return _this._deactivateAnimation = false;
         });
     };
@@ -58341,27 +58394,27 @@ var HotspotEntity = /** @class */function () {
             this.plane.resetActivateAnimation();
         }
         this._deactivateAnimation = true;
-        this.plane.deactivate(false).then(function () {
+        return this.plane.deactivate(false).then(function () {
             return _this._deactivateAnimation = false;
         });
     };
     HotspotEntity.prototype._animateDefaultToHide = function () {
-        this.plane.hideDefault();
+        return this.plane.hideDefault();
     };
     HotspotEntity.prototype._animatePreviewToHide = function () {
-        this.plane.hidePreview();
+        return this.plane.hidePreview();
     };
     HotspotEntity.prototype._animateActivateToHide = function () {
-        this.plane.hideActivate();
+        return this.plane.hideActivate();
     };
     HotspotEntity.prototype._animateHideToDefault = function () {
-        this.plane.showDefault();
+        return this.plane.showDefault();
     };
     HotspotEntity.prototype._animateHideToPreview = function () {
-        this.plane.showPreview();
+        return this.plane.showPreview();
     };
     HotspotEntity.prototype._animateHideToActivate = function () {
-        this.plane.showActivate();
+        return this.plane.showActivate();
     };
     HotspotEntity.prototype.preUpdate = function (reticlePos) {
         var hotspotPosition = new THREE.Vector3();
