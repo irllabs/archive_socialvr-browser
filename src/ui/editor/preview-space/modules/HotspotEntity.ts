@@ -62,39 +62,39 @@ export default class HotspotEntity {
 
   }
 
-  private _animateDefaultToPreview(): void {
-    this.plane.hoverIn();
+  private _animateDefaultToPreview(): any {
+    return this.plane.hoverIn();
   }
 
-  private _animateDefaultToActivate(): void {
+  private _animateDefaultToActivate(): any {
     if (this._deactivateAnimation) {
       this.plane.resetDeactivateAnimation();
     }
 
     this._activateAnimation = true;
-    this.plane.activate().then(() => this._activateAnimation = false);
+    return this.plane.activate().then(() => this._activateAnimation = false);
   }
 
-  private _animatePreviewToDefault(): void {
-    this.plane.hoverOut();
+  private _animatePreviewToDefault(): any {
+    return this.plane.hoverOut();
   }
 
-  private _animatePreviewToActivate(): void {
+  private _animatePreviewToActivate(): any {
     if (this._deactivateAnimation) {
       this.plane.resetDeactivateAnimation();
     }
 
     this._activateAnimation = true;
-    this.plane.activate().then(() => this._activateAnimation = false);
+    return this.plane.activate().then(() => this._activateAnimation = false);
   }
 
-  private _animateActivateToDefault(): void {
+  private _animateActivateToDefault(): any {
     if (this._activateAnimation) {
       this.plane.resetActivateAnimation();
     }
 
     this._deactivateAnimation = true;
-    Promise
+    return Promise
       .all([
         this.plane.hoverOut(),
         this.plane.deactivate(true),
@@ -102,36 +102,37 @@ export default class HotspotEntity {
       .then(() => this._deactivateAnimation = false);
   }
 
-  private _animateActivateToPreview(): void {
+  private _animateActivateToPreview(): any {
     if (this._activateAnimation) {
       this.plane.resetActivateAnimation();
     }
 
     this._deactivateAnimation = true;
-    this.plane.deactivate(false).then(() => this._deactivateAnimation = false);}
-
-  private _animateDefaultToHide(): void {
-    this.plane.hideDefault();
+    return this.plane.deactivate(false).then(() => this._deactivateAnimation = false);
   }
 
-  private _animatePreviewToHide(): void {
-    this.plane.hidePreview();
+  private _animateDefaultToHide(): any {
+    return this.plane.hideDefault();
   }
 
-  private _animateActivateToHide(): void {
-    this.plane.hideActivate();
+  private _animatePreviewToHide(): any {
+    return this.plane.hidePreview();
   }
 
-  private _animateHideToDefault(): void {
-    this.plane.showDefault();
+  private _animateActivateToHide(): any {
+    return this.plane.hideActivate();
   }
 
-  private _animateHideToPreview(): void {
-    this.plane.showPreview();
+  private _animateHideToDefault(): any {
+    return this.plane.showDefault();
   }
 
-  private _animateHideToActivate(): void {
-    this.plane.showActivate();
+  private _animateHideToPreview(): any {
+    return this.plane.showPreview();
+  }
+
+  private _animateHideToActivate(): any {
+    return this.plane.showActivate();
   }
 
   public preUpdate(reticlePos) {

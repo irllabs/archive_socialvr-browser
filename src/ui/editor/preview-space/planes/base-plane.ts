@@ -45,6 +45,7 @@ export default class BasePlane {
   public iconMesh: THREE.Mesh;
   public previewIconMesh: THREE.Group;
   public labelMesh: THREE.Mesh;
+  public cancelAnimation: Function;
 
   public get hasPlaneMesh(): boolean {
     return this._hasPlaneMesh;
@@ -55,6 +56,7 @@ export default class BasePlane {
     this.type = RoomPropertyTypeService.getTypeString(this.prop);
     this.camera = camera;
     this.assetInteractor = assetInteractor;
+    this.cancelAnimation = () => {};
 
     this._renderIconsAndLabel();
     this.uuid = this.iconMesh.uuid;
@@ -260,7 +262,17 @@ export default class BasePlane {
       setTimeout(resolve, this._delayBeforeRunActivation);
     }).then(() => {
       if (this._activating) {
-        return Promise.all([this._animateActivate(), this._animateIconActivate()]).then(() => {
+        return Promise.all([
+          this._animateActivate(),
+          this._animateIconActivate(),
+
+          this.setCancelAnimation(() => {
+            this._tweenActivate && this._tweenActivate.stop();
+            this._tweenActivate = null;
+            this._tweenIconActivate && this._tweenIconActivate.stop();
+            this._tweenIconActivate = null;
+          })
+        ]).then(() => {
 
           if (this._activating) {
             this.onActivated();
@@ -283,6 +295,13 @@ export default class BasePlane {
       promises.push(this._animateIconDeactivate(iconDuration));
     }
 
+    this.setCancelAnimation(() => {
+      if (!onlyPlaneAnimation) {
+        this._tweenIconDeactivate && this._tweenIconDeactivate.stop();
+        this._tweenIconDeactivate = null;
+      }
+    });
+
     return Promise.all(promises).then(() => {
       this.onDeactivated();
     });
@@ -290,75 +309,115 @@ export default class BasePlane {
 
   public hoverOut(inDuration = THREE_CONST.TWEEN_ICON_IN, outDuration = THREE_CONST.TWEEN_ICON_OUT) {
     return new Promise((resolve) => {
-      this.resetIconInAnimations();
+      this.cancelAnimation();
       this.labelMesh.visible = false;
       this.previewIconMesh.visible = true;
-      this._tweenPreviewIconIn = new TWEEN.Tween(this.previewIconMesh.scale)
-        .to({
-          x: 1,
-          y: 1,
-          z: 1,
-        }, inDuration)
-        .easing(TWEEN.Easing.Linear.None)
-        .onComplete(() => {
-          TWEEN.remove(this._tweenPreviewIconIn);
-        })
-        .start();
+      this._tweenPreviewIconIn = new TWEEN.Tween(this.previewIconMesh.scale);
+      this._tweenIconOut = new TWEEN.Tween(this.iconMesh.material);
 
-      this._tweenIconOut = new TWEEN.Tween(this.iconMesh.material)
-        .to({
-          opacity: 0,
-        }, outDuration)
-        .easing(TWEEN.Easing.Linear.None)
-        .onComplete(() => {
-          this.iconMesh.visible = false;
-          TWEEN.remove(this._tweenIconOut);
-          resolve();
-        })
-        .start();
+      this.setCancelAnimation(() => {
+        this._tweenPreviewIconIn && this._tweenPreviewIconIn.stop();
+        this._tweenPreviewIconIn = null;
+
+        this._tweenIconOut && this._tweenIconOut.stop();
+        this._tweenIconOut = null;
+      });
+
+      const previewPromise = new Promise((resolve) => {
+        this._tweenPreviewIconIn
+          .to({
+            x: 1,
+            y: 1,
+            z: 1,
+          }, inDuration)
+          .easing(TWEEN.Easing.Linear.None)
+          .onComplete(() => {
+            TWEEN.remove(this._tweenPreviewIconIn);
+            resolve();
+          })
+          .start();
+      });
+
+      const iconPromise = new Promise((resolve) => {
+        this._tweenIconOut
+          .to({
+            opacity: 0,
+          }, outDuration)
+          .easing(TWEEN.Easing.Linear.None)
+          .onComplete(() => {
+            this.iconMesh.visible = false;
+            TWEEN.remove(this._tweenIconOut);
+            resolve();
+          })
+          .start();
+      });
+
+      return Promise.all([previewPromise, iconPromise]).then(() => {
+        this.setCancelAnimation(() => {});
+        return resolve();
+      });
     });
   }
 
   public hoverIn(outDuration = THREE_CONST.TWEEN_ICON_OUT, inDuration = THREE_CONST.TWEEN_ICON_IN) {
     return new Promise((resolve) => {
-      this.resetIconOutAnimations();
-      this._tweenPreviewIconOut = new TWEEN.Tween(this.previewIconMesh.scale)
-        .to({
-          x: 0.001,
-          y: 0.001,
-          z: 0.001,
-        }, outDuration)
-        .easing(TWEEN.Easing.Linear.None)
-        .onComplete(() => {
-          this.previewIconMesh.visible = false;
-          TWEEN.remove(this._tweenPreviewIconOut);
-        })
-        .start();
+      this.cancelAnimation();
+      this._tweenPreviewIconOut = new TWEEN.Tween(this.previewIconMesh.scale);
+      this._tweenIconIn = new TWEEN.Tween(this.iconMesh.material);
+
+      this.setCancelAnimation(() => {
+        this._tweenPreviewIconOut && this._tweenPreviewIconOut.stop();
+        this._tweenPreviewIconOut = null;
+
+        this._tweenIconIn && this._tweenIconIn.stop();
+        this._tweenIconIn = null;
+      });
+
+      const previewPromise = new Promise((resolve) => {
+        this._tweenPreviewIconOut
+          .to({
+            x: 0.001,
+            y: 0.001,
+            z: 0.001,
+          }, outDuration)
+          .easing(TWEEN.Easing.Linear.None)
+          .onComplete(() => {
+            this.previewIconMesh.visible = false;
+            TWEEN.remove(this._tweenPreviewIconOut);
+            resolve();
+          })
+          .start();
+      });
 
       this.iconMesh.visible = true;
       this.labelMesh.visible = true;
-      this._tweenIconIn = new TWEEN.Tween(this.iconMesh.material)
-        .to({
-          opacity: 1,
-        }, inDuration)
-        .easing(TWEEN.Easing.Linear.None)
-        .onComplete(() => {
-          TWEEN.remove(this._tweenIconIn);
-          resolve();
-        })
-        .start();
+
+      const iconPromise = new Promise((resolve) => {
+        this._tweenIconIn
+          .to({
+            opacity: 1,
+          }, inDuration)
+          .easing(TWEEN.Easing.Linear.None)
+          .onComplete(() => {
+            TWEEN.remove(this._tweenIconIn);
+            resolve();
+          })
+          .start();
+      });
+
+      Promise.all([previewPromise, iconPromise]).then(resolve);
     });
   }
 
   public hideDefault() {
-    this.hoverOut(0, 0).then(() => {
+    return this.hoverOut(0, 0).then(() => {
       this.previewIconMesh.visible = false;
     });
   }
 
   public hidePreview() {
     this.labelMesh.visible = false;
-    this.hoverIn(0, 0).then(() => {
+    return this.hoverIn(0, 0).then(() => {
       this.previewIconMesh.visible = false;
       this.iconMesh.visible = false;
       this.labelMesh.visible = false;
@@ -366,9 +425,9 @@ export default class BasePlane {
   }
 
   public hideActivate() {
-    this.resetActivateAnimation();
+    this.cancelAnimation();
 
-    this.deactivate(true, 0)
+    return this.deactivate(true, 0)
       .then(() => {
         this.previewIconMesh.visible = false;
         this.iconMesh.visible = false;
@@ -377,49 +436,59 @@ export default class BasePlane {
   }
 
   public showDefault() {
-    this.hoverOut().then(() => {
+    return this.hoverOut().then(() => {
       this.previewIconMesh.visible = true;
     });
   }
 
   public showPreview() {
-    this.hoverIn(0, 0);
+    return this.hoverIn(0, 0);
   }
 
   public showActivate() {
-    this.hoverIn(0, 0)
+    return this.hoverIn(0, 0)
       .then(() => {
         this.activate();
       });
   }
 
+  public setCancelAnimation(handler) {
+    this.cancelAnimation = handler;
+  }
+
   public resetActivateAnimation() {
     if (this._tweenActivate) {
       this._tweenActivate.stop();
+      this._tweenActivate = null;
     }
   }
 
   public resetDeactivateAnimation() {
     if (this._tweenDeactivate) {
       this._tweenDeactivate.stop();
+      this._tweenDeactivate = null;
     }
   }
 
   public resetIconInAnimations() {
     if (this._tweenPreviewIconOut) {
       this._tweenPreviewIconOut.stop();
+      this._tweenPreviewIconOut = null;
     }
     if (this._tweenIconIn) {
       this._tweenIconIn.stop();
+      this._tweenIconIn = null;
     }
   }
 
   public resetIconOutAnimations() {
     if (this._tweenPreviewIconIn) {
       this._tweenPreviewIconIn.stop();
+      this._tweenPreviewIconIn = null;
     }
     if (this._tweenIconOut) {
       this._tweenIconOut.stop();
+      this._tweenIconOut = null;
     }
   }
 }
