@@ -1,12 +1,13 @@
-import { Component, EventEmitter, NgZone, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone, Output, ViewChild } from '@angular/core';
 import { generateUniqueId } from 'data/util/uuid';
 
 import { AudioRecorderService } from 'ui/editor/util/audioRecorderService';
+import { RoomProperty } from '../../../../data/scene/interfaces/roomProperty';
 
 //this should really refer to colors inn our variables.scss file
 const backgroundColorOff = new Uint8Array([173, 0, 52]);   //i.e. $color-red-dark
 const backgroundColorOn = new Uint8Array([255, 53, 113]);  //i.e. $color-pink
-const MAX_RECORDING_TIME = 20000; //20 seconds
+const MAX_RECORDING_TIME = 20; //20 seconds
 
 @Component({
   selector: 'audio-recorder',
@@ -15,6 +16,7 @@ const MAX_RECORDING_TIME = 20000; //20 seconds
 })
 export class AudioRecorder {
 
+  @Input() maxRecordTime: number = MAX_RECORDING_TIME;
   @Output() onRecorded = new EventEmitter();
   @ViewChild('audioRecorder') audioRecorderButton;
 
@@ -58,7 +60,7 @@ export class AudioRecorder {
       if (this.isRecording) {
         this.stopRecording();
       }
-    }, MAX_RECORDING_TIME);
+    }, this.maxRecordTime * 1000);
   }
 
   private stopRecording() {

@@ -86,6 +86,7 @@
 
         <audio-recorder
           *ngIf="showAudioRecorder()"
+          [maxRecordTime]="30"
           (onRecorded)="onAudioRecorded($event)"
           class="universal-editor__record-button">
         </audio-recorder>
