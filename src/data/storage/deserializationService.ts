@@ -22,6 +22,7 @@ import {
   STORY_VERSION,
 } from 'ui/common/constants';
 import { FileLoaderUtil } from 'ui/editor/util/fileLoaderUtil';
+import { MetaDataInteractor } from '../../core/scene/projectMetaDataInteractor';
 import { DEFAULT_IMAGE_PATH, STORY_FILE_YAML, UINT8ARRAY } from '../../ui/common/constants';
 import { Project } from '../project/projectModel';
 import { MediaFile } from '../scene/entities/mediaFile';
@@ -45,6 +46,7 @@ export class DeserializationService {
     private fileLoaderUtil: FileLoaderUtil,
     private apiService: ApiService,
     private afStorage: AngularFireStorage,
+    private metaDataInteractor: MetaDataInteractor,
   ) {
     this._cachedStoryFile = {};
   }
@@ -53,6 +55,8 @@ export class DeserializationService {
     const story = project.story;
     const rootRemoteFiles = this._extractRootRemoteFiles(story);
     const roomsRemoteFiles = quick ?  this._extractHomeRoomRemoteFiles(story) : this._extractRoomsRemoteFiles(story.rooms);
+
+    this.metaDataInteractor.loadingProject(true);
 
     return Promise.all([
       this.loadRemoteFiles(rootRemoteFiles),

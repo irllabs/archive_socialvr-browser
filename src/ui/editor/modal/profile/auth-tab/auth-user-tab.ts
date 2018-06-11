@@ -56,26 +56,31 @@ export class AuthUserTab implements OnInit, OnDestroy {
   }
 
   public onLogOutClick() {
-    this.userInteractor.logOut();
+    this.metaDataInteractor.checkAndConfirmResetChanges().then(() => {
+      this.userInteractor.logOut();
+    }, () => {});
   }
 
   public openProject(project: Project) {
-    this.eventBus.onStartLoading();
-    this.projectInteractor.openProject(project)
-      .then(
-        () => {
-          //reset the current scene
-          this.sceneInteractor.setActiveRoomId(null);
-          this.eventBus.onSelectRoom(null, false);
-          this.metaDataInteractor.setIsReadOnly(false);
-          this.eventBus.onStopLoading();
-        },
-        (error) => {
-          console.error('error', error);
-          this.eventBus.onStopLoading();
-        },
-      );
-    this.router.navigateByUrl('/editor');
+    this.metaDataInteractor.checkAndConfirmResetChanges().then(() => {
+      this.eventBus.onStartLoading();
+      this.projectInteractor.openProject(project)
+        .then(
+          () => {
+            //reset the current scene
+            this.sceneInteractor.setActiveRoomId(null);
+            this.eventBus.onSelectRoom(null, false);
+            this.metaDataInteractor.setIsReadOnly(false);
+            this.eventBus.onStopLoading();
+            this.metaDataInteractor.loadingProject(false);
+          },
+          (error) => {
+            console.error('error', error);
+            this.eventBus.onStopLoading();
+          },
+        );
+      this.router.navigateByUrl('/editor');
+    }, () => {});
   }
 
   public downloadProject(project: Project) {
@@ -103,12 +108,14 @@ export class AuthUserTab implements OnInit, OnDestroy {
   }
 
   public openMultiView(projectId: number) {
-    console.log('onOpenMultiView');
-    const userId = this.userInteractor.getUserId();
-    const queryParams = {
-      multiview: `${userId}-${projectId}`,
-    };
-    this.router.navigate(['editor', 'preview'], { queryParams });
+    this.metaDataInteractor.checkAndConfirmResetChanges().then(() => {
+      console.log('onOpenMultiView');
+      const userId = this.userInteractor.getUserId();
+      const queryParams = {
+        multiview: `${userId}-${projectId}`,
+      };
+      this.router.navigate(['editor', 'preview'], { queryParams });
+    }, () => {});
   }
 
   private isWorkingOnSavedProject(): boolean {

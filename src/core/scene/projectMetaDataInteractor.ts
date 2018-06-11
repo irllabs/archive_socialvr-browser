@@ -1,11 +1,53 @@
 import { Injectable } from '@angular/core';
 
 import { RoomManager } from 'data/scene/roomManager';
+import { EventBus } from '../../ui/common/event-bus';
 
 @Injectable()
 export class MetaDataInteractor {
+  private _hasUnsavedChanges: boolean = false;
+  private _loading: boolean = false;
 
-  constructor(private roomManager: RoomManager) {
+  public get hasUnsavedChanges(): boolean {
+    return this._hasUnsavedChanges;
+  }
+
+  constructor(
+    private roomManager: RoomManager,
+    private eventBus: EventBus,
+  ) {
+  }
+
+  public loadingProject(isLoading) {
+    this._loading = isLoading;
+  }
+
+  public onProjectChanged() {
+    if (!this._loading) {
+      this._hasUnsavedChanges = true;
+    }
+  }
+
+  public onProjectSaved() {
+    this._hasUnsavedChanges = false;
+  }
+
+  public checkAndConfirmResetChanges() {
+    return new Promise((resolve, reject) => {
+      if (this.hasUnsavedChanges) {
+        this.eventBus.onModalMessage(
+          '',
+          'If you do not save your changes before opening a new story file, those changes will be lost.',
+          true,
+          // modal dismissed callback
+          reject,
+          // modal accepted callback
+          resolve,
+        );
+      } else {
+        resolve();
+      }
+    });
   }
 
   getProjectName(): string {

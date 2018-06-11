@@ -90,16 +90,9 @@ export class Story {
   }
 
   public onNewStoryClick($event) {
-    this.eventBus.onModalMessage(
-      '',
-      'If you do not save your changes before opening a new story file, those changes will be lost.',
-      true,
-      // modal dismissed callback
-      () => {
-      },
-      // modal accepted callback
-      () => {
-        this.router.navigate(['/editor', { outlets: { 'modal': 'upload' } }]);
+    this.metaDataInteractor.checkAndConfirmResetChanges().then(() => {
+      this.metaDataInteractor.loadingProject(true);
+      this.router.navigate(['/editor', { outlets: { 'modal': 'upload' } }]);
         if ($event.shiftKey) {
           this.eventBus.onOpenFileLoader('zip');
           return;
@@ -110,18 +103,20 @@ export class Story {
         this.projectInteractor.setProject(null);
         this.eventBus.onSelectRoom(null, false);
         this.metaDataInteractor.setIsReadOnly(false);
-      },
-    );
+        this.metaDataInteractor.loadingProject(false);
+    }, () => {});
   }
 
   public onOpenStoryLocallyClick(event) {
-    if (!this.userInteractor.isLoggedIn()) {
-      this.eventBus.onModalMessage('Error', 'You must be logged in to upload from .zip');
-      return;
-    }
+    this.metaDataInteractor.checkAndConfirmResetChanges().then(() => {
+      if (!this.userInteractor.isLoggedIn()) {
+        this.eventBus.onModalMessage('Error', 'You must be logged in to upload from .zip');
+        return;
+      }
 
-    this.eventBus.onOpenFileLoader('zip');
-    this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
+      this.eventBus.onOpenFileLoader('zip');
+      this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
+    }, () => {});
   }
 
   public onSaveStoryClick(event) {

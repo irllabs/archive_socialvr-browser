@@ -13,6 +13,7 @@ import { CombinedHotspotUtil } from 'ui/editor/util/combinedHotspotUtil';
 import { denormalizePosition, normalizeAbsolutePosition } from 'ui/editor/util/iconPositionUtil';
 import { PropertyRemovalService } from 'ui/editor/util/propertyRemovalService';
 import { RoomPropertyTypeService } from 'ui/editor/util/roomPropertyTypeService';
+import { MetaDataInteractor } from '../../../../../core/scene/projectMetaDataInteractor';
 
 const ICON_MAP = {
   universal: 'icon-add.png',
@@ -85,6 +86,7 @@ export class RoomIcon implements Hotspot {
     private combinedHotspotUtil: CombinedHotspotUtil,
     protected ngZone: NgZone,
     private element: ElementRef,
+    private metaDataInteractor: MetaDataInteractor
   ) {
   }
 
@@ -284,9 +286,12 @@ export class RoomIcon implements Hotspot {
 
   onNameChange($event) {
     this.roomProperty.setName($event.text);
+
     if (this.propertyIs('door')) {
       (this.roomProperty as Door).setNameIsCustom(true);
     }
+
+    this.metaDataInteractor.onProjectChanged();
   }
 
   propertyIs(propertyType: string): boolean {
@@ -324,6 +329,7 @@ export class RoomIcon implements Hotspot {
 
   setLocation(location: Vector2) {
     this.roomProperty.setLocation(location);
+    this.metaDataInteractor.onProjectChanged();
   }
 
 }

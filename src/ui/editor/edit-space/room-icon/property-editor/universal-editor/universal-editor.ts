@@ -4,6 +4,7 @@ import { resizeImage } from 'data/util/imageResizeService';
 import { DEFAULT_VOLUME } from 'ui/common/constants';
 import { EventBus } from 'ui/common/event-bus';
 import { browserCanRecordAudio } from 'ui/editor/util/audioRecorderService';
+import { MetaDataInteractor } from '../../../../../../core/scene/projectMetaDataInteractor';
 
 
 @Component({
@@ -55,7 +56,23 @@ export class UniversalEditor {
     }
   }
 
-  constructor(private eventBus: EventBus) {
+  public get textContent(): string {
+    return this.universalProperty.textContent;
+  }
+
+  public set textContent(value: string) {
+    this.universalProperty.textContent = value;
+    this._onChange();
+  }
+
+  constructor(
+    private eventBus: EventBus,
+    private projectMetaDataInteractor: MetaDataInteractor,
+    ) {
+  }
+
+  private _onChange() {
+    this.projectMetaDataInteractor.onProjectChanged();
   }
 
   public onChangeActiveTab(event, tab) {
@@ -69,7 +86,8 @@ export class UniversalEditor {
       .then((resizedImageData) => {
         this._originImage = null;
 
-        return this.universalProperty.setImageContent(resizedImageData);
+        this.universalProperty.setImageContent(resizedImageData);
+        this._onChange();
       })
       .catch(error => this.eventBus.onModalMessage('Image loading error', error));
   }
@@ -100,22 +118,29 @@ export class UniversalEditor {
     };
 
     image.src = this._originImage;
+    this._onChange();
   }
 
   public onAudioFileLoad($event) {
     this.universalProperty.setAudioContent($event.binaryFileData, DEFAULT_VOLUME);
+    this._onChange();
   }
 
   public onVolumeChange($event) {
-    this.universalProperty.volume = $event.currentTarget.volume;
+    if (this.universalProperty.volume !== $event.currentTarget.volume) {
+      this.universalProperty.volume = $event.currentTarget.volume;
+      this._onChange();
+    }
   }
 
   public onAudioRecorded($event) {
     this.universalProperty.setAudioContent($event.dataUrl, DEFAULT_VOLUME);
+    this._onChange();
   }
 
   public onLoopChange($event) {
     this.universalProperty.loop = $event.value;
+    this._onChange();
   }
 
   public getLoopState() {

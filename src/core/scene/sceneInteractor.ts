@@ -8,19 +8,20 @@ import { RoomProperty } from 'data/scene/interfaces/roomProperty';
 
 import { RoomManager } from 'data/scene/roomManager';
 import { PropertyBuilder } from 'data/scene/roomPropertyBuilder';
+import { MetaDataInteractor } from './projectMetaDataInteractor';
 
 @Injectable()
 export class SceneInteractor {
-
-  private activeRoomId: string;
+  private _activeRoomId: string;
 
   constructor(
     private roomManager: RoomManager,
     private propertyBuilder: PropertyBuilder,
     private assetManager: AssetManager,
+    private projectMetaDataInteractor: MetaDataInteractor,
   ) {
     if (!this.getRoomIds().length) {
-      this.addRoom();
+      this.addRoom(true);
     }
   }
 
@@ -40,13 +41,19 @@ export class SceneInteractor {
     return this.roomManager.getRoomById(roomId);
   }
 
-  addRoom(): string {
+  addRoom(silent = false): string {
     const numberOfRooms: number = this.roomManager.getRooms().size + 1;
     const roomName: string = `Room ${numberOfRooms}`;
     const room: Room = this.propertyBuilder.room(roomName);
+
     this.roomManager.addRoom(room);
-    this.activeRoomId = room.getId();
-    return this.activeRoomId;
+    this._activeRoomId = room.getId();
+
+    if (!silent) {
+      this.projectMetaDataInteractor.onProjectChanged();
+    }
+
+    return this._activeRoomId;
   }
 
   removeRoom(roomId: string) {
@@ -54,7 +61,7 @@ export class SceneInteractor {
       console.warn('user should not be allowed to remove last room');
       return;
     }
-    this.activeRoomId = null;
+    this._activeRoomId = null;
     this.roomManager.removeRoomById(roomId);
 
     //remove door references to deleted room
@@ -64,20 +71,22 @@ export class SceneInteractor {
         return aggregateList.concat(
           Array.from(doorSet).filter(door => door.getRoomId() === roomId),
         );
-      }, new Array<Door>())
+      }, [])
       .forEach(door => door.reset());
 
+    this.projectMetaDataInteractor.onProjectChanged();
   }
 
   getActiveRoomId(): string {
-    if (!this.activeRoomId) {
+    if (!this._activeRoomId) {
       return this.getRoomIds()[0];
     }
-    return this.activeRoomId;
+    return this._activeRoomId;
   }
 
   setActiveRoomId(roomId: string) {
-    this.activeRoomId = roomId;
+    this._activeRoomId = roomId;
+    this.projectMetaDataInteractor.onProjectChanged();
   }
 
   getRoomProperties(roomId: string): RoomProperty[] {
@@ -106,11 +115,14 @@ export class SceneInteractor {
 
     this.getRoomById(roomId).addUniversal(universal);
 
+    this.projectMetaDataInteractor.onProjectChanged();
+
     return universal;
   }
 
   removeUniversal(roomId: string, universal: Universal) {
     this.getRoomById(roomId).removeUniversal(universal);
+    this.projectMetaDataInteractor.onProjectChanged();
   }
 
   addDoor(roomId: string): Door {
@@ -124,11 +136,15 @@ export class SceneInteractor {
     }
 
     this.getRoomById(roomId).addDoor(door);
+
+    this.projectMetaDataInteractor.onProjectChanged();
+
     return door;
   }
 
   removeDoor(roomId: string, door: Door) {
     this.getRoomById(roomId).removeDoor(door);
+    this.projectMetaDataInteractor.onProjectChanged();
   }
 
   roomHasBackgroundImage(roomId: string): boolean {
@@ -145,6 +161,7 @@ export class SceneInteractor {
 
   setHomeRoomId(roomId: string) {
     this.roomManager.setHomeRoomId(roomId);
+    this.projectMetaDataInteractor.onProjectChanged();
   }
 
   resetRoomManager() {
@@ -165,6 +182,7 @@ export class SceneInteractor {
         return aggregateList.concat(doorsToRenamedRoom);
       }, new Array<Door>())
       .forEach(door => door.setName(name));
-  }
 
+    this.projectMetaDataInteractor.onProjectChanged();
+  }
 }

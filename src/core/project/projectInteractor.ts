@@ -19,6 +19,7 @@ import { fromPromise } from 'rxjs/observable/fromPromise';
 import { Audio } from '../../data/scene/entities/audio';
 import { MediaFile } from '../../data/scene/entities/mediaFile';
 import { Room } from '../../data/scene/entities/room';
+import { MetaDataInteractor } from '../scene/projectMetaDataInteractor';
 
 const JSZip = require('jszip');
 
@@ -49,6 +50,7 @@ export class ProjectInteractor {
     private userService: UserService,
     private afStore: AngularFirestore,
     private afStorage: AngularFireStorage,
+    private projectMetaDataInteractor: MetaDataInteractor,
   ) {
   }
 
@@ -256,6 +258,7 @@ export class ProjectInteractor {
         });
       })
       .then(() => {
+        this.projectMetaDataInteractor.onProjectSaved();
         return project;
       });
   }
