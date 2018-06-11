@@ -89,6 +89,7 @@ $right-buffer: $room-icon-size + 5px;
 .story-scroll__storymap-item {
   color: $color-grey-dark;
   font-size: $tiny-font-size;
+
   &:hover {
     color: $color-black;
   }

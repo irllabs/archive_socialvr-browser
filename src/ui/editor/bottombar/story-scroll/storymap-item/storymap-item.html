@@ -1,4 +1,6 @@
-<div class="storymap-item">
+<div
+  [ngClass]="{'loading': !roomProperty.isLoadedAssets}"
+  class="storymap-item">
 
   <div class="storymap-item__roomname">
     <text-input
@@ -28,11 +30,13 @@
   </div>
 
   <div class='storymap-item__thumbnailbox'>
+    <div class="loading-progress" *ngIf="!roomProperty.isLoadedAssets">
+      <span>{{roomProperty.loadingPercents}}%</span>
+    </div>
     <img
+      *ngIf="roomProperty.isLoadedAssets"
       [attr.src]="getBackgroundThumbnail()"
       class="storymap-item__thumbnail"
       [ngClass]="{'storymap-item__thumbnail--active': isActive}">
   </div>
-
-
 </div>

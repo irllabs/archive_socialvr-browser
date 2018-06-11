@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, NgZone, Output } from '@angular/core';
 import { SceneInteractor } from 'core/scene/sceneInteractor';
 
 import { Room } from 'data/scene/entities/room';
-import { RoomProperty } from 'data/scene/interfaces/roomProperty';
 
 import { PropertyRemovalService } from 'ui/editor/util/propertyRemovalService';
 import { RoomPropertyTypeService } from 'ui/editor/util/roomPropertyTypeService';
@@ -14,7 +13,7 @@ import { RoomPropertyTypeService } from 'ui/editor/util/roomPropertyTypeService'
 })
 export class StorymapItem {
 
-  @Input() roomProperty: RoomProperty;
+  @Input() roomProperty: Room;
   @Input() isActive: boolean;
   @Output() infoEvent = new EventEmitter();
   @Output() deleteEvent = new EventEmitter();

@@ -28,13 +28,22 @@ export class Room implements RoomProperty {
   private backgroundVideo: MediaFile = new MediaFile();
   private backgroundIsVideo = false;
   private _isLoadedAssets: boolean = true;
+  private _loadingPercents: string = '0';
 
   public get isLoadedAssets(): boolean {
     return this._isLoadedAssets;
   }
 
+  public get loadingPercents(): string {
+    return this._loadingPercents;
+  }
+
   public setAssetsLoadedState(isLoaded: boolean) {
     this._isLoadedAssets = isLoaded;
+  }
+
+  public setProgressLoading(percents: number): void {
+    this._loadingPercents = percents.toFixed(0);
   }
 
   getId(): string {

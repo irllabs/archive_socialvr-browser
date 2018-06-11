@@ -45,6 +45,7 @@ export class StoryScroll {
         observedData => {
           const propertyId: string = observedData.propertyId;
           const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
+
           this.activeProperty =
             this.sceneInteractor.getPropertyById(activeRoomId, propertyId) ||
             this.sceneInteractor.getRoomById(activeRoomId);
@@ -112,6 +113,12 @@ export class StoryScroll {
       return false;
     }
     return roomId === this.sceneInteractor.getActiveRoomId();
+  }
+
+  public roomIsLoaded(roomId: string): boolean {
+    const room: Room = this.sceneInteractor.getRoomById(roomId);
+
+    return room.isLoadedAssets;
   }
 
   public roomIsExpanded(roomId: string): boolean {

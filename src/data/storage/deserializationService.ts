@@ -468,8 +468,10 @@ export class DeserializationService {
     for (let i = 0; i < remoteMediaFilesByRoom.length; i++) {
       const { roomId, roomMediaFiles } = remoteMediaFilesByRoom[i];
       const room: Room = this.roomManager.getRoomById(roomId);
+      const filesCount = roomMediaFiles.length;
+      let filesLoaded = 0;
 
-      for (let j = 0; j < roomMediaFiles.length; j++) {
+      for (let j = 0; j < filesCount; j++) {
         const remoteFile: MediaFile = roomMediaFiles[j];
 
         await this.afStorage
@@ -480,10 +482,14 @@ export class DeserializationService {
           .then((blob) => this.fileLoaderUtil.getBinaryFileData(blob))
           .then((binaryData) => {
             remoteFile.setUploadedBinaryFileData(binaryData);
+            filesLoaded += 1;
+            room.setProgressLoading(100 * (filesLoaded / filesCount));
           })
           .catch((error) => {
             console.log('Error to load remote file:', remoteFile);
             console.log(error);
+            filesLoaded += 1;
+            room.setProgressLoading(100 * (filesLoaded / filesCount));
           });
       }
 

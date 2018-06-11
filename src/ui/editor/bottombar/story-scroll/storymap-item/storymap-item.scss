@@ -8,14 +8,13 @@
   align-items: center;
   width: 100%;
   cursor: pointer;
-  margin: 0px 0;
+  margin: 0;
+
   &:hover {
     .story-map-item__buttons {
       visibility: visible;
     }
-
   }
-
 }
 
 .story-map-item__buttons {
@@ -39,7 +38,7 @@
 
 .storymap-item__roomname {
   justify-content: center;
-  margin: 0px 0px 0px 0px;
+  margin: 0;
   transform: translate(0%, 40px);
   z-index: 1;
 }
@@ -67,6 +66,18 @@
   background-color: $color-grey-light;
   height: $room-icon-thumbnail-height;
   margin: 0 5px;
+
+  .loading-progress {
+    width: $room-icon-thumbnail-width;
+    height: $room-icon-thumbnail-height;
+    opacity: 0.5;
+    transition: opacity 0.25s ease-in-out;
+    text-align: center;
+
+    span {
+      line-height: $room-icon-thumbnail-height;
+    }
+  }
 }
 
 .storymap-item__thumbnail {

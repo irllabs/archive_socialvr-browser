@@ -40,7 +40,7 @@
         <storymap-item
           [roomProperty]="getRoomById(roomId)"
           [isActive]="roomIsSelected(roomId)"
-          (click)="onRoomSelect(roomId)"
+          (click)="roomIsLoaded(roomId) && onRoomSelect(roomId)"
           (infoEvent)="onInfoClick($event)"
           class="story-scroll__storymap-item">
         </storymap-item>
