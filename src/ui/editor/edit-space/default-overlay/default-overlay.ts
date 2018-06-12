@@ -80,7 +80,7 @@ export class DefaultOverlay {
     this.fileLoaderUtil.validateFileLoadEvent(file, 'image')
       .then(this.fileLoaderUtil.getBinaryFileData.bind(this.fileLoaderUtil))
       .then(fileData => resizeImage(fileData, 'backgroundImage'))
-      .then(resized => {
+      .then((resized) => {
         const roomId: string = this.sceneInteractor.getActiveRoomId();
         const room: Room = this.sceneInteractor.getRoomById(roomId);
 

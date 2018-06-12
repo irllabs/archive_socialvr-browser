@@ -81,6 +81,7 @@
         <file-loader
           (onFileLoad)="onAudioFileLoad($event)"
           [acceptedFileType]="'audio'"
+          [maxFileSize]="50"
           class="universal-editor__file-loader">
         </file-loader>
 

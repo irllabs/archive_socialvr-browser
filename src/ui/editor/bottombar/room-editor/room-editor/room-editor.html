@@ -16,7 +16,7 @@
   <file-loader
     *ngIf="!getBackgroundAudio().hasAsset()"
     [displayText]="'Add Room Background Audio'"
-
+    [maxFileSize]="50"
     (onFileLoad)="onBackgroundAudioLoad($event)"
     [acceptedFileType]="'audio'">
   </file-loader>
@@ -38,27 +38,13 @@
     class="room-editor__audio-player">
   </audio>
 
-  <!-- <div>
-    <p class="hotspot-inspector__label">Reverb</p>
-
-    <select
-      (change)="onReverbChange($event)"
-      class="hotspot-inspector__select room-editor__reverb-select">
-      <option
-        *ngFor="let reverb of reverbOptions"
-        [selected]="reverb === getActiveReverb()">
-          {{reverb}}
-      </option>
-    </select>
-
-  </div> -->
-
   <div class="hotspot-inspector_row">
     <div class="hotspot-inspector_row">
       <file-loader
         *ngIf="!getNarratorIntroAudioFile().hasAsset()"
         (onFileLoad)="onIntroAudioLoad($event)"
         [acceptedFileType]="'audio'"
+        [maxFileSize]="50"
         [displayText]="'Select a Room Narration Audio'"
 
         class="room-editor__audio-file-loader">
@@ -89,29 +75,4 @@
     (volumechange)="onNarrationVolumeChange($event)"
     class="room-editor__audio-player">
   </audio>
-
-  <!--  disabled by ali, at aparna's request
-  <div class="hotspot-inspector_row">
-    <div>
-      <p class="hotspot-inspector__label room-editor__audio-file-loader">Narration: Return</p>
-      <file-loader
-          (onFileLoad)="onReturnAudioLoad($event)"
-          [acceptedFileType]="'audio'"
-          class="room-editor__audio-file-loader">
-      </file-loader>
-    </div>
-    <audio-recorder
-      (onRecorded)="onNarratorReturnRecorded($event)"
-      class="audio-editor__record-button room-editor__audio-record-button">
-    </audio-recorder>
-  </div>
-  <audio
-    *ngIf="getNarratorReturnAudio().hasAsset()"
-    [attr.src]="getNarratorReturnAudio().getBackgroundImageBinaryData()"
-    type="audio/mp3"
-    controls="controls"
-    class="room-editor__audio-player room-editor__audio-record-button">
-  </audio>
-  -->
-
 </div>
