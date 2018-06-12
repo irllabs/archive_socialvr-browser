@@ -16,6 +16,14 @@ export class MetaDataInteractor {
     private roomManager: RoomManager,
     private eventBus: EventBus,
   ) {
+    window.addEventListener('beforeunload',  (e) => {
+      if (this.hasUnsavedChanges) {
+        const confirmationMessage = "You are about lose your work. Are you sure?";
+
+        e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
+        return confirmationMessage;
+      }
+    });
   }
 
   public loadingProject(isLoading) {
@@ -32,12 +40,12 @@ export class MetaDataInteractor {
     this._hasUnsavedChanges = false;
   }
 
-  public checkAndConfirmResetChanges() {
+  public checkAndConfirmResetChanges(msg = 'If you do not save your changes before opening a new story file, those changes will be lost.') {
     return new Promise((resolve, reject) => {
       if (this.hasUnsavedChanges) {
         this.eventBus.onModalMessage(
           '',
-          'If you do not save your changes before opening a new story file, those changes will be lost.',
+          msg,
           true,
           // modal dismissed callback
           reject,
