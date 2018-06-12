@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, NgZone, Output, ViewChild } from '@angu
 import { generateUniqueId } from 'data/util/uuid';
 
 import { AudioRecorderService } from 'ui/editor/util/audioRecorderService';
-import { RoomProperty } from '../../../../data/scene/interfaces/roomProperty';
 
 //this should really refer to colors inn our variables.scss file
 const backgroundColorOff = new Uint8Array([173, 0, 52]);   //i.e. $color-red-dark
@@ -22,6 +21,10 @@ export class AudioRecorder {
 
   private isRecording: boolean = false;
   private timeoutId: any;
+  private _timerId = null;
+
+  public showTimer: boolean = false;
+  public timerCounter: any = '';
 
   //private isAnimating: boolean = false;
 
@@ -44,11 +47,41 @@ export class AudioRecorder {
   }
 
   private onClick($event) {
-    this.isRecording ? this.stopRecording() : this.startRecording();
+    const start = !this.isRecording;
+    const cancelTimer = !!this._timerId;
+    this.clearTimer();
+
+    if (cancelTimer) {
+      $event.preventDefault();
+      return true;
+    } else if (start) {
+      this.timerCounter = 3;
+      this.showTimer = true;
+      this._timerId = setInterval(() => {
+        this.timerCounter -= 1;
+
+        if (this.timerCounter === 0) {
+          this.clearTimer();
+          this.startRecording();
+        }
+      }, 1000);
+    } else {
+      this.stopRecording();
+    }
+  }
+
+  private clearTimer() {
+    if (this._timerId) {
+      this.timerCounter = '';
+      clearInterval(this._timerId);
+      this.showTimer = false;
+      this._timerId = null;
+    }
   }
 
   private startRecording() {
     this.isRecording = true;
+
     this.audioRecorderService.startRecording()
       .then(resolve => {
         //this.isAnimating = true;

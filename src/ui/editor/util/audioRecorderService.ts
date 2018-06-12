@@ -17,6 +17,7 @@ export class AudioRecorderService {
 
   startRecording() {
     const audioContext = getAudioContext();
+
     return getMicAudioNode(audioContext)
       .then(audioNodes => {
         this.audioNodes = audioNodes;
