@@ -27,13 +27,14 @@
 }
 
 .storymap-item__button {
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 2px;
+  margin-right: 2px;
   background-color: transparent;
   background-size: 90%;
   background-repeat: no-repeat;
   width: $home-icon-width;
   height: $home-icon-height;
+  background-position-x: center;
 }
 
 .storymap-item__roomname {
@@ -41,6 +42,24 @@
   margin: 0;
   transform: translate(0%, 40px);
   z-index: 1;
+}
+
+.storymap-item__move-left {
+  background-image: url('assets/icons/arrow_left_filled.png');
+
+  &.disabled {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.storymap-item__move-right {
+  background-image: url('assets/icons/arrow_right_filled.png');
+
+  &.disabled {
+    visibility: hidden;
+    pointer-events: none;
+  }
 }
 
 .storymap-item__delete {

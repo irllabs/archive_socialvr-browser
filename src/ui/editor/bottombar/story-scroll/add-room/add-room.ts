@@ -7,8 +7,11 @@ import { EventBus } from 'ui/common/event-bus';
   selector: 'add-room',
   styleUrls: ['./add-room.scss'],
   templateUrl: './add-room.html',
+  inputs: ['hasSwapButtons'],
 })
 export class AddRoomButton {
+  public hasSwapButtons: boolean = false;
+
   constructor(
     private router: Router,
     private eventBus: EventBus,
@@ -16,7 +19,7 @@ export class AddRoomButton {
   ) {
   }
 
-  addRoom($event) {
+  addRoom() {
     if (!this.userInteractor.isLoggedIn()) {
       this.eventBus.onModalMessage('Error', 'You must be logged in to create more rooms');
       return;

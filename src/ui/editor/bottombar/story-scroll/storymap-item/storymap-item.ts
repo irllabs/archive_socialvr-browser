@@ -15,6 +15,10 @@ export class StorymapItem {
 
   @Input() roomProperty: Room;
   @Input() isActive: boolean;
+  @Input() roomId: string;
+  @Input() hasPrevRoom: boolean;
+  @Input() hasNextRoom: boolean;
+  @Output() moveRoom = new EventEmitter();
   @Output() infoEvent = new EventEmitter();
   @Output() deleteEvent = new EventEmitter();
 
@@ -42,6 +46,12 @@ export class StorymapItem {
 
   onInfoClick($event) {
     this.infoEvent.emit();
+  }
+
+  onMoveRoom(roomId, direction, enabled) {
+    if (enabled) {
+      this.moveRoom.emit({ roomId, direction });
+    }
   }
 
   getLabelText() {

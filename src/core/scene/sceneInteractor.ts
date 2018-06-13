@@ -32,6 +32,22 @@ export class SceneInteractor {
     return !hasRoomWithoutAssets;
   }
 
+  changeRoomPosition(room, position) {
+    console.log('changeRoomPosition', room, position);
+    const rooms = this.roomManager.getRooms();
+
+    this.roomManager.clearRooms();
+    rooms.delete(room);
+
+    const roomsArray = Array.from(rooms);
+
+    rooms.clear();
+
+    roomsArray.splice(position, 0, room);
+
+    roomsArray.forEach(room => this.roomManager.addRoom(room));
+  }
+
   getRoomIds(): string[] {
     return Array.from(this.roomManager.getRooms())
       .map(room => room.getId());
