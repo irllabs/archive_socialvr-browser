@@ -261,6 +261,18 @@ var SceneInteractor = /** @class */function () {
         });
         return !hasRoomWithoutAssets;
     };
+    SceneInteractor.prototype.changeRoomPosition = function (room, position) {
+        var _this = this;
+        var rooms = this.roomManager.getRooms();
+        this.roomManager.clearRooms();
+        rooms.delete(room);
+        var roomsArray = Array.from(rooms);
+        rooms.clear();
+        roomsArray.splice(position, 0, room);
+        roomsArray.forEach(function (room) {
+            return _this.roomManager.addRoom(room);
+        });
+    };
     SceneInteractor.prototype.getRoomIds = function () {
         return Array.from(this.roomManager.getRooms()).map(function (room) {
             return room.getId();
@@ -385,7 +397,7 @@ var SceneInteractor = /** @class */function () {
                 return door.getRoomId() === roomId && !door.hasCustomName();
             });
             return aggregateList.concat(doorsToRenamedRoom);
-        }, new Array()).forEach(function (door) {
+        }, []).forEach(function (door) {
             return door.setName(name);
         });
         this.projectMetaDataInteractor.onProjectChanged();
@@ -807,6 +819,7 @@ var fromPromise_1 = __webpack_require__(156);
 var audio_1 = __webpack_require__(99);
 var projectMetaDataInteractor_1 = __webpack_require__(25);
 var JSZip = __webpack_require__(159);
+var AUTOSAVE_PERIOD = 60 * 1000;
 var ProjectInteractor = /** @class */function () {
     function ProjectInteractor(deserializationService, serializationService, roomManager, apiService, projectService, assetManager, userService, afStore, afStorage, projectMetaDataInteractor) {
         this.deserializationService = deserializationService;
@@ -819,6 +832,7 @@ var ProjectInteractor = /** @class */function () {
         this.afStore = afStore;
         this.afStorage = afStorage;
         this.projectMetaDataInteractor = projectMetaDataInteractor;
+        this._saving = false;
     }
     Object.defineProperty(ProjectInteractor.prototype, "_projectsCollection", {
         get: function () {
@@ -843,6 +857,20 @@ var ProjectInteractor = /** @class */function () {
         configurable: true
     });
     ;
+    ProjectInteractor.prototype._restartAutosaver = function () {
+        var _this = this;
+        if (this._autoSaveTimer) {
+            clearInterval(this._autoSaveTimer);
+        }
+        this._autoSaveTimer = setInterval(function () {
+            _this._autoSave();
+        }, AUTOSAVE_PERIOD);
+    };
+    ProjectInteractor.prototype._autoSave = function () {
+        if (!this._saving && this.projectMetaDataInteractor.hasUnsavedChanges && this.projectService.isWorkingOnSavedProject()) {
+            this.updateProject(this.getProject());
+        }
+    };
     ProjectInteractor.prototype.getProjects = function () {
         return this._projects;
     };
@@ -966,7 +994,9 @@ var ProjectInteractor = /** @class */function () {
         return this.deserializationService.deserializeProject(project, quick).then(function (downloadRestAssets) {
             _this.assetManager.clearAssets();
             _this.projectService.setProject(project);
-            downloadRestAssets();
+            return downloadRestAssets().then(function () {
+                _this._restartAutosaver();
+            });
         });
     };
     ProjectInteractor.prototype._saveProject = function (project) {
@@ -989,6 +1019,7 @@ var ProjectInteractor = /** @class */function () {
             return mediaFile;
         });
         var story = this.serializationService.buildProjectJson();
+        this._saving = true;
         if (!project.userId) {
             project.userId = userId;
             project.user = userName;
@@ -1010,6 +1041,8 @@ var ProjectInteractor = /** @class */function () {
             });
         }).then(function () {
             _this.projectMetaDataInteractor.onProjectSaved();
+            _this._saving = false;
+            _this._restartAutosaver();
             return project;
         });
     };
@@ -2359,7 +2392,9 @@ var RoomManager = /** @class */function () {
         this.homeRoomId = '';
     };
     RoomManager.prototype.addRoom = function (room) {
-        this.rooms.add(room);
+        if (room) {
+            this.rooms.add(room);
+        }
     };
     RoomManager.prototype.getRoomById = function (roomId) {
         return Array.from(this.rooms).find(function (room) {
@@ -4365,8 +4400,8 @@ var AudioRecorderService = /** @class */function () {
     }
     AudioRecorderService.prototype.startRecording = function () {
         var _this = this;
-        var audioContext = audioContextProvider_1.getAudioContext();
-        return getMicAudioNode(audioContext).then(function (audioNodes) {
+        this.audioContext = audioContextProvider_1.getAudioContext();
+        return getMicAudioNode(this.audioContext).then(function (audioNodes) {
             _this.audioNodes = audioNodes;
             _this.frequencyDataArray = new Uint8Array(audioNodes.analyserNode.frequencyBinCount);
             _this.recorder = new Recorder(audioNodes.micNode);
@@ -4382,7 +4417,8 @@ var AudioRecorderService = /** @class */function () {
                     return audioTrack.stop();
                 });
                 _this.recorder.exportWAV(function (audioBlob) {
-                    resolve(_this.fileLoaderUtil.getBinaryFileData(audioBlob));
+                    var sampleRate = _this.audioContext.sampleRate;
+                    resolve(_this.fileLoaderUtil.getBinaryFileData(audioBlob.slice(0, -3 * sampleRate, audioBlob.type)));
                 });
             } catch (error) {
                 reject(error);
@@ -54670,6 +54706,7 @@ var TextInput = /** @class */function () {
         this.isRowItem = false;
         this.isActive = false;
         this.isRoomName = false;
+        this.isHotspotTitle = false;
         this.onTextChange = new core_1.EventEmitter();
     }
     TextInput.prototype.onModelChange = function ($event) {
@@ -54681,6 +54718,7 @@ var TextInput = /** @class */function () {
     __decorate([core_1.Input(), __metadata("design:type", Boolean)], TextInput.prototype, "isRowItem", void 0);
     __decorate([core_1.Input(), __metadata("design:type", Boolean)], TextInput.prototype, "isActive", void 0);
     __decorate([core_1.Input(), __metadata("design:type", Boolean)], TextInput.prototype, "isRoomName", void 0);
+    __decorate([core_1.Input(), __metadata("design:type", Boolean)], TextInput.prototype, "isHotspotTitle", void 0);
     __decorate([core_1.Input(), __metadata("design:type", String)], TextInput.prototype, "textModel", void 0);
     __decorate([core_1.Output(), __metadata("design:type", Object)], TextInput.prototype, "onTextChange", void 0);
     TextInput = __decorate([core_1.Component({
@@ -54696,13 +54734,13 @@ exports.TextInput = TextInput;
 /* 1108 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.text-input__input {\n  outline: none;\n  background: none;\n  border: none;\n  color: #888888;\n  font-size: 1em;\n  display: block;\n  border-bottom: 2px hidden #EEEEEE;\n  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);\n  transition: border-bottom 0.1s linear;\n  background: transparent; }\n  .text-input__input:focus {\n    outline: none;\n    border-bottom: 2px solid #EEEEEE; }\n\n.text-input__input--icon {\n  color: #FAFAFA;\n  border-bottom: 2px hidden #EEEEEE;\n  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);\n  text-align: center;\n  margin: 5px 0 0 0px; }\n\n.text-input__input-row {\n  width: 110px; }\n\n.text-input__input-row--active {\n  color: #FAFAFA; }\n\n.text-input__storymap--roomname {\n  text-align: center;\n  color: #FAFAFA;\n  width: 110px;\n  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6); }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.text-input__input {\n  outline: none;\n  border: none;\n  color: #888888;\n  font-size: 1em;\n  display: block;\n  border-bottom: 2px solid transparent;\n  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);\n  transition: border-bottom 0.1s linear;\n  background: transparent; }\n  .text-input__input:focus {\n    outline: none;\n    border-bottom: 2px solid #EEEEEE; }\n\n.text-input__input--icon {\n  color: #FAFAFA;\n  border-bottom: 2px solid transparent;\n  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);\n  text-align: center;\n  margin: 5px 0 0 0px; }\n\n.text-input__input-row {\n  width: 110px; }\n\n.text-input__input-row--active {\n  color: #FAFAFA; }\n\n.text-input__storymap--roomname {\n  text-align: center;\n  color: #FAFAFA;\n  width: 110px;\n  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6); }\n\n.text-input__input--title {\n  text-shadow: none; }\n"
 
 /***/ }),
 /* 1109 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"text-input\">\n\n  <input\n    type=\"text\"\n    [ngModel]=\"textModel\"\n    (ngModelChange)=\"onModelChange($event)\"\n    class=\"text-input__input\"\n    [ngClass]=\"{\n      'text-input__input--icon': isHotspot,\n      'text-input__input-row': isRowItem,\n      'text-input__input-row--active': isActive,\n      'text-input__storymap--roomname': isRoomName\n    }\">\n\n</div>\n"
+module.exports = "<div class=\"text-input\">\n\n  <input\n    type=\"text\"\n    [ngModel]=\"textModel\"\n    (ngModelChange)=\"onModelChange($event)\"\n    class=\"text-input__input\"\n    [ngClass]=\"{\n      'text-input__input--icon': isHotspot,\n      'text-input__input--title': isHotspotTitle,\n      'text-input__input-row': isRowItem,\n      'text-input__input-row--active': isActive,\n      'text-input__storymap--roomname': isRoomName\n    }\">\n\n</div>\n"
 
 /***/ }),
 /* 1110 */
@@ -56001,8 +56039,9 @@ var AddRoomButton = /** @class */function () {
         this.router = router;
         this.eventBus = eventBus;
         this.userInteractor = userInteractor;
+        this.hasSwapButtons = false;
     }
-    AddRoomButton.prototype.addRoom = function ($event) {
+    AddRoomButton.prototype.addRoom = function () {
         if (!this.userInteractor.isLoggedIn()) {
             this.eventBus.onModalMessage('Error', 'You must be logged in to create more rooms');
             return;
@@ -56022,7 +56061,7 @@ exports.AddRoomButton = AddRoomButton;
 /* 1145 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.add-room {\n  position: relative;\n  cursor: pointer;\n  margin-left: 5px; }\n\n.add-room__rect {\n  position: absolute;\n  opacity: 50%;\n  width: 60px;\n  height: 80px;\n  background-color: #FAFAFA;\n  top: -29px; }\n\n.add-room__plus {\n  transform: translate(10px, -8px); }\n\n.add-room__barh {\n  display: block;\n  position: absolute;\n  height: 4px;\n  width: 32px;\n  border-radius: 2px;\n  background-color: #888888;\n  left: 4px;\n  top: 18px;\n  transition: .15s ease-in-out;\n  transform: rotate(0deg); }\n\n.add-room__barv {\n  display: block;\n  position: absolute;\n  height: 4px;\n  width: 32px;\n  border-radius: 2px;\n  background-color: #888888;\n  left: 4px;\n  top: 18px;\n  transition: .15s ease-in-out;\n  transform: rotate(90deg); }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.add-room {\n  position: relative;\n  cursor: pointer;\n  margin-left: 5px;\n  margin-bottom: 5px; }\n\n.add-room__rect {\n  position: absolute;\n  width: 60px;\n  height: 80px;\n  background-color: #FAFAFA;\n  top: -29px; }\n\n.add-room__plus {\n  transform: translate(10px, -8px); }\n\n.add-room__barh {\n  display: block;\n  position: absolute;\n  height: 4px;\n  width: 32px;\n  border-radius: 2px;\n  background-color: #888888;\n  left: 4px;\n  top: 18px;\n  transition: .15s ease-in-out;\n  transform: rotate(0deg); }\n\n.add-room__barv {\n  display: block;\n  position: absolute;\n  height: 4px;\n  width: 32px;\n  border-radius: 2px;\n  background-color: #888888;\n  left: 4px;\n  top: 18px;\n  transition: .15s ease-in-out;\n  transform: rotate(90deg); }\n"
 
 /***/ }),
 /* 1146 */
@@ -56060,12 +56099,18 @@ var StoryScroll = /** @class */function () {
         this.metaDataInteractor = metaDataInteractor;
         this.eventBus = eventBus;
         this.slideshowBuilder = slideshowBuilder;
-        this.projectIsSelected = true;
         this.subscriptions = new Set();
         this.activeRoomIsExpanded = true;
         this.inspectorIsVisible = false;
         this.isOpen = false;
     }
+    Object.defineProperty(StoryScroll.prototype, "roomIds", {
+        get: function () {
+            return this.sceneInteractor.getRoomIds();
+        },
+        enumerable: true,
+        configurable: true
+    });
     StoryScroll.prototype.ngOnInit = function () {
         this.subscribeToEvents();
     };
@@ -56080,30 +56125,24 @@ var StoryScroll = /** @class */function () {
             var propertyId = observedData.propertyId;
             var activeRoomId = _this.sceneInteractor.getActiveRoomId();
             _this.activeProperty = _this.sceneInteractor.getPropertyById(activeRoomId, propertyId) || _this.sceneInteractor.getRoomById(activeRoomId);
-            _this.projectIsSelected = false;
             _this.activeRoomIsExpanded = true;
         }, function (error) {
             return console.log('error', error);
         });
-        var roomSubscription = this.eventBus.getObservable(event_bus_1.EventType.SELECT_ROOM).subscribe(function (observedData) {
+        var roomSubscription = this.eventBus.getObservable(event_bus_1.EventType.SELECT_ROOM).subscribe(function () {
             var activeRoomId = _this.sceneInteractor.getActiveRoomId();
             _this.activeProperty = _this.sceneInteractor.getRoomById(activeRoomId);
-            _this.projectIsSelected = false;
         }, function (error) {
             return console.log('error', error);
         });
         this.subscriptions.add(roomPropertySubscription);
         this.subscriptions.add(roomSubscription);
     };
-    StoryScroll.prototype.onProjectSelect = function () {
-        this.projectIsSelected = true;
+    StoryScroll.prototype.hasPrevRoomFor = function (roomId) {
+        return this.roomIds.indexOf(roomId) > 0;
     };
-    StoryScroll.prototype.getPropertyList = function () {
-        var activeRoomId = this.sceneInteractor.getActiveRoomId();
-        return this.sceneInteractor.getRoomProperties(activeRoomId);
-    };
-    StoryScroll.prototype.getRoomIdList = function () {
-        return this.sceneInteractor.getRoomIds();
+    StoryScroll.prototype.hasNextRoomFor = function (roomId) {
+        return this.roomIds.indexOf(roomId) < this.roomIds.length - 1;
     };
     StoryScroll.prototype.getRoomById = function (roomId) {
         return this.sceneInteractor.getRoomById(roomId);
@@ -56118,15 +56157,8 @@ var StoryScroll = /** @class */function () {
         this.sceneInteractor.setActiveRoomId(roomId);
         this.eventBus.onSelectRoom(roomId, false);
     };
-    StoryScroll.prototype.onPropertySelect = function (roomProperty) {
-        var propertyId = roomProperty && roomProperty.getId() || null;
-        this.eventBus.onSelectProperty(propertyId, false);
-    };
-    StoryScroll.prototype.propertyIsSelected = function (item) {
-        return item === this.activeProperty;
-    };
     StoryScroll.prototype.roomIsSelected = function (roomId) {
-        var numberOfRooms = this.sceneInteractor.getRoomIds().length;
+        var numberOfRooms = this.roomIds.length;
         if (numberOfRooms === 0) {
             return false;
         }
@@ -56153,7 +56185,7 @@ var StoryScroll = /** @class */function () {
             this.inspectorIsVisible = false;
         }
     };
-    StoryScroll.prototype.toggleOpen = function ($event) {
+    StoryScroll.prototype.toggleOpen = function () {
         this.isOpen = !this.isOpen;
     };
     StoryScroll.prototype.onFileLoad = function ($event) {
@@ -56175,7 +56207,14 @@ var StoryScroll = /** @class */function () {
             return _this.eventBus.onModalMessage('Image loading error', error);
         });
     };
-    StoryScroll.prototype.addSlideshow = function ($event) {
+    StoryScroll.prototype.onSwapRoom = function (_a) {
+        var roomId = _a.roomId,
+            direction = _a.direction;
+        var room = this.sceneInteractor.getRoomById(roomId);
+        var currentIndex = this.roomIds.indexOf(roomId);
+        this.sceneInteractor.changeRoomPosition(room, currentIndex + direction);
+    };
+    StoryScroll.prototype.addSlideShow = function ($event) {
         var _this = this;
         this.eventBus.onStartLoading();
         this.slideshowBuilder.build($event.files).then(function (resolve) {
@@ -56197,13 +56236,13 @@ exports.StoryScroll = StoryScroll;
 /* 1148 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.story-scroll {\n  position: absolute;\n  bottom: 0;\n  width: 70%;\n  left: 15%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-content: center;\n  transform: translateY(85px);\n  transition: transform 0.25s ease-in-out; }\n\n.stroy-scroll--open {\n  transform: translateY(0); }\n\n.story-scroll__toggle-button {\n  position: relative;\n  width: 100px;\n  height: 30px;\n  margin: auto auto -30px auto;\n  cursor: pointer; }\n\n.story-scroll__toggle-arrow {\n  display: block;\n  position: absolute;\n  height: 5px;\n  width: 30px;\n  margin: 1px;\n  background: #FAFAFA;\n  border-radius: 10px;\n  transition: transform 0.25s ease; }\n\n.story-scroll__toggle-arrow-left {\n  transform: rotate(-45deg);\n  left: 27%; }\n\n.story-scroll__toggle-arrow-left--open {\n  transform: rotate(45deg); }\n\n.story-scroll__toggle-arrow-right {\n  transform: rotate(45deg);\n  left: 45%; }\n\n.story-scroll__toggle-arrow-right--open {\n  transform: rotate(-45deg); }\n\n.story-scroll__room-editor {\n  justify-content: center;\n  align-content: center;\n  margin: auto; }\n\n.story-scroll__scroll {\n  background-color: #EEEEEE;\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  background: transparent;\n  max-width: 100%;\n  align-items: center; }\n\n.story-scroll__room-group {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  overflow-x: scroll;\n  overflow-y: hidden;\n  padding-left: 80px; }\n\n.story-scroll__room {\n  flex-direction: row;\n  margin-left: 0px; }\n\n.story-scroll__storymap-item {\n  color: #888888;\n  font-size: 0.8em; }\n  .story-scroll__storymap-item:hover {\n    color: #000; }\n\n.story-scroll__room-property-container {\n  max-height: 0;\n  overflow: hidden;\n  transition: max-height 0.1s;\n  margin-left: 10px; }\n\n.story-scroll__room-property-container--expanded {\n  max-height: 500px; }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.story-scroll {\n  position: absolute;\n  bottom: 0;\n  width: 70%;\n  left: 15%;\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-content: center;\n  transform: translateY(85px);\n  transition: transform 0.25s ease-in-out; }\n\n.stroy-scroll--open {\n  transform: translateY(0); }\n\n.story-scroll__toggle-button {\n  position: relative;\n  width: 100px;\n  height: 30px;\n  margin: auto auto -30px auto;\n  cursor: pointer; }\n\n.story-scroll__toggle-arrow {\n  display: block;\n  position: absolute;\n  height: 5px;\n  width: 30px;\n  margin: 1px;\n  background: #FAFAFA;\n  border-radius: 10px;\n  transition: transform 0.25s ease; }\n\n.story-scroll__toggle-arrow-left {\n  transform: rotate(-45deg);\n  left: 27%; }\n\n.story-scroll__toggle-arrow-left--open {\n  transform: rotate(45deg); }\n\n.story-scroll__toggle-arrow-right {\n  transform: rotate(45deg);\n  left: 45%; }\n\n.story-scroll__toggle-arrow-right--open {\n  transform: rotate(-45deg); }\n\n.story-scroll__room-editor {\n  justify-content: center;\n  align-content: center;\n  margin: auto; }\n\n.story-scroll__scroll {\n  background-color: #EEEEEE;\n  display: flex;\n  flex-direction: row;\n  justify-content: center;\n  background: transparent;\n  max-width: 100%;\n  align-items: center; }\n\n.story-scroll__room-group {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-start;\n  overflow-x: scroll;\n  overflow-y: hidden;\n  padding-left: 80px; }\n\n.story-scroll__room {\n  flex-direction: row;\n  margin-left: 0px; }\n\n.story-scroll__storymap-item {\n  color: #888888;\n  font-size: 0.8em; }\n  .story-scroll__storymap-item:hover {\n    color: #000; }\n\n.story-scroll__room-property-container {\n  max-height: 0;\n  overflow: hidden;\n  transition: max-height 0.1s;\n  margin-left: 10px; }\n\n.story-scroll__room-property-container--expanded {\n  max-height: 500px; }\n\n.toggle-room-actions {\n  padding: 2px 5px;\n  text-align: right; }\n  .toggle-room-actions .toggle-room-position {\n    position: relative;\n    left: 18px;\n    padding: 2px 10px;\n    line-height: 14px; }\n"
 
 /***/ }),
 /* 1149 */
 /***/ (function(module, exports) {
 
-module.exports = "<div\n  class=\"story-scroll\"\n  [ngClass]=\"{'stroy-scroll--open': isOpen}\">\n\n  <room-editor\n    *ngIf=\"inspectorIsVisible\"\n    (onOffClick)=\"onOffClick($event)\"\n    class=\"story-scroll__room-editor\">\n  </room-editor>\n\n  <div *ngIf=\"!inspectorIsVisible\">\n    <div\n      (click)=\"toggleOpen($event)\"\n      class=\"story-scroll__toggle-button\">\n      <span\n        class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-left\"\n        [ngClass]=\"{'story-scroll__toggle-arrow-left--open': isOpen}\">\n      </span>\n      <span\n        class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-right\"\n        [ngClass]=\"{'story-scroll__toggle-arrow-right--open': isOpen}\">\n      </span>\n    </div>\n  </div>\n\n\n  <div\n    droppable\n    [acceptedFileType]=\"'image'\"\n    [acceptMultpleFiles]=\"true\"\n    (onFileLoad)=\"addSlideshow($event)\"\n    class=\"story-scroll__scroll\">\n\n    <div class=\"story-scroll__room-group\">\n      <div\n        *ngFor=\"let roomId of getRoomIdList()\"\n        class=\"story-scroll__room\">\n\n        <!-- Room Label -->\n        <storymap-item\n          [roomProperty]=\"getRoomById(roomId)\"\n          [isActive]=\"roomIsSelected(roomId)\"\n          (click)=\"roomIsLoaded(roomId) && onRoomSelect(roomId)\"\n          (infoEvent)=\"onInfoClick($event)\"\n          class=\"story-scroll__storymap-item\">\n        </storymap-item>\n      </div>\n    </div>\n\n\n    <add-room></add-room>\n\n  </div>\n\n</div>\n"
+module.exports = "<div\n  class=\"story-scroll\"\n  [ngClass]=\"{'stroy-scroll--open': isOpen}\">\n\n  <room-editor\n    *ngIf=\"inspectorIsVisible\"\n    (onOffClick)=\"onOffClick()\"\n    class=\"story-scroll__room-editor\">\n  </room-editor>\n\n  <div *ngIf=\"!inspectorIsVisible\">\n    <div\n      (click)=\"toggleOpen()\"\n      class=\"story-scroll__toggle-button\">\n      <span\n        class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-left\"\n        [ngClass]=\"{'story-scroll__toggle-arrow-left--open': isOpen}\">\n      </span>\n      <span\n        class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-right\"\n        [ngClass]=\"{'story-scroll__toggle-arrow-right--open': isOpen}\">\n      </span>\n    </div>\n  </div>\n\n  <div\n    droppable\n    [acceptedFileType]=\"'image'\"\n    [acceptMultpleFiles]=\"true\"\n    (onFileLoad)=\"addSlideShow($event)\"\n    class=\"story-scroll__scroll\">\n\n    <div class=\"story-scroll__room-group\">\n      <div\n        *ngFor=\"let roomId of roomIds\"\n        class=\"story-scroll__room\">\n\n        <!-- Room Label -->\n        <storymap-item\n          [roomProperty]=\"getRoomById(roomId)\"\n          [isActive]=\"roomIsSelected(roomId)\"\n          [hasPrevRoom]=\"hasPrevRoomFor(roomId)\"\n          [hasNextRoom]=\"hasNextRoomFor(roomId)\"\n          [roomId]=\"roomId\"\n          (click)=\"roomIsLoaded(roomId) && onRoomSelect(roomId)\"\n          (infoEvent)=\"onInfoClick($event)\"\n          (moveRoom)=\"onSwapRoom($event)\"\n          class=\"story-scroll__storymap-item\">\n        </storymap-item>\n      </div>\n    </div>\n\n\n    <add-room></add-room>\n\n  </div>\n</div>\n"
 
 /***/ }),
 /* 1150 */
@@ -56233,6 +56272,7 @@ var StorymapItem = /** @class */function () {
         this.propertyRemovalService = propertyRemovalService;
         this.sceneInteractor = sceneInteractor;
         this.ngZone = ngZone;
+        this.moveRoom = new core_1.EventEmitter();
         this.infoEvent = new core_1.EventEmitter();
         this.deleteEvent = new core_1.EventEmitter();
         this.propertyIsRoom = false;
@@ -56249,6 +56289,11 @@ var StorymapItem = /** @class */function () {
     };
     StorymapItem.prototype.onInfoClick = function ($event) {
         this.infoEvent.emit();
+    };
+    StorymapItem.prototype.onMoveRoom = function (roomId, direction, enabled) {
+        if (enabled) {
+            this.moveRoom.emit({ roomId: roomId, direction: direction });
+        }
     };
     StorymapItem.prototype.getLabelText = function () {
         return this.roomProperty.getName();
@@ -56291,6 +56336,10 @@ var StorymapItem = /** @class */function () {
     };
     __decorate([core_1.Input(), __metadata("design:type", room_1.Room)], StorymapItem.prototype, "roomProperty", void 0);
     __decorate([core_1.Input(), __metadata("design:type", Boolean)], StorymapItem.prototype, "isActive", void 0);
+    __decorate([core_1.Input(), __metadata("design:type", String)], StorymapItem.prototype, "roomId", void 0);
+    __decorate([core_1.Input(), __metadata("design:type", Boolean)], StorymapItem.prototype, "hasPrevRoom", void 0);
+    __decorate([core_1.Input(), __metadata("design:type", Boolean)], StorymapItem.prototype, "hasNextRoom", void 0);
+    __decorate([core_1.Output(), __metadata("design:type", Object)], StorymapItem.prototype, "moveRoom", void 0);
     __decorate([core_1.Output(), __metadata("design:type", Object)], StorymapItem.prototype, "infoEvent", void 0);
     __decorate([core_1.Output(), __metadata("design:type", Object)], StorymapItem.prototype, "deleteEvent", void 0);
     StorymapItem = __decorate([core_1.Component({
@@ -56306,13 +56355,13 @@ exports.StorymapItem = StorymapItem;
 /* 1151 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.storymap-item {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: flex-start;\n  align-items: center;\n  width: 100%;\n  cursor: pointer;\n  margin: 0; }\n  .storymap-item:hover .story-map-item__buttons {\n    visibility: visible; }\n\n.story-map-item__buttons {\n  display: flex;\n  flex-direction: row;\n  transform: translate(0%, 80px);\n  visibility: hidden;\n  z-index: 1; }\n\n.storymap-item__button {\n  margin-left: 5px;\n  margin-right: 5px;\n  background-color: transparent;\n  background-size: 90%;\n  background-repeat: no-repeat;\n  width: 21px;\n  height: 21px; }\n\n.storymap-item__roomname {\n  justify-content: center;\n  margin: 0;\n  transform: translate(0%, 40px);\n  z-index: 1; }\n\n.storymap-item__delete {\n  background-image: url(\"assets/icons/delete_filled.png\"); }\n\n.storymap-item__info {\n  background-image: url(\"assets/icons/info_filled.png\"); }\n\n.storymap-item__home-icon {\n  background-image: url(\"assets/icons/home.png\"); }\n  .storymap-item__home-icon:hover {\n    background-image: url(\"assets/icons/home_filled.png\"); }\n\n.storymap-item__home-icon--active {\n  background-image: url(\"assets/icons/home_filled.png\"); }\n\n.storymap-item__thumbnailbox {\n  background-color: #EEEEEE;\n  height: 80px;\n  margin: 0 5px; }\n  .storymap-item__thumbnailbox .loading-progress {\n    width: 120px;\n    height: 80px;\n    opacity: 0.5;\n    transition: opacity 0.25s ease-in-out;\n    text-align: center; }\n    .storymap-item__thumbnailbox .loading-progress span {\n      line-height: 80px; }\n\n.storymap-item__thumbnail {\n  width: 120px;\n  height: 80px;\n  opacity: 0.5;\n  transition: opacity 0.25s ease-in-out; }\n\n.storymap-item__thumbnail--active {\n  opacity: 1; }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.storymap-item {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: flex-start;\n  align-items: center;\n  width: 100%;\n  cursor: pointer;\n  margin: 0; }\n  .storymap-item:hover .story-map-item__buttons {\n    visibility: visible; }\n\n.story-map-item__buttons {\n  display: flex;\n  flex-direction: row;\n  transform: translate(0%, 80px);\n  visibility: hidden;\n  z-index: 1; }\n\n.storymap-item__button {\n  margin-left: 2px;\n  margin-right: 2px;\n  background-color: transparent;\n  background-size: 90%;\n  background-repeat: no-repeat;\n  width: 21px;\n  height: 21px;\n  background-position-x: center; }\n\n.storymap-item__roomname {\n  justify-content: center;\n  margin: 0;\n  transform: translate(0%, 40px);\n  z-index: 1; }\n\n.storymap-item__move-left {\n  background-image: url(\"assets/icons/arrow_left_filled.png\"); }\n  .storymap-item__move-left.disabled {\n    visibility: hidden;\n    pointer-events: none; }\n\n.storymap-item__move-right {\n  background-image: url(\"assets/icons/arrow_right_filled.png\"); }\n  .storymap-item__move-right.disabled {\n    visibility: hidden;\n    pointer-events: none; }\n\n.storymap-item__delete {\n  background-image: url(\"assets/icons/delete_filled.png\"); }\n\n.storymap-item__info {\n  background-image: url(\"assets/icons/info_filled.png\"); }\n\n.storymap-item__home-icon {\n  background-image: url(\"assets/icons/home.png\"); }\n  .storymap-item__home-icon:hover {\n    background-image: url(\"assets/icons/home_filled.png\"); }\n\n.storymap-item__home-icon--active {\n  background-image: url(\"assets/icons/home_filled.png\"); }\n\n.storymap-item__thumbnailbox {\n  background-color: #EEEEEE;\n  height: 80px;\n  margin: 0 5px; }\n  .storymap-item__thumbnailbox .loading-progress {\n    width: 120px;\n    height: 80px;\n    opacity: 0.5;\n    transition: opacity 0.25s ease-in-out;\n    text-align: center; }\n    .storymap-item__thumbnailbox .loading-progress span {\n      line-height: 80px; }\n\n.storymap-item__thumbnail {\n  width: 120px;\n  height: 80px;\n  opacity: 0.5;\n  transition: opacity 0.25s ease-in-out; }\n\n.storymap-item__thumbnail--active {\n  opacity: 1; }\n"
 
 /***/ }),
 /* 1152 */
 /***/ (function(module, exports) {
 
-module.exports = "<div\n  [ngClass]=\"{'loading': !roomProperty.isLoadedAssets}\"\n  class=\"storymap-item\">\n\n  <div class=\"storymap-item__roomname\">\n    <text-input\n      [textModel]=\"getName()\"\n      [isRoomName]=\"true\"\n      (onTextChange)=\"onNameChange($event)\">\n    </text-input>\n  </div>\n\n  <div class=\"story-map-item__buttons\">\n    <div\n      class=\"storymap-item__button storymap-item__delete\"\n      (click)=\"onDeleteClick($event)\">\n    </div>\n\n    <div\n      class=\"storymap-item__button storymap-item__info\"\n      (click)=\"onInfoClick($event)\">\n    </div>\n\n    <div\n      (click)=\"setAsHomeRoom()\"\n      class=\"storymap-item__button storymap-item__home-icon\"\n      [ngClass]=\"{'storymap-item__home-icon--active': isHomeRoom()}\">\n    </div>\n\n  </div>\n\n  <div class='storymap-item__thumbnailbox'>\n    <div class=\"loading-progress\" *ngIf=\"!roomProperty.isLoadedAssets\">\n      <span>{{roomProperty.loadingPercents}}%</span>\n    </div>\n    <img\n      *ngIf=\"roomProperty.isLoadedAssets\"\n      [attr.src]=\"getBackgroundThumbnail()\"\n      class=\"storymap-item__thumbnail\"\n      [ngClass]=\"{'storymap-item__thumbnail--active': isActive}\">\n  </div>\n</div>\n"
+module.exports = "<div\n  [ngClass]=\"{'loading': !roomProperty.isLoadedAssets}\"\n  class=\"storymap-item\">\n\n  <div class=\"storymap-item__roomname\">\n    <text-input\n      [textModel]=\"getName()\"\n      [isRoomName]=\"true\"\n      (onTextChange)=\"onNameChange($event)\">\n    </text-input>\n  </div>\n\n  <div class=\"story-map-item__buttons\">\n    <div\n      class=\"storymap-item__button storymap-item__move-left\"\n      [ngClass]=\"{'disabled': !hasPrevRoom}\"\n      (click)=\"onMoveRoom(roomId, -1, hasPrevRoom)\">\n    </div>\n\n    <div\n      class=\"storymap-item__button storymap-item__delete\"\n      (click)=\"onDeleteClick($event)\">\n    </div>\n\n    <div\n      class=\"storymap-item__button storymap-item__info\"\n      (click)=\"onInfoClick($event)\">\n    </div>\n\n    <div\n      (click)=\"setAsHomeRoom()\"\n      class=\"storymap-item__button storymap-item__home-icon\"\n      [ngClass]=\"{'storymap-item__home-icon--active': isHomeRoom()}\">\n    </div>\n\n    <div\n      class=\"storymap-item__button storymap-item__move-right\"\n      [ngClass]=\"{'disabled': !hasNextRoom}\"\n      (click)=\"onMoveRoom(roomId, 1, hasNextRoom)\">\n    </div>\n\n  </div>\n\n  <div class='storymap-item__thumbnailbox'>\n    <div class=\"loading-progress\" *ngIf=\"!roomProperty.isLoadedAssets\">\n      <span>{{roomProperty.loadingPercents}}%</span>\n    </div>\n    <img\n      *ngIf=\"roomProperty.isLoadedAssets\"\n      [attr.src]=\"getBackgroundThumbnail()\"\n      class=\"storymap-item__thumbnail\"\n      [ngClass]=\"{'storymap-item__thumbnail--active': isActive}\">\n  </div>\n</div>\n"
 
 /***/ }),
 /* 1153 */
@@ -57067,6 +57116,10 @@ var UniversalEditor = /** @class */function () {
     UniversalEditor.prototype._onChange = function () {
         this.projectMetaDataInteractor.onProjectChanged();
     };
+    UniversalEditor.prototype.onNameChange = function ($event) {
+        this.universalProperty.setName($event.text);
+        this._onChange();
+    };
     UniversalEditor.prototype.onChangeActiveTab = function (event, tab) {
         if (event.target.checked) {
             this._activeTab = tab;
@@ -57178,7 +57231,7 @@ module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserr
 /* 1179 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"universal-editor\">\n  <h2 class=\"hotspot-inspector__label\">\n    Hotspot Tool\n  </h2>\n\n  <div class=\"tab-container\">\n    <div class=\"tabs\">\n      <input id=\"tab-universal-image\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.IMAGE)\"\n             [checked]=\"activeTab === TABS.IMAGE\">\n      <label for=\"tab-universal-image\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__image\"></div>\n        Image\n      </label>\n\n      <input id=\"tab-universal-text\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.TEXT)\"\n             [checked]=\"activeTab === TABS.TEXT\">\n      <label for=\"tab-universal-text\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__text\"></div>\n        Text\n      </label>\n\n      <input id=\"tab-universal-audio\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.AUDIO)\"\n             [checked]=\"activeTab === TABS.AUDIO\">\n      <label for=\"tab-universal-audio\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__audio\"></div>\n        Audio\n      </label>\n    </div>\n\n    <section id=\"content-universal-image\" [ngClass]=\"{'active': activeTab === TABS.IMAGE}\" droppable\n             (onFileLoad)=\"onImageFileLoad($event)\" [acceptedFileType]=\"'image'\">\n      <file-loader\n        (onFileLoad)=\"onImageFileLoad($event)\"\n        [acceptedFileType]=\"'image'\"\n        class=\"universal-editor__file-loader\">\n      </file-loader>\n\n      <div class=\"universal-editor__image-wrapper\">\n        <img *ngIf=\"hasImageContent()\"\n             [attr.src]=\"universalProperty.imageContent.getBinaryFileData()\"\n             class=\"universal-editor__image-display\">\n      </div>\n\n      <div *ngIf=\"hasImageContent()\" class=\"universal-editor__image-rotate\">\n        <button type=\"button\" (click)=\"onRotateImage()\">\n          <img src=\"assets/icons/rotate-icon-default.png\" alt=\"Rotate\" class=\"default\">\n          <img src=\"assets/icons/rotate-icon-hover-active.png\" alt=\"Rotate\" class=\"active\">\n        </button>\n      </div>\n    </section>\n\n    <section id=\"content-universal-text\" [ngClass]=\"{'active': activeTab === TABS.TEXT}\">\n      <p class=\"hotspot-inspector__label\">\n        Enter Text:\n      </p>\n      <textarea\n        maxlength=\"245\"\n        name=\"textarea\"\n        class=\"universal-editor__text-area\"\n        [(ngModel)]=\"textContent\">\n      </textarea>\n\n      <p class=\"universal-editor__text-chars-counter\">{{245 - (universalProperty.textContent &&\n        universalProperty.textContent.length || 0)}} characters left</p>\n    </section>\n\n    <section id=\"content-universal-audio\" [ngClass]=\"{'active': activeTab === TABS.AUDIO}\" droppable\n             (onFileLoad)=\"onAudioFileLoad($event)\" [acceptedFileType]=\"'audio'\">\n      <div>\n        <p class=\"hotspot-inspector__label play-loop-label\">\n          Play loop\n        </p>\n\n        <checkbox\n          [initialValue]=\"getLoopState()\"\n          (changeEmitter)=\"onLoopChange($event)\">\n        </checkbox>\n      </div>\n\n      <div class=\"hotspot-inspector_row\">\n        <file-loader\n          (onFileLoad)=\"onAudioFileLoad($event)\"\n          [acceptedFileType]=\"'audio'\"\n          [maxFileSize]=\"50\"\n          class=\"universal-editor__file-loader\">\n        </file-loader>\n\n        <audio-recorder\n          *ngIf=\"showAudioRecorder()\"\n          [maxRecordTime]=\"30\"\n          (onRecorded)=\"onAudioRecorded($event)\"\n          class=\"universal-editor__record-button\">\n        </audio-recorder>\n      </div>\n\n      <audio\n        *ngIf=\"hasAudioContent()\"\n        [attr.src]=\"universalProperty.audioContent.getBinaryFileData()\"\n        type=\"audio/mp3\"\n        controls=\"controls\"\n        [loop]=\"getLoopState()\"\n        [volume]=\"universalProperty.volume\"\n        (volumechange)=\"onVolumeChange($event)\"\n        class=\"universal-editor__audio-player\">\n      </audio>\n    </section>\n  </div>\n\n  <div\n    class=\"property-editor__delete-button\"\n    (click)=\"onDeleteTabData()\">\n    Delete {{ activeTabName }}\n  </div>\n</div>\n"
+module.exports = "<div class=\"universal-editor\">\n  <h2 class=\"hotspot-inspector__label\">\n    Hotspot Tool\n  </h2>\n\n  <div class=\"hotspot-inspector__title\">\n    <text-input\n      [textModel]=\"universalProperty.getName()\"\n      [isHotspotTitle]=\"true\"\n      (onTextChange)=\"onNameChange($event)\">\n    </text-input>\n  </div>\n\n  <br>\n\n  <div class=\"tab-container\">\n    <div class=\"tabs\">\n      <input id=\"tab-universal-image\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.IMAGE)\"\n             [checked]=\"activeTab === TABS.IMAGE\">\n      <label for=\"tab-universal-image\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__image\"></div>\n        Image\n      </label>\n\n      <input id=\"tab-universal-text\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.TEXT)\"\n             [checked]=\"activeTab === TABS.TEXT\">\n      <label for=\"tab-universal-text\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__text\"></div>\n        Text\n      </label>\n\n      <input id=\"tab-universal-audio\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.AUDIO)\"\n             [checked]=\"activeTab === TABS.AUDIO\">\n      <label for=\"tab-universal-audio\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__audio\"></div>\n        Audio\n      </label>\n    </div>\n\n    <section id=\"content-universal-image\" [ngClass]=\"{'active': activeTab === TABS.IMAGE}\" droppable\n             (onFileLoad)=\"onImageFileLoad($event)\" [acceptedFileType]=\"'image'\">\n      <file-loader\n        (onFileLoad)=\"onImageFileLoad($event)\"\n        [acceptedFileType]=\"'image'\"\n        class=\"universal-editor__file-loader\">\n      </file-loader>\n\n      <div class=\"universal-editor__image-wrapper\">\n        <img *ngIf=\"hasImageContent()\"\n             [attr.src]=\"universalProperty.imageContent.getBinaryFileData()\"\n             class=\"universal-editor__image-display\">\n      </div>\n\n      <div *ngIf=\"hasImageContent()\" class=\"universal-editor__image-rotate\">\n        <button type=\"button\" (click)=\"onRotateImage()\">\n          <img src=\"assets/icons/rotate-icon-default.png\" alt=\"Rotate\" class=\"default\">\n          <img src=\"assets/icons/rotate-icon-hover-active.png\" alt=\"Rotate\" class=\"active\">\n        </button>\n      </div>\n    </section>\n\n    <section id=\"content-universal-text\" [ngClass]=\"{'active': activeTab === TABS.TEXT}\">\n      <p class=\"hotspot-inspector__label\">\n        Enter Text:\n      </p>\n      <textarea\n        maxlength=\"245\"\n        name=\"textarea\"\n        class=\"universal-editor__text-area\"\n        [(ngModel)]=\"textContent\">\n      </textarea>\n\n      <p class=\"universal-editor__text-chars-counter\">{{245 - (universalProperty.textContent &&\n        universalProperty.textContent.length || 0)}} characters left</p>\n    </section>\n\n    <section id=\"content-universal-audio\" [ngClass]=\"{'active': activeTab === TABS.AUDIO}\" droppable\n             (onFileLoad)=\"onAudioFileLoad($event)\" [acceptedFileType]=\"'audio'\">\n      <div>\n        <p class=\"hotspot-inspector__label play-loop-label\">\n          Play loop\n        </p>\n\n        <checkbox\n          [initialValue]=\"getLoopState()\"\n          (changeEmitter)=\"onLoopChange($event)\">\n        </checkbox>\n      </div>\n\n      <div class=\"hotspot-inspector_row\">\n        <file-loader\n          (onFileLoad)=\"onAudioFileLoad($event)\"\n          [acceptedFileType]=\"'audio'\"\n          [maxFileSize]=\"50\"\n          class=\"universal-editor__file-loader\">\n        </file-loader>\n\n        <audio-recorder\n          *ngIf=\"showAudioRecorder()\"\n          [maxRecordTime]=\"30\"\n          (onRecorded)=\"onAudioRecorded($event)\"\n          class=\"universal-editor__record-button\">\n        </audio-recorder>\n      </div>\n\n      <audio\n        *ngIf=\"hasAudioContent()\"\n        [attr.src]=\"universalProperty.audioContent.getBinaryFileData()\"\n        type=\"audio/mp3\"\n        controls=\"controls\"\n        [loop]=\"getLoopState()\"\n        [volume]=\"universalProperty.volume\"\n        (volumechange)=\"onVolumeChange($event)\"\n        class=\"universal-editor__audio-player\">\n      </audio>\n    </section>\n  </div>\n\n  <div\n    class=\"property-editor__delete-button\"\n    (click)=\"onDeleteTabData()\">\n    Delete {{ activeTabName }}\n  </div>\n</div>\n"
 
 /***/ }),
 /* 1180 */
