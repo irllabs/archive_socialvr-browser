@@ -12,10 +12,6 @@ $bar-margin: ($diameter - $bar-width) / 2;
   cursor: pointer;
   margin-left: 5px;
   margin-bottom: 5px;
-
-  &.has-swap-bottoms {
-    margin-bottom: 26px;
-  }
 }
 
 .add-room__rect {

@@ -7,7 +7,6 @@ import { EventBus } from 'ui/common/event-bus';
   selector: 'add-room',
   styleUrls: ['./add-room.scss'],
   templateUrl: './add-room.html',
-  inputs: ['hasSwapButtons'],
 })
 export class AddRoomButton {
   public hasSwapButtons: boolean = false;
