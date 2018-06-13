@@ -3,6 +3,16 @@
     Hotspot Tool
   </h2>
 
+  <div class="hotspot-inspector__title">
+    <text-input
+      [textModel]="universalProperty.getName()"
+      [isHotspotTitle]="true"
+      (onTextChange)="onNameChange($event)">
+    </text-input>
+  </div>
+
+  <br>
+
   <div class="tab-container">
     <div class="tabs">
       <input id="tab-universal-image" type="radio" name="tabs" (change)="onChangeActiveTab($event, TABS.IMAGE)"

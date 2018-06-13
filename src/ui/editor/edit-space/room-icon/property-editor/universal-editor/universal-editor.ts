@@ -75,6 +75,11 @@ export class UniversalEditor {
     this.projectMetaDataInteractor.onProjectChanged();
   }
 
+  public onNameChange($event) {
+    this.universalProperty.setName($event.text);
+    this._onChange();
+  }
+
   public onChangeActiveTab(event, tab) {
     if (event.target.checked) {
       this._activeTab = tab;
