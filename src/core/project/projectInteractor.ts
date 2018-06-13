@@ -23,9 +23,13 @@ import { MetaDataInteractor } from '../scene/projectMetaDataInteractor';
 
 const JSZip = require('jszip');
 
+const AUTOSAVE_PERIOD = 60 * 1000;
 
 @Injectable()
 export class ProjectInteractor {
+  private _autoSaveTimer;
+  private _saving: boolean = false;
+
   private get _projectsCollection(): AngularFirestoreCollection<Project> {
     const userId = this.userService.getUserId();
 
@@ -52,6 +56,22 @@ export class ProjectInteractor {
     private afStorage: AngularFireStorage,
     private projectMetaDataInteractor: MetaDataInteractor,
   ) {
+  }
+
+  private _restartAutosaver() {
+    if (this._autoSaveTimer) {
+      clearInterval(this._autoSaveTimer);
+    }
+
+    this._autoSaveTimer = setInterval(() => {
+      this._autoSave();
+    }, AUTOSAVE_PERIOD);
+  }
+
+  private _autoSave(): void {
+    if (!this._saving && this.projectMetaDataInteractor.hasUnsavedChanges && this.projectService.isWorkingOnSavedProject()) {
+      this.updateProject(this.getProject());
+    }
   }
 
   public getProjects() {
@@ -212,7 +232,9 @@ export class ProjectInteractor {
         this.assetManager.clearAssets();
         this.projectService.setProject(project);
 
-        downloadRestAssets();
+        return downloadRestAssets().then(() => {
+          this._restartAutosaver();
+        });
       });
   }
 
@@ -234,6 +256,8 @@ export class ProjectInteractor {
         return mediaFile;
       });
     const story = this.serializationService.buildProjectJson();
+
+    this._saving = true;
 
     if (!project.userId) {
       project.userId = userId;
@@ -259,6 +283,8 @@ export class ProjectInteractor {
       })
       .then(() => {
         this.projectMetaDataInteractor.onProjectSaved();
+        this._saving = false;
+        this._restartAutosaver();
         return project;
       });
   }

@@ -7,7 +7,6 @@ export class ProjectService {
 
   constructor() {
   }
-
   public getProjectId(): string {
     return this._project ? this._project.id : null;
   }

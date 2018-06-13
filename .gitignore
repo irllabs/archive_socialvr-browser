@@ -75,5 +75,3 @@ _site/
 /dist/
 /npm-debug.log
 /editorconfig
-
-package-lock.json
