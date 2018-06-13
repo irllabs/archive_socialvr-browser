@@ -11,14 +11,16 @@ export class AudioRecorderService {
   private recorder;
   private audioNodes;
   private frequencyDataArray: Uint8Array;
+  private audioContext;
 
   constructor(private fileLoaderUtil: FileLoaderUtil) {
+
   }
 
   startRecording() {
-    const audioContext = getAudioContext();
+    this.audioContext = getAudioContext();
 
-    return getMicAudioNode(audioContext)
+    return getMicAudioNode(this.audioContext)
       .then(audioNodes => {
         this.audioNodes = audioNodes;
         this.frequencyDataArray = new Uint8Array(audioNodes.analyserNode.frequencyBinCount);
@@ -33,8 +35,10 @@ export class AudioRecorderService {
         this.recorder.stop();
         this.audioNodes.audioStream.getAudioTracks().forEach(audioTrack => audioTrack.stop());
         this.recorder.exportWAV(audioBlob => {
+          const sampleRate = this.audioContext.sampleRate;
+
           resolve(
-            this.fileLoaderUtil.getBinaryFileData(audioBlob),
+            this.fileLoaderUtil.getBinaryFileData(audioBlob.slice(0, -3 * sampleRate, audioBlob.type)),
           );
         });
       }
@@ -48,7 +52,6 @@ export class AudioRecorderService {
     this.audioNodes.analyserNode.getByteFrequencyData(this.frequencyDataArray);
     return this.frequencyDataArray;
   }
-
 }
 
 
