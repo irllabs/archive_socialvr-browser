@@ -136,7 +136,7 @@ var __decorate = this && this.__decorate || function (decorators, target, key, d
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-__webpack_require__(169);
+__webpack_require__(170);
 __webpack_require__(81);
 var Subject_1 = __webpack_require__(21);
 var EventBus = /** @class */function () {
@@ -243,13 +243,15 @@ var core_1 = __webpack_require__(2);
 var assetManager_1 = __webpack_require__(130);
 var roomManager_1 = __webpack_require__(98);
 var roomPropertyBuilder_1 = __webpack_require__(252);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var SceneInteractor = /** @class */function () {
-    function SceneInteractor(roomManager, propertyBuilder, assetManager) {
+    function SceneInteractor(roomManager, propertyBuilder, assetManager, projectMetaDataInteractor) {
         this.roomManager = roomManager;
         this.propertyBuilder = propertyBuilder;
         this.assetManager = assetManager;
+        this.projectMetaDataInteractor = projectMetaDataInteractor;
         if (!this.getRoomIds().length) {
-            this.addRoom();
+            this.addRoom(true);
         }
     }
     SceneInteractor.prototype.isLoadedAssets = function () {
@@ -267,20 +269,26 @@ var SceneInteractor = /** @class */function () {
     SceneInteractor.prototype.getRoomById = function (roomId) {
         return this.roomManager.getRoomById(roomId);
     };
-    SceneInteractor.prototype.addRoom = function () {
+    SceneInteractor.prototype.addRoom = function (silent) {
+        if (silent === void 0) {
+            silent = false;
+        }
         var numberOfRooms = this.roomManager.getRooms().size + 1;
         var roomName = "Room " + numberOfRooms;
         var room = this.propertyBuilder.room(roomName);
         this.roomManager.addRoom(room);
-        this.activeRoomId = room.getId();
-        return this.activeRoomId;
+        this._activeRoomId = room.getId();
+        if (!silent) {
+            this.projectMetaDataInteractor.onProjectChanged();
+        }
+        return this._activeRoomId;
     };
     SceneInteractor.prototype.removeRoom = function (roomId) {
         if (this.getRoomIds().length < 2) {
             console.warn('user should not be allowed to remove last room');
             return;
         }
-        this.activeRoomId = null;
+        this._activeRoomId = null;
         this.roomManager.removeRoomById(roomId);
         //remove door references to deleted room
         Array.from(this.roomManager.getRooms()).map(function (room) {
@@ -289,18 +297,20 @@ var SceneInteractor = /** @class */function () {
             return aggregateList.concat(Array.from(doorSet).filter(function (door) {
                 return door.getRoomId() === roomId;
             }));
-        }, new Array()).forEach(function (door) {
+        }, []).forEach(function (door) {
             return door.reset();
         });
+        this.projectMetaDataInteractor.onProjectChanged();
     };
     SceneInteractor.prototype.getActiveRoomId = function () {
-        if (!this.activeRoomId) {
+        if (!this._activeRoomId) {
             return this.getRoomIds()[0];
         }
-        return this.activeRoomId;
+        return this._activeRoomId;
     };
     SceneInteractor.prototype.setActiveRoomId = function (roomId) {
-        this.activeRoomId = roomId;
+        this._activeRoomId = roomId;
+        this.projectMetaDataInteractor.onProjectChanged();
     };
     SceneInteractor.prototype.getRoomProperties = function (roomId) {
         var room = this.getRoomById(roomId);
@@ -321,10 +331,12 @@ var SceneInteractor = /** @class */function () {
         var hotSpotName = "Hotspot " + numberOfUniversals;
         var universal = this.propertyBuilder.universal(hotSpotName, '');
         this.getRoomById(roomId).addUniversal(universal);
+        this.projectMetaDataInteractor.onProjectChanged();
         return universal;
     };
     SceneInteractor.prototype.removeUniversal = function (roomId, universal) {
         this.getRoomById(roomId).removeUniversal(universal);
+        this.projectMetaDataInteractor.onProjectChanged();
     };
     SceneInteractor.prototype.addDoor = function (roomId) {
         var outgoingRoomId = this.getRoomIds().filter(function (rId) {
@@ -337,10 +349,12 @@ var SceneInteractor = /** @class */function () {
             door.reset();
         }
         this.getRoomById(roomId).addDoor(door);
+        this.projectMetaDataInteractor.onProjectChanged();
         return door;
     };
     SceneInteractor.prototype.removeDoor = function (roomId, door) {
         this.getRoomById(roomId).removeDoor(door);
+        this.projectMetaDataInteractor.onProjectChanged();
     };
     SceneInteractor.prototype.roomHasBackgroundImage = function (roomId) {
         return this.getRoomById(roomId).hasBackgroundImage();
@@ -353,6 +367,7 @@ var SceneInteractor = /** @class */function () {
     };
     SceneInteractor.prototype.setHomeRoomId = function (roomId) {
         this.roomManager.setHomeRoomId(roomId);
+        this.projectMetaDataInteractor.onProjectChanged();
     };
     SceneInteractor.prototype.resetRoomManager = function () {
         this.roomManager.initValues();
@@ -373,8 +388,9 @@ var SceneInteractor = /** @class */function () {
         }, new Array()).forEach(function (door) {
             return door.setName(name);
         });
+        this.projectMetaDataInteractor.onProjectChanged();
     };
-    SceneInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [roomManager_1.RoomManager, roomPropertyBuilder_1.PropertyBuilder, assetManager_1.AssetManager])], SceneInteractor);
+    SceneInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [roomManager_1.RoomManager, roomPropertyBuilder_1.PropertyBuilder, assetManager_1.AssetManager, projectMetaDataInteractor_1.MetaDataInteractor])], SceneInteractor);
     return SceneInteractor;
 }();
 exports.SceneInteractor = SceneInteractor;
@@ -392,8 +408,126 @@ exports.SceneInteractor = SceneInteractor;
 /* 22 */,
 /* 23 */,
 /* 24 */,
-/* 25 */,
-/* 26 */
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var roomManager_1 = __webpack_require__(98);
+var event_bus_1 = __webpack_require__(8);
+var MetaDataInteractor = /** @class */function () {
+    function MetaDataInteractor(roomManager, eventBus) {
+        var _this = this;
+        this.roomManager = roomManager;
+        this.eventBus = eventBus;
+        this._hasUnsavedChanges = false;
+        this._loading = false;
+        window.addEventListener('beforeunload', function (e) {
+            if (_this.hasUnsavedChanges) {
+                var confirmationMessage = "You are about lose your work. Are you sure?";
+                e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+
+                return confirmationMessage;
+            }
+        });
+    }
+    Object.defineProperty(MetaDataInteractor.prototype, "hasUnsavedChanges", {
+        get: function () {
+            return this._hasUnsavedChanges;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    MetaDataInteractor.prototype.loadingProject = function (isLoading) {
+        this._loading = isLoading;
+    };
+    MetaDataInteractor.prototype.onProjectChanged = function () {
+        if (!this._loading) {
+            this._hasUnsavedChanges = true;
+        }
+    };
+    MetaDataInteractor.prototype.onProjectSaved = function () {
+        this._hasUnsavedChanges = false;
+    };
+    MetaDataInteractor.prototype.checkAndConfirmResetChanges = function (msg) {
+        var _this = this;
+        if (msg === void 0) {
+            msg = 'If you do not save your changes before opening a new story file, those changes will be lost.';
+        }
+        return new Promise(function (resolve, reject) {
+            if (_this.hasUnsavedChanges) {
+                _this.eventBus.onModalMessage('', msg, true,
+                // modal dismissed callback
+                reject,
+                // modal accepted callback
+                resolve);
+            } else {
+                resolve();
+            }
+        });
+    };
+    MetaDataInteractor.prototype.getProjectName = function () {
+        return this.roomManager.getProjectName();
+    };
+    MetaDataInteractor.prototype.setProjectName = function (projectName) {
+        this.roomManager.setProjectName(projectName);
+    };
+    MetaDataInteractor.prototype.getProjectDescription = function () {
+        return this.roomManager.getProjectDescription();
+    };
+    MetaDataInteractor.prototype.setProjectDescription = function (projectDescription) {
+        this.roomManager.setProjectDescription(projectDescription);
+    };
+    MetaDataInteractor.prototype.projectIsEmpty = function () {
+        return this.roomManager.getProjectIsEmpty();
+    };
+    MetaDataInteractor.prototype.getProjectTags = function () {
+        return this.roomManager.getProjectTags();
+    };
+    MetaDataInteractor.prototype.setProjectTags = function (tags) {
+        this.roomManager.setProjectTags(tags);
+    };
+    MetaDataInteractor.prototype.getIsReadOnly = function () {
+        return this.roomManager.getIsReadOnly();
+    };
+    MetaDataInteractor.prototype.setIsReadOnly = function (isReadOnly) {
+        this.roomManager.setIsReadOnly(isReadOnly);
+    };
+    MetaDataInteractor.prototype.getSoundtrack = function () {
+        return this.roomManager.getSoundtrack();
+    };
+    MetaDataInteractor.prototype.setSoundtrack = function (fileName, volume, dataUrl) {
+        return this.roomManager.setSoundtrack(fileName, volume, dataUrl);
+    };
+    MetaDataInteractor.prototype.removeSoundtrack = function () {
+        this.roomManager.removeSoundtrack();
+    };
+    MetaDataInteractor.prototype.setSoundtrackVolume = function (v) {
+        this.roomManager.setSoundtrackVolume(v);
+    };
+    MetaDataInteractor.prototype.getSoundtrackVolume = function () {
+        return this.roomManager.getSoundtrackVolume();
+    };
+    MetaDataInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [roomManager_1.RoomManager, event_bus_1.EventBus])], MetaDataInteractor);
+    return MetaDataInteractor;
+}();
+exports.MetaDataInteractor = MetaDataInteractor;
+
+/***/ }),
+/* 26 */,
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -487,10 +621,10 @@ function resizeImage(imageUrl, sizeOption) {
 exports.resizeImage = resizeImage;
 
 /***/ }),
-/* 27 */,
 /* 28 */,
 /* 29 */,
-/* 30 */
+/* 30 */,
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -549,79 +683,8 @@ var UserInteractor = /** @class */function () {
 exports.UserInteractor = UserInteractor;
 
 /***/ }),
-/* 31 */,
 /* 32 */,
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var roomManager_1 = __webpack_require__(98);
-var MetaDataInteractor = /** @class */function () {
-    function MetaDataInteractor(roomManager) {
-        this.roomManager = roomManager;
-    }
-    MetaDataInteractor.prototype.getProjectName = function () {
-        return this.roomManager.getProjectName();
-    };
-    MetaDataInteractor.prototype.setProjectName = function (projectName) {
-        this.roomManager.setProjectName(projectName);
-    };
-    MetaDataInteractor.prototype.getProjectDescription = function () {
-        return this.roomManager.getProjectDescription();
-    };
-    MetaDataInteractor.prototype.setProjectDescription = function (projectDescription) {
-        this.roomManager.setProjectDescription(projectDescription);
-    };
-    MetaDataInteractor.prototype.projectIsEmpty = function () {
-        return this.roomManager.getProjectIsEmpty();
-    };
-    MetaDataInteractor.prototype.getProjectTags = function () {
-        return this.roomManager.getProjectTags();
-    };
-    MetaDataInteractor.prototype.setProjectTags = function (tags) {
-        this.roomManager.setProjectTags(tags);
-    };
-    MetaDataInteractor.prototype.getIsReadOnly = function () {
-        return this.roomManager.getIsReadOnly();
-    };
-    MetaDataInteractor.prototype.setIsReadOnly = function (isReadOnly) {
-        this.roomManager.setIsReadOnly(isReadOnly);
-    };
-    MetaDataInteractor.prototype.getSoundtrack = function () {
-        return this.roomManager.getSoundtrack();
-    };
-    MetaDataInteractor.prototype.setSoundtrack = function (fileName, volume, dataUrl) {
-        return this.roomManager.setSoundtrack(fileName, volume, dataUrl);
-    };
-    MetaDataInteractor.prototype.removeSoundtrack = function () {
-        this.roomManager.removeSoundtrack();
-    };
-    MetaDataInteractor.prototype.setSoundtrackVolume = function (v) {
-        this.roomManager.setSoundtrackVolume(v);
-    };
-    MetaDataInteractor.prototype.getSoundtrackVolume = function () {
-        return this.roomManager.getSoundtrackVolume();
-    };
-    MetaDataInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [roomManager_1.RoomManager])], MetaDataInteractor);
-    return MetaDataInteractor;
-}();
-exports.MetaDataInteractor = MetaDataInteractor;
-
-/***/ }),
+/* 33 */,
 /* 34 */,
 /* 35 */,
 /* 36 */,
@@ -738,13 +801,14 @@ var deserializationService_1 = __webpack_require__(249);
 var serializationService_1 = __webpack_require__(255);
 var userService_1 = __webpack_require__(82);
 __webpack_require__(374);
-__webpack_require__(170);
+__webpack_require__(171);
 var forkJoin_1 = __webpack_require__(210);
-var fromPromise_1 = __webpack_require__(155);
+var fromPromise_1 = __webpack_require__(156);
 var audio_1 = __webpack_require__(99);
-var JSZip = __webpack_require__(158);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
+var JSZip = __webpack_require__(159);
 var ProjectInteractor = /** @class */function () {
-    function ProjectInteractor(deserializationService, serializationService, roomManager, apiService, projectService, assetManager, userService, afStore, afStorage) {
+    function ProjectInteractor(deserializationService, serializationService, roomManager, apiService, projectService, assetManager, userService, afStore, afStorage, projectMetaDataInteractor) {
         this.deserializationService = deserializationService;
         this.serializationService = serializationService;
         this.roomManager = roomManager;
@@ -754,6 +818,7 @@ var ProjectInteractor = /** @class */function () {
         this.userService = userService;
         this.afStore = afStore;
         this.afStorage = afStorage;
+        this.projectMetaDataInteractor = projectMetaDataInteractor;
     }
     Object.defineProperty(ProjectInteractor.prototype, "_projectsCollection", {
         get: function () {
@@ -944,6 +1009,7 @@ var ProjectInteractor = /** @class */function () {
                 state: projectModel_1.PROJECT_STATES.ASSETS_UPLOADED
             });
         }).then(function () {
+            _this.projectMetaDataInteractor.onProjectSaved();
             return project;
         });
     };
@@ -1033,7 +1099,7 @@ var ProjectInteractor = /** @class */function () {
             });
         });
     };
-    ProjectInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [deserializationService_1.DeserializationService, serializationService_1.SerializationService, roomManager_1.RoomManager, apiService_1.ApiService, projectService_1.ProjectService, assetManager_1.AssetManager, userService_1.UserService, firestore_1.AngularFirestore, storage_1.AngularFireStorage])], ProjectInteractor);
+    ProjectInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [deserializationService_1.DeserializationService, serializationService_1.SerializationService, roomManager_1.RoomManager, apiService_1.ApiService, projectService_1.ProjectService, assetManager_1.AssetManager, userService_1.UserService, firestore_1.AngularFirestore, storage_1.AngularFireStorage, projectMetaDataInteractor_1.MetaDataInteractor])], ProjectInteractor);
     return ProjectInteractor;
 }();
 exports.ProjectInteractor = ProjectInteractor;
@@ -1810,9 +1876,9 @@ var door_1 = __webpack_require__(253);
 var image_1 = __webpack_require__(250);
 var link_1 = __webpack_require__(475);
 var narrator_1 = __webpack_require__(251);
-var room_1 = __webpack_require__(175);
+var room_1 = __webpack_require__(132);
 var text_1 = __webpack_require__(476);
-var universal_1 = __webpack_require__(132);
+var universal_1 = __webpack_require__(133);
 var video_1 = __webpack_require__(477);
 var typeMap = {
     audio: audio_1.Audio,
@@ -3046,7 +3112,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(12);
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var fileLoaderUtil_1 = __webpack_require__(60);
 var SlideshowBuilder = /** @class */function () {
     function SlideshowBuilder(sceneInteractor, fileLoaderUtil) {
@@ -3858,567 +3924,6 @@ exports.MediaFile = MediaFile;
 "use strict";
 
 
-var __extends = this && this.__extends || function () {
-    var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
-        d.__proto__ = b;
-    } || function (d, b) {
-        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() {
-            this.constructor = d;
-        }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-}();
-Object.defineProperty(exports, "__esModule", { value: true });
-var baseElement_1 = __webpack_require__(83);
-var constants_1 = __webpack_require__(7);
-var mediaFile_1 = __webpack_require__(131);
-var Universal = /** @class */function (_super) {
-    __extends(Universal, _super);
-    function Universal() {
-        var _this = _super.call(this) || this;
-        _this._audioContent = new mediaFile_1.MediaFile();
-        _this._imageContent = new mediaFile_1.MediaFile();
-        _this._volume = constants_1.DEFAULT_VOLUME;
-        _this._loop = false;
-        return _this;
-    }
-    Object.defineProperty(Universal.prototype, "textContent", {
-        get: function () {
-            return this._textContent;
-        },
-        set: function (content) {
-            this._textContent = (content || '').slice(0, 245);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Universal.prototype, "audioContent", {
-        get: function () {
-            return this._audioContent;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Universal.prototype, "imageContent", {
-        get: function () {
-            return this._imageContent;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Universal.prototype, "volume", {
-        get: function () {
-            return this._volume;
-        },
-        set: function (vol) {
-            this._volume = typeof vol === 'undefined' || vol === null ? constants_1.DEFAULT_VOLUME : vol;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Universal.prototype, "loop", {
-        get: function () {
-            return this._loop;
-        },
-        set: function (isLoop) {
-            this._loop = isLoop;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Universal.prototype.setAudioMediaFile = function (mediaFile) {
-        this._audioContent = mediaFile;
-    };
-    Universal.prototype.setAudioContent = function (binaryFileData, volume) {
-        if (volume === void 0) {
-            volume = constants_1.DEFAULT_VOLUME;
-        }
-        this._audioContent.setBinaryFileData(binaryFileData);
-        this.volume = volume;
-    };
-    Universal.prototype.setImageMediaFile = function (mediaFile) {
-        this._imageContent = mediaFile;
-    };
-    Universal.prototype.setImageContent = function (binaryFileData) {
-        this._imageContent.setBinaryFileData(binaryFileData);
-    };
-    Universal.prototype.resetAudioContent = function () {
-        this.setAudioContent(null);
-        this._audioContent.setRemoteFile(null);
-    };
-    Universal.prototype.resetImageContent = function () {
-        this.setImageContent(null);
-        this._imageContent.setRemoteFile(null);
-    };
-    Universal.prototype.getIcon = function () {
-        var parts = [];
-        if (this.imageContent.hasAsset()) {
-            parts.push('image');
-        }
-        if (this.textContent) {
-            parts.push('text');
-        }
-        if (this.audioContent.hasAsset()) {
-            parts.push('audio');
-        }
-        return "icon-" + (parts.length > 0 ? parts.join('-') : 'add') + ".png";
-    };
-    Universal.prototype.toJson = function () {
-        return Object.assign(_super.prototype.toJson.call(this), {
-            imageFile: this._imageContent.getFileName(),
-            audioFile: this._audioContent.getFileName(),
-            remoteImageFile: this._imageContent.getRemoteFile(),
-            remoteAudioFile: this._audioContent.getRemoteFile(),
-            text: this._textContent,
-            loop: this._loop,
-            volume: this._volume,
-            size: '<2,1>'
-        });
-    };
-    return Universal;
-}(baseElement_1.BaseElement);
-exports.Universal = Universal;
-
-/***/ }),
-/* 133 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var projectInteractor_1 = __webpack_require__(42);
-var sceneInteractor_1 = __webpack_require__(12);
-var storageInteractor_1 = __webpack_require__(177);
-var event_bus_1 = __webpack_require__(8);
-var ZipFileReader = /** @class */function () {
-    function ZipFileReader(sceneInteractor, storageInteractor, projectInteractor, eventBus) {
-        this.sceneInteractor = sceneInteractor;
-        this.storageInteractor = storageInteractor;
-        this.projectInteractor = projectInteractor;
-        this.eventBus = eventBus;
-    }
-    ZipFileReader.prototype.loadFile = function (zipFile) {
-        var _this = this;
-        this.eventBus.onStartLoading();
-        return this.storageInteractor.deserializeProject(zipFile).subscribe(function (val) {
-            _this.sceneInteractor.setActiveRoomId(null);
-            _this.projectInteractor.setProject(null);
-            _this.eventBus.onSelectRoom(null, false);
-            _this.eventBus.onStopLoading();
-        }, function (error) {
-            var errorMessage = "The zip file does not seem to be a properly formatted story file. \n Error received: " + error;
-            _this.eventBus.onModalMessage('File Upload Error', errorMessage);
-            _this.eventBus.onStopLoading();
-        });
-    };
-    ZipFileReader = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, storageInteractor_1.StorageInteractor, projectInteractor_1.ProjectInteractor, event_bus_1.EventBus])], ZipFileReader);
-    return ZipFileReader;
-}();
-exports.ZipFileReader = ZipFileReader;
-
-/***/ }),
-/* 134 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var audioContextProvider_1 = __webpack_require__(246);
-var fileLoaderUtil_1 = __webpack_require__(60);
-var Recorder = __webpack_require__(354);
-var AudioRecorderService = /** @class */function () {
-    function AudioRecorderService(fileLoaderUtil) {
-        this.fileLoaderUtil = fileLoaderUtil;
-    }
-    AudioRecorderService.prototype.startRecording = function () {
-        var _this = this;
-        var audioContext = audioContextProvider_1.getAudioContext();
-        return getMicAudioNode(audioContext).then(function (audioNodes) {
-            _this.audioNodes = audioNodes;
-            _this.frequencyDataArray = new Uint8Array(audioNodes.analyserNode.frequencyBinCount);
-            _this.recorder = new Recorder(audioNodes.micNode);
-            _this.recorder.record();
-        });
-    };
-    AudioRecorderService.prototype.stopRecording = function () {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            try {
-                _this.recorder.stop();
-                _this.audioNodes.audioStream.getAudioTracks().forEach(function (audioTrack) {
-                    return audioTrack.stop();
-                });
-                _this.recorder.exportWAV(function (audioBlob) {
-                    resolve(_this.fileLoaderUtil.getBinaryFileData(audioBlob));
-                });
-            } catch (error) {
-                reject(error);
-            }
-        });
-    };
-    AudioRecorderService.prototype.getFrequencyData = function () {
-        this.audioNodes.analyserNode.getByteFrequencyData(this.frequencyDataArray);
-        return this.frequencyDataArray;
-    };
-    AudioRecorderService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [fileLoaderUtil_1.FileLoaderUtil])], AudioRecorderService);
-    return AudioRecorderService;
-}();
-exports.AudioRecorderService = AudioRecorderService;
-function getMicAudioNode(audioContext) {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        return window.navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(function (audioStream) {
-            return configureAudio(audioContext, audioStream);
-        });
-    } else {
-        return new Promise(function (resolve, reject) {
-            navigator.getUserMedia({ audio: true, video: false }, function (audioStream) {
-                return resolve(configureAudio(audioContext, audioStream));
-            }, function (error) {
-                return reject(SyntaxError);
-            });
-        });
-    }
-}
-function configureAudio(audioContext, audioStream) {
-    var micGain = audioContext.createGain();
-    var micInputStream = audioContext.createMediaStreamSource(audioStream);
-    var analyserNode = audioContext.createAnalyser();
-    var zeroGainOutput = audioContext.createGain();
-    analyserNode.fftSize = 2048;
-    zeroGainOutput.gain.setTargetAtTime(0, 0, 0);
-    micInputStream.connect(micGain);
-    micGain.connect(analyserNode);
-    micGain.connect(zeroGainOutput);
-    zeroGainOutput.connect(audioContext.destination);
-    return {
-        audioStream: audioStream,
-        micNode: micGain,
-        analyserNode: analyserNode
-    };
-}
-function browserCanRecordAudio() {
-    return !!navigator.mediaDevices && !!navigator.mediaDevices.getUserMedia && !!navigator.getUserMedia;
-}
-exports.browserCanRecordAudio = browserCanRecordAudio;
-
-/***/ }),
-/* 135 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = this && this.__metadata || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-var sceneInteractor_1 = __webpack_require__(12);
-var event_bus_1 = __webpack_require__(8);
-var roomPropertyTypeService_1 = __webpack_require__(86);
-var PropertyRemovalService = /** @class */function () {
-    function PropertyRemovalService(sceneInteractor, eventBus) {
-        this.sceneInteractor = sceneInteractor;
-        this.eventBus = eventBus;
-    }
-    PropertyRemovalService.prototype.removeProperty = function (roomProperty) {
-        var propertyType = roomPropertyTypeService_1.RoomPropertyTypeService.getTypeString(roomProperty);
-        this.removePropertyStrategy(propertyType, roomProperty);
-    };
-    PropertyRemovalService.prototype.removePropertyStrategy = function (propertyType, roomProperty) {
-        var _this = this;
-        var roomId = this.sceneInteractor.getActiveRoomId();
-        var removalStrategy = {
-            door: function () {
-                var door = roomProperty;
-                _this.sceneInteractor.removeDoor(roomId, door);
-                _this.onDeselect();
-            },
-            room: function () {
-                var removeRoomId = roomProperty.getId();
-                _this.sceneInteractor.removeRoom(removeRoomId);
-                var activeRoomId = _this.sceneInteractor.getActiveRoomId();
-                _this.eventBus.onSelectRoom(activeRoomId, false);
-            },
-            universal: function () {
-                var universal = roomProperty;
-                _this.sceneInteractor.removeUniversal(roomId, universal);
-                _this.onDeselect();
-            }
-        };
-        removalStrategy[propertyType]();
-    };
-    PropertyRemovalService.prototype.onDeselect = function () {
-        this.eventBus.onSelectProperty(null, false);
-        this.eventBus.onHotspotVisibility(false);
-    };
-    PropertyRemovalService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, event_bus_1.EventBus])], PropertyRemovalService);
-    return PropertyRemovalService;
-}();
-exports.PropertyRemovalService = PropertyRemovalService;
-
-/***/ }),
-/* 136 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var THREE = __webpack_require__(13);
-var fontSize = 26;
-var TextLine = /** @class */function () {
-    function TextLine(x, y, text) {
-        this.x = x;
-        this.y = y;
-        this.text = text;
-    }
-    return TextLine;
-}();
-function printWrappedText(context, text, x, y, maxWidth, lineHeight) {
-    var lines = [];
-    var wordList = text.split(/(\s+)/);
-    var lineContent = '';
-    wordList.forEach(function (word) {
-        var proposedLine = lineContent + word + ' ';
-        var metrics = context.measureText(proposedLine);
-        if (metrics.width > maxWidth) {
-            lines.push(new TextLine(x, y, lineContent.trim()));
-            lineContent = word + ' ';
-            y += lineHeight;
-        } else {
-            lineContent = proposedLine;
-        }
-    });
-    lines.push(new TextLine(x, y, lineContent.trim()));
-    return lines;
-}
-function getTextureSizeFromText(textContext) {
-    var width = 2 * 600;
-    var drawCanvas = document.createElement('canvas');
-    var g2d = drawCanvas.getContext('2d');
-    var fixedFontSize = fontSize * 2;
-    drawCanvas.width = width;
-    drawCanvas.height = 2 * 800;
-    g2d.font = fixedFontSize + "pt Nunito";
-    g2d.fillStyle = 'rgba(0, 0, 0, 0.7)';
-    g2d.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
-    g2d.fillStyle = 'white';
-    var textLines = printWrappedText(g2d, textContext, 10, fixedFontSize + 10, width, fixedFontSize + 8);
-    var height = textLines[textLines.length - 1].y + fixedFontSize;
-    // Print text onto canvas
-    textLines.forEach(function (textLine) {
-        return g2d.fillText(textLine.text, textLine.x, textLine.y);
-    });
-    return { width: width, height: height, drawCanvas: drawCanvas };
-}
-exports.getTextureSizeFromText = getTextureSizeFromText;
-function buildMaterialFromText(textContext) {
-    var _a = getTextureSizeFromText(textContext),
-        width = _a.width,
-        height = _a.height,
-        drawCanvas = _a.drawCanvas;
-    var resizedCanvas = document.createElement('canvas');
-    var resizedG2d = resizedCanvas.getContext('2d');
-    resizedCanvas.width = width;
-    resizedCanvas.height = height;
-    // Get new "cropped" canvas to fit text
-    resizedG2d.drawImage(drawCanvas, 0, 0, width, height, 0, 0, width, height);
-    var texture = new THREE.Texture(resizedCanvas);
-    texture.needsUpdate = true;
-    var material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, side: THREE.FrontSide });
-    return {
-        width: width,
-        height: height,
-        material: material
-    };
-}
-exports.buildMaterialFromText = buildMaterialFromText;
-
-/***/ }),
-/* 137 */,
-/* 138 */,
-/* 139 */,
-/* 140 */,
-/* 141 */,
-/* 142 */,
-/* 143 */,
-/* 144 */,
-/* 145 */,
-/* 146 */,
-/* 147 */,
-/* 148 */,
-/* 149 */,
-/* 150 */,
-/* 151 */,
-/* 152 */,
-/* 153 */,
-/* 154 */,
-/* 155 */,
-/* 156 */,
-/* 157 */,
-/* 158 */,
-/* 159 */,
-/* 160 */,
-/* 161 */,
-/* 162 */,
-/* 163 */,
-/* 164 */,
-/* 165 */,
-/* 166 */,
-/* 167 */,
-/* 168 */,
-/* 169 */,
-/* 170 */,
-/* 171 */,
-/* 172 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Copyright 2017 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-__webpack_require__(1039);
-
-
-/***/ }),
-/* 173 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["c"] = fromRef;
-/* harmony export (immutable) */ __webpack_exports__["b"] = fromDocRef;
-/* harmony export (immutable) */ __webpack_exports__["a"] = fromCollectionRef;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn__ = __webpack_require__(237);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__(81);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_share__ = __webpack_require__(409);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_share___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_share__);
-
-
-
-
-
-function _fromRef(ref) {
-    var ref$ = new __WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__["Observable"](function (subscriber) {
-        var unsubscribe = ref.onSnapshot(subscriber);
-        return { unsubscribe: unsubscribe };
-    });
-    return __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn__["observeOn"].call(ref$, new __WEBPACK_IMPORTED_MODULE_2_angularfire2__["ZoneScheduler"](Zone.current));
-}
-function fromRef(ref) {
-    return _fromRef(ref).share();
-}
-function fromDocRef(ref) {
-    return fromRef(ref)
-        .map(function (payload) { return ({ payload: payload, type: 'value' }); });
-}
-function fromCollectionRef(ref) {
-    return fromRef(ref).map(function (payload) { return ({ payload: payload, type: 'query' }); });
-}
-//# sourceMappingURL=fromRef.js.map
-
-/***/ }),
-/* 174 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-// external imports
-var core_1 = __webpack_require__(2);
-var adminInteractor_1 = __webpack_require__(129);
-var assetInteractor_1 = __webpack_require__(59);
-var chatInteractor_1 = __webpack_require__(247);
-var groupInteractor_1 = __webpack_require__(459);
-var projectInteractor_1 = __webpack_require__(42);
-var cameraInteractor_1 = __webpack_require__(256);
-var projectMetaDataInteractor_1 = __webpack_require__(33);
-// internal module imports
-var sceneInteractor_1 = __webpack_require__(12);
-var searchInteractor_1 = __webpack_require__(257);
-var storageInteractor_1 = __webpack_require__(177);
-var userInteractor_1 = __webpack_require__(30);
-var VideoInteractor_1 = __webpack_require__(465);
-// project module imports
-var data_module_1 = __webpack_require__(1055);
-var CoreModule = /** @class */function () {
-    function CoreModule() {}
-    CoreModule = __decorate([core_1.NgModule({
-        declarations: [],
-        imports: [data_module_1.DataModule],
-        providers: [sceneInteractor_1.SceneInteractor, projectMetaDataInteractor_1.MetaDataInteractor, cameraInteractor_1.CameraInteractor, storageInteractor_1.StorageInteractor, userInteractor_1.UserInteractor, projectInteractor_1.ProjectInteractor, assetInteractor_1.AssetInteractor, VideoInteractor_1.VideoInteractor, searchInteractor_1.SearchInteractor, adminInteractor_1.AdminInteractor, groupInteractor_1.GroupInteractor, chatInteractor_1.ChatInteractor]
-    })], CoreModule);
-    return CoreModule;
-}();
-exports.CoreModule = CoreModule;
-
-/***/ }),
-/* 175 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 Object.defineProperty(exports, "__esModule", { value: true });
 var audio_1 = __webpack_require__(99);
 var image_1 = __webpack_require__(250);
@@ -4445,6 +3950,7 @@ var Room = /** @class */function () {
         this.backgroundVideo = new mediaFile_1.MediaFile();
         this.backgroundIsVideo = false;
         this._isLoadedAssets = true;
+        this._loadingPercents = '0';
     }
     Object.defineProperty(Room.prototype, "isLoadedAssets", {
         get: function () {
@@ -4453,8 +3959,18 @@ var Room = /** @class */function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Room.prototype, "loadingPercents", {
+        get: function () {
+            return this._loadingPercents;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Room.prototype.setAssetsLoadedState = function (isLoaded) {
         this._isLoadedAssets = isLoaded;
+    };
+    Room.prototype.setProgressLoading = function (percents) {
+        this._loadingPercents = percents.toFixed(0);
     };
     Room.prototype.getId = function () {
         return this.id;
@@ -4641,6 +4157,567 @@ var Room = /** @class */function () {
 exports.Room = Room;
 
 /***/ }),
+/* 133 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __extends = this && this.__extends || function () {
+    var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function (d, b) {
+        d.__proto__ = b;
+    } || function (d, b) {
+        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() {
+            this.constructor = d;
+        }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+}();
+Object.defineProperty(exports, "__esModule", { value: true });
+var baseElement_1 = __webpack_require__(83);
+var constants_1 = __webpack_require__(7);
+var mediaFile_1 = __webpack_require__(131);
+var Universal = /** @class */function (_super) {
+    __extends(Universal, _super);
+    function Universal() {
+        var _this = _super.call(this) || this;
+        _this._audioContent = new mediaFile_1.MediaFile();
+        _this._imageContent = new mediaFile_1.MediaFile();
+        _this._volume = constants_1.DEFAULT_VOLUME;
+        _this._loop = false;
+        return _this;
+    }
+    Object.defineProperty(Universal.prototype, "textContent", {
+        get: function () {
+            return this._textContent;
+        },
+        set: function (content) {
+            this._textContent = (content || '').slice(0, 245);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Universal.prototype, "audioContent", {
+        get: function () {
+            return this._audioContent;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Universal.prototype, "imageContent", {
+        get: function () {
+            return this._imageContent;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Universal.prototype, "volume", {
+        get: function () {
+            return this._volume;
+        },
+        set: function (vol) {
+            this._volume = typeof vol === 'undefined' || vol === null ? constants_1.DEFAULT_VOLUME : vol;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Universal.prototype, "loop", {
+        get: function () {
+            return this._loop;
+        },
+        set: function (isLoop) {
+            this._loop = isLoop;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Universal.prototype.setAudioMediaFile = function (mediaFile) {
+        this._audioContent = mediaFile;
+    };
+    Universal.prototype.setAudioContent = function (binaryFileData, volume) {
+        if (volume === void 0) {
+            volume = constants_1.DEFAULT_VOLUME;
+        }
+        this._audioContent.setBinaryFileData(binaryFileData);
+        this.volume = volume;
+    };
+    Universal.prototype.setImageMediaFile = function (mediaFile) {
+        this._imageContent = mediaFile;
+    };
+    Universal.prototype.setImageContent = function (binaryFileData) {
+        this._imageContent.setBinaryFileData(binaryFileData);
+    };
+    Universal.prototype.resetAudioContent = function () {
+        this.setAudioContent(null);
+        this._audioContent.setRemoteFile(null);
+    };
+    Universal.prototype.resetImageContent = function () {
+        this.setImageContent(null);
+        this._imageContent.setRemoteFile(null);
+    };
+    Universal.prototype.getIcon = function () {
+        var parts = [];
+        if (this.imageContent.hasAsset()) {
+            parts.push('image');
+        }
+        if (this.textContent) {
+            parts.push('text');
+        }
+        if (this.audioContent.hasAsset()) {
+            parts.push('audio');
+        }
+        return "icon-" + (parts.length > 0 ? parts.join('-') : 'add') + ".png";
+    };
+    Universal.prototype.toJson = function () {
+        return Object.assign(_super.prototype.toJson.call(this), {
+            imageFile: this._imageContent.getFileName(),
+            audioFile: this._audioContent.getFileName(),
+            remoteImageFile: this._imageContent.getRemoteFile(),
+            remoteAudioFile: this._audioContent.getRemoteFile(),
+            text: this._textContent,
+            loop: this._loop,
+            volume: this._volume,
+            size: '<2,1>'
+        });
+    };
+    return Universal;
+}(baseElement_1.BaseElement);
+exports.Universal = Universal;
+
+/***/ }),
+/* 134 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var projectInteractor_1 = __webpack_require__(42);
+var sceneInteractor_1 = __webpack_require__(12);
+var storageInteractor_1 = __webpack_require__(177);
+var event_bus_1 = __webpack_require__(8);
+var ZipFileReader = /** @class */function () {
+    function ZipFileReader(sceneInteractor, storageInteractor, projectInteractor, eventBus) {
+        this.sceneInteractor = sceneInteractor;
+        this.storageInteractor = storageInteractor;
+        this.projectInteractor = projectInteractor;
+        this.eventBus = eventBus;
+    }
+    ZipFileReader.prototype.loadFile = function (zipFile) {
+        var _this = this;
+        this.eventBus.onStartLoading();
+        return this.storageInteractor.deserializeProject(zipFile).subscribe(function (val) {
+            _this.sceneInteractor.setActiveRoomId(null);
+            _this.projectInteractor.setProject(null);
+            _this.eventBus.onSelectRoom(null, false);
+            _this.eventBus.onStopLoading();
+        }, function (error) {
+            var errorMessage = "The zip file does not seem to be a properly formatted story file. \n Error received: " + error;
+            _this.eventBus.onModalMessage('File Upload Error', errorMessage);
+            _this.eventBus.onStopLoading();
+        });
+    };
+    ZipFileReader = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, storageInteractor_1.StorageInteractor, projectInteractor_1.ProjectInteractor, event_bus_1.EventBus])], ZipFileReader);
+    return ZipFileReader;
+}();
+exports.ZipFileReader = ZipFileReader;
+
+/***/ }),
+/* 135 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var audioContextProvider_1 = __webpack_require__(246);
+var fileLoaderUtil_1 = __webpack_require__(60);
+var Recorder = __webpack_require__(354);
+var AudioRecorderService = /** @class */function () {
+    function AudioRecorderService(fileLoaderUtil) {
+        this.fileLoaderUtil = fileLoaderUtil;
+    }
+    AudioRecorderService.prototype.startRecording = function () {
+        var _this = this;
+        var audioContext = audioContextProvider_1.getAudioContext();
+        return getMicAudioNode(audioContext).then(function (audioNodes) {
+            _this.audioNodes = audioNodes;
+            _this.frequencyDataArray = new Uint8Array(audioNodes.analyserNode.frequencyBinCount);
+            _this.recorder = new Recorder(audioNodes.micNode);
+            _this.recorder.record();
+        });
+    };
+    AudioRecorderService.prototype.stopRecording = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            try {
+                _this.recorder.stop();
+                _this.audioNodes.audioStream.getAudioTracks().forEach(function (audioTrack) {
+                    return audioTrack.stop();
+                });
+                _this.recorder.exportWAV(function (audioBlob) {
+                    resolve(_this.fileLoaderUtil.getBinaryFileData(audioBlob));
+                });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    };
+    AudioRecorderService.prototype.getFrequencyData = function () {
+        this.audioNodes.analyserNode.getByteFrequencyData(this.frequencyDataArray);
+        return this.frequencyDataArray;
+    };
+    AudioRecorderService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [fileLoaderUtil_1.FileLoaderUtil])], AudioRecorderService);
+    return AudioRecorderService;
+}();
+exports.AudioRecorderService = AudioRecorderService;
+function getMicAudioNode(audioContext) {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        return window.navigator.mediaDevices.getUserMedia({ audio: true, video: false }).then(function (audioStream) {
+            return configureAudio(audioContext, audioStream);
+        });
+    } else {
+        return new Promise(function (resolve, reject) {
+            navigator.getUserMedia({ audio: true, video: false }, function (audioStream) {
+                return resolve(configureAudio(audioContext, audioStream));
+            }, function (error) {
+                return reject(SyntaxError);
+            });
+        });
+    }
+}
+function configureAudio(audioContext, audioStream) {
+    var micGain = audioContext.createGain();
+    var micInputStream = audioContext.createMediaStreamSource(audioStream);
+    var analyserNode = audioContext.createAnalyser();
+    var zeroGainOutput = audioContext.createGain();
+    analyserNode.fftSize = 2048;
+    zeroGainOutput.gain.setTargetAtTime(0, 0, 0);
+    micInputStream.connect(micGain);
+    micGain.connect(analyserNode);
+    micGain.connect(zeroGainOutput);
+    zeroGainOutput.connect(audioContext.destination);
+    return {
+        audioStream: audioStream,
+        micNode: micGain,
+        analyserNode: analyserNode
+    };
+}
+function browserCanRecordAudio() {
+    return !!navigator.mediaDevices && !!navigator.mediaDevices.getUserMedia && !!navigator.getUserMedia;
+}
+exports.browserCanRecordAudio = browserCanRecordAudio;
+
+/***/ }),
+/* 136 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = this && this.__metadata || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+var sceneInteractor_1 = __webpack_require__(12);
+var event_bus_1 = __webpack_require__(8);
+var roomPropertyTypeService_1 = __webpack_require__(86);
+var PropertyRemovalService = /** @class */function () {
+    function PropertyRemovalService(sceneInteractor, eventBus) {
+        this.sceneInteractor = sceneInteractor;
+        this.eventBus = eventBus;
+    }
+    PropertyRemovalService.prototype.removeProperty = function (roomProperty) {
+        var propertyType = roomPropertyTypeService_1.RoomPropertyTypeService.getTypeString(roomProperty);
+        this.removePropertyStrategy(propertyType, roomProperty);
+    };
+    PropertyRemovalService.prototype.removePropertyStrategy = function (propertyType, roomProperty) {
+        var _this = this;
+        var roomId = this.sceneInteractor.getActiveRoomId();
+        var removalStrategy = {
+            door: function () {
+                var door = roomProperty;
+                _this.sceneInteractor.removeDoor(roomId, door);
+                _this.onDeselect();
+            },
+            room: function () {
+                var removeRoomId = roomProperty.getId();
+                _this.sceneInteractor.removeRoom(removeRoomId);
+                var activeRoomId = _this.sceneInteractor.getActiveRoomId();
+                _this.eventBus.onSelectRoom(activeRoomId, false);
+            },
+            universal: function () {
+                var universal = roomProperty;
+                _this.sceneInteractor.removeUniversal(roomId, universal);
+                _this.onDeselect();
+            }
+        };
+        removalStrategy[propertyType]();
+    };
+    PropertyRemovalService.prototype.onDeselect = function () {
+        this.eventBus.onSelectProperty(null, false);
+        this.eventBus.onHotspotVisibility(false);
+    };
+    PropertyRemovalService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [sceneInteractor_1.SceneInteractor, event_bus_1.EventBus])], PropertyRemovalService);
+    return PropertyRemovalService;
+}();
+exports.PropertyRemovalService = PropertyRemovalService;
+
+/***/ }),
+/* 137 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var THREE = __webpack_require__(13);
+var fontSize = 26;
+var TextLine = /** @class */function () {
+    function TextLine(x, y, text) {
+        this.x = x;
+        this.y = y;
+        this.text = text;
+    }
+    return TextLine;
+}();
+function printWrappedText(context, text, x, y, maxWidth, lineHeight) {
+    var lines = [];
+    var wordList = text.split(/(\s+)/);
+    var lineContent = '';
+    wordList.forEach(function (word) {
+        var proposedLine = lineContent + word + ' ';
+        var metrics = context.measureText(proposedLine);
+        if (metrics.width > maxWidth) {
+            lines.push(new TextLine(x, y, lineContent.trim()));
+            lineContent = word + ' ';
+            y += lineHeight;
+        } else {
+            lineContent = proposedLine;
+        }
+    });
+    lines.push(new TextLine(x, y, lineContent.trim()));
+    return lines;
+}
+function getTextureSizeFromText(textContext) {
+    var width = 2 * 600;
+    var drawCanvas = document.createElement('canvas');
+    var g2d = drawCanvas.getContext('2d');
+    var fixedFontSize = fontSize * 2;
+    drawCanvas.width = width;
+    drawCanvas.height = 2 * 800;
+    g2d.font = fixedFontSize + "pt Nunito";
+    g2d.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    g2d.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
+    g2d.fillStyle = 'white';
+    var textLines = printWrappedText(g2d, textContext, 10, fixedFontSize + 10, width, fixedFontSize + 8);
+    var height = textLines[textLines.length - 1].y + fixedFontSize;
+    // Print text onto canvas
+    textLines.forEach(function (textLine) {
+        return g2d.fillText(textLine.text, textLine.x, textLine.y);
+    });
+    return { width: width, height: height, drawCanvas: drawCanvas };
+}
+exports.getTextureSizeFromText = getTextureSizeFromText;
+function buildMaterialFromText(textContext) {
+    var _a = getTextureSizeFromText(textContext),
+        width = _a.width,
+        height = _a.height,
+        drawCanvas = _a.drawCanvas;
+    var resizedCanvas = document.createElement('canvas');
+    var resizedG2d = resizedCanvas.getContext('2d');
+    resizedCanvas.width = width;
+    resizedCanvas.height = height;
+    // Get new "cropped" canvas to fit text
+    resizedG2d.drawImage(drawCanvas, 0, 0, width, height, 0, 0, width, height);
+    var texture = new THREE.Texture(resizedCanvas);
+    texture.needsUpdate = true;
+    var material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, side: THREE.FrontSide });
+    return {
+        width: width,
+        height: height,
+        material: material
+    };
+}
+exports.buildMaterialFromText = buildMaterialFromText;
+
+/***/ }),
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */,
+/* 142 */,
+/* 143 */,
+/* 144 */,
+/* 145 */,
+/* 146 */,
+/* 147 */,
+/* 148 */,
+/* 149 */,
+/* 150 */,
+/* 151 */,
+/* 152 */,
+/* 153 */,
+/* 154 */,
+/* 155 */,
+/* 156 */,
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright 2017 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+__webpack_require__(1039);
+
+
+/***/ }),
+/* 174 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["c"] = fromRef;
+/* harmony export (immutable) */ __webpack_exports__["b"] = fromDocRef;
+/* harmony export (immutable) */ __webpack_exports__["a"] = fromCollectionRef;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn__ = __webpack_require__(237);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_share__ = __webpack_require__(409);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_share___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_share__);
+
+
+
+
+
+function _fromRef(ref) {
+    var ref$ = new __WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__["Observable"](function (subscriber) {
+        var unsubscribe = ref.onSnapshot(subscriber);
+        return { unsubscribe: unsubscribe };
+    });
+    return __WEBPACK_IMPORTED_MODULE_1_rxjs_operator_observeOn__["observeOn"].call(ref$, new __WEBPACK_IMPORTED_MODULE_2_angularfire2__["ZoneScheduler"](Zone.current));
+}
+function fromRef(ref) {
+    return _fromRef(ref).share();
+}
+function fromDocRef(ref) {
+    return fromRef(ref)
+        .map(function (payload) { return ({ payload: payload, type: 'value' }); });
+}
+function fromCollectionRef(ref) {
+    return fromRef(ref).map(function (payload) { return ({ payload: payload, type: 'query' }); });
+}
+//# sourceMappingURL=fromRef.js.map
+
+/***/ }),
+/* 175 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+// external imports
+var core_1 = __webpack_require__(2);
+var adminInteractor_1 = __webpack_require__(129);
+var assetInteractor_1 = __webpack_require__(59);
+var chatInteractor_1 = __webpack_require__(247);
+var groupInteractor_1 = __webpack_require__(459);
+var projectInteractor_1 = __webpack_require__(42);
+var cameraInteractor_1 = __webpack_require__(256);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
+// internal module imports
+var sceneInteractor_1 = __webpack_require__(12);
+var searchInteractor_1 = __webpack_require__(257);
+var storageInteractor_1 = __webpack_require__(177);
+var userInteractor_1 = __webpack_require__(31);
+var VideoInteractor_1 = __webpack_require__(465);
+// project module imports
+var data_module_1 = __webpack_require__(1055);
+var CoreModule = /** @class */function () {
+    function CoreModule() {}
+    CoreModule = __decorate([core_1.NgModule({
+        declarations: [],
+        imports: [data_module_1.DataModule],
+        providers: [sceneInteractor_1.SceneInteractor, projectMetaDataInteractor_1.MetaDataInteractor, cameraInteractor_1.CameraInteractor, storageInteractor_1.StorageInteractor, userInteractor_1.UserInteractor, projectInteractor_1.ProjectInteractor, assetInteractor_1.AssetInteractor, VideoInteractor_1.VideoInteractor, searchInteractor_1.SearchInteractor, adminInteractor_1.AdminInteractor, groupInteractor_1.GroupInteractor, chatInteractor_1.ChatInteractor]
+    })], CoreModule);
+    return CoreModule;
+}();
+exports.CoreModule = CoreModule;
+
+/***/ }),
 /* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -4714,9 +4791,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var projectInteractor_1 = __webpack_require__(42);
-var projectMetaDataInteractor_1 = __webpack_require__(33);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
-var userInteractor_1 = __webpack_require__(30);
+var userInteractor_1 = __webpack_require__(31);
 var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var publicLinkHelper_1 = __webpack_require__(258);
@@ -4995,7 +5072,7 @@ __webpack_require__(1036);
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = associateQuery;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AngularFirestore; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_firebase_firestore__ = __webpack_require__(172);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_firebase_firestore__ = __webpack_require__(173);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_firebase_firestore___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_firebase_firestore__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_observable_from__ = __webpack_require__(112);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_observable_from___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_observable_from__);
@@ -5056,9 +5133,9 @@ var AngularFirestore = (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AngularFirestoreDocument; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_firebase_firestore__ = __webpack_require__(172);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_firebase_firestore__ = __webpack_require__(173);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_firebase_firestore___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_firebase_firestore__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__observable_fromRef__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__observable_fromRef__ = __webpack_require__(174);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(81);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__firestore__ = __webpack_require__(242);
@@ -5106,12 +5183,12 @@ var AngularFirestoreDocument = (function () {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = validateEventsArray;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AngularFirestoreCollection; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_firebase_firestore__ = __webpack_require__(172);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_firebase_firestore__ = __webpack_require__(173);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_firebase_firestore___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_firebase_firestore__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__observable_fromRef__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__observable_fromRef__ = __webpack_require__(174);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(81);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter__ = __webpack_require__(169);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter__ = __webpack_require__(170);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__changes__ = __webpack_require__(451);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__document_document__ = __webpack_require__(243);
@@ -5453,29 +5530,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var storage_1 = __webpack_require__(128);
 var apiService_1 = __webpack_require__(54);
-var room_1 = __webpack_require__(175);
+var room_1 = __webpack_require__(132);
 var roomManager_1 = __webpack_require__(98);
 var roomPropertyBuilder_1 = __webpack_require__(252);
-__webpack_require__(165);
+__webpack_require__(166);
 var Observable_1 = __webpack_require__(0);
 var constants_1 = __webpack_require__(7);
 var fileLoaderUtil_1 = __webpack_require__(60);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var constants_2 = __webpack_require__(7);
 var mediaFile_1 = __webpack_require__(131);
-var universal_1 = __webpack_require__(132);
+var universal_1 = __webpack_require__(133);
 var reverbList_1 = __webpack_require__(176);
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var vector_1 = __webpack_require__(254);
 var deserializeOldStory_1 = __webpack_require__(1054);
-var JSZip = __webpack_require__(158);
+var JSZip = __webpack_require__(159);
 var JsYaml = __webpack_require__(221);
 var DeserializationService = /** @class */function () {
-    function DeserializationService(roomManager, propertyBuilder, fileLoaderUtil, apiService, afStorage) {
+    function DeserializationService(roomManager, propertyBuilder, fileLoaderUtil, apiService, afStorage, metaDataInteractor) {
         this.roomManager = roomManager;
         this.propertyBuilder = propertyBuilder;
         this.fileLoaderUtil = fileLoaderUtil;
         this.apiService = apiService;
         this.afStorage = afStorage;
+        this.metaDataInteractor = metaDataInteractor;
         this.zip = new JSZip();
         this._cachedStoryFile = {};
     }
@@ -5487,6 +5566,7 @@ var DeserializationService = /** @class */function () {
         var story = project.story;
         var rootRemoteFiles = this._extractRootRemoteFiles(story);
         var roomsRemoteFiles = quick ? this._extractHomeRoomRemoteFiles(story) : this._extractRoomsRemoteFiles(story.rooms);
+        this.metaDataInteractor.loadingProject(true);
         return Promise.all([this.loadRemoteFiles(rootRemoteFiles), this.loadRemoteFiles(roomsRemoteFiles)]).then(function (_a) {
             var rootMediaFiles = _a[0],
                 homeRoomMediaFiles = _a[1];
@@ -5936,65 +6016,83 @@ var DeserializationService = /** @class */function () {
     DeserializationService.prototype._callbackLoadRestMediaFiles = function (remoteMediaFilesByRoom) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var i, _a, roomId, roomMediaFiles, room, _loop_3, this_3, j;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var _loop_3, this_3, i;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        i = 0;
-                        _b.label = 1;
-                    case 1:
-                        if (!(i < remoteMediaFilesByRoom.length)) return [3 /*break*/, 7];
-                        _a = remoteMediaFilesByRoom[i], roomId = _a.roomId, roomMediaFiles = _a.roomMediaFiles;
-                        room = this.roomManager.getRoomById(roomId);
-                        _loop_3 = function (j) {
-                            var remoteFile;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
+                        _loop_3 = function (i) {
+                            var _a, roomId, roomMediaFiles, room, filesCount, filesLoaded, _loop_4, j;
+                            return __generator(this, function (_b) {
+                                switch (_b.label) {
                                     case 0:
-                                        remoteFile = roomMediaFiles[j];
-                                        return [4 /*yield*/, this_3.afStorage.ref(remoteFile.getRemoteFile()).getDownloadURL().toPromise().then(function (fileStoreUrl) {
-                                            return _this.apiService.loadBinaryData(fileStoreUrl).toPromise();
-                                        }).then(function (data) {
-                                            return new Blob([data], { type: remoteFile.mimeType });
-                                        }).then(function (blob) {
-                                            return _this.fileLoaderUtil.getBinaryFileData(blob);
-                                        }).then(function (binaryData) {
-                                            remoteFile.setUploadedBinaryFileData(binaryData);
-                                        }).catch(function (error) {
-                                            console.log('Error to load remote file:', remoteFile);
-                                            console.log(error);
-                                        })];
+                                        _a = remoteMediaFilesByRoom[i], roomId = _a.roomId, roomMediaFiles = _a.roomMediaFiles;
+                                        room = this_3.roomManager.getRoomById(roomId);
+                                        filesCount = roomMediaFiles.length;
+                                        filesLoaded = 0;
+                                        _loop_4 = function (j) {
+                                            var remoteFile;
+                                            return __generator(this, function (_a) {
+                                                switch (_a.label) {
+                                                    case 0:
+                                                        remoteFile = roomMediaFiles[j];
+                                                        return [4 /*yield*/, this_3.afStorage.ref(remoteFile.getRemoteFile()).getDownloadURL().toPromise().then(function (fileStoreUrl) {
+                                                            return _this.apiService.loadBinaryData(fileStoreUrl).toPromise();
+                                                        }).then(function (data) {
+                                                            return new Blob([data], { type: remoteFile.mimeType });
+                                                        }).then(function (blob) {
+                                                            return _this.fileLoaderUtil.getBinaryFileData(blob);
+                                                        }).then(function (binaryData) {
+                                                            remoteFile.setUploadedBinaryFileData(binaryData);
+                                                            filesLoaded += 1;
+                                                            room.setProgressLoading(100 * (filesLoaded / filesCount));
+                                                        }).catch(function (error) {
+                                                            console.log('Error to load remote file:', remoteFile);
+                                                            console.log(error);
+                                                            filesLoaded += 1;
+                                                            room.setProgressLoading(100 * (filesLoaded / filesCount));
+                                                        })];
+                                                    case 1:
+                                                        _a.sent();
+                                                        return [2 /*return*/];
+                                                }
+                                            });
+                                        };
+                                        j = 0;
+                                        _b.label = 1;
                                     case 1:
-                                        _a.sent();
+                                        if (!(j < filesCount)) return [3 /*break*/, 4];
+                                        return [5 /*yield**/, _loop_4(j)];
+                                    case 2:
+                                        _b.sent();
+                                        _b.label = 3;
+                                    case 3:
+                                        j++;
+                                        return [3 /*break*/, 1];
+                                    case 4:
+                                        room.setAssetsLoadedState(true);
                                         return [2 /*return*/];
                                 }
                             });
                         };
                         this_3 = this;
-                        j = 0;
-                        _b.label = 2;
+                        i = 0;
+                        _a.label = 1;
+                    case 1:
+                        if (!(i < remoteMediaFilesByRoom.length)) return [3 /*break*/, 4];
+                        return [5 /*yield**/, _loop_3(i)];
                     case 2:
-                        if (!(j < roomMediaFiles.length)) return [3 /*break*/, 5];
-                        return [5 /*yield**/, _loop_3(j)];
+                        _a.sent();
+                        _a.label = 3;
                     case 3:
-                        _b.sent();
-                        _b.label = 4;
-                    case 4:
-                        j++;
-                        return [3 /*break*/, 2];
-                    case 5:
-                        room.setAssetsLoadedState(true);
-                        _b.label = 6;
-                    case 6:
                         i++;
                         return [3 /*break*/, 1];
-                    case 7:
+                    case 4:
                         return [2 /*return*/];
                 }
             });
         });
     };
-    DeserializationService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [roomManager_1.RoomManager, roomPropertyBuilder_1.PropertyBuilder, fileLoaderUtil_1.FileLoaderUtil, apiService_1.ApiService, storage_1.AngularFireStorage])], DeserializationService);
+    DeserializationService = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [roomManager_1.RoomManager, roomPropertyBuilder_1.PropertyBuilder, fileLoaderUtil_1.FileLoaderUtil, apiService_1.ApiService, storage_1.AngularFireStorage, projectMetaDataInteractor_1.MetaDataInteractor])], DeserializationService);
     return DeserializationService;
 }();
 exports.DeserializationService = DeserializationService;
@@ -6153,8 +6251,8 @@ var __decorate = this && this.__decorate || function (decorators, target, key, d
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var door_1 = __webpack_require__(253);
-var room_1 = __webpack_require__(175);
-var universal_1 = __webpack_require__(132);
+var room_1 = __webpack_require__(132);
+var universal_1 = __webpack_require__(133);
 var constants_1 = __webpack_require__(7);
 var vector_1 = __webpack_require__(254);
 var PropertyBuilder = /** @class */function () {
@@ -6313,12 +6411,12 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var roomManager_1 = __webpack_require__(98);
-var imageResizeService_1 = __webpack_require__(26);
-__webpack_require__(165);
+var imageResizeService_1 = __webpack_require__(27);
+__webpack_require__(166);
 __webpack_require__(430);
 var Observable_1 = __webpack_require__(0);
 var constants_1 = __webpack_require__(7);
-var JSZip = __webpack_require__(158);
+var JSZip = __webpack_require__(159);
 var JsYaml = __webpack_require__(221);
 var SerializationService = /** @class */function () {
     function SerializationService(roomManager) {
@@ -9787,11 +9885,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_observeOn__ = __webpack_require__(237);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_observeOn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_operator_observeOn__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angularfire2__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_switchMap__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_switchMap__ = __webpack_require__(171);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_switchMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_switchMap__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_observable_of__ = __webpack_require__(355);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_observable_of___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_add_observable_of__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_observable_fromPromise__ = __webpack_require__(165);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_observable_fromPromise__ = __webpack_require__(166);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_observable_fromPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rxjs_add_observable_fromPromise__);
 
 
@@ -10070,12 +10168,12 @@ function setLogLevel(level) {
 /* harmony export (immutable) */ __webpack_exports__["d"] = sortedChanges;
 /* harmony export (immutable) */ __webpack_exports__["b"] = combineChanges;
 /* harmony export (immutable) */ __webpack_exports__["a"] = combineChange;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__observable_fromRef__ = __webpack_require__(173);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_firebase_firestore__ = __webpack_require__(172);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__observable_fromRef__ = __webpack_require__(174);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_firebase_firestore__ = __webpack_require__(173);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_firebase_firestore___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_firebase_firestore__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(81);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter__ = __webpack_require__(169);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter__ = __webpack_require__(170);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_scan__ = __webpack_require__(407);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_scan___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_scan__);
@@ -11126,7 +11224,7 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var assetInteractor_1 = __webpack_require__(59);
 var cameraInteractor_1 = __webpack_require__(256);
-var projectMetaDataInteractor_1 = __webpack_require__(33);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var vector2_1 = __webpack_require__(68);
 var THREE = __webpack_require__(13);
@@ -12165,7 +12263,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var assetInteractor_1 = __webpack_require__(59);
-var projectMetaDataInteractor_1 = __webpack_require__(33);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var audioPlayService_1 = __webpack_require__(260);
 var AudioManager = /** @class */function () {
@@ -14230,7 +14328,7 @@ var startsWith = _core.String.startsWith;
  * limitations under the License.
  */
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(33)))
 
 /***/ }),
 /* 1034 */
@@ -15027,7 +15125,7 @@ Y(og.prototype,{toJSON:{name:"toJSON",i:[V(null,!0)]}});Y(jm.prototype,{clear:{n
 c){a=new Gl(a);c({INTERNAL:{getUid:r(a.getUid,a),getToken:r(a.$b,a),addAuthTokenListener:r(a.Qb,a),removeAuthTokenListener:r(a.zc,a)}});return a},a,function(a,c){if("create"===a)try{c.auth()}catch(d){}});firebase.INTERNAL.extendNamespace({User:Lk})}else throw Error("Cannot find the firebase namespace; be sure to include firebase-app.js before this library.");})();
 }).call(typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {});
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33)))
 
 /***/ }),
 /* 1037 */
@@ -15097,7 +15195,7 @@ var AngularFireAuthModule = (function () {
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_4__collection_changes__["b"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_4__collection_changes__["c"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "p", function() { return __WEBPACK_IMPORTED_MODULE_4__collection_changes__["d"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__observable_fromRef__ = __webpack_require__(173);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__observable_fromRef__ = __webpack_require__(174);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_5__observable_fromRef__["a"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "n", function() { return __WEBPACK_IMPORTED_MODULE_5__observable_fromRef__["b"]; });
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "o", function() { return __WEBPACK_IMPORTED_MODULE_5__observable_fromRef__["c"]; });
@@ -31757,7 +31855,7 @@ cf.prototype.M=function(){for(var a=this.a,b=[],c=a.length,d=0;d<c;d++)b.push(a[
 g.ma=function(a){Y.H.ma.call(this,a);this.ra()};g.aa=function(){Y.H.aa.call(this);this.ra()};g.w=function(){Y.H.w.call(this);k.clearTimeout(void 0);ua(this.f.a);this.f=null};function Z(a,b,c,d){this.l=a;this.j=!!d;Y.call(this,b,c)}u(Z,Y);Z.prototype.pa=function(){var a=new T,b=this.l;b&&b.forEach(function(b,d){a.headers.set(d,b)});this.j&&(a.o=!0);return a};Z.prototype.sa=function(a){return!a.i&&!a.a};Qe.prototype.createWebChannel=Qe.prototype.a;W.prototype.send=W.prototype.gb;W.prototype.open=W.prototype.fb;W.prototype.close=W.prototype.close;Fc.NO_ERROR=0;Fc.TIMEOUT=8;Fc.HTTP_ERROR=6;Gc.COMPLETE="complete";Kc.EventType=Lc;Lc.OPEN="a";Lc.CLOSE="b";Lc.ERROR="c";Lc.MESSAGE="d";B.prototype.listen=B.prototype.Ia;Z.prototype.getObject=Z.prototype.da;Z.prototype.releaseObject=Z.prototype.ob;T.prototype.listenOnce=T.prototype.Ja;T.prototype.getLastError=T.prototype.hb;T.prototype.getLastErrorCode=T.prototype.Ga;
 T.prototype.getStatus=T.prototype.W;T.prototype.getStatusText=T.prototype.Ha;T.prototype.getResponseJson=T.prototype.eb;T.prototype.getResponseText=T.prototype.V;T.prototype.getResponseText=T.prototype.V;T.prototype.send=T.prototype.fa;module.exports={createWebChannelTransport:Ue,ErrorCode:Fc,EventType:Gc,WebChannel:Kc,XhrIoPool:Z};}).call(typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : typeof window !== 'undefined' ? window : {})
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33)))
 
 /***/ }),
 /* 1041 */
@@ -35413,7 +35511,7 @@ var forms_1 = __webpack_require__(92);
 var platform_browser_1 = __webpack_require__(40);
 var router_1 = __webpack_require__(16);
 // Expose core layer (interactors) to view layer
-var core_module_1 = __webpack_require__(174);
+var core_module_1 = __webpack_require__(175);
 // UI components
 var admin_1 = __webpack_require__(1058);
 var admin_search_explore_1 = __webpack_require__(1061);
@@ -51070,10 +51168,10 @@ var __generator = this && this.__generator || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var constants_1 = __webpack_require__(7);
 var narrator_1 = __webpack_require__(251);
-var room_1 = __webpack_require__(175);
-var universal_1 = __webpack_require__(132);
+var room_1 = __webpack_require__(132);
+var universal_1 = __webpack_require__(133);
 var reverbList_1 = __webpack_require__(176);
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var vector_1 = __webpack_require__(254);
 function deserializeOldStory(ds, storyJson, fileMap) {
     var jsonStoryFilePath = Object.keys(fileMap).find(function (path) {
@@ -51558,7 +51656,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var adminInteractor_1 = __webpack_require__(129);
-var userInteractor_1 = __webpack_require__(30);
+var userInteractor_1 = __webpack_require__(31);
 var Admin = /** @class */function () {
     function Admin(userInteractor, adminInteractor) {
         this.userInteractor = userInteractor;
@@ -51614,7 +51712,7 @@ var core_1 = __webpack_require__(2);
 var adminInteractor_1 = __webpack_require__(129);
 var projectInteractor_1 = __webpack_require__(42);
 var searchInteractor_1 = __webpack_require__(257);
-var userInteractor_1 = __webpack_require__(30);
+var userInteractor_1 = __webpack_require__(31);
 var constants_1 = __webpack_require__(7);
 var shareable_loader_1 = __webpack_require__(178);
 var AdminSearchExplore = /** @class */function () {
@@ -51729,9 +51827,9 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var adminInteractor_1 = __webpack_require__(129);
 var projectInteractor_1 = __webpack_require__(42);
-var projectMetaDataInteractor_1 = __webpack_require__(33);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
-var userInteractor_1 = __webpack_require__(30);
+var userInteractor_1 = __webpack_require__(31);
 var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var AdminUserGroups = /** @class */function () {
@@ -52156,7 +52254,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var projectInteractor_1 = __webpack_require__(42);
-var userInteractor_1 = __webpack_require__(30);
+var userInteractor_1 = __webpack_require__(31);
 var apiService_1 = __webpack_require__(54);
 var QRCode = __webpack_require__(1080);
 var Observable_1 = __webpack_require__(0);
@@ -52349,7 +52447,7 @@ module.exports = (typeof self === 'object' && self.self === self && self) ||
   (typeof global === 'object' && global.global === global && global) ||
   this
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33)))
 
 /***/ }),
 /* 1083 */
@@ -54675,7 +54773,7 @@ var forms_1 = __webpack_require__(92);
 var platform_browser_1 = __webpack_require__(40);
 var router_1 = __webpack_require__(16);
 // Expose core layer (interactors) to view layer
-var core_module_1 = __webpack_require__(174);
+var core_module_1 = __webpack_require__(175);
 // UI components
 var chat_1 = __webpack_require__(1114);
 // Common UI components
@@ -54796,7 +54894,7 @@ var forms_1 = __webpack_require__(92);
 var platform_browser_1 = __webpack_require__(40);
 var router_1 = __webpack_require__(16);
 // Expose core layer (interactors) to view layer
-var core_module_1 = __webpack_require__(174);
+var core_module_1 = __webpack_require__(175);
 // Common UI components
 var common_module_1 = __webpack_require__(179);
 // UI components
@@ -54848,7 +54946,7 @@ var about_1 = __webpack_require__(1229);
 // Topbar
 var topbar_1 = __webpack_require__(1232);
 var audio_recorder_1 = __webpack_require__(1235);
-var audioRecorderService_1 = __webpack_require__(134);
+var audioRecorderService_1 = __webpack_require__(135);
 var close_button_1 = __webpack_require__(1238);
 var combinedHotspotUtil_1 = __webpack_require__(180);
 // Util
@@ -54859,11 +54957,11 @@ var file_loader_1 = __webpack_require__(1246);
 var fileLoaderUtil_1 = __webpack_require__(60);
 var hidden_file_loader_1 = __webpack_require__(1249);
 var info_button_1 = __webpack_require__(1252);
-var propertyRemovalService_1 = __webpack_require__(135);
+var propertyRemovalService_1 = __webpack_require__(136);
 var responsiveUtil_1 = __webpack_require__(474);
 var slider_1 = __webpack_require__(1255);
 var SlideshowBuilder_1 = __webpack_require__(102);
-var zipFileReader_1 = __webpack_require__(133);
+var zipFileReader_1 = __webpack_require__(134);
 // Module routes
 var route = router_1.RouterModule.forChild([{
     path: 'editor',
@@ -54929,10 +55027,10 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
-var projectMetaDataInteractor_1 = __webpack_require__(33);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var VideoInteractor_1 = __webpack_require__(465);
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var event_bus_1 = __webpack_require__(8);
 var shareable_loader_1 = __webpack_require__(178);
 var edit_space_sphere_1 = __webpack_require__(470);
@@ -54941,7 +55039,7 @@ var iconPositionUtil_1 = __webpack_require__(55);
 var publicLinkHelper_1 = __webpack_require__(258);
 var responsiveUtil_1 = __webpack_require__(474);
 var SlideshowBuilder_1 = __webpack_require__(102);
-var zipFileReader_1 = __webpack_require__(133);
+var zipFileReader_1 = __webpack_require__(134);
 var Editor = /** @class */function () {
     function Editor(sceneInteractor, fileLoaderUtil, eventBus, zipFileReader, slideshowBuilder, videoInteractor, route, router, shareableLoader, metaDataInteractor, element, responsiveUtil) {
         this.sceneInteractor = sceneInteractor;
@@ -55285,7 +55383,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var sceneInteractor_1 = __webpack_require__(12);
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var event_bus_1 = __webpack_require__(8);
 var EditSpaceToggle = /** @class */function () {
     function EditSpaceToggle(sceneInteractor, eventBus, router) {
@@ -55743,13 +55841,13 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var projectMetaDataInteractor_1 = __webpack_require__(33);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var reverbList_1 = __webpack_require__(176);
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
-var audioRecorderService_1 = __webpack_require__(134);
+var audioRecorderService_1 = __webpack_require__(135);
 var RoomEditor = /** @class */function () {
     function RoomEditor(sceneInteractor, element, eventBus, metaDataInteractor) {
         this.sceneInteractor = sceneInteractor;
@@ -55874,7 +55972,7 @@ module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserr
 /* 1143 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"room-editor\">\n\n  <!-- Title -->\n  <text-input-material\n    [inputLabel]=\"'Room Name'\"\n    [textModel]=\"getRoomName()\"\n    (onTextChange)=\"setRoomName($event)\">\n  </text-input-material>\n  <br/>\n  <file-loader\n    (onFileLoad)=\"onBackgroundImageLoad($event)\"\n    [displayText]=\"'Add Background Image'\"\n    [acceptedFileType]=\"'image'\">\n  </file-loader>\n\n  <file-loader\n    *ngIf=\"!getBackgroundAudio().hasAsset()\"\n    [displayText]=\"'Add Room Background Audio'\"\n\n    (onFileLoad)=\"onBackgroundAudioLoad($event)\"\n    [acceptedFileType]=\"'audio'\">\n  </file-loader>\n\n  <div\n    *ngIf=\"getBackgroundAudio().hasAsset()\"\n    class=\"room-editor__delete-button\"\n    (click)=\"removeBackgroundAudio()\">\n    Remove Background Audio\n  </div>\n\n  <audio\n    *ngIf=\"getBackgroundAudio().hasAsset()\"\n    [attr.src]=\"getBackgroundAudio().getBinaryFileData()\"\n    type=\"audio/mp3\"\n    controls=\"controls\"\n    [volume]=\"getBackgroundAudioVolume()\"\n    (volumechange)=\"onBGAVolumeChange($event)\"\n    class=\"room-editor__audio-player\">\n  </audio>\n\n  <!-- <div>\n    <p class=\"hotspot-inspector__label\">Reverb</p>\n\n    <select\n      (change)=\"onReverbChange($event)\"\n      class=\"hotspot-inspector__select room-editor__reverb-select\">\n      <option\n        *ngFor=\"let reverb of reverbOptions\"\n        [selected]=\"reverb === getActiveReverb()\">\n          {{reverb}}\n      </option>\n    </select>\n\n  </div> -->\n\n  <div class=\"hotspot-inspector_row\">\n    <div class=\"hotspot-inspector_row\">\n      <file-loader\n        *ngIf=\"!getNarratorIntroAudioFile().hasAsset()\"\n        (onFileLoad)=\"onIntroAudioLoad($event)\"\n        [acceptedFileType]=\"'audio'\"\n        [displayText]=\"'Select a Room Narration Audio'\"\n\n        class=\"room-editor__audio-file-loader\">\n      </file-loader>\n      <div\n        *ngIf=\"getNarratorIntroAudioFile().hasAsset()\"\n        class=\"room-editor__delete-button\"\n        (click)=\"removeNarratorIntroAudio()\">\n        Remove Narration\n      </div>\n    </div>\n    <audio-recorder\n      *ngIf=\"showAudioRecorder()\"\n      (onRecorded)=\"onNarratorIntroRecorded($event)\"\n      class=\"audio-editor__record-button room-editor__audio-record-button\">\n    </audio-recorder>\n  </div>\n\n  <p class=\"error-message\" *ngIf=\"largeIntroAudioFile\">File size is too large (64MB is maximum).</p>\n\n  <audio\n    *ngIf=\"getNarratorIntroAudioFile().hasAsset()\"\n    [attr.src]=\"getNarratorIntroAudioFile().getBinaryFileData()\"\n    type=\"audio/mp3\"\n    controls=\"controls\"\n    [volume]=\"getNarratorIntroAudio().getVolume()\"\n    (volumechange)=\"onNarrationVolumeChange($event)\"\n    class=\"room-editor__audio-player\">\n  </audio>\n\n  <!--  disabled by ali, at aparna's request\n  <div class=\"hotspot-inspector_row\">\n    <div>\n      <p class=\"hotspot-inspector__label room-editor__audio-file-loader\">Narration: Return</p>\n      <file-loader\n          (onFileLoad)=\"onReturnAudioLoad($event)\"\n          [acceptedFileType]=\"'audio'\"\n          class=\"room-editor__audio-file-loader\">\n      </file-loader>\n    </div>\n    <audio-recorder\n      (onRecorded)=\"onNarratorReturnRecorded($event)\"\n      class=\"audio-editor__record-button room-editor__audio-record-button\">\n    </audio-recorder>\n  </div>\n  <audio\n    *ngIf=\"getNarratorReturnAudio().hasAsset()\"\n    [attr.src]=\"getNarratorReturnAudio().getBackgroundImageBinaryData()\"\n    type=\"audio/mp3\"\n    controls=\"controls\"\n    class=\"room-editor__audio-player room-editor__audio-record-button\">\n  </audio>\n  -->\n\n</div>\n"
+module.exports = "<div class=\"room-editor\">\n\n  <!-- Title -->\n  <text-input-material\n    [inputLabel]=\"'Room Name'\"\n    [textModel]=\"getRoomName()\"\n    (onTextChange)=\"setRoomName($event)\">\n  </text-input-material>\n  <br/>\n  <file-loader\n    (onFileLoad)=\"onBackgroundImageLoad($event)\"\n    [displayText]=\"'Add Background Image'\"\n    [acceptedFileType]=\"'image'\">\n  </file-loader>\n\n  <file-loader\n    *ngIf=\"!getBackgroundAudio().hasAsset()\"\n    [displayText]=\"'Add Room Background Audio'\"\n    [maxFileSize]=\"50\"\n    (onFileLoad)=\"onBackgroundAudioLoad($event)\"\n    [acceptedFileType]=\"'audio'\">\n  </file-loader>\n\n  <div\n    *ngIf=\"getBackgroundAudio().hasAsset()\"\n    class=\"room-editor__delete-button\"\n    (click)=\"removeBackgroundAudio()\">\n    Remove Background Audio\n  </div>\n\n  <audio\n    *ngIf=\"getBackgroundAudio().hasAsset()\"\n    [attr.src]=\"getBackgroundAudio().getBinaryFileData()\"\n    type=\"audio/mp3\"\n    controls=\"controls\"\n    [volume]=\"getBackgroundAudioVolume()\"\n    (volumechange)=\"onBGAVolumeChange($event)\"\n    class=\"room-editor__audio-player\">\n  </audio>\n\n  <div class=\"hotspot-inspector_row\">\n    <div class=\"hotspot-inspector_row\">\n      <file-loader\n        *ngIf=\"!getNarratorIntroAudioFile().hasAsset()\"\n        (onFileLoad)=\"onIntroAudioLoad($event)\"\n        [acceptedFileType]=\"'audio'\"\n        [maxFileSize]=\"50\"\n        [displayText]=\"'Select a Room Narration Audio'\"\n\n        class=\"room-editor__audio-file-loader\">\n      </file-loader>\n      <div\n        *ngIf=\"getNarratorIntroAudioFile().hasAsset()\"\n        class=\"room-editor__delete-button\"\n        (click)=\"removeNarratorIntroAudio()\">\n        Remove Narration\n      </div>\n    </div>\n    <audio-recorder\n      *ngIf=\"showAudioRecorder()\"\n      [maxRecordTime]=\"90\"\n      (onRecorded)=\"onNarratorIntroRecorded($event)\"\n      class=\"audio-editor__record-button room-editor__audio-record-button\">\n    </audio-recorder>\n  </div>\n\n  <p class=\"error-message\" *ngIf=\"largeIntroAudioFile\">File size is too large (64MB is maximum).</p>\n\n  <audio\n    *ngIf=\"getNarratorIntroAudioFile().hasAsset()\"\n    [attr.src]=\"getNarratorIntroAudioFile().getBinaryFileData()\"\n    type=\"audio/mp3\"\n    controls=\"controls\"\n    [volume]=\"getNarratorIntroAudio().getVolume()\"\n    (volumechange)=\"onNarrationVolumeChange($event)\"\n    class=\"room-editor__audio-player\">\n  </audio>\n</div>\n"
 
 /***/ }),
 /* 1144 */
@@ -55896,7 +55994,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
-var userInteractor_1 = __webpack_require__(30);
+var userInteractor_1 = __webpack_require__(31);
 var event_bus_1 = __webpack_require__(8);
 var AddRoomButton = /** @class */function () {
     function AddRoomButton(router, eventBus, userInteractor) {
@@ -55951,9 +56049,9 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var projectMetaDataInteractor_1 = __webpack_require__(33);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var event_bus_1 = __webpack_require__(8);
 var SlideshowBuilder_1 = __webpack_require__(102);
 var StoryScroll = /** @class */function () {
@@ -56034,6 +56132,10 @@ var StoryScroll = /** @class */function () {
         }
         return roomId === this.sceneInteractor.getActiveRoomId();
     };
+    StoryScroll.prototype.roomIsLoaded = function (roomId) {
+        var room = this.sceneInteractor.getRoomById(roomId);
+        return room.isLoadedAssets;
+    };
     StoryScroll.prototype.roomIsExpanded = function (roomId) {
         return this.roomIsSelected(roomId) && this.activeRoomIsExpanded && !!this.sceneInteractor.getRoomProperties(roomId).length;
     };
@@ -56101,7 +56203,7 @@ module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserr
 /* 1149 */
 /***/ (function(module, exports) {
 
-module.exports = "<div\n  class=\"story-scroll\"\n  [ngClass]=\"{'stroy-scroll--open': isOpen}\">\n\n  <room-editor\n    *ngIf=\"inspectorIsVisible\"\n    (onOffClick)=\"onOffClick($event)\"\n    class=\"story-scroll__room-editor\">\n  </room-editor>\n\n  <div *ngIf=\"!inspectorIsVisible\">\n    <div\n      (click)=\"toggleOpen($event)\"\n      class=\"story-scroll__toggle-button\">\n      <span\n        class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-left\"\n        [ngClass]=\"{'story-scroll__toggle-arrow-left--open': isOpen}\">\n      </span>\n      <span\n        class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-right\"\n        [ngClass]=\"{'story-scroll__toggle-arrow-right--open': isOpen}\">\n      </span>\n    </div>\n  </div>\n\n\n  <div\n    droppable\n    [acceptedFileType]=\"'image'\"\n    [acceptMultpleFiles]=\"true\"\n    (onFileLoad)=\"addSlideshow($event)\"\n    class=\"story-scroll__scroll\">\n\n    <div class=\"story-scroll__room-group\">\n      <div\n        *ngFor=\"let roomId of getRoomIdList()\"\n        class=\"story-scroll__room\">\n\n        <!-- Room Label -->\n        <storymap-item\n          [roomProperty]=\"getRoomById(roomId)\"\n          [isActive]=\"roomIsSelected(roomId)\"\n          (click)=\"onRoomSelect(roomId)\"\n          (infoEvent)=\"onInfoClick($event)\"\n          class=\"story-scroll__storymap-item\">\n        </storymap-item>\n      </div>\n    </div>\n\n\n    <add-room></add-room>\n\n  </div>\n\n</div>\n"
+module.exports = "<div\n  class=\"story-scroll\"\n  [ngClass]=\"{'stroy-scroll--open': isOpen}\">\n\n  <room-editor\n    *ngIf=\"inspectorIsVisible\"\n    (onOffClick)=\"onOffClick($event)\"\n    class=\"story-scroll__room-editor\">\n  </room-editor>\n\n  <div *ngIf=\"!inspectorIsVisible\">\n    <div\n      (click)=\"toggleOpen($event)\"\n      class=\"story-scroll__toggle-button\">\n      <span\n        class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-left\"\n        [ngClass]=\"{'story-scroll__toggle-arrow-left--open': isOpen}\">\n      </span>\n      <span\n        class=\"story-scroll__toggle-arrow story-scroll__toggle-arrow-right\"\n        [ngClass]=\"{'story-scroll__toggle-arrow-right--open': isOpen}\">\n      </span>\n    </div>\n  </div>\n\n\n  <div\n    droppable\n    [acceptedFileType]=\"'image'\"\n    [acceptMultpleFiles]=\"true\"\n    (onFileLoad)=\"addSlideshow($event)\"\n    class=\"story-scroll__scroll\">\n\n    <div class=\"story-scroll__room-group\">\n      <div\n        *ngFor=\"let roomId of getRoomIdList()\"\n        class=\"story-scroll__room\">\n\n        <!-- Room Label -->\n        <storymap-item\n          [roomProperty]=\"getRoomById(roomId)\"\n          [isActive]=\"roomIsSelected(roomId)\"\n          (click)=\"roomIsLoaded(roomId) && onRoomSelect(roomId)\"\n          (infoEvent)=\"onInfoClick($event)\"\n          class=\"story-scroll__storymap-item\">\n        </storymap-item>\n      </div>\n    </div>\n\n\n    <add-room></add-room>\n\n  </div>\n\n</div>\n"
 
 /***/ }),
 /* 1150 */
@@ -56123,7 +56225,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(12);
-var propertyRemovalService_1 = __webpack_require__(135);
+var room_1 = __webpack_require__(132);
+var propertyRemovalService_1 = __webpack_require__(136);
 var roomPropertyTypeService_1 = __webpack_require__(86);
 var StorymapItem = /** @class */function () {
     function StorymapItem(propertyRemovalService, sceneInteractor, ngZone) {
@@ -56186,7 +56289,7 @@ var StorymapItem = /** @class */function () {
     StorymapItem.prototype.onNameChange = function ($event) {
         this.roomProperty.setName($event.text);
     };
-    __decorate([core_1.Input(), __metadata("design:type", Object)], StorymapItem.prototype, "roomProperty", void 0);
+    __decorate([core_1.Input(), __metadata("design:type", room_1.Room)], StorymapItem.prototype, "roomProperty", void 0);
     __decorate([core_1.Input(), __metadata("design:type", Boolean)], StorymapItem.prototype, "isActive", void 0);
     __decorate([core_1.Output(), __metadata("design:type", Object)], StorymapItem.prototype, "infoEvent", void 0);
     __decorate([core_1.Output(), __metadata("design:type", Object)], StorymapItem.prototype, "deleteEvent", void 0);
@@ -56203,13 +56306,13 @@ exports.StorymapItem = StorymapItem;
 /* 1151 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.storymap-item {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: flex-start;\n  align-items: center;\n  width: 100%;\n  cursor: pointer;\n  margin: 0px 0; }\n  .storymap-item:hover .story-map-item__buttons {\n    visibility: visible; }\n\n.story-map-item__buttons {\n  display: flex;\n  flex-direction: row;\n  transform: translate(0%, 80px);\n  visibility: hidden;\n  z-index: 1; }\n\n.storymap-item__button {\n  margin-left: 5px;\n  margin-right: 5px;\n  background-color: transparent;\n  background-size: 90%;\n  background-repeat: no-repeat;\n  width: 21px;\n  height: 21px; }\n\n.storymap-item__roomname {\n  justify-content: center;\n  margin: 0px 0px 0px 0px;\n  transform: translate(0%, 40px);\n  z-index: 1; }\n\n.storymap-item__delete {\n  background-image: url(\"assets/icons/delete_filled.png\"); }\n\n.storymap-item__info {\n  background-image: url(\"assets/icons/info_filled.png\"); }\n\n.storymap-item__home-icon {\n  background-image: url(\"assets/icons/home.png\"); }\n  .storymap-item__home-icon:hover {\n    background-image: url(\"assets/icons/home_filled.png\"); }\n\n.storymap-item__home-icon--active {\n  background-image: url(\"assets/icons/home_filled.png\"); }\n\n.storymap-item__thumbnailbox {\n  background-color: #EEEEEE;\n  height: 80px;\n  margin: 0 5px; }\n\n.storymap-item__thumbnail {\n  width: 120px;\n  height: 80px;\n  opacity: 0.5;\n  transition: opacity 0.25s ease-in-out; }\n\n.storymap-item__thumbnail--active {\n  opacity: 1; }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.storymap-item {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: nowrap;\n  justify-content: flex-start;\n  align-items: center;\n  width: 100%;\n  cursor: pointer;\n  margin: 0; }\n  .storymap-item:hover .story-map-item__buttons {\n    visibility: visible; }\n\n.story-map-item__buttons {\n  display: flex;\n  flex-direction: row;\n  transform: translate(0%, 80px);\n  visibility: hidden;\n  z-index: 1; }\n\n.storymap-item__button {\n  margin-left: 5px;\n  margin-right: 5px;\n  background-color: transparent;\n  background-size: 90%;\n  background-repeat: no-repeat;\n  width: 21px;\n  height: 21px; }\n\n.storymap-item__roomname {\n  justify-content: center;\n  margin: 0;\n  transform: translate(0%, 40px);\n  z-index: 1; }\n\n.storymap-item__delete {\n  background-image: url(\"assets/icons/delete_filled.png\"); }\n\n.storymap-item__info {\n  background-image: url(\"assets/icons/info_filled.png\"); }\n\n.storymap-item__home-icon {\n  background-image: url(\"assets/icons/home.png\"); }\n  .storymap-item__home-icon:hover {\n    background-image: url(\"assets/icons/home_filled.png\"); }\n\n.storymap-item__home-icon--active {\n  background-image: url(\"assets/icons/home_filled.png\"); }\n\n.storymap-item__thumbnailbox {\n  background-color: #EEEEEE;\n  height: 80px;\n  margin: 0 5px; }\n  .storymap-item__thumbnailbox .loading-progress {\n    width: 120px;\n    height: 80px;\n    opacity: 0.5;\n    transition: opacity 0.25s ease-in-out;\n    text-align: center; }\n    .storymap-item__thumbnailbox .loading-progress span {\n      line-height: 80px; }\n\n.storymap-item__thumbnail {\n  width: 120px;\n  height: 80px;\n  opacity: 0.5;\n  transition: opacity 0.25s ease-in-out; }\n\n.storymap-item__thumbnail--active {\n  opacity: 1; }\n"
 
 /***/ }),
 /* 1152 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"storymap-item\">\n\n  <div class=\"storymap-item__roomname\">\n    <text-input\n      [textModel]=\"getName()\"\n      [isRoomName]=\"true\"\n      (onTextChange)=\"onNameChange($event)\">\n    </text-input>\n  </div>\n\n  <div class=\"story-map-item__buttons\">\n    <div\n      class=\"storymap-item__button storymap-item__delete\"\n      (click)=\"onDeleteClick($event)\">\n    </div>\n\n    <div\n      class=\"storymap-item__button storymap-item__info\"\n      (click)=\"onInfoClick($event)\">\n    </div>\n\n    <div\n      (click)=\"setAsHomeRoom()\"\n      class=\"storymap-item__button storymap-item__home-icon\"\n      [ngClass]=\"{'storymap-item__home-icon--active': isHomeRoom()}\">\n    </div>\n\n  </div>\n\n  <div class='storymap-item__thumbnailbox'>\n    <img\n      [attr.src]=\"getBackgroundThumbnail()\"\n      class=\"storymap-item__thumbnail\"\n      [ngClass]=\"{'storymap-item__thumbnail--active': isActive}\">\n  </div>\n\n\n</div>\n"
+module.exports = "<div\n  [ngClass]=\"{'loading': !roomProperty.isLoadedAssets}\"\n  class=\"storymap-item\">\n\n  <div class=\"storymap-item__roomname\">\n    <text-input\n      [textModel]=\"getName()\"\n      [isRoomName]=\"true\"\n      (onTextChange)=\"onNameChange($event)\">\n    </text-input>\n  </div>\n\n  <div class=\"story-map-item__buttons\">\n    <div\n      class=\"storymap-item__button storymap-item__delete\"\n      (click)=\"onDeleteClick($event)\">\n    </div>\n\n    <div\n      class=\"storymap-item__button storymap-item__info\"\n      (click)=\"onInfoClick($event)\">\n    </div>\n\n    <div\n      (click)=\"setAsHomeRoom()\"\n      class=\"storymap-item__button storymap-item__home-icon\"\n      [ngClass]=\"{'storymap-item__home-icon--active': isHomeRoom()}\">\n    </div>\n\n  </div>\n\n  <div class='storymap-item__thumbnailbox'>\n    <div class=\"loading-progress\" *ngIf=\"!roomProperty.isLoadedAssets\">\n      <span>{{roomProperty.loadingPercents}}%</span>\n    </div>\n    <img\n      *ngIf=\"roomProperty.isLoadedAssets\"\n      [attr.src]=\"getBackgroundThumbnail()\"\n      class=\"storymap-item__thumbnail\"\n      [ngClass]=\"{'storymap-item__thumbnail--active': isActive}\">\n  </div>\n</div>\n"
 
 /***/ }),
 /* 1153 */
@@ -56231,11 +56334,11 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(12);
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var event_bus_1 = __webpack_require__(8);
 var fileLoaderUtil_1 = __webpack_require__(60);
 var SlideshowBuilder_1 = __webpack_require__(102);
-var zipFileReader_1 = __webpack_require__(133);
+var zipFileReader_1 = __webpack_require__(134);
 var DefaultOverlay = /** @class */function () {
     function DefaultOverlay(eventBus, fileLoaderUtil, zipFileReader, sceneInteractor, slideshowBuilder) {
         this.eventBus = eventBus;
@@ -56469,7 +56572,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var audio_1 = __webpack_require__(99);
 var constants_1 = __webpack_require__(7);
-var audioRecorderService_1 = __webpack_require__(134);
+var audioRecorderService_1 = __webpack_require__(135);
 var AudioEditor = /** @class */function () {
     function AudioEditor() {}
     AudioEditor.prototype.onFileLoad = function ($event) {
@@ -56664,7 +56767,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var image_1 = __webpack_require__(250);
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var event_bus_1 = __webpack_require__(8);
 var ImageEditor = /** @class */function () {
     function ImageEditor(eventBus) {
@@ -56773,7 +56876,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var propertyRemovalService_1 = __webpack_require__(135);
+var propertyRemovalService_1 = __webpack_require__(136);
 var roomPropertyTypeService_1 = __webpack_require__(86);
 var PropertyEditor = /** @class */function () {
     function PropertyEditor(propertyRemovalService) {
@@ -56893,14 +56996,16 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var universal_1 = __webpack_require__(132);
-var imageResizeService_1 = __webpack_require__(26);
+var universal_1 = __webpack_require__(133);
+var imageResizeService_1 = __webpack_require__(27);
 var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
-var audioRecorderService_1 = __webpack_require__(134);
+var audioRecorderService_1 = __webpack_require__(135);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var UniversalEditor = /** @class */function () {
-    function UniversalEditor(eventBus) {
+    function UniversalEditor(eventBus, projectMetaDataInteractor) {
         this.eventBus = eventBus;
+        this.projectMetaDataInteractor = projectMetaDataInteractor;
         this._activeTab = null;
         this._originImage = null;
         this._rotateImageAngle = 0;
@@ -56948,6 +57053,20 @@ var UniversalEditor = /** @class */function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(UniversalEditor.prototype, "textContent", {
+        get: function () {
+            return this.universalProperty.textContent;
+        },
+        set: function (value) {
+            this.universalProperty.textContent = value;
+            this._onChange();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    UniversalEditor.prototype._onChange = function () {
+        this.projectMetaDataInteractor.onProjectChanged();
+    };
     UniversalEditor.prototype.onChangeActiveTab = function (event, tab) {
         if (event.target.checked) {
             this._activeTab = tab;
@@ -56957,7 +57076,8 @@ var UniversalEditor = /** @class */function () {
         var _this = this;
         imageResizeService_1.resizeImage($event.binaryFileData, 'hotspotImage').then(function (resizedImageData) {
             _this._originImage = null;
-            return _this.universalProperty.setImageContent(resizedImageData);
+            _this.universalProperty.setImageContent(resizedImageData);
+            _this._onChange();
         }).catch(function (error) {
             return _this.eventBus.onModalMessage('Image loading error', error);
         });
@@ -56985,18 +57105,25 @@ var UniversalEditor = /** @class */function () {
             _this.universalProperty.imageContent.setBinaryFileData(canvas.toDataURL());
         };
         image.src = this._originImage;
+        this._onChange();
     };
     UniversalEditor.prototype.onAudioFileLoad = function ($event) {
         this.universalProperty.setAudioContent($event.binaryFileData, constants_1.DEFAULT_VOLUME);
+        this._onChange();
     };
     UniversalEditor.prototype.onVolumeChange = function ($event) {
-        this.universalProperty.volume = $event.currentTarget.volume;
+        if (this.universalProperty.volume !== $event.currentTarget.volume) {
+            this.universalProperty.volume = $event.currentTarget.volume;
+            this._onChange();
+        }
     };
     UniversalEditor.prototype.onAudioRecorded = function ($event) {
         this.universalProperty.setAudioContent($event.dataUrl, constants_1.DEFAULT_VOLUME);
+        this._onChange();
     };
     UniversalEditor.prototype.onLoopChange = function ($event) {
         this.universalProperty.loop = $event.value;
+        this._onChange();
     };
     UniversalEditor.prototype.getLoopState = function () {
         return this.universalProperty.loop;
@@ -57036,7 +57163,7 @@ var UniversalEditor = /** @class */function () {
         selector: 'universal-editor',
         styles: [__webpack_require__(1178)],
         template: __webpack_require__(1179)
-    }), __metadata("design:paramtypes", [event_bus_1.EventBus])], UniversalEditor);
+    }), __metadata("design:paramtypes", [event_bus_1.EventBus, projectMetaDataInteractor_1.MetaDataInteractor])], UniversalEditor);
     return UniversalEditor;
 }();
 exports.UniversalEditor = UniversalEditor;
@@ -57051,7 +57178,7 @@ module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserr
 /* 1179 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"universal-editor\">\n  <h2 class=\"hotspot-inspector__label\">\n    Hotspot Tool\n  </h2>\n\n  <div class=\"tab-container\">\n    <div class=\"tabs\">\n      <input id=\"tab-universal-image\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.IMAGE)\"\n             [checked]=\"activeTab === TABS.IMAGE\">\n      <label for=\"tab-universal-image\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__image\"></div>\n        Image\n      </label>\n\n      <input id=\"tab-universal-text\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.TEXT)\"\n             [checked]=\"activeTab === TABS.TEXT\">\n      <label for=\"tab-universal-text\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__text\"></div>\n        Text\n      </label>\n\n      <input id=\"tab-universal-audio\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.AUDIO)\"\n             [checked]=\"activeTab === TABS.AUDIO\">\n      <label for=\"tab-universal-audio\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__audio\"></div>\n        Audio\n      </label>\n    </div>\n\n    <section id=\"content-universal-image\" [ngClass]=\"{'active': activeTab === TABS.IMAGE}\" droppable\n             (onFileLoad)=\"onImageFileLoad($event)\" [acceptedFileType]=\"'image'\">\n      <file-loader\n        (onFileLoad)=\"onImageFileLoad($event)\"\n        [acceptedFileType]=\"'image'\"\n        class=\"universal-editor__file-loader\">\n      </file-loader>\n\n      <div class=\"universal-editor__image-wrapper\">\n        <img *ngIf=\"hasImageContent()\"\n             [attr.src]=\"universalProperty.imageContent.getBinaryFileData()\"\n             class=\"universal-editor__image-display\">\n      </div>\n\n      <div *ngIf=\"hasImageContent()\" class=\"universal-editor__image-rotate\">\n        <button type=\"button\" (click)=\"onRotateImage()\">\n          <img src=\"assets/icons/rotate-icon-default.png\" alt=\"Rotate\" class=\"default\">\n          <img src=\"assets/icons/rotate-icon-hover-active.png\" alt=\"Rotate\" class=\"active\">\n        </button>\n      </div>\n    </section>\n\n    <section id=\"content-universal-text\" [ngClass]=\"{'active': activeTab === TABS.TEXT}\">\n      <p class=\"hotspot-inspector__label\">\n        Enter Text:\n      </p>\n      <textarea\n        maxlength=\"245\"\n        name=\"textarea\"\n        class=\"universal-editor__text-area\"\n        [(ngModel)]=\"universalProperty.textContent\">\n      </textarea>\n\n      <p class=\"universal-editor__text-chars-counter\">{{245 - (universalProperty.textContent &&\n        universalProperty.textContent.length || 0)}} characters left</p>\n    </section>\n\n    <section id=\"content-universal-audio\" [ngClass]=\"{'active': activeTab === TABS.AUDIO}\" droppable\n             (onFileLoad)=\"onAudioFileLoad($event)\" [acceptedFileType]=\"'audio'\">\n      <div>\n        <p class=\"hotspot-inspector__label play-loop-label\">\n          Play loop\n        </p>\n\n        <checkbox\n          [initialValue]=\"getLoopState()\"\n          (changeEmitter)=\"onLoopChange($event)\">\n        </checkbox>\n      </div>\n\n      <div class=\"hotspot-inspector_row\">\n        <file-loader\n          (onFileLoad)=\"onAudioFileLoad($event)\"\n          [acceptedFileType]=\"'audio'\"\n          class=\"universal-editor__file-loader\">\n        </file-loader>\n\n        <audio-recorder\n          *ngIf=\"showAudioRecorder()\"\n          (onRecorded)=\"onAudioRecorded($event)\"\n          class=\"universal-editor__record-button\">\n        </audio-recorder>\n      </div>\n\n      <audio\n        *ngIf=\"hasAudioContent()\"\n        [attr.src]=\"universalProperty.audioContent.getBinaryFileData()\"\n        type=\"audio/mp3\"\n        controls=\"controls\"\n        [loop]=\"getLoopState()\"\n        [volume]=\"universalProperty.volume\"\n        (volumechange)=\"onVolumeChange($event)\"\n        class=\"universal-editor__audio-player\">\n      </audio>\n    </section>\n  </div>\n\n  <div\n    class=\"property-editor__delete-button\"\n    (click)=\"onDeleteTabData()\">\n    Delete {{ activeTabName }}\n  </div>\n</div>\n"
+module.exports = "<div class=\"universal-editor\">\n  <h2 class=\"hotspot-inspector__label\">\n    Hotspot Tool\n  </h2>\n\n  <div class=\"tab-container\">\n    <div class=\"tabs\">\n      <input id=\"tab-universal-image\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.IMAGE)\"\n             [checked]=\"activeTab === TABS.IMAGE\">\n      <label for=\"tab-universal-image\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__image\"></div>\n        Image\n      </label>\n\n      <input id=\"tab-universal-text\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.TEXT)\"\n             [checked]=\"activeTab === TABS.TEXT\">\n      <label for=\"tab-universal-text\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__text\"></div>\n        Text\n      </label>\n\n      <input id=\"tab-universal-audio\" type=\"radio\" name=\"tabs\" (change)=\"onChangeActiveTab($event, TABS.AUDIO)\"\n             [checked]=\"activeTab === TABS.AUDIO\">\n      <label for=\"tab-universal-audio\" class=\"tab\">\n        <div class=\"universal-editor__tab-icon list-icon__audio\"></div>\n        Audio\n      </label>\n    </div>\n\n    <section id=\"content-universal-image\" [ngClass]=\"{'active': activeTab === TABS.IMAGE}\" droppable\n             (onFileLoad)=\"onImageFileLoad($event)\" [acceptedFileType]=\"'image'\">\n      <file-loader\n        (onFileLoad)=\"onImageFileLoad($event)\"\n        [acceptedFileType]=\"'image'\"\n        class=\"universal-editor__file-loader\">\n      </file-loader>\n\n      <div class=\"universal-editor__image-wrapper\">\n        <img *ngIf=\"hasImageContent()\"\n             [attr.src]=\"universalProperty.imageContent.getBinaryFileData()\"\n             class=\"universal-editor__image-display\">\n      </div>\n\n      <div *ngIf=\"hasImageContent()\" class=\"universal-editor__image-rotate\">\n        <button type=\"button\" (click)=\"onRotateImage()\">\n          <img src=\"assets/icons/rotate-icon-default.png\" alt=\"Rotate\" class=\"default\">\n          <img src=\"assets/icons/rotate-icon-hover-active.png\" alt=\"Rotate\" class=\"active\">\n        </button>\n      </div>\n    </section>\n\n    <section id=\"content-universal-text\" [ngClass]=\"{'active': activeTab === TABS.TEXT}\">\n      <p class=\"hotspot-inspector__label\">\n        Enter Text:\n      </p>\n      <textarea\n        maxlength=\"245\"\n        name=\"textarea\"\n        class=\"universal-editor__text-area\"\n        [(ngModel)]=\"textContent\">\n      </textarea>\n\n      <p class=\"universal-editor__text-chars-counter\">{{245 - (universalProperty.textContent &&\n        universalProperty.textContent.length || 0)}} characters left</p>\n    </section>\n\n    <section id=\"content-universal-audio\" [ngClass]=\"{'active': activeTab === TABS.AUDIO}\" droppable\n             (onFileLoad)=\"onAudioFileLoad($event)\" [acceptedFileType]=\"'audio'\">\n      <div>\n        <p class=\"hotspot-inspector__label play-loop-label\">\n          Play loop\n        </p>\n\n        <checkbox\n          [initialValue]=\"getLoopState()\"\n          (changeEmitter)=\"onLoopChange($event)\">\n        </checkbox>\n      </div>\n\n      <div class=\"hotspot-inspector_row\">\n        <file-loader\n          (onFileLoad)=\"onAudioFileLoad($event)\"\n          [acceptedFileType]=\"'audio'\"\n          [maxFileSize]=\"50\"\n          class=\"universal-editor__file-loader\">\n        </file-loader>\n\n        <audio-recorder\n          *ngIf=\"showAudioRecorder()\"\n          [maxRecordTime]=\"30\"\n          (onRecorded)=\"onAudioRecorded($event)\"\n          class=\"universal-editor__record-button\">\n        </audio-recorder>\n      </div>\n\n      <audio\n        *ngIf=\"hasAudioContent()\"\n        [attr.src]=\"universalProperty.audioContent.getBinaryFileData()\"\n        type=\"audio/mp3\"\n        controls=\"controls\"\n        [loop]=\"getLoopState()\"\n        [volume]=\"universalProperty.volume\"\n        (volumechange)=\"onVolumeChange($event)\"\n        class=\"universal-editor__audio-player\">\n      </audio>\n    </section>\n  </div>\n\n  <div\n    class=\"property-editor__delete-button\"\n    (click)=\"onDeleteTabData()\">\n    Delete {{ activeTabName }}\n  </div>\n</div>\n"
 
 /***/ }),
 /* 1180 */
@@ -57131,8 +57258,9 @@ var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var combinedHotspotUtil_1 = __webpack_require__(180);
 var iconPositionUtil_1 = __webpack_require__(55);
-var propertyRemovalService_1 = __webpack_require__(135);
+var propertyRemovalService_1 = __webpack_require__(136);
 var roomPropertyTypeService_1 = __webpack_require__(86);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var ICON_MAP = {
     universal: 'icon-add.png',
     text: 'icon-text.png',
@@ -57165,12 +57293,13 @@ function snapToGrid(position) {
     return new vector2_1.Vector2(round(position.getX(), ROUND_UNIT), round(position.getY(), ROUND_UNIT));
 }
 var RoomIcon = /** @class */function () {
-    function RoomIcon(eventBus, propertyRemovalService, combinedHotspotUtil, ngZone, element) {
+    function RoomIcon(eventBus, propertyRemovalService, combinedHotspotUtil, ngZone, element, metaDataInteractor) {
         this.eventBus = eventBus;
         this.propertyRemovalService = propertyRemovalService;
         this.combinedHotspotUtil = combinedHotspotUtil;
         this.ngZone = ngZone;
         this.element = element;
+        this.metaDataInteractor = metaDataInteractor;
         this.onIconDragEnd = new core_1.EventEmitter();
         this.propertyEditorIsVisible = false;
         this.screenPosition = new vector2_1.Vector2(0, 0);
@@ -57350,6 +57479,7 @@ var RoomIcon = /** @class */function () {
         if (this.propertyIs('door')) {
             this.roomProperty.setNameIsCustom(true);
         }
+        this.metaDataInteractor.onProjectChanged();
     };
     RoomIcon.prototype.propertyIs = function (propertyType) {
         return this.propertyType === propertyType;
@@ -57378,6 +57508,7 @@ var RoomIcon = /** @class */function () {
     };
     RoomIcon.prototype.setLocation = function (location) {
         this.roomProperty.setLocation(location);
+        this.metaDataInteractor.onProjectChanged();
     };
     __decorate([core_1.ViewChild('iconElement'), __metadata("design:type", Object)], RoomIcon.prototype, "iconElement", void 0);
     __decorate([core_1.Output(), __metadata("design:type", Object)], RoomIcon.prototype, "onIconDragEnd", void 0);
@@ -57387,7 +57518,7 @@ var RoomIcon = /** @class */function () {
         selector: 'room-icon',
         styles: [__webpack_require__(1184)],
         template: __webpack_require__(1185)
-    }), __metadata("design:paramtypes", [event_bus_1.EventBus, propertyRemovalService_1.PropertyRemovalService, combinedHotspotUtil_1.CombinedHotspotUtil, core_1.NgZone, core_1.ElementRef])], RoomIcon);
+    }), __metadata("design:paramtypes", [event_bus_1.EventBus, propertyRemovalService_1.PropertyRemovalService, combinedHotspotUtil_1.CombinedHotspotUtil, core_1.NgZone, core_1.ElementRef, projectMetaDataInteractor_1.MetaDataInteractor])], RoomIcon);
     return RoomIcon;
 }();
 exports.RoomIcon = RoomIcon;
@@ -57474,12 +57605,12 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var adminInteractor_1 = __webpack_require__(129);
 var projectInteractor_1 = __webpack_require__(42);
-var projectMetaDataInteractor_1 = __webpack_require__(33);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var storageInteractor_1 = __webpack_require__(177);
-var userInteractor_1 = __webpack_require__(30);
+var userInteractor_1 = __webpack_require__(31);
 var projectModel_1 = __webpack_require__(460);
-__webpack_require__(170);
+__webpack_require__(171);
 var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var FileSaver = __webpack_require__(478);
@@ -57515,22 +57646,28 @@ var AuthUserTab = /** @class */function () {
         return this.userInteractor.getUserName();
     };
     AuthUserTab.prototype.onLogOutClick = function () {
-        this.userInteractor.logOut();
+        var _this = this;
+        this.metaDataInteractor.checkAndConfirmResetChanges().then(function () {
+            _this.userInteractor.logOut();
+        }, function () {});
     };
     AuthUserTab.prototype.openProject = function (project) {
         var _this = this;
-        this.eventBus.onStartLoading();
-        this.projectInteractor.openProject(project).then(function () {
-            //reset the current scene
-            _this.sceneInteractor.setActiveRoomId(null);
-            _this.eventBus.onSelectRoom(null, false);
-            _this.metaDataInteractor.setIsReadOnly(false);
-            _this.eventBus.onStopLoading();
-        }, function (error) {
-            console.error('error', error);
-            _this.eventBus.onStopLoading();
-        });
-        this.router.navigateByUrl('/editor');
+        this.metaDataInteractor.checkAndConfirmResetChanges().then(function () {
+            _this.eventBus.onStartLoading();
+            _this.projectInteractor.openProject(project).then(function () {
+                //reset the current scene
+                _this.sceneInteractor.setActiveRoomId(null);
+                _this.eventBus.onSelectRoom(null, false);
+                _this.metaDataInteractor.setIsReadOnly(false);
+                _this.eventBus.onStopLoading();
+                _this.metaDataInteractor.loadingProject(false);
+            }, function (error) {
+                console.error('error', error);
+                _this.eventBus.onStopLoading();
+            });
+            _this.router.navigateByUrl('/editor');
+        }, function () {});
     };
     AuthUserTab.prototype.downloadProject = function (project) {
         var _this = this;
@@ -57549,12 +57686,15 @@ var AuthUserTab = /** @class */function () {
         this.eventBus.onShareableModal(userId, projectId + '');
     };
     AuthUserTab.prototype.openMultiView = function (projectId) {
-        console.log('onOpenMultiView');
-        var userId = this.userInteractor.getUserId();
-        var queryParams = {
-            multiview: userId + "-" + projectId
-        };
-        this.router.navigate(['editor', 'preview'], { queryParams: queryParams });
+        var _this = this;
+        this.metaDataInteractor.checkAndConfirmResetChanges().then(function () {
+            console.log('onOpenMultiView');
+            var userId = _this.userInteractor.getUserId();
+            var queryParams = {
+                multiview: userId + "-" + projectId
+            };
+            _this.router.navigate(['editor', 'preview'], { queryParams: queryParams });
+        }, function () {});
     };
     AuthUserTab.prototype.isWorkingOnSavedProject = function () {
         return this.projectInteractor.isWorkingOnSavedProject();
@@ -57643,7 +57783,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var assetInteractor_1 = __webpack_require__(59);
-var userInteractor_1 = __webpack_require__(30);
+var userInteractor_1 = __webpack_require__(31);
 var event_bus_1 = __webpack_require__(8);
 var UnauthUserTab = /** @class */function () {
     function UnauthUserTab(router, assetInteractor, userInteractor, eventBus) {
@@ -57729,7 +57869,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
-var userInteractor_1 = __webpack_require__(30);
+var userInteractor_1 = __webpack_require__(31);
 var UserTab = /** @class */function () {
     function UserTab(userInteractor, router, element) {
         this.userInteractor = userInteractor;
@@ -57798,7 +57938,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(12);
-var propertyRemovalService_1 = __webpack_require__(135);
+var propertyRemovalService_1 = __webpack_require__(136);
 var roomPropertyTypeService_1 = __webpack_require__(86);
 var RowItem = /** @class */function () {
     function RowItem(propertyRemovalService, sceneInteractor) {
@@ -57883,10 +58023,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var projectInteractor_1 = __webpack_require__(42);
-var projectMetaDataInteractor_1 = __webpack_require__(33);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var storageInteractor_1 = __webpack_require__(177);
-var userInteractor_1 = __webpack_require__(30);
+var userInteractor_1 = __webpack_require__(31);
 var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var SlideshowBuilder_1 = __webpack_require__(102);
@@ -57945,11 +58085,8 @@ var Story = /** @class */function () {
     };
     Story.prototype.onNewStoryClick = function ($event) {
         var _this = this;
-        this.eventBus.onModalMessage('', 'If you do not save your changes before opening a new story file, those changes will be lost.', true,
-        // modal dismissed callback
-        function () {},
-        // modal accepted callback
-        function () {
+        this.metaDataInteractor.checkAndConfirmResetChanges().then(function () {
+            _this.metaDataInteractor.loadingProject(true);
             _this.router.navigate(['/editor', { outlets: { 'modal': 'upload' } }]);
             if ($event.shiftKey) {
                 _this.eventBus.onOpenFileLoader('zip');
@@ -57961,15 +58098,19 @@ var Story = /** @class */function () {
             _this.projectInteractor.setProject(null);
             _this.eventBus.onSelectRoom(null, false);
             _this.metaDataInteractor.setIsReadOnly(false);
-        });
+            _this.metaDataInteractor.loadingProject(false);
+        }, function () {});
     };
     Story.prototype.onOpenStoryLocallyClick = function (event) {
-        if (!this.userInteractor.isLoggedIn()) {
-            this.eventBus.onModalMessage('Error', 'You must be logged in to upload from .zip');
-            return;
-        }
-        this.eventBus.onOpenFileLoader('zip');
-        this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
+        var _this = this;
+        this.metaDataInteractor.checkAndConfirmResetChanges().then(function () {
+            if (!_this.userInteractor.isLoggedIn()) {
+                _this.eventBus.onModalMessage('Error', 'You must be logged in to upload from .zip');
+                return;
+            }
+            _this.eventBus.onOpenFileLoader('zip');
+            _this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
+        }, function () {});
     };
     Story.prototype.onSaveStoryClick = function (event) {
         if (this.metaDataInteractor.projectIsEmpty()) {
@@ -58050,7 +58191,7 @@ module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserr
 /* 1205 */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-window\">\n\n  <div class=\"modal-window__fields\">\n\n    <!-- Title -->\n    <text-input-material\n      [inputLabel]=\"'Title'\"\n      [textModel]=\"getProjectName()\"\n      (onTextChange)=\"setProjectName($event)\">\n    </text-input-material>\n\n    <!-- Tags -->\n    <text-input-material\n      [inputLabel]=\"'Tags'\"\n      [textModel]=\"getProjectTags()\"\n      (onTextChange)=\"setProjectTags($event)\">\n    </text-input-material>\n\n    <!-- Divider -->\n    <div class=\"horiz-line-bottom\"></div>\n\n    <!-- Soundtrack -->\n\n    <div class=\"button_row\">\n      <div\n        class=\"button\"\n        title=\"Click to create new story\"\n        (click)=\"onNewStoryClick($event)\">\n        New Story\n      </div>\n      <div class=\"button\" title=\"Click to save current story to server\"\n           (click)=\"onSaveStoryClick($event)\">\n        Save Story\n      </div>\n\n    </div>\n\n    <div class=\"button_row\">\n      <div class=\"button\" title=\"Click to download story as zip file\"\n           (click)=\"onSaveStoryLocallyClick($event)\">\n        Download as .zip\n      </div>\n      <div\n        class=\"button\"\n        title=\"Click to upload zip file\"\n        (click)=\"onOpenStoryLocallyClick($event)\">\n        Upload from .zip\n      </div>\n\n    </div>\n\n    <div class=\"dropdown-input-row\">\n      <file-loader\n        *ngIf=\"!getSoundtrack().hasAsset()\"\n        (onFileLoad)=\"onSoundtrackLoad($event)\"\n        [acceptedFileType]=\"'audio'\"\n        [displayText]=\"'Add Soundtrack'\"\n        class=\"story__soundtrack__upload-button\">\n      </file-loader>\n\n      <div\n        *ngIf=\"getSoundtrack().hasAsset()\"\n        class=\"story__soundtrack__delete-button\"\n        (click)=\"removeSoundtrack()\">\n        Remove Soundtrack\n      </div>\n\n      <audio\n        *ngIf=\"getSoundtrack().hasAsset()\"\n        [attr.src]=\"getSoundtrack().getBinaryFileData()\"\n        type=\"audio/mp3\"\n        controls=\"controls\"\n        [volume]=\"getSoundtrackVolume()\"\n        (volumechange)=\"onVolumeChange($event)\"\n        class=\"story__soundtrack__audio-player\">\n      </audio>\n\n    </div>\n\n  </div>\n\n\n</div>\n"
+module.exports = "<div class=\"modal-window\">\n\n  <div class=\"modal-window__fields\">\n\n    <!-- Title -->\n    <text-input-material\n      [inputLabel]=\"'Title'\"\n      [textModel]=\"getProjectName()\"\n      (onTextChange)=\"setProjectName($event)\">\n    </text-input-material>\n\n    <!-- Tags -->\n    <text-input-material\n      [inputLabel]=\"'Tags'\"\n      [textModel]=\"getProjectTags()\"\n      (onTextChange)=\"setProjectTags($event)\">\n    </text-input-material>\n\n    <!-- Divider -->\n    <div class=\"horiz-line-bottom\"></div>\n\n    <!-- Soundtrack -->\n\n    <div class=\"button_row\">\n      <div\n        class=\"button\"\n        title=\"Click to create new story\"\n        (click)=\"onNewStoryClick($event)\">\n        New Story\n      </div>\n      <div class=\"button\" title=\"Click to save current story to server\"\n           (click)=\"onSaveStoryClick($event)\">\n        Save Story\n      </div>\n\n    </div>\n\n    <div class=\"button_row\">\n      <div class=\"button\" title=\"Click to download story as zip file\"\n           (click)=\"onSaveStoryLocallyClick($event)\">\n        Download as .zip\n      </div>\n      <div\n        class=\"button\"\n        title=\"Click to upload zip file\"\n        (click)=\"onOpenStoryLocallyClick($event)\">\n        Upload from .zip\n      </div>\n\n    </div>\n\n    <div class=\"dropdown-input-row\">\n      <file-loader\n        *ngIf=\"!getSoundtrack().hasAsset()\"\n        (onFileLoad)=\"onSoundtrackLoad($event)\"\n        [acceptedFileType]=\"'audio'\"\n        [displayText]=\"'Add Soundtrack'\"\n        [maxFileSize]=\"50\"\n        class=\"story__soundtrack__upload-button\">\n      </file-loader>\n\n      <div\n        *ngIf=\"getSoundtrack().hasAsset()\"\n        class=\"story__soundtrack__delete-button\"\n        (click)=\"removeSoundtrack()\">\n        Remove Soundtrack\n      </div>\n\n      <audio\n        *ngIf=\"getSoundtrack().hasAsset()\"\n        [attr.src]=\"getSoundtrack().getBinaryFileData()\"\n        type=\"audio/mp3\"\n        controls=\"controls\"\n        [volume]=\"getSoundtrackVolume()\"\n        (volumechange)=\"onVolumeChange($event)\"\n        class=\"story__soundtrack__audio-player\">\n      </audio>\n\n    </div>\n\n  </div>\n\n\n</div>\n"
 
 /***/ }),
 /* 1206 */
@@ -58071,7 +58212,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var projectMetaDataInteractor_1 = __webpack_require__(33);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var event_bus_1 = __webpack_require__(8);
 var TreeTab = /** @class */function () {
@@ -58197,12 +58338,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var sceneInteractor_1 = __webpack_require__(12);
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var event_bus_1 = __webpack_require__(8);
 var fileLoaderUtil_1 = __webpack_require__(60);
 //added by ali for dragging images in
 var SlideshowBuilder_1 = __webpack_require__(102);
-var zipFileReader_1 = __webpack_require__(133);
+var zipFileReader_1 = __webpack_require__(134);
 var Upload = /** @class */function () {
     function Upload(router, eventBus, fileLoaderUtil, slideshowBuilder, sceneInteractor, zipFileReader, element) {
         this.router = router;
@@ -58634,10 +58775,10 @@ var __extends = this && this.__extends || function () {
     };
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var THREE = __webpack_require__(13);
 var iconPositionUtil_1 = __webpack_require__(55);
-var textMaterialBuilder_1 = __webpack_require__(136);
+var textMaterialBuilder_1 = __webpack_require__(137);
 var base_plane_1 = __webpack_require__(87);
 var ImagePlane = /** @class */function (_super) {
     __extends(ImagePlane, _super);
@@ -58707,10 +58848,10 @@ var __extends = this && this.__extends || function () {
     };
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var THREE = __webpack_require__(13);
 var iconPositionUtil_1 = __webpack_require__(55);
-var textMaterialBuilder_1 = __webpack_require__(136);
+var textMaterialBuilder_1 = __webpack_require__(137);
 var base_plane_1 = __webpack_require__(87);
 var LinkPlane = /** @class */function (_super) {
     __extends(LinkPlane, _super);
@@ -58759,10 +58900,10 @@ var __extends = this && this.__extends || function () {
     };
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var THREE = __webpack_require__(13);
 var iconPositionUtil_1 = __webpack_require__(55);
-var textMaterialBuilder_1 = __webpack_require__(136);
+var textMaterialBuilder_1 = __webpack_require__(137);
 var base_plane_1 = __webpack_require__(87);
 var TextPlane = /** @class */function (_super) {
     __extends(TextPlane, _super);
@@ -58815,10 +58956,10 @@ var __extends = this && this.__extends || function () {
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
 var constants_1 = __webpack_require__(7);
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var THREE = __webpack_require__(13);
 var iconPositionUtil_1 = __webpack_require__(55);
-var textMaterialBuilder_1 = __webpack_require__(136);
+var textMaterialBuilder_1 = __webpack_require__(137);
 var base_plane_1 = __webpack_require__(87);
 var UniversalPlane = /** @class */function (_super) {
     __extends(UniversalPlane, _super);
@@ -58972,10 +59113,10 @@ var __extends = this && this.__extends || function () {
     };
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
-var imageResizeService_1 = __webpack_require__(26);
+var imageResizeService_1 = __webpack_require__(27);
 var THREE = __webpack_require__(13);
 var iconPositionUtil_1 = __webpack_require__(55);
-var textMaterialBuilder_1 = __webpack_require__(136);
+var textMaterialBuilder_1 = __webpack_require__(137);
 var base_plane_1 = __webpack_require__(87);
 var VideoPlane = /** @class */function (_super) {
     __extends(VideoPlane, _super);
@@ -59212,7 +59353,7 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var assetInteractor_1 = __webpack_require__(59);
 var cameraInteractor_1 = __webpack_require__(256);
-var projectMetaDataInteractor_1 = __webpack_require__(33);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var THREE = __webpack_require__(13);
 __webpack_require__(443);
@@ -59694,7 +59835,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
-var userInteractor_1 = __webpack_require__(30);
+var userInteractor_1 = __webpack_require__(31);
 var event_bus_1 = __webpack_require__(8);
 var Topbar = /** @class */function () {
     function Topbar(ngZone, eventBus, userInteractor, router, activatedRoute) {
@@ -59801,18 +59942,22 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var uuid_1 = __webpack_require__(100);
-var audioRecorderService_1 = __webpack_require__(134);
+var audioRecorderService_1 = __webpack_require__(135);
 //this should really refer to colors inn our variables.scss file
 var backgroundColorOff = new Uint8Array([173, 0, 52]); //i.e. $color-red-dark
 var backgroundColorOn = new Uint8Array([255, 53, 113]); //i.e. $color-pink
-var MAX_RECORDING_TIME = 20000; //20 seconds
+var MAX_RECORDING_TIME = 20; //20 seconds
 var AudioRecorder = /** @class */function () {
     //private isAnimating: boolean = false;
     function AudioRecorder(audioRecorderService, ngZone) {
         this.audioRecorderService = audioRecorderService;
         this.ngZone = ngZone;
+        this.maxRecordTime = MAX_RECORDING_TIME;
         this.onRecorded = new core_1.EventEmitter();
         this.isRecording = false;
+        this._timerId = null;
+        this.showTimer = false;
+        this.timerCounter = '';
     }
     AudioRecorder.prototype.ngOnDestroy = function () {
         // cancel current recording
@@ -59825,7 +59970,34 @@ var AudioRecorder = /** @class */function () {
         clearTimeout(this.timeoutId);
     };
     AudioRecorder.prototype.onClick = function ($event) {
-        this.isRecording ? this.stopRecording() : this.startRecording();
+        var _this = this;
+        var start = !this.isRecording;
+        var cancelTimer = !!this._timerId;
+        this.clearTimer();
+        if (cancelTimer) {
+            $event.preventDefault();
+            return true;
+        } else if (start) {
+            this.timerCounter = 3;
+            this.showTimer = true;
+            this._timerId = setInterval(function () {
+                _this.timerCounter -= 1;
+                if (_this.timerCounter === 0) {
+                    _this.clearTimer();
+                    _this.startRecording();
+                }
+            }, 1000);
+        } else {
+            this.stopRecording();
+        }
+    };
+    AudioRecorder.prototype.clearTimer = function () {
+        if (this._timerId) {
+            this.timerCounter = '';
+            clearInterval(this._timerId);
+            this.showTimer = false;
+            this._timerId = null;
+        }
     };
     AudioRecorder.prototype.startRecording = function () {
         var _this = this;
@@ -59840,7 +60012,7 @@ var AudioRecorder = /** @class */function () {
             if (_this.isRecording) {
                 _this.stopRecording();
             }
-        }, MAX_RECORDING_TIME);
+        }, this.maxRecordTime * 1000);
     };
     AudioRecorder.prototype.stopRecording = function () {
         var _this = this;
@@ -59874,6 +60046,7 @@ var AudioRecorder = /** @class */function () {
     AudioRecorder.prototype.setButtonColor = function (color) {
         this.audioRecorderButton.nativeElement.setAttribute('style', "background-color: " + color);
     };
+    __decorate([core_1.Input(), __metadata("design:type", Number)], AudioRecorder.prototype, "maxRecordTime", void 0);
     __decorate([core_1.Output(), __metadata("design:type", Object)], AudioRecorder.prototype, "onRecorded", void 0);
     __decorate([core_1.ViewChild('audioRecorder'), __metadata("design:type", Object)], AudioRecorder.prototype, "audioRecorderButton", void 0);
     AudioRecorder = __decorate([core_1.Component({
@@ -59900,13 +60073,13 @@ function linearInterpolateValue(u, v, value, inverseValue) {
 /* 1236 */
 /***/ (function(module, exports) {
 
-module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.circle-beacon:before,\n.circle-beacon:after {\n  width: 36px;\n  height: 36px;\n  content: '';\n  position: absolute;\n  top: -2px;\n  left: -2px;\n  border-radius: 50%;\n  border: 2px solid #FF3571; }\n\n.circle-beacon:before {\n  animation: ripple 1.5s linear infinite; }\n\n.circle-beacon:after {\n  animation: ripple 1.5s linear 1s infinite; }\n\n@keyframes ripple {\n  0% {\n    transform: scale(1);\n    opacity: 0; }\n  10% {\n    transform: scale(1.05);\n    opacity: 1; }\n  100% {\n    transform: scale(1.75);\n    opacity: 0; } }\n\n.audio-recorder {\n  position: relative;\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  background-color: #AD0034; }\n"
+module.exports = "@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Montserrat:200,400,600,800\");\n@import url(\"https://fonts.googleapis.com/css?family=Nunito+Sans:200,400,600,800\");\n.circle-beacon:before,\n.circle-beacon:after {\n  width: 36px;\n  height: 36px;\n  content: '';\n  position: absolute;\n  top: -2px;\n  left: -2px;\n  border-radius: 50%;\n  border: 2px solid #FF3571; }\n\n.circle-beacon:before {\n  animation: ripple 1.5s linear infinite; }\n\n.circle-beacon:after {\n  animation: ripple 1.5s linear 1s infinite; }\n\n@keyframes ripple {\n  0% {\n    transform: scale(1);\n    opacity: 0; }\n  10% {\n    transform: scale(1.05);\n    opacity: 1; }\n  100% {\n    transform: scale(1.75);\n    opacity: 0; } }\n\n.audio-recorder {\n  width: 36px;\n  height: 36px;\n  border-radius: 50%;\n  background-color: #AD0034;\n  text-align: center;\n  cursor: pointer;\n  line-height: 36px; }\n"
 
 /***/ }),
 /* 1237 */
 /***/ (function(module, exports) {
 
-module.exports = "<div\n  #audioRecorder\n  (click)=\"onClick($event)\"\n  class=\"audio-recorder\"\n  [ngClass]=\"{'circle-beacon': isRecording}\">\n</div>\n"
+module.exports = "<div\n  #audioRecorder\n  (click)=\"onClick($event)\"\n  class=\"audio-recorder\"\n  [ngClass]=\"{'circle-beacon': isRecording}\">\n  {{timerCounter}}\n</div>\n"
 
 /***/ }),
 /* 1238 */
@@ -60260,6 +60433,7 @@ var FileLoader = /** @class */function () {
         this.fileLoaderUtil = fileLoaderUtil;
         this.onFileLoad = new core_1.EventEmitter();
         this.displayText = 'Drag File...';
+        this.maxFileSize = null; // in Mb
         this.inputId = uuid_1.generateUniqueId();
     }
     FileLoader.prototype.onFileChange = function ($event) {
@@ -60271,6 +60445,10 @@ var FileLoader = /** @class */function () {
         }
         if (!this.acceptedFileType) {
             console.error('file-loader must have an accepted file type');
+            return;
+        }
+        if (this.maxFileSize !== null && file.size / 1024 / 1024 > this.maxFileSize) {
+            this.eventBus.onModalMessage('Error', "File size could not be greater than " + this.maxFileSize + "MB");
             return;
         }
         this.fileLoaderUtil.validateFileLoadEvent(file, this.acceptedFileType).then(this.fileLoaderUtil.getBinaryFileData.bind(this.fileLoaderUtil)).then(function (fileData) {
@@ -60288,6 +60466,7 @@ var FileLoader = /** @class */function () {
     __decorate([core_1.Output(), __metadata("design:type", core_1.EventEmitter)], FileLoader.prototype, "onFileLoad", void 0);
     __decorate([core_1.Input(), __metadata("design:type", String)], FileLoader.prototype, "acceptedFileType", void 0);
     __decorate([core_1.Input(), __metadata("design:type", String)], FileLoader.prototype, "displayText", void 0);
+    __decorate([core_1.Input(), __metadata("design:type", Number)], FileLoader.prototype, "maxFileSize", void 0);
     FileLoader = __decorate([core_1.Component({
         selector: 'file-loader',
         styles: [__webpack_require__(1247)],
@@ -60329,7 +60508,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var event_bus_1 = __webpack_require__(8);
-var zipFileReader_1 = __webpack_require__(133);
+var zipFileReader_1 = __webpack_require__(134);
 var HiddenFileLoader = /** @class */function () {
     function HiddenFileLoader(eventBus, zipFileReader) {
         this.eventBus = eventBus;
@@ -60488,7 +60667,7 @@ var forms_1 = __webpack_require__(92);
 var platform_browser_1 = __webpack_require__(40);
 var router_1 = __webpack_require__(16);
 // Expose core layer (interactors) to view layer
-var core_module_1 = __webpack_require__(174);
+var core_module_1 = __webpack_require__(175);
 // Common UI components
 var common_module_1 = __webpack_require__(179);
 // UI components
@@ -60527,7 +60706,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var userInteractor_1 = __webpack_require__(30);
+var userInteractor_1 = __webpack_require__(31);
 var Explore = /** @class */function () {
     function Explore(userInteractor) {
         this.userInteractor = userInteractor;
@@ -60667,9 +60846,9 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var groupInteractor_1 = __webpack_require__(459);
 var projectInteractor_1 = __webpack_require__(42);
-var projectMetaDataInteractor_1 = __webpack_require__(33);
+var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
-var userInteractor_1 = __webpack_require__(30);
+var userInteractor_1 = __webpack_require__(31);
 var constants_1 = __webpack_require__(7);
 var event_bus_1 = __webpack_require__(8);
 var UserGroups = /** @class */function () {

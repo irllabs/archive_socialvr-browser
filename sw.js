@@ -1,7 +1,7 @@
 var serviceWorkerOption = {
   "assets": [
     "/vendor.d1ce77c933721e6e1f63.js",
-    "/main.5aaa308a8fe8bfc39827.js",
+    "/main.589050347c78030b2f05.js",
     "/polyfills.e56dca039c6c2723d020.js"
   ]
 };
