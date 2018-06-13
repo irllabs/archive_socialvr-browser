@@ -33,7 +33,6 @@ export class SceneInteractor {
   }
 
   changeRoomPosition(room, position) {
-    console.log('changeRoomPosition', room, position);
     const rooms = this.roomManager.getRooms();
 
     this.roomManager.clearRooms();
@@ -196,7 +195,7 @@ export class SceneInteractor {
         const doorsToRenamedRoom: Door[] = Array.from(doorSet)
           .filter(door => door.getRoomId() === roomId && !door.hasCustomName());
         return aggregateList.concat(doorsToRenamedRoom);
-      }, new Array<Door>())
+      }, [])
       .forEach(door => door.setName(name));
 
     this.projectMetaDataInteractor.onProjectChanged();
