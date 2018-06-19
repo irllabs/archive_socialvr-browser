@@ -8,6 +8,7 @@ import { RoomProperty } from 'data/scene/interfaces/roomProperty';
 
 import { RoomManager } from 'data/scene/roomManager';
 import { PropertyBuilder } from 'data/scene/roomPropertyBuilder';
+import { EventBus } from '../../ui/common/event-bus';
 import { MetaDataInteractor } from './projectMetaDataInteractor';
 
 @Injectable()
@@ -19,6 +20,7 @@ export class SceneInteractor {
     private propertyBuilder: PropertyBuilder,
     private assetManager: AssetManager,
     private projectMetaDataInteractor: MetaDataInteractor,
+    private eventBus: EventBus,
   ) {
     if (!this.getRoomIds().length) {
       this.addRoom(true);
@@ -76,20 +78,31 @@ export class SceneInteractor {
       console.warn('user should not be allowed to remove last room');
       return;
     }
-    this._activeRoomId = null;
-    this.roomManager.removeRoomById(roomId);
+    this.eventBus.onModalMessage(
+      '',
+      'Do you want to delete the room?',
+      true,
+      // modal dismissed callback
+      () => {
+      },
+      // modal accepted callback
+      () => {
+        this._activeRoomId = null;
+        this.roomManager.removeRoomById(roomId);
 
-    //remove door references to deleted room
-    Array.from(this.roomManager.getRooms())
-      .map(room => room.getDoors())
-      .reduce((aggregateList, doorSet) => {
-        return aggregateList.concat(
-          Array.from(doorSet).filter(door => door.getRoomId() === roomId),
-        );
-      }, [])
-      .forEach(door => door.reset());
+        //remove door references to deleted room
+        Array.from(this.roomManager.getRooms())
+          .map(room => room.getDoors())
+          .reduce((aggregateList, doorSet) => {
+            return aggregateList.concat(
+              Array.from(doorSet).filter(door => door.getRoomId() === roomId),
+            );
+          }, [])
+          .forEach(door => door.reset());
 
-    this.projectMetaDataInteractor.onProjectChanged();
+        this.projectMetaDataInteractor.onProjectChanged();
+      },
+    );
   }
 
   getActiveRoomId(): string {
@@ -136,6 +149,25 @@ export class SceneInteractor {
   }
 
   removeUniversal(roomId: string, universal: Universal) {
+    if (universal.hasData) {
+      this.eventBus.onModalMessage(
+        '',
+        'Do you want to delete the hotspot?',
+        true,
+        // modal dismissed callback
+        () => {
+        },
+        // modal accepted callback
+        () => {
+          this._removeUniversal(roomId, universal);
+        },
+      );
+    } else {
+      this._removeUniversal(roomId, universal);
+    }
+  }
+
+  _removeUniversal(roomId: string, universal: Universal) {
     this.getRoomById(roomId).removeUniversal(universal);
     this.projectMetaDataInteractor.onProjectChanged();
   }

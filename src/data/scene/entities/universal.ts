@@ -15,6 +15,10 @@ export class Universal extends BaseElement {
     super();
   }
 
+  get hasData(): boolean {
+    return !!this.textContent || this.audioContent.hasAsset() || this.imageContent.hasAsset();
+  }
+
   get textContent(): string {
     return this._textContent;
   }

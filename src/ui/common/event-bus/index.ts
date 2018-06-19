@@ -19,18 +19,21 @@ export class EventBus {
   onSelectProperty(propertyId: string, isNewProperty: boolean, shouldOpenEditor?: boolean) {
     const eventPayload = { propertyId: propertyId, isNewProperty: isNewProperty, shouldOpenEditor: shouldOpenEditor };
     const event: Event = new Event(EventType.SELECT_PROPERTY, eventPayload);
+
     EventBus.subject.next(event);
   }
 
   onSelectRoom(roomId: string, isNewProperty: boolean) {
     const eventPayload = { roomId: roomId, isNewProperty: isNewProperty };
     const event: Event = new Event(EventType.SELECT_ROOM, eventPayload);
+
     EventBus.subject.next(event);
   }
 
   onModalMessage(header: string, body: string, isMessage?: boolean, onDismiss?: Function, onAccept?: Function) {
     const eventPayload = { header, body, isMessage, onDismiss, onAccept };
     const event: Event = new Event(EventType.MODAL_MESSAGE, eventPayload);
+
     EventBus.subject.next(event);
   }
 
