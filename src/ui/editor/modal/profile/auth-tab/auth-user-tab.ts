@@ -64,22 +64,23 @@ export class AuthUserTab implements OnInit, OnDestroy {
   public openProject(project: Project) {
     this.metaDataInteractor.checkAndConfirmResetChanges().then(() => {
       this.eventBus.onStartLoading();
+
       this.projectInteractor.openProject(project)
         .then(
           () => {
             //reset the current scene
-            this.sceneInteractor.setActiveRoomId(null);
-            this.eventBus.onSelectRoom(null, false);
             this.metaDataInteractor.setIsReadOnly(false);
+            this.sceneInteractor.setActiveRoomId(project.story.homeRoomId);
+            this.eventBus.onSelectRoom(this.sceneInteractor.getActiveRoomId(), false);
             this.eventBus.onStopLoading();
             this.metaDataInteractor.loadingProject(false);
+            this.router.navigateByUrl('/editor');
           },
           (error) => {
             console.error('error', error);
             this.eventBus.onStopLoading();
           },
         );
-      this.router.navigateByUrl('/editor');
     }, () => {});
   }
 

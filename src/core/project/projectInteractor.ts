@@ -232,9 +232,11 @@ export class ProjectInteractor {
         this.assetManager.clearAssets();
         this.projectService.setProject(project);
 
-        return downloadRestAssets().then(() => {
+        downloadRestAssets().then(() => {
           this._restartAutosaver();
         });
+
+        return;
       });
   }
 
