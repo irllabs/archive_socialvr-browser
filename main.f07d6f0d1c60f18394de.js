@@ -4,9 +4,107 @@ webpackJsonp([1],[
 /* 2 */,
 /* 3 */,
 /* 4 */,
-/* 5 */,
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
+    var c = arguments.length,
+        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+        d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = __webpack_require__(2);
+__webpack_require__(170);
+__webpack_require__(81);
+var Subject_1 = __webpack_require__(21);
+var EventBus = /** @class */function () {
+    function EventBus() {}
+    EventBus_1 = EventBus;
+    EventBus.prototype.getObservable = function (eventType) {
+        return EventBus_1.subject.filter(function (evt) {
+            return evt.eventType === eventType;
+        }).map(function (evt) {
+            return evt.value;
+        });
+    };
+    EventBus.prototype.onSelectProperty = function (propertyId, isNewProperty, shouldOpenEditor) {
+        var eventPayload = { propertyId: propertyId, isNewProperty: isNewProperty, shouldOpenEditor: shouldOpenEditor };
+        var event = new Event(EventType.SELECT_PROPERTY, eventPayload);
+        EventBus_1.subject.next(event);
+    };
+    EventBus.prototype.onSelectRoom = function (roomId, isNewProperty) {
+        var eventPayload = { roomId: roomId, isNewProperty: isNewProperty };
+        var event = new Event(EventType.SELECT_ROOM, eventPayload);
+        EventBus_1.subject.next(event);
+    };
+    EventBus.prototype.onModalMessage = function (header, body, isMessage, onDismiss, onAccept) {
+        var eventPayload = { header: header, body: body, isMessage: isMessage, onDismiss: onDismiss, onAccept: onAccept };
+        var event = new Event(EventType.MODAL_MESSAGE, eventPayload);
+        EventBus_1.subject.next(event);
+    };
+    EventBus.prototype.onStartLoading = function () {
+        EventBus_1.subject.next(new Event(EventType.START_LOADING, null));
+    };
+    EventBus.prototype.onStopLoading = function () {
+        EventBus_1.subject.next(new Event(EventType.STOP_LOADING, null));
+    };
+    EventBus.prototype.onShareableModal = function (userId, projectId) {
+        var eventPayload = { userId: userId, projectId: projectId };
+        EventBus_1.subject.next(new Event(EventType.SHAREABLE_MODAL, eventPayload));
+    };
+    EventBus.prototype.onPlayStoryModal = function (callback) {
+        var eventPayload = { callback: callback };
+        EventBus_1.subject.next(new Event(EventType.PLAY_STORY_MODAL, eventPayload));
+    };
+    EventBus.prototype.onExploreModal = function () {
+        EventBus_1.subject.next(new Event(EventType.OPEN_EXPLORE_MODAL, null));
+    };
+    EventBus.prototype.onOpenFileLoader = function (acceptedFileType) {
+        var eventPayload = { acceptedFileType: acceptedFileType };
+        EventBus_1.subject.next(new Event(EventType.OPEN_FILE_LOADER, eventPayload));
+    };
+    EventBus.prototype.onHotspotVisibility = function (isVisible) {
+        var eventPayload = { isVisible: isVisible };
+        var event = new Event(EventType.HOTSPOT_EDITOR_VISIBILITY, eventPayload);
+        EventBus_1.subject.next(event);
+    };
+    EventBus.subject = new Subject_1.Subject();
+    EventBus = EventBus_1 = __decorate([core_1.Injectable()], EventBus);
+    return EventBus;
+    var EventBus_1;
+}();
+exports.EventBus = EventBus;
+var Event = /** @class */function () {
+    function Event(eventType, value) {
+        this.eventType = eventType;
+        this.value = value;
+    }
+    return Event;
+}();
+exports.Event = Event;
+var EventType;
+(function (EventType) {
+    EventType[EventType["SELECT_PROPERTY"] = 0] = "SELECT_PROPERTY";
+    EventType[EventType["SELECT_ROOM"] = 1] = "SELECT_ROOM";
+    EventType[EventType["MODAL_MESSAGE"] = 2] = "MODAL_MESSAGE";
+    EventType[EventType["START_LOADING"] = 3] = "START_LOADING";
+    EventType[EventType["STOP_LOADING"] = 4] = "STOP_LOADING";
+    EventType[EventType["OPEN_FILE_LOADER"] = 5] = "OPEN_FILE_LOADER";
+    EventType[EventType["SHAREABLE_MODAL"] = 6] = "SHAREABLE_MODAL";
+    EventType[EventType["PLAY_STORY_MODAL"] = 7] = "PLAY_STORY_MODAL";
+    EventType[EventType["OPEN_EXPLORE_MODAL"] = 8] = "OPEN_EXPLORE_MODAL";
+    EventType[EventType["HOTSPOT_EDITOR_VISIBILITY"] = 9] = "HOTSPOT_EDITOR_VISIBILITY";
+})(EventType = exports.EventType || (exports.EventType = {}));
+
+/***/ }),
 /* 6 */,
-/* 7 */
+/* 7 */,
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -121,104 +219,6 @@ exports.THREE_CONST = {
 };
 
 /***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var __decorate = this && this.__decorate || function (decorators, target, key, desc) {
-    var c = arguments.length,
-        r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
-        d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__(2);
-__webpack_require__(170);
-__webpack_require__(81);
-var Subject_1 = __webpack_require__(21);
-var EventBus = /** @class */function () {
-    function EventBus() {}
-    EventBus_1 = EventBus;
-    EventBus.prototype.getObservable = function (eventType) {
-        return EventBus_1.subject.filter(function (evt) {
-            return evt.eventType === eventType;
-        }).map(function (evt) {
-            return evt.value;
-        });
-    };
-    EventBus.prototype.onSelectProperty = function (propertyId, isNewProperty, shouldOpenEditor) {
-        var eventPayload = { propertyId: propertyId, isNewProperty: isNewProperty, shouldOpenEditor: shouldOpenEditor };
-        var event = new Event(EventType.SELECT_PROPERTY, eventPayload);
-        EventBus_1.subject.next(event);
-    };
-    EventBus.prototype.onSelectRoom = function (roomId, isNewProperty) {
-        var eventPayload = { roomId: roomId, isNewProperty: isNewProperty };
-        var event = new Event(EventType.SELECT_ROOM, eventPayload);
-        EventBus_1.subject.next(event);
-    };
-    EventBus.prototype.onModalMessage = function (header, body, isMessage, onDismiss, onAccept) {
-        var eventPayload = { header: header, body: body, isMessage: isMessage, onDismiss: onDismiss, onAccept: onAccept };
-        var event = new Event(EventType.MODAL_MESSAGE, eventPayload);
-        EventBus_1.subject.next(event);
-    };
-    EventBus.prototype.onStartLoading = function () {
-        EventBus_1.subject.next(new Event(EventType.START_LOADING, null));
-    };
-    EventBus.prototype.onStopLoading = function () {
-        EventBus_1.subject.next(new Event(EventType.STOP_LOADING, null));
-    };
-    EventBus.prototype.onShareableModal = function (userId, projectId) {
-        var eventPayload = { userId: userId, projectId: projectId };
-        EventBus_1.subject.next(new Event(EventType.SHAREABLE_MODAL, eventPayload));
-    };
-    EventBus.prototype.onPlayStoryModal = function (callback) {
-        var eventPayload = { callback: callback };
-        EventBus_1.subject.next(new Event(EventType.PLAY_STORY_MODAL, eventPayload));
-    };
-    EventBus.prototype.onExploreModal = function () {
-        EventBus_1.subject.next(new Event(EventType.OPEN_EXPLORE_MODAL, null));
-    };
-    EventBus.prototype.onOpenFileLoader = function (acceptedFileType) {
-        var eventPayload = { acceptedFileType: acceptedFileType };
-        EventBus_1.subject.next(new Event(EventType.OPEN_FILE_LOADER, eventPayload));
-    };
-    EventBus.prototype.onHotspotVisibility = function (isVisible) {
-        var eventPayload = { isVisible: isVisible };
-        var event = new Event(EventType.HOTSPOT_EDITOR_VISIBILITY, eventPayload);
-        EventBus_1.subject.next(event);
-    };
-    EventBus.subject = new Subject_1.Subject();
-    EventBus = EventBus_1 = __decorate([core_1.Injectable()], EventBus);
-    return EventBus;
-    var EventBus_1;
-}();
-exports.EventBus = EventBus;
-var Event = /** @class */function () {
-    function Event(eventType, value) {
-        this.eventType = eventType;
-        this.value = value;
-    }
-    return Event;
-}();
-exports.Event = Event;
-var EventType;
-(function (EventType) {
-    EventType[EventType["SELECT_PROPERTY"] = 0] = "SELECT_PROPERTY";
-    EventType[EventType["SELECT_ROOM"] = 1] = "SELECT_ROOM";
-    EventType[EventType["MODAL_MESSAGE"] = 2] = "MODAL_MESSAGE";
-    EventType[EventType["START_LOADING"] = 3] = "START_LOADING";
-    EventType[EventType["STOP_LOADING"] = 4] = "STOP_LOADING";
-    EventType[EventType["OPEN_FILE_LOADER"] = 5] = "OPEN_FILE_LOADER";
-    EventType[EventType["SHAREABLE_MODAL"] = 6] = "SHAREABLE_MODAL";
-    EventType[EventType["PLAY_STORY_MODAL"] = 7] = "PLAY_STORY_MODAL";
-    EventType[EventType["OPEN_EXPLORE_MODAL"] = 8] = "OPEN_EXPLORE_MODAL";
-    EventType[EventType["HOTSPOT_EDITOR_VISIBILITY"] = 9] = "HOTSPOT_EDITOR_VISIBILITY";
-})(EventType = exports.EventType || (exports.EventType = {}));
-
-/***/ }),
 /* 9 */,
 /* 10 */,
 /* 11 */,
@@ -243,13 +243,15 @@ var core_1 = __webpack_require__(2);
 var assetManager_1 = __webpack_require__(130);
 var roomManager_1 = __webpack_require__(98);
 var roomPropertyBuilder_1 = __webpack_require__(252);
+var event_bus_1 = __webpack_require__(5);
 var projectMetaDataInteractor_1 = __webpack_require__(25);
 var SceneInteractor = /** @class */function () {
-    function SceneInteractor(roomManager, propertyBuilder, assetManager, projectMetaDataInteractor) {
+    function SceneInteractor(roomManager, propertyBuilder, assetManager, projectMetaDataInteractor, eventBus) {
         this.roomManager = roomManager;
         this.propertyBuilder = propertyBuilder;
         this.assetManager = assetManager;
         this.projectMetaDataInteractor = projectMetaDataInteractor;
+        this.eventBus = eventBus;
         if (!this.getRoomIds().length) {
             this.addRoom(true);
         }
@@ -296,23 +298,30 @@ var SceneInteractor = /** @class */function () {
         return this._activeRoomId;
     };
     SceneInteractor.prototype.removeRoom = function (roomId) {
+        var _this = this;
         if (this.getRoomIds().length < 2) {
             console.warn('user should not be allowed to remove last room');
             return;
         }
-        this._activeRoomId = null;
-        this.roomManager.removeRoomById(roomId);
-        //remove door references to deleted room
-        Array.from(this.roomManager.getRooms()).map(function (room) {
-            return room.getDoors();
-        }).reduce(function (aggregateList, doorSet) {
-            return aggregateList.concat(Array.from(doorSet).filter(function (door) {
-                return door.getRoomId() === roomId;
-            }));
-        }, []).forEach(function (door) {
-            return door.reset();
+        this.eventBus.onModalMessage('', 'Do you want to delete the room?', true,
+        // modal dismissed callback
+        function () {},
+        // modal accepted callback
+        function () {
+            _this._activeRoomId = null;
+            _this.roomManager.removeRoomById(roomId);
+            //remove door references to deleted room
+            Array.from(_this.roomManager.getRooms()).map(function (room) {
+                return room.getDoors();
+            }).reduce(function (aggregateList, doorSet) {
+                return aggregateList.concat(Array.from(doorSet).filter(function (door) {
+                    return door.getRoomId() === roomId;
+                }));
+            }, []).forEach(function (door) {
+                return door.reset();
+            });
+            _this.projectMetaDataInteractor.onProjectChanged();
         });
-        this.projectMetaDataInteractor.onProjectChanged();
     };
     SceneInteractor.prototype.getActiveRoomId = function () {
         if (!this._activeRoomId) {
@@ -347,6 +356,20 @@ var SceneInteractor = /** @class */function () {
         return universal;
     };
     SceneInteractor.prototype.removeUniversal = function (roomId, universal) {
+        var _this = this;
+        if (universal.hasData) {
+            this.eventBus.onModalMessage('', 'Do you want to delete the hotspot?', true,
+            // modal dismissed callback
+            function () {},
+            // modal accepted callback
+            function () {
+                _this._removeUniversal(roomId, universal);
+            });
+        } else {
+            this._removeUniversal(roomId, universal);
+        }
+    };
+    SceneInteractor.prototype._removeUniversal = function (roomId, universal) {
         this.getRoomById(roomId).removeUniversal(universal);
         this.projectMetaDataInteractor.onProjectChanged();
     };
@@ -402,7 +425,7 @@ var SceneInteractor = /** @class */function () {
         });
         this.projectMetaDataInteractor.onProjectChanged();
     };
-    SceneInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [roomManager_1.RoomManager, roomPropertyBuilder_1.PropertyBuilder, assetManager_1.AssetManager, projectMetaDataInteractor_1.MetaDataInteractor])], SceneInteractor);
+    SceneInteractor = __decorate([core_1.Injectable(), __metadata("design:paramtypes", [roomManager_1.RoomManager, roomPropertyBuilder_1.PropertyBuilder, assetManager_1.AssetManager, projectMetaDataInteractor_1.MetaDataInteractor, event_bus_1.EventBus])], SceneInteractor);
     return SceneInteractor;
 }();
 exports.SceneInteractor = SceneInteractor;
@@ -439,7 +462,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var roomManager_1 = __webpack_require__(98);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var MetaDataInteractor = /** @class */function () {
     function MetaDataInteractor(roomManager, eventBus) {
         var _this = this;
@@ -547,7 +570,7 @@ exports.MetaDataInteractor = MetaDataInteractor;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var vector2_1 = __webpack_require__(68);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var MAX_SIZE_HOTSPOT = 1024;
 function getNearestPowerOfTwo(x) {
     return new Array(14).fill(null).map(function (_, index) {
@@ -994,9 +1017,10 @@ var ProjectInteractor = /** @class */function () {
         return this.deserializationService.deserializeProject(project, quick).then(function (downloadRestAssets) {
             _this.assetManager.clearAssets();
             _this.projectService.setProject(project);
-            return downloadRestAssets().then(function () {
+            downloadRestAssets().then(function () {
                 _this._restartAutosaver();
             });
+            return;
         });
     };
     ProjectInteractor.prototype._saveProject = function (project) {
@@ -1169,7 +1193,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var http_1 = __webpack_require__(212);
 var userService_1 = __webpack_require__(82);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var URL_SHORTENER_URL = constants_1.GOOGLE_BASE_URL + "urlshortener/v1/url";
 var ApiService = /** @class */function () {
     function ApiService(http, userService) {
@@ -1387,7 +1411,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var platform_browser_1 = __webpack_require__(40);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 exports.mimeTypeMap = {
     video: [constants_1.MIME_TYPE_MP4],
     audio: [constants_1.MIME_TYPE_MP3, constants_1.MIME_TYPE_WAV, constants_1.MIME_TYPE_MPEG, constants_1.MIME_TYPE_XWAV, constants_1.MIME_TYPE_AAC, constants_1.MIME_TYPE_XM4A],
@@ -1944,7 +1968,7 @@ exports.RoomPropertyTypeService = RoomPropertyTypeService;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(13);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var iconPositionUtil_1 = __webpack_require__(55);
 var roomPropertyTypeService_1 = __webpack_require__(86);
 var fontHelper_1 = __webpack_require__(481);
@@ -2377,7 +2401,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var audio_1 = __webpack_require__(99);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var RoomManager = /** @class */function () {
     function RoomManager() {
         this.isReadOnly = false;
@@ -2513,7 +2537,7 @@ var __extends = this && this.__extends || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var baseElement_1 = __webpack_require__(83);
 var mediaFile_1 = __webpack_require__(131);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var Audio = /** @class */function (_super) {
     __extends(Audio, _super);
     function Audio() {
@@ -3967,7 +3991,7 @@ var narrator_1 = __webpack_require__(251);
 var vector2_1 = __webpack_require__(68);
 var reverbList_1 = __webpack_require__(176);
 var uuid_1 = __webpack_require__(100);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var Room = /** @class */function () {
     function Room() {
         this.id = uuid_1.generateUniqueId();
@@ -4214,7 +4238,7 @@ var __extends = this && this.__extends || function () {
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
 var baseElement_1 = __webpack_require__(83);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var mediaFile_1 = __webpack_require__(131);
 var Universal = /** @class */function (_super) {
     __extends(Universal, _super);
@@ -4226,6 +4250,13 @@ var Universal = /** @class */function (_super) {
         _this._loop = false;
         return _this;
     }
+    Object.defineProperty(Universal.prototype, "hasData", {
+        get: function () {
+            return !!this.textContent || this.audioContent.hasAsset() || this.imageContent.hasAsset();
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Universal.prototype, "textContent", {
         get: function () {
             return this._textContent;
@@ -4345,7 +4376,7 @@ var core_1 = __webpack_require__(2);
 var projectInteractor_1 = __webpack_require__(42);
 var sceneInteractor_1 = __webpack_require__(12);
 var storageInteractor_1 = __webpack_require__(177);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var ZipFileReader = /** @class */function () {
     function ZipFileReader(sceneInteractor, storageInteractor, projectInteractor, eventBus) {
         this.sceneInteractor = sceneInteractor;
@@ -4490,7 +4521,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(12);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var roomPropertyTypeService_1 = __webpack_require__(86);
 var PropertyRemovalService = /** @class */function () {
     function PropertyRemovalService(sceneInteractor, eventBus) {
@@ -4830,8 +4861,8 @@ var projectInteractor_1 = __webpack_require__(42);
 var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var userInteractor_1 = __webpack_require__(31);
-var constants_1 = __webpack_require__(7);
-var event_bus_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var publicLinkHelper_1 = __webpack_require__(258);
 var ShareableLoader = /** @class */function () {
     function ShareableLoader(userInteractor, eventBus, projectInteractor, metaDataInteractor, sceneInteractor, router) {
@@ -4893,7 +4924,7 @@ var platform_browser_1 = __webpack_require__(40);
 // UI components
 var checkbox_1 = __webpack_require__(1067);
 // Services
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var loading_modal_1 = __webpack_require__(1070);
 var message_modal_1 = __webpack_require__(1073);
 // Modal
@@ -4936,7 +4967,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(12);
 var vector2_1 = __webpack_require__(68);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var HOTSPOT_DISTANCE_THESH = 80;
 var CombinedHotspotUtil = /** @class */function () {
     function CombinedHotspotUtil(sceneInteractor, ngZone, eventBus) {
@@ -5571,10 +5602,10 @@ var roomManager_1 = __webpack_require__(98);
 var roomPropertyBuilder_1 = __webpack_require__(252);
 __webpack_require__(166);
 var Observable_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var fileLoaderUtil_1 = __webpack_require__(60);
 var projectMetaDataInteractor_1 = __webpack_require__(25);
-var constants_2 = __webpack_require__(7);
+var constants_2 = __webpack_require__(8);
 var mediaFile_1 = __webpack_require__(131);
 var universal_1 = __webpack_require__(133);
 var reverbList_1 = __webpack_require__(176);
@@ -6219,7 +6250,7 @@ exports.Image = Image;
 Object.defineProperty(exports, "__esModule", { value: true });
 // import {BaseElement} from 'data/scene/entities/baseElement';
 var audio_1 = __webpack_require__(99);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var Narrator = /** @class */function () {
     function Narrator() {
         this.introAudio = new audio_1.Audio();
@@ -6289,7 +6320,7 @@ var core_1 = __webpack_require__(2);
 var door_1 = __webpack_require__(253);
 var room_1 = __webpack_require__(132);
 var universal_1 = __webpack_require__(133);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var vector_1 = __webpack_require__(254);
 var PropertyBuilder = /** @class */function () {
     function PropertyBuilder() {}
@@ -6358,7 +6389,7 @@ var __extends = this && this.__extends || function () {
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
 var baseElement_1 = __webpack_require__(83);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var Door = /** @class */function (_super) {
     __extends(Door, _super);
     function Door() {
@@ -6451,7 +6482,7 @@ var imageResizeService_1 = __webpack_require__(27);
 __webpack_require__(166);
 __webpack_require__(430);
 var Observable_1 = __webpack_require__(0);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var JSZip = __webpack_require__(159);
 var JsYaml = __webpack_require__(221);
 var SerializationService = /** @class */function () {
@@ -11264,7 +11295,7 @@ var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var vector2_1 = __webpack_require__(68);
 var THREE = __webpack_require__(13);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var video3D_1 = __webpack_require__(471);
 var combinedHotspotUtil_1 = __webpack_require__(180);
 var iconPositionUtil_1 = __webpack_require__(55);
@@ -11789,7 +11820,7 @@ exports.default = SvrControls;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(13);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 // This file contains common 3D logic for edit-space-sphere and preview-space
 var SPHERE_RADIUS = constants_1.THREE_CONST.SPHERE_RADIUS;
 var NUM_SPHERE_SLICES = constants_1.THREE_CONST.SPHERE_SLICES;
@@ -12569,7 +12600,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var assetInteractor_1 = __webpack_require__(59);
 var THREE = __webpack_require__(13);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var iconPositionUtil_1 = __webpack_require__(55);
 var TWEEN = __webpack_require__(261);
 var MenuManager = /** @class */function () {
@@ -12806,7 +12837,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var THREE = __webpack_require__(13);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var Reticle = /** @class */function () {
     function Reticle() {
         this.reticleRaycaster = new THREE.Raycaster();
@@ -12904,7 +12935,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var assetInteractor_1 = __webpack_require__(59);
 var sceneInteractor_1 = __webpack_require__(12);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var iconPaths = [new assetInteractor_1.AssetModel('hotspot-default', 'hotspot-default', constants_1.ICON_PATH + "icon-hotspot-default.png"), new assetInteractor_1.AssetModel('hotspot-hover', 'hotspot-hover', constants_1.ICON_PATH + "icon-hotspot-hover.png"), new assetInteractor_1.AssetModel('door', 'door', constants_1.ICON_PATH + "door_filled.png"), new assetInteractor_1.AssetModel('audio', 'audio', constants_1.ICON_PATH + "icon-audio.png"), new assetInteractor_1.AssetModel('back', 'back', constants_1.ICON_PATH + "back_filled.png"), new assetInteractor_1.AssetModel('home', 'home', constants_1.ICON_PATH + "home_filled.png"), new assetInteractor_1.AssetModel('colorBall', 'colorBall', constants_1.IMAGE_PATH + "color_ball.jpg"), new assetInteractor_1.AssetModel('imageMask', 'imageMask', constants_1.IMAGE_PATH + "image-mask_1920.jpg")];
 var TextureLoader = /** @class */function () {
     function TextureLoader(sceneInteractor, assetInteractor) {
@@ -51202,7 +51233,7 @@ var __generator = this && this.__generator || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var narrator_1 = __webpack_require__(251);
 var room_1 = __webpack_require__(132);
 var universal_1 = __webpack_require__(133);
@@ -51749,7 +51780,7 @@ var adminInteractor_1 = __webpack_require__(129);
 var projectInteractor_1 = __webpack_require__(42);
 var searchInteractor_1 = __webpack_require__(257);
 var userInteractor_1 = __webpack_require__(31);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var shareable_loader_1 = __webpack_require__(178);
 var AdminSearchExplore = /** @class */function () {
     function AdminSearchExplore(projectInteractor, searchInteractor, shareableLoader, userInteractor, adminInteractor) {
@@ -51866,8 +51897,8 @@ var projectInteractor_1 = __webpack_require__(42);
 var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var userInteractor_1 = __webpack_require__(31);
-var constants_1 = __webpack_require__(7);
-var event_bus_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var AdminUserGroups = /** @class */function () {
     function AdminUserGroups(userInteractor, adminInteractor, projectInteractor, sceneInteractor, metaDataInteractor, router, eventBus) {
         this.userInteractor = userInteractor;
@@ -52131,7 +52162,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var MODAL_TYPE = {
     MESSAGE: 'MESSAGE',
     LOADER: 'LOADER',
@@ -54592,7 +54623,7 @@ exports.render = function render (qrData, options, cb) {
 
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var COPY = 'copy';
 // https://gist.github.com/lgarron/d1dee380f4ed9d825ca7
 function copyToClipboard(stringToCopy) {
@@ -55069,7 +55100,7 @@ var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var VideoInteractor_1 = __webpack_require__(465);
 var imageResizeService_1 = __webpack_require__(27);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var shareable_loader_1 = __webpack_require__(178);
 var edit_space_sphere_1 = __webpack_require__(470);
 var fileLoaderUtil_1 = __webpack_require__(60);
@@ -55422,7 +55453,7 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var sceneInteractor_1 = __webpack_require__(12);
 var imageResizeService_1 = __webpack_require__(27);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var EditSpaceToggle = /** @class */function () {
     function EditSpaceToggle(sceneInteractor, eventBus, router) {
         this.sceneInteractor = sceneInteractor;
@@ -55556,7 +55587,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var sceneInteractor_1 = __webpack_require__(12);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var Fullscreen = /** @class */function () {
     function Fullscreen(sceneInteractor, eventBus, router) {
         this.sceneInteractor = sceneInteractor;
@@ -55650,7 +55681,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(12);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var ActionMenu = /** @class */function () {
     function ActionMenu(sceneInteractor, eventBus) {
         this.sceneInteractor = sceneInteractor;
@@ -55883,8 +55914,8 @@ var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var reverbList_1 = __webpack_require__(176);
 var imageResizeService_1 = __webpack_require__(27);
-var constants_1 = __webpack_require__(7);
-var event_bus_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var audioRecorderService_1 = __webpack_require__(135);
 var RoomEditor = /** @class */function () {
     function RoomEditor(sceneInteractor, element, eventBus, metaDataInteractor) {
@@ -56033,7 +56064,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var userInteractor_1 = __webpack_require__(31);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var AddRoomButton = /** @class */function () {
     function AddRoomButton(router, eventBus, userInteractor) {
         this.router = router;
@@ -56091,7 +56122,7 @@ var core_1 = __webpack_require__(2);
 var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var imageResizeService_1 = __webpack_require__(27);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var SlideshowBuilder_1 = __webpack_require__(102);
 var StoryScroll = /** @class */function () {
     function StoryScroll(sceneInteractor, metaDataInteractor, eventBus, slideshowBuilder) {
@@ -56384,7 +56415,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(12);
 var imageResizeService_1 = __webpack_require__(27);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var fileLoaderUtil_1 = __webpack_require__(60);
 var SlideshowBuilder_1 = __webpack_require__(102);
 var zipFileReader_1 = __webpack_require__(134);
@@ -56513,7 +56544,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(12);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var combinedHotspotUtil_1 = __webpack_require__(180);
 var EditSpaceFlat = /** @class */function () {
     function EditSpaceFlat(sceneInteractor, combinedHotspotUtil, eventBus) {
@@ -56620,7 +56651,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var audio_1 = __webpack_require__(99);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var audioRecorderService_1 = __webpack_require__(135);
 var AudioEditor = /** @class */function () {
     function AudioEditor() {}
@@ -56683,8 +56714,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var sceneInteractor_1 = __webpack_require__(12);
 var door_1 = __webpack_require__(253);
-var constants_1 = __webpack_require__(7);
-var event_bus_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var DoorEditor = /** @class */function () {
     function DoorEditor(sceneInteractor, eventBus) {
         this.sceneInteractor = sceneInteractor;
@@ -56817,7 +56848,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var image_1 = __webpack_require__(250);
 var imageResizeService_1 = __webpack_require__(27);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var ImageEditor = /** @class */function () {
     function ImageEditor(eventBus) {
         this.eventBus = eventBus;
@@ -57047,8 +57078,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var universal_1 = __webpack_require__(133);
 var imageResizeService_1 = __webpack_require__(27);
-var constants_1 = __webpack_require__(7);
-var event_bus_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var audioRecorderService_1 = __webpack_require__(135);
 var projectMetaDataInteractor_1 = __webpack_require__(25);
 var UniversalEditor = /** @class */function () {
@@ -57307,8 +57338,8 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var vector2_1 = __webpack_require__(68);
-var constants_1 = __webpack_require__(7);
-var event_bus_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var combinedHotspotUtil_1 = __webpack_require__(180);
 var iconPositionUtil_1 = __webpack_require__(55);
 var propertyRemovalService_1 = __webpack_require__(136);
@@ -57664,8 +57695,8 @@ var storageInteractor_1 = __webpack_require__(177);
 var userInteractor_1 = __webpack_require__(31);
 var projectModel_1 = __webpack_require__(460);
 __webpack_require__(171);
-var constants_1 = __webpack_require__(7);
-var event_bus_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var FileSaver = __webpack_require__(478);
 var AuthUserTab = /** @class */function () {
     function AuthUserTab(userInteractor, projectInteractor, sceneInteractor, eventBus, storageInteractor, metaDataInteractor, adminInteractor, router) {
@@ -57710,16 +57741,16 @@ var AuthUserTab = /** @class */function () {
             _this.eventBus.onStartLoading();
             _this.projectInteractor.openProject(project).then(function () {
                 //reset the current scene
-                _this.sceneInteractor.setActiveRoomId(null);
-                _this.eventBus.onSelectRoom(null, false);
                 _this.metaDataInteractor.setIsReadOnly(false);
+                _this.sceneInteractor.setActiveRoomId(project.story.homeRoomId);
+                _this.eventBus.onSelectRoom(_this.sceneInteractor.getActiveRoomId(), false);
                 _this.eventBus.onStopLoading();
                 _this.metaDataInteractor.loadingProject(false);
+                _this.router.navigateByUrl('/editor');
             }, function (error) {
                 console.error('error', error);
                 _this.eventBus.onStopLoading();
             });
-            _this.router.navigateByUrl('/editor');
         }, function () {});
     };
     AuthUserTab.prototype.downloadProject = function (project) {
@@ -57837,7 +57868,7 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var assetInteractor_1 = __webpack_require__(59);
 var userInteractor_1 = __webpack_require__(31);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var UnauthUserTab = /** @class */function () {
     function UnauthUserTab(router, assetInteractor, userInteractor, eventBus) {
         this.router = router;
@@ -58080,8 +58111,8 @@ var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var storageInteractor_1 = __webpack_require__(177);
 var userInteractor_1 = __webpack_require__(31);
-var constants_1 = __webpack_require__(7);
-var event_bus_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var SlideshowBuilder_1 = __webpack_require__(102);
 var FileSaver = __webpack_require__(478);
 var Story = /** @class */function () {
@@ -58267,7 +58298,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var TreeTab = /** @class */function () {
     function TreeTab(sceneInteractor, metaDataInteractor, eventBus) {
         this.sceneInteractor = sceneInteractor;
@@ -58392,7 +58423,7 @@ var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var sceneInteractor_1 = __webpack_require__(12);
 var imageResizeService_1 = __webpack_require__(27);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var fileLoaderUtil_1 = __webpack_require__(60);
 //added by ali for dragging images in
 var SlideshowBuilder_1 = __webpack_require__(102);
@@ -58509,7 +58540,7 @@ module.exports = "<div class=\"modal-window\">\n  <input\n    id=\"hiddenBackgro
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(13);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 exports.HOTSPOT_ANIM_STATES = {
     FAR: 1,
     NEAR: 2,
@@ -58774,7 +58805,7 @@ var __extends = this && this.__extends || function () {
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = __webpack_require__(13);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var base_plane_1 = __webpack_require__(87);
 var DoorPlane = /** @class */function (_super) {
     __extends(DoorPlane, _super);
@@ -59008,7 +59039,7 @@ var __extends = this && this.__extends || function () {
     };
 }();
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var imageResizeService_1 = __webpack_require__(27);
 var THREE = __webpack_require__(13);
 var iconPositionUtil_1 = __webpack_require__(55);
@@ -59274,7 +59305,7 @@ var chatInteractor_1 = __webpack_require__(247);
 var projectInteractor_1 = __webpack_require__(42);
 var sceneInteractor_1 = __webpack_require__(12);
 var THREE = __webpack_require__(13);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var MultiViewService = /** @class */function () {
     function MultiViewService(eventBus, projectInteractor, chatInteractor, sceneInteractor) {
         this.eventBus = eventBus;
@@ -59411,7 +59442,7 @@ var sceneInteractor_1 = __webpack_require__(12);
 var THREE = __webpack_require__(13);
 __webpack_require__(443);
 __webpack_require__(444);
-var constants_1 = __webpack_require__(7);
+var constants_1 = __webpack_require__(8);
 var video3D_1 = __webpack_require__(471);
 var audioManager_1 = __webpack_require__(479);
 var fontHelper_1 = __webpack_require__(481);
@@ -59422,7 +59453,7 @@ var reticle_1 = __webpack_require__(483);
 var textureLoader_1 = __webpack_require__(484);
 var SvrControls_1 = __webpack_require__(472);
 var threeUtil_1 = __webpack_require__(473);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var Stats = __webpack_require__(1224);
 var stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
@@ -59889,7 +59920,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var router_1 = __webpack_require__(16);
 var userInteractor_1 = __webpack_require__(31);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var Topbar = /** @class */function () {
     function Topbar(ngZone, eventBus, userInteractor, router, activatedRoute) {
         this.ngZone = ngZone;
@@ -60201,7 +60232,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var instanceSet = new Set();
 // TODO: add touch
 document.addEventListener('mousemove', function ($event) {
@@ -60341,7 +60372,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var fileLoaderUtil_1 = __webpack_require__(60);
 var Droppable = /** @class */function () {
     function Droppable(eventBus, fileLoaderUtil) {
@@ -60478,7 +60509,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
 var uuid_1 = __webpack_require__(100);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var fileLoaderUtil_1 = __webpack_require__(60);
 var FileLoader = /** @class */function () {
     function FileLoader(eventBus, fileLoaderUtil) {
@@ -60560,7 +60591,7 @@ var __metadata = this && this.__metadata || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__(2);
-var event_bus_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var zipFileReader_1 = __webpack_require__(134);
 var HiddenFileLoader = /** @class */function () {
     function HiddenFileLoader(eventBus, zipFileReader) {
@@ -60902,8 +60933,8 @@ var projectInteractor_1 = __webpack_require__(42);
 var projectMetaDataInteractor_1 = __webpack_require__(25);
 var sceneInteractor_1 = __webpack_require__(12);
 var userInteractor_1 = __webpack_require__(31);
-var constants_1 = __webpack_require__(7);
-var event_bus_1 = __webpack_require__(8);
+var constants_1 = __webpack_require__(8);
+var event_bus_1 = __webpack_require__(5);
 var UserGroups = /** @class */function () {
     function UserGroups(userInteractor, groupInteractor, projectInteractor, sceneInteractor, metaDataInteractor, router, eventBus) {
         this.userInteractor = userInteractor;
