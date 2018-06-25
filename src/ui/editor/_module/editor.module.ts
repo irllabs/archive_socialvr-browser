@@ -72,7 +72,8 @@ import { ResponsiveUtil } from 'ui/editor/util/responsiveUtil';
 import { Slider } from 'ui/editor/util/slider/slider';
 import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
 import { ZipFileReader } from 'ui/editor/util/zipFileReader';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import 'ui/editor/util/a-frame/svr-camera';
 // Module routes
 const route = RouterModule.forChild([
   {
@@ -188,6 +189,7 @@ const route = RouterModule.forChild([
     MenuManager,
     Reticle,
   ],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class EditorModule {
 }

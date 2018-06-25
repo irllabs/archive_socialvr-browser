@@ -51,9 +51,6 @@ const webpackConfig = {
         ]
       }
     }),
-    new webpack.ProvidePlugin({
-      'THREE': 'three'
-    }),
 
     new WebpackMd5Hash(),
     new ManifestPlugin(),
@@ -116,6 +113,7 @@ const defaultConfig = {
     extensions: ['.ts', '.js'],
     modules: [path.resolve(__dirname, 'node_modules')],
     alias: {
+      aframe: path.join(__dirname, 'node_modules/aframe/build/aframe.js'),
       ui: path.resolve(__dirname, 'src/ui/'),
       core: path.resolve(__dirname, 'src/core/'),
       data: path.resolve(__dirname, 'src/data/'),

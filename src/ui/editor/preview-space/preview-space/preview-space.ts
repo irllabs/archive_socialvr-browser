@@ -7,7 +7,7 @@ import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
 import { SceneInteractor } from 'core/scene/sceneInteractor';
 import { Room } from 'data/scene/entities/room';
 import { Subscription } from 'rxjs/Subscription';
-import * as THREE from 'three';
+import 'three';
 import 'three/VRControls';
 import 'three/VREffect';
 import { THREE_CONST } from 'ui/common/constants';

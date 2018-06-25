@@ -1,4 +1,4 @@
-import { Component, NgZone, ViewChild, ViewChildren, ChangeDetectionStrategy,ChangeDetectorRef } from '@angular/core';
+import { Component, NgZone, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { AssetInteractor, AssetModel } from 'core/asset/assetInteractor';
 import { CameraInteractor } from 'core/scene/cameraInteractor';
@@ -34,8 +34,6 @@ export class EditSpaceSphere {
   @ViewChildren('roomIcon') roomIconComponentList: RoomIcon[];
   @ViewChild('editSpaceSphere') editSpaceSphere;
   @ViewChild('globeCanvas') globeCanvas;
-  @ViewChild('globeScene') globeScene;
-  @ViewChild('cameraElement') cameraElement;
 
   private renderer: THREE.WebGLRenderer;
   private svrControls: any;
@@ -45,9 +43,9 @@ export class EditSpaceSphere {
   private subscriptions: Set<Subscription> = new Set<Subscription>();
   private video3D: Video3D;
   private animationRequest: number;
-
+  private windowWidth: number;
+  private windowHeight: number;
   private onResizeFn: EventListenerObject = { handleEvent: this.onResize.bind(this) };
-  private sky:any;
 
   constructor(
     private sceneInteractor: SceneInteractor,
@@ -58,47 +56,52 @@ export class EditSpaceSphere {
     private assetInteractor: AssetInteractor,
     private metaDataInteractor: MetaDataInteractor,
     private router: Router,
-    private ref: ChangeDetectorRef
   ) {
-    // ref.detach();
   }
 
   ngOnInit() {
     if (this.metaDataInteractor.projectIsEmpty()) {
       this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
     }
+    this.windowWidth = window.innerWidth;
+    this.windowHeight = window.innerHeight;
     this.ngZone.runOutsideAngular(() => {
       window.addEventListener('resize', this.onResizeFn, false);
     });
-
   }
 
   ngAfterViewInit() {
-    const canvas = this.globeScene.nativeElement;
-    const cameraElement = this.cameraElement.nativeElement;
-
-    this.renderer = canvas.renderer;
-
-    cameraElement.runContext =  this.ngZone.runOutsideAngular.bind(this.ngZone);
-    cameraElement.onUpdate = this.render.bind(this);
-
+    this.initScene();
     this.subscribeToEvents();
     this.loadTextures()
       .then(this.initRoom.bind(this))
-      .then(this.onResize.bind(this))
       .catch(error => console.log('load textures / init room error', error, console.trace()));
-    
   }
 
   ngOnDestroy() {
     window.removeEventListener('resize', this.onResizeFn, false);
-    //;
-    // this.cameraInteractor.setCameraAngles(this.svrControls.getCameraAngles());
-    // cancelAnimationFrame(this.animationRequest);
+    this.cameraInteractor.setCameraAngles(this.svrControls.getCameraAngles());
+    cancelAnimationFrame(this.animationRequest);
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     if (!!this.video3D) {
       this.video3D.destroy();
     }
+  }
+
+  private initScene() {
+    const canvas = this.globeCanvas.nativeElement;
+    const sceneComponents = buildScene();
+    this.sphereMesh = sceneComponents.sphereMesh;
+    this.camera = sceneComponents.camera;
+    this.scene = sceneComponents.scene;
+    this.renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
+    this.svrControls = new SvrControls({
+      camera: this.camera,
+      domElement: canvas,
+      initialCameraAngles: this.cameraInteractor.getCameraAngles(),
+      onMouseDownCallback: this.onMouseDown.bind(this),
+      executionContext: this.ngZone.runOutsideAngular.bind(this.ngZone),
+    });
   }
 
   initRoom() {
@@ -116,7 +119,8 @@ export class EditSpaceSphere {
     }
     else {
       const sphereTexture = this.assetInteractor.getTextureById(roomId);
-      this.sky = sphereTexture.image.currentSrc;
+      this.sphereMesh.material = new THREE.MeshBasicMaterial({ map: sphereTexture, side: THREE.BackSide });
+      this.onResize(null);
     }
 
   }
@@ -185,10 +189,19 @@ export class EditSpaceSphere {
   }
 
   render() {
-    this.camera = this.camera || this.cameraElement.nativeElement.object3D.children[0];
+    this.svrControls.update();
     this.roomIconComponentList.forEach(roomIcon => this.updateRoomIconPosition(roomIcon));
     if (this.video3D) {
       this.video3D.attemptEditSpaceRender();
+    }
+    this.renderer.render(this.scene, this.camera);
+
+    // const shouldRender = this.isDragging || this.svrControls.hasMomentum();
+    // if (shouldRender) {
+    if (this.svrControls.shouldRender()) {
+      this.ngZone.runOutsideAngular(() => {
+        this.animationRequest = requestAnimationFrame(this.render.bind(this));
+      });
     }
   }
 
@@ -205,14 +218,14 @@ export class EditSpaceSphere {
   onResize(event) {
     onResize(this.camera, this.renderer)
       .then(() => {
+        this.roomIconComponentList.forEach(roomIcon => roomIcon.setPixelLocation(99999, 99999));
         this.render();
       })
-      // .catch(error => console.log('edit-sphere resize error', error));
+      .catch(error => console.log('edit-sphere resize error', error));
   }
 
   updateRoomIconPosition(roomIcon: Hotspot) {
     const location: Vector2 = roomIcon.getLocation();
-   
     const coordinatePosition = getCoordinatePosition(location.getX(), location.getY());
     const positionCameraDotProd: number = coordinatePosition.dot(this.camera.getWorldDirection(new THREE.Vector3()));
 

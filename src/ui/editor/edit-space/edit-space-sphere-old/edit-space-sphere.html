@@ -1,0 +1,16 @@
+<div
+  #editSpaceSphere
+  class="edit-space">
+
+  <canvas #globeCanvas>
+  </canvas>
+
+  <div *ngFor="let roomProperty of getItems()">
+    <room-icon
+      #roomIcon
+      [roomProperty]="roomProperty"
+      (onIconDragEnd)="onMoveEnd($event)">
+    </room-icon>
+  </div>
+
+</div>
