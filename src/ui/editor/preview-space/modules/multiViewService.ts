@@ -46,7 +46,8 @@ export class MultiViewService {
 
   update(camera: THREE.PerspectiveCamera) {
     // if change in look at, send value
-    const cameraDirection = camera.getWorldDirection();
+    const cameraDirection = camera.getWorldDirection(null);
+
     if (cameraDirection.equals(this.lastCameraPosition)) {
       return;
     }

@@ -3,7 +3,6 @@ const webpackMerge = require('webpack-merge');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 
@@ -24,19 +23,24 @@ const webpackConfig = {
     vendor: './src/_entrypoints/vendor.ts',
     main: './src/_entrypoints/main.ts'
   },
+
   output: {
     publicPath: '',
     path: path.resolve(__dirname, './dist'),
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].js'
   },
+
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
       name: ['main', 'vendor', 'polyfills']
     }),
-    new ServiceWorkerWebpackPlugin({
-      entry: path.join(__dirname, './src/_serviceworkers/sw.ts')
-    }),
+
+    // TODO: check and enable
+    // new ServiceWorkerWebpackPlugin({
+    //   entry: path.join(__dirname, './src/_serviceworkers/sw.ts')
+    // }),
+
     new webpack.ContextReplacementPlugin(
       /angular(\\|\/)core(\\|\/)@angular/,
       path.resolve(__dirname, './src'),
@@ -51,8 +55,9 @@ const webpackConfig = {
         ]
       }
     }),
+
     new webpack.ProvidePlugin({
-      'THREE': 'three'
+      Reflect: 'core-js/es7/reflect'
     }),
 
     new WebpackMd5Hash(),
@@ -120,8 +125,6 @@ const defaultConfig = {
       core: path.resolve(__dirname, 'src/core/'),
       data: path.resolve(__dirname, 'src/data/'),
       assets: path.resolve(__dirname, 'src/assets/'),
-      'three/VRControls': path.join(__dirname, 'node_modules/three/examples/js/controls/VRControls.js'),
-      'three/VREffect': path.join(__dirname, 'node_modules/three/examples/js/effects/VREffect.js'),
     }
   },
 

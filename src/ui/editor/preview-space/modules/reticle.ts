@@ -70,7 +70,7 @@ export class Reticle {
     const camera = isInVrMode ? this.vrCamera : this.camera;
     const reticle = isInVrMode ? this.vrReticle : this.touchReticle;
 
-    this.position = reticle.getWorldPosition();
+    this.position = reticle.getWorldPosition(null);
     this.reticleRaycaster.setFromCamera(new THREE.Vector2, camera);
 
     // if (intersectedMeshList.length) {

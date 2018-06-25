@@ -7,8 +7,6 @@ import { Room } from 'data/scene/entities/room';
 import { RoomManager } from 'data/scene/roomManager';
 import { PropertyBuilder } from 'data/scene/roomPropertyBuilder';
 
-import 'rxjs/add/observable/fromPromise';
-
 import { Observable } from 'rxjs/Observable';
 
 import {

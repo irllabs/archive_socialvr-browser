@@ -8,7 +8,6 @@ import { SceneInteractor } from 'core/scene/sceneInteractor';
 import { StorageInteractor } from 'core/storage/storageInteractor';
 import { UserInteractor } from 'core/user/userInteractor';
 import { Project } from 'data/project/projectModel';
-import 'rxjs/add/operator/switchMap';
 import { MIME_TYPE_ZIP } from 'ui/common/constants';
 import { EventBus } from 'ui/common/event-bus';
 

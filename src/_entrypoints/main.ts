@@ -8,7 +8,8 @@ if (build === 'PROD') {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(UiModule)
+platformBrowserDynamic()
+  .bootstrapModule(UiModule)
   .catch(err => console.error(err));
 
 // if ('serviceWorker' in navigator) {

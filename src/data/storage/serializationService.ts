@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { RoomManager } from 'data/scene/roomManager';
 import { resizeImage } from 'data/util/imageResizeService';
 
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/operator/toPromise';
+
 import { Observable } from 'rxjs/Observable';
 
 import {

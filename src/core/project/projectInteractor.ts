@@ -10,12 +10,8 @@ import { RoomManager } from 'data/scene/roomManager';
 import { DeserializationService } from 'data/storage/deserializationService';
 import { SerializationService } from 'data/storage/serializationService';
 import { UserService } from 'data/user/userService';
-import 'rxjs/add/operator/do';
 
-import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { fromPromise } from 'rxjs/observable/fromPromise';
 import { Audio } from '../../data/scene/entities/audio';
 import { MediaFile } from '../../data/scene/entities/mediaFile';
 import { Room } from '../../data/scene/entities/room';
@@ -125,7 +121,7 @@ export class ProjectInteractor {
   }
 
   public deleteProject(projectId: string) {
-    return fromPromise(this._projectsCollection.doc(projectId).delete());
+    return Observable.fromPromise(this._projectsCollection.doc(projectId).delete());
   }
 
   public getProjectAsBlob(project: Project): Promise<ArrayBuffer> {
@@ -190,10 +186,10 @@ export class ProjectInteractor {
       .filter(tag => tag !== '');
 
     if (tags.length == 0) {
-      return fromPromise(Promise.resolve([]));
+      return Observable.fromPromise(Promise.resolve([]));
     }
 
-    return forkJoin(tags.reduce((observers, tag) => {
+    return Observable.forkJoin(tags.reduce((observers, tag) => {
       const observer = this.afStore
         .collection('projects', (ref) => {
           return ref

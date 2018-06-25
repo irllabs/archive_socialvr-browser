@@ -20,4 +20,4 @@ export class Ui {
       this.router.navigate([{ outlets: { modal: null } }]);
     }
   }
-};
+}
