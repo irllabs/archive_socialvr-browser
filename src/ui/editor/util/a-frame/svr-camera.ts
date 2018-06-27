@@ -8,11 +8,18 @@ const DAMPING_DECAY = 0.005;
 const MOMENTUM_EPSILON = 0.25;
 const CENTER = new THREE.Vector3(0, 0, 0);
 
+const defaultExecutionContext = (fn) => {
+  if (fn && typeof fn === 'function') {
+    fn();
+  }
+};
+
 AFRAME.registerComponent('svr-camera', {
+  
   init() {
-    debugger;
     this.isDragging = false;
     this.hasMomentum = false;
+    this.needRAF = true; //Check if request animation frame is needed.
     this.momentum = new THREE.Vector2();
     this.spherical = new THREE.Spherical();
     this.sphericalDelta = new THREE.Spherical();
@@ -22,58 +29,71 @@ AFRAME.registerComponent('svr-camera', {
     this.touchLocation = new THREE.Vector2();
     this.quat = this.getCameraQuaternion();
     this.quatInverse = this.quat.clone().inverse();
-    this.sphericalDelta.set(0, 0, 0);
-    this.renderer = this.el.parentEl.renderer; //Get renderer from scene
+
+    this.canvas = this.el.parentEl
+    this.renderer = this.canvas.renderer; //Get renderer from scene
     this.camera = this.el.object3D.children[0]; // Get camera object 3D
-    this.needRAF = true; //Check if request animation frame is needed.
-    
+
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onTouchMove = this.onTouchMove.bind(this);
     this.onTouchEnd = this.onTouchEnd.bind(this);
-    
-    document.addEventListener('mousedown', this.onMouseDown, false);
-    document.addEventListener('touchstart', this.onTouchStart, false);
-    //window.addEventListener('resize',this.onResize.bind(this),false);
+    this.onResize = this.onResize.bind(this)
+
+    this.sphericalDelta.set(0, 0, 0);
+
+    this.canvas.addEventListener('mousedown', this.onMouseDown, false);
+    this.canvas.addEventListener('touchstart', this.onTouchStart, false);
+
+    window.addEventListener('resize', this.onResize, false);
+    this.el.addEventListener('onResize', this.onResize);    
+    this.onMouseUp();
+  },
+  onResize():void {
     this.refreshCamera();
+    this.el.emit('afterResize');
   },
-  refreshCamera(){
-      const DPR: number = window.devicePixelRatio || 1;
-      const rendererWidth = window.innerWidth / DPR;
-      const rendererHeight = window.innerHeight / DPR;
-      const aspectRatio = rendererWidth / rendererHeight;
-      this.renderer.setPixelRatio(DPR);
-      this.renderer.setSize(rendererWidth, rendererHeight, false);
-      this.camera.aspect = aspectRatio;
-      this.camera.updateProjectionMatrix();  
+  refreshCamera():void {
+    const DPR: number = window.devicePixelRatio || 1;
+    const rendererWidth = window.innerWidth / DPR;
+    const rendererHeight = window.innerHeight / DPR;
+    const aspectRatio = rendererWidth / rendererHeight;
+    this.renderer.setPixelRatio(DPR);
+    this.renderer.setSize(rendererWidth, rendererHeight, false);
+    this.camera.aspect = aspectRatio;
+    this.camera.updateProjectionMatrix();
   },
-  onMouseDown(e) {
+  onMouseDown(e):void {
     e.preventDefault();
     this.hasMomentum = false;
     this.isDragging = true;
     this.momentum.set(0, 0);
-    this.rotateStart.set(e.clientX, e.clientY)
-    document.addEventListener('touchmove', this.onTouchMove, { passive: false });
-    document.addEventListener('touchend', this.onTouchEnd, false);
-    document.addEventListener('mouseup', this.onMouseUp, false)
-    document.addEventListener('mousemove', this.onMouseMove, false);
+    this.rotateStart.set(e.clientX, e.clientY);
+    
+    this.canvas.addEventListener('touchmove', this.onTouchMove, { passive: false });
+    this.canvas.addEventListener('touchend', this.onTouchEnd, false);
+    this.canvas.addEventListener('mouseup', this.onMouseUp, false)
+    this.canvas.addEventListener('mousemove', this.onMouseMove, false);
   },
-  onMouseUp(e) {
+  onMouseUp(e):void {
     this.hasMomentum = true;
     this.isDragging = false;
-    document.removeEventListener('mousemove', this.onMouseMove, false);
-    document.removeEventListener('mouseup', this.onMouseUp, false);
-    document.removeEventListener('touchmove', this.onTouchMove, false);
-    document.removeEventListener('touchend', this.onTouchEnd, false);
+    this.canvas.removeEventListener('mousemove', this.onMouseMove, false);
+    this.canvas.removeEventListener('mouseup', this.onMouseUp, false);
+    this.canvas.removeEventListener('touchmove', this.onTouchMove, false);
+    this.canvas.removeEventListener('touchend', this.onTouchEnd, false);
     this.makeUpdate();
   },
-  remove() {
-    document.removeEventListener('mousedown', this.onMouseDown, false);
-    document.removeEventListener('touchstart', this.onTouchStart, false);
+  remove():void {
+    this.el.removeAllListeners();
+    this.canvas.removeEventListener('mousedown', this.onMouseDown, false);
+    this.canvas.removeEventListener('touchstart', this.onTouchStart, false);
+    window.removeEventListener('resize', this.onResize, false);
+
   },
-  onTouchStart(event) {
+  onTouchStart(event):void {
     if (event.touches.length > 1) {
       return;
     }
@@ -90,9 +110,9 @@ AFRAME.registerComponent('svr-camera', {
     this.onMouseDown(event);
   },
 
-  onTouchMove(event) {
-    const x = event.touches[0].clientX;
-    const y = event.touches[0].clientY;
+  onTouchMove(event):void {
+    const x:number = event.touches[0].clientX;
+    const y:number = event.touches[0].clientY;
     event.clientX = x;
     event.clientY = y;
     event.movementX = x - this.touchLocation.x;
@@ -101,7 +121,7 @@ AFRAME.registerComponent('svr-camera', {
     this.touchLocation.y = y;
     this.onMouseMove(event);
   },
-  onTouchEnd(event) {
+  onTouchEnd(event):void {
     if (event.touches.length > 0) {
       return;
     }
@@ -109,12 +129,11 @@ AFRAME.registerComponent('svr-camera', {
     event.clientY = this.touchLocation.y;
     this.onMouseUp(event);
   },
-  onMouseMove(e) {
+  onMouseMove(e):void {
+    e.preventDefault();
     if (!this.isDragging) {
       return;
     }
-
-    e.preventDefault();
     this.rotateEnd.set(e.clientX, e.clientY);
     this.rotateDelta.subVectors(this.rotateEnd, this.rotateStart);
 
@@ -129,34 +148,33 @@ AFRAME.registerComponent('svr-camera', {
     }
     this.makeUpdate();
   },
-  rotateLeft(angle) {
+  rotateLeft(angle):void {
     this.sphericalDelta.theta -= angle
   },
-  rotateUp(angle) {
+  rotateUp(angle):void {
     this.sphericalDelta.phi -= angle
   },
-  getCameraQuaternion() {
+  getCameraQuaternion():THREE.Quaternion {
     const camera = this.el.object3D
     return new THREE.Quaternion().setFromUnitVectors(camera.up, new THREE.Vector3(0, 1, 0));
   },
   /**
    *An update function
   */
-  makeUpdate() {
+  makeUpdate():void {
     if (!this.needRAF)
       return
     this.needRAF = false;
-    requestAnimationFrame(() => {
-      if (this.el.runContext) {
-        return this.el.runContext(() => {
-          this.needRAF = true;
-          this.change();
-          this.el.onUpdate();
-        });
-      }
-    });
+    const context = this.el.runContext || defaultExecutionContext;
+    context(() =>
+      requestAnimationFrame(() => {
+        this.needRAF = true;
+        this.change();
+        this.el.emit('onUpdate');
+      })
+    );
   },
-  change() {
+  change():void {
     const quat = this.quat;
     const quatInverse = this.quatInverse;
     const cameraPosition = this.el.object3D.position.clone();

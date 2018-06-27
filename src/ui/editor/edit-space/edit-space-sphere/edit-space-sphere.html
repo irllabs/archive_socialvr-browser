@@ -3,10 +3,7 @@
   class="edit-space">
 
   <a-scene  #globeScene vr-mode-ui="enabled: false">
-      <a-assets>
-          <img *ngIf="sky" id="sky" [src]="sky">
-        </a-assets>
-    <a-sky *ngIf="sky" src="#sky" radius="512"></a-sky>
+    <a-sky *ngIf="sky" [attr.src]="sky" radius="512"></a-sky>
     <a-entity #cameraElement svr-camera camera="fov:65;zoom:1;near:1;far:1024" position="0 0 0.0001">
     </a-entity>
   </a-scene>
