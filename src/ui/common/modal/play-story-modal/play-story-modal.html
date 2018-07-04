@@ -3,8 +3,13 @@
     <p>You are about to begin your <br> SocialVR experience!</p>
     <p>Press play to continue:</p>
 
-    <button type="button" class="play-btn" (click)="closeModal()">
+    <button type="button" class="play-btn" (click)="closeModal(false)">
       <img src="assets/icons/view-preview-accent.png" alt="">
+      Single Screen
+    </button>
+    <button type="button" class="play-btn" (click)="closeModal(true)">
+      <img src="assets/icons/view-preview-accent.png" alt="">
+      Dual Screen
     </button>
   </div>
 </div>

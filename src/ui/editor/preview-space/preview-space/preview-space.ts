@@ -197,7 +197,10 @@ export class PreviewSpace implements AfterViewInit {
     const isShare = this.router.url.indexOf('share=1') !== -1;
 
     if (isShare && this.isFirstInitialize) {
-      this.eventBus.onPlayStoryModal(() => {
+      this.eventBus.onPlayStoryModal((inVrMode) => {
+        if (inVrMode) {
+          this.requestVrMode(event);
+        }
         this.startPlay();
         this.isFirstInitialize = false;
       });
@@ -376,7 +379,7 @@ export class PreviewSpace implements AfterViewInit {
   //////////////   VR MODE      ////////////////
   //////////////////////////////////////////////
 
-  private requestVrMode($event) {
+  public requestVrMode($event) {
     this.isInRenderLoop = false;
     this.audioManager.checkAudioContextState();
     this.vrDisplay.requestPresent([

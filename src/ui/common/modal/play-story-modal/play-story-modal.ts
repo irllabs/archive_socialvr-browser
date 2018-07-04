@@ -6,10 +6,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
   templateUrl: './play-story-modal.html'
 })
 export class PlayStoryModal {
-
   @Output() onClose = new EventEmitter();
 
-  public closeModal() {
-    this.onClose.emit({});
+  public closeModal(inVrMode = false) {
+    this.onClose.emit({ inVrMode });
   }
 }

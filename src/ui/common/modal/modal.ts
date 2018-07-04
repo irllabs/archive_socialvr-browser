@@ -52,7 +52,7 @@ export class Modal {
     } else if ($event.isAccepted && this.onAccept) {
       this.onAccept();
     } else if (this.isPlayStoryModal() && this.playStoryCallback) {
-      this.playStoryCallback();
+      this.playStoryCallback($event.inVrMode);
     }
     this.clearValues();
   }
