@@ -1,0 +1,58 @@
+<a-entity
+  [attr.doorway]="params"
+  class="hotspot doorway"
+  geometry="primitive: plane"
+  material="
+    transparent: true;
+    opacity: 0"
+  scale="100 100"
+  opacity="1"
+  look-at="[camera]">
+  <!-- Doorway triggers -->
+  <a-entity
+    class="outer-doorway-trigger raycast-trigger"
+    material="
+      opacity: 0 0;
+      transparent: true"
+    geometry="
+      primitive: plane;
+      height: 1;
+      width: 1;"
+    position="0 0 -1">
+  </a-entity>
+  <a-entity
+    class="center-doorway-trigger raycast-trigger"
+    material="
+      opacity: 0 0;
+      transparent: true"
+    geometry="
+      primitive: plane;
+      height: .5;
+      width: .5;"
+    position="0 0 -1">
+  </a-entity>
+  <!-- /Doorway triggers -->
+  <!-- Doorway title -->
+  <a-text 
+    [attr.value]="name"
+    class="hotspot-name"
+    align="center" 
+    position="0 -.5 0"
+    visible="false"
+    alpha-test=".5">
+  </a-text>
+  <!--  /Doorway title      -->
+  <!-- Pulsating marker -->
+  <a-entity doorway-pulsating-marker>
+  </a-entity>
+  <!-- /Pulsating marker -->
+  <!-- Hidden marker -->
+  <a-image 
+    hidden-marker
+    width=".5"
+    height=".5"
+    src="/assets/icons/icon-doorhotspot.png">
+  </a-image>
+
+  <!-- /Hidden marker -->
+</a-entity>

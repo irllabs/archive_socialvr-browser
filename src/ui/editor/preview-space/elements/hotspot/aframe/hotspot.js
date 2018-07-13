@@ -1,10 +1,13 @@
+import { getCoordinatePosition } from '../../../../util/iconPositionUtil';
+
+
 AFRAME.registerComponent('hotspot', {
   schema: {
      coordinates: {
        type:"string",
        parse(val){
          const [ x, y ] = val.split(' ');
-         return getCoordinatePosition(parseInt(x),parseInt(y))
+         return getCoordinatePosition(parseInt(x), parseInt(y))
        }
      }
   },
@@ -22,22 +25,27 @@ AFRAME.registerComponent('hotspot', {
     this.el.sceneEl.querySelectorAll('[hotspot]')
       .forEach(el => el !== this.el && el.emit('hide'))
   },
-
+  showHotspotName(){
+    this.hotspotName.setAttribute('visible', true);
+  },
+  hideHotspotName(){
+    this.hotspotName.setAttribute('visible', false)
+  },
   init(){
-    let object3d = this.el.object3D;
-    let { x, y, z } = this.data.coordinates;
+    const { x, y, z } = this.data.coordinates;
 
     //Setting up position of hotspot
-    object3d.position.set(x,y,z);
-
-    //Caching child components
-    this.pulsatingMarker = this.el.querySelector('[pulsating-marker]');
-    this.hiddenMarker = this.el.querySelector('[hidden-marker]');
-    this.hotspotContent = this.el.querySelector('[hotspot-content]');
+    this.el.object3D.position.set(x,y,z);
 
     //Caching triggers
     this.centerHotspotTrigger = this.el.querySelector('.center-hotspot-trigger');
     this.outerHotspotTrigger = this.el.querySelector('.outer-hotspot-trigger');
+
+    //Caching elements
+    this.hotspotContent = this.el.querySelector('[hotspot-content]');
+    this.hiddenMarker = this.el.querySelector('[hidden-marker]');
+    this.pulsatingMarker = this.el.querySelector('[pulsating-marker]');
+    this.hotspotName = this.el.querySelector('.hotspot-name');
 
     //Binding current scope to event`s callbacks
     this.hideHotspot = this.hideHotspot.bind(this);
@@ -50,11 +58,13 @@ AFRAME.registerComponent('hotspot', {
     this.outerHotspotTrigger.addEventListener('raycaster-intersected',() => {
       this.pulsatingMarker.emit('scale-out');
       this.hiddenMarker.emit('fade-in');
+      this.showHotspotName();
     });
 
     this.outerHotspotTrigger.addEventListener('raycaster-intersected-cleared',() => {
       this.pulsatingMarker.emit('scale-in');
-      this.hiddenMarker.emit('fade-out')
+      this.hiddenMarker.emit('fade-out');
+      this.hideHotspotName();
     });
 
     this.centerHotspotTrigger.addEventListener('raycaster-intersected',() => {
@@ -62,12 +72,14 @@ AFRAME.registerComponent('hotspot', {
       this.pulsatingMarker.emit('scale-out');
       this.hotspotContent.emit('show-content');
       this.hideOtherHotspots();
+      this.hideHotspotName();
     });
 
     this.centerHotspotTrigger.addEventListener('raycaster-intersected-cleared',() => {
       this.hiddenMarker.emit('fade-in');
       this.hotspotContent.emit('hide-content');
       this.showOtherHotspots();
+      this.showHotspotName();
     })
   }
 })

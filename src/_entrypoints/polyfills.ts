@@ -6,6 +6,9 @@ import 'ie-shim'; // Internet Explorer 9 support
 
 import * as WebVRPolyfill from 'webvr-polyfill';
 import 'aframe';
+import 'aframe-animation-component';
+import 'aframe-look-at-component';
+import 'aframe-template-component';
 import 'zone.js/dist/zone';
 import 'zone.js/dist/long-stack-trace-zone';
 

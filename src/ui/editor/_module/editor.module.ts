@@ -73,7 +73,12 @@ import { Slider } from 'ui/editor/util/slider/slider';
 import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
 import { ZipFileReader } from 'ui/editor/util/zipFileReader';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 import 'ui/editor/util/a-frame/svr-camera';
+
+import { Hotspot } from 'ui/editor/preview-space/elements/hotspot/hotspot';
+import { Doorway } from 'ui/editor/preview-space/elements/doorway/doorway';
+import { PanelButton } from 'ui/editor/preview-space/elements/panel-button/panel-button';
 // Module routes
 const route = RouterModule.forChild([
   {
@@ -165,6 +170,10 @@ const route = RouterModule.forChild([
     StorymapItem,
     AddRoomButton,
     Fullscreen,
+    //Aframe
+    Hotspot,
+    Doorway,
+    PanelButton
   ],
   imports: [
     BrowserModule,

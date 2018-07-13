@@ -26,6 +26,7 @@ export class TextureLoader {
   }
 
   load(): Promise<any> {
+    debugger;
     const backgroundImages = this.sceneInteractor.getRoomIds()
       .map(roomId => this.sceneInteractor.getRoomById(roomId))
       .filter(room => room.hasBackgroundImage())
@@ -38,6 +39,7 @@ export class TextureLoader {
 
         return new AssetModel(room.getId(), room.getFileName(), imagePath);
       });
+
     //TODO: should this be in the interactor? There is an identical pattern with audio
     const hotspotImages = this.sceneInteractor.getRoomIds()
       .map(roomId => this.sceneInteractor.getRoomById(roomId))
@@ -65,11 +67,11 @@ export class TextureLoader {
 
         return accumulator;
       }, []);
-
-      
+  debugger;
     const imageList = backgroundImages
       .concat(hotspotImages)
       .concat(iconPaths);
+
     return this.assetInteractor.loadTextures(imageList);
   }
 }

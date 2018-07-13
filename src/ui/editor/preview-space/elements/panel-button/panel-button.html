@@ -1,0 +1,27 @@
+<a-entity 
+  [attr.panel-button]='params'>
+  <a-entity 
+    class="button-trigger raycast-trigger"
+    alpha-test=".5"
+    position="-.5 0 -.1"
+    material="
+      opacity: 0;
+      transparent: true"
+    geometry="
+      primitive: plane;
+      height: 1;
+      width: 1;
+    "
+  >
+  </a-entity>
+  <a-image
+   [attr.src]="icon"
+    class="button-image"
+    position="-.5 0 .1"
+    alpha-test=".5"
+    width=".5"
+    height=".5"
+
+  >
+  </a-image>
+</a-entity>

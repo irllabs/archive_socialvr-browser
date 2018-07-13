@@ -113,8 +113,8 @@ export class Room implements RoomProperty {
     return this.backgroundImage.getBinaryFileData(unsafe);
   }
 
-  getBackgroundAudioBinaryFileData(): any {
-    return this.backgroundAudio.getBinaryFileData();
+  getBackgroundAudioBinaryFileData(unsafe: boolean = false): any {
+    return this.backgroundAudio.getBinaryFileData(unsafe;
   }
 
   setBackgroundImageBinaryData(binaryFileData: any) {
@@ -153,8 +153,8 @@ export class Room implements RoomProperty {
     this.narrator = narrator;
   }
 
-  getNarrationIntroBinaryFileData(): any {
-    return this.getNarrator().getIntroAudio().getBinaryFileData();
+  getNarrationIntroBinaryFileData(unsafe: boolean = false): any {
+    return this.getNarrator().getIntroAudio().getBinaryFileData(unsafe);
   }
 
   getLocation(): Vector2 {
