@@ -42,7 +42,7 @@
             <a-entity nga-hotspot [hotspot]="hotspot">
             </a-entity>
          </a-entity>
-         
+
          <a-entity *ngFor="let door of room.doorSet">
             <a-entity nga-doorway [doorway]="door">
             </a-entity>
@@ -62,20 +62,20 @@
         look-at="a-camera"
         position="0 -2 -3"
         color="#00F">
-        <a-entity nga-panel-button 
+        <a-entity nga-panel-button
           position="0 0 0"
           [event]="'switch-room-last'"
           [icon]="'/assets/icons/back_filled.png'"
           >
         </a-entity>
-        <a-entity nga-panel-button 
+        <a-entity nga-panel-button
           position="1 0 0"
           [event]="'switch-room-home'"
           [icon]="'/assets/icons/home_filled.png'"
           >
         </a-entity>
-      </a-entity> 
+      </a-entity>
 
  </a-scene>
- 
+
 </div>

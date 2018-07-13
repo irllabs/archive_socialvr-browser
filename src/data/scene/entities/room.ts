@@ -114,7 +114,7 @@ export class Room implements RoomProperty {
   }
 
   getBackgroundAudioBinaryFileData(unsafe: boolean = false): any {
-    return this.backgroundAudio.getBinaryFileData(unsafe;
+    return this.backgroundAudio.getBinaryFileData(unsafe);
   }
 
   setBackgroundImageBinaryData(binaryFileData: any) {

@@ -359,7 +359,7 @@ export class Editor {
   }
 
   private on3dViewClick($event) {
-    this.router.navigate(['editor', { outlets: { 'view': 'asphere' } }]);
+    this.router.navigate(['editor', { outlets: { 'view': 'sphere' } }]);
     this.isInFlatMode = false;
   }
 

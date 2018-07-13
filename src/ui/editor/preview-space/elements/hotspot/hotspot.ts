@@ -1,9 +1,9 @@
+///<reference path="../../../../../../node_modules/@types/aframe/index.d.ts"/>
 import { AfterViewInit, Component, NgZone, ViewChild, Input, ChangeDetectionStrategy } from '@angular/core';
 import { getCoordinatePosition } from 'ui/editor/util/iconPositionUtil';
 import { Universal } from 'data/scene/entities/universal';
 import { getTextureSizeFromText } from 'ui/editor/preview-space/modules/textMaterialBuilder';
 import { AssetInteractor } from 'core/asset/assetInteractor';
-import { DomSanitizer } from '@angular/platform-browser';
 import { fitToMax } from 'data/util/imageResizeService';
 
 import './aframe/hotspot-content';
@@ -31,7 +31,7 @@ export class Hotspot implements AfterViewInit{
   }
 
   protected get isAudioOnly() {
-    
+
     const hasImageContent: boolean = this.hotspot.imageContent.hasAsset();
     const hasTextContent: boolean = !!this.hotspot.textContent;
     const hasAudioContent: boolean = this.hotspot.audioContent.hasAsset();
@@ -47,7 +47,7 @@ export class Hotspot implements AfterViewInit{
   }
 
   protected get params() {
-    return `coordinates: ${this.hotspot.location.x} ${this.hotspot.location.y}`
+    return `coordinates: ${this.hotspot.location.getX()} ${this.hotspot.location.getY()}`
   }
 
   setupAssets() {
@@ -71,9 +71,9 @@ export class Hotspot implements AfterViewInit{
     }
 
     // Building material
-    const canvas = document.createElement('canvas');
-    const canvasContext = canvas.getContext('2d');
+    const canvas: any = document.createElement('canvas');
 
+    const canvasContext = canvas.getContext('2d');
     canvas.width = width;
     canvas.height = height;
 
@@ -94,7 +94,7 @@ export class Hotspot implements AfterViewInit{
     }
 
     if (textSize !== null) {
-      const textCanvas = document.createElement('canvas');
+      const textCanvas: any = document.createElement('canvas');
       const textCanvasContext = textCanvas.getContext('2d');
 
       textCanvas.width = textSize.width;
@@ -107,7 +107,6 @@ export class Hotspot implements AfterViewInit{
       image: null,
       audio: null
     };
-    const texture = new THREE.Texture(canvas)
 
     if (hasTextContent || hasImageContent) {
       const imageSize = fitToMax(canvas.width, canvas.height, 3);
@@ -126,7 +125,7 @@ export class Hotspot implements AfterViewInit{
   }
 
   get name() {
-    return this.hotspot.name;
+    return this.hotspot.getName();
   }
 
   ngOnInit() {
@@ -135,11 +134,13 @@ export class Hotspot implements AfterViewInit{
 
   ngAfterViewInit() {
     this.ngZone.runOutsideAngular(() => {
-      const assets = this.assets;
+      const assets:any = this.assets;
+
       if (this.hasAudio) {
         const audioElement = this.assetAudio.nativeElement;
         audioElement.setAttribute('src', assets.audio)
       }
+
       if (this.hasImage) {
         const imageElement = this.assetImage.nativeElement;
 
@@ -147,7 +148,6 @@ export class Hotspot implements AfterViewInit{
         imageElement.setAttribute('height', assets.image.height);
         imageElement.setAttribute('src', assets.image.src);
       }
-    })
+    });
   }
-
 }

@@ -165,11 +165,12 @@ export class RoomIcon implements Hotspot {
   setPixelLocation(x: number, y: number) {
     this.iconElement.nativeElement.style.top = `${y}px`;
     this.iconElement.nativeElement.style.left = `${x}px`;
-
   }
+
   onMouseDown(){
     event.stopPropagation();
-  },
+  }
+
   onMove($event) {
     event.stopPropagation();
     const x: number = $event.x + ROOM_ICON_BUFFER_WIDTH;
