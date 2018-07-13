@@ -38,7 +38,6 @@ export class TextureLoader {
 
         return new AssetModel(room.getId(), room.getFileName(), imagePath);
       });
-
     //TODO: should this be in the interactor? There is an identical pattern with audio
     const hotspotImages = this.sceneInteractor.getRoomIds()
       .map(roomId => this.sceneInteractor.getRoomById(roomId))
@@ -67,10 +66,10 @@ export class TextureLoader {
         return accumulator;
       }, []);
 
+      
     const imageList = backgroundImages
       .concat(hotspotImages)
       .concat(iconPaths);
-
     return this.assetInteractor.loadTextures(imageList);
   }
 }

@@ -114,6 +114,7 @@ export default class UniversalPlane extends BasePlane {
     universalMesh.lookAt(this.camera.position);
     universalMesh.material['opacity'] = 1;
     universalMesh.scale.set(UniversalPlane.SCALE, UniversalPlane.SCALE, UniversalPlane.SCALE);
+    debugger;
 
     return universalMesh;
   }

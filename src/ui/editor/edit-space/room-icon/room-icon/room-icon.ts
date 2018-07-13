@@ -163,11 +163,15 @@ export class RoomIcon implements Hotspot {
   // Hotspot interface method
   //set absolute screen position without updating the data model
   setPixelLocation(x: number, y: number) {
-    this.iconElement.nativeElement.style.left = `${x}px`;
     this.iconElement.nativeElement.style.top = `${y}px`;
-  }
+    this.iconElement.nativeElement.style.left = `${x}px`;
 
+  }
+  onMouseDown(){
+    event.stopPropagation();
+  },
   onMove($event) {
+    event.stopPropagation();
     const x: number = $event.x + ROOM_ICON_BUFFER_WIDTH;
     const y: number = $event.y + ROOM_ICON_BUFFER_HEIGHT;
 
@@ -197,7 +201,7 @@ export class RoomIcon implements Hotspot {
       this.setScreenPosition(x, y);
       this.setPixelLocation($event.x, $event.y);
     }
-
+    return false;
     //this.combinedHotspotUtil.onIconMove(this.roomProperty, x, y);
   }
 

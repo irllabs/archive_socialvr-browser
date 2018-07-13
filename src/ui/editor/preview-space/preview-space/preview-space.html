@@ -1,19 +1,81 @@
 <div class="preview-space">
-  <canvas #globeCanvas>
-  </canvas>
+  <a-scene #worldElement preview-space stats>
+    <a-entity >
+      <a-sound
+        class="background-audio"
+        [attr.src]="backgroundAudio"
+        autoplay="true">
+      </a-sound>
+      <a-sound
+      class="narration-audio"
+      [attr.src]="narrationAudio"
+      autoplay="true">
+      </a-sound>
+      <a-camera
+        wasd-controls-enabled="false"
+        look-controls
+        fov="65"
+        animation__zoom-in="
+          property: zoom;
+          from: 1;
+          startEvents: start-zoom-in;
+          to: 5;"
+        zoom="1"
+        near="1">
+         <a-cursor
+            id="cursor"
+            animation__scale-out="
+              property: scale;
+              from: 1 1 1;
+              to: .2 .2 .2;
+              startEvents: start-scale-out;
+            "
+            raycaster="objects: .raycast-trigger; recursive: true">
+         </a-cursor>
+      </a-camera>
+     <a-entity *ngIf="room">
+        <a-sky
+           [attr.src]="sky"
+           radius="512">
+         </a-sky>
+         <a-entity *ngFor="let hotspot of room.universalSet">
+            <a-entity nga-hotspot [hotspot]="hotspot">
+            </a-entity>
+         </a-entity>
+         
+         <a-entity *ngFor="let door of room.doorSet">
+            <a-entity nga-doorway [doorway]="door">
+            </a-entity>
+         </a-entity>
 
-  <div
-    *ngIf="showVrModeButton"
-    class="preview-space__vr-mode-button"
-    (click)="requestVrMode($event)">
-    VR Mode
-  </div>
+     </a-entity>
+   </a-entity>
+   <a-entity
+        control-panel
+        material="
+          opacity: .5;
+          color: #fff"
+         geometry="
+          primitive: plane;
+          height: 1;
+          width: 2;"
+        look-at="a-camera"
+        position="0 -2 -3"
+        color="#00F">
+        <a-entity nga-panel-button 
+          position="0 0 0"
+          [event]="'switch-room-last'"
+          [icon]="'/assets/icons/back_filled.png'"
+          >
+        </a-entity>
+        <a-entity nga-panel-button 
+          position="1 0 0"
+          [event]="'switch-room-home'"
+          [icon]="'/assets/icons/home_filled.png'"
+          >
+        </a-entity>
+      </a-entity> 
 
-  <div
-    *ngIf="showUnmuteButton"
-    class="preview-space__unmute-button"
-    (click)="checkAudioContextState()">
-    <img src="assets/icons/audio_muted.png" alt="">
-  </div>
-
+ </a-scene>
+ 
 </div>

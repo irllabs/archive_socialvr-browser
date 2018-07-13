@@ -4,6 +4,8 @@ import 'core-js/es6';
 import 'core-js/es7';
 import 'ie-shim'; // Internet Explorer 9 support
 import 'aframe';
+import 'aframe-animation-component';
+import 'aframe-look-at-component';
 import 'zone.js/dist/zone';
 
 // disable the long-stack-trace-zone for prod

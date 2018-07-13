@@ -72,8 +72,12 @@ import { ResponsiveUtil } from 'ui/editor/util/responsiveUtil';
 import { Slider } from 'ui/editor/util/slider/slider';
 import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
 import { ZipFileReader } from 'ui/editor/util/zipFileReader';
-import { EditSpaceASphere } from '../edit-space/edit-space-asphere/edit-space-asphere';
 
+import 'ui/editor/util/a-frame/svr-camera';
+
+import { Hotspot } from 'ui/editor/preview-space/elements/hotspot/hotspot';
+import { Doorway } from 'ui/editor/preview-space/elements/doorway/doorway';
+import { PanelButton } from 'ui/editor/preview-space/elements/panel-button/panel-button';
 // Module routes
 const route = RouterModule.forChild([
   {
@@ -93,11 +97,6 @@ const route = RouterModule.forChild([
       {
         path: 'sphere',
         component: EditSpaceSphere,
-        outlet: 'view',
-      },
-      {
-        path: 'asphere',
-        component: EditSpaceASphere,
         outlet: 'view',
       },
       {
@@ -130,7 +129,6 @@ const route = RouterModule.forChild([
     Editor,
     EditSpaceFlat,
     EditSpaceSphere,
-    EditSpaceASphere,
     PreviewSpace,
     Topbar,
     RoomIcon,
@@ -171,6 +169,10 @@ const route = RouterModule.forChild([
     StorymapItem,
     AddRoomButton,
     Fullscreen,
+    //Aframe
+    Hotspot,
+    Doorway,
+    PanelButton
   ],
   imports: [
     BrowserModule,
