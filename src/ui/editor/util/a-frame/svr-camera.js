@@ -1,6 +1,5 @@
-import { Quaternion, Spherical, Vector2 } from 'three';
+import * as AFRAME from 'aframe';
 import * as THREE from 'three';
-import ComponentDefinition = AFrame.ComponentDefinition;
 
 const TWO_PI = 2 * Math.PI;
 const ROTATE_SPEED = -0.3;
@@ -15,25 +14,9 @@ const defaultExecutionContext = (fn) => {
   }
 };
 
-class SvrCameraComponent implements ComponentDefinition {
-  private isDragging: boolean;
-  private hasMomentum: boolean;
-  private rotateEnd: Vector2;
-  private needRAF: boolean;
-  private momentum: Vector2;
-  private spherical: Spherical;
-  private sphericalDelta: Spherical;
-  private rotateStart: Vector2;
-  private rotateDelta: Vector2;
-  private touchLocation: Vector2;
-  private quat: Quaternion;
-  private quatInverse: Quaternion;
-  private canvas: any;
-  private renderer: any;
-  private camera: any;
-  public el: any;
-
-  init(): void {
+AFRAME.registerComponent('svr-camera', {
+  
+  init() {
     this.isDragging = false;
     this.hasMomentum = false;
     this.needRAF = true; //Check if request animation frame is needed.
@@ -47,7 +30,7 @@ class SvrCameraComponent implements ComponentDefinition {
     this.quat = this.getCameraQuaternion();
     this.quatInverse = this.quat.clone().inverse();
 
-    this.canvas = this.el.parentEl;
+    this.canvas = this.el.parentEl
     this.renderer = this.canvas.renderer; //Get renderer from scene
     this.camera = this.el.object3D.children[0]; // Get camera object 3D
 
@@ -57,7 +40,7 @@ class SvrCameraComponent implements ComponentDefinition {
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onTouchMove = this.onTouchMove.bind(this);
     this.onTouchEnd = this.onTouchEnd.bind(this);
-    this.onResize = this.onResize.bind(this);
+    this.onResize = this.onResize.bind(this)
 
     this.sphericalDelta.set(0, 0, 0);
 
@@ -65,17 +48,15 @@ class SvrCameraComponent implements ComponentDefinition {
     this.canvas.addEventListener('touchstart', this.onTouchStart, false);
 
     window.addEventListener('resize', this.onResize, false);
-    this.el.addEventListener('onResize', this.onResize);
+    this.el.addEventListener('onResize', this.onResize);    
     this.onMouseUp();
-  }
-
-  onResize(): void {
+  },
+  onResize() {
     this.refreshCamera();
     this.el.emit('afterResize');
-  }
-
-  refreshCamera(): void {
-    const DPR: number = window.devicePixelRatio || 1;
+  },
+  refreshCamera() {
+    const DPR = window.devicePixelRatio || 1;
     const rendererWidth = window.innerWidth / DPR;
     const rendererHeight = window.innerHeight / DPR;
     const aspectRatio = rendererWidth / rendererHeight;
@@ -83,22 +64,20 @@ class SvrCameraComponent implements ComponentDefinition {
     this.renderer.setSize(rendererWidth, rendererHeight, false);
     this.camera.aspect = aspectRatio;
     this.camera.updateProjectionMatrix();
-  }
-
-  onMouseDown(e): void {
+  },
+  onMouseDown(e) {
     e.preventDefault();
     this.hasMomentum = false;
     this.isDragging = true;
     this.momentum.set(0, 0);
     this.rotateStart.set(e.clientX, e.clientY);
-
+    
     this.canvas.addEventListener('touchmove', this.onTouchMove, { passive: false });
     this.canvas.addEventListener('touchend', this.onTouchEnd, false);
-    this.canvas.addEventListener('mouseup', this.onMouseUp, false);
+    this.canvas.addEventListener('mouseup', this.onMouseUp, false)
     this.canvas.addEventListener('mousemove', this.onMouseMove, false);
-  }
-
-  onMouseUp(): void {
+  },
+  onMouseUp(e) {
     this.hasMomentum = true;
     this.isDragging = false;
     this.canvas.removeEventListener('mousemove', this.onMouseMove, false);
@@ -106,17 +85,15 @@ class SvrCameraComponent implements ComponentDefinition {
     this.canvas.removeEventListener('touchmove', this.onTouchMove, false);
     this.canvas.removeEventListener('touchend', this.onTouchEnd, false);
     this.makeUpdate();
-  }
-
-  remove(): void {
+  },
+  remove() {
     this.el.removeAllListeners();
     this.canvas.removeEventListener('mousedown', this.onMouseDown, false);
     this.canvas.removeEventListener('touchstart', this.onTouchStart, false);
     window.removeEventListener('resize', this.onResize, false);
 
-  }
-
-  onTouchStart(event): void {
+  },
+  onTouchStart(event) {
     if (event.touches.length > 1) {
       return;
     }
@@ -131,11 +108,11 @@ class SvrCameraComponent implements ComponentDefinition {
     event.preventDefault = () => {
     };
     this.onMouseDown(event);
-  }
+  },
 
-  onTouchMove(event): void {
-    const x: number = event.touches[0].clientX;
-    const y: number = event.touches[0].clientY;
+  onTouchMove(event) {
+    const x = event.touches[0].clientX;
+    const y = event.touches[0].clientY;
     event.clientX = x;
     event.clientY = y;
     event.movementX = x - this.touchLocation.x;
@@ -143,18 +120,16 @@ class SvrCameraComponent implements ComponentDefinition {
     this.touchLocation.x = x;
     this.touchLocation.y = y;
     this.onMouseMove(event);
-  }
-
-  onTouchEnd(event): void {
+  },
+  onTouchEnd(event) {
     if (event.touches.length > 0) {
       return;
     }
     event.clientX = this.touchLocation.x;
     event.clientY = this.touchLocation.y;
-    this.onMouseUp();
-  }
-
-  onMouseMove(e): void {
+    this.onMouseUp(event);
+  },
+  onMouseMove(e) {
     e.preventDefault();
     if (!this.isDragging) {
       return;
@@ -172,27 +147,23 @@ class SvrCameraComponent implements ComponentDefinition {
       this.momentum.y = e.movementY;
     }
     this.makeUpdate();
-  }
-
-  rotateLeft(angle): void {
-    this.sphericalDelta.theta -= angle;
-  }
-
-  rotateUp(angle): void {
-    this.sphericalDelta.phi -= angle;
-  }
-
-  getCameraQuaternion(): THREE.Quaternion {
-    const camera = this.el.object3D;
+  },
+  rotateLeft(angle) {
+    this.sphericalDelta.theta -= angle
+  },
+  rotateUp(angle) {
+    this.sphericalDelta.phi -= angle
+  },
+  getCameraQuaternion() {
+    const camera = this.el.object3D
     return new THREE.Quaternion().setFromUnitVectors(camera.up, new THREE.Vector3(0, 1, 0));
-  }
-
+  },
   /**
    *An update function
-   */
-  makeUpdate(): void {
+  */
+  makeUpdate() {
     if (!this.needRAF)
-      return;
+      return
     this.needRAF = false;
     const context = this.el.runContext || defaultExecutionContext;
     context(() =>
@@ -200,11 +171,10 @@ class SvrCameraComponent implements ComponentDefinition {
         this.needRAF = true;
         this.change();
         this.el.emit('onUpdate');
-      }),
+      })
     );
-  }
-
-  change(): void {
+  },
+  change() {
     const quat = this.quat;
     const quatInverse = this.quatInverse;
     const cameraPosition = this.el.object3D.position.clone();
@@ -236,7 +206,5 @@ class SvrCameraComponent implements ComponentDefinition {
     if (this.hasMomentum) {
       this.makeUpdate();
     }
-  }
-}
-
-AFRAME.registerComponent('svr-camera', new SvrCameraComponent());
+  },
+})

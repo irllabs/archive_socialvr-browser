@@ -2,14 +2,17 @@
   [attr.hotspot]="params"
   class="hotspot"
   geometry="primitive: plane"
-  material="transparent: true; alphaTest:.5; opacity:0 0"
+  material="
+    transparent: true;
+    alphaTest:.5;
+    opacity:0"
   scale="100 100"
   look-at="[camera]">
   <!-- Scene triggers -->
   <a-entity
-    class="outer-hotspot-trigger raycast-trigger"
+    class="outer-trigger raycast-trigger"
     material="
-      opacity: 0 0;
+      opacity: 0;
       alphaTest: .5;
       transparent: true"
     geometry="
@@ -19,9 +22,9 @@
     position="0 0 -1">
   </a-entity>
   <a-entity
-    class="center-hotspot-trigger raycast-trigger"
+    class="center-trigger raycast-trigger"
     material="
-      opacity: 0 0;
+      opacity: 0;
       alphaTest: .5;
       transparent: true"
     geometry="
@@ -29,6 +32,18 @@
       height: .2;
       width: .2;"
     position="0 0 -1">
+  </a-entity>
+  <a-entity
+    class="content-zone-trigger raycast-trigger"
+    material="
+      opacity: 0;
+      alphaTest: .5;
+      transparent: true"
+    geometry="
+      primitive: plane;
+      height: .5;
+      width: .5"
+    >
   </a-entity>
 
   <a-entity pulsating-marker>
@@ -38,24 +53,28 @@
     hidden-marker 
     alpha-test=".5"
     scale=".5 .5 .5"
-    src="assets/icons/audio_filled.png"
+    src="assets/icons/icon-audio.png"
     >
   </a-image>
-  <a-image 
-    *ngIf="!sAudioOnly"
-    hidden-marker
-    alpha-test=".5"
-    src="assets/icons/icon-hotspot-hover.png">
-  </a-image>
-  <a-text 
-    class="hotspot-name"
-   [attr.value]="name"
-    align="center" 
-    position="0 -.5 0"
-    visible="false"
-    alpha-test=".5">
-  </a-text>
-  <!--   /HIDDEN MARKER -->
+    <!-- Hotspot hidden marker -->
+    <a-image 
+      *ngIf="!sAudioOnly"
+      hidden-marker
+      alpha-test=".5"
+      src="assets/icons/icon-hotspot-hover.png">
+    </a-image>
+    <!-- /Hotspot hidden marker -->
+    <!-- Hotspot name -->
+    <a-text 
+      class="hotspot-name"
+      [attr.value]="name"
+      align="center" 
+      position="0 -.5 0"
+      alpha-test=".5">
+    </a-text>
+    <!-- /Hotspot name -->
+
+  <!--   /Hidden marker -->
   <a-entity
       #hotspotContent
       hotspot-content
@@ -63,7 +82,7 @@
       scale="0 0 0"
       width="2"
       height="2"
-      position="0 0 .3"
+      position="0 0 -.3"
 >
       <a-image 
         *ngIf="hasImage"
@@ -71,6 +90,7 @@
       </a-image>
       <a-sound 
         *ngIf="hasAudio"
+        volume="20"
         #assetAudio>
 
       </a-sound>

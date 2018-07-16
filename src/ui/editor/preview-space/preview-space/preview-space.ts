@@ -1,34 +1,23 @@
 import { AfterViewInit, Component, NgZone, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AssetInteractor } from 'core/asset/assetInteractor';
-import { CameraInteractor } from 'core/scene/cameraInteractor';
 
 import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
 import { SceneInteractor } from 'core/scene/sceneInteractor';
 import { Room } from 'data/scene/entities/room';
-import { Subscription } from 'rxjs/Subscription';
 import * as THREE from 'three';
 
-// import 'three/VRControls';
-// import 'three/VREffect';
 
 import { THREE_CONST } from 'ui/common/constants';
-import { Video3D } from 'ui/editor/edit-space/video3D';
 import { AudioManager } from 'ui/editor/preview-space/modules/audioManager';
 import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
 import { HotspotManager } from 'ui/editor/preview-space/modules/hotspotManager';
-import { MenuManager } from 'ui/editor/preview-space/modules/menuManager';
-import * as MeshUtil from 'ui/editor/preview-space/modules/meshUtil';
-import { Reticle } from 'ui/editor/preview-space/modules/reticle';
 import { TextureLoader } from 'ui/editor/preview-space/modules/textureLoader';
-import SvrControls from 'ui/editor/util/SvrControls';
-import { buildScene, onResize } from 'ui/editor/util/threeUtil';
+
+import { DomSanitizer } from '@angular/platform-browser';
+import { RoomManager } from 'data/scene/roomManager';
 
 import './aframe/preview-space';
-
-const TWEEN = require('@tweenjs/tween.js');
-const roomSphereFragShader = require('ui/editor/util/shaders/roomSphere.frag');
-const roomSphereVertShader = require('ui/editor/util/shaders/roomSphere.vert');
 
 @Component({
   selector: 'preview-space',
@@ -39,40 +28,15 @@ const roomSphereVertShader = require('ui/editor/util/shaders/roomSphere.vert');
 export class PreviewSpace implements AfterViewInit {
 
   @ViewChild('worldElement') worldElement;
-  @ViewChild('globeScene') globeScene;
+  @ViewChild('skyElement') skyElement;
 
-  private renderer: THREE.WebGLRenderer;
-  private vrControls: THREE.VRControls;
-  private vrEffect: THREE.VREffect;
-  private svrControls: any;
-  private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
-  private vrCamera: THREE.PerspectiveCamera;
-  private sphereMesh: THREE.Mesh;
-  private subscriptions: Set<Subscription> = new Set<Subscription>();
-  private vrDisplay: VRDisplay;
-  private isInRenderLoop: boolean = false;
-  private activateHotspotTimeout: number;
-  private showVrModeButton: boolean = false;
-  private showUnmuteButton: boolean = false;
-  private video3D: Video3D;
-  private animationRequest: number;
-  private lastRenderTime: number = performance.now();
-  private meshList: THREE.Mesh[] = [];
-  private roomHistory: string[] = [];
-  private shouldInit: boolean = false;
-  private isFirstInitialize: boolean = true;
-  private inRoomTween: boolean = false;
-  private lookAtVector: THREE.Vector3;
-  private sphereMaterial: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({ map: null, side: THREE.BackSide });
-  //private onResizeFn: Function = this.onResize.bind(this);
 
+  private roomHistory: string[] = [];
   private room: Room;
   private sky: string;
   private backgroundAudio: string;
   private narrationAudio: string;
-
-
 
   // private onVrDisplayChangeFn: Function = this.onVrDisplayChange.bind(this);
 
@@ -84,9 +48,16 @@ export class PreviewSpace implements AfterViewInit {
     private router: Router,
     private audioManager: AudioManager,
     private textureLoader: TextureLoader,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private sanitizer: DomSanitizer,
+    private roomManager: RoomManager
   ) {
     this.ref.detach();
+  }
+
+
+  get rooms() {
+    return this.roomManager.getRooms()
   }
 
   //////////////////////////////////////////////
@@ -138,10 +109,12 @@ export class PreviewSpace implements AfterViewInit {
 
     this.room = room;
     this.sky = room.getBackgroundImageBinaryData(true);
-
     this.backgroundAudio = room.getBackgroundAudioBinaryFileData(true);
     this.narrationAudio = room.getNarrationIntroBinaryFileData(true)
     this.roomHistory.push(roomId);
+    setTimeout(() => {
+      this.worldElement.nativeElement.emit('reset-camera');
+    })
     this.ref.detectChanges();
   }
 
@@ -151,10 +124,9 @@ export class PreviewSpace implements AfterViewInit {
   //////////////////////////////////////////////
 
   goToLastRoom() {
-    const lastRoom = this.roomHistory[this.roomHistory.length - 1];
-
     this.roomHistory.pop();
-    this.isInRenderLoop = false;
+
+    const lastRoom = this.roomHistory[this.roomHistory.length - 1];
 
     setTimeout(() => {
       this.sceneInteractor.setActiveRoomId(lastRoom);

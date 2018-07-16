@@ -2,10 +2,10 @@
   [attr.panel-button]='params'>
   <a-entity 
     class="button-trigger raycast-trigger"
-    alpha-test=".5"
     position="-.5 0 -.1"
     material="
       opacity: 0;
+      alphaTest: .5;
       transparent: true"
     geometry="
       primitive: plane;
@@ -21,7 +21,6 @@
     alpha-test=".5"
     width=".5"
     height=".5"
-
   >
   </a-image>
 </a-entity>

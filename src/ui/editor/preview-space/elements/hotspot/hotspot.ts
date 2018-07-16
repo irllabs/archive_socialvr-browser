@@ -16,7 +16,7 @@ import './aframe/hotspot-pulsating-marker';
   templateUrl: './hotspot.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class Hotspot implements AfterViewInit{
+export class Hotspot implements AfterViewInit {
   private assets: object;
 
   @Input() hotspot: Universal;
@@ -39,7 +39,7 @@ export class Hotspot implements AfterViewInit{
     return hasAudioContent && !hasImageContent && !hasTextContent;
   }
 
-  protected get hasAudio(){
+  protected get hasAudio() {
     return this.hotspot.audioContent.hasAsset();
   }
   protected get hasImage() {
@@ -47,7 +47,8 @@ export class Hotspot implements AfterViewInit{
   }
 
   protected get params() {
-    return `coordinates: ${this.hotspot.location.getX()} ${this.hotspot.location.getY()}`
+    return `coordinates: ${this.hotspot.location.getX()} ${this.hotspot.location.getY()};
+            isAudioOnly: ${this.isAudioOnly}`;
   }
 
   setupAssets() {
@@ -72,8 +73,8 @@ export class Hotspot implements AfterViewInit{
 
     // Building material
     const canvas: any = document.createElement('canvas');
-
     const canvasContext = canvas.getContext('2d');
+    
     canvas.width = width;
     canvas.height = height;
 
@@ -118,10 +119,13 @@ export class Hotspot implements AfterViewInit{
     }
 
     if (hasAudio) {
-      assets.audio = hotspot.audioContent.getBinaryFileData(true);
+      assets.audio = {
+        src: hotspot.audioContent.getBinaryFileData(true),
+        loop: hotspot.loop
+      }
     }
 
-    this.assets = assets || {};
+    this.assets = assets;
   }
 
   get name() {
@@ -134,12 +138,7 @@ export class Hotspot implements AfterViewInit{
 
   ngAfterViewInit() {
     this.ngZone.runOutsideAngular(() => {
-      const assets:any = this.assets;
-
-      if (this.hasAudio) {
-        const audioElement = this.assetAudio.nativeElement;
-        audioElement.setAttribute('src', assets.audio)
-      }
+      const assets: any = this.assets;
 
       if (this.hasImage) {
         const imageElement = this.assetImage.nativeElement;
@@ -148,6 +147,15 @@ export class Hotspot implements AfterViewInit{
         imageElement.setAttribute('height', assets.image.height);
         imageElement.setAttribute('src', assets.image.src);
       }
+
+      if (this.hasAudio) {
+        const audioElement = this.assetAudio.nativeElement;
+        audioElement.setAttribute('loop', assets.audio.loop);
+        audioElement.setAttribute('refDistance', 999);
+        audioElement.setAttribute('src', assets.audio.src);
+      }
+
+
     });
   }
 }

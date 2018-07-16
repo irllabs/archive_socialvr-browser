@@ -13,10 +13,10 @@ AFRAME.registerComponent('doorway', {
       type: "string"
     }
   },
-  hideHotspot() {
+  hideDoorway() {
     this.el.setAttribute("visible", false);
   },
-  showHotspot() {
+  showDoorway() {
     this.el.setAttribute('visible', true);
   },
   getPulsatingMarker() {
@@ -28,13 +28,21 @@ AFRAME.registerComponent('doorway', {
     return this.hiddenMarker;
   },
   init() {
-    let { x, y, z } = this.data.coordinates;
+    const { x, y, z } = this.data.coordinates;
+
     //Setting up position of hotspot
     this.el.object3D.position.set(x, y, z);
 
     const centerDoorwayTrigger = this.el.querySelector('.center-doorway-trigger');
     const outerDoorwayTrigger = this.el.querySelector('.outer-doorway-trigger');
     const hotspotName = this.el.querySelector('.hotspot-name');
+
+    this.hideDoorway = this.hideDoorway.bind(this);
+    this.showDoorway = this.showDoorway.bind(this);
+
+    //Adding event listeners
+    this.el.addEventListener('hide', this.hideDoorway);
+    this.el.addEventListener('show', this.showDoorway);
 
     outerDoorwayTrigger.addEventListener('raycaster-intersected', () => {
       this.getPulsatingMarker().emit('scale-out');

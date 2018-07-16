@@ -31,7 +31,6 @@ AFRAME.registerComponent('pulsating-marker', {
     this.pulsatingHotspot.setAttribute('animation__scale-out', this.animationScaleOut);
     this.pulsatingHotspot.setAttribute('src', 'assets/icons/icon-hotspot-default.png');
 
-    this.el.setAttribute('alpha-test', .5);
     this.el.setAttribute('animation__pulsation', this.animationPulsation);
 
     this.el.appendChild(this.pulsatingHotspot);
@@ -41,17 +40,17 @@ AFRAME.registerComponent('pulsating-marker', {
   },
   scaleIn() {
     const { pulsatingHotspot } = this
-    const { x, y, z } = this.pulsatingHotspot.getAttribute('scale');
+    const vectorFrom = pulsatingHotspot.getAttribute('scale').clone();
 
     pulsatingHotspot.emit('stop-scale-out');
-    pulsatingHotspot.setAttribute('animation__scale-in', 'from', new THREE.Vector3(x, y, z))
+    pulsatingHotspot.setAttribute('animation__scale-in', 'from', vectorFrom)
     pulsatingHotspot.emit('start-scale-in');
   },
   scaleOut() {
-    let { pulsatingHotspot } = this
-    let { x, y, z } = pulsatingHotspot.getAttribute('scale');
+    const { pulsatingHotspot } = this
+    const vectorFrom = pulsatingHotspot.getAttribute('scale').clone();
     pulsatingHotspot.emit('stop-scale-in');
-    pulsatingHotspot.setAttribute('animation__scale-out', 'from', new THREE.Vector3(x, y, z))
+    pulsatingHotspot.setAttribute('animation__scale-out', 'from', vectorFrom);
     pulsatingHotspot.emit('start-scale-out')
   }
 })

@@ -51,9 +51,9 @@ AFRAME.registerComponent('hotspot-content', {
 
     if (!this.imageElement) return;
 
-    const { x, y, z } = el.getAttribute('scale');
+    const vectorFrom = el.getAttribute('scale').clone();
 
-    el.setAttribute('animation__scale-in', 'from', new THREE.Vector3(x, y, z));
+    el.setAttribute('animation__scale-in', 'from', vectorFrom);
     el.emit('start-scale-in');
 
   },
@@ -67,9 +67,9 @@ AFRAME.registerComponent('hotspot-content', {
 
     if (!this.imageElement) return;
 
-    const { x, y, z } = el.getAttribute('scale');
+    const vectorFrom = el.getAttribute('scale').clone();
 
-    el.setAttribute('animation__scale-out', 'from', new THREE.Vector3(x, y, z));
+    el.setAttribute('animation__scale-out', 'from', vectorFrom);
     el.emit('start-scale-out');
   }
 });

@@ -1,16 +1,6 @@
 <div class="preview-space">
-  <a-scene #worldElement preview-space stats>
+  <a-scene #worldElement preview-space>
     <a-entity >
-      <a-sound
-        class="background-audio"
-        [attr.src]="backgroundAudio"
-        autoplay="true">
-      </a-sound>
-      <a-sound
-      class="narration-audio"
-      [attr.src]="narrationAudio"
-      autoplay="true">
-      </a-sound>
       <a-camera
         wasd-controls-enabled="false"
         look-controls
@@ -22,6 +12,18 @@
           to: 5;"
         zoom="1"
         near="1">
+        <a-sound
+          [attr.src]="backgroundAudio"
+          class="background-audio"
+          loop="true"
+          autoplay="true">
+        </a-sound>
+        <a-sound
+        class="narration-audio"
+        [attr.src]="narrationAudio"
+        loop="true"
+        autoplay="true">
+        </a-sound>
          <a-cursor
             id="cursor"
             animation__scale-out="
@@ -33,49 +35,46 @@
             raycaster="objects: .raycast-trigger; recursive: true">
          </a-cursor>
       </a-camera>
+      <a-sky
+        [attr.src]="sky"
+        radius="512">
+      </a-sky>
      <a-entity *ngIf="room">
-        <a-sky
-           [attr.src]="sky"
-           radius="512">
-         </a-sky>
          <a-entity *ngFor="let hotspot of room.universalSet">
             <a-entity nga-hotspot [hotspot]="hotspot">
             </a-entity>
          </a-entity>
-
          <a-entity *ngFor="let door of room.doorSet">
             <a-entity nga-doorway [doorway]="door">
             </a-entity>
          </a-entity>
-
      </a-entity>
    </a-entity>
    <a-entity
-        control-panel
-        material="
-          opacity: .5;
-          color: #fff"
-         geometry="
-          primitive: plane;
-          height: 1;
-          width: 2;"
-        look-at="a-camera"
-        position="0 -2 -3"
-        color="#00F">
-        <a-entity nga-panel-button
-          position="0 0 0"
-          [event]="'switch-room-last'"
-          [icon]="'/assets/icons/back_filled.png'"
-          >
-        </a-entity>
-        <a-entity nga-panel-button
-          position="1 0 0"
-          [event]="'switch-room-home'"
-          [icon]="'/assets/icons/home_filled.png'"
-          >
-        </a-entity>
+      control-panel
+      material="
+        opacity: .5;
+        color: #fff"
+        geometry="
+        primitive: plane;
+        height: 1;
+        width: 2;"
+      look-at="a-camera"
+      position="0 -2 -3"
+      color="#00F">
+      <a-entity nga-panel-button
+        position="0 0 0"
+        [event]="'switch-room-last'"
+        [icon]="'/assets/icons/back_filled.png'"
+        >
       </a-entity>
-
+      <a-entity nga-panel-button
+        position="1 0 0"
+        [event]="'switch-room-home'"
+        [icon]="'/assets/icons/home_filled.png'"
+        >
+      </a-entity>
+    </a-entity>
  </a-scene>
 
 </div>
