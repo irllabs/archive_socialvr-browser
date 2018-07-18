@@ -42,32 +42,59 @@
     geometry="
       primitive: plane;
       height: .5;
-      width: .5"
-    >
+      width: .5">
   </a-entity>
 
-  <a-entity pulsating-marker>
+  <a-entity 
+    pulsating-marker
+    animation__pulsation="
+      property: scale;
+      from: 1 1 1;
+      to: 1.3 1.3 1.3;
+      loop: true;
+      dur: 700;
+      dir: alternate;
+    ">
+    <a-image
+      [attr.src]="iconHotspot"
+      alpha-test=".5"
+      animation__scale-in="
+        property: scale;
+        dur: 500;
+        to: 1 1 1;
+        startEvents: start-scale-in;
+        pauseEvents: stop-scale-in;
+      "
+      animation__scale-out="
+        property: scale;
+        dur: 500;
+        to: .001 .001 .001;
+        startEvents: start-scale-out;
+        pauseEvents: stop-scale-out;
+      ">
+
+    </a-image>
   </a-entity>
 
-  <a-image *ngIf="isAudioOnly"
+  <a-image 
+    [attr.src]="iconAudio"
+    *ngIf="isAudioOnly"
     hidden-marker 
     alpha-test=".5"
-    scale=".5 .5 .5"
-    src="assets/icons/icon-audio.png"
-    >
+    scale=".5 .5 .5">
   </a-image>
     <!-- Hotspot hidden marker -->
     <a-image 
-      *ngIf="!sAudioOnly"
+      [attr.src]="iconHotspotHover"
       hidden-marker
-      alpha-test=".5"
-      src="assets/icons/icon-hotspot-hover.png">
+      *ngIf="!sAudioOnly"
+      alpha-test=".5">
     </a-image>
     <!-- /Hotspot hidden marker -->
     <!-- Hotspot name -->
     <a-text 
-      class="hotspot-name"
       [attr.value]="name"
+      class="hotspot-name"
       align="center" 
       visible="false"
       position="0 -.5 0"
@@ -83,17 +110,15 @@
       scale="0 0 0"
       width="2"
       height="2"
-      position="0 0 -.3"
->
+      position="0 0 -.3">
       <a-image 
         *ngIf="hasImage"
         #assetImage>
       </a-image>
       <a-sound 
+        #assetAudio
         *ngIf="hasAudio"
-        volume="20"
-        #assetAudio>
-
+        volume="20">
       </a-sound>
       
     </a-entity>

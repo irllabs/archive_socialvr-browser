@@ -11,7 +11,7 @@ export class PanelButton {
   @Input() event: string;
   @Input() icon: string;
 
-  get params() {
+  protected get params() {
     return `event: ${this.event};`;
   }
 }

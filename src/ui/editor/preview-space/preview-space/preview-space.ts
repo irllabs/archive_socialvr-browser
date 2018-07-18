@@ -8,7 +8,6 @@ import { Room } from 'data/scene/entities/room';
 import * as THREE from 'three';
 
 
-import { THREE_CONST } from 'ui/common/constants';
 import { AudioManager } from 'ui/editor/preview-space/modules/audioManager';
 import fontHelper from 'ui/editor/preview-space/modules/fontHelper';
 import { HotspotManager } from 'ui/editor/preview-space/modules/hotspotManager';
@@ -16,6 +15,7 @@ import { TextureLoader } from 'ui/editor/preview-space/modules/textureLoader';
 
 import { DomSanitizer } from '@angular/platform-browser';
 import { RoomManager } from 'data/scene/roomManager';
+import { ICON_PATH } from 'ui/common/constants';
 
 import './aframe/preview-space';
 
@@ -25,7 +25,7 @@ import './aframe/preview-space';
   templateUrl: './preview-space.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PreviewSpace implements AfterViewInit {
+export class PreviewSpace {
 
   @ViewChild('worldElement') worldElement;
   @ViewChild('skyElement') skyElement;
@@ -37,9 +37,6 @@ export class PreviewSpace implements AfterViewInit {
   private sky: string;
   private backgroundAudio: string;
   private narrationAudio: string;
-
-  // private onVrDisplayChangeFn: Function = this.onVrDisplayChange.bind(this);
-
   constructor(
     private metaDataInteractor: MetaDataInteractor,
     private sceneInteractor: SceneInteractor,
@@ -55,8 +52,15 @@ export class PreviewSpace implements AfterViewInit {
     this.ref.detach();
   }
 
+  protected get iconBack(){
+    return `${ICON_PATH}back_filled.png`;
+  }
 
-  get rooms() {
+  protected get iconHome(){
+    return `${ICON_PATH}home_filled.png`;
+  }
+
+  protected get rooms() {
     return this.roomManager.getRooms()
   }
 

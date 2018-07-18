@@ -5,6 +5,7 @@ import { Universal } from 'data/scene/entities/universal';
 import { getTextureSizeFromText } from 'ui/editor/preview-space/modules/textMaterialBuilder';
 import { AssetInteractor } from 'core/asset/assetInteractor';
 import { fitToMax } from 'data/util/imageResizeService';
+import { ICON_PATH } from 'ui/common/constants';
 
 import './aframe/hotspot-content';
 import './aframe/hotspot-hidden-marker';
@@ -28,6 +29,22 @@ export class Hotspot implements AfterViewInit {
     private assetInteractor: AssetInteractor,
     private ngZone: NgZone
   ) {
+  }
+
+  protected get name() {
+    return this.hotspot.getName();
+  }
+
+  protected get iconHotspot() {
+    return `${ICON_PATH}icon-hotspot-default.png`;
+  }
+
+  protected get iconHotspotHover() {
+    return `${ICON_PATH}icon-hotspot-hover.png`;
+  }
+
+  protected get iconAudio() {
+    return `${ICON_PATH}icon-audio.png`;
   }
 
   protected get isAudioOnly() {
@@ -74,7 +91,7 @@ export class Hotspot implements AfterViewInit {
     // Building material
     const canvas: any = document.createElement('canvas');
     const canvasContext = canvas.getContext('2d');
-    
+
     canvas.width = width;
     canvas.height = height;
 
@@ -128,9 +145,7 @@ export class Hotspot implements AfterViewInit {
     this.assets = assets;
   }
 
-  get name() {
-    return this.hotspot.getName();
-  }
+
 
   ngOnInit() {
     this.setupAssets();
