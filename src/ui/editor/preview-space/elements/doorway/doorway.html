@@ -8,6 +8,7 @@
   scale="100 100"
   opacity="1"
   look-at="[camera]">
+
   <!-- Doorway triggers -->
   <a-entity
     class="outer-doorway-trigger raycast-trigger"
@@ -20,6 +21,7 @@
       width: 1;"
     position="0 0 -1">
   </a-entity>
+  
   <a-entity
     class="center-doorway-trigger raycast-trigger"
     material="
@@ -32,6 +34,7 @@
     position="0 0 -1">
   </a-entity>
   <!-- /Doorway triggers -->
+
   <!-- Doorway title -->
   <a-text 
     [attr.value]="name"
@@ -41,14 +44,61 @@
     visible="false"
     alpha-test=".5">
   </a-text>
-  <!--  /Doorway title      -->
+  <!--  /Doorway title  -->
+
   <!-- Pulsating marker -->
-  <a-entity doorway-pulsating-marker>
+  <a-entity 
+    doorway-pulsating-marker
+    animation__scale-out="
+      property: scale;
+      to: .001 .001 .001;
+      dur: 200;
+      startEvents: start-scale-out;
+      pauseEvents: stop-scale-out;
+    "
+    animation__scale-in="
+      property: scale;
+      dur: 200;
+      to: 1 1 1;
+      startEvents: start-scale-in;
+      pauseEvents: stop-scale-in
+    ">
+  <a-image
+    [attr.src]="iconHotspot"
+    alpha-test=".5"
+    animation__pulsation="
+      property: scale;
+      from: 1 1 1;
+      to: .001 .001 .001;
+      loop: true;
+      dur: 1500;
+      dir: normal;
+    ">
+    </a-image>
   </a-entity>
   <!-- /Pulsating marker -->
+  
   <!-- Hidden marker -->
   <a-image 
    [attr.src]="iconDoorHotspot"
+   opacity="0"
+   animation__fade-in="
+      property: opacity;
+      from: 0;
+      to: 1;
+      dur: 500;
+      pauseEvents: stop-fade-in;
+      startEvents: start-fade-in;
+    "
+    animation__fade-out="
+      property: opacity;
+      from: 1;
+      to: 0;
+      dur: 500;
+      pauseEvents: stop-fade-out;
+      startEvents: start-fade-out;
+    "
+    position="0 0 .1"
     hidden-marker
     width=".5"
     height=".5"

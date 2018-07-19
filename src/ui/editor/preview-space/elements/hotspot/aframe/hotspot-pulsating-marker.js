@@ -9,18 +9,18 @@ AFRAME.registerComponent('pulsating-marker', {
     this.el.addEventListener('scale-out', this.scaleOut);
   },
   scaleIn() {
-    const { pulsatingHotspot } = this
+    const { pulsatingHotspot } = this;
     const vectorFrom = pulsatingHotspot.getAttribute('scale').clone();
 
     pulsatingHotspot.emit('stop-scale-out');
-    pulsatingHotspot.setAttribute('animation__scale-in', 'from', vectorFrom)
+    pulsatingHotspot.setAttribute('animation__scale-in', 'from', vectorFrom);
     pulsatingHotspot.emit('start-scale-in');
   },
   scaleOut() {
-    const { pulsatingHotspot } = this
+    const { pulsatingHotspot } = this;
     const vectorFrom = pulsatingHotspot.getAttribute('scale').clone();
     pulsatingHotspot.emit('stop-scale-in');
     pulsatingHotspot.setAttribute('animation__scale-out', 'from', vectorFrom);
-    pulsatingHotspot.emit('start-scale-out')
+    pulsatingHotspot.emit('start-scale-out');
   }
 })

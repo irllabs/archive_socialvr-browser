@@ -37,6 +37,8 @@ export class PreviewSpace {
   private sky: string;
   private backgroundAudio: string;
   private narrationAudio: string;
+  private soundtrackAudio: string;
+
   constructor(
     private metaDataInteractor: MetaDataInteractor,
     private sceneInteractor: SceneInteractor,
@@ -59,10 +61,7 @@ export class PreviewSpace {
   protected get iconHome(){
     return `${ICON_PATH}home_filled.png`;
   }
-
-  protected get rooms() {
-    return this.roomManager.getRooms()
-  }
+  
 
   //////////////////////////////////////////////
   ///////////    HOUSE KEEPING    //////////////
@@ -82,7 +81,10 @@ export class PreviewSpace {
       this.textureLoader.load(),
       fontHelper.load(),
     ])
-      .then(() => this.initRoom())
+      .then(() => {
+        this.initRoom();
+        this.initSoundtrack();
+      })
       .catch(error => console.log('EditSphereBaseInit', error));
   }
 
@@ -106,7 +108,9 @@ export class PreviewSpace {
   //////////////////////////////////////////////
   ///////////  INITIALIZATION     //////////////
   //////////////////////////////////////////////
-
+  initSoundtrack(){
+    this.soundtrackAudio = this.metaDataInteractor.getSoundtrack().getBinaryFileData(true);
+  }
   initRoom(isTransition = false) {
     const roomId = this.sceneInteractor.getActiveRoomId();
     const room = this.sceneInteractor.getRoomById(roomId);
@@ -114,7 +118,8 @@ export class PreviewSpace {
     this.room = room;
     this.sky = room.getBackgroundImageBinaryData(true);
     this.backgroundAudio = room.getBackgroundAudioBinaryFileData(true);
-    this.narrationAudio = room.getNarrationIntroBinaryFileData(true)
+    this.narrationAudio = room.getNarrationIntroBinaryFileData(true);
+    
     this.roomHistory.push(roomId);
     setTimeout(() => {
       this.worldElement.nativeElement.emit('reset-camera');

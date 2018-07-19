@@ -5,21 +5,27 @@ AFRAME.registerComponent('preview-space', {
     this.camera = el.querySelector('a-camera');
     this.cursor = this.camera.querySelector('a-cursor');
     this.backgroundAudio = el.querySelector('.background-audio');
-    this.narrationAudio = el.querySelector('.naration-audio');
+    this.narrationAudio = el.querySelector('.narration-audio');
+    this.soundtrackAudio = el.querySelector('.soundtrack-audio');
 
     this.camera.addEventListener('animationcomplete', (e) => {
       if (e.detail.name === "animation__zoom-in") {
         this.switchRoom(this.roomId);
       }
+    });
+
+
+    el.addEventListener('pause-narration-audio', () => {
+      if (this.narrationAudio) {
+        this.narrationAudio.components.sound.pauseSound();
+      }
+    });
+
+    el.addEventListener('play-narration-audio', () => {
+      if (this.narrationAudio) {
+        this.narrationAudio.components.sound.playSound();
+      }
     })
-
-    el.addEventListener('pause-background-audio', () => {
-      this.backgroundAudio.components.sound.pauseSound();
-    });
-
-    el.addEventListener('play-background-audio', () => {
-      this.backgroundAudio.components.sound.playSound();
-    });
 
     el.addEventListener('switch-room-last', () => {
       this.switchRoom('last');
@@ -27,7 +33,7 @@ AFRAME.registerComponent('preview-space', {
 
     el.addEventListener('switch-room-home', () => {
       this.switchRoom('home');
-    })
+    });
 
     el.addEventListener('switch-room-smoothly', (e) => {
       this.roomId = e.detail.roomId;

@@ -45,7 +45,7 @@ AFRAME.registerComponent('hotspot-content', {
     const { el, soundElement } = this;
 
     if (soundElement) {
-      el.sceneEl.emit('pause-background-audio')
+      el.sceneEl.emit('pause-narration-audio');
       soundElement.components.sound.playSound();
     }
 
@@ -61,7 +61,7 @@ AFRAME.registerComponent('hotspot-content', {
     const { el, soundElement } = this;
 
     if (soundElement) {
-      el.sceneEl.emit('play-background-audio')
+      el.sceneEl.emit('play-narration-audio');
       soundElement.components.sound.stopSound();
     }
 

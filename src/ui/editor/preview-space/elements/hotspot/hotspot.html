@@ -44,7 +44,9 @@
       height: .5;
       width: .5">
   </a-entity>
+  <!-- /Scene triggers -->
 
+  <!-- Pulsating marker -->
   <a-entity 
     pulsating-marker
     animation__pulsation="
@@ -72,25 +74,64 @@
         startEvents: start-scale-out;
         pauseEvents: stop-scale-out;
       ">
-
     </a-image>
   </a-entity>
+  <!-- /Pulsating marker -->
 
+  <!-- Hotspot hidden marker(audio) -->
   <a-image 
-    [attr.src]="iconAudio"
     *ngIf="isAudioOnly"
+    [attr.src]="iconAudio"
+    position="0 0 .1"
     hidden-marker 
     alpha-test=".5"
-    scale=".5 .5 .5">
+    scale=".5 .5 .5"
+    animation__fade-in="
+      property: opacity;
+      from: 0;
+      to: 1;
+      dur: 500;
+      pauseEvents: stop-fade-in;
+      startEvents: start-fade-in;
+    "
+    animation__fade-out="
+      property: opacity;
+      from: 1;
+      to: 0;
+      dur: 500;
+      pauseEvents: stop-fade-out;
+      startEvents: start-fade-out;
+    ">
   </a-image>
+  <!-- / Hotspot hidden marker(audio) -->
+
     <!-- Hotspot hidden marker -->
     <a-image 
+      *ngIf="!sAudioOnly"
       [attr.src]="iconHotspotHover"
       hidden-marker
-      *ngIf="!sAudioOnly"
-      alpha-test=".5">
+      position="0 0 .1"
+      opacity="0"
+      alpha-test=".5"
+      animation__fade-in="
+        property: opacity;
+        from: 0;
+        to: 1;
+        dur: 500;
+        pauseEvents: stop-fade-in;
+        startEvents: start-fade-in;
+      "
+      animation__fade-out="
+        property: opacity;
+        from: 1;
+        to: 0;
+        dur: 500;
+        pauseEvents: stop-fade-out;
+        startEvents: start-fade-out;
+      ">      
     </a-image>
     <!-- /Hotspot hidden marker -->
+
     <!-- Hotspot name -->
     <a-text 
       [attr.value]="name"
@@ -118,7 +159,7 @@
       <a-sound 
         #assetAudio
         *ngIf="hasAudio"
-        volume="20">
+        volume="30">
       </a-sound>
       
     </a-entity>

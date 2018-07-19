@@ -1,6 +1,6 @@
 <div class="preview-space">
   <a-scene #worldElement preview-space>
-    <a-entity >
+    <a-entity>
       <a-camera
         wasd-controls-enabled="false"
         look-controls
@@ -12,7 +12,17 @@
           to: 5;"
         zoom="1"
         near="1">
+        <!-- Background sounds -->
         <a-sound
+          *ngIf="soundtrackAudio"
+          [attr.src]="soundtrackAudio"
+          autoplay="true"
+          loop="true"
+          class="soundtrack-audio"
+        >
+        </a-sound>
+        <a-sound
+          *ngIf="backgroundAudio"
           [attr.src]="backgroundAudio"
           class="background-audio"
           loop="true"
@@ -24,6 +34,8 @@
         loop="true"
         autoplay="true">
         </a-sound>
+        <!-- / Background sounds -->
+        
          <a-cursor
             id="cursor"
             animation__scale-out="
@@ -35,21 +47,27 @@
             raycaster="objects: .raycast-trigger; recursive: true">
          </a-cursor>
       </a-camera>
+
       <a-sky
         [attr.src]="sky"
         radius="512">
       </a-sky>
+
      <a-entity *ngIf="room">
+
          <a-entity *ngFor="let hotspot of room.universalSet">
             <a-entity nga-hotspot [hotspot]="hotspot">
             </a-entity>
          </a-entity>
+
          <a-entity *ngFor="let door of room.doorSet">
             <a-entity nga-doorway [doorway]="door">
             </a-entity>
          </a-entity>
+
      </a-entity>
    </a-entity>
+
    <a-entity
       control-panel
       material="
@@ -75,6 +93,7 @@
         >
       </a-entity>
     </a-entity>
+
  </a-scene>
 
 </div>
