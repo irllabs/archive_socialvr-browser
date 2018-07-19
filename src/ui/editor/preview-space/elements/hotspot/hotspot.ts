@@ -166,7 +166,6 @@ export class Hotspot implements AfterViewInit {
       if (this.hasAudio) {
         const audioElement = this.assetAudio.nativeElement;
         audioElement.setAttribute('loop', assets.audio.loop);
-        audioElement.setAttribute('refDistance', 999);
         audioElement.setAttribute('src', assets.audio.src);
       }
 

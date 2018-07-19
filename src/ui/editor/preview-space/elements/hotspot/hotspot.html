@@ -84,6 +84,7 @@
     [attr.src]="iconAudio"
     position="0 0 .1"
     hidden-marker 
+    opacity="0"
     alpha-test=".5"
     scale=".5 .5 .5"
     animation__fade-in="
@@ -159,7 +160,7 @@
       <a-sound 
         #assetAudio
         *ngIf="hasAudio"
-        volume="30">
+        volume="80">
       </a-sound>
       
     </a-entity>
