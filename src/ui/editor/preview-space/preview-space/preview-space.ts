@@ -82,8 +82,8 @@ export class PreviewSpace {
       fontHelper.load(),
     ])
       .then(() => {
-        this.initRoom();
         this.initSoundtrack();
+        this.initRoom();
       })
       .catch(error => console.log('EditSphereBaseInit', error));
   }
@@ -114,9 +114,8 @@ export class PreviewSpace {
   initRoom(isTransition = false) {
     const roomId = this.sceneInteractor.getActiveRoomId();
     const room = this.sceneInteractor.getRoomById(roomId);
-
-    this.room = room;
     this.sky = room.getBackgroundImageBinaryData(true);
+    this.room = room;
     this.backgroundAudio = room.getBackgroundAudioBinaryFileData(true);
     this.narrationAudio = room.getNarrationIntroBinaryFileData(true);
     

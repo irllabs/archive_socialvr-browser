@@ -60,7 +60,7 @@ export class Hotspot implements AfterViewInit {
     return this.hotspot.audioContent.hasAsset();
   }
   protected get hasImage() {
-    return this.hotspot.imageContent.hasAsset();
+    return this.hotspot.imageContent.hasAsset() || !!this.hotspot.textContent;
   }
 
   protected get params() {
@@ -165,6 +165,7 @@ export class Hotspot implements AfterViewInit {
 
       if (this.hasAudio) {
         const audioElement = this.assetAudio.nativeElement;
+        
         audioElement.setAttribute('loop', assets.audio.loop);
         audioElement.setAttribute('src', assets.audio.src);
       }
