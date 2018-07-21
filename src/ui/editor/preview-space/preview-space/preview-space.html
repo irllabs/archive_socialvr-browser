@@ -21,19 +21,8 @@
           class="soundtrack-audio"
         >
         </a-sound>
-        <a-sound
-          *ngIf="backgroundAudio"
-          [attr.src]="backgroundAudio"
-          class="background-audio"
-          loop="true"
-          autoplay="true">
-        </a-sound>
-        <a-sound
-        class="narration-audio"
-        [attr.src]="narrationAudio"
-        loop="true"
-        autoplay="true">
-        </a-sound>
+        
+       
         <!-- / Background sounds -->
         
          <a-cursor
@@ -54,7 +43,22 @@
       </a-sky>
 
      <a-entity *ngIf="room">
-
+          <a-sound
+            *ngIf="narrationAudio"
+            [attr.src]="narrationAudio"
+            class="narration-audio"
+            loop="true"
+            sound="positional: false"
+            autoplay="true">
+          </a-sound>
+          <a-sound
+            *ngIf="backgroundAudio"
+            [attr.src]="backgroundAudio"
+            class="background-audio"
+            loop="true"
+            sound="positional: false"
+            autoplay="true">
+          </a-sound>
          <a-entity *ngFor="let hotspot of room.universalSet">
             <a-entity nga-hotspot [hotspot]="hotspot">
             </a-entity>

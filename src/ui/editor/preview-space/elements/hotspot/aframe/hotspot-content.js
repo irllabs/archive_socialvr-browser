@@ -30,7 +30,7 @@ AFRAME.registerComponent('hotspot-content', {
 
     el.addEventListener('animationcomplete', (e) => {
       if (e.detail.name === 'animation__scale-out') {
-        this.imageElement.setAttribute('visible', false)
+        this.imageElement.setAttribute('visible', false);
       }
     });
 

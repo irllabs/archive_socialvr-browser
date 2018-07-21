@@ -82,11 +82,6 @@ export class EditSpaceSphere {
     this.subscribeToEvents();
     this.loadTextures()
       .then(this.initRoom.bind(this))
-      .then(() => {
-        setTimeout(() => {
-          cameraElement.emit('onResize');
-        })
-      })
       .catch(error => console.log('load textures / init room error', error, console.trace()));
 
   }
@@ -95,6 +90,7 @@ export class EditSpaceSphere {
     //Manualy turn off aframe render cycle
     this.renderer.dispose(); 
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    
     if (!!this.video3D) {
       this.video3D.destroy();
     }
@@ -103,8 +99,8 @@ export class EditSpaceSphere {
   initRoom() {
     const roomId = this.sceneInteractor.getActiveRoomId();
     const room = this.sceneInteractor.getRoomById(roomId);
-
     const sphereTexture = this.assetInteractor.getTextureById(roomId);
+
     this.sky = sphereTexture.image.currentSrc;
     
     setTimeout(() => {
@@ -167,6 +163,7 @@ export class EditSpaceSphere {
     const denormalizedPosition: Vector2 = denormalizePosition(newLocation.getX(), newLocation.getY());
     const normalPosition: Vector2 = this.transformScreenPositionTo3dNormal(denormalizedPosition.getX(), denormalizedPosition.getY());
     const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
+
     this.sceneInteractor
       .getPropertyById(activeRoomId, propertyId)
       .setLocation(normalPosition);

@@ -114,11 +114,11 @@ export class PreviewSpace {
   initRoom(isTransition = false) {
     const roomId = this.sceneInteractor.getActiveRoomId();
     const room = this.sceneInteractor.getRoomById(roomId);
+    
     this.sky = room.getBackgroundImageBinaryData(true);
     this.room = room;
     this.backgroundAudio = room.getBackgroundAudioBinaryFileData(true);
     this.narrationAudio = room.getNarrationIntroBinaryFileData(true);
-    
     this.roomHistory.push(roomId);
     setTimeout(() => {
       this.worldElement.nativeElement.emit('reset-camera');

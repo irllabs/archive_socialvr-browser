@@ -19,6 +19,7 @@ AFRAME.registerComponent('pulsating-marker', {
   scaleOut() {
     const { pulsatingHotspot } = this;
     const vectorFrom = pulsatingHotspot.getAttribute('scale').clone();
+    
     pulsatingHotspot.emit('stop-scale-in');
     pulsatingHotspot.setAttribute('animation__scale-out', 'from', vectorFrom);
     pulsatingHotspot.emit('start-scale-out');
