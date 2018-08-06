@@ -4,9 +4,6 @@ AFRAME.registerComponent('preview-space', {
 
     this.camera = el.querySelector('a-camera');
     this.cursor = this.camera.querySelector('a-cursor');
-    this.backgroundAudio = el.querySelector('.background-audio');
-    this.narrationAudio = el.querySelector('.narration-audio');
-    this.soundtrackAudio = el.querySelector('.soundtrack-audio');
 
     this.camera.addEventListener('animationcomplete', (e) => {
       if (e.detail.name === "animation__zoom-in") {
@@ -14,16 +11,19 @@ AFRAME.registerComponent('preview-space', {
       }
     });
 
-
     el.addEventListener('pause-narration-audio', () => {
-      if (this.narrationAudio) {
-        this.narrationAudio.components.sound.pauseSound();
+      const narrationAudio = el.querySelector('.narration-audio');
+      
+      if (narrationAudio) {
+        narrationAudio.components.sound.pauseSound();
       }
     });
 
     el.addEventListener('play-narration-audio', () => {
-      if (this.narrationAudio) {
-        this.narrationAudio.components.sound.playSound();
+      const narrationAudio = el.querySelector('.narration-audio');
+
+      if (narrationAudio) {
+        narrationAudio.components.sound.playSound();
       }
     })
 
@@ -54,6 +54,8 @@ AFRAME.registerComponent('preview-space', {
     this.cursor.emit('start-scale-out');
   },
   switchRoom(roomId) {
+
     this.el.emit('switch-room', roomId)
+
   }
 })
