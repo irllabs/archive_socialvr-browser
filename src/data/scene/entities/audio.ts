@@ -44,6 +44,10 @@ export class Audio extends BaseElement {
     return this.mediaFile.getBinaryFileData(unsafe);
   }
 
+  getObjectUrl(): string {
+    return this.mediaFile.getObjectUrl();
+  }
+
   setBinaryFileData(binaryFileData: any) {
     return this.mediaFile.setBinaryFileData(binaryFileData);
   }

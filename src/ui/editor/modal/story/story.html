@@ -68,7 +68,7 @@
 
       <audio
         *ngIf="getSoundtrack().hasAsset()"
-        [attr.src]="getSoundtrack().getBinaryFileData()"
+        [attr.src]="getSoundtrack().getObjectUrl() | urlSanitize"
         type="audio/mp3"
         controls="controls"
         [volume]="getSoundtrackVolume()"

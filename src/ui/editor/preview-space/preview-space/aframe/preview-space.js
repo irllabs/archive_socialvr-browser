@@ -54,8 +54,6 @@ AFRAME.registerComponent('preview-space', {
     this.cursor.emit('start-scale-out');
   },
   switchRoom(roomId) {
-
     this.el.emit('switch-room', roomId)
-
   }
 })

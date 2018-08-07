@@ -30,7 +30,7 @@
 
   <audio
     *ngIf="getBackgroundAudio().hasAsset()"
-    [attr.src]="getBackgroundAudio().getBinaryFileData()"
+    [attr.src]="getBackgroundAudio().getObjectUrl() | urlSanitize"
     type="audio/mp3"
     controls="controls"
     [volume]="getBackgroundAudioVolume()"
@@ -68,7 +68,7 @@
 
   <audio
     *ngIf="getNarratorIntroAudioFile().hasAsset()"
-    [attr.src]="getNarratorIntroAudioFile().getBinaryFileData()"
+    [attr.src]="getNarratorIntroAudioFile().getObjectUrl() | urlSanitize"
     type="audio/mp3"
     controls="controls"
     [volume]="getNarratorIntroAudio().getVolume()"

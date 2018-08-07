@@ -105,7 +105,7 @@
 
       <audio
         *ngIf="hasAudioContent()"
-        [attr.src]="universalProperty.audioContent.getBinaryFileData()"
+        [attr.src]="universalProperty.audioContent.getObjectUrl() | urlSanitize"
         type="audio/mp3"
         controls="controls"
         [loop]="getLoopState()"

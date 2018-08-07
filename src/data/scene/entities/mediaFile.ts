@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid';
 
 export class MediaFile {
   public storedRemoteFile: string = null;
-
+  private _objectUrl: string = null;
   private _fileName: string = null;
   private _mimeType: string = null;
   private _remoteFile: string = null;
@@ -119,6 +119,15 @@ export class MediaFile {
     }
 
     return new Blob([ab], { type: this.mimeType });
+  }
+
+  public getObjectUrl(): string {
+
+    if (!this._objectUrl) {
+      this._objectUrl = URL.createObjectURL(this.getBlob());
+    }
+
+    return this._objectUrl;
   }
 
   private _setNewName() {

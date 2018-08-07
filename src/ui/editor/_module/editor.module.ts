@@ -72,6 +72,7 @@ import { ResponsiveUtil } from 'ui/editor/util/responsiveUtil';
 import { Slider } from 'ui/editor/util/slider/slider';
 import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
 import { ZipFileReader } from 'ui/editor/util/zipFileReader';
+import { UrlSanitizePipe } from 'ui/editor/util/urlSanitizePipe';
 
 import 'ui/editor/util/a-frame/svr-camera';
 
@@ -126,6 +127,7 @@ const route = RouterModule.forChild([
 
 @NgModule({
   declarations: [
+    UrlSanitizePipe,
     Editor,
     EditSpaceFlat,
     EditSpaceSphere,
