@@ -84,6 +84,11 @@ export class MediaFile {
 
     if (binaryFileData) {
       this._updateMimeType();
+      //Change object url to new value if its already defined.
+      if(this._objectUrl){
+        this.setObjectUrl();
+      }
+      
     }
 
     this._setNewName();
@@ -124,10 +129,14 @@ export class MediaFile {
   public getObjectUrl(): string {
 
     if (!this._objectUrl) {
-      this._objectUrl = URL.createObjectURL(this.getBlob());
+      this.setObjectUrl();
     }
 
     return this._objectUrl;
+  }
+
+  public setObjectUrl() {
+    this._objectUrl = URL.createObjectURL(this.getBlob())
   }
 
   private _setNewName() {
