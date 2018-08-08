@@ -281,26 +281,22 @@ export class DeserializationService {
   private async _loadMediaFiles(storyJson, fileMap): Promise<MediaFile[]> {
     const allRemoteFiles = this.extractAllRemoteFiles(storyJson);
     const remoteFiles = [];
-    const localFiles = [];
-    const files = Object.keys(fileMap)
+    const localFiles = Object.keys(fileMap)
       .filter(fileKey => !fileKey.endsWith('.yml'))
       .filter(fileKey => !fileKey.endsWith('.json'))
       .map(fileKey => fileMap[fileKey])
       .filter(file => !file.dir);
-
+    
     allRemoteFiles.forEach((rf) => {
-      const hasInZip = files.find(f => f.name.indexOf(rf.filePath) > -1);
+      const hasInZip = localFiles.find(f => f.name.indexOf(rf.filePath) > -1);
 
       if (!hasInZip) {
         remoteFiles.push(rf);
-      } else {
-        localFiles.push(hasInZip);
       }
     });
 
     const mediaFiles = await this.loadRemoteFiles(remoteFiles);
     const localMediaFiles = await this._loadLocalFiles(localFiles);
-
     return mediaFiles.concat(localMediaFiles);
   }
 
