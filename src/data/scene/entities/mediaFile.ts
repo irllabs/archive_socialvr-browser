@@ -50,9 +50,9 @@ export class MediaFile {
   public hasRemoteFileToDelete(): boolean {
     return this._needToDelete;
   }
-
-  public hasBinaryDataToUpload(): boolean {
-    return this._needToUpload;
+  
+  public needToUpload(): boolean {
+    return this._needToUpload || (!this._remoteFile && !!this._binaryFileData);
   }
 
   public setStoredRemoteFile(file: string) {

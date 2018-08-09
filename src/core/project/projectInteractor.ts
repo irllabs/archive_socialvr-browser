@@ -247,7 +247,7 @@ export class ProjectInteractor {
     const allMediaFiles = this.serializationService.extractAllMediaFiles();
     const deleteMediaFiles = allMediaFiles.filter((mediaFile: MediaFile) => mediaFile.hasRemoteFileToDelete());
     const uploadMediaFiles = allMediaFiles
-      .filter((mediaFile: MediaFile) => mediaFile.hasBinaryDataToUpload())
+      .filter((mediaFile: MediaFile) => mediaFile.needToUpload())
       .map((mediaFile: MediaFile) => {
         mediaFile.setRemoteFile(`projects/${project.id}/${mediaFile.getFileName()}`);
 
