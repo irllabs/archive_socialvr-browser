@@ -171,6 +171,7 @@ export class Story {
 
   private saveStoryFileToServer() {
     const project: Project = this.projectInteractor.getProject();
+    debugger;
     const isWorkingOnSavedProject: boolean = this.projectInteractor.isWorkingOnSavedProject();
 
     const onSuccess = () => {

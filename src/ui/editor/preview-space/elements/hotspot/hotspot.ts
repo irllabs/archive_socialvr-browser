@@ -6,6 +6,7 @@ import { getTextureSizeFromText } from 'ui/editor/preview-space/modules/textMate
 import { AssetInteractor } from 'core/asset/assetInteractor';
 import { fitToMax } from 'data/util/imageResizeService';
 import { ICON_PATH } from 'ui/common/constants';
+import processHotspotContent from 'ui/editor/util/processHotspotContentUtil'
 
 import './aframe/hotspot-content';
 import './aframe/hotspot-hidden-marker';
@@ -68,68 +69,41 @@ export class Hotspot implements AfterViewInit {
             isAudioOnly: ${this.isAudioOnly}`;
   }
 
-  setupAssets() {
+  async setupAssets() {
     const hotspot = this.hotspot;
     const hasImageContent: boolean = hotspot.imageContent.hasAsset();
     const hasTextContent: boolean = !!hotspot.textContent;
     const hasAudio: boolean = !!hotspot.audioContent.hasAsset();
-    const location = hotspot.getLocation();
-    const position = getCoordinatePosition(location.getX(), location.getY(), 250);
 
+    let hotspotContentImage;
     let width = 0;
     let height = 0;
     let textSize = null;
     let adjustedHeight = 0;
 
-    if (hasTextContent) {
-      textSize = getTextureSizeFromText(hotspot.textContent);
-
-      width = textSize.width > width ? textSize.width : width;
-      height += textSize.height;
-    }
-
     // Building material
     const canvas: any = document.createElement('canvas');
     const canvasContext = canvas.getContext('2d');
 
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = 1024;
+    canvas.height = 768;
 
-    if (hasImageContent) {
-      const imageTexture = this.assetInteractor.getTextureById(hotspot.getId());
-      const imgWidth = imageTexture.image.width;
-      const imgHeight = imageTexture.image.height;
-      const adjustedWidth = imgWidth >= imgHeight && width > 0 ? width : imgWidth;
-
-      adjustedHeight = imgHeight * (adjustedWidth / imgWidth);
-      width = imageTexture.image.width > width ? imageTexture.image.width : width;
-
-      height += adjustedHeight;
-      canvas.width = width;
-      canvas.height = height;
-
-      canvasContext.drawImage(imageTexture.image, width / 2 - adjustedWidth / 2, 0, adjustedWidth, adjustedHeight);
+    let image;
+    if(hasImageContent){
+       image = this.assetInteractor.getTextureById(hotspot.getId()).image;
     }
-
-    if (textSize !== null) {
-      const textCanvas: any = document.createElement('canvas');
-      const textCanvasContext = textCanvas.getContext('2d');
-
-      textCanvas.width = textSize.width;
-      textCanvas.height = textSize.height;
-
-      textCanvasContext.drawImage(textSize.drawCanvas, 0, 0, width, height, 0, 0, width, height);
-      canvasContext.drawImage(textCanvas, 0, adjustedHeight, width, textSize.height);
-    }
+    
+    hotspotContentImage = processHotspotContent(image, hotspot.textContent);
+    
     const assets = {
       image: null,
       audio: null
     };
 
     if (hasTextContent || hasImageContent) {
-      const imageSize = fitToMax(canvas.width, canvas.height, 3);
+      const imageSize = fitToMax(hotspotContentImage.width, hotspotContentImage.height, 4);
       assets.image = {
-        src: canvas.toDataURL('png'),
+        src: hotspotContentImage.src,
         width: imageSize.getX(),
         height: imageSize.getY()
       };
@@ -165,7 +139,7 @@ export class Hotspot implements AfterViewInit {
 
       if (this.hasAudio) {
         const audioElement = this.assetAudio.nativeElement;
-        
+
         audioElement.setAttribute('loop', assets.audio.loop);
         audioElement.setAttribute('src', assets.audio.src);
       }

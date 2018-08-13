@@ -50,12 +50,12 @@ export class DeserializationService {
   }
 
   public deserializeProject(project: Project, quick: boolean = true) {
+    console.log(project);
     const story = project.story;
     const rootRemoteFiles = this._extractRootRemoteFiles(story);
     const roomsRemoteFiles = quick ?  this._extractHomeRoomRemoteFiles(story) : this._extractRoomsRemoteFiles(story.rooms);
 
     this.metaDataInteractor.loadingProject(true);
-
     return Promise.all([
       this.loadRemoteFiles(rootRemoteFiles),
       this.loadRemoteFiles(roomsRemoteFiles),
@@ -77,7 +77,7 @@ export class DeserializationService {
 
   public async loadRemoteFiles(remoteFiles) {
     const mediaFiles = [];
-
+    console.log(remoteFiles);
     for (let i = 0; i < remoteFiles.length; i++) {
       const remoteFile = remoteFiles[i];
       const fileName = remoteFile.file;
