@@ -6,7 +6,7 @@ import { AudioRecorderService } from 'ui/editor/util/audioRecorderService';
 //this should really refer to colors inn our variables.scss file
 const backgroundColorOff = new Uint8Array([173, 0, 52]);   //i.e. $color-red-dark
 const backgroundColorOn = new Uint8Array([255, 53, 113]);  //i.e. $color-pink
-const MAX_RECORDING_TIME = 20; //20 seconds
+const MAX_RECORDING_TIME = 30; //30 seconds
 
 @Component({
   selector: 'audio-recorder',
@@ -20,11 +20,13 @@ export class AudioRecorder {
   @ViewChild('audioRecorder') audioRecorderButton;
 
   private isRecording: boolean = false;
-  private timeoutId: any;
+  private isStarting: boolean = false;
+  private intervalId: any;
   private _timerId = null;
 
   public showTimer: boolean = false;
   public timerCounter: any = '';
+  public intervalCounter: any = '';
 
   //private isAnimating: boolean = false;
 
@@ -43,31 +45,42 @@ export class AudioRecorder {
         })
         .catch(error => console.error(error));
     }
-    clearTimeout(this.timeoutId);
+    clearInterval(this.intervalId);
   }
 
   private onClick($event) {
-    const start = !this.isRecording;
-    const cancelTimer = !!this._timerId;
+    const notRecording = !this.isRecording;
+    const notStarting = !this.isStarting;
+
     this.clearTimer();
 
-    if (cancelTimer) {
-      $event.preventDefault();
-      return true;
-    } else if (start) {
-      this.timerCounter = 3;
-      this.showTimer = true;
-      this._timerId = setInterval(() => {
-        this.timerCounter -= 1;
-
-        if (this.timerCounter === 0) {
-          this.clearTimer();
-          this.startRecording();
-        }
-      }, 1000);
-    } else {
+   if (notRecording && notStarting) {
+      this.startPreparingCountdown()
+    } else if(notStarting) {
       this.stopRecording();
+    } else {
+      this.stopPreparingCountdown()
     }
+  }
+
+  private startPreparingCountdown(){
+    this.timerCounter = 3;
+    this.showTimer = true;
+    this.isStarting = true;
+    this._timerId = setInterval(() => {
+      this.timerCounter -= 1;
+
+      if (this.timerCounter === 0) {
+        this.stopPreparingCountdown();
+        this.startRecording();
+        
+      }
+    }, 1000);
+  }
+
+  private stopPreparingCountdown(){
+    this.clearTimer();
+    this.isStarting = false;
   }
 
   private clearTimer() {
@@ -80,8 +93,9 @@ export class AudioRecorder {
   }
 
   private startRecording() {
+    console.log('recording')
     this.isRecording = true;
-
+    this.timerCounter = this.maxRecordTime;
     this.audioRecorderService.startRecording()
       .then(resolve => {
         //this.isAnimating = true;
@@ -89,17 +103,19 @@ export class AudioRecorder {
       })
       .catch(error => console.log('error getting mic node', error));
 
-    this.timeoutId = setTimeout(() => {
-      if (this.isRecording) {
+    this._timerId = setInterval(() => {
+      this.timerCounter -= 1;
+
+      if (this.isRecording && this.timerCounter === 0) {
         this.stopRecording();
       }
-    }, this.maxRecordTime * 1000);
+    }, 1000);
   }
 
   private stopRecording() {
     //this.isAnimating = false;
     this.isRecording = false;
-    clearTimeout(this.timeoutId);
+    this.clearTimer()
     this.audioRecorderService.stopRecording()
       .then(dataUrl => {
         const uniqueId: string = generateUniqueId();
