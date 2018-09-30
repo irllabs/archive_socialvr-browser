@@ -4,9 +4,11 @@ import { Headers, Http, RequestOptions, ResponseContentType } from '@angular/htt
 import Api from 'data/api/api';
 import { UserService } from 'data/user/userService';
 import { Observable } from 'rxjs/Observable';
-import { BASE_URL, GOOGLE_API_KEY, GOOGLE_BASE_URL } from 'ui/common/constants';
+import { BASE_URL, GOOGLE_API_KEY } from 'ui/common/constants';
+import { ENV } from '../../config/environment';
 
-const URL_SHORTENER_URL: string = `${GOOGLE_BASE_URL}urlshortener/v1/url`;
+// const URL_SHORTENER_URL: string = `${GOOGLE_BASE_URL}urlshortener/v1/url`;
+const URL_SHORTENER_URL: string = `https://firebasedynamiclinks.googleapis.com/v1/shortLinks`;
 
 @Injectable()
 export class ApiService implements Api {
@@ -65,8 +67,16 @@ export class ApiService implements Api {
 
   public getShortenedUrl(url: string): Observable<any> {
     return this.http
-      .post(`${URL_SHORTENER_URL}?key=${GOOGLE_API_KEY}`, { 'longUrl': url })
+      .post(`${URL_SHORTENER_URL}?key=${ENV.firebase.apiKey}`, { 
+        "dynamicLinkInfo": {
+          "link": url,
+          "dynamicLinkDomain": "svrst.page.link"
+        },
+        "suffix": {
+          "option": "SHORT"
+        }
+       })
       .map(response => response.json())
-      .map(responseJson => responseJson.id);
+      .map(responseJson => responseJson.shortLink);
   }
 }
