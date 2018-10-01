@@ -36,9 +36,8 @@ export class AudioRecorderService {
         this.audioNodes.audioStream.getAudioTracks().forEach(audioTrack => audioTrack.stop());
         this.recorder.exportWAV(audioBlob => {
           const sampleRate = this.audioContext.sampleRate;
-
           resolve(
-            this.fileLoaderUtil.getBinaryFileData(audioBlob.slice(0, -3 * sampleRate, audioBlob.type)),
+            this.fileLoaderUtil.getBinaryFileData(audioBlob.slice(0, -.1 * sampleRate, audioBlob.type)),
           );
         });
       }
