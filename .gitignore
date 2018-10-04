@@ -77,3 +77,6 @@ _site/
 /dist/
 /npm-debug.log
 /editorconfig
+
+# firebase functions 
+/functions/node_modules

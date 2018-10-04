@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "social-vr-staging-52b75",
+  "private_key_id": "f4fd2966311bbcb9e22547223ca62a8efbc5fa0d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQC/Kt/hMYRkHLdT\niCcvu/ABW6qISYvF0XCGsqWyYGeF5K/C4+xEep+j9g8GrYi0/TdSEAyLEe85Q4GP\nq9d/rrEgsLCJn0vwojyCZSjbw8tZaKi6pWfZm2A6FxBU6hxX690QxcLlZA91QoBc\nM5aAfE88kl71LrpH6RiMU1VkeJAWAu1NEO0axQjKxE10QwkhgBXoC7eBSt084PqB\nE+WfZzR2ys4DxZjVD05/LuD5rrTLeREJrqd/C3UjmXUYZd3E7rICP7QZii8IrbJO\nSSO3lpZM4XWtolYtM52Kq3gheoC9KDcO5PA1No8yyPXs/+JQKiWunxhabVuDu42y\nQjeCQ/shAgMBAAECgf8pjeQAlmCl+b2Z31XcKa2kYPqsdSmc4nhyGFaJR1mjIXyu\nrHmxEqp42dzr1GbdM9VW889IOeKc/nZuIUKWA3xaPH/umzU0p4E5GwvTFQllwzb8\nefBea/dmN2jqfisJDQYlG2YZwq7DLLXNC96IcGzcOH4lGGT5imdTAyKzHjGvz7bX\nIPI8ries24E/vR2infUQHwAFpYFyqMkkQ3mmMvAC0hz5BtUWB+MQJxELbJk0PhV7\ni5xhDIF6yeYXbIysd4aOk8rzqtDX4o25CwCDbO4Nj08ARvAg5TJDKGLb3QCb2QSN\noqV+H8o4K/BmfjmwRjuJdlCwdMxE2tFJFtCA+XECgYEA6E09GlU3VvgNqg2XeFli\nO44FABDe3/BJAPTOpsRY+aezwvRguBm142vCFL5opseIppNXMdd3AwGsKgI18M2p\nyk/C4ym8TYcgVeCNw5tUcAMkg8xrP50GyaYiXvwavSlyfT2JlzfEYSrbIhWTMRTF\nLlREzMNCrFtXq/581Zc+QnECgYEA0qthKDxkxkNPcnmwktqbPAZyzwrCM2vTyVaX\nircvjF75C06k/1ICvhWxmV91Bl1tsAiyxaxbuNGV+Jbue+dC5JD3m9SAAk7gyIU4\nb4vTmapTF+ibW5U+5gjVCHBf0qNtnnO6VWS/6XZMzWY3Mjg7qmcd0LXcRIX9l157\nd6loO7ECgYA+NDiRbZI1ApU+HQebXWv1gJEMNHhJxOD3lZYkh90/dM2o/aFMiu3u\nqPM+dMI3LqUD3d5yZTzkHDWKxi7FfXzixLrt80YOCIn7FPdBEr3ohJ7pf/qT/StN\nIeSARMewMYIL0Uefq3o1frFRDi/s65/lSQFnRz36QzdVwf6Rfz9XsQKBgCxAP2o6\nNVjH7ro3AXX3YUAcgqUmt2AhuBzEiZRjoiM0F8/eNx5CVb0jxWhX+rbZjR661QJc\nj++kZoIPAg0YqJ5mLPyYiELz2peEFDSqBEp00ntlKqz0DoA3PrhFEnumRHJSEMO7\nI+ygIsXKQLHVygKjIkoiyR/DnV7cQ8cA2JohAoGBAMkEgGaO27muKuqtysu3YQKs\nH4lpeZZa5u3wvuc/usYCpoipNtQAnO1jhd7Wz7a3b0LZwNKlSXlNxwsIszw8OAWw\nFtbDWZQ1mUsy0QGCy5UySM07oZiag7OKvMMhX7oSfaV1vxsfJ2CyLN1in9HbZ1yq\nLOHfl5u6d0LmMwZKsGhv\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-abbm0@social-vr-staging-52b75.iam.gserviceaccount.com",
+  "client_id": "111815136822204349242",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-abbm0%40social-vr-staging-52b75.iam.gserviceaccount.com"
+}
