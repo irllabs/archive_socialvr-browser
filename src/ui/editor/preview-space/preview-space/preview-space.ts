@@ -16,6 +16,7 @@ import { TextureLoader } from 'ui/editor/preview-space/modules/textureLoader';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RoomManager } from 'data/scene/roomManager';
 import { ICON_PATH } from 'ui/common/constants';
+import { EventBus } from 'ui/common/event-bus';
 
 import './aframe/preview-space';
 
@@ -38,6 +39,7 @@ export class PreviewSpace {
   private backgroundAudio: string;
   private narrationAudio: string;
   private soundtrackAudio: string;
+  private isFirstInitialize: boolean = true;
 
   constructor(
     private metaDataInteractor: MetaDataInteractor,
@@ -49,7 +51,8 @@ export class PreviewSpace {
     private textureLoader: TextureLoader,
     private ref: ChangeDetectorRef,
     private sanitizer: DomSanitizer,
-    private roomManager: RoomManager
+    private roomManager: RoomManager,
+    private eventBus: EventBus
   ) {
     this.ref.detach();
   }
@@ -111,7 +114,20 @@ export class PreviewSpace {
   initSoundtrack(){
     this.soundtrackAudio = this.metaDataInteractor.getSoundtrack().getBinaryFileData(true);
   }
-  initRoom(isTransition = false) {
+  initRoom(isDualScreen = false) {
+    const isShare = this.router.url.indexOf('share=1') !== -1;
+
+    if (isShare && this.isFirstInitialize) {
+      this.eventBus.onPlayStoryModal(({isDualScreen}) => {
+        this.isFirstInitialize = false;
+        this.worldElement.nativeElement.enterVR()
+        setTimeout(() => {
+          this.initRoom(isDualScreen)
+        }, 5000)
+      });
+      return;
+    }
+
     const roomId = this.sceneInteractor.getActiveRoomId();
     const room = this.sceneInteractor.getRoomById(roomId);
     
