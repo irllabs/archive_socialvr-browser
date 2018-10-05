@@ -1,68 +1,82 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AssetInteractor } from 'core/asset/assetInteractor';
-import { UserInteractor } from 'core/user/userInteractor';
-import { EventBus } from 'ui/common/event-bus';
+import { Component, OnDestroy, OnInit } from "@angular/core"
+import { Router } from "@angular/router"
+import { AssetInteractor } from "core/asset/assetInteractor"
+import { UserInteractor } from "core/user/userInteractor"
+import { EventBus } from "ui/common/event-bus"
 
 @Component({
-  selector: 'unauth-user-tab',
-  styleUrls: ['./unauth-user-tab.scss'],
-  templateUrl: './unauth-user-tab.html',
+  selector: "unauth-user-tab",
+  styleUrls: ["./unauth-user-tab.scss"],
+  templateUrl: "./unauth-user-tab.html"
 })
 export class UnauthUserTab implements OnInit, OnDestroy {
-  private user: any = null;
+  private user: any = null
 
   constructor(
     private router: Router,
     private assetInteractor: AssetInteractor,
     private userInteractor: UserInteractor,
-    private eventBus: EventBus,
-  ) {
-  }
+    private eventBus: EventBus
+  ) {}
 
   ngOnInit() {
     this.user = {
-      email: '',
-      password: '',
-    };
+      email: "",
+      password: ""
+    }
   }
 
   ngOnDestroy() {
     // this._authStateSubscription.unsubscribe();
   }
 
-  private _onError() {
-    const errorHeader: string = 'Sign in error';
-    const errorBody: string = 'It looks like the email and password don\'t match.';
+  private _onError(message) {
+    const errorHeader: string = "Sign in error"
+    const errorBody: string =
+      message || "It looks like the email and password don't match."
 
-    this.eventBus.onModalMessage(errorHeader, errorBody);
+    this.eventBus.onModalMessage(errorHeader, errorBody)
   }
 
   public onLogin() {
     if (!this.user.email || !this.user.password) {
-      const errorHeader: string = 'Email Password Error';
-      const errorBody: string = 'Make sure to fill out both email and password fields!';
+      const errorHeader: string = "Email Password Error"
+      const errorBody: string =
+        "Make sure to fill out both email and password fields!"
 
-      this.eventBus.onModalMessage(errorHeader, errorBody);
-      return;
+      this.eventBus.onModalMessage(errorHeader, errorBody)
+      return
     }
 
-    this.userInteractor.login(this.user.email, this.user.password).catch(this._onError.bind(this));
+    this.userInteractor
+      .login(this.user.email, this.user.password)
+      .catch(this._onError.bind(this))
   }
 
   public onLoginWithGoogle() {
-    this.userInteractor.loginWithGoogle().catch(this._onError.bind(this));
+    this.userInteractor.loginWithGoogle().catch(({ code, message }) => {
+      if (code === "auth/user-disabled") {
+        message = "Your account is pending for validation."
+      }
+      this._onError(message)
+    })
   }
 
   public onOpenClick() {
     if (!this.userInteractor.isLoggedIn()) {
-      this.eventBus.onModalMessage('Error', 'You must be logged in to download as .zip');
-      return;
+      this.eventBus.onModalMessage(
+        "Error",
+        "You must be logged in to download as .zip"
+      )
+      return
     }
 
-    this.eventBus.onOpenFileLoader('zip');
-    this.router.navigate(['/editor', { outlets: { 'view': 'flat', modal: null } }]);
+    this.eventBus.onOpenFileLoader("zip")
+    this.router.navigate([
+      "/editor",
+      { outlets: { view: "flat", modal: null } }
+    ])
 
-    return;
+    return
   }
 }
