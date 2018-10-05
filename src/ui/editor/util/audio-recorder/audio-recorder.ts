@@ -2,11 +2,11 @@ import { Component, EventEmitter, Input, NgZone, Output, ViewChild } from '@angu
 import { generateUniqueId } from 'data/util/uuid';
 
 import { AudioRecorderService } from 'ui/editor/util/audioRecorderService';
+import { SettingsService } from 'data/settings/settingsService';
 
 //this should really refer to colors inn our variables.scss file
 const backgroundColorOff = new Uint8Array([173, 0, 52]);   //i.e. $color-red-dark
 const backgroundColorOn = new Uint8Array([255, 53, 113]);  //i.e. $color-pink
-const MAX_RECORDING_TIME = 30; //30 seconds
 
 @Component({
   selector: 'audio-recorder',
@@ -15,7 +15,6 @@ const MAX_RECORDING_TIME = 30; //30 seconds
 })
 export class AudioRecorder {
 
-  @Input() maxRecordTime: number = MAX_RECORDING_TIME;
   @Output() onRecorded = new EventEmitter();
   @ViewChild('audioRecorder') audioRecorderButton;
 
@@ -33,6 +32,7 @@ export class AudioRecorder {
   constructor(
     private audioRecorderService: AudioRecorderService,
     private ngZone: NgZone,
+    private settingsService: SettingsService
   ) {
   }
 
@@ -95,7 +95,7 @@ export class AudioRecorder {
   private startRecording() {
     console.log('recording')
     this.isRecording = true;
-    this.timerCounter = this.maxRecordTime;
+    this.timerCounter = this.settingsService.settings.maxClipDuration;
     this.audioRecorderService.startRecording()
       .then(resolve => {
         //this.isAnimating = true;

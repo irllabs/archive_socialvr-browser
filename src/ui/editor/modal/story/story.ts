@@ -190,7 +190,8 @@ export class Story {
     if (isWorkingOnSavedProject) {
       this.projectInteractor.updateProject(project).then(onSuccess, onError);
     } else {
-      this.projectInteractor.getProjects().subscribe(projects => {
+      this.projectInteractor.getProjects().first().toPromise().then(projects => {
+        console.log(projects.length, this.settingsService.settings.maxProjects )
         if (projects.length >= this.settingsService.settings.maxProjects) {
           return onError("You have reached maximum number of projects");
         }
