@@ -12,13 +12,10 @@ export class SettingsService {
   }
 
   public setupSettings() {
-    return this.afStore
-      .collection("settings")
-      .doc("public")
-      .ref.get()
-      .then(result => {
-        this._settings = result.data()
-        return
-      })
+    const doc = this.afStore.collection("settings").doc("public").ref
+
+    doc.onSnapshot(result => {
+      this._settings = result.data()
+    })
   }
 }
