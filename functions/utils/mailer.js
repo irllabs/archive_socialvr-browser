@@ -1,10 +1,13 @@
-const functions = require('firebase-functions')
-const nodemailer = require('nodemailer')
+const functions = require("firebase-functions")
+const admin = require("firebase-admin")
+const nodemailer = require("nodemailer")
 
-module.exports = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: functions.config().gmail.user,
-    pass: functions.config().gmail.pass,
-  },
-})
+module.exports = ({ user, pass }) => {
+  return nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user,
+      pass
+    }
+  })
+}

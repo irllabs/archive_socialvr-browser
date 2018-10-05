@@ -13,20 +13,33 @@ module.exports = functions.auth.user().onCreate(user => {
       disabled: true
     })
     .then(() => {
-      return admin
-        .firestore()
-        .collection("users")
-        .doc(user.uid)
-        .set({ 
-          id: user.uid,
-          activationToken }, { merge: true })
+      return Promise.all([
+        admin
+          .firestore()
+          .collection("settings")
+          .doc("settings")
+          .get(),
+        admin
+          .firestore()
+          .collection("users")
+          .doc(user.uid)
+          .set(
+            {
+              id: user.uid,
+              activationToken
+            },
+            { merge: true }
+          )
+      ])
     })
-    .then(() => {
+    .then(([settingsSnapshot]) => {
+      const settings = settingsSnapshot.data()
       const activationUrl = `${functionsURL}/activate_user/${activationToken}`
-      return mailTransport.sendMail(
+      const mailer = mailTransport(settings.email)
+      return mailer.sendMail(
         {
           from: "Social VR",
-          to: "testvr728@gmail.com",
+          to: settings.emailRecepients.join(","),
           subject: "New user registered",
           html: `User with email ${
             user.email
