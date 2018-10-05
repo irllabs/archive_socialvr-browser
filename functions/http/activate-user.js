@@ -1,5 +1,7 @@
 const functions = require("firebase-functions")
 const admin = require("firebase-admin")
+const getSettings = require("../utils/settings")
+const mailTransport = require("../utils/mailer")
 
 const app = require("express")()
 
@@ -15,11 +17,27 @@ app.get("/:token", (req, res) => {
       if (!user) {
         throw new Error("User not found")
       }
-      return admin.auth().updateUser(user.id, {
-        disabled: false
-      })
+      return Promise.all([
+        getSettings(),
+        user.data(),
+        admin.auth().updateUser(user.id, {
+          disabled: false
+        })
+      ])
     })
-    .then(() => {
+    .then(([settings, user]) => {
+      const mailer = mailTransport(settings.email)
+      mailer.sendMail(
+        {
+          from: "Social VR",
+          to: user.email,
+          subject: "Your account is activated",
+          html: `Congratulations, you account is successfully activated. You can login now.`
+        },
+        (error, info) => {
+          console.log(error, info)
+        }
+      )
       return res.send("User successfully activated")
     })
     .catch(err => {

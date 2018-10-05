@@ -3,6 +3,7 @@ const admin = require("firebase-admin")
 const crypto = require("crypto")
 const mailTransport = require("../utils/mailer")
 const functionsURL = functions.config().functions.url
+const getSettings = require("../utils/settings")
 
 module.exports = functions.auth.user().onCreate(user => {
   const activationToken = crypto.randomBytes(24).toString("hex")
@@ -14,11 +15,7 @@ module.exports = functions.auth.user().onCreate(user => {
     })
     .then(() => {
       return Promise.all([
-        admin
-          .firestore()
-          .collection("settings")
-          .doc("settings")
-          .get(),
+        getSettings(),
         admin
           .firestore()
           .collection("users")
@@ -26,16 +23,17 @@ module.exports = functions.auth.user().onCreate(user => {
           .set(
             {
               id: user.uid,
+              email: user.email,
               activationToken
             },
             { merge: true }
           )
       ])
     })
-    .then(([settingsSnapshot]) => {
-      const settings = settingsSnapshot.data()
+    .then(([settings]) => {
       const activationUrl = `${functionsURL}/activate_user/${activationToken}`
       const mailer = mailTransport(settings.email)
+      console.log("new flow")
       return mailer.sendMail(
         {
           from: "Social VR",

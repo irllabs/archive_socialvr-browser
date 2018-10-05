@@ -13,6 +13,7 @@ import { DEFAULT_PROJECT_NAME, DEFAULT_VOLUME } from 'ui/common/constants';
 import { EventBus } from 'ui/common/event-bus';
 import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
 import { Project } from '../../../../data/project/projectModel';
+import { SettingsService } from 'data/settings/settingsService';
 
 const FileSaver = require('file-saver');
 
@@ -35,6 +36,7 @@ export class Story {
     private eventBus: EventBus,
     private slideshowBuilder: SlideshowBuilder,
     private element: ElementRef,
+    private settingsService: SettingsService
   ) {
   }
 
@@ -188,7 +190,12 @@ export class Story {
     if (isWorkingOnSavedProject) {
       this.projectInteractor.updateProject(project).then(onSuccess, onError);
     } else {
-      this.projectInteractor.createProject().then(onSuccess, onError);
+      this.projectInteractor.getProjects().subscribe(projects => {
+        if (projects.length >= this.settingsService.settings.maxProjects) {
+          return onError("You have reached maximum number of projects");
+        }
+        this.projectInteractor.createProject().then(onSuccess, onError);
+      })
     }
   }
 }
