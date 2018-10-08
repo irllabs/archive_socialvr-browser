@@ -3,7 +3,7 @@ import { SceneInteractor } from 'core/scene/sceneInteractor';
 import { Door } from 'data/scene/entities/door';
 import { Universal } from 'data/scene/entities/universal';
 import { EventBus } from 'ui/common/event-bus';
-
+import { SettingsService } from 'data/settings/settingsService';
 
 @Component({
   selector: 'action-menu',
@@ -17,10 +17,16 @@ export class ActionMenu {
   constructor(
     private sceneInteractor: SceneInteractor,
     private eventBus: EventBus,
+    private settingsService: SettingsService
   ) {
   }
-
   public addUniversal() {
+    const activeRoom = this.sceneInteractor.getActiveRoom()
+    if(activeRoom.getUniversal().size >= this.settingsService.settings.maxHotspots){
+      this.eventBus.onModalMessage('','You have reached maximum amount of hotspots per room')
+      return
+    }
+    // const universalsLength = activeRoom.getUniversal().length
     const activeRoomId: string = this.sceneInteractor.getActiveRoomId();
     const universal: Universal = this.sceneInteractor.addUniversal(activeRoomId);
     this.eventBus.onSelectProperty(universal.getId(), true);

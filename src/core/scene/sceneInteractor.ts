@@ -112,6 +112,10 @@ export class SceneInteractor {
     return this._activeRoomId;
   }
 
+  getActiveRoom(): Room {
+    return this.getRoomById(this.getActiveRoomId())
+  }
+
   setActiveRoomId(roomId: string) {
     this._activeRoomId = roomId;
     this.projectMetaDataInteractor.onProjectChanged();
