@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { EventBus, EventType } from 'ui/common/event-bus';
 import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
+import { SettingsService } from 'data/settings/settingsService';
 
 @Component({
   selector: 'story-scroll',
@@ -25,12 +26,15 @@ export class StoryScroll {
   public get roomIds(): string[] {
     return this.sceneInteractor.getRoomIds();
   }
-
+  public get canAddMoreRooms(){
+    return this.roomIds.length <= this.settingsService.settings.maxRooms
+  }
   constructor(
     private sceneInteractor: SceneInteractor,
     private metaDataInteractor: MetaDataInteractor,
     private eventBus: EventBus,
     private slideshowBuilder: SlideshowBuilder,
+    private settingsService: SettingsService
   ) {
   }
 

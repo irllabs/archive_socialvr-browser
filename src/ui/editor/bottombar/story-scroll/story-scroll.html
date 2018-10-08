@@ -50,8 +50,9 @@
       </div>
     </div>
 
-
-    <add-room></add-room>
+    <add-room *ngIf="canAddMoreRooms">
+      
+    </add-room>
 
   </div>
 </div>

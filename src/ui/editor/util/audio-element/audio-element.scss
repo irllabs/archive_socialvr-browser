@@ -63,6 +63,8 @@
       position: absolute;
       left: 23%;
       z-index:1;
+      top: 50%;
+      transform: translateY(-50%);
     }
     .played{
       position:absolute;
