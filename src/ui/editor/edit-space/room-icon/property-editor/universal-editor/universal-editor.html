@@ -102,17 +102,12 @@
           class="universal-editor__record-button">
         </audio-recorder>
       </div>
-
-      <audio
+      <audio-element 
         *ngIf="hasAudioContent()"
-        [attr.src]="universalProperty.audioContent.getObjectUrl() | urlSanitize"
-        type="audio/mp3"
-        controls="controls"
-        [loop]="getLoopState()"
-        [volume]="universalProperty.volume"
         (volumechange)="onVolumeChange($event)"
-        class="universal-editor__audio-player">
-      </audio>
+        [volume]="universalProperty.volume"
+        [src]="universalProperty.audioContent.getObjectUrl() | urlSanitize">
+      </audio-element>
     </section>
   </div>
 

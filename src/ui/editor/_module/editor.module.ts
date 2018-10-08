@@ -73,7 +73,7 @@ import { Slider } from 'ui/editor/util/slider/slider';
 import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
 import { ZipFileReader } from 'ui/editor/util/zipFileReader';
 import { UrlSanitizePipe } from 'ui/editor/util/urlSanitizePipe';
-
+import { MediaElement} from 'ui/editor/util/audio-element/audio-element';
 import 'ui/editor/util/a-frame/svr-camera';
 
 import { Hotspot } from 'ui/editor/preview-space/elements/hotspot/hotspot';
@@ -174,7 +174,8 @@ const route = RouterModule.forChild([
     //Aframe
     Hotspot,
     Doorway,
-    PanelButton
+    PanelButton,
+    MediaElement
   ],
   imports: [
     BrowserModule,

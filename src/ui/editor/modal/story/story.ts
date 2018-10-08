@@ -111,10 +111,10 @@ export class Story {
 
   public onOpenStoryLocallyClick(event) {
     this.metaDataInteractor.checkAndConfirmResetChanges().then(() => {
-      if (!this.userInteractor.isLoggedIn()) {
-        this.eventBus.onModalMessage('Error', 'You must be logged in to upload from .zip');
-        return;
-      }
+      // if (!this.userInteractor.isLoggedIn()) {
+      //   this.eventBus.onModalMessage('Error', 'You must be logged in to upload from .zip');
+      //   return;
+      // }
 
       this.eventBus.onOpenFileLoader('zip');
       this.router.navigate(['/editor', { outlets: { 'modal': null } }]);

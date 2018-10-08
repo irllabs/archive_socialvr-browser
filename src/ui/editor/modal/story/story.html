@@ -65,16 +65,13 @@
         (click)="removeSoundtrack()">
         Remove Soundtrack
       </div>
-
-      <audio
+      
+      <audio-element 
         *ngIf="getSoundtrack().hasAsset()"
-        [attr.src]="getSoundtrack().getObjectUrl() | urlSanitize"
-        type="audio/mp3"
-        controls="controls"
-        [volume]="getSoundtrackVolume()"
         (volumechange)="onVolumeChange($event)"
-        class="story__soundtrack__audio-player">
-      </audio>
+        [volume]="getSoundtrackVolume()"
+        [src]="getSoundtrack().getObjectUrl() | urlSanitize">
+      </audio-element>
 
     </div>
 

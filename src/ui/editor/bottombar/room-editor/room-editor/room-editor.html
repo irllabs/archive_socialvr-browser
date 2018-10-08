@@ -64,14 +64,8 @@
   </div>
 
   <p class="error-message" *ngIf="largeIntroAudioFile">File size is too large (64MB is maximum).</p>
-
-  <audio
-    *ngIf="getNarratorIntroAudioFile().hasAsset()"
-    [attr.src]="getNarratorIntroAudioFile().getObjectUrl() | urlSanitize"
-    type="audio/mp3"
-    controls="controls"
-    [volume]="getNarratorIntroAudio().getVolume()"
-    (volumechange)="onNarrationVolumeChange($event)"
-    class="room-editor__audio-player">
-  </audio>
+  <audio-element *ngIf="getNarratorIntroAudioFile().hasAsset()"
+    [src]="getNarratorIntroAudioFile().getObjectUrl() | urlSanitize">
+    
+  </audio-element>
 </div>

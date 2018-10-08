@@ -1,0 +1,35 @@
+<audio
+    #audioElement
+    [attr.src]="src"
+    type="audio/mp3"
+    (volumechange)="volumechange.emit($event)"
+    class="room-editor__audio-player">
+  </audio>
+<div class="player">
+  <a class="player-btn play-btn" [class.pause]="isPlaying" (click)="togglePlay()">
+    
+  </a>
+  
+  <div class="progress" #progressLine>
+    <div class="time">
+      {{currentTimeFormatted}} / {{totalDurationFormatted}}
+    </div>
+    <div class="played" #progressPlayed [ngStyle]="{width:currentTimePercent+'%'}">
+
+    </div>
+  </div>
+  <a class="player-btn mute-btn" [class.muted]="isMuted" (click)="toggleMuted()">
+    
+  </a>
+  <div class="volume" #volumeLine>
+    <div #volumeFader
+      class="volume-fader">
+      
+    </div>
+  </div>
+  <a class="player-btn download-btn" [href]="downloadUrl" download>
+    
+  </a>
+</div>
+  
+  

@@ -1,0 +1,108 @@
+.player{
+  height:40px;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  user-select: none;
+  button{
+    color: #888888;
+    font-weight: 600;
+    background-color: #FAFAFA;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    width:30px;
+    height:30px;
+  }
+  .player-btn{
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    cursor:pointer;
+    border: 0;
+    box-shadow: none;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    &.play-btn{
+      background-image: url(assets/icons/player/play.svg);
+      background-size: 82% 100%;
+      &.pause{
+        background-image: url(assets/icons/player/pause.svg);
+      }
+    }
+    &.mute-btn{
+      background-image: url(assets/icons/player/speaker.svg);
+      &.muted{
+        background-image: url(assets/icons/player/mute.svg);
+        background-size: 80%;
+        background-position: 0 center;
+        background-repeat: no-repeat;
+      }
+    }
+    &.download-btn{
+      background-image: url(assets/icons/player/download.svg);
+      margin-left: 8px;
+    }
+  }
+
+  .progress{
+    flex: 3;
+    position: relative;
+    height: 20px;
+    padding: 0px;
+    box-sizing: border-box;
+    margin: 0px 5px;
+    background-color: white;
+    display: block;
+    border-radius: 3px;
+    border: 1px solid #adadad;
+    .time{
+      color: black;
+      font-size: 12px;
+      position: absolute;
+      left: 23%;
+      z-index:1;
+    }
+    .played{
+      position:absolute;
+      flex:2;
+      left:0;
+      top:0;
+      height:100%;
+      background: #adadad;
+      width:100%;
+    }
+    .progress-fader{
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      background-color: white;
+      border-radius: 50%;
+      border: 3px solid grey;
+     
+    }
+  }
+  .volume{
+    position: relative;
+    flex: 1;
+    height: 20px;
+    background: black;
+    border: 8px solid #FAFAFA;
+    box-sizing: border-box;
+    border-radius: 3px;
+    .volume-fader{
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 7px;
+      height: 15px;
+      background: grey;
+      border-radius: 3px;
+    }
+  }
+}
