@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { EventBus, EventType } from 'ui/common/event-bus';
 import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
-import { SettingsService } from 'data/settings/settingsService';
+import { SettingsInteractor } from 'core/settings/settingsInteractor';
 
 @Component({
   selector: 'story-scroll',
@@ -26,15 +26,17 @@ export class StoryScroll {
   public get roomIds(): string[] {
     return this.sceneInteractor.getRoomIds();
   }
+
   public get canAddMoreRooms(){
-    return this.roomIds.length <= this.settingsService.settings.maxRooms
+    return this.roomIds.length < this.settingsInteractor.settings.maxRooms
   }
+
   constructor(
     private sceneInteractor: SceneInteractor,
     private metaDataInteractor: MetaDataInteractor,
     private eventBus: EventBus,
     private slideshowBuilder: SlideshowBuilder,
-    private settingsService: SettingsService
+    private settingsInteractor: SettingsInteractor
   ) {
   }
 
@@ -156,7 +158,7 @@ export class StoryScroll {
         this.eventBus.onSelectRoom(null, false);
         this.eventBus.onStopLoading();
       })
-      .catch(error => this.eventBus.onModalMessage('Image loading error', error));
+      .catch(error => this.eventBus.onModalMessage('Error', error));
   }
 
   public onSwapRoom({ roomId, direction }) {

@@ -5,7 +5,8 @@ import { DEFAULT_VOLUME } from 'ui/common/constants';
 import { EventBus } from 'ui/common/event-bus';
 import { browserCanRecordAudio } from 'ui/editor/util/audioRecorderService';
 import { MetaDataInteractor } from '../../../../../../core/scene/projectMetaDataInteractor';
-
+import { audioDuration } from 'ui/editor/util/audioDuration';
+import { SettingsInteractor } from 'core/settings/settingsInteractor';
 
 @Component({
   selector: 'universal-editor',
@@ -68,6 +69,7 @@ export class UniversalEditor {
   constructor(
     private eventBus: EventBus,
     private projectMetaDataInteractor: MetaDataInteractor,
+    private settingsInteractor: SettingsInteractor
     ) {
   }
 
@@ -127,8 +129,17 @@ export class UniversalEditor {
   }
 
   public onAudioFileLoad($event) {
-    this.universalProperty.setAudioContent($event.binaryFileData, DEFAULT_VOLUME);
-    this._onChange();
+    const { maxHotspotAudioDuration} = this.settingsInteractor.settings;
+    audioDuration($event.file)
+      .then(duration => {
+        if (duration > maxHotspotAudioDuration) {
+          throw new Error(`Duration of hotspot audio is  too long. It should be less that ${maxHotspotAudioDuration} seconds`)
+        }
+        this.universalProperty.setAudioContent($event.binaryFileData, DEFAULT_VOLUME);
+        this._onChange();
+      })
+      .catch((error) => this.eventBus.onModalMessage('Error', error))
+    
   }
 
   public onVolumeChange($event) {

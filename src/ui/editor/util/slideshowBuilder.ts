@@ -4,7 +4,6 @@ import { resizeImage } from 'data/util/imageResizeService';
 
 import { FileLoaderUtil, mimeTypeMap } from 'ui/editor/util/fileLoaderUtil';
 
-
 @Injectable()
 export class SlideshowBuilder {
 

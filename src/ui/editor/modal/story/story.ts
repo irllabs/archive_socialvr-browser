@@ -13,7 +13,8 @@ import { DEFAULT_PROJECT_NAME, DEFAULT_VOLUME } from 'ui/common/constants';
 import { EventBus } from 'ui/common/event-bus';
 import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
 import { Project } from '../../../../data/project/projectModel';
-import { SettingsService } from 'data/settings/settingsService';
+import { SettingsInteractor } from 'core/settings/settingsInteractor';
+import { audioDuration } from 'ui/editor/util/audioDuration';
 
 const FileSaver = require('file-saver');
 
@@ -36,7 +37,7 @@ export class Story {
     private eventBus: EventBus,
     private slideshowBuilder: SlideshowBuilder,
     private element: ElementRef,
-    private settingsService: SettingsService
+    private settingsInteractor: SettingsInteractor
   ) {
   }
 
@@ -83,7 +84,17 @@ export class Story {
   }
 
   public onSoundtrackLoad($event) {
-    this.metaDataInteractor.setSoundtrack($event.file.name, DEFAULT_VOLUME, $event.binaryFileData);
+    const { maxSoundtrackAudioDuration } = this.settingsInteractor.settings;
+
+    audioDuration($event.file)
+      .then(duration => {
+        if(duration >= maxSoundtrackAudioDuration){
+          this.eventBus.onModalMessage('Error', `Duration of soundtrack is too long. It should be less that ${maxSoundtrackAudioDuration} seconds`)
+          return 
+        }
+
+        this.metaDataInteractor.setSoundtrack($event.file.name, DEFAULT_VOLUME, $event.binaryFileData);
+      })
   }
 
   public onVolumeChange($event) {
@@ -191,8 +202,8 @@ export class Story {
       this.projectInteractor.updateProject(project).then(onSuccess, onError);
     } else {
       this.projectInteractor.getProjects().first().toPromise().then(projects => {
-        console.log(projects.length, this.settingsService.settings.maxProjects )
-        if (projects.length >= this.settingsService.settings.maxProjects) {
+        console.log(projects.length, this.settingsInteractor.settings.maxProjects )
+        if (projects.length >= this.settingsInteractor.settings.maxProjects) {
           return onError("You have reached maximum number of projects");
         }
         this.projectInteractor.createProject().then(onSuccess, onError);

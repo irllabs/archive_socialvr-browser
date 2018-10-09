@@ -10,6 +10,7 @@ import { RoomManager } from 'data/scene/roomManager';
 import { PropertyBuilder } from 'data/scene/roomPropertyBuilder';
 import { EventBus } from '../../ui/common/event-bus';
 import { MetaDataInteractor } from './projectMetaDataInteractor';
+import { SettingsInteractor } from 'core/settings/settingsInteractor';
 
 @Injectable()
 export class SceneInteractor {
@@ -20,6 +21,7 @@ export class SceneInteractor {
     private propertyBuilder: PropertyBuilder,
     private assetManager: AssetManager,
     private projectMetaDataInteractor: MetaDataInteractor,
+    private settingsInteractor: SettingsInteractor,
     private eventBus: EventBus,
   ) {
     if (!this.getRoomIds().length) {
@@ -59,8 +61,16 @@ export class SceneInteractor {
   }
 
   addRoom(silent = false): string {
-    const numberOfRooms: number = this.roomManager.getRooms().size + 1;
-    const roomName: string = `Room ${numberOfRooms}`;
+    const numberOfRooms: number = this.roomManager.getRooms().size;
+
+    if(!silent){
+      const { maxRooms } = this.settingsInteractor.settings;
+      if(numberOfRooms >= maxRooms){
+        throw new Error('You have reached maximum amount of rooms');
+      }
+    }
+   
+    const roomName: string = `Room ${numberOfRooms+1}`;
     const room: Room = this.propertyBuilder.room(roomName);
 
     this.roomManager.addRoom(room);
@@ -141,8 +151,14 @@ export class SceneInteractor {
   }
 
   addUniversal(roomId: string): Universal {
-    const numberOfUniversals: number = this.getRoomById(roomId).getUniversal().size + 1;
-    const hotSpotName: string = `Hotspot ${numberOfUniversals}`;
+    const { maxHotspots } = this.settingsInteractor.settings;
+    const numberOfUniversals: number = this.getRoomById(roomId).getUniversal().size;
+
+    if(numberOfUniversals >= maxHotspots) {
+      throw new Error('You have reached maximum amount of hotspots per room')
+    }
+
+    const hotSpotName: string = `Hotspot ${numberOfUniversals+1}`;
     const universal: Universal = this.propertyBuilder.universal(hotSpotName, '');
 
     this.getRoomById(roomId).addUniversal(universal);

@@ -81,7 +81,7 @@ export class ShareableModal {
       .then(
         (shortenedUrl) => {
           this.publicLink = shortenedUrl;
-          this.setQRCode(this.publicLink);
+          // this.setQRCode(this.publicLink);
         },
         error => console.error('getShortUrl error', error),
       );

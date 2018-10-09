@@ -9,12 +9,14 @@ export class PlayStoryModal {
 
   @Output() onClose = new EventEmitter();
   
-  get isMobile(){
+  get isMobile():boolean{
     return typeof window.orientation !== 'undefined'
   }
+
   public singleScreen() {
     this.onClose.emit({});
   }
+  
   public dualScreen () {
     this.onClose.emit({isDualScreen: true })
   }

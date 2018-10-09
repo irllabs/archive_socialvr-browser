@@ -11,6 +11,8 @@ import { resizeImage } from 'data/util/imageResizeService';
 import { DEFAULT_VOLUME } from 'ui/common/constants';
 import { EventBus } from 'ui/common/event-bus';
 import { browserCanRecordAudio } from 'ui/editor/util/audioRecorderService';
+import { audioDuration } from 'ui/editor/util/audioDuration';
+import { SettingsInteractor } from 'core/settings/settingsInteractor';
 
 @Component({
   selector: 'room-editor',
@@ -29,6 +31,7 @@ export class RoomEditor {
     private element: ElementRef,
     private eventBus: EventBus,
     private metaDataInteractor: MetaDataInteractor,
+    private settingsInteractor: SettingsInteractor
   ) {
   }
 
@@ -60,17 +63,40 @@ export class RoomEditor {
   }
 
   public onBackgroundAudioLoad($event) {
-    this.getActiveRoom().setBackgroundAudio(DEFAULT_VOLUME, $event.binaryFileData);
+    const { maxBackgroundAudioDuration } = this.settingsInteractor.settings
+
+    audioDuration($event.file).then(duration => {
+
+      if (duration > maxBackgroundAudioDuration) {
+        this.eventBus.onModalMessage('Error', `Duration of background audio is too long. It should be less than ${maxBackgroundAudioDuration} seconds `)
+        return
+      }
+      
+      this.getActiveRoom().setBackgroundAudio(DEFAULT_VOLUME, $event.binaryFileData);
+    })
+
   }
 
   public onIntroAudioLoad($event) {
+    const { maxNarrationAudioDuration } = this.settingsInteractor.settings
+
     this.largeIntroAudioFile = false;
 
-    if ($event.file.size / 1024 / 1024 > 64) {
-      this.largeIntroAudioFile = true;
-    } else {
-      this.getNarratorIntroAudio().setIntroAudio(DEFAULT_VOLUME, $event.binaryFileData);
-    }
+    audioDuration($event.file).then(duration => {
+
+      if (duration > maxNarrationAudioDuration) {
+        this.eventBus.onModalMessage('Error',`Duration of narration audio is too long. It should be less than ${maxNarrationAudioDuration} seconds `)
+        return
+      }
+
+      if ($event.file.size / 1024 / 1024 > 64) {
+        this.largeIntroAudioFile = true;
+      } else {
+        this.getNarratorIntroAudio().setIntroAudio(DEFAULT_VOLUME, $event.binaryFileData);
+      }
+    })
+
+    
   }
 
   private onReturnAudioLoad($event) {

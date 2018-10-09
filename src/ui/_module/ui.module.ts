@@ -17,6 +17,7 @@ import { ChatModule } from 'ui/chat/_module/chat.module';
 import { EditorModule } from 'ui/editor/_module/editor.module';
 import { ExploreModule } from 'ui/explore/_module/explore.module';
 import { ENV } from '../../config/environment';
+import { SettingsInteractor } from 'core/settings/settingsInteractor';
 
 // Module routes
 const Routes = RouterModule.forRoot([
@@ -48,7 +49,11 @@ const Routes = RouterModule.forRoot([
   bootstrap: [Ui],
 })
 export class UiModule {
-  constructor(private afStore: AngularFirestore) {
+  constructor(
+    private afStore: AngularFirestore,
+    private settingsInteractor: SettingsInteractor
+    ) {
     afStore.app.firestore().settings(ENV.firebaseStore);
+    settingsInteractor.setupSettings()
   }
 }

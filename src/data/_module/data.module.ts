@@ -15,7 +15,6 @@ import { PropertyBuilder } from 'data/scene/roomPropertyBuilder';
 import { DeserializationService } from 'data/storage/deserializationService';
 import { SerializationService } from 'data/storage/serializationService';
 import { UserService } from 'data/user/userService';
-import { SettingsService } from '../settings/settingsService';
 
 @NgModule({
   declarations: [],
@@ -36,7 +35,6 @@ import { SettingsService } from '../settings/settingsService';
     AssetService,
     ChatService,
     CameraService,
-    SettingsService
   ],
 })
 export class DataModule {
