@@ -146,7 +146,7 @@ export class PreviewSpace {
 
     const roomId = this.sceneInteractor.getActiveRoomId();
     const room = this.sceneInteractor.getRoomById(roomId);
-    
+    console.log(room)
     this.sky = room.getBackgroundImageBinaryData(true);
     this.room = room;
     this.backgroundAudio = room.getBackgroundAudioBinaryFileData(true);

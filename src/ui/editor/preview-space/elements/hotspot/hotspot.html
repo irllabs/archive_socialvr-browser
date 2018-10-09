@@ -106,43 +106,43 @@
   </a-image>
   <!-- / Hotspot hidden marker(audio) -->
 
-    <!-- Hotspot hidden marker -->
-    <a-image 
-      *ngIf="!sAudioOnly"
-      [attr.src]="iconHotspotHover"
-      hidden-marker
-      position="0 0 .1"
-      opacity="0"
-      alpha-test=".5"
-      animation__fade-in="
-        property: opacity;
-        from: 0;
-        to: 1;
-        dur: 500;
-        pauseEvents: stop-fade-in;
-        startEvents: start-fade-in;
-      "
-      animation__fade-out="
-        property: opacity;
-        from: 1;
-        to: 0;
-        dur: 500;
-        pauseEvents: stop-fade-out;
-        startEvents: start-fade-out;
-      ">      
-    </a-image>
-    <!-- /Hotspot hidden marker -->
+  <!-- Hotspot hidden marker -->
+  <a-image 
+    *ngIf="!sAudioOnly"
+    [attr.src]="iconHotspotHover"
+    hidden-marker
+    position="0 0 .1"
+    opacity="0"
+    alpha-test=".5"
+    animation__fade-in="
+      property: opacity;
+      from: 0;
+      to: 1;
+      dur: 500;
+      pauseEvents: stop-fade-in;
+      startEvents: start-fade-in;
+    "
+    animation__fade-out="
+      property: opacity;
+      from: 1;
+      to: 0;
+      dur: 500;
+      pauseEvents: stop-fade-out;
+      startEvents: start-fade-out;
+    ">      
+  </a-image>
+  <!-- /Hotspot hidden marker -->
 
-    <!-- Hotspot name -->
-    <a-text 
-      [attr.value]="name"
-      class="hotspot-name"
-      align="center" 
-      visible="false"
-      position="0 -.5 0"
-      alpha-test=".5">
-    </a-text>
-    <!-- /Hotspot name -->
+  <!-- Hotspot name -->
+  <a-text 
+    [attr.value]="name"
+    class="hotspot-name"
+    align="center" 
+    visible="false"
+    position="0 -.5 0"
+    alpha-test=".5">
+  </a-text>
+  <!-- /Hotspot name -->
 
   <!--   /Hidden marker -->
   <a-entity
@@ -157,9 +157,10 @@
         *ngIf="hasImage"
         #assetImage>
       </a-image>
-      <a-sound 
+      <a-sound
         #assetAudio
         *ngIf="hasAudio"
+        [attr.volume]="hotspot.volume"
         sound="positional: false">
       </a-sound>
       

@@ -62,32 +62,34 @@
       </a-sky>
 
      <a-entity *ngIf="room">
-          <a-sound
-            *ngIf="narrationAudio"
-            [attr.src]="narrationAudio"
-            [attr.autoplay]="autoplaySounds"
-            class="narration-audio"
-            sound="positional: false"
-            >
-          </a-sound>
-          <a-sound
-            *ngIf="backgroundAudio"
-            [attr.src]="backgroundAudio"
-            [attr.autoplay]="autoplaySounds"
-            class="background-audio"
-            loop="true"
-            sound="positional: false"
-            >
-          </a-sound>
-         <a-entity *ngFor="let hotspot of room.universalSet">
-            <a-entity nga-hotspot [hotspot]="hotspot">
-            </a-entity>
-         </a-entity>
+        <a-sound
+          *ngIf="narrationAudio"
+          [attr.src]="narrationAudio"
+          [attr.autoplay]="autoplaySounds"
+          [attr.volume]="room.narrator.volume"
+          class="narration-audio"
+          sound="positional: false"
+          >
+        </a-sound>
+        <a-sound
+          *ngIf="backgroundAudio"
+          [attr.src]="backgroundAudio"
+          [attr.autoplay]="autoplaySounds"
+          [attr.volume]="room.bgAudioVolume"
+          class="background-audio"
+          loop="true"
+          sound="positional: false"
+          >
+        </a-sound>
+        <a-entity *ngFor="let hotspot of room.universalSet">
+          <a-entity nga-hotspot [hotspot]="hotspot">
+          </a-entity>
+        </a-entity>
 
-         <a-entity *ngFor="let door of room.doorSet">
-            <a-entity nga-doorway [doorway]="door">
-            </a-entity>
-         </a-entity>
+        <a-entity *ngFor="let door of room.doorSet">
+          <a-entity nga-doorway [doorway]="door">
+          </a-entity>
+        </a-entity>
 
      </a-entity>
    </a-entity>

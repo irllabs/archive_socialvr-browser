@@ -28,16 +28,12 @@
     Remove Background Audio
   </div>
 
-  <audio
+  <audio-element 
     *ngIf="getBackgroundAudio().hasAsset()"
-    [attr.src]="getBackgroundAudio().getObjectUrl() | urlSanitize"
-    type="audio/mp3"
-    controls="controls"
     [volume]="getBackgroundAudioVolume()"
     (volumechange)="onBGAVolumeChange($event)"
-    class="room-editor__audio-player">
-  </audio>
-
+    [src]="getBackgroundAudio().getObjectUrl() | urlSanitize">
+  </audio-element>
   <div class="hotspot-inspector_row">
     <div class="hotspot-inspector_row">
       <file-loader
