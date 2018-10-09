@@ -33,7 +33,7 @@ module.exports = functions.auth.user().onCreate(user => {
     .then(([settings]) => {
       const activationUrl = `${functionsURL}/activate_user/${activationToken}`
       const mailer = mailTransport(settings.email)
-      console.log("new flow")
+
       return mailer.sendMail(
         {
           from: "Social VR",

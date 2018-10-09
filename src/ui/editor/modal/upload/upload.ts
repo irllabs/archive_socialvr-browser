@@ -8,6 +8,7 @@ import { FileLoaderUtil } from 'ui/editor/util/fileLoaderUtil';
 //added by ali for dragging images in
 import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
 import { ZipFileReader } from 'ui/editor/util/zipFileReader';
+import { SettingsInteractor } from 'core/settings/settingsInteractor'
 
 @Component({
   selector: 'upload',
@@ -28,6 +29,7 @@ export class Upload {
     private sceneInteractor: SceneInteractor,
     private zipFileReader: ZipFileReader,
     private element: ElementRef,
+    private settingsInteractor: SettingsInteractor
   ) {
   }
 
@@ -76,6 +78,13 @@ export class Upload {
   }
 
   private loadBackgroundImage(file) {
+    const { maxBackgroundImageSize } = this.settingsInteractor.settings
+    
+    if(file.size/1024/1024 >= maxBackgroundImageSize){
+      this.eventBus.onModalMessage('Error', `File is too large. Max file size is ${maxBackgroundImageSize} mb`)
+      return;
+    }
+
     this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
     this.eventBus.onStartLoading();
     this.fileLoaderUtil.validateFileLoadEvent(file, 'image')

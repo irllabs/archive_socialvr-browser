@@ -44,6 +44,13 @@ export class RoomEditor {
   }
 
   private onBackgroundImageLoad($event) {
+    const { maxBackgroundImageSize } = this.settingsInteractor.settings
+
+    if( $event.file.size/1024/1024 >= maxBackgroundImageSize){
+      this.eventBus.onModalMessage('Error', `File is too large. Max file size is ${maxBackgroundImageSize} mb`)
+      return;
+    }
+
     const fileName: string = $event.file.name;
     const binaryFileData: any = $event.binaryFileData;
 

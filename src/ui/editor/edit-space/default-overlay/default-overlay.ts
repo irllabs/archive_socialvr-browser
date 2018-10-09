@@ -6,6 +6,7 @@ import { EventBus } from 'ui/common/event-bus';
 import { FileLoaderUtil, mimeTypeMap } from 'ui/editor/util/fileLoaderUtil';
 import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
 import { ZipFileReader } from 'ui/editor/util/zipFileReader';
+import { SettingsInteractor } from 'core/settings/settingsInteractor'
 
 
 @Component({
@@ -23,6 +24,7 @@ export class DefaultOverlay {
     private zipFileReader: ZipFileReader,
     private sceneInteractor: SceneInteractor,
     private slideshowBuilder: SlideshowBuilder,
+    private settingsInteractor: SettingsInteractor
   ) {
   }
 
@@ -76,6 +78,13 @@ export class DefaultOverlay {
   }
 
   private loadImageFile(file) {
+    const { maxBackgroundImageSize } = this.settingsInteractor.settings
+    
+    if(file.size/1024/1024 >= maxBackgroundImageSize){
+      this.eventBus.onModalMessage('Error', `File is too large. Max file size is ${maxBackgroundImageSize} mb`)
+      return;
+    }
+
     this.eventBus.onStartLoading();
     this.fileLoaderUtil.validateFileLoadEvent(file, 'image')
       .then(this.fileLoaderUtil.getBinaryFileData.bind(this.fileLoaderUtil))
