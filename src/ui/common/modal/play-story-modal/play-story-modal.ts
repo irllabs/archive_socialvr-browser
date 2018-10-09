@@ -8,8 +8,14 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class PlayStoryModal {
 
   @Output() onClose = new EventEmitter();
-
-  public closeModal() {
+  
+  get isMobile(){
+    return typeof window.orientation !== 'undefined'
+  }
+  public singleScreen() {
     this.onClose.emit({});
+  }
+  public dualScreen () {
+    this.onClose.emit({isDualScreen: true })
   }
 }

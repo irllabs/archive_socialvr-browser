@@ -16,12 +16,31 @@
         <a-sound
           *ngIf="soundtrackAudio"
           [attr.src]="soundtrackAudio"
-          autoplay="true"
+          [attr.autoplay]="autoplaySounds"
           loop="true"
           class="soundtrack-audio"
         >
         </a-sound>
-        
+        <a-entity 
+          preview-countdown
+          visible="false"
+          position="0 0 -.6"
+            >
+            <a-entity 
+              geometry="primitive: plane"
+              material="color:white"
+              scale="3 3 3">
+            </a-entity>
+            <a-text
+              align="center" 
+              color="black"
+              visible="true"
+              scale=".15 .15 .15"
+              alpha-test=".5"
+            >
+
+            </a-text>
+        </a-entity>
        
         <!-- / Background sounds -->
         
@@ -46,17 +65,19 @@
           <a-sound
             *ngIf="narrationAudio"
             [attr.src]="narrationAudio"
+            [attr.autoplay]="autoplaySounds"
             class="narration-audio"
             sound="positional: false"
-            autoplay="true">
+            >
           </a-sound>
           <a-sound
             *ngIf="backgroundAudio"
             [attr.src]="backgroundAudio"
+            [attr.autoplay]="autoplaySounds"
             class="background-audio"
             loop="true"
             sound="positional: false"
-            autoplay="true">
+            >
           </a-sound>
          <a-entity *ngFor="let hotspot of room.universalSet">
             <a-entity nga-hotspot [hotspot]="hotspot">

@@ -1,9 +1,20 @@
 AFRAME.registerComponent('preview-space', {
   init() {
     const { el } = this;
-
     this.camera = el.querySelector('a-camera');
     this.cursor = this.camera.querySelector('a-cursor');
+    this.countdown = el.querySelector('[preview-countdown]');
+    this.enterVR = el.querySelector('.a-enter-vr');
+    
+    el.addEventListener('run-countdown', () => this.countdown.emit('run'))
+
+    el.addEventListener('show-countdown', () => {
+      this.countdown.setAttribute('visible', true);
+    })
+
+    el.addEventListener('hide-countdown', () => {
+      this.countdown.setAttribute('visible', false)
+    })
 
     this.camera.addEventListener('animationcomplete', (e) => {
       if (e.detail.name === "animation__zoom-in") {
@@ -11,20 +22,31 @@ AFRAME.registerComponent('preview-space', {
       }
     });
 
-    el.addEventListener('pause-narration-audio', () => {
-      const narrationAudio = el.querySelector('.narration-audio');
-      
-      if (narrationAudio) {
-        narrationAudio.components.sound.pauseSound();
-      }
-    });
+    ['narration','background','soundtrack'].forEach((type) => {
+      el.addEventListener(`pause-${type}-audio`, ()=>{
+        const audio = el.querySelector(`.${type}-audio`);
+        if (audio) {
+          audio.components.sound.pauseSound()
+        }
+      })
+      el.addEventListener(`play-${type}-audio`, ()=>{
+        const audio = el.querySelector(`.${type}-audio`);
+        if (audio) {
+          audio.components.sound.playSound()
+        }
+      })
+    })
 
-    el.addEventListener('play-narration-audio', () => {
-      const narrationAudio = el.querySelector('.narration-audio');
+    el.addEventListener('play-all-audio',() => {
+      el.emit('play-narration-audio')
+      el.emit('play-soundtrack-audio')
+      el.emit('play-background-audio')
+    })
 
-      if (narrationAudio) {
-        narrationAudio.components.sound.playSound();
-      }
+    el.addEventListener('pause-all-audio',() => {
+      el.emit('pause-narration-audio')
+      el.emit('pause-soundtrack-audio')
+      el.emit('pause-background-audio')
     })
 
     el.addEventListener('switch-room-last', () => {

@@ -16,8 +16,10 @@ import { TextureLoader } from 'ui/editor/preview-space/modules/textureLoader';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RoomManager } from 'data/scene/roomManager';
 import { ICON_PATH } from 'ui/common/constants';
+import { EventBus } from 'ui/common/event-bus';
 
 import './aframe/preview-space';
+import './aframe/preview-countdown'
 
 @Component({
   selector: 'preview-space',
@@ -38,7 +40,9 @@ export class PreviewSpace {
   private backgroundAudio: string;
   private narrationAudio: string;
   private soundtrackAudio: string;
-
+  private isFirstInitialize: boolean = true;
+  private autoplaySounds:boolean = true;
+  
   constructor(
     private metaDataInteractor: MetaDataInteractor,
     private sceneInteractor: SceneInteractor,
@@ -49,7 +53,8 @@ export class PreviewSpace {
     private textureLoader: TextureLoader,
     private ref: ChangeDetectorRef,
     private sanitizer: DomSanitizer,
-    private roomManager: RoomManager
+    private roomManager: RoomManager,
+    private eventBus: EventBus
   ) {
     this.ref.detach();
   }
@@ -70,12 +75,38 @@ export class PreviewSpace {
   ngOnInit() {
     const projectIsEmpty = this.metaDataInteractor.projectIsEmpty();
     const isMultiView = this.router.url.includes('multiview=');
-
+    const sceneEl = this.worldElement.nativeElement;
     if (projectIsEmpty && !isMultiView) {
       this.router.navigate(['/editor', { outlets: { 'view': 'flat' } }]);
       return;
     }
+    const isShare = this.router.url.indexOf('share=1') !== -1;
+    
+    if (isShare && this.isFirstInitialize) {
 
+      this.autoplaySounds = false;
+      this.initWorld();
+
+      this.eventBus.onPlayStoryModal(({ isDualScreen }) => {
+        sceneEl.emit('show-countdown')
+
+        if (isDualScreen) {
+          sceneEl.emit('run-countdown')
+          sceneEl.enterVR()
+        } else {
+          sceneEl.emit('hide-countdown')
+          sceneEl.emit('play-all-audio')
+        }
+        this.autoplaySounds = true;
+        
+        this.isFirstInitialize = false;
+      });
+      return;
+    }
+    this.initWorld();
+  }
+
+  initWorld(){
     Promise.all([
       this.audioManager.loadBuffers(),
       this.textureLoader.load(),
@@ -111,7 +142,8 @@ export class PreviewSpace {
   initSoundtrack(){
     this.soundtrackAudio = this.metaDataInteractor.getSoundtrack().getBinaryFileData(true);
   }
-  initRoom(isTransition = false) {
+  initRoom() {
+
     const roomId = this.sceneInteractor.getActiveRoomId();
     const room = this.sceneInteractor.getRoomById(roomId);
     
@@ -138,7 +170,7 @@ export class PreviewSpace {
 
     setTimeout(() => {
       this.sceneInteractor.setActiveRoomId(lastRoom);
-      this.initRoom(true);
+      this.initRoom();
     });
   }
 
@@ -146,12 +178,12 @@ export class PreviewSpace {
     const homeRoom = this.sceneInteractor.getHomeRoomId();
 
     this.sceneInteractor.setActiveRoomId(homeRoom);
-    this.initRoom(true);
+    this.initRoom();
   }
 
   goToRoom(outgoingRoomId) {
     this.sceneInteractor.setActiveRoomId(outgoingRoomId);
-    this.initRoom(true);
+    this.initRoom();
   }
 
 }

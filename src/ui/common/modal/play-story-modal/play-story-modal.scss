@@ -1,10 +1,48 @@
+.overlay-modal{
+  z-index: 2147483647;
+  display:block;
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+}
 .play-story-modal {
+  width: 100%;
+  height: 100%;
+  background:none;
+  text-align:center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color:black;
+
   .modal__content-body {
+    color:white;
     padding: 40px;
     text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex: 1;
 
     p {
       margin: 10px 0;
+    }
+
+    button{
+      display: block;
+      flex:1;
+      height: 100%;
+      border:none;
+      background:transparent;
+      color:white;
+      &:hover{
+        transform: scale(1.2);
+      }
+      img{
+        background-color:white;
+        border-radius:50%;
+      }
     }
 
     .play-btn {

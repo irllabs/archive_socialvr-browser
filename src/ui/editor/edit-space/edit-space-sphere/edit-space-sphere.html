@@ -6,6 +6,7 @@
     <a-sky *ngIf="sky" [attr.src]="sky" radius="512"></a-sky>
     <a-entity #cameraElement svr-camera camera="fov:65;zoom:1;near:1;far:1024" position="0 0 0.0001">
     </a-entity>
+    
   </a-scene>
   <div *ngFor="let roomProperty of getItems()">
     <room-icon
