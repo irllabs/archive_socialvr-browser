@@ -1,14 +1,20 @@
 <div class="overlay-modal">
   <div class="modal__content play-story-modal">
     <h3>You are about to begin your <br> SocialVR experience!</h3>
-    <div class="modal__content-body">
-      <button (click)="closeModal()">
+    <div class="modal__content-body" *ngIf="isMobile">
+      <button (click)="singleScreen()">
         <img src="assets/icons/view-preview-accent.png" alt="">
         <h3>Single screen</h3>
       </button>
-      <button (click)="closeWithDelay()">
+      <button (click)="dualScreen()">
         <img src="assets/icons/view-preview-accent.png" alt="">
         <h3>DualScreen</h3>
+      </button>
+    </div>
+    <div class="modal__content-body" *ngIf="!isMobile">
+      <button (click)="singleScreen()">
+        <img src="assets/icons/view-preview-accent.png" alt="">
+        <h3>Start</h3>
       </button>
     </div>
   </div>

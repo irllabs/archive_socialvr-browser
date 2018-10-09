@@ -52,14 +52,7 @@ export class Modal {
     } else if ($event.isAccepted && this.onAccept) {
       this.onAccept();
     } else if (this.isPlayStoryModal() && this.playStoryCallback) {
-      if($event.isDualScreen){
-        this.playStoryCallback($event);
-        setTimeout(() => {
-          // this.clearValues()
-        }, 5000)
-      }
-      return;
-      
+      this.playStoryCallback($event);
     }
     this.clearValues();
   }
