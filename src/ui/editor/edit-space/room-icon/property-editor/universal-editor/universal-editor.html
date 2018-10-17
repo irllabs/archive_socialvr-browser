@@ -106,6 +106,7 @@
         *ngIf="hasAudioContent()"
         (volumechange)="onVolumeChange($event)"
         [volume]="universalProperty.volume"
+        [loop]="universalProperty.loop"
         [src]="universalProperty.audioContent.getObjectUrl() | urlSanitize">
       </audio-element>
     </section>

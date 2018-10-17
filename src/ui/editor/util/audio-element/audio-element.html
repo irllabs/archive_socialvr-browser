@@ -1,6 +1,7 @@
 <audio
     #audioElement
     [attr.src]="src"
+    [loop]="loop"
     type="audio/mp3"
     (volumechange)="volumechange.emit($event)"
     class="room-editor__audio-player">
@@ -31,5 +32,3 @@
     
   </a>
 </div>
-  
-  

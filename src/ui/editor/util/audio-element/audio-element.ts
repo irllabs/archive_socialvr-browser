@@ -29,6 +29,8 @@ export class MediaElement implements AfterViewInit {
   src: string
   @Input()
   volume: number
+  @Input()
+  loop: boolean = false
   @Output()
   volumechange = new EventEmitter<string>()
 
