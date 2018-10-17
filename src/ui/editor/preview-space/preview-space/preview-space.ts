@@ -40,6 +40,7 @@ export class PreviewSpace {
   private backgroundAudio: string;
   private narrationAudio: string;
   private soundtrackAudio: string;
+  private soundtrackVolume: number;
   private isFirstInitialize: boolean = true;
   private autoplaySounds:boolean = true;
   
@@ -140,6 +141,7 @@ export class PreviewSpace {
   ///////////  INITIALIZATION     //////////////
   //////////////////////////////////////////////
   initSoundtrack(){
+    this.soundtrackVolume = this.metaDataInteractor.getSoundtrack().getVolume()
     this.soundtrackAudio = this.metaDataInteractor.getSoundtrack().getBinaryFileData(true);
   }
   initRoom() {

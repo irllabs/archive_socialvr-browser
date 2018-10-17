@@ -122,6 +122,10 @@ export class RoomEditor {
     return this.getActiveRoom().getBackgroundAudioVolume();
   }
 
+  private getNarratorIntroAudioVolume(): number {
+    return this.getNarratorIntroAudio().getVolume();
+  }
+
   private getNarratorIntroAudioFile(): Audio {
     return this.getNarratorIntroAudio().getIntroAudio();
   }
