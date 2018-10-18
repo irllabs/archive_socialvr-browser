@@ -26,7 +26,8 @@ const FileSaver = require('file-saver');
 export class Story {
 
   private isBeingInstantiated: boolean = true;
-
+  private projectList: any;
+  private subscription: any;
   constructor(
     private router: Router,
     private sceneInteractor: SceneInteractor,
@@ -51,6 +52,23 @@ export class Story {
     if (!isClicked) {
       this.router.navigate(['/editor', { outlets: { 'modal': null } }]);
     }
+  }
+
+  private ngOnInit(){
+    this.subscription = this.projectInteractor.getProjects().subscribe(
+      (projects) => {
+        this.projectList = projects.map((p) => new Project(p));
+      },
+      error => console.error('GET /projects', error),
+    );
+  }
+
+  private ngOnDestroy() {
+    if(this.subscription){
+      this.subscription.unsubscribe()
+      this.subscription = null
+    }
+
   }
 
   public getProjectName(): string {
@@ -201,13 +219,11 @@ export class Story {
     if (isWorkingOnSavedProject) {
       this.projectInteractor.updateProject(project).then(onSuccess, onError);
     } else {
-      this.projectInteractor.getProjects().first().toPromise().then(projects => {
-        console.log(projects.length, this.settingsInteractor.settings.maxProjects )
-        if (projects.length >= this.settingsInteractor.settings.maxProjects) {
-          return onError("You have reached maximum number of projects");
-        }
-        this.projectInteractor.createProject().then(onSuccess, onError);
-      })
+      // console.log(this.projectList)
+      if (this.projectList.length >= this.settingsInteractor.settings.maxProjects) {
+        return onError("You have reached maximum number of projects");
+      }
+      this.projectInteractor.createProject().then(onSuccess, onError);
     }
   }
 }
