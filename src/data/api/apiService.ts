@@ -7,8 +7,8 @@ import { Observable } from 'rxjs/Observable';
 import { BASE_URL, GOOGLE_API_KEY } from 'ui/common/constants';
 import { ENV } from '../../config/environment';
 
-// const URL_SHORTENER_URL: string = `${GOOGLE_BASE_URL}urlshortener/v1/url`;
-const URL_SHORTENER_URL: string = `https://firebasedynamiclinks.googleapis.com/v1/shortLinks`;
+const URL_SHORTENER_URL: string = `https://www.googleapis.com/urlshortener/v1/url`;
+// const URL_SHORTENER_URL: string = `https://firebasedynamiclinks.googleapis.com/v1/shortLinks`;
 
 @Injectable()
 export class ApiService implements Api {
@@ -59,24 +59,32 @@ export class ApiService implements Api {
     });
   }
 
-  public downloadMedia(mediaUrl: string, responseType: any = ResponseContentType.Blob): Observable<any> {
-    return this.http
-      .get(encodeURI(mediaUrl), { responseType })
-      .map(response => response.blob());
-  }
+  // public downloadMedia(mediaUrl: string, responseType: any = ResponseContentType.Blob): Observable<any> {
+  //   return this.http
+  //     .get(encodeURI(mediaUrl), { responseType })
+  //     .map(response => response.blob());
+  // }
 
+  // public getShortenedUrl(url: string): Observable<any> {
+  //   return this.http
+  //     .post(`${URL_SHORTENER_URL}?key=${ENV.firebase.apiKey}`, { 
+  //       "dynamicLinkInfo": {
+  //         "link": url,
+  //         "dynamicLinkDomain": "svrst.page.link"
+  //       },
+  //       "suffix": {
+  //         "option": "SHORT"
+  //       }
+  //      })
+  //     .map(response => response.json())
+  //     .map(responseJson => responseJson.shortLink);
+  // }
   public getShortenedUrl(url: string): Observable<any> {
-    return this.http
-      .post(`${URL_SHORTENER_URL}?key=${ENV.firebase.apiKey}`, { 
-        "dynamicLinkInfo": {
-          "link": url,
-          "dynamicLinkDomain": "svrst.page.link"
-        },
-        "suffix": {
-          "option": "SHORT"
-        }
-       })
+    const payload= {
+      "longUrl": url
+    };
+    return this.http.post(`${URL_SHORTENER_URL}?key=${GOOGLE_API_KEY}`, payload)
       .map(response => response.json())
-      .map(responseJson => responseJson.shortLink);
+      .map(responseJson => responseJson.id)
   }
 }
