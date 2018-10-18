@@ -26,12 +26,14 @@ AFRAME.registerComponent('preview-space', {
       el.addEventListener(`pause-${type}-audio`, ()=>{
         const audio = el.querySelector(`.${type}-audio`);
         if (audio) {
+          audio.setAttribute('paused', true)
           audio.components.sound.pauseSound()
         }
       })
       el.addEventListener(`play-${type}-audio`, ()=>{
         const audio = el.querySelector(`.${type}-audio`);
-        if (audio && audio.getAttribute('audio-disabled')) {
+        if (audio) {
+          audio.setAttribute('paused', false)
           audio.components.sound.playSound()
         }
       })
