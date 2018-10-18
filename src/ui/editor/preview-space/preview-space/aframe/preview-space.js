@@ -31,7 +31,7 @@ AFRAME.registerComponent('preview-space', {
       })
       el.addEventListener(`play-${type}-audio`, ()=>{
         const audio = el.querySelector(`.${type}-audio`);
-        if (audio) {
+        if (audio && audio.getAttribute('audio-disabled')) {
           audio.components.sound.playSound()
         }
       })

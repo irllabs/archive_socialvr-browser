@@ -63,7 +63,7 @@
       </a-sky>
 
      <a-entity *ngIf="room">
-        <a-sound
+        <a-sound play-once
           *ngIf="narrationAudio"
           [attr.src]="narrationAudio"
           [attr.autoplay]="autoplaySounds"

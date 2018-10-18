@@ -20,6 +20,7 @@ import { EventBus } from 'ui/common/event-bus';
 
 import './aframe/preview-space';
 import './aframe/preview-countdown'
+import './aframe/play-once'
 
 @Component({
   selector: 'preview-space',
