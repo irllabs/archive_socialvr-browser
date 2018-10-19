@@ -89,10 +89,9 @@ export class PreviewSpace {
       this.autoplaySounds = false;
       this.initWorld();
       this.eventBus.onPlayStoryModal(({ isDualScreen }) => {
-        sceneEl.emit('show-countdown')
+        // sceneEl.emit('show-countdown')
         
-        
-        
+      
         if (isDualScreen) {
           sceneEl.emit('touch-all-audio')
           sceneEl.emit('run-countdown')
@@ -102,8 +101,7 @@ export class PreviewSpace {
           sceneEl.emit('hide-countdown')
           sceneEl.emit('play-all-audio')
         }
-        
-        
+        this.autoplaySounds = true;
         this.isFirstInitialize = false;
       });
       return;

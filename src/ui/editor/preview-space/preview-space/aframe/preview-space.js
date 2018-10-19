@@ -47,7 +47,6 @@ AFRAME.registerComponent('preview-space', {
 
       el.addEventListener(`play-${type}-audio`, () => {
         const audio = el.querySelector(`.${type}-audio`);
-        console.log(audio.getAttribute("played-once"))
         if (audio && audio.getAttribute("played-once") !== "true") {
           audio.setAttribute('paused', false)
           audio.components.sound.playSound()
@@ -101,8 +100,8 @@ AFRAME.registerComponent('preview-space', {
     this.cursor.emit('start-scale-out');
   },
   switchRoom(roomId) {
-    const onceAudio = this.el.querySelector('[play-once]')
-    onceAudio.removeAttribute("played-once");
+    const onceAudio = this.el.querySelector('.narration-audio')
+    onceAudio && onceAudio.setAttribute("played-once", "false");
 
     this.el.emit('switch-room', roomId)
   }
