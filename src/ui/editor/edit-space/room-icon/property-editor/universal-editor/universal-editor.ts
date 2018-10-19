@@ -129,7 +129,12 @@ export class UniversalEditor {
   }
 
   public onAudioFileLoad($event) {
-    const { maxHotspotAudioDuration} = this.settingsInteractor.settings;
+    const { maxHotspotAudioDuration, maxHotspotAudioFilesize } = this.settingsInteractor.settings;
+    if ($event.file.size/1024/1024 >= maxHotspotAudioFilesize) {
+      this.eventBus.onModalMessage('Error', `File is too big. File should be less than ${maxHotspotAudioFilesize} megabytes `)
+      return;
+    }
+
     audioDuration($event.file)
       .then(duration => {
         if (duration > maxHotspotAudioDuration) {

@@ -102,8 +102,11 @@ export class Story {
   }
 
   public onSoundtrackLoad($event) {
-    const { maxSoundtrackAudioDuration } = this.settingsInteractor.settings;
-
+    const { maxSoundtrackAudioDuration, maxSoundtrackAudioFilesize } = this.settingsInteractor.settings;
+    if ($event.file.size/1024/1024 >= maxSoundtrackAudioFilesize) {
+      this.eventBus.onModalMessage('Error', `File is too big. File should be less than ${maxSoundtrackAudioFilesize} megabytes `)
+      return;
+    }
     audioDuration($event.file)
       .then(duration => {
         if(duration >= maxSoundtrackAudioDuration){

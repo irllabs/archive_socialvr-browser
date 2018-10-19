@@ -70,7 +70,12 @@ export class RoomEditor {
   }
 
   public onBackgroundAudioLoad($event) {
-    const { maxBackgroundAudioDuration } = this.settingsInteractor.settings
+    const { maxBackgroundAudioDuration, maxBackgroundAudioFilesize } = this.settingsInteractor.settings
+
+    if ($event.file.size/1024/1024 >= maxBackgroundAudioFilesize ) {
+      this.eventBus.onModalMessage('Error', `File is too big. File should be less than ${maxBackgroundAudioFilesize} megabytes `)
+      return;
+    }
 
     audioDuration($event.file).then(duration => {
 
@@ -85,22 +90,20 @@ export class RoomEditor {
   }
 
   public onIntroAudioLoad($event) {
-    const { maxNarrationAudioDuration } = this.settingsInteractor.settings
-
+    const { maxNarrationAudioDuration, maxNarrationAudioFilesize } = this.settingsInteractor.settings
+    if ($event.file.size/1024/1024 >= maxNarrationAudioFilesize) {
+      this.eventBus.onModalMessage('Error', `File is too big. File should be less than ${maxNarrationAudioFilesize} megabytes `)
+      return;
+    }
     this.largeIntroAudioFile = false;
 
     audioDuration($event.file).then(duration => {
-
+      console.log(duration)
       if (duration > maxNarrationAudioDuration) {
         this.eventBus.onModalMessage('Error',`Duration of narration audio is too long. It should be less than ${maxNarrationAudioDuration} seconds `)
         return
       }
-
-      if ($event.file.size / 1024 / 1024 > 64) {
-        this.largeIntroAudioFile = true;
-      } else {
-        this.getNarratorIntroAudio().setIntroAudio(DEFAULT_VOLUME, $event.binaryFileData);
-      }
+      this.getNarratorIntroAudio().setIntroAudio(DEFAULT_VOLUME, $event.binaryFileData);
     })
 
     
