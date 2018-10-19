@@ -22,21 +22,40 @@ AFRAME.registerComponent('preview-space', {
       }
     });
 
+
     ['narration','background','soundtrack'].forEach((type) => {
-      el.addEventListener(`pause-${type}-audio`, ()=>{
+      el.addEventListener(`touch-${type}-audio`,() => {
+        const audio = el.querySelector(`.${type}-audio`);
+        if(audio){
+          let volume = audio.getAttribute('volume')
+          audio.setAttribute('volume',0)
+          audio.components.sound.playSound()
+          setImmediate(() => {
+            audio.components.sound.pauseSound()
+            audio.setAttribute('volume', volume)
+          })
+        }
+      })
+      el.addEventListener(`pause-${type}-audio`, () => {
         const audio = el.querySelector(`.${type}-audio`);
         if (audio) {
           audio.setAttribute('paused', true)
           audio.components.sound.pauseSound()
         }
       })
-      el.addEventListener(`play-${type}-audio`, ()=>{
+      el.addEventListener(`play-${type}-audio`, () => {
         const audio = el.querySelector(`.${type}-audio`);
         if (audio) {
           audio.setAttribute('paused', false)
           audio.components.sound.playSound()
         }
       })
+    })
+
+    el.addEventListener('touch-all-audio',() => {
+      el.emit('touch-narration-audio')
+      el.emit('touch-soundtrack-audio')
+      el.emit('touch-background-audio')
     })
 
     el.addEventListener('play-all-audio',() => {

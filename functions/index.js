@@ -3,7 +3,8 @@ const admin = require('firebase-admin');
 const serviceAccount = require(`./service_accounts/${functions.config().project.env}.json`);
 
 const databases = {
-  "default": "https://social-vr-staging-52b75.firebaseio.com"
+  "default": "https://social-vr-staging-52b75.firebaseio.com",
+  "production": "<fill production database url here>"
 }
 const options = {
   credential: admin.credential.cert(serviceAccount),

@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "social-vr-staging-52b75"
+    "default": "social-vr-staging-52b75",
+    "production": "<fill production alias here>"
   }
 }
