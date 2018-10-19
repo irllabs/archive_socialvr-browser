@@ -22,8 +22,8 @@ AFRAME.registerComponent('preview-space', {
       }
     });
 
-
     ['narration','background','soundtrack'].forEach((type) => {
+
       el.addEventListener(`touch-${type}-audio`,() => {
         const audio = el.querySelector(`.${type}-audio`);
         if(audio){
@@ -36,6 +36,7 @@ AFRAME.registerComponent('preview-space', {
           })
         }
       })
+
       el.addEventListener(`pause-${type}-audio`, () => {
         const audio = el.querySelector(`.${type}-audio`);
         if (audio) {
@@ -43,13 +44,15 @@ AFRAME.registerComponent('preview-space', {
           audio.components.sound.pauseSound()
         }
       })
+
       el.addEventListener(`play-${type}-audio`, () => {
         const audio = el.querySelector(`.${type}-audio`);
-        if (audio) {
+        if (audio && !audio.getAttribute("played-once") === "true") {
           audio.setAttribute('paused', false)
           audio.components.sound.playSound()
         }
       })
+
     })
 
     el.addEventListener('touch-all-audio',() => {
@@ -97,6 +100,9 @@ AFRAME.registerComponent('preview-space', {
     this.cursor.emit('start-scale-out');
   },
   switchRoom(roomId) {
+    const onceAudio = this.el.querySelector('[play-once]')
+    onceAudio.removeAttribute("played-once");
+
     this.el.emit('switch-room', roomId)
   }
 })

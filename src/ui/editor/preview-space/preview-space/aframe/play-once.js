@@ -4,7 +4,7 @@ AFRAME.registerComponent('play-once', {
       var offset =  this.el.components.sound.pool.children[0].offset;
 
       if(offset === 0 || this.el.getAttribute('paused') === "false"){
-        this.el.parentNode.removeChild(this.el)
+        this.el.setAttribute('played-once', true)
 
       }
     })
