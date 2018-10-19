@@ -47,7 +47,8 @@ AFRAME.registerComponent('preview-space', {
 
       el.addEventListener(`play-${type}-audio`, () => {
         const audio = el.querySelector(`.${type}-audio`);
-        if (audio && !audio.getAttribute("played-once") === "true") {
+        console.log(audio.getAttribute("played-once"))
+        if (audio && audio.getAttribute("played-once") !== "true") {
           audio.setAttribute('paused', false)
           audio.components.sound.playSound()
         }

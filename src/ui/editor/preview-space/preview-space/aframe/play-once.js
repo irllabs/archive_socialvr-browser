@@ -5,7 +5,6 @@ AFRAME.registerComponent('play-once', {
 
       if(offset === 0 || this.el.getAttribute('paused') === "false"){
         this.el.setAttribute('played-once', true)
-
       }
     })
   }
