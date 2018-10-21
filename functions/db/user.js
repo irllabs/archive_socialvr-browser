@@ -1,13 +1,14 @@
 const functions = require("firebase-functions")
 const admin = require("firebase-admin")
 const crypto = require("crypto")
+const config = require(`../config/${functions.config().project.env}.json`)
 const mailTransport = require("../utils/mailer")
-const functionsURL = functions.config().functions.url
 const getSettings = require("../utils/settings")
+const functionsURL = config["functionsURL"]
 
 module.exports = functions.auth.user().onCreate(user => {
   const activationToken = crypto.randomBytes(24).toString("hex")
-
+  console.log('newdeploy')
   return admin
     .auth()
     .updateUser(user.uid, {

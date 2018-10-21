@@ -1,0 +1,5 @@
+{
+  "serviceAccount":{},
+  "databaseURL": "<type database url here>",
+  "functionsURL": "<type functions url here>"
+}
