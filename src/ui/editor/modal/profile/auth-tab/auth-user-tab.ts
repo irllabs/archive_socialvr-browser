@@ -57,6 +57,14 @@ export class AuthUserTab implements OnInit, OnDestroy {
   public onLogOutClick() {
     this.metaDataInteractor.checkAndConfirmResetChanges().then(() => {
       this.userInteractor.logOut();
+      this.metaDataInteractor.loadingProject(true);
+      this.router.navigate(['/editor']);
+      this.sceneInteractor.setActiveRoomId(null);
+      this.sceneInteractor.resetRoomManager();
+      this.projectInteractor.setProject(null);
+      this.eventBus.onSelectRoom(null, false);
+      this.metaDataInteractor.setIsReadOnly(false);
+      this.metaDataInteractor.loadingProject(false);
     }, () => {});
   }
 
