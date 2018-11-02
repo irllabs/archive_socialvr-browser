@@ -1,7 +1,7 @@
 import { getCoordinatePosition } from 'ui/editor/util/iconPositionUtil';
 
 
-AFRAME.registerComponent('hotspot', {
+AFRAME.registerComponent('hotspot', <any>{
   schema: {
     coordinates: {
       type: "string",

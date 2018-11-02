@@ -1,7 +1,5 @@
-import { ICON_PATH, IMAGE_PATH } from 'ui/common/constants';
 
-
-AFRAME.registerComponent('doorway-pulsating-marker', {
+AFRAME.registerComponent('doorway-pulsating-marker', <any>{
   init() {
     const { el } = this;
 

@@ -1,4 +1,4 @@
-AFRAME.registerComponent('pulsating-marker', {
+AFRAME.registerComponent('pulsating-marker', <any>{
   init() {
     this.scaleIn = this.scaleIn.bind(this);
     this.scaleOut = this.scaleOut.bind(this);

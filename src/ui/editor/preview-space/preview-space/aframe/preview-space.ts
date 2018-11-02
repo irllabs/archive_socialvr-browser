@@ -1,4 +1,4 @@
-AFRAME.registerComponent('preview-space', {
+AFRAME.registerComponent('preview-space', <any>{
   init() {
     const { el } = this;
     this.camera = el.querySelector('a-camera');

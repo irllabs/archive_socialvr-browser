@@ -2,7 +2,7 @@ import { getCoordinatePosition } from 'ui/editor/util/iconPositionUtil';
 
 const DEFAULT_TRANSITION_TIME = 700;
 
-AFRAME.registerComponent('doorway', {
+AFRAME.registerComponent('doorway', <any>{
   schema: {
     coordinates: {
       type: "string",

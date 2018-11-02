@@ -1,6 +1,6 @@
-import { setTimeout, clearTimeout } from "timers";
+import * as THREE from 'three';
 
-AFRAME.registerComponent('panel-button', {
+AFRAME.registerComponent('panel-button', <any>{
   schema: {
     event: {
       type: 'string'

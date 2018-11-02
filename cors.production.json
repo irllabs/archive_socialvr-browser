@@ -1,6 +1,6 @@
 [
   {
-    "origin": ["https://socialvr.irl.studio"],
+    "origin": ["https://socialvr.irl.studio", "https://simplevr.irl.studio"],
     "method": ["GET", "POST", "PUT", "DELETE"],
     "maxAgeSeconds": 3600
   }

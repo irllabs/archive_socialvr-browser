@@ -1,4 +1,4 @@
-AFRAME.registerComponent('hidden-marker', {
+AFRAME.registerComponent('hidden-marker', <any>{
   init() {
     const { el } = this;
     this.fadeIn = this.fadeIn.bind(this);

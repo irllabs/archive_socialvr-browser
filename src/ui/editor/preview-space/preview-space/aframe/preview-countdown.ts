@@ -1,4 +1,4 @@
-AFRAME.registerComponent('preview-countdown', {
+AFRAME.registerComponent('preview-countdown', <any>{
   init(){
     const { el } = this;
     

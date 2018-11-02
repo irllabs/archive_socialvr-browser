@@ -1,5 +1,16 @@
 {
-  "serviceAccount":{},
-  "databaseURL": "<type database url here>",
-  "functionsURL": "<type functions url here>"
+  "serviceAccount":{
+    "type": "service_account",
+    "project_id": "social-vr-161302",
+    "private_key_id": "3750954bcce6eba60c046dfe11947872fac45cac",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDHu8HBYBw+sc1G\neiB2j0VC+3LO4Cyu1NzBxtg2zmUFEfT21ZcLwRXNJdXRsDZAbaSWgX8efKXTnIuU\nGW/ol9gy6iUfIOjovIBNsWRJR91sfGDHT/u8EBgoWpohQ/0eg/NMwigFGlc9FAZj\n6WxGPODQrRwNO0XJ7x8sq8PMZ8vK9KjHGh2wZvF/hbxEAOcHfkg04wR2l9BiwW/r\nZ5kUceYSiQM4VvjFf3t0AlFdLxTd9uDKxTgO2nkH5sBMPdw79DbVPMtS2F2WOrBW\nQgAFmIZoAIuFnFdSuOE1bKmVVRdOtgYCrsOvVuR7YRCZWM7el2JEvpK5PqtvwoL8\nerVuFQ7DAgMBAAECggEAE0hOGVQlBex2a+Jodem4/xF1cQF1bt9//Hks8IWWfRnR\ns27FaU4Xw7luXhML+cZcCGeyFQhlnftUAlU+V48pQSkXslyj/6wLGvUQQH7eopWT\nZkqTfAF1w5eTn7iHnEWS3Is1/+AeIfhn8Ydce59u+NZtid16DFe4g8CFY5t1sj8m\nsJ01AqGxRYFjJjUp3EMXNRpDWQFowqnAx18Eb2dPwkFuKPhHQNnyLtqbNXKPUoNI\nS7jrDNksMYvk5peRDIUX+0yADCLS9xij9EZq6LJ+7/S3zK7u8NNtyZzxS+jRTnDm\noL8OWUdMKf5FUgR3aLRgTLdYUrmaF98HkhPfkVvtsQKBgQDzaTUGGHL+UB70hAsl\nWUouFaMtdCPiumGNCwljaj052joXf6Q0Hs+idt1mlLyeB2rrXw5xHaT8z0K8rAVK\ndP4l/MDbxxPLoBde3u/JrhnFxXqjPxnlWTHTJWa1weXLUosCS6lFgaHgMUyzyz8k\nDUbjZdepW84Jz92P2a2KAzGoSQKBgQDSEEDfw2FSQv+oaJdGs2Jzsi/CKTmNRoSR\nI5+QFE5b9jobVBffWbiV/h+x7rFPbPVJqVQFD2Ja+ScsG7DLjYAE7x+B81Bmq77E\n8ll85uoxTUjcXQ6zNVrtU9kA3EqMjRfAhcrmmJ7oKCe7G/Tzj34DvhoiX1g9i0th\nY6SulZh2qwKBgBB8pMnH6CoPlTkspHCgLqUWdBoFDtUxmJ/sCnPAY2tCu8KRs7aQ\nC7JOaMqk8m2lxPkyVBEXV/CDvVp4MFeNuxUpnIqGXnHhYxPa99TqRPafXKIoCQH+\n26AYnW9cNctiyOWb6Fg74pID5NUcxCcV+yI16Lig7kC94pz2uolpk/h5AoGBAMa/\nuBG+szr4xxlY9CBhozniEou7I4fGe7EzKkpQ3B7oZevrcbbSFfJcgTKBq2OBrMao\nHiW3e5ClgemavXiqBcElWgNC6gRqZNHEluS1OkmxXMmahkkKp2A63+uPgj1fVWTD\ncckiB9+R9p1zAxza3BjAacuxuDRqscSQWYURZzKHAoGBAIkME1RbX2U7DUCuGdZx\nffU1s07UH6bSTDX0YcI2AHWU8qiYFu9+232/H4J9CF1FoykhyoGDeexqGUUIaLCX\nXQT9VpDEFzUYkaQfWxXUtFTeKsqpXdFq+dPV6gohl/vcfeCUEEkWYK6wRmJnHooC\ncWO0LmzDsPjjlI0TEKWqIzH6\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-i0ow5@social-vr-161302.iam.gserviceaccount.com",
+    "client_id": "115897254240787706197",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-i0ow5%40social-vr-161302.iam.gserviceaccount.com"
+  },
+  "databaseURL": "https://social-vr-161302.firebaseio.com",
+  "functionsURL": "https://us-central1-social-vr-161302.cloudfunctions.net"
 }

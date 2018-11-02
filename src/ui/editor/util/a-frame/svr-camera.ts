@@ -1,4 +1,3 @@
-import * as AFRAME from 'aframe';
 import * as THREE from 'three';
 
 const TWO_PI = 2 * Math.PI;
@@ -14,7 +13,7 @@ const defaultExecutionContext = (fn) => {
   }
 };
 
-AFRAME.registerComponent('svr-camera', {
+AFRAME.registerComponent('svr-camera', <any>{
   
   init() {
     this.isDragging = false;

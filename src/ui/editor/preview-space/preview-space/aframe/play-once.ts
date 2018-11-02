@@ -1,4 +1,4 @@
-AFRAME.registerComponent('play-once', {
+AFRAME.registerComponent('play-once', <any>{
   init() {
     this.el.addEventListener('sound-ended',(e) => {
       var offset =  this.el.components.sound.pool.children[0].offset;

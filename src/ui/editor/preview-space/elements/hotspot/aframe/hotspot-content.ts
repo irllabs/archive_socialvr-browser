@@ -1,5 +1,5 @@
 
-AFRAME.registerComponent('hotspot-content', {
+AFRAME.registerComponent('hotspot-content', <any>{
   animationScaleOut: {
     property: 'scale',
     from: '1 1 1',

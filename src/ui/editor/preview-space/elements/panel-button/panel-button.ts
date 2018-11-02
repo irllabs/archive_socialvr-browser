@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, NgZone, ViewChild, Input } from '@angular/core';
 import { getCoordinatePosition } from 'ui/editor/util/iconPositionUtil';
+import * as THREE from 'three';
 
 import './aframe/panel-button';
 
