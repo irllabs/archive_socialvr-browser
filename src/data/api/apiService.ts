@@ -70,7 +70,7 @@ export class ApiService implements Api {
       .post(`${URL_SHORTENER_URL}?key=${ENV.firebase.apiKey}`, { 
         "dynamicLinkInfo": {
           "link": url,
-          "dynamicLinkDomain": "svrst.page.link"
+          "dynamicLinkDomain": ENV.firebase.dynamicLinkDomain
         },
         "suffix": {
           "option": "SHORT"

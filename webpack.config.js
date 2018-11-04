@@ -16,7 +16,7 @@ const isProduction = process.argv.indexOf('-p') > -1;
 const isLocal = process.argv.indexOf('-d') > -1;
 const buildVariable = isLocal ? environment.local : isProduction ? environment.prod: environment.dev;
 
-
+console.log(buildVariable)
 const webpackConfig = {
   entry: {
     polyfills: './src/_entrypoints/polyfills.ts',

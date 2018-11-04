@@ -80,3 +80,5 @@ _site/
 
 # firebase functions 
 /functions/node_modules
+
+/.firebase
