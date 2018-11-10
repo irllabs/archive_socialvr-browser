@@ -30,10 +30,10 @@ AFRAME.registerComponent('preview-space', <any>{
           let volume = audio.getAttribute('volume')
           audio.setAttribute('volume',0)
           audio.components.sound.playSound()
-          setImmediate(() => {
+          setTimeout(() => {
             audio.components.sound.pauseSound()
             audio.setAttribute('volume', volume)
-          })
+          },0)
         }
       })
 
