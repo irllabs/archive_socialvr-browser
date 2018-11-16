@@ -36,7 +36,7 @@ AFRAME.registerComponent('hotspot', <any>{
   },
   init() {
     const { x, y, z } = this.data.coordinates;
-
+  
     //If content revealed, then it should be
     // hidden after clear intersection of content zone
     this.contentIsActive = false;
@@ -101,5 +101,9 @@ AFRAME.registerComponent('hotspot', <any>{
       this.showHotspotName();
       this.contentIsActive = false;
     });
+    this.el.emit('hide')
+    setTimeout(()=>{
+      this.el.emit('show')
+    },200)
   }
 })
