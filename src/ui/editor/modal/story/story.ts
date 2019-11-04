@@ -7,7 +7,7 @@ import {ProjectInteractor} from 'core/project/projectInteractor';
 import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
 import {EventBus} from 'ui/common/event-bus';
 import {UserInteractor} from 'core/user/userInteractor';
-import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
+import {SlideshowBuilder} from 'ui/editor/util/slideshowBuilder';
 
 import {Audio} from 'data/scene/entities/audio';
 import {Image} from 'data/scene/entities/image';

@@ -58,7 +58,7 @@
     "js-yaml": "^3.7.0",
     "jszip": "3.1.4",
     "qrcode": "^1.2.0",
-    "recorderjs": "git+ssh://git@github.com/mattdiamond/Recorderjs.git#08e7abd99739be6946f19f6806ccb368138f2dd3",
+    "recorderjs": "git+https://git@github.com/mattdiamond/Recorderjs.git#08e7abd99739be6946f19f6806ccb368138f2dd3",
     "rxjs": "^5.4.2",
     "serviceworker-webpack-plugin": "^0.2.3",
     "stats.js": "^0.17.0",

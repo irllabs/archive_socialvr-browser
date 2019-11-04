@@ -6,7 +6,7 @@ import {SceneInteractor} from 'core/scene/sceneInteractor';
 import {Room} from 'data/scene/entities/room';
 import {resizeImage} from 'data/util/imageResizeService';
 //added by ali for dragging images in
-import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
+import {SlideshowBuilder} from 'ui/editor/util/slideshowBuilder';
 import {normalizeAbsolutePosition} from 'ui/editor/util/iconPositionUtil';
 import {mimeTypeMap} from 'ui/editor/util/fileLoaderUtil';
 import {Audio} from 'data/scene/entities/audio';
