@@ -11,7 +11,7 @@ import { Audio } from 'data/scene/entities/audio';
 
 import { DEFAULT_PROJECT_NAME, DEFAULT_VOLUME } from 'ui/common/constants';
 import { EventBus } from 'ui/common/event-bus';
-import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
+import { SlideshowBuilder } from 'ui/editor/util/slideshowBuilder';
 import { Project } from '../../../../data/project/projectModel';
 import { SettingsInteractor } from 'core/settings/settingsInteractor';
 import { audioDuration } from 'ui/editor/util/audioDuration';

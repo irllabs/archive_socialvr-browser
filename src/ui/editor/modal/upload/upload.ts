@@ -6,7 +6,7 @@ import { resizeImage } from 'data/util/imageResizeService';
 import { EventBus } from 'ui/common/event-bus';
 import { FileLoaderUtil } from 'ui/editor/util/fileLoaderUtil';
 //added by ali for dragging images in
-import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
+import { SlideshowBuilder } from 'ui/editor/util/slideshowBuilder';
 import { ZipFileReader } from 'ui/editor/util/zipFileReader';
 import { SettingsInteractor } from 'core/settings/settingsInteractor'
 

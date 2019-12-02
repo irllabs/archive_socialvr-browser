@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Output } from '@angu
 import { ActivatedRoute, Router } from '@angular/router';
 import { MetaDataInteractor } from 'core/scene/projectMetaDataInteractor';
 import { SceneInteractor } from 'core/scene/sceneInteractor';
-import { VideoInteractor } from 'core/video/VideoInteractor';
+import { VideoInteractor } from 'core/video/videoInteractor';
 import { Room } from 'data/scene/entities/room';
 import { Universal } from 'data/scene/entities/universal';
 import { Vector2 } from 'data/scene/entities/vector2';
@@ -16,7 +16,7 @@ import { FileLoaderUtil, mimeTypeMap } from 'ui/editor/util/fileLoaderUtil';
 import { normalizeAbsolutePosition } from 'ui/editor/util/iconPositionUtil';
 import { SHARED_KEY } from 'ui/editor/util/publicLinkHelper';
 import { ResponsiveUtil } from 'ui/editor/util/responsiveUtil';
-import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
+import { SlideshowBuilder } from 'ui/editor/util/slideshowBuilder';
 import { ZipFileReader } from 'ui/editor/util/zipFileReader';
 
 @Component({

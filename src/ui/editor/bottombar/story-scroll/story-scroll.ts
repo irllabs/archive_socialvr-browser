@@ -7,7 +7,7 @@ import { resizeImage } from 'data/util/imageResizeService';
 import { Subscription } from 'rxjs/Subscription';
 
 import { EventBus, EventType } from 'ui/common/event-bus';
-import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
+import { SlideshowBuilder } from 'ui/editor/util/slideshowBuilder';
 import { SettingsInteractor } from 'core/settings/settingsInteractor';
 
 @Component({

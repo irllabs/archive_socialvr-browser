@@ -70,7 +70,7 @@ import { InfoButton } from 'ui/editor/util/info-button/info-button';
 import { PropertyRemovalService } from 'ui/editor/util/propertyRemovalService';
 import { ResponsiveUtil } from 'ui/editor/util/responsiveUtil';
 import { Slider } from 'ui/editor/util/slider/slider';
-import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
+import { SlideshowBuilder } from 'ui/editor/util/slideshowBuilder';
 import { ZipFileReader } from 'ui/editor/util/zipFileReader';
 import { UrlSanitizePipe } from 'ui/editor/util/urlSanitizePipe';
 import { MediaElement} from 'ui/editor/util/audio-element/audio-element';
