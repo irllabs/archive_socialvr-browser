@@ -30,7 +30,7 @@ After all the dependencies are installed, you need to:
 
 ### Local Builds
 * Point to a locally running server: ```npm run dev-local```
-* Point to the staging server: ```npm run dev```
+* Point to the staging server: ```npm run dev``` this will open the application on port 3000.
 * Point to production: ```npm run dev-prod```
 
 ### Deploy
