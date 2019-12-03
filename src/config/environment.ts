@@ -7,7 +7,7 @@ const firebase = build === 'PROD' ? {
   projectId: 'social-vr-161302',
   storageBucket: 'social-vr-161302.appspot.com',
   messagingSenderId: '613942124685',
-  dynamicLinkDomain: 'socialvr.page.link'
+  dynamicLinkDomain: 'simplevr.page.link'
   
 } : {
   apiKey: 'AIzaSyAYEF9C8sje4GzAYoKJVO9dhXNSp_k31mw',
