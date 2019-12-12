@@ -14,6 +14,8 @@ import { denormalizePosition, normalizeAbsolutePosition } from 'ui/editor/util/i
 import { PropertyRemovalService } from 'ui/editor/util/propertyRemovalService';
 import { RoomPropertyTypeService } from 'ui/editor/util/roomPropertyTypeService';
 import { MetaDataInteractor } from '../../../../../core/scene/projectMetaDataInteractor';
+const el: HTMLElement = document.getElementById('draggableIcon');
+
 
 const ICON_MAP = {
   universal: 'icon-add.png',
@@ -98,6 +100,40 @@ export class RoomIcon implements Hotspot {
       this.setPropertyEditorVisibility(false);
     }
   }
+  removeDummy() {
+    var elem = document.getElementById('icon-element');
+    elem.parentNode.removeChild(elem);
+    return false;
+  }
+
+  isCollapsed(){
+    /*var rect = document.getElementById("icon-element");
+    var dragMe = document.getElementById("icon-element");*/
+    // var rect = document.querySelectorAll("#icon-element");
+    var dragMe = document.querySelectorAll("#icon-element");
+    var rect;
+    rect = document.querySelectorAll("#icon-element");
+    var object_1 = dragMe[0].getBoundingClientRect();
+    var object_2 = rect[1].getBoundingClientRect();
+
+    console.log(object_1.left)
+    console.log(object_2.left)
+    /*if(object_1[0].left > object_2[1].left + object_2[1].width  && object_1[0].left + object_1[0].width  > object_2[1].left &&
+      object_1[0].top < object_2[1].top + object_2[1].height && object_1[0].top + object_1[0].height > object_2[1].top){
+      console.log("Heeeeeeeeeeeeeeeeeeeeeee");
+    }else{
+      console.log("Hiiiiiiiiiiiiiiiiiiiiiiii");
+      console.log(object_1[0].left);
+      console.log(object_2[1].left);
+    }*/
+
+    // if(rect[0] + dragMe[1].left > 5){
+
+    // }else{
+
+    // }
+  }  
+    
 
   ngOnInit() {
 
@@ -212,6 +248,11 @@ export class RoomIcon implements Hotspot {
         this.setPropertyEditorVisibility(true);
       }, 200);      //this.setPropertyEditorVisibility(true);
       return;
+    }else{
+      this.setPixelLocation($event.x, $event.y);
+      //console.log("Dragggggggggggg");
+      //this.removeDummy();
+      this.isCollapsed();
     }
 
     const adjustedX: number = $event.x + ROOM_ICON_BUFFER_WIDTH;
