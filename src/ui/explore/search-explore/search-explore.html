@@ -34,8 +34,8 @@
     <div
       *ngFor="let project of matchingResults"
       class="story-collection__project">
-      <project-thumbnail [project]="project"></project-thumbnail>
       <p>
+        <project-thumbnail [project]="project"></project-thumbnail>
         <span class="text-bold">Project: </span>
         <span class="text-bold">{{ project.name }}</span>
       </p>
