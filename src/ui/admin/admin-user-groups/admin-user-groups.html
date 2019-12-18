@@ -33,7 +33,7 @@
           class="story-collection__thumbnail"/>
 
         <div class="flex-row-start">
-
+            
           <checkbox
             [initialValue]="project.isFeatured"
             (changeEmitter)="onCheckboxChange($event, userGroup.id, project.projectId, project)">
@@ -61,15 +61,15 @@
         class="story-collection__project">
         <p>
           <span class="text-bold">Project: </span>
-          <span>{{ project.name }}</span>
+          <span class="text-bold">{{ project.name }}</span>
         </p>
         <p>
           <span class="text-bold">User: </span>
-          <span>{{ project.user }}</span>
+          <span class="text-bold">{{ project.user }}</span>
         </p>
         <p>
           <span class="text-bold">Tags: </span>
-          <span>{{ project.tags }}</span>
+          <span class="text-bold">{{ project.tags }}</span>
         </p>
         <img
           *ngIf="project.thumbnailUrl"

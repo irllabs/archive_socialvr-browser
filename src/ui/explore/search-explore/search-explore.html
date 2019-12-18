@@ -29,28 +29,28 @@
     <span class="text-bold">
       {{ searchLabel }}
     </span>
-  </p>
-
+  </p> 
   <div class="story-collection">
     <div
       *ngFor="let project of matchingResults"
       class="story-collection__project">
+      <project-thumbnail [project]="project"></project-thumbnail>
       <p>
         <span class="text-bold">Project: </span>
-        <span>{{ project.name }}</span>
+        <span class="text-bold">{{ project.name }}</span>
       </p>
       <p>
         <span class="text-bold">User: </span>
-        <span>{{ project.user }}</span>
+        <span class="text-bold">{{ project.user }}</span>
       </p>
       <p>
         <span class="text-bold">Tags: </span>
-        <span>{{ project.tagsString }}</span>
+        <span class="text-bold">{{ project.tagsString }}</span>
       </p>
-
-      <project-thumbnail [project]="project"></project-thumbnail>
+      <!-- <svg class="card__svg" viewBox="0 0 500 800">
+        <path d="M 0 100 Q 50 200 100 250 Q 250 400 350 300 C 400 250 550 150 650 300 Q 750 450 800 400 L 800 500 L 0 500" stroke="transparent" fill="#333"/>
+        <path class="card__line" d="M 0 100 Q 50 200 100 250 Q 250 400 350 300 C 400 250 550 150 650 300 Q 750 450 800 400" stroke="pink" stroke-width="3" fill="transparent"/>
+    </svg> -->
     </div>
   </div>
-
-
 </div>
