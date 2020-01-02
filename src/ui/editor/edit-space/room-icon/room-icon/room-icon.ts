@@ -119,6 +119,7 @@ export class RoomIcon implements Hotspot {
 
     for(var i = 1; i < dragMe.length; ++i) {
       //result = el[i];
+      console.log("//////////////////////////////////////////")
       console.log(dragMe[i])
   
       var object_1 = dragMe[i-1].getBoundingClientRect();
