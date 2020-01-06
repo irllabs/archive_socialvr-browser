@@ -40,6 +40,11 @@ const iconSizes = {
   LARGE: 'LARGE',
 };
 
+function getObject(){
+  var targeta = event.target;
+  console.log("test")
+}
+
 const instanceSet: Set<RoomIcon> = new Set<RoomIcon>();
 
 window.addEventListener('resize', $event =>
@@ -114,21 +119,30 @@ export class RoomIcon implements Hotspot {
     var rect;
     rect = document.querySelectorAll("#icon-element");
     //const numBoxes = dragMe.length;
+    console.log(el);
     
     
 
-    for(var i = 1; i < dragMe.length; ++i) {
+    for(var i = 0; i < dragMe.length; ++i) {
+      for(var j = i+1; j< dragMe.length; ++j){
       //result = el[i];
-      console.log("//////////////////////////////////////////")
-      console.log(dragMe[i])
+      console.log("//////////////////////////////////////////" + j)
+      
   
-      var object_1 = dragMe[i-1].getBoundingClientRect();
-      var object_2 = rect[i].getBoundingClientRect();
-     
-      console.log(dragMe.length)
-      console.log(object_1)
+      var object_1 = dragMe[i].getBoundingClientRect();
+      console.log(object_1);
       console.log(object_1.left, object_1.top)
+      var object_2 = rect[j].getBoundingClientRect();
+      console.log(object_2)
       console.log(object_2.left, object_2.top)
+      console.log("=======================================")
+      console.log(dragMe.length)
+      console.log(dragMe)
+      console.log(rect)
+      
+      
+      
+      
       
       if((dragMe.length>=i+1 )){
         console.log("primer if")
@@ -148,6 +162,8 @@ export class RoomIcon implements Hotspot {
           }
         }else{console.log("isn't working")}
       }
+      console.log("incrementa i")
+   }
     /*if(object_1[0].left > object_2[1].left + object_2[1].width  && object_1[0].left + object_1[0].width  > object_2[1].left &&
       object_1[0].top < object_2[1].top + object_2[1].height && object_1[0].top + object_1[0].height > object_2[1].top){
       console.log("Heeeeeeeeeeeeeeeeeeeeeee");
@@ -234,10 +250,11 @@ export class RoomIcon implements Hotspot {
   }
 
   onMouseDown(){
-    event.stopPropagation();
+      event.stopPropagation();
   }
 
   onMove($event) {
+ 
     event.stopPropagation();
     const x: number = $event.x + ROOM_ICON_BUFFER_WIDTH;
     const y: number = $event.y + ROOM_ICON_BUFFER_HEIGHT;
@@ -289,7 +306,7 @@ export class RoomIcon implements Hotspot {
       //this.setPixelLocation($event.x, $event.y);
       //console.log("Dragggggggggggg");
       //this.removeDummy();
-      this.isCollapsed($event.x+(Math.random()*50)+50, $event.y+(Math.random()*50)+50);
+      this.isCollapsed($event.x+(Math.random()* (-200)), $event.y+(Math.random()* (200)));
     }
 
     const adjustedX: number = $event.x + ROOM_ICON_BUFFER_WIDTH;
