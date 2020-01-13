@@ -17,12 +17,15 @@ Browser based editor tool for the Social VR project.
 * Press <kbd>F1</kbd> to bring up the Command Palette and type in remote-containers for a full list of commands
 * Run the `Remote-Containers: Reopen in Container` command or run `Remote-Containers: Open Folder in Container...` command and select the local folder
 ### Install Dependecies 
-* Install Container ```npm install```
+* Run the next command inside container: ```npm install```
 ### Local Builds (Inside Containers)
 * Point to a locally running server: ```npm run dev-local```
 * Point to the staging server: ```npm run dev```
 * Point to production: ```npm run dev-prod```
-### Go to http://localhost:3000/
+### Running
+Go to http://localhost:3000/
+
+NOTE: To use the google sign in functionality, the `npm run dev-prod` is required.
 ### Deploy
 At the moment, deployments are manual. These scripts will deploy whatever is in your current directory so it is important to be careful.
 * Deploy to staging: ```npm run deploy```
