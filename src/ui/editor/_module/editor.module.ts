@@ -88,9 +88,11 @@ import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
   // Change this to your upload POST address:
    url: 'https://httpbin.org/post',
-   maxFilesize: 50,
+   maxFilesize: 1024,
    acceptedFiles: 'image/*',
    maxFiles: 1,
+   resizeWidth:1024,
+   resizeHeight:1024
  };
 
 const route = RouterModule.forChild([
