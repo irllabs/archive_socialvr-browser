@@ -158,12 +158,6 @@
     }
   }
 
-  // .universal-editor__image-wrapper:hover{
-  //   border-color: #aaa;
-  //   opacity: 0.5
-  //   ;
-  // }
-
   .universal-editor__image-rotate {
     text-align: right;
 
@@ -265,3 +259,23 @@
 :host /deep/ .dropzone.dz-wrapper .dz-message {
   min-height: 468px;
 }
+
+
+.universal-editor__image-wrapper:hover .name {
+  z-index:10;
+  display: block;
+  border-color: #aaa;
+  opacity: 0.5;
+}
+
+.name{
+  z-index:1;
+  display: none;
+  //overflow: hidden;
+  width: 500px;
+  margin-left: 20%;
+  margin-right: 25%;
+  margin-top: 25%;
+}
+
+

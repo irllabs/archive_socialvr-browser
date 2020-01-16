@@ -46,10 +46,11 @@
       </file-loader>
 
       <div class="universal-editor__image-wrapper">
-            <dropzone *ngIf="!hasImageContent()" [message]="'Click or drag images here to upload'" (success)="onUploadSuccess($event)" ></dropzone>
-            <img *ngIf="hasImageContent()"
-             [attr.src]="universalProperty.imageContent.getBinaryFileData()"
-             class="universal-editor__image-display">
+        <dropzone *ngIf="!hasImageContent()" [message]="'Drag images here to upload'" (success)="onUploadSuccess($event)" [attr.src]="universalProperty.imageContent.getBinaryFileData()"></dropzone>
+        <img *ngIf="hasImageContent()"
+        [attr.src]="universalProperty.imageContent.getBinaryFileData()"
+        class="universal-editor__image-display">
+        <h1 class="name">{{title}}</h1>
       </div>
 
       <div *ngIf="hasImageContent()" class="universal-editor__image-rotate">
@@ -114,6 +115,7 @@
   </div>
 
   <div
+    *ngIf="hasImageContent()"
     class="property-editor__delete-button"
     (click)="onDeleteTabData()">
     Delete {{ activeTabName }}
