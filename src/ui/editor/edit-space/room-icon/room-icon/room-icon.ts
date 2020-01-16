@@ -14,6 +14,7 @@ import { denormalizePosition, normalizeAbsolutePosition } from 'ui/editor/util/i
 import { PropertyRemovalService } from 'ui/editor/util/propertyRemovalService';
 import { RoomPropertyTypeService } from 'ui/editor/util/roomPropertyTypeService';
 import { MetaDataInteractor } from '../../../../../core/scene/projectMetaDataInteractor';
+import { debug } from 'util';
 const el: HTMLElement = document.getElementById('draggableIcon');
 
 
@@ -87,6 +88,9 @@ export class RoomIcon implements Hotspot {
   private deleteVisible: boolean = false;
   private isBeingInstantiated: boolean = false;
 
+  private Xposition: number;
+  private YPosition: number;
+
   constructor(
     protected eventBus: EventBus,
     private propertyRemovalService: PropertyRemovalService,
@@ -115,6 +119,8 @@ export class RoomIcon implements Hotspot {
     /*var rect = document.getElementById("icon-element");
     var dragMe = document.getElementById("icon-element");*/
     // var rect = document.querySelectorAll("#icon-element");
+    console.log(x);
+     console.log(y);
     var dragMe = document.querySelectorAll("#icon-element");
     var rect;
     rect = document.querySelectorAll("#icon-element");
@@ -249,7 +255,12 @@ export class RoomIcon implements Hotspot {
     this.iconElement.nativeElement.style.left = `${x}px`;
   }
 
-  onMouseDown(){
+  onMouseDown($event){
+     this.Xposition= $event.x ;
+     this.YPosition=$event.y;
+     console.log(this.Xposition);
+     console.log(this.YPosition);
+    
       event.stopPropagation();
   }
 
@@ -306,7 +317,8 @@ export class RoomIcon implements Hotspot {
       //this.setPixelLocation($event.x, $event.y);
       //console.log("Dragggggggggggg");
       //this.removeDummy();
-      this.isCollapsed($event.x+(Math.random()* (-200)), $event.y+(Math.random()* (200)));
+      //this.isCollapsed($event.x+(Math.random()* (-200)), $event.y+(Math.random()* (200)));
+      this.isCollapsed(this.Xposition,this.YPosition)
     }
 
     const adjustedX: number = $event.x + ROOM_ICON_BUFFER_WIDTH;
