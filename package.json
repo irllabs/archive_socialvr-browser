@@ -62,6 +62,7 @@
     "js-yaml": "^3.7.0",
     "jszip": "3.1.4",
     "kframe": "git+https://github.com/emilt27/kframe.git#81be162a14ad777e2f3ed0a10687e7573c18e314",
+    "ngx-dropzone-wrapper": "^8.0.0",
     "qrcode": "^1.2.0",
     "recorderjs": "git+https://github.com/mattdiamond/Recorderjs.git#08e7abd99739be6946f19f6806ccb368138f2dd3",
     "rxjs": "^5.4.2",
