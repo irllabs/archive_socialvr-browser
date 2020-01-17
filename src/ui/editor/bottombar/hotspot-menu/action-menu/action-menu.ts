@@ -25,10 +25,12 @@ export class ActionMenu {
     try{
       const universal: Universal = this.sceneInteractor.addUniversal(activeRoomId);
       this.eventBus.onSelectProperty(universal.getId(), true);
+      
     } catch(e) {
       this.eventBus.onModalMessage('', e)
 
     }
+    
   }
 
   public addDoor() {

@@ -68,8 +68,42 @@ export class Room implements RoomProperty {
     return this.universalSet;
   }
 
-  addUniversal(universal: Universal) {
-    this.universalSet.add(universal);
+  addUniversal(universal: Universal) {      
+    let Xpos :number;
+    let Ypos :number;
+    let Accumulator:number=-1;
+    let validator=true;
+  
+    while(validator){
+      Xpos=Math.random() *(350-30)+30;
+      Ypos=Math.random() *(72);
+      Ypos*=Math.floor(Math.random()*2) == 1 ? 1 : -1;
+      Accumulator=0;
+      //console.log("main loop");
+      this.universalSet.forEach(function(value){
+        //console.log("second loop");
+          if( (Xpos>=value.location.getX()+38 || Xpos<=value.location.getX()-38)
+               ||  
+               (Ypos>=value.location.getY()+38 || Ypos<=value.location.getY()-38))
+          {
+            Accumulator+=1;
+          }else{
+          // console.log("overlap");
+          }
+        })
+        //console.log("second loop finished");
+        if(this.universalSet.size==Accumulator)
+        {
+          validator=false
+        }else{
+          //console.log("run the main loop again")
+        }
+      }
+      let newlocation: Vector2  = new Vector2(Xpos, Ypos)
+      universal.setLocation(newlocation);
+      //console.log(this.universalSet.size);
+      //console.log(this.universalSet);
+      this.universalSet.add(universal);
   }
 
   removeUniversal(universal: Universal) {
