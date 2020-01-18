@@ -257,8 +257,58 @@
 
 
 :host /deep/ .dropzone.dz-wrapper .dz-message {
-  min-height: 468px;
+  //min-height: 468px;
+  font-weight: 400;
 }
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-height: 480px) {
+  :host /deep/ .dropzone.dz-wrapper .dz-message {
+    height: 50px !important;
+    
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-height: 480px) {
+  :host /deep/ .dropzone.dz-wrapper .dz-message {
+    height: 60px !important;
+    
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-height: 600px) {
+  :host /deep/ .dropzone.dz-wrapper .dz-message {
+    height: 150px !important;
+    
+  }
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-height: 720px) {
+  :host /deep/ .dropzone.dz-wrapper .dz-message {
+    height: 200px !important;
+    
+  }
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-height: 1023px) {
+  :host /deep/ .dropzone.dz-wrapper .dz-message {
+    height: 350px !important;
+    
+  }
+}
+
+@media only screen and (min-height: 1365px) {
+  :host /deep/ .dropzone.dz-wrapper .dz-message {
+    height: 550px !important;
+    background:brown;
+  }
+}
+
 
 .universal-editor__image-wrapper:hover .check{
   z-index:10;
