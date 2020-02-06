@@ -4,7 +4,7 @@ import { Room } from 'data/scene/entities/room';
 import { resizeImage } from 'data/util/imageResizeService';
 import { EventBus } from 'ui/common/event-bus';
 import { FileLoaderUtil, mimeTypeMap } from 'ui/editor/util/fileLoaderUtil';
-import { SlideshowBuilder } from 'ui/editor/util/SlideshowBuilder';
+import { SlideshowBuilder } from 'ui/editor/util/slideshowBuilder';
 import { ZipFileReader } from 'ui/editor/util/zipFileReader';
 import { SettingsInteractor } from 'core/settings/settingsInteractor'
 

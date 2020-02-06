@@ -14,6 +14,9 @@ import { denormalizePosition, normalizeAbsolutePosition } from 'ui/editor/util/i
 import { PropertyRemovalService } from 'ui/editor/util/propertyRemovalService';
 import { RoomPropertyTypeService } from 'ui/editor/util/roomPropertyTypeService';
 import { MetaDataInteractor } from '../../../../../core/scene/projectMetaDataInteractor';
+import { debug } from 'util';
+const el: HTMLElement = document.getElementById('draggableIcon');
+
 
 const ICON_MAP = {
   universal: 'icon-add.png',
@@ -37,6 +40,11 @@ const iconSizes = {
   MEDIUM: 'MEDIUM',
   LARGE: 'LARGE',
 };
+
+function getObject(){
+  var targeta = event.target;
+  console.log("test")
+}
 
 const instanceSet: Set<RoomIcon> = new Set<RoomIcon>();
 
@@ -80,6 +88,9 @@ export class RoomIcon implements Hotspot {
   private deleteVisible: boolean = false;
   private isBeingInstantiated: boolean = false;
 
+  private Xposition: number;
+  private YPosition: number;
+
   constructor(
     protected eventBus: EventBus,
     private propertyRemovalService: PropertyRemovalService,
@@ -98,6 +109,83 @@ export class RoomIcon implements Hotspot {
       this.setPropertyEditorVisibility(false);
     }
   }
+  removeDummy() {
+    var elem = document.getElementById('icon-element');
+    elem.parentNode.removeChild(elem);
+    return false;
+  }
+
+  isCollapsed(x: number, y: number){
+    /*var rect = document.getElementById("icon-element");
+    var dragMe = document.getElementById("icon-element");*/
+    // var rect = document.querySelectorAll("#icon-element");
+    console.log(x);
+     console.log(y);
+    var dragMe = document.querySelectorAll("#icon-element");
+    var rect;
+    rect = document.querySelectorAll("#icon-element");
+    //const numBoxes = dragMe.length;
+    console.log(el);
+    
+    
+
+    for(var i = 0; i < dragMe.length; ++i) {
+      for(var j = i+1; j< dragMe.length; ++j){
+      //result = el[i];
+      console.log("//////////////////////////////////////////" + j)
+      
+  
+      var object_1 = dragMe[i].getBoundingClientRect();
+      console.log(object_1);
+      console.log(object_1.left, object_1.top)
+      var object_2 = rect[j].getBoundingClientRect();
+      console.log(object_2)
+      console.log(object_2.left, object_2.top)
+      console.log("=======================================")
+      console.log(dragMe.length)
+      console.log(dragMe)
+      console.log(rect)
+      
+      
+      
+      
+      
+      if((dragMe.length>=i+1 )){
+        console.log("primer if")
+          if((object_1.left + object_1.height > object_2.left &&
+              object_1.left < object_2.left + object_2.width) 
+            &&
+            ( object_1.top + object_1.height > object_2.top &&
+              object_1.top < object_2.top + object_2.height ) )         
+            {
+              console.log("overlaping");
+              this.iconElement.nativeElement.style.top = `${y}px`;
+              this.iconElement.nativeElement.style.left = `${x}px`;
+              
+          }else{
+            console.log("isn't overlpaing or the array is smaller than the iterator" )
+            
+          }
+        }else{console.log("isn't working")}
+      }
+      console.log("incrementa i")
+   }
+    /*if(object_1[0].left > object_2[1].left + object_2[1].width  && object_1[0].left + object_1[0].width  > object_2[1].left &&
+      object_1[0].top < object_2[1].top + object_2[1].height && object_1[0].top + object_1[0].height > object_2[1].top){
+      console.log("Heeeeeeeeeeeeeeeeeeeeeee");
+    }else{
+      console.log("Hiiiiiiiiiiiiiiiiiiiiiiii");
+      console.log(object_1[0].left);
+      console.log(object_2[1].left);
+    }*/
+
+    // if(rect[0] + dragMe[1].left > 5){
+
+    // }else{
+
+    // }
+  }  
+    
 
   ngOnInit() {
 
@@ -167,15 +255,28 @@ export class RoomIcon implements Hotspot {
     this.iconElement.nativeElement.style.left = `${x}px`;
   }
 
-  onMouseDown(){
-    event.stopPropagation();
+  onMouseDown($event){
+     this.Xposition= $event.x ;
+     this.YPosition=$event.y;
+     console.log(this.Xposition);
+     console.log(this.YPosition);
+    
+      event.stopPropagation();
   }
 
   onMove($event) {
+ 
     event.stopPropagation();
     const x: number = $event.x + ROOM_ICON_BUFFER_WIDTH;
     const y: number = $event.y + ROOM_ICON_BUFFER_HEIGHT;
+  
+    var dragHotspot = document.querySelectorAll("#icon-element");
+    var objectHotspot = dragHotspot[0].getBoundingClientRect();
 
+  //   for(var i = 0; i < dragHotspot.length; ++i) {
+  //     //result = el[i];
+  //     console.log(dragHotspot[i])
+  // }
     if ($event.shiftKey) {
       if (this.onIconDragEnd.observers.length) {
         // snap to grid in 3D view
@@ -212,6 +313,12 @@ export class RoomIcon implements Hotspot {
         this.setPropertyEditorVisibility(true);
       }, 200);      //this.setPropertyEditorVisibility(true);
       return;
+    }else{
+      //this.setPixelLocation($event.x, $event.y);
+      //console.log("Dragggggggggggg");
+      //this.removeDummy();
+      //this.isCollapsed($event.x+(Math.random()* (-200)), $event.y+(Math.random()* (200)));
+      this.isCollapsed(this.Xposition,this.YPosition)
     }
 
     const adjustedX: number = $event.x + ROOM_ICON_BUFFER_WIDTH;

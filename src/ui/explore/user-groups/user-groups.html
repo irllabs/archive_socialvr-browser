@@ -8,17 +8,18 @@
       <div
         *ngFor="let project of getProjectsByGroup(userGroup.id)"
         class="story-collection__project">
+        
         <p>
           <span class="text-bold">Project: </span>
-          <span>{{ project.name }}</span>
+          <span class="text-bold">{{ project.name }}</span>
         </p>
         <p>
           <span class="text-bold">User: </span>
-          <span>{{ project.user }}</span>
+          <span class="text-bold">{{ project.user }}</span>
         </p>
         <p>
           <span class="text-bold">Tags: </span>
-          <span>{{ project.tags }}</span>
+          <span class="text-bold">{{ project.tags }}</span>
         </p>
         <img
           *ngIf="project.thumbnailUrl"

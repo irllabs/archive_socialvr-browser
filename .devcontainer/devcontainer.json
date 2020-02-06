@@ -1,0 +1,13 @@
+{
+	"name": "socialvr",
+	"dockerFile": "Dockerfile",
+	"runArgs": ["--name", "socialvr"],
+	"appPort": ["3000:3000"],
+	"settings": { 
+		"terminal.integrated.shell.linux": "/bin/bash"
+	},
+	"extensions": [
+		"ms-vscode.vscode-typescript-tslint-plugin",
+		"eamodio.gitlens"
+	]
+}

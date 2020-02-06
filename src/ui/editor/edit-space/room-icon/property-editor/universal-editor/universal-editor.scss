@@ -138,6 +138,16 @@
     flex-grow: 1;
     position: relative;
 
+    display: inline-block;
+    overflow: auto;
+    width: calc(100% - 16px);
+    min-width: calc(100% - 16px);
+    min-height: 40px;
+    max-width: calc(100% - 16px);
+    max-height: 100%;
+    margin: 8px;
+    border: 2px #aaa;
+
     .universal-editor__image-display {
       display: block;
       position: absolute;
@@ -217,4 +227,155 @@
 
 .list-icon__image {
   background-image: $icon-hotspot-image;
+}
+
+// .dropzone .dz-preview .dz-image {
+//   border-radius: 20px;
+//   overflow: hidden;
+//   width: 820px;
+//   height: 820px;
+//   position: relative;
+//   display: flex;
+//   z-index: 10;
+// background-color: red; }
+
+// :host /deep/ .dropzone .dz-preview .dz-image {
+//   overflow: hidden !important;
+//   width: 715px !important;
+//   height: 400px !important;
+//   position: relative !important;
+//   display: flex !important;
+//   background-color: red !important;
+// }
+
+:host /deep/ .dropzone.dz-wrapper.dz-single .dz-preview .dz-image img {
+  display: block;
+  width: 100%;
+  height: 470px;
+  margin: 0;
+}
+
+
+:host /deep/ .dropzone.dz-wrapper .dz-message {
+  //min-height: 468px;
+  font-weight: 400;
+}
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-height: 480px) {
+  :host /deep/ .dropzone.dz-wrapper .dz-message {
+    height: 50px !important;
+    
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-height: 480px) {
+  :host /deep/ .dropzone.dz-wrapper .dz-message {
+    height: 60px !important;
+    
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-height: 600px) {
+  :host /deep/ .dropzone.dz-wrapper .dz-message {
+    height: 150px !important;
+    
+  }
+} 
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-height: 720px) {
+  :host /deep/ .dropzone.dz-wrapper .dz-message {
+    height: 200px !important;
+    
+  }
+} 
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-height: 1023px) {
+  :host /deep/ .dropzone.dz-wrapper .dz-message {
+    height: 350px !important;
+    
+  }
+}
+
+@media only screen and (min-height: 1365px) {
+  :host /deep/ .dropzone.dz-wrapper .dz-message {
+    height: 550px !important;
+    
+  }
+}
+
+
+.universal-editor__image-wrapper:hover .check{
+  z-index:10;
+  display: block;
+  border-color: #aaa;
+  opacity: 0;
+
+  -webkit-animation: passing-through 3s cubic-bezier(0.77, 2, 0.175, 1);
+  -moz-animation: passing-through 3s cubic-bezier(0.77, 2, 0.175, 1);
+  -ms-animation: passing-through 3s cubic-bezier(0.77, 2, 0.175, 1);
+  -o-animation: passing-through 3s cubic-bezier(0.77, 2, 0.175, 1);
+  animation: passing-through 3s cubic-bezier(0.77, 2, 0.175, 1);
+  .name{
+    display: block;
+    z-index:11;
+    border-color: #aaa;
+    opacity: 0.5;
+    //overflow: hidden;
+    width: 500px;
+    margin-left: 20%;
+    margin-right: 25%;
+    margin-top: 25%;
+    font-family: fantasy;
+    font-weight: 400;
+    letter-spacing: 2px;
+  }
+  //margin-top: 25%;
+}
+
+.universal-editor__image-wrapper:hover > .name{
+
+  z-index:11;
+  border-color: #aaa;
+  opacity: 0.5;
+  //overflow: hidden;
+  width: 500px;
+  margin-left: 20%;
+  margin-right: 25%;
+  margin-top: 25%;
+  font-family: fantasy;
+  font-weight: 400;
+  letter-spacing: 2px;
+  display: block;
+}
+
+
+
+.name{
+  display: none;
+  animation:1s linear ;
+  
+}
+
+:host /deep/ .dropzone .dz-preview.dz-success .dz-success-mark{
+  -webkit-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+  -moz-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+  -ms-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+  -o-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+  animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+  display: none;
+}
+.check{
+  z-index:1;
+  display: none;
+  //overflow: hidden;
+  width: 500px;
+  margin-left: 20%;
+  margin-right: 25%;
+  margin-top: 0%;
 }
