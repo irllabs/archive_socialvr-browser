@@ -47,23 +47,3 @@ export function buildScene() {
 
   return { sphereMesh, camera, vrCamera, scene };
 }
-
-export function onResize(camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer): Promise<any> {
-  return new Promise((resolve, reject) => {
-    try {
-      const DPR: number = window.devicePixelRatio || 1;
-      const rendererWidth = window.innerWidth / DPR;
-      const rendererHeight = window.innerHeight / DPR;
-      const aspectRatio = rendererWidth / rendererHeight;
-      renderer.setPixelRatio(DPR);
-      renderer.setSize(rendererWidth, rendererHeight, false);
-      camera.aspect = aspectRatio;
-      camera.updateProjectionMatrix();
-      setTimeout(() => resolve());
-    }
-    catch (error) {
-      reject(error);
-    }
-  });
-
-}

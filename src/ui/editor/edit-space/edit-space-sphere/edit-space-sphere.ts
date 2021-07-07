@@ -20,7 +20,7 @@ import {
   coordinateToSpherical,
   getCoordinatePosition, clamp
 } from 'ui/editor/util/iconPositionUtil';
-import {buildScene, onResize} from 'ui/editor/util/threeUtil';
+import {buildScene} from 'ui/editor/util/threeUtil';
 import SvrControls from 'ui/editor/util/SvrControls';
 import {Video3D} from 'ui/editor/edit-space/video3D';
 
@@ -216,12 +216,17 @@ export class EditSpaceSphere {
   }
 
   onResize(event) {
-    onResize(this.camera, this.renderer)
-      .then(() => {
-        this.roomIconComponentList.forEach(roomIcon => roomIcon.setPixelLocation(99999, 99999));
-        this.render();
-      })
-      .catch(error => console.log('edit-sphere resize error', error));
+    const DPR = window.devicePixelRatio;
+    const width = window.innerWidth / DPR;
+    const height = window.innerHeight / DPR;
+    const aspectRatio = width / height;
+    this.renderer.setPixelRatio(DPR);
+    this.renderer.setSize(width, height, false);
+    this.camera.aspect = aspectRatio;
+    this.camera.updateProjectionMatrix();
+
+    this.roomIconComponentList.forEach(roomIcon => roomIcon.setPixelLocation(99999, 99999));
+    this.render();
   }
 
   updateRoomIconPosition(roomIcon: Hotspot) {
