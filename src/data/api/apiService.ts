@@ -25,7 +25,7 @@ const URL_PATH_USERS: string = '/users/';
 const URL_PATH_PROJECTS: string = '/projects/';
 const SIGN_URL: string = '/sign_url/';
 const SEARCH_URL: string = '/search/';
-const URL_SHORTENER_URL: string = `${GOOGLE_BASE_URL}urlshortener/v1/url`;
+const URL_SHORTENER_URL: string = `https://firebasedynamiclinks.googleapis.com/v1/shortLinks`;
 
 @Injectable()
 export class ApiService implements Api {
@@ -215,11 +215,17 @@ export class ApiService implements Api {
 
   getShortenedUrl(url: string): Observable<any> {
     const payload= {
-      "longUrl": url
+	dynamicLinkInfo: {
+	  dynamicLinkDomain: "zhv6t.app.goo.gl",
+	  link: `${url}`
+	},
+	suffix: {
+	  option: "SHORT"
+	}
     };
     return this.http.post(`${URL_SHORTENER_URL}?key=${GOOGLE_API_KEY}`, payload)
       .map(response => response.json())
-      .map(responseJson => responseJson.id)
+      .map(responseJson => responseJson.shortLink)
   }
 
   uploadVideo(videoFile): Observable<any> {
