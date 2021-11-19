@@ -7,7 +7,7 @@ import {MetaDataInteractor} from 'core/scene/projectMetaDataInteractor';
 import {RoomProperty} from 'data/scene/interfaces/roomProperty';
 import {Room} from 'data/scene/entities/room';
 import {resizeImage} from 'data/util/imageResizeService';
-import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
+import {SlideshowBuilder} from 'ui/editor/util/slideshowBuilder';
 
 @Component({
   selector: 'story-scroll',

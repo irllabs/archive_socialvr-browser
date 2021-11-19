@@ -18,14 +18,27 @@ Browser based editor tool for the Social VR project.
 * PostCss - obviates the need for vendor prefixes in CSS files.
 * WebPack - provides JS bundling, an easy to use dev server, build options, and more.
 * ThreeJS - Cross-browser 3D graphics with WebGL.
+* Docker containers inside VSCode Editor.
 
 ### Installation and Usage
 - See [WIKI page on Browser Editor Local Build](https://github.com/cmuartfab/social-vr/wiki/Browser-Editor-Local-Build)
 - See [WIKI page on CSS design instructions](https://github.com/cmuartfab/social-vr/wiki/Browser-Editor-CSS-Architecture)
 
+#### Docker and VScode
+Using VSCode you need to install the specific development extensions, more info: [Developing inside a Container](https://code.visualstudio.com/docs/remote/containers)
+
+After all the dependencies are installed, you need to:
+
+1) Clone this repo.
+2) Start VS Code within the repo and click on the quick actions Status Bar item in the lower left corner of the window.
+3) Click on Re Open in container. This will create and image of this repo.
+4) In VScode go to terminal: New Terminal.
+5) Run `npm install` to install all dependencies. 
+6) Proceed as below.
+
 ### Local Builds
 * Point to a locally running server: ```npm run dev-local```
-* Point to the staging server: ```npm run dev```
+* Point to the staging server: ```npm run dev``` this will open the application on port 3000.
 * Point to production: ```npm run dev-prod```
 
 ### Deploy

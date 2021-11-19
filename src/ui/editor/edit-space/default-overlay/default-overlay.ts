@@ -5,7 +5,7 @@ import {SceneInteractor} from 'core/scene/sceneInteractor';
 import {Room} from 'data/scene/entities/room';
 import {resizeImage} from 'data/util/imageResizeService';
 import {ZipFileReader} from 'ui/editor/util/zipFileReader';
-import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
+import {SlideshowBuilder} from 'ui/editor/util/slideshowBuilder';
 import {FileLoaderMulti} from 'ui/editor/util/file-loader-multi/file-loader-multi';
 
 

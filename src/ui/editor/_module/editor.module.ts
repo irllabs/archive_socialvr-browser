@@ -70,7 +70,7 @@ import {InfoButton} from 'ui/editor/util/info-button/info-button';
 import {ZipFileReader} from 'ui/editor/util/zipFileReader';
 import {AudioRecorderService} from 'ui/editor/util/audioRecorderService';
 import {CombinedHotspotUtil} from 'ui/editor/util/combinedHotspotUtil';
-import {SlideshowBuilder} from 'ui/editor/util/SlideshowBuilder';
+import {SlideshowBuilder} from 'ui/editor/util/slideshowBuilder';
 import {Slider} from 'ui/editor/util/slider/slider';
 import {ResponsiveUtil} from 'ui/editor/util/responsiveUtil';
 
